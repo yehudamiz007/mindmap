@@ -7,349 +7,57 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: 'Inter', sans-serif;
-    background: #0a0a1a;
-    color: #fff;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    touch-action: none;
-  }
+  body { font-family: 'Inter', sans-serif; background: #0a0a1a; color: #fff; width: 100vw; height: 100vh; overflow: hidden; touch-action: none; }
   canvas { position: absolute; top: 0; left: 0; z-index: 0; }
   .map { position: absolute; width: 100%; height: 100%; z-index: 1; transform-origin: 0 0; }
-
-  .center {
-    position: absolute;
-    transform: translate(-50%,-50%);
-    width: 120px; height: 120px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    box-shadow: 0 0 60px rgba(102,126,234,0.5), 0 0 120px rgba(118,75,162,0.3);
-    z-index: 10; cursor: pointer;
-    transition: transform 0.3s;
-    animation: glow 3s ease-in-out infinite;
-  }
+  .center { position: absolute; transform: translate(-50%,-50%); width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 0 60px rgba(102,126,234,0.5), 0 0 120px rgba(118,75,162,0.3); z-index: 10; cursor: pointer; transition: transform 0.3s; animation: glow 3s ease-in-out infinite; }
   .center:hover { transform: translate(-50%,-50%) scale(1.08); }
-  .center .e { font-size: 28px; }
-  .center .n { font-size: 13px; font-weight: 800; margin-top: 2px; }
-  .center .s { font-size: 8px; opacity: 0.8; }
-  @keyframes glow {
-    0%,100% { box-shadow: 0 0 60px rgba(102,126,234,0.5), 0 0 120px rgba(118,75,162,0.3); }
-    50% { box-shadow: 0 0 90px rgba(102,126,234,0.7), 0 0 160px rgba(118,75,162,0.5); }
-  }
-
-  .cat {
-    position: absolute;
-    border-radius: 14px;
-    padding: 8px 12px;
-    cursor: pointer;
-    transition: all 0.3s;
-    z-index: 5;
-    text-align: center;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.1);
-    transform: translate(-50%,-50%);
-    min-width: 70px;
-  }
+  .center .e { font-size: 28px; } .center .n { font-size: 13px; font-weight: 800; margin-top: 2px; } .center .s { font-size: 8px; opacity: 0.8; }
+  @keyframes glow { 0%,100% { box-shadow: 0 0 60px rgba(102,126,234,0.5), 0 0 120px rgba(118,75,162,0.3); } 50% { box-shadow: 0 0 90px rgba(102,126,234,0.7), 0 0 160px rgba(118,75,162,0.5); } }
+  .cat { position: absolute; border-radius: 14px; padding: 8px 12px; cursor: pointer; transition: all 0.3s; z-index: 5; text-align: center; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); transform: translate(-50%,-50%); min-width: 70px; }
   .cat:hover, .cat.active { transform: translate(-50%,-50%) scale(1.12); z-index: 20; }
-  .cat .e { font-size: 20px; display: block; }
-  .cat .t { font-size: 9px; font-weight: 700; display: block; margin-top: 2px; }
-  .cat .d { font-size: 7px; opacity: 0.6; display: block; }
-
-  .leaf {
-    position: absolute;
-    border-radius: 8px;
-    padding: 4px 8px;
-    font-size: 8px;
-    white-space: nowrap;
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255,255,255,0.06);
-    opacity: 0; transform: translate(-50%,-50%) scale(0.3);
-    transition: all 0.3s; z-index: 3; pointer-events: none;
-  }
+  .cat .e { font-size: 20px; display: block; } .cat .t { font-size: 9px; font-weight: 700; display: block; margin-top: 2px; } .cat .d { font-size: 7px; opacity: 0.6; display: block; }
+  .leaf { position: absolute; border-radius: 8px; padding: 4px 8px; font-size: 8px; white-space: nowrap; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.06); opacity: 0; transform: translate(-50%,-50%) scale(0.3); transition: all 0.3s; z-index: 3; pointer-events: none; }
   .leaf.on { opacity: 1; transform: translate(-50%,-50%) scale(1); pointer-events: auto; }
-
-  .info {
-    position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%);
-    background: rgba(15,15,35,0.92); backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
-    padding: 10px 16px; text-align: center; z-index: 100; max-width: 90vw;
-    transition: all 0.3s;
-  }
-  .info .l { font-weight: 700; font-size: 11px; }
-  .info .d { font-size: 9px; opacity: 0.6; margin-top: 2px; }
-
-  .hdr {
-    position: fixed; top: 10px; left: 50%; transform: translateX(-50%);
-    font-size: 14px; font-weight: 800; z-index: 100;
-    background: linear-gradient(135deg,#667eea,#764ba2);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    white-space: nowrap;
-  }
-
-  .zoom-controls {
-    position: fixed; bottom: 70px; right: 12px; z-index: 200;
-    display: flex; flex-direction: column; gap: 6px;
-  }
-  .zoom-btn {
-    width: 36px; height: 36px; border-radius: 50%;
-    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-    color: #fff; font-size: 18px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    backdrop-filter: blur(10px);
-  }
+  .info { position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); background: rgba(15,15,35,0.92); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 10px 16px; text-align: center; z-index: 100; max-width: 90vw; transition: all 0.3s; }
+  .info .l { font-weight: 700; font-size: 11px; } .info .d { font-size: 9px; opacity: 0.6; margin-top: 2px; }
+  .hdr { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); font-size: 14px; font-weight: 800; z-index: 100; background: linear-gradient(135deg,#667eea,#764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; white-space: nowrap; }
+  .zoom-controls { position: fixed; bottom: 70px; right: 12px; z-index: 200; display: flex; flex-direction: column; gap: 6px; }
+  .zoom-btn { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
   .zoom-btn:hover { background: rgba(255,255,255,0.2); }
-
-  @media (max-width: 600px) {
-    .center { width: 90px; height: 90px; }
-    .center .e { font-size: 22px; }
-    .center .n { font-size: 11px; }
-    .center .s { font-size: 7px; }
-    .cat { padding: 6px 10px; min-width: 60px; }
-    .cat .e { font-size: 18px; }
-    .cat .t { font-size: 8px; }
-    .cat .d { font-size: 6px; }
-    .leaf { font-size: 7px; padding: 3px 6px; }
-    .hdr { font-size: 12px; }
-  }
+  @media (max-width: 600px) { .center { width: 90px; height: 90px; } .center .e { font-size: 22px; } .center .n { font-size: 11px; } .center .s { font-size: 7px; } .cat { padding: 6px 10px; min-width: 60px; } .cat .e { font-size: 18px; } .cat .t { font-size: 8px; } .cat .d { font-size: 6px; } .leaf { font-size: 7px; padding: 3px 6px; } .hdr { font-size: 12px; } }
 </style>
 </head>
 <body>
-
 <div class="hdr">Yehuda AI - Mind Map</div>
 <canvas id="cv"></canvas>
-
 <div class="map" id="mapEl">
-  <div class="center" id="C" onclick="info('Yehuda AI - Digital Twin','Born 17.02.2026 | Claude Opus 4 | Owner: Yehuda Mizrahi | 7 Skills')">
-    <span class="e">&#129504;</span>
-    <span class="n">Yehuda AI</span>
-    <span class="s">Digital Twin</span>
+  <div class="center" id="C" onclick="info('Yehuda AI - Digital Twin','Born 17.02.2026 | Claude Opus 4 | Owner: Yehuda Mizrahi | 8 Skills')">
+    <span class="e">&#129504;</span><span class="n">Yehuda AI</span><span class="s">Digital Twin</span>
   </div>
 </div>
-
-<div class="info" id="ip">
-  <div class="l" id="il">Yehuda AI</div>
-  <div class="d" id="id">Tap a node to explore</div>
-</div>
-
+<div class="info" id="ip"><div class="l" id="il">Yehuda AI</div><div class="d" id="id">Tap a node to explore</div></div>
 <div class="zoom-controls">
   <button class="zoom-btn" onclick="zoomIn()">+</button>
   <button class="zoom-btn" onclick="zoomOut()">&minus;</button>
   <button class="zoom-btn" onclick="zoomReset()">&#8634;</button>
 </div>
-
 <script>
-const cats = [
-  { id:'arch', icon:'\u{1F3D7}', title:'Chief Architect', desc:'System Design',
-    color:'#3b82f6', bg:'rgba(59,130,246,0.2)',
-    info:['Chief Architect','System Design | APIs | Cloud | Security | DevOps | LLMs | Agentic AI'],
-    leaves:['System Design','Cloud & Infra','Security Arch','API Design','DevOps','LLMs & RAG','Agentic AI'] },
-
-  { id:'llm', icon:'\u{1F916}', title:'LLM Models', desc:'AI Engines',
-    color:'#00c8c8', bg:'rgba(0,200,200,0.2)',
-    info:['LLM Models','Primary: Claude Opus 4 | Fallback: Gemini 2.0 Flash | Grok (xAI) | Providers: Anthropic, Google, xAI'],
-    leaves:['Claude Opus 4 (Primary)','Gemini 2.0 Flash','Grok 3 (xAI)','Anthropic API','Google API','xAI API'] },
-
-  { id:'wa', icon:'\u{1F4AC}', title:'WhatsApp', desc:'Contacts & Groups',
-    color:'#25d366', bg:'rgba(37,211,102,0.2)',
-    info:['WhatsApp Network','Yehuda | Ilana | Sapir | Avi | מזרחי אימפריה | DM: Allowlist | Groups: Open'],
-    leaves:['Yehuda (Owner)','Ilana','Sapir','Avi (אבא)','מזרחי אימפריה','DM: Allowlist','Groups: Open'] },
-
-  { id:'fam', icon:'\u{1F491}', title:'Husband', desc:'Ilana',
-    color:'#ec4899', bg:'rgba(236,72,153,0.2)',
-    info:['Husband Skill','Ilana Briskman Mizrahi | Wedding: 14.09.2016 | Together: 23.10.2010 | Available 24/7'],
-    leaves:['Wedding 14.09.2016','Birthday 11.04.1993','Together 23.10.2010','WhatsApp Support'] },
-
-  { id:'par', icon:'\u{1F468}\u200D\u{1F469}\u200D\u{1F467}\u200D\u{1F466}', title:'Parenting', desc:'3 Kids',
-    color:'#22c55e', bg:'rgba(34,197,94,0.2)',
-    info:['Parenting','Avior 6y Artist | Nitai 4y Athlete | Arbel 10m Blue Eyes | Activities & Development'],
-    leaves:['Avior (6) Artist','Nitai (4) Athlete','Arbel (10m)','Routines','Health'] },
-
-  { id:'heb', icon:'\u{1F1EE}\u{1F1F1}', title:'Hebrew', desc:'Bilingual',
-    color:'#eab308', bg:'rgba(234,179,8,0.2)',
-    info:['Hebrew + English','Israeli Slang | Culture | Holidays | Feminine/Masculine | Bilingual'],
-    leaves:['Israeli Slang','Holidays','Culture','Bilingual'] },
-
-  { id:'trd', icon:'\u{1F4C8}', title:'Technical Analysis', desc:'Advanced Trading',
-    color:'#a855f7', bg:'rgba(168,85,247,0.2)',
-    info:['Technical Analysis','Smart Money/ICT | Elliott Wave | Wyckoff | Harmonics | Volume Profile | Order Flow'],
-    leaves:['Smart Money/ICT','Elliott Wave','Wyckoff','Harmonics','Volume Profile','Order Flow'] },
-
-  { id:'sec', icon:'\u{1F6E1}', title:'Security Gate', desc:'Skill Guardian',
-    color:'#ef4444', bg:'rgba(239,68,68,0.2)',
-    info:['Secure Skill Downloader','7 Scan Categories | Triple Confirmation | Full Logging | Boss Only'],
-    leaves:['Deep Scan','Triple Confirm','Full Logging','Boss Only'] },
-
-  { id:'cof', icon:'\u2615', title:'Coffee Master', desc:'La Marzocco',
-    color:'#b4783c', bg:'rgba(180,120,60,0.2)',
-    info:['Coffee Master','La Marzocca Linea Micra | Espresso | Milk Steaming | Latte Art | Beans'],
-    leaves:['Espresso','Milk Steaming','Latte Art','Maintenance','Beans'] }
-];
-
-const mapEl = document.getElementById('mapEl');
-const cv = document.getElementById('cv');
-const ctx = cv.getContext('2d');
-let W, H, cx, cy, R, leafR;
-
-let scale = 1, panX = 0, panY = 0;
-let dragging = false, lastX, lastY;
-let pinchDist = 0;
-
-function applyTransform() {
-  mapEl.style.transform = `translate(${panX}px,${panY}px) scale(${scale})`;
-}
-
-function zoomIn() { scale = Math.min(scale * 1.3, 4); applyTransform(); draw(); }
-function zoomOut() { scale = Math.max(scale / 1.3, 0.4); applyTransform(); draw(); }
-function zoomReset() { scale = 1; panX = 0; panY = 0; applyTransform(); draw(); }
-
-document.addEventListener('mousedown', e => { dragging = true; lastX = e.clientX; lastY = e.clientY; });
-document.addEventListener('mousemove', e => {
-  if (!dragging) return;
-  panX += e.clientX - lastX; panY += e.clientY - lastY;
-  lastX = e.clientX; lastY = e.clientY;
-  applyTransform(); draw();
-});
-document.addEventListener('mouseup', () => dragging = false);
-
-document.addEventListener('wheel', e => {
-  e.preventDefault();
-  const factor = e.deltaY < 0 ? 1.1 : 0.9;
-  scale = Math.max(0.4, Math.min(4, scale * factor));
-  applyTransform(); draw();
-}, { passive: false });
-
-let touches = [];
-document.addEventListener('touchstart', e => {
-  touches = [...e.touches];
-  if (touches.length === 2) {
-    pinchDist = Math.hypot(touches[0].clientX - touches[1].clientX, touches[0].clientY - touches[1].clientY);
-  }
-});
-document.addEventListener('touchmove', e => {
-  e.preventDefault();
-  if (e.touches.length === 1 && touches.length === 1) {
-    panX += e.touches[0].clientX - touches[0].clientX;
-    panY += e.touches[0].clientY - touches[0].clientY;
-    applyTransform(); draw();
-  } else if (e.touches.length === 2) {
-    const newDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
-    if (pinchDist > 0) {
-      scale = Math.max(0.4, Math.min(4, scale * (newDist / pinchDist)));
-      applyTransform(); draw();
-    }
-    pinchDist = newDist;
-  }
-  touches = [...e.touches];
-}, { passive: false });
-document.addEventListener('touchend', e => { touches = [...e.touches]; pinchDist = 0; });
-
-function resize() {
-  W = cv.width = window.innerWidth;
-  H = cv.height = window.innerHeight;
-  cx = W / 2; cy = H / 2;
-  const base = Math.min(W, H);
-  R = base * 0.30;
-  leafR = R + base * 0.14;
-  layout();
-  draw();
-}
-
-function layout() {
-  const n = cats.length;
-  cats.forEach((c, i) => {
-    const a = (2 * Math.PI * i / n) - Math.PI / 2;
-    c.x = cx + R * Math.cos(a);
-    c.y = cy + R * Math.sin(a);
-    c.angle = a;
-
-    let el = document.getElementById('cat-' + c.id);
-    if (!el) {
-      el = document.createElement('div');
-      el.className = 'cat';
-      el.id = 'cat-' + c.id;
-      el.style.background = c.bg;
-      el.style.boxShadow = `0 4px 30px ${c.color}44`;
-      el.innerHTML = `<span class="e">${c.icon}</span><span class="t">${c.title}</span><span class="d">${c.desc}</span>`;
-      el.onclick = (ev) => { ev.stopPropagation(); toggleLeaves(c.id); info(c.info[0], c.info[1]); };
-      mapEl.appendChild(el);
-    }
-    el.style.left = c.x + 'px';
-    el.style.top = c.y + 'px';
-
-    c.leaves.forEach((lbl, li) => {
-      const lid = 'leaf-' + c.id + '-' + li;
-      let lel = document.getElementById(lid);
-      if (!lel) {
-        lel = document.createElement('div');
-        lel.className = 'leaf';
-        lel.id = lid;
-        lel.dataset.group = c.id;
-        lel.style.background = c.bg;
-        lel.textContent = lbl;
-        mapEl.appendChild(lel);
-      }
-      const spread = 0.5;
-      const la = c.angle + (li - (c.leaves.length - 1) / 2) * (spread / Math.max(c.leaves.length - 1, 1));
-      lel.style.left = (cx + leafR * Math.cos(la)) + 'px';
-      lel.style.top = (cy + leafR * Math.sin(la)) + 'px';
-    });
-  });
-
-  const cEl = document.getElementById('C');
-  cEl.style.left = cx + 'px';
-  cEl.style.top = cy + 'px';
-}
-
-let stars = [];
-function draw() {
-  ctx.clearRect(0, 0, W, H);
-  if (stars.length === 0) {
-    for (let i = 0; i < 120; i++)
-      stars.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.5 + 0.5, a: Math.random() });
-  }
-  stars.forEach(s => {
-    ctx.beginPath();
-    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(255,255,255,${s.a * 0.4 + 0.1})`;
-    ctx.fill();
-  });
-
-  cats.forEach(c => {
-    const sx = cx * scale + panX, sy = cy * scale + panY;
-    const ex = c.x * scale + panX, ey = c.y * scale + panY;
-    ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey);
-    ctx.strokeStyle = c.color + '66'; ctx.lineWidth = 2 * scale; ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey);
-    ctx.strokeStyle = c.color + '22'; ctx.lineWidth = 6 * scale; ctx.stroke();
-  });
-}
-
-let openGroup = null;
-function toggleLeaves(gid) {
-  if (openGroup && openGroup !== gid) {
-    document.querySelectorAll(`.leaf[data-group="${openGroup}"]`).forEach(l => l.classList.remove('on'));
-    const prevCat = document.getElementById('cat-' + openGroup);
-    if (prevCat) prevCat.classList.remove('active');
-  }
-  const leaves = document.querySelectorAll(`.leaf[data-group="${gid}"]`);
-  const catEl = document.getElementById('cat-' + gid);
-  const opening = openGroup !== gid;
-  leaves.forEach((l, i) => { setTimeout(() => l.classList.toggle('on', opening), i * 50); });
-  if (catEl) catEl.classList.toggle('active', opening);
-  openGroup = opening ? gid : null;
-}
-
-function info(l, d) {
-  document.getElementById('il').textContent = l;
-  document.getElementById('id').textContent = d;
-}
-
-window.addEventListener('resize', resize);
-resize();
+const cats=[{id:'arch',icon:'\u{1F3D7}',title:'Chief Architect',desc:'System Design',color:'#3b82f6',bg:'rgba(59,130,246,0.2)',info:['Chief Architect','System Design | APIs | Cloud | Security | DevOps | LLMs | Agentic AI'],leaves:['System Design','Cloud & Infra','Security Arch','API Design','DevOps','LLMs & RAG','Agentic AI']},{id:'llm',icon:'\u{1F916}',title:'LLM Models',desc:'AI Engines',color:'#00c8c8',bg:'rgba(0,200,200,0.2)',info:['LLM Models','Primary: Claude Opus 4 | Fallback: Gemini 2.0 Flash | Grok (xAI) | Providers: Anthropic, Google, xAI'],leaves:['Claude Opus 4 (Primary)','Gemini 2.0 Flash','Grok 3 (xAI)','Anthropic API','Google API','xAI API']},{id:'wa',icon:'\u{1F4AC}',title:'WhatsApp',desc:'Contacts & Groups',color:'#25d366',bg:'rgba(37,211,102,0.2)',info:['WhatsApp Network','Yehuda | Ilana | Sapir | Avi | מזרחי אימפריה | DM: Allowlist | Groups: Open'],leaves:['Yehuda (Owner)','Ilana','Sapir','Avi (אבא)','מזרחי אימפריה','DM: Allowlist','Groups: Open']},{id:'fam',icon:'\u{1F491}',title:'Husband',desc:'Ilana',color:'#ec4899',bg:'rgba(236,72,153,0.2)',info:['Husband Skill','Ilana Briskman Mizrahi | Wedding: 14.09.2016 | Together: 23.10.2010 | Available 24/7'],leaves:['Wedding 14.09.2016','Birthday 11.04.1993','Together 23.10.2010','WhatsApp Support']},{id:'par',icon:'\u{1F468}\u200D\u{1F469}\u200D\u{1F467}\u200D\u{1F466}',title:'Parenting',desc:'3 Kids',color:'#22c55e',bg:'rgba(34,197,94,0.2)',info:['Parenting','Avior 6y Artist | Nitai 4y Athlete | Arbel 10m Blue Eyes | Activities & Development'],leaves:['Avior (6) Artist','Nitai (4) Athlete','Arbel (10m)','Routines','Health']},{id:'heb',icon:'\u{1F1EE}\u{1F1F1}',title:'Hebrew',desc:'Bilingual',color:'#eab308',bg:'rgba(234,179,8,0.2)',info:['Hebrew + English','Israeli Slang | Culture | Holidays | Feminine/Masculine | Bilingual'],leaves:['Israeli Slang','Holidays','Culture','Bilingual']},{id:'trd',icon:'\u{1F4C8}',title:'Technical Analysis',desc:'Advanced Trading',color:'#a855f7',bg:'rgba(168,85,247,0.2)',info:['Technical Analysis','Smart Money/ICT | Elliott Wave | Wyckoff | Harmonics | Volume Profile | Order Flow'],leaves:['Smart Money/ICT','Elliott Wave','Wyckoff','Harmonics','Volume Profile','Order Flow']},{id:'sec',icon:'\u{1F6E1}',title:'Security Gate',desc:'Skill Guardian',color:'#ef4444',bg:'rgba(239,68,68,0.2)',info:['Secure Skill Downloader','7 Scan Categories | Triple Confirmation | Full Logging | Boss Only'],leaves:['Deep Scan','Triple Confirm','Full Logging','Boss Only']},{id:'fit',icon:'\u{1F4AA}',title:'Fitness & Nutrition',desc:'Coach',color:'#10b981',bg:'rgba(16,185,129,0.2)',info:['Fitness & Nutrition','Strength Training | Hypertrophy | Cardio | Macros | Meal Plans | Supplements | Recovery'],leaves:['Strength Training','Hypertrophy','Cardio/HIIT','Nutrition & Macros','Meal Plans','Supplements','Recovery']},{id:'cof',icon:'\u2615',title:'Coffee Master',desc:'La Marzocco',color:'#b4783c',bg:'rgba(180,120,60,0.2)',info:['Coffee Master','La Marzocca Linea Micra | Espresso | Milk Steaming | Latte Art | Beans'],leaves:['Espresso','Milk Steaming','Latte Art','Maintenance','Beans']}];
+const mapEl=document.getElementById('mapEl'),cv=document.getElementById('cv'),ctx=cv.getContext('2d');let W,H,cx,cy,R,leafR,scale=1,panX=0,panY=0,dragging=false,lastX,lastY,pinchDist=0;
+function applyTransform(){mapEl.style.transform=`translate(${panX}px,${panY}px) scale(${scale})`}
+function zoomIn(){scale=Math.min(scale*1.3,4);applyTransform();draw()}function zoomOut(){scale=Math.max(scale/1.3,0.4);applyTransform();draw()}function zoomReset(){scale=1;panX=0;panY=0;applyTransform();draw()}
+document.addEventListener('mousedown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY});document.addEventListener('mousemove',e=>{if(!dragging)return;panX+=e.clientX-lastX;panY+=e.clientY-lastY;lastX=e.clientX;lastY=e.clientY;applyTransform();draw()});document.addEventListener('mouseup',()=>dragging=false);
+document.addEventListener('wheel',e=>{e.preventDefault();const f=e.deltaY<0?1.1:0.9;scale=Math.max(0.4,Math.min(4,scale*f));applyTransform();draw()},{passive:false});
+let touches=[];document.addEventListener('touchstart',e=>{touches=[...e.touches];if(touches.length===2)pinchDist=Math.hypot(touches[0].clientX-touches[1].clientX,touches[0].clientY-touches[1].clientY)});
+document.addEventListener('touchmove',e=>{e.preventDefault();if(e.touches.length===1&&touches.length===1){panX+=e.touches[0].clientX-touches[0].clientX;panY+=e.touches[0].clientY-touches[0].clientY;applyTransform();draw()}else if(e.touches.length===2){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);if(pinchDist>0){scale=Math.max(0.4,Math.min(4,scale*(d/pinchDist)));applyTransform();draw()}pinchDist=d}touches=[...e.touches]},{passive:false});
+document.addEventListener('touchend',e=>{touches=[...e.touches];pinchDist=0});
+function resize(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;cx=W/2;cy=H/2;const b=Math.min(W,H);R=b*0.30;leafR=R+b*0.14;layout();draw()}
+function layout(){const n=cats.length;cats.forEach((c,i)=>{const a=(2*Math.PI*i/n)-Math.PI/2;c.x=cx+R*Math.cos(a);c.y=cy+R*Math.sin(a);c.angle=a;let el=document.getElementById('cat-'+c.id);if(!el){el=document.createElement('div');el.className='cat';el.id='cat-'+c.id;el.style.background=c.bg;el.style.boxShadow=`0 4px 30px ${c.color}44`;el.innerHTML=`<span class="e">${c.icon}</span><span class="t">${c.title}</span><span class="d">${c.desc}</span>`;el.onclick=ev=>{ev.stopPropagation();toggleLeaves(c.id);info(c.info[0],c.info[1])};mapEl.appendChild(el)}el.style.left=c.x+'px';el.style.top=c.y+'px';c.leaves.forEach((lbl,li)=>{const lid='leaf-'+c.id+'-'+li;let lel=document.getElementById(lid);if(!lel){lel=document.createElement('div');lel.className='leaf';lel.id=lid;lel.dataset.group=c.id;lel.style.background=c.bg;lel.textContent=lbl;mapEl.appendChild(lel)}const spread=0.5;const la=c.angle+(li-(c.leaves.length-1)/2)*(spread/Math.max(c.leaves.length-1,1));lel.style.left=(cx+leafR*Math.cos(la))+'px';lel.style.top=(cy+leafR*Math.sin(la))+'px'})});const cEl=document.getElementById('C');cEl.style.left=cx+'px';cEl.style.top=cy+'px'}
+let stars=[];function draw(){ctx.clearRect(0,0,W,H);if(stars.length===0)for(let i=0;i<120;i++)stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.5+0.5,a:Math.random()});stars.forEach(s=>{ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${s.a*0.4+0.1})`;ctx.fill()});cats.forEach(c=>{const sx=cx*scale+panX,sy=cy*scale+panY,ex=c.x*scale+panX,ey=c.y*scale+panY;ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(ex,ey);ctx.strokeStyle=c.color+'66';ctx.lineWidth=2*scale;ctx.stroke();ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(ex,ey);ctx.strokeStyle=c.color+'22';ctx.lineWidth=6*scale;ctx.stroke()})}
+let openGroup=null;function toggleLeaves(gid){if(openGroup&&openGroup!==gid){document.querySelectorAll(`.leaf[data-group="${openGroup}"]`).forEach(l=>l.classList.remove('on'));const p=document.getElementById('cat-'+openGroup);if(p)p.classList.remove('active')}const leaves=document.querySelectorAll(`.leaf[data-group="${gid}"]`);const catEl=document.getElementById('cat-'+gid);const opening=openGroup!==gid;leaves.forEach((l,i)=>{setTimeout(()=>l.classList.toggle('on',opening),i*50)});if(catEl)catEl.classList.toggle('active',opening);openGroup=opening?gid:null}
+function info(l,d){document.getElementById('il').textContent=l;document.getElementById('id').textContent=d}
+window.addEventListener('resize',resize);resize();
 </script>
 </body>
 </html>

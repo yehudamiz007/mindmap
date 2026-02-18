@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { margin: 0; padding: 20px; background: #f5f5f0; font-family: 'Segoe UI', Arial, sans-serif; }
+  h1 { text-align: center; color: #333; font-size: 24px; }
+  .pantry { width: 280px; margin: 20px auto; background: #fff; border: 3px solid #bbb; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+  .shelf { border-bottom: 2px solid #ddd; padding: 12px 10px; min-height: 70px; position: relative; }
+  .shelf:last-child { border-bottom: none; }
+  .shelf-label { position: absolute; top: 4px; right: 6px; font-size: 10px; color: #999; font-weight: bold; }
+  .drawer { background: #6b7b8d; border-bottom: 2px solid #556; padding: 12px 10px; min-height: 60px; margin: 2px 4px; border-radius: 4px; position: relative; }
+  .drawer .shelf-label { color: #cdd; }
+  .items { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; padding-top: 14px; }
+  .item { border-radius: 4px; padding: 3px 6px; font-size: 10px; text-align: center; }
+  .can { background: #e8d5b7; border: 1px solid #c9b896; }
+  .box { background: #f0e0c0; border: 1px solid #d4c4a0; }
+  .container { background: rgba(173,216,230,0.4); border: 2px solid rgba(100,149,237,0.6); border-radius: 6px; padding: 4px 7px; }
+  .basket { background: #f5e6d3; border: 2px solid #d4a574; border-radius: 8px; padding: 4px 7px; }
+  .spice { background: #ffe0b2; border: 1px solid #ffb74d; border-radius: 3px; }
+  .legend { width: 280px; margin: 15px auto; background: #fff; border-radius: 8px; padding: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+  .legend h3 { margin: 0 0 8px; font-size: 14px; color: #555; }
+  .legend-item { display: flex; align-items: center; gap: 8px; margin: 4px 0; font-size: 11px; }
+  .legend-color { width: 20px; height: 14px; border-radius: 3px; }
+  .tip { width: 280px; margin: 10px auto; background: #fff9e6; border: 1px solid #ffe082; border-radius: 8px; padding: 10px; font-size: 11px; }
+  .tip b { color: #f57f17; }
+  .section-title { text-align: center; font-size: 11px; color: #777; margin: 2px 0 0; font-style: italic; }
+</style>
+</head>
+<body>
+<h1>🗄️ הדמיית ארון מזווה מאורגן</h1>
+
+<div class="pantry">
+  <!-- Top shelf -->
+  <div class="shelf">
+    <div class="shelf-label">מדף עליון — שימוש נדיר</div>
+    <div class="items">
+      <div class="item basket">🧺 סלסלה: שימורים</div>
+      <div class="item basket">🧺 סלסלה: קמחים</div>
+    </div>
+  </div>
+
+  <!-- Second shelf -->
+  <div class="shelf">
+    <div class="shelf-label">מדף שני — רטבים ושימורים</div>
+    <div class="items">
+      <div class="item can">🥫 Mutti</div>
+      <div class="item can">🥫 Polpa</div>
+      <div class="item can">🥫 תירס</div>
+      <div class="item can">🥫 רטבים</div>
+      <div class="item can">🥫 שימורים</div>
+    </div>
+  </div>
+
+  <!-- Third shelf -->
+  <div class="shelf">
+    <div class="shelf-label">מדף שלישי — חטיפים ונשנושים</div>
+    <div class="items">
+      <div class="item basket">🧺 ביסלי/במבה</div>
+      <div class="item basket">🧺 חטיפים מתוקים</div>
+      <div class="item container">📦 פופקורן</div>
+    </div>
+  </div>
+
+  <!-- Drawer 1 -->
+  <div class="drawer">
+    <div class="shelf-label">מגירה 1 — שימוש יומי</div>
+    <div class="items">
+      <div class="item spice">🧂 מלח</div>
+      <div class="item spice">🍯 סוכר</div>
+      <div class="item spice">🌿 תבלינים</div>
+      <div class="item spice">🫒 שמן</div>
+      <div class="item spice">🍶 חומץ</div>
+    </div>
+  </div>
+
+  <!-- Drawer 2 -->
+  <div class="drawer">
+    <div class="shelf-label">מגירה 2 — יבשים בקופסאות</div>
+    <div class="items">
+      <div class="item container">🍝 פסטה</div>
+      <div class="item container">🍚 אורז</div>
+      <div class="item container">🫘 קטניות</div>
+      <div class="item container">🥣 דגנים</div>
+    </div>
+  </div>
+
+  <!-- Drawer 3 -->
+  <div class="drawer">
+    <div class="shelf-label">מגירה 3 — מלאי וכבד</div>
+    <div class="items">
+      <div class="item box">🛒 מלאי שקיות</div>
+      <div class="item box">📦 תפזורת</div>
+      <div class="item box">🧴 חד פעמי</div>
+    </div>
+  </div>
+</div>
+
+<div class="legend">
+  <h3>מקרא:</h3>
+  <div class="legend-item"><div class="legend-color" style="background:rgba(173,216,230,0.6); border:2px solid rgba(100,149,237,0.6);"></div> קופסאות שקופות אטומות</div>
+  <div class="legend-item"><div class="legend-color" style="background:#f5e6d3; border:2px solid #d4a574;"></div> סלסלות נצרים / פלסטיק</div>
+  <div class="legend-item"><div class="legend-color" style="background:#ffe0b2; border:1px solid #ffb74d;"></div> תבלינים ושימוש יומי</div>
+  <div class="legend-item"><div class="legend-color" style="background:#e8d5b7; border:1px solid #c9b896;"></div> שימורים/קופסאות — בשורה, תוויות קדימה</div>
+</div>
+
+<div class="tip">
+  <b>💡 מה לקנות:</b><br>
+  ✅ סט קופסאות אטומות שקופות (Vtopmart / Chef's Path) — לפסטה, אורז, דגנים<br>
+  ✅ סלסלות פלסטיק עם ידיות (מדף עליון — מושכים בלי לטפס)<br>
+  ✅ מארגן תבלינים למגירה<br>
+  ✅ מדבקות + טוש לסימון<br>
+  <br>
+  <b>🔍 חפשו באמזון:</b> "Vtopmart airtight containers set" / "pantry baskets with handles"
+</div>
+
+</body>
+</html>
