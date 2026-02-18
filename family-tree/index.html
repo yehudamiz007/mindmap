@@ -3,20 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>משפחת מזרחי - עץ יוחסין</title>
+    <title>משפחת מזרחי-לבנברג - עץ יוחסין</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=David+Libre:wght@400;700&display=swap');
-        
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
             font-family: 'Heebo', sans-serif;
             background: #f5efe6;
             min-height: 100vh;
             color: #3a2a1a;
         }
-
-        /* Parchment texture */
         body::before {
             content: '';
             position: fixed;
@@ -25,468 +21,307 @@
                 radial-gradient(ellipse at 20% 50%, rgba(139,90,43,0.08) 0%, transparent 50%),
                 radial-gradient(ellipse at 80% 20%, rgba(139,90,43,0.06) 0%, transparent 50%),
                 radial-gradient(ellipse at 50% 80%, rgba(139,90,43,0.05) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
+            pointer-events: none; z-index: 0;
         }
-
         .container {
-            position: relative;
-            z-index: 1;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 40px 20px 60px;
+            position: relative; z-index: 1;
+            max-width: 1300px; margin: 0 auto; padding: 40px 20px 60px;
         }
-
-        /* Header */
         .header {
-            text-align: center;
-            margin-bottom: 50px;
-            padding-bottom: 25px;
-            border-bottom: 2px solid #c4a265;
+            text-align: center; margin-bottom: 40px;
+            padding-bottom: 25px; border-bottom: 2px solid #c4a265;
         }
         .header .ornament { font-size: 1.5em; color: #c4a265; }
         .header h1 {
-            font-family: 'David Libre', serif;
-            font-size: 3em;
-            font-weight: 700;
-            color: #5a3a1a;
-            margin: 10px 0;
+            font-family: 'David Libre', serif; font-size: 3em;
+            font-weight: 700; color: #5a3a1a; margin: 10px 0;
         }
-        .header .subtitle {
-            font-size: 1.1em;
-            color: #8a7a5a;
-            font-weight: 300;
-        }
-        .header .established {
-            margin-top: 8px;
-            font-size: 0.9em;
-            color: #c4a265;
-            font-style: italic;
-        }
-
-        /* Tree structure using CSS lines */
-        .tree {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* Node styling */
-        .node {
-            position: relative;
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        .card {
-            background: linear-gradient(145deg, #fffdf5, #f0e8d5);
-            border: 2px solid #c4a265;
-            border-radius: 12px;
-            padding: 16px 22px;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 3px 12px rgba(90,58,26,0.12);
-            min-width: 130px;
-        }
-        .card.couple {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 18px 28px;
-        }
-        .card .person-info { text-align: center; }
-        .card .emoji { font-size: 1.8em; margin-bottom: 4px; }
-        .card .name {
-            font-family: 'David Libre', serif;
-            font-size: 1.15em;
-            font-weight: 700;
-            color: #3a2a1a;
-        }
-        .card .detail {
-            font-size: 0.75em;
-            color: #8a7a5a;
-            margin-top: 2px;
-        }
-        .card .heart-divider {
-            font-size: 1.4em;
-            color: #c4a265;
-        }
-        .card .sub-detail {
-            font-size: 0.65em;
-            color: #b09a6a;
-            margin-top: 6px;
-        }
-
-        .card.founder {
-            border-color: #a0842e;
-            border-width: 3px;
-            background: linear-gradient(145deg, #fff9e6, #f5e6c0);
-        }
-        .card.child {
-            min-width: 110px;
-            padding: 14px 18px;
-        }
-        .card.child .emoji { font-size: 1.5em; }
-        .card.child .name { font-size: 1em; }
-        .card.child .trait {
-            font-size: 0.7em;
-            color: #8a7a5a;
-            margin-top: 4px;
-            font-style: italic;
-        }
-
-        /* Vertical line from parent down */
-        .v-line {
-            width: 2px;
-            height: 35px;
-            background: #c4a265;
-            margin: 0 auto;
-        }
-
-        /* Horizontal connector with branches */
-        .h-connector {
-            display: flex;
-            justify-content: center;
-            position: relative;
-            margin-bottom: 0;
-        }
-        .h-connector::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            height: 2px;
-            background: #c4a265;
-        }
-
-        /* Children container */
-        .children {
-            display: flex;
-            justify-content: center;
-            gap: 0;
-            position: relative;
-        }
-        .children > .branch {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            padding: 0 20px;
-        }
-        /* Top connector lines for each branch */
-        .children > .branch::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            width: 2px;
-            height: 30px;
-            background: #c4a265;
-        }
-
-        /* Horizontal line spanning all children */
-        .children-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .h-bar {
-            height: 2px;
-            background: #c4a265;
-            align-self: stretch;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        /* SVG Tree */
-        .tree-svg-container {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            overflow-x: auto;
-        }
-
-        svg.family-tree {
-            max-width: 100%;
-        }
-
-        /* SVG styles */
-        .ft-line {
-            stroke: #c4a265;
-            stroke-width: 2;
-            fill: none;
-        }
-        .ft-card {
-            fill: #fffdf5;
-            stroke: #c4a265;
-            stroke-width: 2;
-            rx: 10;
-            ry: 10;
-            filter: url(#shadow);
-        }
-        .ft-card-founder {
-            fill: #fff9e6;
-            stroke: #a0842e;
-            stroke-width: 3;
-            rx: 12;
-            ry: 12;
-            filter: url(#shadow);
-        }
-        .ft-name {
-            font-family: 'David Libre', serif;
-            font-size: 16px;
-            font-weight: 700;
-            fill: #3a2a1a;
-            text-anchor: middle;
-        }
-        .ft-detail {
-            font-family: 'Heebo', sans-serif;
-            font-size: 11px;
-            fill: #8a7a5a;
-            text-anchor: middle;
-        }
-        .ft-emoji {
-            font-size: 24px;
-            text-anchor: middle;
-        }
-        .ft-heart {
-            font-size: 18px;
-            fill: #c4a265;
-            text-anchor: middle;
-        }
-        .ft-child-name {
-            font-family: 'David Libre', serif;
-            font-size: 14px;
-            font-weight: 700;
-            fill: #3a2a1a;
-            text-anchor: middle;
-        }
-        .ft-trait {
-            font-family: 'Heebo', sans-serif;
-            font-size: 10px;
-            fill: #8a7a5a;
-            text-anchor: middle;
-            font-style: italic;
-        }
-        .ft-sub {
-            font-family: 'Heebo', sans-serif;
-            font-size: 9px;
-            fill: #b09a6a;
-            text-anchor: middle;
-        }
-
-        /* Anniversary */
+        .header .subtitle { font-size: 1.1em; color: #8a7a5a; font-weight: 300; }
+        .header .established { margin-top: 8px; font-size: 0.9em; color: #c4a265; font-style: italic; }
         .anniversary-banner {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 15px 25px;
+            text-align: center; margin-bottom: 35px; padding: 15px 25px;
             background: linear-gradient(135deg, #fff9e6, #f5e6c0);
-            border: 2px solid #c4a265;
-            border-radius: 10px;
-            font-family: 'David Libre', serif;
-            color: #5a3a1a;
-            font-size: 1.1em;
+            border: 2px solid #c4a265; border-radius: 10px;
+            font-family: 'David Libre', serif; color: #5a3a1a; font-size: 1.1em;
         }
-
-        /* Stats */
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 50px;
-            flex-wrap: wrap;
+        .tree-svg-container {
+            width: 100%; display: flex; justify-content: center; overflow-x: auto;
         }
-        .stat {
-            text-align: center;
-        }
-        .stat .number {
-            font-family: 'David Libre', serif;
-            font-size: 2.5em;
-            font-weight: 700;
-            color: #5a3a1a;
-        }
-        .stat .label {
-            font-size: 0.85em;
-            color: #8a7a5a;
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            margin-top: 50px;
-            padding-top: 20px;
-            border-top: 1px solid #c4a265;
-            color: #b09a6a;
-            font-size: 0.8em;
-        }
-
+        svg.family-tree { max-width: 100%; }
+        .ft-line { stroke: #c4a265; stroke-width: 2; fill: none; }
+        .ft-card { fill: #fffdf5; stroke: #c4a265; stroke-width: 2; rx: 10; ry: 10; filter: url(#shadow); }
+        .ft-card-founder { fill: #fff9e6; stroke: #a0842e; stroke-width: 3; rx: 12; ry: 12; filter: url(#shadow); }
+        .ft-card-ancestor { fill: #f5ede0; stroke: #8b6914; stroke-width: 2.5; rx: 12; ry: 12; filter: url(#shadow); }
+        .ft-card-memorial { fill: #f0ebe3; stroke: #a09070; stroke-width: 2; rx: 10; ry: 10; filter: url(#shadow); opacity: 0.85; }
+        .ft-name { font-family: 'David Libre', serif; font-size: 15px; font-weight: 700; fill: #3a2a1a; text-anchor: middle; }
+        .ft-detail { font-family: 'Heebo', sans-serif; font-size: 11px; fill: #8a7a5a; text-anchor: middle; }
+        .ft-emoji { font-size: 22px; text-anchor: middle; }
+        .ft-heart { font-size: 16px; fill: #c4a265; text-anchor: middle; }
+        .ft-child-name { font-family: 'David Libre', serif; font-size: 13px; font-weight: 700; fill: #3a2a1a; text-anchor: middle; }
+        .ft-trait { font-family: 'Heebo', sans-serif; font-size: 10px; fill: #8a7a5a; text-anchor: middle; font-style: italic; }
+        .ft-sub { font-family: 'Heebo', sans-serif; font-size: 9px; fill: #b09a6a; text-anchor: middle; }
+        .ft-section { font-family: 'David Libre', serif; font-size: 12px; fill: #8b6914; text-anchor: middle; font-weight: 700; }
+        .stats { display: flex; justify-content: center; gap: 40px; margin-top: 50px; flex-wrap: wrap; }
+        .stat { text-align: center; }
+        .stat .number { font-family: 'David Libre', serif; font-size: 2.5em; font-weight: 700; color: #5a3a1a; }
+        .stat .label { font-size: 0.85em; color: #8a7a5a; }
+        .footer { text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px solid #c4a265; color: #b09a6a; font-size: 0.8em; }
         @media (max-width: 768px) {
             .header h1 { font-size: 2em; }
-            svg.family-tree { min-width: 900px; }
+            svg.family-tree { min-width: 1200px; }
             .tree-svg-container { justify-content: flex-start; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
         <div class="header">
             <div class="ornament">✾ ✾ ✾</div>
-            <h1>שושלת מזרחי</h1>
+            <h1>שושלת מזרחי - לבנברג</h1>
             <div class="subtitle">עץ יוחסין</div>
             <div class="established">נוסדה בשנת 1986</div>
         </div>
 
-        <!-- Anniversary -->
         <div class="anniversary-banner">
             🎉 40 שנה לאבי וורדית מזרחי! 18.02.1986 — 18.02.2026 ❤️
         </div>
 
-        <!-- Family Tree SVG -->
         <div class="tree-svg-container">
-            <svg class="family-tree" viewBox="0 0 960 680" xmlns="http://www.w3.org/2000/svg">
+            <svg class="family-tree" viewBox="0 0 1200 1050" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
                         <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#3a2a1a" flood-opacity="0.1"/>
                     </filter>
                 </defs>
 
-                <!-- ========== LEVEL 0: FOUNDERS ========== -->
-                <!-- Avi -->
-                <rect class="ft-card-founder" x="310" y="20" width="150" height="85"/>
-                <text class="ft-emoji" x="385" y="52">👨</text>
-                <text class="ft-name" x="385" y="72">אבי מזרחי</text>
-                <text class="ft-detail" x="385" y="90">ראש המשפחה</text>
+                <!-- ===== ROW 0 (y=25): GREAT-GRANDPARENTS ===== -->
+                
+                <!-- LEFT: Yaakov + Chaya Sara Levenberg -->
+                <text class="ft-section" x="250" y="18">משפחת לבנברג</text>
+                <rect class="ft-card-ancestor" x="130" y="28" width="120" height="70"/>
+                <text class="ft-emoji" x="190" y="54">👨</text>
+                <text class="ft-name" x="190" y="72">יעקוב</text>
+                <text class="ft-detail" x="190" y="88">לבנברג ז"ל</text>
 
-                <!-- Heart -->
-                <text class="ft-heart" x="480" y="68">💕</text>
+                <text class="ft-heart" x="265" y="66">💕</text>
 
-                <!-- Vardit -->
-                <rect class="ft-card-founder" x="500" y="20" width="150" height="85"/>
-                <text class="ft-emoji" x="575" y="52">👩</text>
-                <text class="ft-name" x="575" y="72">ורדית מזרחי</text>
-                <text class="ft-detail" x="575" y="90">אם המשפחה</text>
+                <rect class="ft-card-ancestor" x="280" y="28" width="130" height="70"/>
+                <text class="ft-emoji" x="345" y="54">👩</text>
+                <text class="ft-name" x="345" y="72">חיה שרה</text>
+                <text class="ft-detail" x="345" y="88">לבית שרגא ז"ל</text>
 
-                <!-- Line down from founders -->
-                <line class="ft-line" x1="480" y1="105" x2="480" y2="140"/>
+                <!-- RIGHT: Uri Moshe + Dina Lishuar -->
+                <text class="ft-section" x="850" y="18">משפחת לישואר</text>
+                <rect class="ft-card-ancestor" x="750" y="28" width="120" height="70"/>
+                <text class="ft-emoji" x="810" y="54">👨</text>
+                <text class="ft-name" x="810" y="72">אורי משה</text>
+                <text class="ft-detail" x="810" y="88">לישואר</text>
 
-                <!-- Horizontal bar -->
-                <line class="ft-line" x1="160" y1="140" x2="800" y2="140"/>
+                <text class="ft-heart" x="885" y="66">💕</text>
 
-                <!-- Vertical lines down to children -->
-                <line class="ft-line" x1="160" y1="140" x2="160" y2="175"/>
-                <line class="ft-line" x1="480" y1="140" x2="480" y2="175"/>
-                <line class="ft-line" x1="800" y1="140" x2="800" y2="175"/>
+                <rect class="ft-card-ancestor" x="900" y="28" width="120" height="70"/>
+                <text class="ft-emoji" x="960" y="54">👩</text>
+                <text class="ft-name" x="960" y="72">דינה</text>
+                <text class="ft-detail" x="960" y="88">לבית לוינשטין</text>
 
-                <!-- ========== LEVEL 1: CHILDREN ========== -->
+                <!-- Lines down from great-grandparents -->
+                <line class="ft-line" x1="265" y1="98" x2="265" y2="120"/>
+                <line class="ft-line" x1="885" y1="98" x2="885" y2="120"/>
 
-                <!-- YEHUDA + ILANA -->
-                <rect class="ft-card" x="30" y="175" width="120" height="80"/>
-                <text class="ft-emoji" x="90" y="205">👨‍💻</text>
-                <text class="ft-name" x="90" y="225">יהודה</text>
-                <text class="ft-detail" x="90" y="242">הבכור</text>
+                <!-- ===== ROW 0.5: LEVENBERG SIBLINGS BAR ===== -->
+                <!-- Yaakov+Chaya Sara had 3 children: Chana Tova z"l, Moshe Yosef, Nirit Yehudit -->
+                <line class="ft-line" x1="120" y1="120" x2="420" y2="120"/>
+                <line class="ft-line" x1="120" y1="120" x2="120" y2="145"/>
+                <line class="ft-line" x1="265" y1="120" x2="265" y2="145"/>
+                <line class="ft-line" x1="420" y1="120" x2="420" y2="145"/>
 
-                <text class="ft-heart" x="163" y="220">💕</text>
+                <!-- Chana Tova z"l -->
+                <rect class="ft-card-memorial" x="60" y="145" width="120" height="65"/>
+                <text class="ft-emoji" x="120" y="170">🕯️</text>
+                <text class="ft-name" x="120" y="186">חנה טובה</text>
+                <text class="ft-detail" x="120" y="200">ז"ל - הבכורה</text>
 
-                <rect class="ft-card" x="178" y="175" width="120" height="80"/>
-                <text class="ft-emoji" x="238" y="205">👩</text>
-                <text class="ft-name" x="238" y="225">אילנה</text>
-                <text class="ft-detail" x="238" y="242">בריסקמן מזרחי</text>
-                <text class="ft-sub" x="160" y="270">💍 נישואין 2016 | ביחד מ-2010</text>
+                <!-- Nirit Yehudit -->
+                <rect class="ft-card" x="360" y="145" width="120" height="65"/>
+                <text class="ft-emoji" x="420" y="170">👩</text>
+                <text class="ft-name" x="420" y="186">נורית יהודית</text>
+                <text class="ft-detail" x="420" y="200">הצעירה</text>
 
-                <!-- TAMIR + MEITAL -->
-                <rect class="ft-card" x="400" y="175" width="120" height="80"/>
-                <text class="ft-emoji" x="460" y="205">👨</text>
-                <text class="ft-name" x="460" y="225">תמיר</text>
-                <text class="ft-detail" x="460" y="242">האמצעי</text>
+                <!-- ===== ROW 1 (y=145): MOSHE YOSEF + YAFA ===== -->
+                <rect class="ft-card-founder" x="195" y="145" width="140" height="70"/>
+                <text class="ft-emoji" x="265" y="170">👨</text>
+                <text class="ft-name" x="265" y="188">משה יוסף</text>
+                <text class="ft-detail" x="265" y="203">לבנברג</text>
 
-                <text class="ft-heart" x="533" y="220">💕</text>
+                <text class="ft-heart" x="550" y="182">💕</text>
 
-                <rect class="ft-card" x="548" y="175" width="120" height="80"/>
-                <text class="ft-emoji" x="608" y="205">👩</text>
-                <text class="ft-name" x="608" y="225">מיטל</text>
-                <text class="ft-detail" x="608" y="242">מזרחי</text>
+                <!-- Line from Lishuar parents to Yafa -->
+                <line class="ft-line" x1="885" y1="120" x2="620" y2="120"/>
+                <line class="ft-line" x1="620" y1="120" x2="620" y2="145"/>
 
-                <!-- SAPIR -->
-                <rect class="ft-card" x="740" y="175" width="120" height="80"/>
-                <text class="ft-emoji" x="800" y="205">✨</text>
-                <text class="ft-name" x="800" y="225">ספיר</text>
-                <text class="ft-detail" x="800" y="242">הצעירה</text>
+                <rect class="ft-card-founder" x="550" y="145" width="140" height="70"/>
+                <text class="ft-emoji" x="620" y="170">👩</text>
+                <text class="ft-name" x="620" y="188">יפה</text>
+                <text class="ft-detail" x="620" y="203">לבית לישואר</text>
 
-                <!-- ========== LEVEL 2: GRANDCHILDREN ========== -->
+                <!-- Horizontal line connecting Moshe Yosef to Yafa -->
+                <line class="ft-line" x1="335" y1="180" x2="550" y2="180"/>
 
-                <!-- Line down from Yehuda+Ilana -->
-                <line class="ft-line" x1="160" y1="275" x2="160" y2="310"/>
+                <!-- Line down from couple to their children -->
+                <line class="ft-line" x1="445" y1="215" x2="445" y2="250"/>
 
-                <!-- Horizontal bar for grandchildren -->
-                <line class="ft-line" x1="60" y1="310" x2="260" y2="310"/>
+                <!-- Horizontal bar for Levenberg daughters -->
+                <line class="ft-line" x1="265" y1="250" x2="740" y2="250"/>
+                <line class="ft-line" x1="265" y1="250" x2="265" y2="280"/>
+                <line class="ft-line" x1="500" y1="250" x2="500" y2="280"/>
+                <line class="ft-line" x1="740" y1="250" x2="740" y2="280"/>
 
-                <!-- Vertical lines to each grandchild -->
-                <line class="ft-line" x1="60" y1="310" x2="60" y2="340"/>
-                <line class="ft-line" x1="160" y1="310" x2="160" y2="340"/>
-                <line class="ft-line" x1="260" y1="310" x2="260" y2="340"/>
+                <!-- ===== ROW 2 (y=280): LEVENBERG DAUGHTERS ===== -->
+
+                <!-- Vardit (eldest daughter) -->
+                <rect class="ft-card-founder" x="200" y="280" width="130" height="65"/>
+                <text class="ft-emoji" x="265" y="305">👩</text>
+                <text class="ft-name" x="265" y="322">ורדית</text>
+                <text class="ft-detail" x="265" y="337">הבכורה</text>
+
+                <!-- Tova Cherna (middle) -->
+                <rect class="ft-card" x="440" y="280" width="120" height="65"/>
+                <text class="ft-emoji" x="500" y="305">👩</text>
+                <text class="ft-name" x="500" y="322">טובה צ'רנה</text>
+                <text class="ft-detail" x="500" y="337">האמצעית</text>
+
+                <!-- Tamar Pnina (youngest) -->
+                <rect class="ft-card" x="680" y="280" width="120" height="65"/>
+                <text class="ft-emoji" x="740" y="305">👩</text>
+                <text class="ft-name" x="740" y="322">תמר פנינה</text>
+                <text class="ft-detail" x="740" y="337">הצעירה</text>
+
+                <!-- ===== ROW 3 (y=400): AVI + VARDIT COUPLE ===== -->
+                <line class="ft-line" x1="265" y1="345" x2="265" y2="375"/>
+                <text class="ft-heart" x="265" y="392">💕</text>
+
+                <rect class="ft-card-founder" x="130" y="400" width="130" height="70"/>
+                <text class="ft-emoji" x="195" y="425">👨</text>
+                <text class="ft-name" x="195" y="443">אבי מזרחי</text>
+                <text class="ft-detail" x="195" y="458">ראש המשפחה</text>
+
+                <rect class="ft-card-founder" x="280" y="400" width="140" height="70"/>
+                <text class="ft-emoji" x="350" y="425">👩</text>
+                <text class="ft-name" x="350" y="443">ורדית מזרחי</text>
+                <text class="ft-detail" x="350" y="458">אם המשפחה</text>
+
+                <text class="ft-sub" x="275" y="487">💍 18.02.1986 - 40 שנות אהבה</text>
+
+                <!-- Line down to their children -->
+                <line class="ft-line" x1="275" y1="490" x2="275" y2="520"/>
+
+                <!-- Horizontal bar for Mizrachi children -->
+                <line class="ft-line" x1="130" y1="520" x2="750" y2="520"/>
+                <line class="ft-line" x1="130" y1="520" x2="130" y2="550"/>
+                <line class="ft-line" x1="440" y1="520" x2="440" y2="550"/>
+                <line class="ft-line" x1="750" y1="520" x2="750" y2="550"/>
+
+                <!-- ===== ROW 4 (y=550): MIZRACHI CHILDREN ===== -->
+
+                <!-- Yehuda + Ilana -->
+                <rect class="ft-card" x="20" y="550" width="110" height="70"/>
+                <text class="ft-emoji" x="75" y="575">👨‍💻</text>
+                <text class="ft-name" x="75" y="593">יהודה</text>
+                <text class="ft-detail" x="75" y="607">הבכור</text>
+
+                <text class="ft-heart" x="143" y="588">💕</text>
+
+                <rect class="ft-card" x="155" y="550" width="110" height="70"/>
+                <text class="ft-emoji" x="210" y="575">👩</text>
+                <text class="ft-name" x="210" y="593">אילנה</text>
+                <text class="ft-detail" x="210" y="607">בריסקמן מזרחי</text>
+                <text class="ft-sub" x="143" y="637">💍 נישואין 2016 | ביחד מ-2010</text>
+
+                <!-- Tamir + Meital -->
+                <rect class="ft-card" x="370" y="550" width="110" height="70"/>
+                <text class="ft-emoji" x="425" y="575">👨</text>
+                <text class="ft-name" x="425" y="593">תמיר</text>
+                <text class="ft-detail" x="425" y="607">האמצעי</text>
+
+                <text class="ft-heart" x="493" y="588">💕</text>
+
+                <rect class="ft-card" x="505" y="550" width="110" height="70"/>
+                <text class="ft-emoji" x="560" y="575">👩</text>
+                <text class="ft-name" x="560" y="593">מיטל</text>
+                <text class="ft-detail" x="560" y="607">מזרחי</text>
+
+                <!-- Sapir -->
+                <rect class="ft-card" x="690" y="550" width="120" height="70"/>
+                <text class="ft-emoji" x="750" y="575">✨</text>
+                <text class="ft-name" x="750" y="593">ספיר</text>
+                <text class="ft-detail" x="750" y="607">הצעירה</text>
+
+                <!-- ===== ROW 5 (y=700): GRANDCHILDREN ===== -->
+                <line class="ft-line" x1="143" y1="640" x2="143" y2="670"/>
+                <line class="ft-line" x1="43" y1="670" x2="243" y2="670"/>
+                <line class="ft-line" x1="43" y1="670" x2="43" y2="695"/>
+                <line class="ft-line" x1="143" y1="670" x2="143" y2="695"/>
+                <line class="ft-line" x1="243" y1="670" x2="243" y2="695"/>
 
                 <!-- Avior -->
-                <rect class="ft-card" x="5" y="340" width="110" height="90"/>
-                <text class="ft-emoji" x="60" y="370">🎨</text>
-                <text class="ft-child-name" x="60" y="390">אביאור</text>
-                <text class="ft-detail" x="60" y="405">19.04.2019</text>
-                <text class="ft-trait" x="60" y="420">צייר מוכשר, יצירתי</text>
+                <rect class="ft-card" x="-10" y="695" width="106" height="85"/>
+                <text class="ft-emoji" x="43" y="720">🎨</text>
+                <text class="ft-child-name" x="43" y="738">אביאור</text>
+                <text class="ft-detail" x="43" y="752">19.04.2019</text>
+                <text class="ft-trait" x="43" y="767">צייר מוכשר, יצירתי</text>
 
                 <!-- Nitai -->
-                <rect class="ft-card" x="105" y="340" width="110" height="90"/>
-                <text class="ft-emoji" x="160" y="370">⚽</text>
-                <text class="ft-child-name" x="160" y="390">ניתאי</text>
-                <text class="ft-detail" x="160" y="405">11.01.2022</text>
-                <text class="ft-trait" x="160" y="420">ספורטאי, כריזמטי</text>
+                <rect class="ft-card" x="90" y="695" width="106" height="85"/>
+                <text class="ft-emoji" x="143" y="720">⚽</text>
+                <text class="ft-child-name" x="143" y="738">ניתאי</text>
+                <text class="ft-detail" x="143" y="752">11.01.2022</text>
+                <text class="ft-trait" x="143" y="767">ספורטאי, כריזמטי</text>
 
                 <!-- Arbel -->
-                <rect class="ft-card" x="205" y="340" width="110" height="90"/>
-                <text class="ft-emoji" x="260" y="370">💙</text>
-                <text class="ft-child-name" x="260" y="390">ארבל</text>
-                <text class="ft-detail" x="260" y="405">08.04.2025</text>
-                <text class="ft-trait" x="260" y="420">עיניים כחולות, יפהפייה</text>
+                <rect class="ft-card" x="190" y="695" width="106" height="85"/>
+                <text class="ft-emoji" x="243" y="720">💙</text>
+                <text class="ft-child-name" x="243" y="738">ארבל</text>
+                <text class="ft-detail" x="243" y="752">08.04.2025</text>
+                <text class="ft-trait" x="243" y="767">עיניים כחולות, יפהפייה</text>
 
-                <!-- Decorative frame corners -->
+                <!-- Decorative corners -->
                 <line stroke="#c4a265" stroke-width="1" x1="10" y1="10" x2="50" y2="10"/>
                 <line stroke="#c4a265" stroke-width="1" x1="10" y1="10" x2="10" y2="50"/>
-                <line stroke="#c4a265" stroke-width="1" x1="950" y1="10" x2="910" y2="10"/>
-                <line stroke="#c4a265" stroke-width="1" x1="950" y1="10" x2="950" y2="50"/>
-                <line stroke="#c4a265" stroke-width="1" x1="10" y1="670" x2="50" y2="670"/>
-                <line stroke="#c4a265" stroke-width="1" x1="10" y1="670" x2="10" y2="630"/>
-                <line stroke="#c4a265" stroke-width="1" x1="950" y1="670" x2="910" y2="670"/>
-                <line stroke="#c4a265" stroke-width="1" x1="950" y1="670" x2="950" y2="630"/>
+                <line stroke="#c4a265" stroke-width="1" x1="1190" y1="10" x2="1150" y2="10"/>
+                <line stroke="#c4a265" stroke-width="1" x1="1190" y1="10" x2="1190" y2="50"/>
+                <line stroke="#c4a265" stroke-width="1" x1="10" y1="1040" x2="50" y2="1040"/>
+                <line stroke="#c4a265" stroke-width="1" x1="10" y1="1040" x2="10" y2="1000"/>
+                <line stroke="#c4a265" stroke-width="1" x1="1190" y1="1040" x2="1150" y2="1040"/>
+                <line stroke="#c4a265" stroke-width="1" x1="1190" y1="1040" x2="1190" y2="1000"/>
 
-                <!-- Bottom decorative text -->
-                <text class="ft-detail" x="480" y="520" text-anchor="middle" font-style="italic">
-                    משפחת מזרחי - 40 שנה של אהבה, שורשים חזקים וענפים פורחים 🌳
+                <!-- Bottom text -->
+                <text class="ft-detail" x="600" y="830" text-anchor="middle" font-style="italic">
+                    משפחת מזרחי-לבנברג - שורשים חזקים וענפים פורחים 🌳
                 </text>
             </svg>
         </div>
 
-        <!-- Stats -->
         <div class="stats">
+            <div class="stat">
+                <div class="number">5</div>
+                <div class="label">דורות</div>
+            </div>
             <div class="stat">
                 <div class="number">40</div>
                 <div class="label">שנות אהבה</div>
             </div>
             <div class="stat">
                 <div class="number">3</div>
-                <div class="label">ילדים</div>
-            </div>
-            <div class="stat">
-                <div class="number">3</div>
                 <div class="label">נכדים</div>
             </div>
             <div class="stat">
-                <div class="number">9</div>
+                <div class="number">20+</div>
                 <div class="label">בני משפחה</div>
             </div>
         </div>
 
-        <!-- Footer -->
         <div class="footer">
-            <p>נבנה באהבה ❤️ לכבוד משפחת מזרחי</p>
+            <p>נבנה באהבה ❤️ לכבוד משפחת מזרחי-לבנברג</p>
             <p style="margin-top: 5px;">מזרחי אימפריה 👑 2026</p>
         </div>
     </div>
