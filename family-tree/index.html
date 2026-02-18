@@ -5,274 +5,287 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>משפחת מזרחי - עץ יוחסין</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=David+Libre:wght@400;700&display=swap');
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'Heebo', sans-serif;
-            background: linear-gradient(135deg, #0c0c1d 0%, #1a1a3e 50%, #0c0c1d 100%);
+            background: #f5efe6;
             min-height: 100vh;
-            color: #e0e0e0;
-            overflow-x: hidden;
+            color: #3a2a1a;
         }
 
-        /* Stars background */
-        .stars {
+        /* Parchment texture */
+        body::before {
+            content: '';
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(139,90,43,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(139,90,43,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(139,90,43,0.05) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
-        }
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle var(--duration) ease-in-out infinite;
-        }
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 1; }
         }
 
         .container {
             position: relative;
             z-index: 1;
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 40px 20px 60px;
         }
 
         /* Header */
         .header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 50px;
+            padding-bottom: 25px;
+            border-bottom: 2px solid #c4a265;
         }
+        .header .ornament { font-size: 1.5em; color: #c4a265; }
         .header h1 {
-            font-size: 3.5em;
-            font-weight: 900;
-            background: linear-gradient(135deg, #ffd700, #ff8c00, #ffd700);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-            text-shadow: none;
+            font-family: 'David Libre', serif;
+            font-size: 3em;
+            font-weight: 700;
+            color: #5a3a1a;
+            margin: 10px 0;
         }
         .header .subtitle {
-            font-size: 1.3em;
-            color: #a0a0c0;
+            font-size: 1.1em;
+            color: #8a7a5a;
             font-weight: 300;
         }
-        .header .empire-badge {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 8px 25px;
-            background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,140,0,0.15));
-            border: 1px solid rgba(255,215,0,0.3);
-            border-radius: 30px;
-            font-size: 1em;
-            color: #ffd700;
+        .header .established {
+            margin-top: 8px;
+            font-size: 0.9em;
+            color: #c4a265;
+            font-style: italic;
         }
 
-        /* Tree */
-        .tree-section {
-            margin-bottom: 60px;
-        }
-
-        .generation {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            position: relative;
-        }
-
-        .connector-down {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        .connector-down .line {
-            width: 2px;
-            height: 40px;
-            background: linear-gradient(to bottom, #ffd700, rgba(255,215,0,0.3));
-        }
-
-        .connector-split {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-            position: relative;
-        }
-        .connector-split .horizontal {
-            height: 2px;
-            background: linear-gradient(to right, rgba(255,215,0,0.3), #ffd700, #ffd700, rgba(255,215,0,0.3));
-        }
-        .connector-split .vertical {
-            width: 2px;
-            height: 25px;
-            background: linear-gradient(to bottom, #ffd700, rgba(255,215,0,0.3));
-            position: absolute;
-        }
-
-        /* Person Card */
-        .person-card {
-            background: linear-gradient(145deg, rgba(30,30,60,0.9), rgba(20,20,50,0.9));
-            border: 1px solid rgba(255,215,0,0.2);
-            border-radius: 20px;
-            padding: 25px 30px;
-            text-align: center;
-            min-width: 180px;
-            max-width: 220px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .person-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #ffd700, transparent);
-        }
-        .person-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255,215,0,0.5);
-            box-shadow: 0 10px 40px rgba(255,215,0,0.15);
-        }
-
-        .person-card .emoji {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-        .person-card .name {
-            font-size: 1.3em;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 5px;
-        }
-        .person-card .role {
-            font-size: 0.85em;
-            color: #a0a0c0;
-            margin-bottom: 8px;
-        }
-        .person-card .detail {
-            font-size: 0.8em;
-            color: #8080a0;
-        }
-
-        .couple-card {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: linear-gradient(145deg, rgba(30,30,60,0.9), rgba(20,20,50,0.9));
-            border: 1px solid rgba(255,215,0,0.2);
-            border-radius: 20px;
-            padding: 25px 35px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        .couple-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #ffd700, transparent);
-        }
-        .couple-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255,215,0,0.5);
-            box-shadow: 0 10px 40px rgba(255,215,0,0.15);
-        }
-        .couple-card .heart {
-            font-size: 2em;
-            animation: pulse 2s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-        .couple-card .person {
-            text-align: center;
-        }
-        .couple-card .person .emoji {
-            font-size: 2.2em;
-        }
-        .couple-card .person .name {
-            font-size: 1.2em;
-            font-weight: 700;
-            color: #fff;
-        }
-        .couple-card .person .detail {
-            font-size: 0.75em;
-            color: #8080a0;
-        }
-        .couple-card .anniversary {
-            position: absolute;
-            bottom: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.7em;
-            color: #ffd700;
-            opacity: 0.7;
-        }
-
-        /* Children section */
-        .children-row {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .child-card {
-            background: linear-gradient(145deg, rgba(30,30,60,0.9), rgba(20,20,50,0.9));
-            border: 1px solid rgba(100,200,255,0.2);
-            border-radius: 16px;
-            padding: 20px 25px;
-            text-align: center;
-            min-width: 150px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .child-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #64c8ff, transparent);
-        }
-        .child-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(100,200,255,0.5);
-            box-shadow: 0 10px 30px rgba(100,200,255,0.15);
-        }
-        .child-card .emoji { font-size: 2em; margin-bottom: 8px; }
-        .child-card .name { font-size: 1.1em; font-weight: 700; color: #fff; }
-        .child-card .age { font-size: 0.85em; color: #64c8ff; margin-top: 4px; }
-        .child-card .trait { font-size: 0.75em; color: #8080a0; margin-top: 4px; }
-
-        /* Family branches */
-        .branches {
-            display: flex;
-            justify-content: center;
-            gap: 60px;
-            flex-wrap: wrap;
-        }
-        .branch {
+        /* Tree structure using CSS lines */
+        .tree {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-        .branch-label {
+
+        /* Node styling */
+        .node {
+            position: relative;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
-            font-size: 0.9em;
-            color: #ffd700;
-            margin-bottom: 15px;
-            font-weight: 500;
+        }
+
+        .card {
+            background: linear-gradient(145deg, #fffdf5, #f0e8d5);
+            border: 2px solid #c4a265;
+            border-radius: 12px;
+            padding: 16px 22px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 3px 12px rgba(90,58,26,0.12);
+            min-width: 130px;
+        }
+        .card.couple {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 28px;
+        }
+        .card .person-info { text-align: center; }
+        .card .emoji { font-size: 1.8em; margin-bottom: 4px; }
+        .card .name {
+            font-family: 'David Libre', serif;
+            font-size: 1.15em;
+            font-weight: 700;
+            color: #3a2a1a;
+        }
+        .card .detail {
+            font-size: 0.75em;
+            color: #8a7a5a;
+            margin-top: 2px;
+        }
+        .card .heart-divider {
+            font-size: 1.4em;
+            color: #c4a265;
+        }
+        .card .sub-detail {
+            font-size: 0.65em;
+            color: #b09a6a;
+            margin-top: 6px;
+        }
+
+        .card.founder {
+            border-color: #a0842e;
+            border-width: 3px;
+            background: linear-gradient(145deg, #fff9e6, #f5e6c0);
+        }
+        .card.child {
+            min-width: 110px;
+            padding: 14px 18px;
+        }
+        .card.child .emoji { font-size: 1.5em; }
+        .card.child .name { font-size: 1em; }
+        .card.child .trait {
+            font-size: 0.7em;
+            color: #8a7a5a;
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        /* Vertical line from parent down */
+        .v-line {
+            width: 2px;
+            height: 35px;
+            background: #c4a265;
+            margin: 0 auto;
+        }
+
+        /* Horizontal connector with branches */
+        .h-connector {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 0;
+        }
+        .h-connector::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            height: 2px;
+            background: #c4a265;
+        }
+
+        /* Children container */
+        .children {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            position: relative;
+        }
+        .children > .branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            padding: 0 20px;
+        }
+        /* Top connector lines for each branch */
+        .children > .branch::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 2px;
+            height: 30px;
+            background: #c4a265;
+        }
+
+        /* Horizontal line spanning all children */
+        .children-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .h-bar {
+            height: 2px;
+            background: #c4a265;
+            align-self: stretch;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* SVG Tree */
+        .tree-svg-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+        }
+
+        svg.family-tree {
+            max-width: 100%;
+        }
+
+        /* SVG styles */
+        .ft-line {
+            stroke: #c4a265;
+            stroke-width: 2;
+            fill: none;
+        }
+        .ft-card {
+            fill: #fffdf5;
+            stroke: #c4a265;
+            stroke-width: 2;
+            rx: 10;
+            ry: 10;
+            filter: url(#shadow);
+        }
+        .ft-card-founder {
+            fill: #fff9e6;
+            stroke: #a0842e;
+            stroke-width: 3;
+            rx: 12;
+            ry: 12;
+            filter: url(#shadow);
+        }
+        .ft-name {
+            font-family: 'David Libre', serif;
+            font-size: 16px;
+            font-weight: 700;
+            fill: #3a2a1a;
+            text-anchor: middle;
+        }
+        .ft-detail {
+            font-family: 'Heebo', sans-serif;
+            font-size: 11px;
+            fill: #8a7a5a;
+            text-anchor: middle;
+        }
+        .ft-emoji {
+            font-size: 24px;
+            text-anchor: middle;
+        }
+        .ft-heart {
+            font-size: 18px;
+            fill: #c4a265;
+            text-anchor: middle;
+        }
+        .ft-child-name {
+            font-family: 'David Libre', serif;
+            font-size: 14px;
+            font-weight: 700;
+            fill: #3a2a1a;
+            text-anchor: middle;
+        }
+        .ft-trait {
+            font-family: 'Heebo', sans-serif;
+            font-size: 10px;
+            fill: #8a7a5a;
+            text-anchor: middle;
+            font-style: italic;
+        }
+        .ft-sub {
+            font-family: 'Heebo', sans-serif;
+            font-size: 9px;
+            fill: #b09a6a;
+            text-anchor: middle;
+        }
+
+        /* Anniversary */
+        .anniversary-banner {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #fff9e6, #f5e6c0);
+            border: 2px solid #c4a265;
+            border-radius: 10px;
+            font-family: 'David Libre', serif;
+            color: #5a3a1a;
+            font-size: 1.1em;
         }
 
         /* Stats */
@@ -280,195 +293,192 @@
             display: flex;
             justify-content: center;
             gap: 40px;
-            margin-top: 60px;
+            margin-top: 50px;
             flex-wrap: wrap;
         }
-        .stat-box {
+        .stat {
             text-align: center;
-            padding: 20px 30px;
-            background: rgba(255,215,0,0.05);
-            border: 1px solid rgba(255,215,0,0.1);
-            border-radius: 15px;
         }
-        .stat-box .number {
+        .stat .number {
+            font-family: 'David Libre', serif;
             font-size: 2.5em;
-            font-weight: 900;
-            color: #ffd700;
+            font-weight: 700;
+            color: #5a3a1a;
         }
-        .stat-box .label {
+        .stat .label {
             font-size: 0.85em;
-            color: #a0a0c0;
+            color: #8a7a5a;
         }
 
         /* Footer */
         .footer {
             text-align: center;
-            margin-top: 60px;
-            padding: 30px;
-            border-top: 1px solid rgba(255,215,0,0.1);
-        }
-        .footer p {
-            color: #606080;
-            font-size: 0.85em;
-        }
-        .footer .love {
-            color: #ffd700;
-        }
-
-        /* Anniversary banner */
-        .anniversary-banner {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 20px;
-            background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(255,140,0,0.08));
-            border: 1px solid rgba(255,215,0,0.2);
-            border-radius: 15px;
-            animation: glow 3s ease-in-out infinite;
-        }
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(255,215,0,0.1); }
-            50% { box-shadow: 0 0 40px rgba(255,215,0,0.2); }
-        }
-        .anniversary-banner .text {
-            font-size: 1.2em;
-            color: #ffd700;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #c4a265;
+            color: #b09a6a;
+            font-size: 0.8em;
         }
 
         @media (max-width: 768px) {
-            .header h1 { font-size: 2.2em; }
-            .branches { gap: 30px; }
-            .couple-card { flex-direction: column; padding: 20px; }
-            .stats { gap: 20px; }
+            .header h1 { font-size: 2em; }
+            svg.family-tree { min-width: 900px; }
+            .tree-svg-container { justify-content: flex-start; }
         }
     </style>
 </head>
 <body>
-    <div class="stars" id="stars"></div>
-    
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h1>👑 שושלת מזרחי 👑</h1>
-            <div class="subtitle">עץ יוחסין של האימפריה</div>
-            <div class="empire-badge">🏰 מזרחי אימפריה - Est. 1986</div>
+            <div class="ornament">✾ ✾ ✾</div>
+            <h1>שושלת מזרחי</h1>
+            <div class="subtitle">עץ יוחסין</div>
+            <div class="established">נוסדה בשנת 1986</div>
         </div>
 
-        <!-- Anniversary Banner -->
+        <!-- Anniversary -->
         <div class="anniversary-banner">
-            <div class="text">🎉 40 שנה לאבי וורדית! 18.02.1986 - 18.02.2026 ❤️</div>
+            🎉 40 שנה לאבי וורדית מזרחי! 18.02.1986 — 18.02.2026 ❤️
         </div>
 
-        <!-- Founders -->
-        <div class="tree-section">
-            <div class="generation">
-                <div class="couple-card">
-                    <div class="person">
-                        <div class="emoji">👨‍👦</div>
-                        <div class="name">אבי מזרחי</div>
-                        <div class="detail">האבא של השושלת</div>
-                    </div>
-                    <div class="heart">💕</div>
-                    <div class="person">
-                        <div class="emoji">👩‍👦</div>
-                        <div class="name">ורדית מזרחי</div>
-                        <div class="detail">האמא של השושלת</div>
-                    </div>
-                    <div class="anniversary">💍 ביחד מאז 1986 - 40 שנה של אהבה</div>
-                </div>
-            </div>
+        <!-- Family Tree SVG -->
+        <div class="tree-svg-container">
+            <svg class="family-tree" viewBox="0 0 960 680" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+                        <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#3a2a1a" flood-opacity="0.1"/>
+                    </filter>
+                </defs>
 
-            <!-- Connector -->
-            <div class="connector-down"><div class="line"></div></div>
+                <!-- ========== LEVEL 0: FOUNDERS ========== -->
+                <!-- Avi -->
+                <rect class="ft-card-founder" x="310" y="20" width="150" height="85"/>
+                <text class="ft-emoji" x="385" y="52">👨</text>
+                <text class="ft-name" x="385" y="72">אבי מזרחי</text>
+                <text class="ft-detail" x="385" y="90">ראש המשפחה</text>
 
-            <!-- Children branches -->
-            <div class="branches">
-                
-                <!-- Yehuda's branch -->
-                <div class="branch">
-                    <div class="couple-card">
-                        <div class="person">
-                            <div class="emoji">👨‍💻</div>
-                            <div class="name">יהודה</div>
-                            <div class="detail">הבכור</div>
-                        </div>
-                        <div class="heart">💕</div>
-                        <div class="person">
-                            <div class="emoji">👩‍❤️‍👨</div>
-                            <div class="name">אילנה</div>
-                            <div class="detail">בריסקמן מזרחי</div>
-                        </div>
-                        <div class="anniversary">💍 נישואין 2016 | ביחד מ-2010</div>
-                    </div>
-                    
-                    <div class="connector-down"><div class="line"></div></div>
-                    
-                    <div class="children-row">
-                        <div class="child-card">
-                            <div class="emoji">🎨</div>
-                            <div class="name">אביאור</div>
-                            <div class="age">19.04.2019</div>
-                            <div class="trait">צייר מוכשר, יצירתי</div>
-                        </div>
-                        <div class="child-card">
-                            <div class="emoji">⚽</div>
-                            <div class="name">ניתאי</div>
-                            <div class="age">11.01.2022</div>
-                            <div class="trait">ספורטאי, כריזמטי</div>
-                        </div>
-                        <div class="child-card">
-                            <div class="emoji">💙</div>
-                            <div class="name">ארבל</div>
-                            <div class="age">08.04.2025</div>
-                            <div class="trait">עיניים כחולות, יפהפייה</div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Heart -->
+                <text class="ft-heart" x="480" y="68">💕</text>
 
-                <!-- Tamir's branch -->
-                <div class="branch">
-                    <div class="couple-card">
-                        <div class="person">
-                            <div class="emoji">👨</div>
-                            <div class="name">תמיר</div>
-                            <div class="detail">האמצעי</div>
-                        </div>
-                        <div class="heart">💕</div>
-                        <div class="person">
-                            <div class="emoji">👩</div>
-                            <div class="name">מיטל</div>
-                            <div class="detail">מזרחי</div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Vardit -->
+                <rect class="ft-card-founder" x="500" y="20" width="150" height="85"/>
+                <text class="ft-emoji" x="575" y="52">👩</text>
+                <text class="ft-name" x="575" y="72">ורדית מזרחי</text>
+                <text class="ft-detail" x="575" y="90">אם המשפחה</text>
 
-                <!-- Sapir -->
-                <div class="branch">
-                    <div class="person-card">
-                        <div class="emoji">✨</div>
-                        <div class="name">ספיר</div>
-                        <div class="role">הצעירה</div>
-                        <div class="detail">האחות הכי קטנה</div>
-                    </div>
-                </div>
+                <!-- Line down from founders -->
+                <line class="ft-line" x1="480" y1="105" x2="480" y2="140"/>
 
-            </div>
+                <!-- Horizontal bar -->
+                <line class="ft-line" x1="160" y1="140" x2="800" y2="140"/>
+
+                <!-- Vertical lines down to children -->
+                <line class="ft-line" x1="160" y1="140" x2="160" y2="175"/>
+                <line class="ft-line" x1="480" y1="140" x2="480" y2="175"/>
+                <line class="ft-line" x1="800" y1="140" x2="800" y2="175"/>
+
+                <!-- ========== LEVEL 1: CHILDREN ========== -->
+
+                <!-- YEHUDA + ILANA -->
+                <rect class="ft-card" x="30" y="175" width="120" height="80"/>
+                <text class="ft-emoji" x="90" y="205">👨‍💻</text>
+                <text class="ft-name" x="90" y="225">יהודה</text>
+                <text class="ft-detail" x="90" y="242">הבכור</text>
+
+                <text class="ft-heart" x="163" y="220">💕</text>
+
+                <rect class="ft-card" x="178" y="175" width="120" height="80"/>
+                <text class="ft-emoji" x="238" y="205">👩</text>
+                <text class="ft-name" x="238" y="225">אילנה</text>
+                <text class="ft-detail" x="238" y="242">בריסקמן מזרחי</text>
+                <text class="ft-sub" x="160" y="270">💍 נישואין 2016 | ביחד מ-2010</text>
+
+                <!-- TAMIR + MEITAL -->
+                <rect class="ft-card" x="400" y="175" width="120" height="80"/>
+                <text class="ft-emoji" x="460" y="205">👨</text>
+                <text class="ft-name" x="460" y="225">תמיר</text>
+                <text class="ft-detail" x="460" y="242">האמצעי</text>
+
+                <text class="ft-heart" x="533" y="220">💕</text>
+
+                <rect class="ft-card" x="548" y="175" width="120" height="80"/>
+                <text class="ft-emoji" x="608" y="205">👩</text>
+                <text class="ft-name" x="608" y="225">מיטל</text>
+                <text class="ft-detail" x="608" y="242">מזרחי</text>
+
+                <!-- SAPIR -->
+                <rect class="ft-card" x="740" y="175" width="120" height="80"/>
+                <text class="ft-emoji" x="800" y="205">✨</text>
+                <text class="ft-name" x="800" y="225">ספיר</text>
+                <text class="ft-detail" x="800" y="242">הצעירה</text>
+
+                <!-- ========== LEVEL 2: GRANDCHILDREN ========== -->
+
+                <!-- Line down from Yehuda+Ilana -->
+                <line class="ft-line" x1="160" y1="275" x2="160" y2="310"/>
+
+                <!-- Horizontal bar for grandchildren -->
+                <line class="ft-line" x1="60" y1="310" x2="260" y2="310"/>
+
+                <!-- Vertical lines to each grandchild -->
+                <line class="ft-line" x1="60" y1="310" x2="60" y2="340"/>
+                <line class="ft-line" x1="160" y1="310" x2="160" y2="340"/>
+                <line class="ft-line" x1="260" y1="310" x2="260" y2="340"/>
+
+                <!-- Avior -->
+                <rect class="ft-card" x="5" y="340" width="110" height="90"/>
+                <text class="ft-emoji" x="60" y="370">🎨</text>
+                <text class="ft-child-name" x="60" y="390">אביאור</text>
+                <text class="ft-detail" x="60" y="405">19.04.2019</text>
+                <text class="ft-trait" x="60" y="420">צייר מוכשר, יצירתי</text>
+
+                <!-- Nitai -->
+                <rect class="ft-card" x="105" y="340" width="110" height="90"/>
+                <text class="ft-emoji" x="160" y="370">⚽</text>
+                <text class="ft-child-name" x="160" y="390">ניתאי</text>
+                <text class="ft-detail" x="160" y="405">11.01.2022</text>
+                <text class="ft-trait" x="160" y="420">ספורטאי, כריזמטי</text>
+
+                <!-- Arbel -->
+                <rect class="ft-card" x="205" y="340" width="110" height="90"/>
+                <text class="ft-emoji" x="260" y="370">💙</text>
+                <text class="ft-child-name" x="260" y="390">ארבל</text>
+                <text class="ft-detail" x="260" y="405">08.04.2025</text>
+                <text class="ft-trait" x="260" y="420">עיניים כחולות, יפהפייה</text>
+
+                <!-- Decorative frame corners -->
+                <line stroke="#c4a265" stroke-width="1" x1="10" y1="10" x2="50" y2="10"/>
+                <line stroke="#c4a265" stroke-width="1" x1="10" y1="10" x2="10" y2="50"/>
+                <line stroke="#c4a265" stroke-width="1" x1="950" y1="10" x2="910" y2="10"/>
+                <line stroke="#c4a265" stroke-width="1" x1="950" y1="10" x2="950" y2="50"/>
+                <line stroke="#c4a265" stroke-width="1" x1="10" y1="670" x2="50" y2="670"/>
+                <line stroke="#c4a265" stroke-width="1" x1="10" y1="670" x2="10" y2="630"/>
+                <line stroke="#c4a265" stroke-width="1" x1="950" y1="670" x2="910" y2="670"/>
+                <line stroke="#c4a265" stroke-width="1" x1="950" y1="670" x2="950" y2="630"/>
+
+                <!-- Bottom decorative text -->
+                <text class="ft-detail" x="480" y="520" text-anchor="middle" font-style="italic">
+                    משפחת מזרחי - 40 שנה של אהבה, שורשים חזקים וענפים פורחים 🌳
+                </text>
+            </svg>
         </div>
 
         <!-- Stats -->
         <div class="stats">
-            <div class="stat-box">
+            <div class="stat">
                 <div class="number">40</div>
                 <div class="label">שנות אהבה</div>
             </div>
-            <div class="stat-box">
+            <div class="stat">
                 <div class="number">3</div>
                 <div class="label">ילדים</div>
             </div>
-            <div class="stat-box">
+            <div class="stat">
                 <div class="number">3</div>
                 <div class="label">נכדים</div>
             </div>
-            <div class="stat-box">
+            <div class="stat">
                 <div class="number">9</div>
                 <div class="label">בני משפחה</div>
             </div>
@@ -477,25 +487,8 @@
         <!-- Footer -->
         <div class="footer">
             <p>נבנה באהבה ❤️ לכבוד משפחת מזרחי</p>
-            <p style="margin-top: 8px; font-size: 0.75em;">מזרחי אימפריה 👑 2026</p>
+            <p style="margin-top: 5px;">מזרחי אימפריה 👑 2026</p>
         </div>
     </div>
-
-    <script>
-        // Generate stars
-        const starsContainer = document.getElementById('stars');
-        for (let i = 0; i < 100; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            const size = Math.random() * 3 + 1;
-            star.style.width = size + 'px';
-            star.style.height = size + 'px';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
-            star.style.animationDelay = Math.random() * 5 + 's';
-            starsContainer.appendChild(star);
-        }
-    </script>
 </body>
 </html>
