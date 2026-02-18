@@ -2,62 +2,368 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-<title>Yehuda AI - Mind Map</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Yehuda's Mind Map</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Inter', sans-serif; background: #0a0a1a; color: #fff; width: 100vw; height: 100vh; overflow: hidden; touch-action: none; }
-  canvas { position: absolute; top: 0; left: 0; z-index: 0; }
-  .map { position: absolute; width: 100%; height: 100%; z-index: 1; transform-origin: 0 0; }
-  .center { position: absolute; transform: translate(-50%,-50%); width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 0 60px rgba(102,126,234,0.5), 0 0 120px rgba(118,75,162,0.3); z-index: 10; cursor: pointer; transition: transform 0.3s; animation: glow 3s ease-in-out infinite; }
-  .center:hover { transform: translate(-50%,-50%) scale(1.08); }
-  .center .e { font-size: 28px; } .center .n { font-size: 13px; font-weight: 800; margin-top: 2px; } .center .s { font-size: 8px; opacity: 0.8; }
-  @keyframes glow { 0%,100% { box-shadow: 0 0 60px rgba(102,126,234,0.5), 0 0 120px rgba(118,75,162,0.3); } 50% { box-shadow: 0 0 90px rgba(102,126,234,0.7), 0 0 160px rgba(118,75,162,0.5); } }
-  .cat { position: absolute; border-radius: 14px; padding: 8px 12px; cursor: pointer; transition: all 0.3s; z-index: 5; text-align: center; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); transform: translate(-50%,-50%); min-width: 70px; }
-  .cat:hover, .cat.active { transform: translate(-50%,-50%) scale(1.12); z-index: 20; }
-  .cat .e { font-size: 20px; display: block; } .cat .t { font-size: 9px; font-weight: 700; display: block; margin-top: 2px; } .cat .d { font-size: 7px; opacity: 0.6; display: block; }
-  .leaf { position: absolute; border-radius: 8px; padding: 4px 8px; font-size: 8px; white-space: nowrap; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.06); opacity: 0; transform: translate(-50%,-50%) scale(0.3); transition: all 0.3s; z-index: 3; pointer-events: none; }
-  .leaf.on { opacity: 1; transform: translate(-50%,-50%) scale(1); pointer-events: auto; }
-  .info { position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); background: rgba(15,15,35,0.92); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 10px 16px; text-align: center; z-index: 100; max-width: 90vw; transition: all 0.3s; }
-  .info .l { font-weight: 700; font-size: 11px; } .info .d { font-size: 9px; opacity: 0.6; margin-top: 2px; }
-  .hdr { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); font-size: 14px; font-weight: 800; z-index: 100; background: linear-gradient(135deg,#667eea,#764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; white-space: nowrap; }
-  .zoom-controls { position: fixed; bottom: 70px; right: 12px; z-index: 200; display: flex; flex-direction: column; gap: 6px; }
-  .zoom-btn { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-  .zoom-btn:hover { background: rgba(255,255,255,0.2); }
-  @media (max-width: 600px) { .center { width: 90px; height: 90px; } .center .e { font-size: 22px; } .center .n { font-size: 11px; } .center .s { font-size: 7px; } .cat { padding: 6px 10px; min-width: 60px; } .cat .e { font-size: 18px; } .cat .t { font-size: 8px; } .cat .d { font-size: 6px; } .leaf { font-size: 7px; padding: 3px 6px; } .hdr { font-size: 12px; } }
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#0a0a1a;font-family:'Segoe UI',system-ui,sans-serif;touch-action:none}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%}
+#ui{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none}
+.node{position:absolute;pointer-events:auto;cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;transition:transform .3s,opacity .3s,box-shadow .3s;user-select:none;opacity:0;transform:scale(0)}
+.node.visible{opacity:1;transform:scale(1)}
+.node:hover{transform:scale(1.1)!important;z-index:10}
+.center-node{width:140px;height:140px;background:radial-gradient(circle,#1e293b,#0f172a);border:3px solid #64748b;font-size:15px;font-weight:700;color:#e2e8f0;box-shadow:0 0 30px rgba(100,116,139,.4);z-index:5;pointer-events:auto}
+.cat-node{width:100px;height:100px;font-size:11px;font-weight:600;color:#fff;z-index:4}
+.sub-node{width:76px;height:76px;font-size:9.5px;font-weight:600;color:#fff;z-index:3}
+.leaf-node{width:58px;height:58px;font-size:8px;font-weight:500;color:#fff;z-index:2}
+.node-label{display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.2;padding:4px}
+.node-emoji{font-size:1.4em}
+@keyframes glow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.2)}}
+.cat-node{animation:glow 3s ease-in-out infinite}
 </style>
 </head>
 <body>
-<div class="hdr">Yehuda AI - Mind Map</div>
-<canvas id="cv"></canvas>
-<div class="map" id="mapEl">
-  <div class="center" id="C" onclick="info('Yehuda AI - Digital Twin','Born 17.02.2026 | Claude Opus 4 | Owner: Yehuda Mizrahi | 8 Skills')">
-    <span class="e">&#129504;</span><span class="n">Yehuda AI</span><span class="s">Digital Twin</span>
-  </div>
-</div>
-<div class="info" id="ip"><div class="l" id="il">Yehuda AI</div><div class="d" id="id">Tap a node to explore</div></div>
-<div class="zoom-controls">
-  <button class="zoom-btn" onclick="zoomIn()">+</button>
-  <button class="zoom-btn" onclick="zoomOut()">&minus;</button>
-  <button class="zoom-btn" onclick="zoomReset()">&#8634;</button>
-</div>
+<canvas id="bg"></canvas>
+<canvas id="lines"></canvas>
+<div id="ui"></div>
 <script>
-const cats=[{id:'arch',icon:'\u{1F3D7}',title:'Chief Architect',desc:'System Design',color:'#3b82f6',bg:'rgba(59,130,246,0.2)',info:['Chief Architect','System Design | APIs | Cloud | Security | DevOps | LLMs | Agentic AI'],leaves:['System Design','Cloud & Infra','Security Arch','API Design','DevOps','LLMs & RAG','Agentic AI']},{id:'llm',icon:'\u{1F916}',title:'LLM Models',desc:'AI Engines',color:'#00c8c8',bg:'rgba(0,200,200,0.2)',info:['LLM Models','Primary: Claude Opus 4 | Fallback: Gemini 2.0 Flash | Grok (xAI) | Providers: Anthropic, Google, xAI'],leaves:['Claude Opus 4 (Primary)','Gemini 2.0 Flash','Grok 3 (xAI)','Anthropic API','Google API','xAI API']},{id:'wa',icon:'\u{1F4AC}',title:'WhatsApp',desc:'Contacts & Groups',color:'#25d366',bg:'rgba(37,211,102,0.2)',info:['WhatsApp Network','Yehuda | Ilana | Sapir | Avi | מזרחי אימפריה | DM: Allowlist | Groups: Open'],leaves:['Yehuda (Owner)','Ilana','Sapir','Avi (אבא)','מזרחי אימפריה','DM: Allowlist','Groups: Open']},{id:'fam',icon:'\u{1F491}',title:'Husband',desc:'Ilana',color:'#ec4899',bg:'rgba(236,72,153,0.2)',info:['Husband Skill','Ilana Briskman Mizrahi | Wedding: 14.09.2016 | Together: 23.10.2010 | Available 24/7'],leaves:['Wedding 14.09.2016','Birthday 11.04.1993','Together 23.10.2010','WhatsApp Support']},{id:'par',icon:'\u{1F468}\u200D\u{1F469}\u200D\u{1F467}\u200D\u{1F466}',title:'Parenting',desc:'3 Kids',color:'#22c55e',bg:'rgba(34,197,94,0.2)',info:['Parenting','Avior 6y Artist | Nitai 4y Athlete | Arbel 10m Blue Eyes | Activities & Development'],leaves:['Avior (6) Artist','Nitai (4) Athlete','Arbel (10m)','Routines','Health']},{id:'heb',icon:'\u{1F1EE}\u{1F1F1}',title:'Hebrew',desc:'Bilingual',color:'#eab308',bg:'rgba(234,179,8,0.2)',info:['Hebrew + English','Israeli Slang | Culture | Holidays | Feminine/Masculine | Bilingual'],leaves:['Israeli Slang','Holidays','Culture','Bilingual']},{id:'trd',icon:'\u{1F4C8}',title:'Technical Analysis',desc:'Advanced Trading',color:'#a855f7',bg:'rgba(168,85,247,0.2)',info:['Technical Analysis','Smart Money/ICT | Elliott Wave | Wyckoff | Harmonics | Volume Profile | Order Flow'],leaves:['Smart Money/ICT','Elliott Wave','Wyckoff','Harmonics','Volume Profile','Order Flow']},{id:'sec',icon:'\u{1F6E1}',title:'Security Gate',desc:'Skill Guardian',color:'#ef4444',bg:'rgba(239,68,68,0.2)',info:['Secure Skill Downloader','7 Scan Categories | Triple Confirmation | Full Logging | Boss Only'],leaves:['Deep Scan','Triple Confirm','Full Logging','Boss Only']},{id:'fit',icon:'\u{1F4AA}',title:'Fitness & Nutrition',desc:'Coach',color:'#10b981',bg:'rgba(16,185,129,0.2)',info:['Fitness & Nutrition','Strength Training | Hypertrophy | Cardio | Macros | Meal Plans | Supplements | Recovery'],leaves:['Strength Training','Hypertrophy','Cardio/HIIT','Nutrition & Macros','Meal Plans','Supplements','Recovery']},{id:'cof',icon:'\u2615',title:'Coffee Master',desc:'La Marzocco',color:'#b4783c',bg:'rgba(180,120,60,0.2)',info:['Coffee Master','La Marzocca Linea Micra | Espresso | Milk Steaming | Latte Art | Beans'],leaves:['Espresso','Milk Steaming','Latte Art','Maintenance','Beans']}];
-const mapEl=document.getElementById('mapEl'),cv=document.getElementById('cv'),ctx=cv.getContext('2d');let W,H,cx,cy,R,leafR,scale=1,panX=0,panY=0,dragging=false,lastX,lastY,pinchDist=0;
-function applyTransform(){mapEl.style.transform=`translate(${panX}px,${panY}px) scale(${scale})`}
-function zoomIn(){scale=Math.min(scale*1.3,4);applyTransform();draw()}function zoomOut(){scale=Math.max(scale/1.3,0.4);applyTransform();draw()}function zoomReset(){scale=1;panX=0;panY=0;applyTransform();draw()}
-document.addEventListener('mousedown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY});document.addEventListener('mousemove',e=>{if(!dragging)return;panX+=e.clientX-lastX;panY+=e.clientY-lastY;lastX=e.clientX;lastY=e.clientY;applyTransform();draw()});document.addEventListener('mouseup',()=>dragging=false);
-document.addEventListener('wheel',e=>{e.preventDefault();const f=e.deltaY<0?1.1:0.9;scale=Math.max(0.4,Math.min(4,scale*f));applyTransform();draw()},{passive:false});
-let touches=[];document.addEventListener('touchstart',e=>{touches=[...e.touches];if(touches.length===2)pinchDist=Math.hypot(touches[0].clientX-touches[1].clientX,touches[0].clientY-touches[1].clientY)});
-document.addEventListener('touchmove',e=>{e.preventDefault();if(e.touches.length===1&&touches.length===1){panX+=e.touches[0].clientX-touches[0].clientX;panY+=e.touches[0].clientY-touches[0].clientY;applyTransform();draw()}else if(e.touches.length===2){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);if(pinchDist>0){scale=Math.max(0.4,Math.min(4,scale*(d/pinchDist)));applyTransform();draw()}pinchDist=d}touches=[...e.touches]},{passive:false});
-document.addEventListener('touchend',e=>{touches=[...e.touches];pinchDist=0});
-function resize(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;cx=W/2;cy=H/2;const b=Math.min(W,H);R=b*0.30;leafR=R+b*0.14;layout();draw()}
-function layout(){const n=cats.length;cats.forEach((c,i)=>{const a=(2*Math.PI*i/n)-Math.PI/2;c.x=cx+R*Math.cos(a);c.y=cy+R*Math.sin(a);c.angle=a;let el=document.getElementById('cat-'+c.id);if(!el){el=document.createElement('div');el.className='cat';el.id='cat-'+c.id;el.style.background=c.bg;el.style.boxShadow=`0 4px 30px ${c.color}44`;el.innerHTML=`<span class="e">${c.icon}</span><span class="t">${c.title}</span><span class="d">${c.desc}</span>`;el.onclick=ev=>{ev.stopPropagation();toggleLeaves(c.id);info(c.info[0],c.info[1])};mapEl.appendChild(el)}el.style.left=c.x+'px';el.style.top=c.y+'px';c.leaves.forEach((lbl,li)=>{const lid='leaf-'+c.id+'-'+li;let lel=document.getElementById(lid);if(!lel){lel=document.createElement('div');lel.className='leaf';lel.id=lid;lel.dataset.group=c.id;lel.style.background=c.bg;lel.textContent=lbl;mapEl.appendChild(lel)}const spread=0.5;const la=c.angle+(li-(c.leaves.length-1)/2)*(spread/Math.max(c.leaves.length-1,1));lel.style.left=(cx+leafR*Math.cos(la))+'px';lel.style.top=(cy+leafR*Math.sin(la))+'px'})});const cEl=document.getElementById('C');cEl.style.left=cx+'px';cEl.style.top=cy+'px'}
-let stars=[];function draw(){ctx.clearRect(0,0,W,H);if(stars.length===0)for(let i=0;i<120;i++)stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.5+0.5,a:Math.random()});stars.forEach(s=>{ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${s.a*0.4+0.1})`;ctx.fill()});cats.forEach(c=>{const sx=cx*scale+panX,sy=cy*scale+panY,ex=c.x*scale+panX,ey=c.y*scale+panY;ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(ex,ey);ctx.strokeStyle=c.color+'66';ctx.lineWidth=2*scale;ctx.stroke();ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(ex,ey);ctx.strokeStyle=c.color+'22';ctx.lineWidth=6*scale;ctx.stroke()})}
-let openGroup=null;function toggleLeaves(gid){if(openGroup&&openGroup!==gid){document.querySelectorAll(`.leaf[data-group="${openGroup}"]`).forEach(l=>l.classList.remove('on'));const p=document.getElementById('cat-'+openGroup);if(p)p.classList.remove('active')}const leaves=document.querySelectorAll(`.leaf[data-group="${gid}"]`);const catEl=document.getElementById('cat-'+gid);const opening=openGroup!==gid;leaves.forEach((l,i)=>{setTimeout(()=>l.classList.toggle('on',opening),i*50)});if(catEl)catEl.classList.toggle('active',opening);openGroup=opening?gid:null}
-function info(l,d){document.getElementById('il').textContent=l;document.getElementById('id').textContent=d}
-window.addEventListener('resize',resize);resize();
+const DATA = [
+  {id:'arch',emoji:'🏗️',label:'Chief\nArchitect',color:'#3b82f6',subs:[
+    {label:'System\nDesign',leaves:['Microservices','Event-Driven','CQRS','Hexagonal']},
+    {label:'Cloud &\nInfra',leaves:['Kubernetes','Serverless','Terraform','Multi-Cloud']},
+    {label:'Security\nArch',leaves:['Zero Trust','OAuth2/OIDC','Threat\nModeling','Encryption']},
+    {label:'API\nDesign',leaves:['REST/\nOpenAPI','GraphQL','gRPC','AsyncAPI']},
+    {label:'DevOps',leaves:['CI/CD','GitOps','Feature\nFlags','Platform\nEng']},
+    {label:'LLMs\n& RAG',leaves:['Model\nSelection','Fine-tuning','Vector DBs','Embeddings']},
+    {label:'Agentic\nAI',leaves:['ReAct/\nPlanning','Tool Use','Multi-Agent','Memory\nSystems']}
+  ]},
+  {id:'llm',emoji:'🤖',label:'LLM\nModels',color:'#00c8c8',subs:[
+    {label:'Claude\nOpus 4',leaves:['Primary\nModel','200K\nContext','Anthropic\nAPI']},
+    {label:'Gemini\n2.0 Flash',leaves:['Fallback','Google API','Fast']},
+    {label:'Grok 3',leaves:['xAI','Alternative','200K\nContext']}
+  ]},
+  {id:'wa',emoji:'💬',label:'WhatsApp',color:'#25d366',subs:[
+    {label:'Contacts',leaves:['Yehuda\n(Owner)','Ilana','Sapir','Avi\n(אבא)']},
+    {label:'Groups',leaves:['מזרחי\nאימפריה']},
+    {label:'Config',leaves:['DM:\nAllowlist','Groups:\nOpen','No Mention\nRequired']}
+  ]},
+  {id:'husband',emoji:'💑',label:'Husband',color:'#ec4899',subs:[
+    {label:'Milestones',leaves:['Wedding\n14.09.2016','Together\n23.10.2010','Birthday\n11.04.1993']},
+    {label:'Support',leaves:['WhatsApp\n24/7','Tips &\nReminders','Warm\nWords']}
+  ]},
+  {id:'parent',emoji:'👨‍👩‍👧‍👦',label:'Parenting',color:'#22c55e',subs:[
+    {label:'Avior (6)\n🎨',leaves:['כיתה א׳','Art &\nCreativity','Humor']},
+    {label:'Nitai (4)\n⚽',leaves:['גן ילדים','Sports','Charismatic']},
+    {label:'Arbel\n(10m) 💙',leaves:['Crawling','Blue Eyes','Baby Care']}
+  ]},
+  {id:'hebrew',emoji:'🇮🇱',label:'Hebrew',color:'#eab308',subs:[
+    {label:'Language',leaves:['Israeli\nSlang','Grammar','Fem/Masc']},
+    {label:'Culture',leaves:['Holidays','Traditions','Bilingual']}
+  ]},
+  {id:'ta',emoji:'📈',label:'Technical\nAnalysis',color:'#a855f7',subs:[
+    {label:'Smart\nMoney',leaves:['ICT\nConcepts','Order\nBlocks','Fair Value\nGaps']},
+    {label:'Wave\nTheory',leaves:['Elliott\nWave','Wyckoff\nMethod']},
+    {label:'Advanced',leaves:['Harmonics','Volume\nProfile','Order\nFlow']}
+  ]},
+  {id:'sec',emoji:'🛡️',label:'Security\nGate',color:'#ef4444',subs:[
+    {label:'Scanning',leaves:['7 Categories','Code\nAnalysis','Prompt\nInjection']},
+    {label:'Policy',leaves:['Triple\nConfirm','Boss Only','Full\nLogging']}
+  ]},
+  {id:'fit',emoji:'💪',label:'Fitness &\nNutrition',color:'#10b981',subs:[
+    {label:'Strength',leaves:['Hypertrophy','Progressive\nOverload','PPL/\nUpper-Lower']},
+    {label:'Cardio',leaves:['LISS','HIIT','Conditioning']},
+    {label:'Nutrition',leaves:['Macros &\nCalories','Meal Plans','Supplements']},
+    {label:'Recovery',leaves:['Sleep','Stress','Deload']}
+  ]},
+  {id:'coffee',emoji:'☕',label:'Coffee\nMaster',color:'#b4783c',subs:[
+    {label:'Espresso',leaves:['Grind\nSettings','Dose &\nYield','Extraction']},
+    {label:'Milk',leaves:['Steaming','Latte Art','Texturing']},
+    {label:'Machine',leaves:['La Marzocco\nMicra','Maintenance','Cleaning']}
+  ]}
+];
+
+const ui = document.getElementById('ui');
+const bgCanvas = document.getElementById('bg');
+const lineCanvas = document.getElementById('lines');
+const bgCtx = bgCanvas.getContext('2d');
+const lineCtx = lineCanvas.getContext('2d');
+
+let W, H, cx, cy, dpr;
+let panX = 0, panY = 0, zoom = 1;
+let dragging = false, dragStartX, dragStartY, panStartX, panStartY;
+let expandedCat = null, expandedSub = null;
+let stars = [];
+let allNodes = []; // {el, x, y, type}
+let lineData = []; // {x1,y1,x2,y2,color,alpha}
+
+function resize() {
+  dpr = window.devicePixelRatio || 1;
+  W = window.innerWidth; H = window.innerHeight;
+  cx = W / 2; cy = H / 2;
+  bgCanvas.width = W * dpr; bgCanvas.height = H * dpr;
+  bgCanvas.style.width = W + 'px'; bgCanvas.style.height = H + 'px';
+  bgCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  lineCanvas.width = W * dpr; lineCanvas.height = H * dpr;
+  lineCanvas.style.width = W + 'px'; lineCanvas.style.height = H + 'px';
+  lineCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  initStars();
+  layout();
+}
+
+function initStars() {
+  stars = [];
+  for (let i = 0; i < 200; i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.5+.3,a:Math.random(),s:Math.random()*.005+.002});
+}
+
+function drawBg() {
+  bgCtx.fillStyle = '#0a0a1a';
+  bgCtx.fillRect(0, 0, W, H);
+  for (const s of stars) {
+    s.a += s.s;
+    const a = .3 + Math.abs(Math.sin(s.a)) * .7;
+    bgCtx.beginPath();
+    bgCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    bgCtx.fillStyle = `rgba(255,255,255,${a})`;
+    bgCtx.fill();
+  }
+}
+
+function drawLines() {
+  lineCtx.clearRect(0, 0, W, H);
+  for (const l of lineData) {
+    const sx = (l.x1 + panX) * zoom + cx * (1 - zoom);
+    const sy = (l.y1 + panY) * zoom + cy * (1 - zoom);
+    const ex = (l.x2 + panX) * zoom + cx * (1 - zoom);
+    const ey = (l.y2 + panY) * zoom + cy * (1 - zoom);
+    lineCtx.beginPath();
+    lineCtx.moveTo(sx, sy);
+    lineCtx.lineTo(ex, ey);
+    lineCtx.strokeStyle = l.color;
+    lineCtx.globalAlpha = l.alpha;
+    lineCtx.lineWidth = l.width || 1.5;
+    lineCtx.stroke();
+    lineCtx.globalAlpha = 1;
+  }
+}
+
+function screenPos(x, y) {
+  return {
+    x: (x + panX) * zoom + cx * (1 - zoom),
+    y: (y + panY) * zoom + cy * (1 - zoom)
+  };
+}
+
+function posNode(el, x, y) {
+  const p = screenPos(x, y);
+  const w = el.offsetWidth || 0;
+  const h = el.offsetHeight || 0;
+  el.style.left = (p.x - w / 2) + 'px';
+  el.style.top = (p.y - h / 2) + 'px';
+  el.style.transform = `scale(${zoom})`;
+}
+
+function makeEl(cls, html, color) {
+  const el = document.createElement('div');
+  el.className = 'node ' + cls;
+  el.innerHTML = `<div class="node-label">${html}</div>`;
+  if (color) {
+    if (cls === 'cat-node') {
+      el.style.background = `radial-gradient(circle, ${color}dd, ${color}88)`;
+      el.style.border = `2px solid ${color}`;
+      el.style.boxShadow = `0 0 20px ${color}66`;
+    } else if (cls === 'sub-node') {
+      el.style.background = `radial-gradient(circle, ${color}bb, ${color}66)`;
+      el.style.border = `1.5px solid ${color}aa`;
+      el.style.boxShadow = `0 0 12px ${color}44`;
+    } else if (cls === 'leaf-node') {
+      el.style.background = `radial-gradient(circle, ${color}99, ${color}44)`;
+      el.style.border = `1px solid ${color}77`;
+      el.style.boxShadow = `0 0 8px ${color}33`;
+    }
+  }
+  ui.appendChild(el);
+  return el;
+}
+
+let centerEl;
+let catEls = [];
+let subEls = [];
+let leafEls = [];
+
+function clearSubs() {
+  for (const s of subEls) { s.el.classList.remove('visible'); setTimeout(() => s.el.remove(), 300); }
+  subEls = [];
+  clearLeaves();
+  expandedSub = null;
+}
+
+function clearLeaves() {
+  for (const l of leafEls) { l.el.classList.remove('visible'); setTimeout(() => l.el.remove(), 300); }
+  leafEls = [];
+}
+
+function build() {
+  // Center
+  centerEl = makeEl('center-node', '<span class="node-emoji">🧠</span>8 Skills');
+  centerEl.classList.add('visible');
+
+  // Categories
+  const n = DATA.length;
+  DATA.forEach((cat, i) => {
+    const a = (i / n) * Math.PI * 2 - Math.PI / 2;
+    const r = Math.min(W, H) * 0.3;
+    const x = cx + Math.cos(a) * r;
+    const y = cy + Math.sin(a) * r;
+    const el = makeEl('cat-node', `<span class="node-emoji">${cat.emoji}</span>${cat.label.replace(/\n/g,'<br>')}`, cat.color);
+    el.dataset.idx = i;
+    el.addEventListener('click', (e) => { e.stopPropagation(); toggleCat(i); });
+    setTimeout(() => el.classList.add('visible'), 50 + i * 40);
+    catEls.push({el, x, y, cat, angle: a, radius: r});
+  });
+
+  layout();
+}
+
+function toggleCat(idx) {
+  if (expandedCat === idx) {
+    clearSubs();
+    expandedCat = null;
+    lineData = lineData.filter(l => l.level !== 2 && l.level !== 3);
+    drawLines();
+    return;
+  }
+  clearSubs();
+  expandedCat = idx;
+  expandedSub = null;
+  lineData = lineData.filter(l => l.level !== 2 && l.level !== 3);
+
+  const cat = DATA[idx];
+  const ce = catEls[idx];
+  const sn = cat.subs.length;
+  const baseAngle = ce.angle;
+  const spread = Math.min(Math.PI * 0.6, sn * 0.3);
+  const subR = 110;
+
+  cat.subs.forEach((sub, j) => {
+    const sa = baseAngle - spread / 2 + (sn === 1 ? 0 : (j / (sn - 1)) * spread);
+    const sx = ce.x + Math.cos(sa) * subR;
+    const sy = ce.y + Math.sin(sa) * subR;
+    const el = makeEl('sub-node', sub.label.replace(/\n/g,'<br>'), cat.color);
+    el.dataset.catIdx = idx;
+    el.dataset.subIdx = j;
+    el.addEventListener('click', (e) => { e.stopPropagation(); toggleSub(idx, j); });
+    setTimeout(() => el.classList.add('visible'), 30 + j * 30);
+    subEls.push({el, x: sx, y: sy, sub, angle: sa, parentX: ce.x, parentY: ce.y, catIdx: idx});
+    lineData.push({x1: ce.x, y1: ce.y, x2: sx, y2: sy, color: cat.color + '88', alpha: 0.6, width: 1.2, level: 2});
+  });
+
+  layout();
+}
+
+function toggleSub(catIdx, subIdx) {
+  if (expandedSub !== null && expandedSub.cat === catIdx && expandedSub.sub === subIdx) {
+    clearLeaves();
+    expandedSub = null;
+    lineData = lineData.filter(l => l.level !== 3);
+    drawLines();
+    return;
+  }
+  clearLeaves();
+  lineData = lineData.filter(l => l.level !== 3);
+  expandedSub = {cat: catIdx, sub: subIdx};
+
+  const cat = DATA[catIdx];
+  const sub = cat.subs[subIdx];
+  const se = subEls.find(s => s.catIdx === catIdx && s.sub === sub);
+  if (!se) return;
+
+  const ln = sub.leaves.length;
+  const baseAngle = se.angle;
+  const spread = Math.min(Math.PI * 0.5, ln * 0.35);
+  const leafR = 80;
+
+  sub.leaves.forEach((leaf, k) => {
+    const la = baseAngle - spread / 2 + (ln === 1 ? 0 : (k / (ln - 1)) * spread);
+    const lx = se.x + Math.cos(la) * leafR;
+    const ly = se.y + Math.sin(la) * leafR;
+    const el = makeEl('leaf-node', leaf.replace(/\n/g,'<br>'), cat.color);
+    setTimeout(() => el.classList.add('visible'), 20 + k * 25);
+    leafEls.push({el, x: lx, y: ly});
+    lineData.push({x1: se.x, y1: se.y, x2: lx, y2: ly, color: cat.color + '66', alpha: 0.4, width: 1, level: 3});
+  });
+
+  layout();
+}
+
+function layout() {
+  if (centerEl) posNode(centerEl, cx, cy);
+  for (const c of catEls) posNode(c.el, c.x, c.y);
+  for (const s of subEls) posNode(s.el, s.x, s.y);
+  for (const l of leafEls) posNode(l.el, l.x, l.y);
+
+  // Update center lines
+  lineData = lineData.filter(l => l.level);
+  for (const c of catEls) {
+    lineData.push({x1: cx, y1: cy, x2: c.x, y2: c.y, color: c.cat.color + '55', alpha: 0.35, width: 1.5, level: 1});
+  }
+
+  drawLines();
+}
+
+// Pan & Zoom
+document.addEventListener('mousedown', e => {
+  dragging = true; dragStartX = e.clientX; dragStartY = e.clientY;
+  panStartX = panX; panStartY = panY;
+});
+document.addEventListener('mousemove', e => {
+  if (!dragging) return;
+  panX = panStartX + (e.clientX - dragStartX) / zoom;
+  panY = panStartY + (e.clientY - dragStartY) / zoom;
+  layout();
+});
+document.addEventListener('mouseup', () => dragging = false);
+document.addEventListener('wheel', e => {
+  e.preventDefault();
+  zoom = Math.max(0.3, Math.min(3, zoom - e.deltaY * 0.001));
+  layout();
+}, {passive: false});
+
+// Touch
+let touches0 = null, initDist = 0, initZoom = 1;
+document.addEventListener('touchstart', e => {
+  if (e.touches.length === 1) {
+    dragging = true;
+    dragStartX = e.touches[0].clientX; dragStartY = e.touches[0].clientY;
+    panStartX = panX; panStartY = panY;
+  } else if (e.touches.length === 2) {
+    dragging = false;
+    initDist = Math.hypot(e.touches[1].clientX - e.touches[0].clientX, e.touches[1].clientY - e.touches[0].clientY);
+    initZoom = zoom;
+  }
+});
+document.addEventListener('touchmove', e => {
+  e.preventDefault();
+  if (e.touches.length === 1 && dragging) {
+    panX = panStartX + (e.touches[0].clientX - dragStartX) / zoom;
+    panY = panStartY + (e.touches[0].clientY - dragStartY) / zoom;
+    layout();
+  } else if (e.touches.length === 2) {
+    const d = Math.hypot(e.touches[1].clientX - e.touches[0].clientX, e.touches[1].clientY - e.touches[0].clientY);
+    zoom = Math.max(0.3, Math.min(3, initZoom * (d / initDist)));
+    layout();
+  }
+}, {passive: false});
+document.addEventListener('touchend', () => dragging = false);
+
+function animate() {
+  drawBg();
+  requestAnimationFrame(animate);
+}
+
+window.addEventListener('resize', resize);
+resize();
+build();
+animate();
 </script>
 </body>
 </html>
