@@ -18,6 +18,7 @@ h1{text-align:center;font-size:2rem;margin-bottom:30px;background:linear-gradien
 .card:nth-child(3) .value{color:#6bcb77}
 .card:nth-child(4) .value{color:#4d96ff}
 .charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px}
+.full-width{grid-column:1/-1}
 .chart-box{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px}
 .chart-box h2{text-align:center;font-size:1.1rem;color:#aaa;margin-bottom:16px}
 canvas{max-height:400px}
@@ -34,6 +35,7 @@ canvas{max-height:400px}
 <div class="charts">
   <div class="chart-box"><h2>Question Distribution</h2><canvas id="donut"></canvas></div>
   <div class="chart-box"><h2>Cost per Category ($) — sorted descending</h2><canvas id="bar"></canvas></div>
+  <div class="chart-box full-width"><h2>Daily Cost Breakdown by Category ($)</h2><canvas id="stacked"></canvas></div>
 </div>
 <script>
 // Category data from transcript analysis (2026-02-18)
@@ -116,6 +118,51 @@ new Chart(document.getElementById('bar'), {
       y: {
         ticks: { color: '#ccc', font: { size: 11 } },
         grid: { display: false }
+      }
+    }
+  }
+});
+
+// Stacked bar chart - Daily Cost Breakdown by Category
+const dailyDates = ["2026-02-17","2026-02-18"];
+const dailyData = {"WhatsApp/Groups":[19.0052,95.0796],"Chat/Social":[0.3746,14.8533],"Mindmap":[0,13.1278],"Family":[0.3748,2.6627],"Coding":[0,4.6394],"Dashboard/Analytics":[0,1.5714],"Heartbeat":[0,20.314],"Identity/Setup":[0.1039,0],"System":[0.2956,0.9051],"Memory":[0,0.8642],"Skills":[0.3395,3.7399],"Family Tree":[0,2.3495],"Config":[0,0],"Other":[20.7572,36.2493]};
+
+const stackedDatasets = data.map((d, i) => ({
+  label: d.cat,
+  data: dailyData[d.cat] || dailyDates.map(() => 0),
+  backgroundColor: colors[i],
+  borderRadius: 2
+}));
+
+new Chart(document.getElementById('stacked'), {
+  type: 'bar',
+  data: {
+    labels: dailyDates,
+    datasets: stackedDatasets
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { color: '#ccc', padding: 8, font: { size: 11 }, boxWidth: 14 }
+      },
+      tooltip: {
+        callbacks: {
+          label: ctx => `${ctx.dataset.label}: $${ctx.raw.toFixed(4)}`
+        }
+      }
+    },
+    scales: {
+      x: {
+        stacked: true,
+        ticks: { color: '#ccc' },
+        grid: { color: 'rgba(255,255,255,0.05)' }
+      },
+      y: {
+        stacked: true,
+        ticks: { color: '#aaa', callback: v => '$' + v },
+        grid: { color: 'rgba(255,255,255,0.05)' }
       }
     }
   }
