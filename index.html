@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yehuda AI - Mind Map</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0a0a1a;
+    color: #fff;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
+  canvas { position: absolute; top: 0; left: 0; z-index: 0; }
+  .map { position: relative; width: 100%; height: 100%; z-index: 1; }
+
+  .center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    box-shadow: 0 0 60px rgba(102,126,234,0.5), 0 0 120px rgba(118,75,162,0.3);
+    z-index: 10; cursor: pointer;
+    transition: transform 0.3s;
+    animation: glow 3s ease-in-out infinite;
+  }
+  .center:hover { transform: translate(-50%,-50%) scale(1.08); }
+  .center .e { font-size: 32px; }
+  .center .n { font-size: 14px; font-weight: 800; margin-top: 2px; }
+  .center .s { font-size: 9px; opacity: 0.8; }
+  @keyframes glow {
+    0%,100% { box-shadow: 0 0 60px rgba(102,126,234,0.5), 0 0 120px rgba(118,75,162,0.3); }
+    50% { box-shadow: 0 0 90px rgba(102,126,234,0.7), 0 0 160px rgba(118,75,162,0.5); }
+  }
+
+  .cat {
+    position: absolute;
+    border-radius: 16px;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+    z-index: 5;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+    transform: translate(-50%,-50%);
+  }
+  .cat:hover { transform: translate(-50%,-50%) scale(1.1); z-index: 20; }
+  .cat .e { font-size: 22px; display: block; }
+  .cat .t { font-size: 10px; font-weight: 700; display: block; margin-top: 2px; }
+  .cat .d { font-size: 8px; opacity: 0.6; display: block; }
+
+  .leaf {
+    position: absolute;
+    border-radius: 8px;
+    padding: 4px 8px;
+    font-size: 8px;
+    white-space: nowrap;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255,255,255,0.06);
+    opacity: 0; transform: translate(-50%,-50%) scale(0.3);
+    transition: all 0.3s; z-index: 3; pointer-events: none;
+  }
+  .leaf.on { opacity: 1; transform: translate(-50%,-50%) scale(1); pointer-events: auto; }
+
+  .info {
+    position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%);
+    background: rgba(15,15,35,0.92); backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
+    padding: 12px 20px; text-align: center; z-index: 100; max-width: 550px;
+    transition: all 0.3s;
+  }
+  .info .l { font-weight: 700; font-size: 12px; }
+  .info .d { font-size: 10px; opacity: 0.6; margin-top: 2px; }
+
+  .hdr {
+    position: fixed; top: 14px; left: 50%; transform: translateX(-50%);
+    font-size: 15px; font-weight: 800; z-index: 100;
+    background: linear-gradient(135deg,#667eea,#764ba2);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+</style>
+</head>
+<body>
+
+<div class="hdr">Yehuda AI &mdash; Mind Map</div>
+<canvas id="cv"></canvas>
+
+<div class="map">
+  <div class="center" id="C" onclick="info('Yehuda AI &mdash; Digital Twin','Born 17.02.2026 | Claude Opus 4 | Owner: Yehuda Mizrahi | 7 Skills')">
+    <span class="e">&#129504;</span>
+    <span class="n">Yehuda AI</span>
+    <span class="s">Digital Twin</span>
+  </div>
+</div>
+
+<div class="info" id="ip">
+  <div class="l" id="il">Yehuda AI</div>
+  <div class="d" id="id">Click a node to explore</div>
+</div>
+
+<script>
+const cats = [
+  { id:'arch', icon:'\u{1F3D7}', title:'Chief Architect', desc:'System Design',
+    color:'#3b82f6', bg:'rgba(59,130,246,0.2)',
+    info:['Chief Architect','System Design | APIs | Cloud | Security | DevOps | Microservices'],
+    leaves:['System Design','Cloud & Infra','Security Arch','API Design','DevOps'] },
+
+  { id:'llm', icon:'\u{1F916}', title:'LLM Models', desc:'AI Engines',
+    color:'#00c8c8', bg:'rgba(0,200,200,0.2)',
+    info:['LLM Models','Primary: Claude Opus 4 | Fallback: Gemini 2.0 Flash | Providers: Anthropic, Google'],
+    leaves:['Claude Opus 4 (Primary)','Gemini 2.0 Flash','Anthropic API','Google API'] },
+
+  { id:'wa', icon:'\u{1F4AC}', title:'WhatsApp', desc:'Contacts & Groups',
+    color:'#25d366', bg:'rgba(37,211,102,0.2)',
+    info:['WhatsApp Network','Yehuda +972502446410 | Ilana +972542049822 | 1 Group | DM: Allowlist | Groups: Open'],
+    leaves:['Yehuda (Owner)','Ilana','Owner Number','Family Group','DM: Allowlist','Groups: Open'] },
+
+  { id:'fam', icon:'\u{1F491}', title:'Husband', desc:'Ilana',
+    color:'#ec4899', bg:'rgba(236,72,153,0.2)',
+    info:['Husband Skill','Ilana Briskman Mizrahi | Wedding: 14.09.2016 | Together: 23.10.2010 | Available 24/7'],
+    leaves:['Wedding 14.09.2016','Birthday 11.04.1993','Together 23.10.2010','WhatsApp Support'] },
+
+  { id:'par', icon:'\u{1F468}\u200D\u{1F469}\u200D\u{1F467}\u200D\u{1F466}', title:'Parenting', desc:'3 Kids',
+    color:'#22c55e', bg:'rgba(34,197,94,0.2)',
+    info:['Parenting','Avior 6y Artist | Nitai 4y Athlete | Arbel 10m Blue Eyes | Activities & Development'],
+    leaves:['Avior (6) Artist','Nitai (4) Athlete','Arbel (10m)','Routines','Health'] },
+
+  { id:'heb', icon:'\u{1F1EE}\u{1F1F1}', title:'Hebrew', desc:'Bilingual',
+    color:'#eab308', bg:'rgba(234,179,8,0.2)',
+    info:['Hebrew + English','Israeli Slang | Culture | Holidays | Feminine/Masculine | Bilingual'],
+    leaves:['Israeli Slang','Holidays','Culture','Bilingual'] },
+
+  { id:'trd', icon:'\u{1F4C8}', title:'Technical Analysis', desc:'Advanced Trading',
+    color:'#a855f7', bg:'rgba(168,85,247,0.2)',
+    info:['Technical Analysis','Smart Money/ICT | Elliott Wave | Wyckoff | Harmonics | Volume Profile | Order Flow'],
+    leaves:['Smart Money/ICT','Elliott Wave','Wyckoff','Harmonics','Volume Profile','Order Flow'] },
+
+  { id:'sec', icon:'\u{1F6E1}', title:'Security Gate', desc:'Skill Guardian',
+    color:'#ef4444', bg:'rgba(239,68,68,0.2)',
+    info:['Secure Skill Downloader','7 Scan Categories | Triple Confirmation | Full Logging | Boss Only'],
+    leaves:['Deep Scan','Triple Confirm','Full Logging','Boss Only'] },
+
+  { id:'cof', icon:'\u2615', title:'Coffee Master', desc:'La Marzocco',
+    color:'#b4783c', bg:'rgba(180,120,60,0.2)',
+    info:['Coffee Master','La Marzocco Linea Micra | Espresso | Milk Steaming | Latte Art | Beans'],
+    leaves:['Espresso','Milk Steaming','Latte Art','Maintenance','Beans'] }
+];
+
+const map = document.querySelector('.map');
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+let W, H, cx, cy, R, leafR;
+
+function resize() {
+  W = cv.width = window.innerWidth;
+  H = cv.height = window.innerHeight;
+  cx = W / 2; cy = H / 2;
+  R = Math.min(W, H) * 0.33;
+  leafR = R + Math.min(W, H) * 0.15;
+  layout();
+  draw();
+}
+
+// Place category nodes in a circle
+function layout() {
+  const n = cats.length;
+  cats.forEach((c, i) => {
+    const a = (2 * Math.PI * i / n) - Math.PI / 2;
+    c.x = cx + R * Math.cos(a);
+    c.y = cy + R * Math.sin(a);
+    c.angle = a;
+
+    // Create or move cat node
+    let el = document.getElementById('cat-' + c.id);
+    if (!el) {
+      el = document.createElement('div');
+      el.className = 'cat';
+      el.id = 'cat-' + c.id;
+      el.style.background = c.bg;
+      el.style.boxShadow = `0 4px 30px ${c.color}44`;
+      el.innerHTML = `<span class="e">${c.icon}</span><span class="t">${c.title}</span><span class="d">${c.desc}</span>`;
+      el.onclick = () => { toggleLeaves(c.id); info(c.info[0], c.info[1]); };
+      el.onmouseenter = () => { el.style.boxShadow = `0 4px 50px ${c.color}88`; };
+      el.onmouseleave = () => { el.style.boxShadow = `0 4px 30px ${c.color}44`; };
+      map.appendChild(el);
+    }
+    el.style.left = c.x + 'px';
+    el.style.top = c.y + 'px';
+
+    // Create leaves
+    c.leaves.forEach((lbl, li) => {
+      const lid = 'leaf-' + c.id + '-' + li;
+      let lel = document.getElementById(lid);
+      if (!lel) {
+        lel = document.createElement('div');
+        lel.className = 'leaf';
+        lel.id = lid;
+        lel.dataset.group = c.id;
+        lel.style.background = c.bg;
+        lel.textContent = lbl;
+        map.appendChild(lel);
+      }
+      const spread = 0.5;
+      const la = c.angle + (li - (c.leaves.length - 1) / 2) * (spread / Math.max(c.leaves.length - 1, 1));
+      lel.style.left = (cx + leafR * Math.cos(la)) + 'px';
+      lel.style.top = (cy + leafR * Math.sin(la)) + 'px';
+    });
+  });
+}
+
+// Draw lines from center to each category
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+
+  // Stars
+  if (!draw.stars) {
+    draw.stars = [];
+    for (let i = 0; i < 120; i++)
+      draw.stars.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.5 + 0.5, a: Math.random() });
+  }
+  draw.stars.forEach(s => {
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${s.a * 0.4 + 0.1})`;
+    ctx.fill();
+  });
+
+  // Connection lines
+  cats.forEach(c => {
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(c.x, c.y);
+    ctx.strokeStyle = c.color + '66';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Glow
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(c.x, c.y);
+    ctx.strokeStyle = c.color + '22';
+    ctx.lineWidth = 6;
+    ctx.stroke();
+  });
+}
+
+let openGroup = null;
+function toggleLeaves(gid) {
+  // Close previous
+  if (openGroup && openGroup !== gid) {
+    document.querySelectorAll(`.leaf[data-group="${openGroup}"]`).forEach(l => l.classList.remove('on'));
+  }
+  const leaves = document.querySelectorAll(`.leaf[data-group="${gid}"]`);
+  const opening = openGroup !== gid;
+  leaves.forEach((l, i) => {
+    setTimeout(() => l.classList.toggle('on', opening), i * 50);
+  });
+  openGroup = opening ? gid : null;
+}
+
+function info(l, d) {
+  document.getElementById('il').textContent = l;
+  document.getElementById('id').textContent = d;
+}
+
+window.addEventListener('resize', resize);
+resize();
+</script>
+</body>
+</html>
