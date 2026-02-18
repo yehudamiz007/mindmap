@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yehuda AI - Analytics Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#e0e0e0;font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;padding:20px}
+h1{text-align:center;font-size:2rem;margin-bottom:30px;background:linear-gradient(135deg,#ff6b6b,#ffd93d,#6bcb77,#4d96ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:30px}
+.card{background:linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:24px;text-align:center;backdrop-filter:blur(10px)}
+.card .label{font-size:.85rem;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.card .value{font-size:2rem;font-weight:700}
+.card:nth-child(1) .value{color:#ff6b6b}
+.card:nth-child(2) .value{color:#ffd93d}
+.card:nth-child(3) .value{color:#6bcb77}
+.card:nth-child(4) .value{color:#4d96ff}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px}
+.chart-box{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px}
+.chart-box h2{text-align:center;font-size:1.1rem;color:#aaa;margin-bottom:16px}
+canvas{max-height:350px}
+</style>
+</head>
+<body>
+<h1>✨ Yehuda AI - Analytics Dashboard</h1>
+<div class="cards">
+  <div class="card"><div class="label">Total Questions</div><div class="value">563</div></div>
+  <div class="card"><div class="label">Total Cost</div><div class="value">$227.45</div></div>
+  <div class="card"><div class="label">Most Common</div><div class="value">General</div></div>
+  <div class="card"><div class="label">Most Expensive</div><div class="value">General</div></div>
+</div>
+<div class="charts">
+  <div class="chart-box"><h2>Question Distribution</h2><canvas id="donut"></canvas></div>
+  <div class="chart-box"><h2>Cost per Category ($)</h2><canvas id="bar"></canvas></div>
+</div>
+<script>
+const labels = ['Mindmap','Skills','Config','Family','Coding','Heartbeat','System','General'];
+const counts = [32,17,1,91,14,23,17,368];
+const costs = [22.12,10.56,0.23,23.34,7.70,14.12,4.02,145.35];
+const colors = ['#ff6b6b','#ffd93d','#4d96ff','#6bcb77','#ff922b','#cc5de8','#20c997','#868e96'];
+
+new Chart(document.getElementById('donut'),{
+  type:'doughnut',
+  data:{labels,datasets:[{data:counts,backgroundColor:colors,borderColor:'#0a0a1a',borderWidth:3}]},
+  options:{responsive:true,plugins:{legend:{position:'bottom',labels:{color:'#ccc',padding:12,font:{size:12}}}}}
+});
+
+new Chart(document.getElementById('bar'),{
+  type:'bar',
+  data:{labels,datasets:[{label:'Cost ($)',data:costs,backgroundColor:colors.map(c=>c+'cc'),borderColor:colors,borderWidth:1,borderRadius:8}]},
+  options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{ticks:{color:'#888',callback:v=>'$'+v},grid:{color:'rgba(255,255,255,0.05)'}},x:{ticks:{color:'#888'},grid:{display:false}}}}
+});
+</script>
+</body>
+</html>
