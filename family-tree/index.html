@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>משפחת מזרחי - עץ יוחסין</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: linear-gradient(135deg, #0c0c1d 0%, #1a1a3e 50%, #0c0c1d 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        /* Stars background */
+        .stars {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) ease-in-out infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .header h1 {
+            font-size: 3.5em;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffd700, #ff8c00, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: none;
+        }
+        .header .subtitle {
+            font-size: 1.3em;
+            color: #a0a0c0;
+            font-weight: 300;
+        }
+        .header .empire-badge {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 25px;
+            background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,140,0,0.15));
+            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 30px;
+            font-size: 1em;
+            color: #ffd700;
+        }
+
+        /* Tree */
+        .tree-section {
+            margin-bottom: 60px;
+        }
+
+        .generation {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .connector-down {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .connector-down .line {
+            width: 2px;
+            height: 40px;
+            background: linear-gradient(to bottom, #ffd700, rgba(255,215,0,0.3));
+        }
+
+        .connector-split {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .connector-split .horizontal {
+            height: 2px;
+            background: linear-gradient(to right, rgba(255,215,0,0.3), #ffd700, #ffd700, rgba(255,215,0,0.3));
+        }
+        .connector-split .vertical {
+            width: 2px;
+            height: 25px;
+            background: linear-gradient(to bottom, #ffd700, rgba(255,215,0,0.3));
+            position: absolute;
+        }
+
+        /* Person Card */
+        .person-card {
+            background: linear-gradient(145deg, rgba(30,30,60,0.9), rgba(20,20,50,0.9));
+            border: 1px solid rgba(255,215,0,0.2);
+            border-radius: 20px;
+            padding: 25px 30px;
+            text-align: center;
+            min-width: 180px;
+            max-width: 220px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .person-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ffd700, transparent);
+        }
+        .person-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,215,0,0.5);
+            box-shadow: 0 10px 40px rgba(255,215,0,0.15);
+        }
+
+        .person-card .emoji {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .person-card .name {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        .person-card .role {
+            font-size: 0.85em;
+            color: #a0a0c0;
+            margin-bottom: 8px;
+        }
+        .person-card .detail {
+            font-size: 0.8em;
+            color: #8080a0;
+        }
+
+        .couple-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(145deg, rgba(30,30,60,0.9), rgba(20,20,50,0.9));
+            border: 1px solid rgba(255,215,0,0.2);
+            border-radius: 20px;
+            padding: 25px 35px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .couple-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ffd700, transparent);
+        }
+        .couple-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,215,0,0.5);
+            box-shadow: 0 10px 40px rgba(255,215,0,0.15);
+        }
+        .couple-card .heart {
+            font-size: 2em;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        .couple-card .person {
+            text-align: center;
+        }
+        .couple-card .person .emoji {
+            font-size: 2.2em;
+        }
+        .couple-card .person .name {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #fff;
+        }
+        .couple-card .person .detail {
+            font-size: 0.75em;
+            color: #8080a0;
+        }
+        .couple-card .anniversary {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7em;
+            color: #ffd700;
+            opacity: 0.7;
+        }
+
+        /* Children section */
+        .children-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .child-card {
+            background: linear-gradient(145deg, rgba(30,30,60,0.9), rgba(20,20,50,0.9));
+            border: 1px solid rgba(100,200,255,0.2);
+            border-radius: 16px;
+            padding: 20px 25px;
+            text-align: center;
+            min-width: 150px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .child-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #64c8ff, transparent);
+        }
+        .child-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(100,200,255,0.5);
+            box-shadow: 0 10px 30px rgba(100,200,255,0.15);
+        }
+        .child-card .emoji { font-size: 2em; margin-bottom: 8px; }
+        .child-card .name { font-size: 1.1em; font-weight: 700; color: #fff; }
+        .child-card .age { font-size: 0.85em; color: #64c8ff; margin-top: 4px; }
+        .child-card .trait { font-size: 0.75em; color: #8080a0; margin-top: 4px; }
+
+        /* Family branches */
+        .branches {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+        .branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .branch-label {
+            text-align: center;
+            font-size: 0.9em;
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        /* Stats */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+        }
+        .stat-box {
+            text-align: center;
+            padding: 20px 30px;
+            background: rgba(255,215,0,0.05);
+            border: 1px solid rgba(255,215,0,0.1);
+            border-radius: 15px;
+        }
+        .stat-box .number {
+            font-size: 2.5em;
+            font-weight: 900;
+            color: #ffd700;
+        }
+        .stat-box .label {
+            font-size: 0.85em;
+            color: #a0a0c0;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            border-top: 1px solid rgba(255,215,0,0.1);
+        }
+        .footer p {
+            color: #606080;
+            font-size: 0.85em;
+        }
+        .footer .love {
+            color: #ffd700;
+        }
+
+        /* Anniversary banner */
+        .anniversary-banner {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(255,140,0,0.08));
+            border: 1px solid rgba(255,215,0,0.2);
+            border-radius: 15px;
+            animation: glow 3s ease-in-out infinite;
+        }
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(255,215,0,0.1); }
+            50% { box-shadow: 0 0 40px rgba(255,215,0,0.2); }
+        }
+        .anniversary-banner .text {
+            font-size: 1.2em;
+            color: #ffd700;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.2em; }
+            .branches { gap: 30px; }
+            .couple-card { flex-direction: column; padding: 20px; }
+            .stats { gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>👑 שושלת מזרחי 👑</h1>
+            <div class="subtitle">עץ יוחסין של האימפריה</div>
+            <div class="empire-badge">🏰 מזרחי אימפריה - Est. 1986</div>
+        </div>
+
+        <!-- Anniversary Banner -->
+        <div class="anniversary-banner">
+            <div class="text">🎉 40 שנה לאבי וורדית! 18.02.1986 - 18.02.2026 ❤️</div>
+        </div>
+
+        <!-- Founders -->
+        <div class="tree-section">
+            <div class="generation">
+                <div class="couple-card">
+                    <div class="person">
+                        <div class="emoji">👨‍👦</div>
+                        <div class="name">אבי מזרחי</div>
+                        <div class="detail">האבא של השושלת</div>
+                    </div>
+                    <div class="heart">💕</div>
+                    <div class="person">
+                        <div class="emoji">👩‍👦</div>
+                        <div class="name">ורדית מזרחי</div>
+                        <div class="detail">האמא של השושלת</div>
+                    </div>
+                    <div class="anniversary">💍 ביחד מאז 1986 - 40 שנה של אהבה</div>
+                </div>
+            </div>
+
+            <!-- Connector -->
+            <div class="connector-down"><div class="line"></div></div>
+
+            <!-- Children branches -->
+            <div class="branches">
+                
+                <!-- Yehuda's branch -->
+                <div class="branch">
+                    <div class="couple-card">
+                        <div class="person">
+                            <div class="emoji">👨‍💻</div>
+                            <div class="name">יהודה</div>
+                            <div class="detail">הבכור</div>
+                        </div>
+                        <div class="heart">💕</div>
+                        <div class="person">
+                            <div class="emoji">👩‍❤️‍👨</div>
+                            <div class="name">אילנה</div>
+                            <div class="detail">בריסקמן מזרחי</div>
+                        </div>
+                        <div class="anniversary">💍 נישואין 2016 | ביחד מ-2010</div>
+                    </div>
+                    
+                    <div class="connector-down"><div class="line"></div></div>
+                    
+                    <div class="children-row">
+                        <div class="child-card">
+                            <div class="emoji">🎨</div>
+                            <div class="name">אביאור</div>
+                            <div class="age">19.04.2019</div>
+                            <div class="trait">צייר מוכשר, יצירתי</div>
+                        </div>
+                        <div class="child-card">
+                            <div class="emoji">⚽</div>
+                            <div class="name">ניתאי</div>
+                            <div class="age">11.01.2022</div>
+                            <div class="trait">ספורטאי, כריזמטי</div>
+                        </div>
+                        <div class="child-card">
+                            <div class="emoji">💙</div>
+                            <div class="name">ארבל</div>
+                            <div class="age">08.04.2025</div>
+                            <div class="trait">עיניים כחולות, יפהפייה</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tamir's branch -->
+                <div class="branch">
+                    <div class="couple-card">
+                        <div class="person">
+                            <div class="emoji">👨</div>
+                            <div class="name">תמיר</div>
+                            <div class="detail">האמצעי</div>
+                        </div>
+                        <div class="heart">💕</div>
+                        <div class="person">
+                            <div class="emoji">👩</div>
+                            <div class="name">מיטל</div>
+                            <div class="detail">מזרחי</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sapir -->
+                <div class="branch">
+                    <div class="person-card">
+                        <div class="emoji">✨</div>
+                        <div class="name">ספיר</div>
+                        <div class="role">הצעירה</div>
+                        <div class="detail">האחות הכי קטנה</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-box">
+                <div class="number">40</div>
+                <div class="label">שנות אהבה</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">3</div>
+                <div class="label">ילדים</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">3</div>
+                <div class="label">נכדים</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">9</div>
+                <div class="label">בני משפחה</div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>נבנה באהבה ❤️ לכבוד משפחת מזרחי</p>
+            <p style="margin-top: 8px; font-size: 0.75em;">מזרחי אימפריה 👑 2026</p>
+        </div>
+    </div>
+
+    <script>
+        // Generate stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 3 + 1;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+            star.style.animationDelay = Math.random() * 5 + 's';
+            starsContainer.appendChild(star);
+        }
+    </script>
+</body>
+</html>
