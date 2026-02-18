@@ -20,37 +20,105 @@ h1{text-align:center;font-size:2rem;margin-bottom:30px;background:linear-gradien
 .charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px}
 .chart-box{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px}
 .chart-box h2{text-align:center;font-size:1.1rem;color:#aaa;margin-bottom:16px}
-canvas{max-height:350px}
+canvas{max-height:400px}
 </style>
 </head>
 <body>
 <h1>✨ Yehuda AI - Analytics Dashboard</h1>
 <div class="cards">
-  <div class="card"><div class="label">Total Questions</div><div class="value">563</div></div>
-  <div class="card"><div class="label">Total Cost</div><div class="value">$227.45</div></div>
-  <div class="card"><div class="label">Most Common</div><div class="value">General</div></div>
-  <div class="card"><div class="label">Most Expensive</div><div class="value">General</div></div>
+  <div class="card"><div class="label">Total Questions</div><div class="value">569</div></div>
+  <div class="card"><div class="label">Total Cost</div><div class="value">$231.17</div></div>
+  <div class="card"><div class="label">Categories</div><div class="value">14</div></div>
+  <div class="card"><div class="label">Most Expensive</div><div class="value">WhatsApp</div></div>
 </div>
 <div class="charts">
   <div class="chart-box"><h2>Question Distribution</h2><canvas id="donut"></canvas></div>
-  <div class="chart-box"><h2>Cost per Category ($)</h2><canvas id="bar"></canvas></div>
+  <div class="chart-box"><h2>Cost per Category ($) — sorted descending</h2><canvas id="bar"></canvas></div>
 </div>
 <script>
-const labels = ['Mindmap','Skills','Config','Family','Coding','Heartbeat','System','General'];
-const counts = [32,17,1,91,14,23,17,368];
-const costs = [22.12,10.56,0.23,23.34,7.70,14.12,4.02,145.35];
-const colors = ['#ff6b6b','#ffd93d','#4d96ff','#6bcb77','#ff922b','#cc5de8','#20c997','#868e96'];
+// Category data from transcript analysis (2026-02-18)
+// Original categories kept + "General" broken into sub-categories
+const data = [
+  { cat: 'WhatsApp/Groups',    count: 229, cost: 89.72 },
+  { cat: 'Chat/Social',        count: 57,  cost: 24.38 },
+  { cat: 'Mindmap',            count: 24,  cost: 19.11 },
+  { cat: 'Family',             count: 51,  cost: 18.84 },
+  { cat: 'Coding',             count: 21,  cost: 17.45 },
+  { cat: 'Dashboard/Analytics',count: 19,  cost: 15.22 },
+  { cat: 'Heartbeat',          count: 18,  cost: 10.97 },
+  { cat: 'Identity/Setup',     count: 22,  cost: 9.63  },
+  { cat: 'System',             count: 20,  cost: 8.60  },
+  { cat: 'Memory',             count: 20,  cost: 5.12  },
+  { cat: 'Skills',             count: 8,   cost: 4.51  },
+  { cat: 'Family Tree',        count: 5,   cost: 3.40  },
+  { cat: 'Config',             count: 1,   cost: 0.23  },
+  { cat: 'Other',              count: 74,  cost: 3.99  }
+];
 
-new Chart(document.getElementById('donut'),{
-  type:'doughnut',
-  data:{labels,datasets:[{data:counts,backgroundColor:colors,borderColor:'#0a0a1a',borderWidth:3}]},
-  options:{responsive:true,plugins:{legend:{position:'bottom',labels:{color:'#ccc',padding:12,font:{size:12}}}}}
+const colors = [
+  '#ff6b6b','#ffd93d','#4d96ff','#6bcb77','#ff922b',
+  '#cc5de8','#20c997','#f06595','#868e96','#74c0fc',
+  '#fcc419','#a9e34b','#e599f7','#ced4da'
+];
+
+// Donut chart - sorted by count descending
+const donutData = [...data].sort((a,b) => b.count - a.count);
+new Chart(document.getElementById('donut'), {
+  type: 'doughnut',
+  data: {
+    labels: donutData.map(d => `${d.cat} (${d.count})`),
+    datasets: [{
+      data: donutData.map(d => d.count),
+      backgroundColor: colors,
+      borderColor: '#0a0a1a',
+      borderWidth: 3
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { color: '#ccc', padding: 10, font: { size: 11 } }
+      }
+    }
+  }
 });
 
-new Chart(document.getElementById('bar'),{
-  type:'bar',
-  data:{labels,datasets:[{label:'Cost ($)',data:costs,backgroundColor:colors.map(c=>c+'cc'),borderColor:colors,borderWidth:1,borderRadius:8}]},
-  options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{ticks:{color:'#888',callback:v=>'$'+v},grid:{color:'rgba(255,255,255,0.05)'}},x:{ticks:{color:'#888'},grid:{display:false}}}}
+// Bar chart - sorted by cost descending
+const barData = [...data].sort((a,b) => b.cost - a.cost);
+new Chart(document.getElementById('bar'), {
+  type: 'bar',
+  data: {
+    labels: barData.map(d => d.cat),
+    datasets: [{
+      data: barData.map(d => d.cost),
+      backgroundColor: colors,
+      borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    indexAxis: 'y',
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => `$${ctx.raw.toFixed(2)}`
+        }
+      }
+    },
+    scales: {
+      x: {
+        ticks: { color: '#aaa', callback: v => '$' + v },
+        grid: { color: 'rgba(255,255,255,0.05)' }
+      },
+      y: {
+        ticks: { color: '#ccc', font: { size: 11 } },
+        grid: { display: false }
+      }
+    }
+  }
 });
 </script>
 </body>
