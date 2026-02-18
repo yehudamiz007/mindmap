@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 <title>Yehuda AI - Mind Map</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
@@ -14,15 +14,15 @@
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    touch-action: none;
   }
   canvas { position: absolute; top: 0; left: 0; z-index: 0; }
-  .map { position: relative; width: 100%; height: 100%; z-index: 1; }
+  .map { position: absolute; width: 100%; height: 100%; z-index: 1; transform-origin: 0 0; }
 
   .center {
     position: absolute;
-    top: 50%; left: 50%;
     transform: translate(-50%,-50%);
-    width: 140px; height: 140px;
+    width: 120px; height: 120px;
     border-radius: 50%;
     background: linear-gradient(135deg, #667eea, #764ba2);
     display: flex; flex-direction: column;
@@ -33,9 +33,9 @@
     animation: glow 3s ease-in-out infinite;
   }
   .center:hover { transform: translate(-50%,-50%) scale(1.08); }
-  .center .e { font-size: 32px; }
-  .center .n { font-size: 14px; font-weight: 800; margin-top: 2px; }
-  .center .s { font-size: 9px; opacity: 0.8; }
+  .center .e { font-size: 28px; }
+  .center .n { font-size: 13px; font-weight: 800; margin-top: 2px; }
+  .center .s { font-size: 8px; opacity: 0.8; }
   @keyframes glow {
     0%,100% { box-shadow: 0 0 60px rgba(102,126,234,0.5), 0 0 120px rgba(118,75,162,0.3); }
     50% { box-shadow: 0 0 90px rgba(102,126,234,0.7), 0 0 160px rgba(118,75,162,0.5); }
@@ -43,8 +43,8 @@
 
   .cat {
     position: absolute;
-    border-radius: 16px;
-    padding: 10px 14px;
+    border-radius: 14px;
+    padding: 8px 12px;
     cursor: pointer;
     transition: all 0.3s;
     z-index: 5;
@@ -52,11 +52,12 @@
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255,255,255,0.1);
     transform: translate(-50%,-50%);
+    min-width: 70px;
   }
-  .cat:hover { transform: translate(-50%,-50%) scale(1.1); z-index: 20; }
-  .cat .e { font-size: 22px; display: block; }
-  .cat .t { font-size: 10px; font-weight: 700; display: block; margin-top: 2px; }
-  .cat .d { font-size: 8px; opacity: 0.6; display: block; }
+  .cat:hover, .cat.active { transform: translate(-50%,-50%) scale(1.12); z-index: 20; }
+  .cat .e { font-size: 20px; display: block; }
+  .cat .t { font-size: 9px; font-weight: 700; display: block; margin-top: 2px; }
+  .cat .d { font-size: 7px; opacity: 0.6; display: block; }
 
   .leaf {
     position: absolute;
@@ -72,30 +73,57 @@
   .leaf.on { opacity: 1; transform: translate(-50%,-50%) scale(1); pointer-events: auto; }
 
   .info {
-    position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%);
+    position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%);
     background: rgba(15,15,35,0.92); backdrop-filter: blur(20px);
     border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
-    padding: 12px 20px; text-align: center; z-index: 100; max-width: 550px;
+    padding: 10px 16px; text-align: center; z-index: 100; max-width: 90vw;
     transition: all 0.3s;
   }
-  .info .l { font-weight: 700; font-size: 12px; }
-  .info .d { font-size: 10px; opacity: 0.6; margin-top: 2px; }
+  .info .l { font-weight: 700; font-size: 11px; }
+  .info .d { font-size: 9px; opacity: 0.6; margin-top: 2px; }
 
   .hdr {
-    position: fixed; top: 14px; left: 50%; transform: translateX(-50%);
-    font-size: 15px; font-weight: 800; z-index: 100;
+    position: fixed; top: 10px; left: 50%; transform: translateX(-50%);
+    font-size: 14px; font-weight: 800; z-index: 100;
     background: linear-gradient(135deg,#667eea,#764ba2);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+  }
+
+  .zoom-controls {
+    position: fixed; bottom: 70px; right: 12px; z-index: 200;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .zoom-btn {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(10px);
+  }
+  .zoom-btn:hover { background: rgba(255,255,255,0.2); }
+
+  @media (max-width: 600px) {
+    .center { width: 90px; height: 90px; }
+    .center .e { font-size: 22px; }
+    .center .n { font-size: 11px; }
+    .center .s { font-size: 7px; }
+    .cat { padding: 6px 10px; min-width: 60px; }
+    .cat .e { font-size: 18px; }
+    .cat .t { font-size: 8px; }
+    .cat .d { font-size: 6px; }
+    .leaf { font-size: 7px; padding: 3px 6px; }
+    .hdr { font-size: 12px; }
   }
 </style>
 </head>
 <body>
 
-<div class="hdr">Yehuda AI &mdash; Mind Map</div>
+<div class="hdr">Yehuda AI - Mind Map</div>
 <canvas id="cv"></canvas>
 
-<div class="map">
-  <div class="center" id="C" onclick="info('Yehuda AI &mdash; Digital Twin','Born 17.02.2026 | Claude Opus 4 | Owner: Yehuda Mizrahi | 7 Skills')">
+<div class="map" id="mapEl">
+  <div class="center" id="C" onclick="info('Yehuda AI - Digital Twin','Born 17.02.2026 | Claude Opus 4 | Owner: Yehuda Mizrahi | 7 Skills')">
     <span class="e">&#129504;</span>
     <span class="n">Yehuda AI</span>
     <span class="s">Digital Twin</span>
@@ -104,7 +132,13 @@
 
 <div class="info" id="ip">
   <div class="l" id="il">Yehuda AI</div>
-  <div class="d" id="id">Click a node to explore</div>
+  <div class="d" id="id">Tap a node to explore</div>
+</div>
+
+<div class="zoom-controls">
+  <button class="zoom-btn" onclick="zoomIn()">+</button>
+  <button class="zoom-btn" onclick="zoomOut()">&minus;</button>
+  <button class="zoom-btn" onclick="zoomReset()">&#8634;</button>
 </div>
 
 <script>
@@ -116,8 +150,8 @@ const cats = [
 
   { id:'llm', icon:'\u{1F916}', title:'LLM Models', desc:'AI Engines',
     color:'#00c8c8', bg:'rgba(0,200,200,0.2)',
-    info:['LLM Models','Primary: Claude Opus 4 | Fallback: Gemini 2.0 Flash | Providers: Anthropic, Google'],
-    leaves:['Claude Opus 4 (Primary)','Gemini 2.0 Flash','Anthropic API','Google API'] },
+    info:['LLM Models','Primary: Claude Opus 4 | Fallback: Gemini 2.0 Flash | Grok (xAI) | Providers: Anthropic, Google, xAI'],
+    leaves:['Claude Opus 4 (Primary)','Gemini 2.0 Flash','Grok 3 (xAI)','Anthropic API','Google API','xAI API'] },
 
   { id:'wa', icon:'\u{1F4AC}', title:'WhatsApp', desc:'Contacts & Groups',
     color:'#25d366', bg:'rgba(37,211,102,0.2)',
@@ -151,26 +185,83 @@ const cats = [
 
   { id:'cof', icon:'\u2615', title:'Coffee Master', desc:'La Marzocco',
     color:'#b4783c', bg:'rgba(180,120,60,0.2)',
-    info:['Coffee Master','La Marzocco Linea Micra | Espresso | Milk Steaming | Latte Art | Beans'],
+    info:['Coffee Master','La Marzocca Linea Micra | Espresso | Milk Steaming | Latte Art | Beans'],
     leaves:['Espresso','Milk Steaming','Latte Art','Maintenance','Beans'] }
 ];
 
-const map = document.querySelector('.map');
+const mapEl = document.getElementById('mapEl');
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d');
 let W, H, cx, cy, R, leafR;
+
+// Pan & zoom state
+let scale = 1, panX = 0, panY = 0;
+let dragging = false, lastX, lastY;
+let pinchDist = 0;
+
+function applyTransform() {
+  mapEl.style.transform = `translate(${panX}px,${panY}px) scale(${scale})`;
+}
+
+function zoomIn() { scale = Math.min(scale * 1.3, 4); applyTransform(); draw(); }
+function zoomOut() { scale = Math.max(scale / 1.3, 0.4); applyTransform(); draw(); }
+function zoomReset() { scale = 1; panX = 0; panY = 0; applyTransform(); draw(); }
+
+// Mouse drag
+document.addEventListener('mousedown', e => { dragging = true; lastX = e.clientX; lastY = e.clientY; });
+document.addEventListener('mousemove', e => {
+  if (!dragging) return;
+  panX += e.clientX - lastX; panY += e.clientY - lastY;
+  lastX = e.clientX; lastY = e.clientY;
+  applyTransform();
+});
+document.addEventListener('mouseup', () => dragging = false);
+
+// Mouse wheel zoom
+document.addEventListener('wheel', e => {
+  e.preventDefault();
+  const factor = e.deltaY < 0 ? 1.1 : 0.9;
+  scale = Math.max(0.4, Math.min(4, scale * factor));
+  applyTransform(); draw();
+}, { passive: false });
+
+// Touch: drag + pinch
+let touches = [];
+document.addEventListener('touchstart', e => {
+  touches = [...e.touches];
+  if (touches.length === 2) {
+    pinchDist = Math.hypot(touches[0].clientX - touches[1].clientX, touches[0].clientY - touches[1].clientY);
+  }
+});
+document.addEventListener('touchmove', e => {
+  e.preventDefault();
+  if (e.touches.length === 1 && touches.length === 1) {
+    panX += e.touches[0].clientX - touches[0].clientX;
+    panY += e.touches[0].clientY - touches[0].clientY;
+    applyTransform();
+  } else if (e.touches.length === 2) {
+    const newDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+    if (pinchDist > 0) {
+      scale = Math.max(0.4, Math.min(4, scale * (newDist / pinchDist)));
+      applyTransform(); draw();
+    }
+    pinchDist = newDist;
+  }
+  touches = [...e.touches];
+}, { passive: false });
+document.addEventListener('touchend', e => { touches = [...e.touches]; pinchDist = 0; });
 
 function resize() {
   W = cv.width = window.innerWidth;
   H = cv.height = window.innerHeight;
   cx = W / 2; cy = H / 2;
-  R = Math.min(W, H) * 0.33;
-  leafR = R + Math.min(W, H) * 0.15;
+  const base = Math.min(W, H);
+  R = base * 0.30;
+  leafR = R + base * 0.14;
   layout();
   draw();
 }
 
-// Place category nodes in a circle
 function layout() {
   const n = cats.length;
   cats.forEach((c, i) => {
@@ -179,7 +270,6 @@ function layout() {
     c.y = cy + R * Math.sin(a);
     c.angle = a;
 
-    // Create or move cat node
     let el = document.getElementById('cat-' + c.id);
     if (!el) {
       el = document.createElement('div');
@@ -188,15 +278,12 @@ function layout() {
       el.style.background = c.bg;
       el.style.boxShadow = `0 4px 30px ${c.color}44`;
       el.innerHTML = `<span class="e">${c.icon}</span><span class="t">${c.title}</span><span class="d">${c.desc}</span>`;
-      el.onclick = () => { toggleLeaves(c.id); info(c.info[0], c.info[1]); };
-      el.onmouseenter = () => { el.style.boxShadow = `0 4px 50px ${c.color}88`; };
-      el.onmouseleave = () => { el.style.boxShadow = `0 4px 30px ${c.color}44`; };
-      map.appendChild(el);
+      el.onclick = (ev) => { ev.stopPropagation(); toggleLeaves(c.id); info(c.info[0], c.info[1]); };
+      mapEl.appendChild(el);
     }
     el.style.left = c.x + 'px';
     el.style.top = c.y + 'px';
 
-    // Create leaves
     c.leaves.forEach((lbl, li) => {
       const lid = 'leaf-' + c.id + '-' + li;
       let lel = document.getElementById(lid);
@@ -207,7 +294,7 @@ function layout() {
         lel.dataset.group = c.id;
         lel.style.background = c.bg;
         lel.textContent = lbl;
-        map.appendChild(lel);
+        mapEl.appendChild(lel);
       }
       const spread = 0.5;
       const la = c.angle + (li - (c.leaves.length - 1) / 2) * (spread / Math.max(c.leaves.length - 1, 1));
@@ -215,55 +302,49 @@ function layout() {
       lel.style.top = (cy + leafR * Math.sin(la)) + 'px';
     });
   });
+
+  // Update center position
+  const cEl = document.getElementById('C');
+  cEl.style.left = cx + 'px';
+  cEl.style.top = cy + 'px';
 }
 
-// Draw lines from center to each category
+let stars = [];
 function draw() {
   ctx.clearRect(0, 0, W, H);
-
-  // Stars
-  if (!draw.stars) {
-    draw.stars = [];
+  if (stars.length === 0) {
     for (let i = 0; i < 120; i++)
-      draw.stars.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.5 + 0.5, a: Math.random() });
+      stars.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.5 + 0.5, a: Math.random() });
   }
-  draw.stars.forEach(s => {
+  stars.forEach(s => {
     ctx.beginPath();
     ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
     ctx.fillStyle = `rgba(255,255,255,${s.a * 0.4 + 0.1})`;
     ctx.fill();
   });
 
-  // Connection lines
   cats.forEach(c => {
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.lineTo(c.x, c.y);
-    ctx.strokeStyle = c.color + '66';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    // Glow
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.lineTo(c.x, c.y);
-    ctx.strokeStyle = c.color + '22';
-    ctx.lineWidth = 6;
-    ctx.stroke();
+    const sx = cx * scale + panX, sy = cy * scale + panY;
+    const ex = c.x * scale + panX, ey = c.y * scale + panY;
+    ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey);
+    ctx.strokeStyle = c.color + '66'; ctx.lineWidth = 2 * scale; ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey);
+    ctx.strokeStyle = c.color + '22'; ctx.lineWidth = 6 * scale; ctx.stroke();
   });
 }
 
 let openGroup = null;
 function toggleLeaves(gid) {
-  // Close previous
   if (openGroup && openGroup !== gid) {
     document.querySelectorAll(`.leaf[data-group="${openGroup}"]`).forEach(l => l.classList.remove('on'));
+    const prevCat = document.getElementById('cat-' + openGroup);
+    if (prevCat) prevCat.classList.remove('active');
   }
   const leaves = document.querySelectorAll(`.leaf[data-group="${gid}"]`);
+  const catEl = document.getElementById('cat-' + gid);
   const opening = openGroup !== gid;
-  leaves.forEach((l, i) => {
-    setTimeout(() => l.classList.toggle('on', opening), i * 50);
-  });
+  leaves.forEach((l, i) => { setTimeout(() => l.classList.toggle('on', opening), i * 50); });
+  if (catEl) catEl.classList.toggle('active', opening);
   openGroup = opening ? gid : null;
 }
 
