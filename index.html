@@ -145,8 +145,8 @@
 const cats = [
   { id:'arch', icon:'\u{1F3D7}', title:'Chief Architect', desc:'System Design',
     color:'#3b82f6', bg:'rgba(59,130,246,0.2)',
-    info:['Chief Architect','System Design | APIs | Cloud | Security | DevOps | Microservices'],
-    leaves:['System Design','Cloud & Infra','Security Arch','API Design','DevOps'] },
+    info:['Chief Architect','System Design | APIs | Cloud | Security | DevOps | LLMs | Agentic AI'],
+    leaves:['System Design','Cloud & Infra','Security Arch','API Design','DevOps','LLMs & RAG','Agentic AI'] },
 
   { id:'llm', icon:'\u{1F916}', title:'LLM Models', desc:'AI Engines',
     color:'#00c8c8', bg:'rgba(0,200,200,0.2)',
@@ -194,7 +194,6 @@ const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d');
 let W, H, cx, cy, R, leafR;
 
-// Pan & zoom state
 let scale = 1, panX = 0, panY = 0;
 let dragging = false, lastX, lastY;
 let pinchDist = 0;
@@ -207,7 +206,6 @@ function zoomIn() { scale = Math.min(scale * 1.3, 4); applyTransform(); draw(); 
 function zoomOut() { scale = Math.max(scale / 1.3, 0.4); applyTransform(); draw(); }
 function zoomReset() { scale = 1; panX = 0; panY = 0; applyTransform(); draw(); }
 
-// Mouse drag
 document.addEventListener('mousedown', e => { dragging = true; lastX = e.clientX; lastY = e.clientY; });
 document.addEventListener('mousemove', e => {
   if (!dragging) return;
@@ -217,7 +215,6 @@ document.addEventListener('mousemove', e => {
 });
 document.addEventListener('mouseup', () => dragging = false);
 
-// Mouse wheel zoom
 document.addEventListener('wheel', e => {
   e.preventDefault();
   const factor = e.deltaY < 0 ? 1.1 : 0.9;
@@ -225,7 +222,6 @@ document.addEventListener('wheel', e => {
   applyTransform(); draw();
 }, { passive: false });
 
-// Touch: drag + pinch
 let touches = [];
 document.addEventListener('touchstart', e => {
   touches = [...e.touches];
@@ -303,7 +299,6 @@ function layout() {
     });
   });
 
-  // Update center position
   const cEl = document.getElementById('C');
   cEl.style.left = cx + 'px';
   cEl.style.top = cy + 'px';
