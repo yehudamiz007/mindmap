@@ -181,15 +181,7 @@ const DATA=[
 ["ws-me-1","ws-me",3,"","MEMORY.md","#f97316"],
 ["ws-me-2","ws-me",3,"","memory/*.md","#f97316"],
 ["ws-me-3","ws-me",3,"","HEARTBEAT.md","#f97316"],
-["ws-sk","ws",2,"","Skills","#f97316"],
-["ws-sk-1","ws-sk",3,"","hebrew","#f97316"],
-["ws-sk-2","ws-sk",3,"","husband","#f97316"],
-["ws-sk-3","ws-sk",3,"","parenting","#f97316"],
-["ws-sk-4","ws-sk",3,"","coffee-master","#f97316"],
-["ws-sk-5","ws-sk",3,"","ai-architect","#f97316"],
-["ws-sk-6","ws-sk",3,"","technical-analysis","#f97316"],
-["ws-sk-7","ws-sk",3,"","fitness-nutrition","#f97316"],
-["ws-sk-8","ws-sk",3,"","secure-downloader","#f97316"],
+// Skills moved to top-level "My Skills" category
 // 8. Automation
 ["au","center",1,"⚡","Automation","#ef4444"],
 ["au-cr","au",2,"","Cron","#ef4444"],
@@ -224,6 +216,39 @@ const DATA=[
 ["se-sb-1","se-sb",3,"","Exec Policy","#64748b"],
 ["se-sb-2","se-sb",3,"","Elevated Mode","#64748b"],
 ["se-sb-3","se-sb",3,"","Tool Policy","#64748b"],
+// 11. My Skills
+["sk","center",1,"\u{1F3AF}","My Skills","#22d3ee"],
+["sk-arch","sk",2,"\u{1F3DB}\uFE0F","AI Chief Architect","#22d3ee"],
+["sk-arch-1","sk-arch",3,"","System Design","#22d3ee"],
+["sk-arch-2","sk-arch",3,"","ADRs","#22d3ee"],
+["sk-arch-3","sk-arch",3,"","LLM/Agentic AI","#22d3ee"],
+["sk-heb","sk",2,"\u{1F1EE}\u{1F1F1}","Hebrew","#22d3ee"],
+["sk-heb-1","sk-heb",3,"","Bilingual Chat","#22d3ee"],
+["sk-heb-2","sk-heb",3,"","Cultural Context","#22d3ee"],
+["sk-hub","sk",2,"\u{1F491}","Husband","#22d3ee"],
+["sk-hub-1","sk-hub",3,"","Relationship Tips","#22d3ee"],
+["sk-hub-2","sk-hub",3,"","Gift Ideas","#22d3ee"],
+["sk-hub-3","sk-hub",3,"","Date Planning","#22d3ee"],
+["sk-par","sk",2,"\u{1F468}\u200D\u{1F467}\u200D\u{1F466}","Parenting","#22d3ee"],
+["sk-par-1","sk-par",3,"","Age Activities","#22d3ee"],
+["sk-par-2","sk-par",3,"","Milestones","#22d3ee"],
+["sk-par-3","sk-par",3,"","Meal Plans","#22d3ee"],
+["sk-cof","sk",2,"\u2615","Coffee Master","#22d3ee"],
+["sk-cof-1","sk-cof",3,"","Espresso Recipes","#22d3ee"],
+["sk-cof-2","sk-cof",3,"","Linea Micra","#22d3ee"],
+["sk-cof-3","sk-cof",3,"","Latte Art","#22d3ee"],
+["sk-ta","sk",2,"\u{1F4CA}","Technical Analysis","#22d3ee"],
+["sk-ta-1","sk-ta",3,"","Elliott Wave","#22d3ee"],
+["sk-ta-2","sk-ta",3,"","ICT/Smart Money","#22d3ee"],
+["sk-ta-3","sk-ta",3,"","Chart Patterns","#22d3ee"],
+["sk-fit","sk",2,"\u{1F4AA}","Fitness & Nutrition","#22d3ee"],
+["sk-fit-1","sk-fit",3,"","Training Plans","#22d3ee"],
+["sk-fit-2","sk-fit",3,"","Meal Planning","#22d3ee"],
+["sk-fit-3","sk-fit",3,"","Supplements","#22d3ee"],
+["sk-sec","sk",2,"\u{1F6E1}\uFE0F","Security Gate","#22d3ee"],
+["sk-sec-1","sk-sec",3,"","Code Scanning","#22d3ee"],
+["sk-sec-2","sk-sec",3,"","Prompt Injection","#22d3ee"],
+["sk-sec-3","sk-sec",3,"","Triple Confirm","#22d3ee"],
 ];
 
 // Build lookup
@@ -305,19 +330,37 @@ function resize(){
 window.addEventListener("resize",resize);
 resize();
 
-// Stars
-const stars=Array.from({length:200},()=>({x:Math.random()*4000-2000,y:Math.random()*4000-2000,r:Math.random()*1.5+0.5,b:Math.random()}));
+// Stars - tiled for infinite background
+var TILE=2000;
+var starTile=Array.from({length:200},function(){return{x:Math.random()*TILE,y:Math.random()*TILE,r:Math.random()*1.5+0.5,b:Math.random()}});
 function drawStars(t){
   bgCtx.clearRect(0,0,bgC.width,bgC.height);
-  const cx=bgC.width/2,cy=bgC.height/2;
-  stars.forEach(s=>{
-    const sx=cx+(s.x-camX)*zoom*0.3;
-    const sy=cy+(s.y-camY)*zoom*0.3;
-    if(sx<-5||sx>bgC.width+5||sy<-5||sy>bgC.height+5)return;
-    const a=0.4+0.6*Math.sin(t*0.001+s.b*6.28);
-    bgCtx.beginPath();bgCtx.arc(sx,sy,s.r,0,6.28);
-    bgCtx.fillStyle=`rgba(255,255,255,${a})`;bgCtx.fill();
-  });
+  var cx=bgC.width/2,cy=bgC.height/2;
+  var parallax=0.3;
+  var offX=camX*parallax,offY=camY*parallax;
+  var left=-cx/(zoom*parallax)+offX;
+  var right=cx/(zoom*parallax)+offX;
+  var top2=-cy/(zoom*parallax)+offY;
+  var bottom=cy/(zoom*parallax)+offY;
+  var tileXmin=Math.floor(left/TILE);
+  var tileXmax=Math.floor(right/TILE);
+  var tileYmin=Math.floor(top2/TILE);
+  var tileYmax=Math.floor(bottom/TILE);
+  for(var tx=tileXmin;tx<=tileXmax;tx++){
+    for(var ty=tileYmin;ty<=tileYmax;ty++){
+      for(var i=0;i<starTile.length;i++){
+        var s=starTile[i];
+        var wx=s.x+tx*TILE;
+        var wy=s.y+ty*TILE;
+        var sx=cx+(wx-offX)*zoom*parallax;
+        var sy=cy+(wy-offY)*zoom*parallax;
+        if(sx<-5||sx>bgC.width+5||sy<-5||sy>bgC.height+5)continue;
+        var a=0.4+0.6*Math.sin(t*0.001+s.b*6.28);
+        bgCtx.beginPath();bgCtx.arc(sx,sy,s.r,0,6.28);
+        bgCtx.fillStyle="rgba(255,255,255,"+a+")";bgCtx.fill();
+      }
+    }
+  }
 }
 
 // Create DOM nodes
@@ -522,15 +565,7 @@ const DESC={
   "ws-me-1":"MEMORY.md - curated long-term memory, updated periodically.",
   "ws-me-2":"memory/*.md - daily journal files with raw session logs.",
   "ws-me-3":"HEARTBEAT.md - checklist for periodic background tasks.",
-  "ws-sk":"Custom skills installed in the workspace.",
-  "ws-sk-1":"Hebrew language skill - bilingual communication.",
-  "ws-sk-2":"Husband support - relationship tips for Ilana.",
-  "ws-sk-3":"Parenting - tailored to Avior, Nitai, Arbel.",
-  "ws-sk-4":"Coffee Master - La Marzocco Linea Micra expertise.",
-  "ws-sk-5":"AI Chief Architect - system design and tech decisions.",
-  "ws-sk-6":"Technical Analysis - charts, Elliott Wave, ICT concepts.",
-  "ws-sk-7":"Fitness & Nutrition - training and meal planning.",
-  "ws-sk-8":"Secure Skill Downloader - security gate for skill installs.",
+  // ws-sk moved to top-level My Skills
   "au":"Automation systems for scheduled and event-driven tasks.",
   "au-cr":"Cron job scheduler for timed tasks.",
   "au-cr-1":"Scheduled jobs with cron expressions and timezone support.",
@@ -562,6 +597,38 @@ const DESC={
   "se-sb-1":"Exec policy - control which shell commands the agent can run.",
   "se-sb-2":"Elevated mode - run commands with higher privileges when needed.",
   "se-sb-3":"Tool policy - per-tool allow/deny rules.",
+  "sk":"Personal skills and expertise areas configured for the agent.",
+  "sk-arch":"AI Chief Architect skill - system design, ADRs, and agentic AI patterns.",
+  "sk-arch-1":"System design principles, architecture diagrams, and scalability patterns.",
+  "sk-arch-2":"Architecture Decision Records - structured documentation of technical choices.",
+  "sk-arch-3":"LLM integration patterns, agentic AI workflows, and prompt engineering.",
+  "sk-heb":"Hebrew language skill for bilingual communication and cultural context.",
+  "sk-heb-1":"Seamless Hebrew-English bilingual chat with natural code-switching.",
+  "sk-heb-2":"Israeli cultural context, holidays, slang, and social norms.",
+  "sk-hub":"Husband skill - relationship support tailored for Ilana.",
+  "sk-hub-1":"Relationship tips, communication strategies, and conflict resolution.",
+  "sk-hub-2":"Gift ideas for birthdays, anniversaries, and special occasions.",
+  "sk-hub-3":"Date planning - restaurants, activities, and surprise ideas.",
+  "sk-par":"Parenting skill tailored to Avior, Nitai, and Arbel.",
+  "sk-par-1":"Age-appropriate activities and educational games for each child.",
+  "sk-par-2":"Developmental milestones tracking and guidance.",
+  "sk-par-3":"Kid-friendly meal plans and nutrition for growing children.",
+  "sk-cof":"Coffee Master skill - La Marzocco Linea Micra expertise.",
+  "sk-cof-1":"Espresso recipes with dose, yield, and timing parameters.",
+  "sk-cof-2":"Linea Micra machine settings, maintenance, and troubleshooting.",
+  "sk-cof-3":"Latte art techniques from hearts to rosettas.",
+  "sk-ta":"Technical Analysis skill for financial markets and trading.",
+  "sk-ta-1":"Elliott Wave theory - impulse waves, corrections, and degree labeling.",
+  "sk-ta-2":"ICT/Smart Money Concepts - order blocks, fair value gaps, liquidity.",
+  "sk-ta-3":"Chart patterns - triangles, head and shoulders, flags, and wedges.",
+  "sk-fit":"Fitness & Nutrition skill for training and diet planning.",
+  "sk-fit-1":"Training plans - strength, hypertrophy, and cardio programming.",
+  "sk-fit-2":"Meal planning with macros, calories, and dietary preferences.",
+  "sk-fit-3":"Supplement guidance - protein, creatine, vitamins, and timing.",
+  "sk-sec":"Security Gate skill for safe skill downloads and code review.",
+  "sk-sec-1":"Automated code scanning for malicious patterns in skill packages.",
+  "sk-sec-2":"Prompt injection detection and prevention in skill instructions.",
+  "sk-sec-3":"Triple confirmation flow for high-risk operations.",
 };
 const LEVELS=["Core","Category","Component","Detail"];
 
