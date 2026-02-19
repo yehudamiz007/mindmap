@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BJJ Academy - אקדמיית ג'יו ג'יטסו</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--card:#14141f;--card2:#1a1a2e;--red:#e63946;--gold:#ffd60a;--gold2:#e6ac00;--text:#e8e8e8;--dim:#888;--green:#2ecc71;--blue:#3498db;--purple:#9b59b6;--brown:#8B4513;--white-belt:#f0f0f0;--blue-belt:#2980b9;--purple-belt:#8e44ad;--brown-belt:#a0522d;--black-belt:#222;--radius:12px;--shadow:0 4px 20px rgba(0,0,0,.4)}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:80px;direction:rtl}
+.header{background:linear-gradient(135deg,#0a0a0f 0%,#1a0a0a 100%);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2a2a3a;position:sticky;top:0;z-index:100;backdrop-filter:blur(10px)}
+.header h1{font-size:1.3rem;background:linear-gradient(90deg,var(--red),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header .belt-badge{font-size:.75rem;padding:4px 12px;border-radius:20px;font-weight:700;cursor:pointer}
+.tab-bar{position:fixed;bottom:0;left:0;right:0;background:#0d0d18;border-top:1px solid #2a2a3a;display:flex;z-index:100;padding:4px 0 env(safe-area-inset-bottom)}
+.tab-bar button{flex:1;background:none;border:none;color:var(--dim);padding:8px 4px;font-size:.65rem;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;transition:.2s}
+.tab-bar button.active{color:var(--gold)}
+.tab-bar button .icon{font-size:1.3rem}
+.page{display:none;padding:16px;max-width:800px;margin:0 auto;animation:fadeIn .3s}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border-radius:var(--radius);padding:16px;margin-bottom:12px;border:1px solid #2a2a3a;transition:.2s}
+.card:hover{border-color:#3a3a4a}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.stat-card{background:var(--card2);border-radius:var(--radius);padding:14px;text-align:center;border:1px solid #2a2a3a}
+.stat-card .num{font-size:1.8rem;font-weight:700;background:linear-gradient(90deg,var(--red),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-card .label{font-size:.75rem;color:var(--dim);margin-top:4px}
+h2{font-size:1.2rem;margin-bottom:12px;color:var(--gold)}
+h3{font-size:1rem;margin-bottom:8px}
+.belt-selector{display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch}
+.belt-btn{padding:6px 14px;border-radius:20px;border:2px solid transparent;background:#1e1e2e;color:var(--text);font-size:.75rem;cursor:pointer;white-space:nowrap;transition:.2s;font-weight:600}
+.belt-btn.active{border-color:var(--gold);background:#2a2a1a}
+.belt-btn.white{color:#333;background:var(--white-belt)}.belt-btn.white.active{background:var(--white-belt);border-color:var(--gold)}
+.belt-btn.blue{background:var(--blue-belt);color:#fff}.belt-btn.blue.active{border-color:var(--gold)}
+.belt-btn.purple{background:var(--purple-belt);color:#fff}.belt-btn.purple.active{border-color:var(--gold)}
+.belt-btn.brown{background:var(--brown-belt);color:#fff}.belt-btn.brown.active{border-color:var(--gold)}
+.belt-btn.black{background:var(--black-belt);color:#fff;border:2px solid #444}.belt-btn.black.active{border-color:var(--gold)}
+.search-box{width:100%;padding:10px 16px;border-radius:var(--radius);border:1px solid #2a2a3a;background:var(--card);color:var(--text);font-size:.9rem;margin-bottom:12px;direction:rtl}
+.search-box::placeholder{color:var(--dim)}
+.cat-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.cat-btn{padding:4px 10px;border-radius:16px;border:1px solid #3a3a4a;background:none;color:var(--dim);font-size:.7rem;cursor:pointer;transition:.2s}
+.cat-btn.active{background:var(--red);color:#fff;border-color:var(--red)}
+.tech-card{background:var(--card);border-radius:var(--radius);margin-bottom:10px;border:1px solid #2a2a3a;overflow:hidden;transition:.2s}
+.tech-header{padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.tech-header:hover{background:#1e1e2e}
+.tech-title{font-weight:700;font-size:.9rem}
+.tech-sub{font-size:.75rem;color:var(--dim);margin-top:2px}
+.tech-meta{display:flex;gap:8px;align-items:center;font-size:.7rem;color:var(--dim)}
+.stars{color:var(--gold);font-size:.75rem}
+.tech-body{padding:0 16px 16px;display:none;animation:fadeIn .2s}
+.tech-body.open{display:block}
+.tech-body h4{color:var(--gold);font-size:.8rem;margin:10px 0 6px}
+.tech-body ol,.tech-body ul{padding-right:20px;font-size:.85rem;line-height:1.7}
+.tech-body .tip{background:#1a1a0a;border-right:3px solid var(--gold);padding:8px 12px;border-radius:0 8px 8px 0;font-size:.8rem;margin-top:8px;color:var(--gold2)}
+.status-btns{display:flex;gap:6px;margin-top:10px}
+.status-btn{padding:4px 10px;border-radius:12px;border:1px solid #3a3a4a;background:none;color:var(--dim);font-size:.7rem;cursor:pointer;transition:.2s}
+.status-btn.learned{border-color:var(--blue);color:var(--blue)}
+.status-btn.practicing{border-color:var(--gold);color:var(--gold)}
+.status-btn.mastered{border-color:var(--green);color:var(--green)}
+.status-btn.active-status{background:var(--green);color:#fff;border-color:var(--green)}
+.status-btn.active-status.learned{background:var(--blue)}
+.status-btn.active-status.practicing{background:var(--gold);color:#000}
+.path-card{background:var(--card);border-radius:var(--radius);padding:16px;margin-bottom:12px;border:1px solid #2a2a3a;cursor:pointer;transition:.3s}
+.path-card:hover{transform:translateY(-2px);border-color:var(--red)}
+.path-card .emoji{font-size:2rem;margin-bottom:8px}
+.path-card h3{color:var(--gold)}
+.path-card p{font-size:.8rem;color:var(--dim);margin-top:4px}
+.training-day{background:var(--card);border-radius:var(--radius);padding:14px;margin-bottom:10px;border:1px solid #2a2a3a}
+.training-day h4{color:var(--gold);font-size:.85rem;margin-bottom:8px}
+.training-day .section{margin-bottom:6px;font-size:.8rem}
+.training-day .section-title{color:var(--red);font-weight:700;font-size:.75rem}
+.training-day .check{cursor:pointer;padding:2px 8px;border-radius:8px;background:none;border:1px solid #3a3a4a;color:var(--dim);font-size:.7rem;float:left;transition:.2s}
+.training-day .check.done{background:var(--green);color:#fff;border-color:var(--green)}
+.progress-section{margin-bottom:20px}
+.chart-container{background:var(--card);border-radius:var(--radius);padding:16px;margin-bottom:16px;border:1px solid #2a2a3a}
+.belt-progress{display:flex;align-items:center;gap:12px;padding:12px;background:var(--card);border-radius:var(--radius);margin-bottom:12px;border:1px solid #2a2a3a}
+.belt-progress .bar-wrap{flex:1;background:#1e1e2e;border-radius:8px;height:10px;overflow:hidden}
+.belt-progress .bar{height:100%;border-radius:8px;transition:.4s;background:linear-gradient(90deg,var(--red),var(--gold))}
+.belt-progress .pct{font-size:.8rem;color:var(--gold);width:40px;text-align:center}
+.daily-suggest{background:linear-gradient(135deg,#1a0a0a,#1a1a0a);border:1px solid var(--red);border-radius:var(--radius);padding:16px;margin-bottom:16px}
+.daily-suggest h3{color:var(--red);font-size:.9rem;margin-bottom:6px}
+.daily-suggest p{font-size:.8rem;color:var(--dim)}
+.btn-primary{background:linear-gradient(90deg,var(--red),#c0392b);color:#fff;border:none;padding:10px 24px;border-radius:var(--radius);font-size:.85rem;cursor:pointer;font-weight:600;transition:.2s}
+.btn-primary:hover{transform:scale(1.02)}
+.path-detail{display:none}.path-detail.active{display:block}
+.back-btn{background:none;border:none;color:var(--gold);font-size:.85rem;cursor:pointer;margin-bottom:12px;padding:4px 0}
+.related{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.related span{background:#1e1e2e;padding:2px 8px;border-radius:8px;font-size:.7rem;color:var(--dim)}
+.home-belt{text-align:center;padding:20px;margin-bottom:16px}
+.home-belt .belt-icon{font-size:3rem;margin-bottom:8px}
+.home-belt .belt-name{font-size:1.4rem;font-weight:700}
+.home-belt .belt-desc{font-size:.8rem;color:var(--dim);margin-top:4px}
+.reset-btn{background:none;border:1px solid var(--red);color:var(--red);padding:6px 16px;border-radius:8px;font-size:.75rem;cursor:pointer;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="header">
+<h1>🥋 BJJ Academy</h1>
+<div class="belt-badge" id="headerBelt" onclick="switchTab('progress')">חגורה לבנה</div>
+</div>
+
+<div id="page-home" class="page active">
+<div class="home-belt" id="homeBelt"></div>
+<div class="daily-suggest" id="dailySuggest"></div>
+<div class="stat-grid" id="homeStats"></div>
+<div id="continueSection"></div>
+</div>
+
+<div id="page-techniques" class="page">
+<h2>📚 ספריית טכניקות</h2>
+<input class="search-box" id="searchBox" placeholder="🔍 חיפוש טכניקה..." oninput="filterTechniques()">
+<div class="belt-selector" id="beltFilter"></div>
+<div class="cat-filters" id="catFilter"></div>
+<div id="techList"></div>
+</div>
+
+<div id="page-paths" class="page">
+<div id="pathsList">
+<h2>🛤️ מסלולי למידה</h2>
+</div>
+<div id="pathDetail" class="path-detail"></div>
+</div>
+
+<div id="page-training" class="page">
+<h2>🏋️ תוכנית אימונים</h2>
+<div class="belt-selector" id="trainingBeltFilter"></div>
+<div id="trainingPlan"></div>
+</div>
+
+<div id="page-progress" class="page">
+<h2>📊 התקדמות</h2>
+<div id="beltProgressSection"></div>
+<div class="chart-container"><canvas id="progressChart"></canvas></div>
+<div class="chart-container"><canvas id="catChart"></canvas></div>
+<div class="stat-grid" id="progressStats"></div>
+<button class="reset-btn" onclick="if(confirm('לאפס את כל ההתקדמות?')){localStorage.clear();location.reload()}">🗑️ איפוס התקדמות</button>
+</div>
+
+<nav class="tab-bar">
+<button class="active" onclick="switchTab('home')"><span class="icon">🏠</span>בית</button>
+<button onclick="switchTab('techniques')"><span class="icon">📚</span>טכניקות</button>
+<button onclick="switchTab('paths')"><span class="icon">🛤️</span>מסלולים</button>
+<button onclick="switchTab('training')"><span class="icon">🏋️</span>אימונים</button>
+<button onclick="switchTab('progress')"><span class="icon">📊</span>התקדמות</button>
+</nav>
+
+<script>
+const BELTS=[
+{id:'white',name:'חגורה לבנה',en:'White Belt',desc:'מתחיל - יסודות',color:'#f0f0f0',textColor:'#333',req:0},
+{id:'blue',name:'חגורה כחולה',en:'Blue Belt',desc:'מתקדם - ביניים',color:'#2980b9',textColor:'#fff',req:7},
+{id:'purple',name:'חגורה סגולה',en:'Purple Belt',desc:'מומחה - מתקדם',color:'#8e44ad',textColor:'#fff',req:15},
+{id:'brown',name:'חגורה חומה',en:'Brown Belt',desc:'מאסטר - מומחה',color:'#a0522d',textColor:'#fff',req:25},
+{id:'black',name:'חגורה שחורה',en:'Black Belt',desc:'גרנד מאסטר',color:'#222',textColor:'#fff',req:35}
+];
+
+const CATS={guard:'🛡️ גארד',mount:'⬆️ מאונט',side:'↔️ סייד קונטרול',back:'🔙 גב',takedown:'⬇️ טייקדאון',submission:'🔒 סאבמישן',sweep:'🔄 סוויפ',escape:'🏃 בריחה',concept:'🧠 קונספט',system:'⚙️ מערכת'};
+
+const TECHS=[
+// WHITE BELT
+{id:'w1',belt:'white',name:'גארד סגור',en:'Closed Guard',cat:'guard',diff:1,steps:['שכב על הגב וכרוך את הרגליים סביב מותני היריב','החזק ביד אחת בצווארון ובשנייה בשרוול','שמור על ירכיים צמודות ובלום את תנועת היריב','השתמש בירכיים למשוך את היריב קדימה לשבירת יציבות','תקוף עם סאבמישנים או סוויפים מפוזיציה זו'],tips:'שמור על רגליים נעולות גבוה על הגב. אל תשחרר את הגארד בלי תכנית.',related:['w4','w6','w10']},
+{id:'w2',belt:'white',name:'בריחה ממאונט (אופה/גשר)',en:'Mount Escape - Upa/Bridge',cat:'escape',diff:1,steps:['תפוס את פרק כף היד של היריב עם יד אחת','עם הרגל באותו צד, נעל את רגל היריב','גשר חזק כלפי מעלה ולצד שנעלת','סובב את היריב והגיע לגארד סגור'],tips:'התזמון חשוב - גשר כשהיריב דוחף קדימה. השתמש בירכיים, לא בידיים.',related:['w3','w7']},
+{id:'w3',belt:'white',name:'בריחה מסייד קונטרול',en:'Side Control Escape',cat:'escape',diff:2,steps:['צור מסגרת עם ידיים - יד אחת על צוואר, שנייה על ירך','שרימפ (תנועת ירך) ליצירת מרחב','הכנס ברך פנימה ושחזר גארד','אם נחסם, שרימפ שוב וחזור על התהליך'],tips:'אל תשכב שטוח. תמיד היה על הצד. שרימפינג הוא המפתח.',related:['w2','w7']},
+{id:'w4',belt:'white',name:'ארמבר בסיסי מגארד',en:'Basic Armbar from Guard',cat:'submission',diff:2,steps:['מגארד סגור, תפוס את פרק כף היד של היריב','שים רגל אחת על ירך היריב ודחוף','סובב את הגוף 90 מעלות לכיוון הזרוע','העבר רגל מעל הראש ולחץ ברכיים צמודות','הרם ירכיים ומשוך את הזרוע לסאבמישן'],tips:'שמור את האגודל כלפי מעלה. ברכיים צמודות. הרם ירכיים לאט.',related:['w1','w5']},
+{id:'w5',belt:'white',name:'משולש חנק מגארד',en:'Triangle Choke from Guard',cat:'submission',diff:3,steps:['מגארד סגור, דחוף יד אחת של היריב ומשוך את השנייה','הרם ירכיים ועטוף רגל אחת סביב צוואר היריב','נעל את הרגליים בצורת משולש (רגל על קרסול)','משוך את ראש היריב למטה וסחוט ברכיים'],tips:'הזווית חשובה - סובב 30 מעלות לצד. משוך ראש למטה.',related:['w4','w1']},
+{id:'w6',belt:'white',name:'חנק אחורי עירום',en:'Rear Naked Choke',cat:'submission',diff:2,steps:['מפוזיציית גב, השחל יד מתחת לסנטר','תפוס את הביצפס של היד השנייה','שים את היד השנייה מאחורי הראש','לחץ מרפקים פנימה וסחוט'],tips:'סנטר למטה של היריב? השתמש ביד לפתוח. סבלנות היא המפתח.',related:['w8']},
+{id:'w7',belt:'white',name:'בריחת ירך (שרימפינג)',en:'Hip Escape - Shrimping',cat:'escape',diff:1,steps:['שכב על הגב, כופף ברך אחת','דחוף מהרגל הכפופה והזז ירכיים לצד','חזור על התנועה ליצירת מרחב','השתמש בתנועה זו בכל בריחה מפוזיציה תחתונה'],tips:'זו התנועה הבסיסית ביותר. תרגל מאות פעמים. המפתח לכל בריחה.',related:['w2','w3']},
+{id:'w8',belt:'white',name:'פאס גארד (ני סלייס)',en:'Guard Pass - Knee Slice',cat:'guard',diff:2,steps:['מגארד של היריב, קום על רגל אחת','הכנס ברך חוצה ירך של היריב','החזק בצווארון ודחוף ברך לרצפה','החלק עד לסייד קונטרול','שמור על לחץ ומשקל על היריב'],tips:'שמור על משקל כבד. אל תתן ליריב לסובב אליך.',related:['b8','b9']},
+{id:'w9',belt:'white',name:'טייקדאון כפול (דאבל לג)',en:'Double Leg Takedown',cat:'takedown',diff:2,steps:['התחל מעמידה עם שמירה טובה','צעד קדימה וצלול לברכיים','חבק שתי רגליים מאחורי הברכיים','הרם ודחוף בכתף לכיוון','סיים בפוזיציה עליונה'],tips:'ראש בצד, לא באמצע. שמור על גב ישר. הצעד הראשון קריטי.',related:['w8']},
+{id:'w10',belt:'white',name:'קימורה מגארד',en:'Kimura from Guard',cat:'submission',diff:2,steps:['מגארד סגור, תפוס את פרק כף היד של היריב','שב קדימה וחבק את הזרוע בשתי ידיים','אחיזת קימורה - יד מתחת ותופסת את פרק כף היד שלך','שכב חזרה וסובב את הזרוע מאחורי הגב','לחץ לאט עד לטאפ'],tips:'שמור על מרפק צמוד לגוף שלך. הכוח מגיע מסיבוב הגוף.',related:['w1','w4']},
+// BLUE BELT
+{id:'b1',belt:'blue',name:'ספיידר גארד',en:'Spider Guard',cat:'guard',diff:3,steps:['שכב על הגב ותפוס בשני שרוולי היריב','שים כפות רגליים על ביצפסים של היריב','דחוף ומשוך ליצירת מתח ושליטה','השתמש בשליטה לסוויפים או סאבמישנים','שנה זוויות ע"י דחיפה ומשיכה'],tips:'ידיים ורגליים עובדות יחד. שמור על מתח קבוע בשרוולים.',related:['b2','b4']},
+{id:'b2',belt:'blue',name:'דה לה ריבה גארד',en:'De La Riva Guard',cat:'guard',diff:3,steps:['כרוך רגל אחת סביב הרגל החיצונית של היריב','תפוס בקרסול עם יד באותו צד','היד השנייה שולטת בשרוול או צווארון','השתמש בהוק לשבירת יציבות','תקוף עם סוויפים או מעברים לגב'],tips:'ההוק חייב להיות עמוק. שליטה בקרסול חיונית.',related:['b1','p1']},
+{id:'b3',belt:'blue',name:'סוויפ פרפר',en:'Butterfly Sweep',cat:'sweep',diff:2,steps:['שב עם הוקים (כפות רגליים) מתחת לירכי היריב','חבק את היריב קרוב עם אובר-אנדר הוק','הרם עם הרגל ומשוך לצד','תנועה אלכסונית - הרם ונפול לצד','סיים במאונט או בגארד עליון'],tips:'אל תרים ישר למעלה. התנועה אלכסונית. קירבה היא המפתח.',related:['b4','b10']},
+{id:'b4',belt:'blue',name:'סוויפ מספריים',en:'Scissor Sweep',cat:'sweep',diff:2,steps:['מגארד סגור, פתח גארד ושים ברך חוצה על חזה','הרגל התחתונה חוצבת ברגל היריב','משוך בשרוול וצווארון','מספר - רגל עליונה דוחפת, תחתונה חוצבת','סיים במאונט'],tips:'תזמון חשוב. שבור יציבות קודם ע"י משיכה קדימה.',related:['b3','w1']},
+{id:'b5',belt:'blue',name:'אומופלטה',en:'Omoplata',cat:'submission',diff:3,steps:['מגארד, שלוט בזרוע אחת של היריב','סובב ירכיים והעבר רגל מעל הכתף','שב קדימה עם הרגל עוטפת את הזרוע','נעל ירכיים ודחוף את הגוף קדימה','לחץ על הכתף עד לטאפ'],tips:'אם היריב מתגלגל, עקוב אחריו. זה גם סוויפ מצוין.',related:['w5','w4']},
+{id:'b6',belt:'blue',name:'חנק גיליוטינה',en:'Guillotine Choke',cat:'submission',diff:2,steps:['כשהיריב מוריד ראש, עטוף זרוע סביב הצוואר','אחיזת גילוטינה - כף יד מתחת לסנטר','משוך למעלה וסגור גארד','כופף את פרק כף היד פנימה ולחץ כלפי מעלה','סחוט עם הידיים וסגור ברכיים'],tips:'הצמד את המרפק לגוף. הזווית חייבת להיות נכונה - כלפי מעלה ופנימה.',related:['b7','p7']},
+{id:'b7',belt:'blue',name:'לופ צ\'וק',en:'Loop Choke',cat:'submission',diff:3,steps:['מפוזיציה עליונה, תפוס צווארון עמוק','כשהיריב יושב קדימה, העבר יד מאחורי הצוואר','צלול קדימה ושכב על הצד','סחוט עם הצווארון סביב הצוואר'],tips:'מפתיע מאוד. עובד נהדר נגד שוט רשלני.',related:['b6']},
+{id:'b8',belt:'blue',name:'אקס פאס',en:'X-Pass',cat:'guard',diff:2,steps:['עמוד ותפוס בשני הקרסוליים','דחוף רגל אחת לצד ועבור מעל השנייה','צעד מעבר לרגליים בתנועה אחת מהירה','נחת בסייד קונטרול עם לחץ'],tips:'מהירות היא המפתח. אל תהסס באמצע.',related:['b9','w8']},
+{id:'b9',belt:'blue',name:'טוריאנדו פאס',en:'Toreando Pass',cat:'guard',diff:2,steps:['עמוד ותפוס בשני הברכיים/מכנסיים','דחוף רגליים לצד אחד בתנועה מהירה','צעד סביב הרגליים','נחת בסייד קונטרול','שמור לחץ על הירכיים'],tips:'שליטה בברכיים קריטית. תנועה מהירה ונחושה.',related:['b8','w8']},
+{id:'b10',belt:'blue',name:'סוויפים מהאלף גארד',en:'Half Guard Sweeps',cat:'sweep',diff:3,steps:['מהאלף גארד התחתון, השג אנדרהוק','צור קשר עם המותן של היריב','שרימפ ליצירת מרחב','שחזר גארד מלא או בצע סוויפ','השתמש בברך-שילד למניעת פאס'],tips:'אנדרהוק הוא חיי ההאלף גארד. בלעדיו אתה בצרה.',related:['b3','p2']},
+{id:'b11',belt:'blue',name:'לקיחות גב',en:'Back Takes',cat:'back',diff:3,steps:['מסייד קונטרול, חכה שהיריב יסתובב','השחל הוק ראשון ותפוס צוואר','הוסף הוק שני לשליטה מלאה','חצה רגליים או השתמש בגוף משולש','תקוף עם חנקים מהגב'],tips:'סבלנות. הגב הוא הפוזיציה הטובה ביותר בBJJ.',related:['w6','p10']},
+// PURPLE BELT
+{id:'p1',belt:'purple',name:'ברימבולו',en:'Berimbolo',cat:'sweep',diff:4,steps:['מדה לה ריבה גארד, תפוס חגורה','הפוך תחת היריב בתנועת גלגול','שלוט בירך ומנע בריחה','סיים בגב או בפוזיציה עליונה'],tips:'תנועה זורמת. תרגל את הגלגול מאות פעמים.',related:['b2','p10']},
+{id:'p2',belt:'purple',name:'דיפ האלף גארד',en:'Deep Half Guard',cat:'guard',diff:4,steps:['מהאלף גארד, צלול עמוק מתחת ליריב','חבק את הרגל הקרובה של היריב','שלוט במשקל ע"י מיקום מתחת למרכז הכובד','בצע סוויפ ע"י הרמה ותנועה לצד','צא לפוזיציה עליונה'],tips:'ככל שאתה יותר מתחת ליריב, יותר קל לסוויפ.',related:['b10','p3']},
+{id:'p3',belt:'purple',name:'קויוטי האלף גארד',en:'Coyote Half Guard',cat:'guard',diff:4,steps:['מהאלף גארד, תפוס ברגל ובמותן','צור זווית אלכסונית מתחת ליריב','דחוף ירכיים ליצירת מינוף','סוויפ או מעבר לגב'],tips:'קונספט של לוקאס לייטה. השליטה בירך חיונית.',related:['p2','b10']},
+{id:'p4',belt:'purple',name:'וורם גארד',en:'Worm Guard',cat:'guard',diff:5,steps:['תפוס את דש הגי של היריב','העבר אותו סביב הרגל ובחזרה','צור שליטה באמצעות הגי הכרוך','השתמש לסוויפים ותקיפות'],tips:'שיטה של קינן קורנליוס. דורש גי. שליטה מדהימה.',related:['p5','b2']},
+{id:'p5',belt:'purple',name:'כניסות K-Guard',en:'K-Guard Entries',cat:'guard',diff:5,steps:['צור מסגרת K עם הרגליים','שלוט ברגל היריב עם ההוקים','הפוך תחת היריב לכניסה ללג לוקים','מעבר לאשי גרמי או לגב'],tips:'גארד מודרני. דורש גמישות ותרגול.',related:['p6','p1']},
+{id:'p6',belt:'purple',name:'כניסות לג לוק (אשי גרמי)',en:'Leg Lock Entries - Ashi Garami',cat:'submission',diff:4,steps:['שלוט ברגל היריב בפוזיציית אשי גרמי','שמור ברכיים צמודות סביב הרגל','שלוט בקרסול ומנע בריחה','תקוף עם ישר על הרגל, הילהוק, או טו הולד'],tips:'בטיחות קודם! לג לוקים מסוכנים. טאפ מוקדם בתרגול.',related:['br1','br2']},
+{id:'p7',belt:'purple',name:'דארס צ\'וק',en:'Darce Choke',cat:'submission',diff:4,steps:['מסייד קונטרול או מול טרטל','השחל יד מתחת לצוואר ודרך בית השחי','חבר ידיים באחיזת גייבל','סחוט ע"י סגירת המרפקים וסיבוב'],tips:'הזווית חשובה. חייב להיות צמוד. עובד מצוין נגד אנדרהוק.',related:['p8','b6']},
+{id:'p8',belt:'purple',name:'אנקונדה צ\'וק',en:'Anaconda Choke',cat:'submission',diff:4,steps:['דומה לדארס אבל היד הולכת מהכיוון ההפוך','השחל יד מתחת לצוואר ודרך בית השחי','גלגל ליריב (גייטור רול)','סחוט בפוזיציה הסופית'],tips:'הגייטור רול הוא המפתח. תרגל את הגלגול בנפרד.',related:['p7','b6']},
+{id:'p9',belt:'purple',name:'גארד הפוך',en:'Inverted Guard',cat:'guard',diff:5,steps:['מגארד, הפוך את הגוף ראש למטה','שלוט ברגליים של היריב','השתמש לסוויפים, לג לוקים, או מעברים לגב','חזור לגארד רגיל אם נדרש'],tips:'דורש גמישות. אל תישאר הפוך יותר מדי זמן.',related:['p1','p5']},
+{id:'p10',belt:'purple',name:'שליטת גב מתקדמת',en:'Advanced Back Control',cat:'back',diff:4,steps:['השתמש בגוף משולש (Body Triangle) לשליטה','שלוט בזרועות היריב למניעת הגנה','מעבר בין חנקים שונים','שמור על הוקים פנימיים גם כשהיריב מתגלגל'],tips:'הגב שווה 4 נקודות. אל תמהר לתקוף - שליטה קודם.',related:['b11','w6']},
+// BROWN BELT
+{id:'br1',belt:'brown',name:'מכניקת הילהוק',en:'Heel Hook Mechanics',cat:'submission',diff:5,steps:['מפוזיציית אשי גרמי, שלוט ברגל','עטוף את העקב עם שתי ידיים','סובב את העקב כלפי חוץ (חיצוני) או פנימה (פנימי)','לחץ איטי ומבוקר'],tips:'הסאבמישן המסוכן ביותר! תמיד טאפ מוקדם. לא מרגישים כאב לפני הפציעה.',related:['br2','p6']},
+{id:'br2',belt:'brown',name:'אינסייד סנקאקו',en:'Inside Sankaku',cat:'guard',diff:5,steps:['שלוט ברגל היריב בין הרגליים שלך','צור משולש (סנקאקו) עם הרגליים','שלוט בירך ומנע בריחה','תקוף עם הילהוק פנימי'],tips:'הפוזיציה החזקה ביותר ללג לוקים. שליטה לפני תקיפה.',related:['br1','br4']},
+{id:'br3',belt:'brown',name:'50/50 גארד',en:'50/50 Guard',cat:'guard',diff:4,steps:['שני המתאבקים כרוכים ברגליים בצורה סימטרית','שלוט בברך ובקרסול','תקוף עם הילהוק או סוויפ','למד לצאת מ-50/50 ביעילות'],tips:'פוזיציה שנויה במחלוקת. חשוב ללמוד גם התקפה וגם בריחה.',related:['br1','br2']},
+{id:'br4',belt:'brown',name:'סאדל / אינסייד סנקאקו',en:'Saddle / Inside Sankaku',cat:'submission',diff:5,steps:['הגע לפוזיציית סאדל דרך כניסות שונות','שלוט ברגל היריב בין הרגליים','נעל עם משולש רגליים','תקוף עם הילהוק או טו הולד'],tips:'שיטת ג\'ון דנהר. הכניסה חשובה כמו הסיום.',related:['br1','br2']},
+{id:'br5',belt:'brown',name:'מערכות פאסינג מתקדמות',en:'Advanced Passing Systems',cat:'system',diff:5,steps:['שלב בין פאסים שונים במערכת אחת','לחץ פאסינג → ני סלייס → טוריאנדו','תגובות שונות מובילות לפאסים שונים','שלוט בקצב ובלחץ'],tips:'פאסינג הוא מערכת, לא טכניקה בודדת. למד את העץ.',related:['w8','b8','b9']},
+{id:'br6',belt:'brown',name:'מערכות לאפל גארד',en:'Lapel Guard Systems',cat:'guard',diff:5,steps:['השתמש בדשים של הגי ליצירת שליטה','כרוך דש סביב רגליים או ידיים','צור מצבים שאי אפשר לפתוח','תקוף מנקודות שליטה חזקות'],tips:'קיינאן קורנליוס ולאצ\'לאן ג\'יילס פיתחו שיטות מתקדמות.',related:['p4','b2']},
+{id:'br7',belt:'brown',name:'אינטגרציית היאבקות',en:'Wrestling Integration',cat:'takedown',diff:4,steps:['שלב טכניקות היאבקות חופשית עם BJJ','סינגל לג, דאבל לג, סנאפדאון','תגובות מההיאבקות לBJJ על הרצפה','עבודת קלינץ\' ושליטה בעמידה'],tips:'ההיאבקות נותנת יתרון עצום בBJJ. תרגל עמידה בכל אימון.',related:['w9']},
+{id:'br8',belt:'brown',name:'לחץ פאסינג',en:'Pressure Passing',cat:'guard',diff:4,steps:['השתמש במשקל גוף ולחץ לעבור גארד','דחוף ירכיים למטה ושמור על משקל כבד','התקדם בסנטימטרים, לא בקפיצות','חנוק כל מרחב ואל תתן ליריב לנשום'],tips:'סבלנות היא הנשק. פאסינג בלחץ דורש זמן אבל בטוח יותר.',related:['br5','w8']},
+// BLACK BELT
+{id:'bk1',belt:'black',name:'אינטגרציית מערכות',en:'System Integration',cat:'system',diff:5,steps:['חבר את כל הטכניקות למערכת אחת זורמת','כל תגובה של היריב מובילה לתקיפה הבאה','אין טכניקות בודדות - הכל מחובר','פתח את המשחק האישי שלך'],tips:'ברמה הזו אתה יוצר, לא רק מעתיק. המשחק שלך הוא ייחודי.',related:['bk2','bk6']},
+{id:'bk2',belt:'black',name:'תכנון משחק',en:'Game Planning',cat:'concept',diff:5,steps:['נתח את הסגנון שלך ואת החולשות','בנה תוכנית A, B, ו-C','תרגל תרחישים ספציפיים','התאם את התוכנית ליריב'],tips:'כל לוחם שחור צריך תוכנית משחק ברורה. מה אתה עושה מכל פוזיציה?',related:['bk1','bk4']},
+{id:'bk3',belt:'black',name:'שיטות הוראה',en:'Teaching Methods',cat:'concept',diff:5,steps:['למד לפרק טכניקות לחלקים קטנים','התאם את ההוראה לרמת התלמיד','השתמש בדריל ובספארינג מצבי','תן פידבק בונה ומעודד'],tips:'ההוראה היא אומנות בפני עצמה. חגורה שחורה = מורה.',related:['bk1']},
+{id:'bk4',belt:'black',name:'אסטרטגיית תחרויות',en:'Competition Strategy',cat:'concept',diff:5,steps:['ניהול זמן במהלך המאבק','שליטה בנקודות ויתרונות','פסיכולוגיה של תחרות','הכנה פיזית ומנטלית'],tips:'תחרויות הן 50% מנטלי. הכנה מנטלית חשובה כמו פיזית.',related:['bk2']},
+{id:'bk5',belt:'black',name:'שליטה בפלואו רולינג',en:'Flow Rolling Mastery',cat:'concept',diff:5,steps:['תנועה חלקה וזורמת בין פוזיציות','תגובה אינסטינקטיבית ללא מחשבה','ויתור על כוח לטובת טכניקה','שימוש בפלואו לפיתוח יצירתיות'],tips:'פלואו רולינג הוא כמו שיחה - שני הצדדים צריכים להקשיב.',related:['bk1','bk6']},
+{id:'bk6',belt:'black',name:'שרשרת תקיפות',en:'Chain Attacks',cat:'system',diff:5,steps:['חבר תקיפות ברצף ללא הפסקה','כל הגנה של היריב פותחת תקיפה חדשה','ארמבר → משולש → אומופלטה → חזרה','בנה שרשראות מכל פוזיציה'],tips:'ברמה הזו, אתה תמיד תוקף. היריב רק מגיב.',related:['bk1','bk2']},
+{id:'bk7',belt:'black',name:'ג\'יו ג\'יטסו בלתי נראה',en:'Invisible Jiu-Jitsu Concepts',cat:'concept',diff:5,steps:['שליטה דרך פרטים קטנים ובלתי מורגשים','שימוש במשקל, זוויות, ותזמון','מיקרו התאמות שמשנות הכל','הפרטים שלא רואים בוידאו'],tips:'ריקסון גרייסי: "אני לא עושה דברים שונים, אני עושה את אותם דברים בצורה שונה."',related:['bk1','bk5']}
+];
+
+const PATHS=[
+{id:'selfdefense',name:'הגנה עצמית',emoji:'🛡️',desc:'טכניקות מעשיות למצבי חיים אמיתיים',techniques:['w1','w2','w3','w6','w7','w9','b6','w4','w10','b11'],modules:[
+{name:'הגנה מעמידה',techs:['w9','b6'],desc:'טייקדאון וחנק גיליוטינה למצבי רחוב'},
+{name:'הגנה מהרצפה',techs:['w2','w3','w7'],desc:'בריחות מפוזיציות מסוכנות'},
+{name:'סיום מהיר',techs:['w6','w4','w10'],desc:'סאבמישנים מהירים לסיום העימות'},
+{name:'שליטה ובקרה',techs:['w1','b11'],desc:'שליטה ביריב ללא פגיעה מיותרת'}
+]},
+{id:'competition',name:'תחרויות',emoji:'🏆',desc:'הכנה לתחרויות ספורטיביות BJJ',techniques:['w1','w4','w5','b1','b2','b3','p1','p6','br1','bk4'],modules:[
+{name:'משחק גארד',techs:['w1','b1','b2'],desc:'בניית גארד תחרותי חזק'},
+{name:'סוויפים ופאסים',techs:['b3','b4','b8'],desc:'שליטה בנקודות דרך סוויפים'},
+{name:'סאבמישנים',techs:['w4','w5','p6'],desc:'סיום מהיר לנצחון'},
+{name:'אסטרטגיה',techs:['bk2','bk4'],desc:'תכנון משחק וניהול תחרות'}
+]},
+{id:'nogi',name:'ללא גי',emoji:'🤼',desc:'סאבמישן גראפלינג - ללא גי',techniques:['w6','w9','b3','b6','p6','p7','p8','br1','br2','br7'],modules:[
+{name:'טייקדאונים',techs:['w9','br7'],desc:'היאבקות ועבודת עמידה'},
+{name:'גארד ללא גי',techs:['b3','w1'],desc:'גארד מבוסס הוקים ואנדרהוקים'},
+{name:'חנקים',techs:['w6','b6','p7','p8'],desc:'חנקים שעובדים ללא גי'},
+{name:'לג לוקים',techs:['p6','br1','br2'],desc:'משחק רגליים מתקדם'}
+]}
+];
+
+const TRAINING={
+white:[
+{day:'יום א\'',focus:'טכניקה',warmup:'שרימפינג 3x10, ברידג\'ינג 3x10, גלגולים קדימה/אחורה',drill:'גארד סגור - תרגול פתיחה וסגירה, ארמבר 20 חזרות כל צד',sparring:'ספארינג מצבי מגארד סגור 3x5 דקות',conditioning:'שכיבות סמיכה 3x15, סקוואטים 3x20'},
+{day:'יום ג\'',focus:'בריחות',warmup:'ריצה קלה 5 דקות, שרימפינג, תנועות בעלי חיים',drill:'בריחה ממאונט 20 חזרות, בריחה מסייד 20 חזרות',sparring:'ספארינג מצבי מפוזיציות תחתונות 3x5 דקות',conditioning:'בטן 3x20, גשרים 3x15'},
+{day:'יום ה\'',focus:'טייקדאון + ספארינג',warmup:'ריצה, שרימפינג, דריל כניסות',drill:'דאבל לג 15 חזרות, ני סלייס פאס 15 חזרות',sparring:'ספארינג חופשי 4x5 דקות (50% עוצמה)',conditioning:'בורפיז 3x10, מתח 3x5'}
+],
+blue:[
+{day:'יום א\'',focus:'גארד מתקדם',warmup:'תנועות בעלי חיים 5 דקות, דה לה ריבה דריל',drill:'ספיידר גארד כניסות 15 חזרות, DLR סוויפ 15 חזרות',sparring:'ספארינג מצבי מגארד 4x5 דקות',conditioning:'קטלבל סווינג 3x15, TRX rows 3x12'},
+{day:'יום ג\'',focus:'סוויפים ופאסים',warmup:'שרימפינג, גלגולי טכניקה, סולו דריל',drill:'באטרפליי סוויפ 15 חזרות, טוריאנדו פאס 15 חזרות',sparring:'ספארינג מצבי פאסינג vs גארד 4x5 דקות',conditioning:'ספרינטים 6x30 שניות, סקוואטים קפיצה 3x12'},
+{day:'יום ד\'',focus:'סאבמישנים',warmup:'ריצה קלה, זחילות, גלגולים',drill:'גיליוטינה כניסות 15 חזרות, אומופלטה 15 חזרות',sparring:'ספארינג מצבי סאבמישן בלבד 4x5 דקות',conditioning:'פלאנק 3x45 שניות, לאנג\'ז 3x12 כל רגל'},
+{day:'יום ו\'',focus:'ספארינג חופשי',warmup:'פלואו רולינג 10 דקות',drill:'חזרה על טכניקות השבוע 15 דקות',sparring:'ספארינג חופשי 5x5 דקות (70% עוצמה)',conditioning:'מתיחות ותנועתיות 15 דקות'}
+],
+purple:[
+{day:'יום א\'',focus:'מערכות גארד',warmup:'פלואו רולינג 10 דקות, תנועתיות',drill:'ברימבולו כניסות 20 חזרות, K-Guard 15 חזרות',sparring:'ספארינג מצבי מגארד 5x5 דקות',conditioning:'סרקיט אימון 4 סבבים'},
+{day:'יום ב\'',focus:'לג לוקים',warmup:'תנועתיות רגליים, סולו דריל אשי גרמי',drill:'כניסות אשי גרמי 20 חזרות, הילהוק מכניקה (איטי!) 10 חזרות',sparring:'לג לוק ספארינג 4x5 דקות',conditioning:'סקוואטים כבדים 4x8, לאנג\'ז 3x10'},
+{day:'יום ג\'',focus:'חנקים ופאסינג',warmup:'שרימפינג מהיר, גלגולים',drill:'דארס ואנקונדה 15 חזרות כל אחד, פאסינג סיסטם',sparring:'ספארינג מצבי 5x5 דקות',conditioning:'HIIT 20 דקות'},
+{day:'יום ה\'',focus:'ללא גי',warmup:'היאבקות דריל, שליטה בצוואר',drill:'גיליוטינה ווריאציות 20 חזרות, רגליים ללא גי',sparring:'נו-גי ספארינג 5x5 דקות',conditioning:'TRX, משיכות, דחיפות'},
+{day:'יום ו\'',focus:'ספארינג עוצמה',warmup:'פלואו 10 דקות',drill:'חזרה חופשית 15 דקות',sparring:'ספארינג חופשי 6x5 דקות (80%+)',conditioning:'מתיחות עמוקות 20 דקות'}
+],
+brown:[
+{day:'יום א\'',focus:'מערכות תקיפה',warmup:'פלואו רולינג 15 דקות',drill:'שרשרת תקיפות מכל פוזיציה 30 דקות',sparring:'ספארינג מצבי ספציפי 5x5 דקות',conditioning:'כוח פונקציונלי 30 דקות'},
+{day:'יום ב\'',focus:'היאבקות + פאסינג',warmup:'היאבקות דריל 15 דקות',drill:'סינגל לג ודאבל לג + מעבר לרצפה, לחץ פאסינג',sparring:'עמידה + רצפה ספארינג 5x6 דקות',conditioning:'ספרינטים ופליומטרי'},
+{day:'יום ד\'',focus:'לג לוקים מתקדם',warmup:'תנועתיות, כניסות סולו',drill:'אינסייד סנקאקו, 50/50, סאדל - 20 חזרות כל אחד',sparring:'לג לוק ספארינג 5x5 דקות',conditioning:'יוגה / מתיחות 30 דקות'},
+{day:'יום ה\'',focus:'ספארינג תחרותי',warmup:'חימום מלא 15 דקות',drill:'תכנון משחק - תרגול תרחישים',sparring:'ספארינג חופשי 6x6 דקות (90%)',conditioning:'קרדיו אינטרוולים'},
+{day:'יום ו\'',focus:'הוראה + פלואו',warmup:'הוראת טכניקה לתלמידים 30 דקות',drill:'פלואו רולינג ויצירתיות 20 דקות',sparring:'ספארינג קל 3x5 דקות',conditioning:'שחזור ומתיחות'}
+],
+black:[
+{day:'יום א\'',focus:'פיתוח מערכת',warmup:'פלואו 20 דקות',drill:'עבודה על חולשות ופיתוח טכניקות חדשות',sparring:'ספארינג עם חגורות נמוכות (הוראה) 30 דקות',conditioning:'כפי שנדרש'},
+{day:'יום ג\'',focus:'ספארינג עוצמה',warmup:'חימום מלא',drill:'תכנון משחק ותרחישים',sparring:'ספארינג חופשי עם מתקדמים 6x6 דקות',conditioning:'S&C מותאם אישית'},
+{day:'יום ה\'',focus:'הוראה ומנטורינג',warmup:'הדגמות לכיתה',drill:'עבודה אישית עם תלמידים',sparring:'פלואו ותרגול קל',conditioning:'מתיחות ותנועתיות'},
+{day:'יום ו\'',focus:'חקירה ופיתוח',warmup:'פלואו חופשי 15 דקות',drill:'ניסוי טכניקות חדשות, צפייה בוידאו',sparring:'ספארינג יצירתי 4x5 דקות',conditioning:'יוגה או שחייה'}
+]
+};
+
+// State
+let state=loadState();
+function loadState(){
+try{return JSON.parse(localStorage.getItem('bjj_state'))||defaultState()}
+catch(e){return defaultState()}
+}
+function defaultState(){return{belt:'white',techStatus:{},sessionsCompleted:{},lastTech:null,totalSessions:0}}
+function saveState(){localStorage.setItem('bjj_state',JSON.stringify(state))}
+
+let currentBeltFilter='all';
+let currentCatFilter='all';
+let currentTab='home';
+let activePath=null;
+let trainingBeltFilter=null;
+
+function switchTab(tab){
+currentTab=tab;
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById('page-'+tab).classList.add('active');
+document.querySelectorAll('.tab-bar button').forEach((b,i)=>{
+b.classList.toggle('active',['home','techniques','paths','training','progress'][i]===tab);
+});
+if(tab==='home')renderHome();
+if(tab==='techniques')renderTechniques();
+if(tab==='paths')renderPaths();
+if(tab==='training')renderTraining();
+if(tab==='progress')renderProgress();
+}
+
+function getCurrentBelt(){
+let mastered=Object.values(state.techStatus).filter(s=>s==='mastered').length;
+for(let i=BELTS.length-1;i>=0;i--){if(mastered>=BELTS[i].req)return BELTS[i]}
+return BELTS[0];
+}
+
+function renderHome(){
+let belt=getCurrentBelt();
+let learned=Object.values(state.techStatus).filter(s=>s==='learned').length;
+let practicing=Object.values(state.techStatus).filter(s=>s==='practicing').length;
+let mastered=Object.values(state.techStatus).filter(s=>s==='mastered').length;
+let hb=document.getElementById('headerBelt');
+hb.textContent=belt.name;
+hb.style.background=belt.color;hb.style.color=belt.textColor;
+
+document.getElementById('homeBelt').innerHTML=`
+<div class="belt-icon">🥋</div>
+<div class="belt-name" style="color:${belt.color==='#f0f0f0'?'#fff':belt.color}">${belt.name}</div>
+<div class="belt-desc">${belt.desc}</div>`;
+
+let dayIdx=new Date().getDay();
+let dailyTechs=TECHS.filter(t=>!state.techStatus[t.id]||state.techStatus[t.id]!=='mastered');
+let suggest=dailyTechs[dayIdx%dailyTechs.length]||TECHS[0];
+document.getElementById('dailySuggest').innerHTML=`
+<h3>💡 הצעת אימון יומית</h3>
+<p><strong>${suggest.name}</strong> (${suggest.en})</p>
+<p>קטגוריה: ${CATS[suggest.cat]} | רמה: ${BELTS.find(b=>b.id===suggest.belt).name}</p>`;
+
+document.getElementById('homeStats').innerHTML=`
+<div class="stat-card"><div class="num">${mastered}</div><div class="label">טכניקות נשלטו</div></div>
+<div class="stat-card"><div class="num">${practicing}</div><div class="label">בתרגול</div></div>
+<div class="stat-card"><div class="num">${learned}</div><div class="label">נלמדו</div></div>
+<div class="stat-card"><div class="num">${state.totalSessions}</div><div class="label">אימונים הושלמו</div></div>`;
+
+let cont='';
+if(state.lastTech){
+let lt=TECHS.find(t=>t.id===state.lastTech);
+if(lt)cont=`<div class="card"><h3>🔄 המשך מאיפה שהפסקת</h3><p style="color:var(--dim);font-size:.85rem;margin-top:6px">${lt.name} (${lt.en})</p>
+<button class="btn-primary" style="margin-top:10px;font-size:.8rem;padding:8px 16px" onclick="switchTab('techniques');setTimeout(()=>{let el=document.getElementById('tech-${lt.id}');if(el){el.scrollIntoView({behavior:'smooth'});el.querySelector('.tech-header').click()}},100)">המשך לתרגל</button></div>`;
+}
+document.getElementById('continueSection').innerHTML=cont;
+}
+
+function renderTechniques(){
+let bf=document.getElementById('beltFilter');
+bf.innerHTML=`<button class="belt-btn ${currentBeltFilter==='all'?'active':''}" onclick="currentBeltFilter='all';renderTechniques()">הכל</button>`+
+BELTS.map(b=>`<button class="belt-btn ${b.id} ${currentBeltFilter===b.id?'active':''}" onclick="currentBeltFilter='${b.id}';renderTechniques()">${b.name}</button>`).join('');
+
+let cf=document.getElementById('catFilter');
+cf.innerHTML=`<button class="cat-btn ${currentCatFilter==='all'?'active':''}" onclick="currentCatFilter='all';renderTechniques()">הכל</button>`+
+Object.entries(CATS).map(([k,v])=>`<button class="cat-btn ${currentCatFilter===k?'active':''}" onclick="currentCatFilter='${k}';renderTechniques()">${v}</button>`).join('');
+
+let search=document.getElementById('searchBox').value.toLowerCase();
+let filtered=TECHS.filter(t=>{
+if(currentBeltFilter!=='all'&&t.belt!==currentBeltFilter)return false;
+if(currentCatFilter!=='all'&&t.cat!==currentCatFilter)return false;
+if(search&&!t.name.includes(search)&&!t.en.toLowerCase().includes(search))return false;
+return true;
+});
+
+document.getElementById('techList').innerHTML=filtered.map(t=>{
+let belt=BELTS.find(b=>b.id===t.belt);
+let stars='★'.repeat(t.diff)+'☆'.repeat(5-t.diff);
+let status=state.techStatus[t.id]||'';
+let relatedHtml=t.related?t.related.map(r=>{let rt=TECHS.find(x=>x.id===r);return rt?`<span>${rt.name}</span>`:''}).join(''):'';
+return`<div class="tech-card" id="tech-${t.id}">
+<div class="tech-header" onclick="toggleTech('${t.id}')">
+<div><div class="tech-title">${CATS[t.cat].split(' ')[0]} ${t.name}</div>
+<div class="tech-sub">${t.en} | ${belt.name}</div></div>
+<div class="tech-meta"><span class="stars">${stars}</span><span>${status==='mastered'?'✅':status==='practicing'?'🔄':status==='learned'?'📖':''}</span><span style="transition:.3s" id="arrow-${t.id}">◀</span></div>
+</div>
+<div class="tech-body" id="body-${t.id}">
+<h4>📋 שלבי ביצוע:</h4><ol>${t.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+<div class="tip">💡 ${t.tips}</div>
+${relatedHtml?`<h4>🔗 טכניקות קשורות:</h4><div class="related">${relatedHtml}</div>`:''}
+<div class="status-btns">
+<button class="status-btn learned ${status==='learned'?'active-status':''}" onclick="setStatus('${t.id}','learned')">📖 נלמד</button>
+<button class="status-btn practicing ${status==='practicing'?'active-status':''}" onclick="setStatus('${t.id}','practicing')">🔄 בתרגול</button>
+<button class="status-btn mastered ${status==='mastered'?'active-status':''}" onclick="setStatus('${t.id}','mastered')">✅ נשלט</button>
+</div></div></div>`}).join('')||'<p style="color:var(--dim);text-align:center;padding:20px">לא נמצאו טכניקות</p>';
+}
+
+function toggleTech(id){
+let body=document.getElementById('body-'+id);
+let arrow=document.getElementById('arrow-'+id);
+let isOpen=body.classList.contains('open');
+body.classList.toggle('open');
+arrow.style.transform=isOpen?'rotate(0)':'rotate(-90deg)';
+state.lastTech=id;saveState();
+}
+
+function setStatus(id,status){
+if(state.techStatus[id]===status)delete state.techStatus[id];
+else state.techStatus[id]=status;
+saveState();renderTechniques();renderHome();
+}
+
+function filterTechniques(){renderTechniques()}
+
+function renderPaths(){
+if(activePath){renderPathDetail();return}
+let list=document.getElementById('pathsList');
+list.innerHTML='<h2>🛤️ מסלולי למידה</h2>'+PATHS.map(p=>`
+<div class="path-card" onclick="activePath='${p.id}';renderPaths()">
+<div class="emoji">${p.emoji}</div>
+<h3>${p.name}</h3>
+<p>${p.desc}</p>
+<p style="margin-top:8px;font-size:.75rem;color:var(--gold)">${p.techniques.length} טכניקות במסלול</p>
+</div>`).join('');
+document.getElementById('pathDetail').classList.remove('active');
+list.style.display='block';
+}
+
+function renderPathDetail(){
+let p=PATHS.find(x=>x.id===activePath);
+if(!p)return;
+document.getElementById('pathsList').style.display='none';
+let det=document.getElementById('pathDetail');
+det.classList.add('active');
+det.innerHTML=`<button class="back-btn" onclick="activePath=null;renderPaths()">→ חזרה למסלולים</button>
+<h2>${p.emoji} ${p.name}</h2><p style="color:var(--dim);margin-bottom:16px">${p.desc}</p>`+
+p.modules.map(m=>`<div class="card"><h3>${m.name}</h3><p style="font-size:.8rem;color:var(--dim);margin-bottom:8px">${m.desc}</p>
+${m.techs.map(tid=>{let t=TECHS.find(x=>x.id===tid);if(!t)return'';let s=state.techStatus[tid]||'';
+return`<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #2a2a3a;font-size:.85rem">
+<span>${t.name} <span style="color:var(--dim)">(${t.en})</span></span>
+<span>${s==='mastered'?'✅':s==='practicing'?'🔄':s==='learned'?'📖':'⬜'}</span></div>`}).join('')}</div>`).join('');
+}
+
+function renderTraining(){
+let bf=document.getElementById('trainingBeltFilter');
+if(!trainingBeltFilter)trainingBeltFilter=getCurrentBelt().id;
+bf.innerHTML=BELTS.map(b=>`<button class="belt-btn ${b.id} ${trainingBeltFilter===b.id?'active':''}" onclick="trainingBeltFilter='${b.id}';renderTraining()">${b.name}</button>`).join('');
+
+let plan=TRAINING[trainingBeltFilter]||[];
+document.getElementById('trainingPlan').innerHTML=plan.map((d,i)=>{
+let key=`${trainingBeltFilter}_${i}`;
+let done=state.sessionsCompleted[key];
+return`<div class="training-day">
+<h4>${d.day} - ${d.focus} <button class="check ${done?'done':''}" onclick="toggleSession('${key}')">${done?'✅ הושלם':'סמן כהושלם'}</button></h4>
+<div class="section"><div class="section-title">🔥 חימום:</div>${d.warmup}</div>
+<div class="section"><div class="section-title">🎯 תרגול טכניקה:</div>${d.drill}</div>
+<div class="section"><div class="section-title">🤼 ספארינג:</div>${d.sparring}</div>
+<div class="section"><div class="section-title">💪 כושר:</div>${d.conditioning}</div>
+</div>`}).join('');
+}
+
+function toggleSession(key){
+if(state.sessionsCompleted[key]){delete state.sessionsCompleted[key];state.totalSessions=Math.max(0,state.totalSessions-1)}
+else{state.sessionsCompleted[key]=true;state.totalSessions++}
+saveState();renderTraining();
+}
+
+let progressChart=null,catChart=null;
+function renderProgress(){
+let belt=getCurrentBelt();
+let hb=document.getElementById('headerBelt');
+hb.textContent=belt.name;hb.style.background=belt.color;hb.style.color=belt.textColor;
+
+// Belt progress bars
+let bpHtml='';
+BELTS.forEach(b=>{
+let techs=TECHS.filter(t=>t.belt===b.id);
+let mastered=techs.filter(t=>state.techStatus[t.id]==='mastered').length;
+let pct=techs.length?Math.round(mastered/techs.length*100):0;
+bpHtml+=`<div class="belt-progress"><span style="width:80px;font-size:.8rem;color:${b.color==='#f0f0f0'?'#ccc':b.color}">${b.name}</span>
+<div class="bar-wrap"><div class="bar" style="width:${pct}%"></div></div><span class="pct">${pct}%</span></div>`;
+});
+document.getElementById('beltProgressSection').innerHTML=bpHtml;
+
+// Stats
+let learned=Object.values(state.techStatus).filter(s=>s==='learned').length;
+let practicing=Object.values(state.techStatus).filter(s=>s==='practicing').length;
+let mastered=Object.values(state.techStatus).filter(s=>s==='mastered').length;
+document.getElementById('progressStats').innerHTML=`
+<div class="stat-card"><div class="num">${TECHS.length}</div><div class="label">סה"כ טכניקות</div></div>
+<div class="stat-card"><div class="num">${mastered+practicing+learned}</div><div class="label">התחלת ללמוד</div></div>
+<div class="stat-card"><div class="num">${mastered}</div><div class="label">שולט</div></div>
+<div class="stat-card"><div class="num">${state.totalSessions}</div><div class="label">אימונים</div></div>`;
+
+// Charts
+if(progressChart)progressChart.destroy();
+let ctx1=document.getElementById('progressChart').getContext('2d');
+progressChart=new Chart(ctx1,{type:'doughnut',data:{
+labels:['נשלט','בתרגול','נלמד','לא התחיל'],
+datasets:[{data:[mastered,practicing,learned,TECHS.length-mastered-practicing-learned],
+backgroundColor:['#2ecc71','#ffd60a','#3498db','#2a2a3a'],borderWidth:0}]},
+options:{responsive:true,plugins:{legend:{labels:{color:'#e8e8e8',font:{size:12}},position:'bottom'},
+title:{display:true,text:'התקדמות כללית',color:'#ffd60a',font:{size:14}}}}});
+
+if(catChart)catChart.destroy();
+let ctx2=document.getElementById('catChart').getContext('2d');
+let catData=Object.keys(CATS).map(c=>{
+let techs=TECHS.filter(t=>t.cat===c);
+return techs.filter(t=>state.techStatus[t.id]==='mastered').length;
+});
+catChart=new Chart(ctx2,{type:'bar',data:{
+labels:Object.values(CATS).map(c=>c.split(' ')[1]),
+datasets:[{label:'טכניקות נשלטו',data:catData,backgroundColor:'#e63946',borderRadius:6}]},
+options:{responsive:true,scales:{x:{ticks:{color:'#888'},grid:{display:false}},y:{ticks:{color:'#888',stepSize:1},grid:{color:'#2a2a3a'}}},
+plugins:{legend:{display:false},title:{display:true,text:'שליטה לפי קטגוריה',color:'#ffd60a',font:{size:14}}}}});
+}
+
+// Init
+renderHome();
+</script>
+</body>
+</html>
