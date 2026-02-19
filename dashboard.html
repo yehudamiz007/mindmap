@@ -27,10 +27,11 @@ canvas{max-height:400px}
 <body>
 <h1>✨ Yehuda AI - Analytics Dashboard</h1>
 <div class="cards">
-  <div class="card"><div class="label">Total Questions</div><div class="value">591</div></div>
-  <div class="card"><div class="label">Total Cost</div><div class="value">$245.42</div></div>
+  <div class="card"><div class="label">Total Questions</div><div class="value">648</div></div>
+  <div class="card"><div class="label">Total Cost</div><div class="value">$298.60</div></div>
   <div class="card"><div class="label">Categories</div><div class="value">14</div></div>
   <div class="card"><div class="label">Most Expensive</div><div class="value">WhatsApp</div></div>
+  <div class="card"><div class="label">Days Active</div><div class="value">3</div></div>
 </div>
 <div class="charts">
   <div class="chart-box"><h2>Question Distribution</h2><canvas id="donut"></canvas></div>
@@ -42,19 +43,19 @@ canvas{max-height:400px}
 // Original categories kept + "General" broken into sub-categories
 const data = [
   { cat: 'WhatsApp/Groups',    count: 229, cost: 89.72 },
-  { cat: 'Chat/Social',        count: 60,  cost: 26.38 },
-  { cat: 'Mindmap',            count: 32,  cost: 25.36 },
+  { cat: 'Chat/Social',        count: 68,  cost: 30.88 },
+  { cat: 'Mindmap',            count: 42,  cost: 38.36 },
   { cat: 'Family',             count: 51,  cost: 18.84 },
-  { cat: 'Coding',             count: 21,  cost: 17.45 },
-  { cat: 'Dashboard/Analytics',count: 20,  cost: 16.72 },
-  { cat: 'Heartbeat',          count: 25,  cost: 13.47 },
+  { cat: 'Coding',             count: 22,  cost: 19.95 },
+  { cat: 'Dashboard/Analytics',count: 23,  cost: 19.22 },
+  { cat: 'Heartbeat',          count: 38,  cost: 17.47 },
   { cat: 'Identity/Setup',     count: 22,  cost: 9.63  },
-  { cat: 'System',             count: 22,  cost: 9.10  },
+  { cat: 'Family Tree',        count: 12,  cost: 14.90 },
+  { cat: 'System',             count: 24,  cost: 10.60 },
   { cat: 'Memory',             count: 20,  cost: 5.12  },
-  { cat: 'Skills',             count: 8,   cost: 4.51  },
-  { cat: 'Family Tree',        count: 5,   cost: 3.40  },
-  { cat: 'Config',             count: 1,   cost: 0.23  },
-  { cat: 'Other',              count: 75,  cost: 5.49  }
+  { cat: 'Skills',             count: 9,   cost: 6.01  },
+  { cat: 'Config',             count: 2,   cost: 1.23  },
+  { cat: 'Other',              count: 86,  cost: 16.67 }
 ];
 
 const colors = [
@@ -125,7 +126,7 @@ new Chart(document.getElementById('bar'), {
 
 // Stacked bar chart - Daily Cost Breakdown by Category
 const dailyDates = ["2026-02-17","2026-02-18","2026-02-19"];
-const dailyData = {"WhatsApp/Groups":[19.0052,95.0796,0],"Chat/Social":[0.3746,14.8533,2.00],"Mindmap":[0,13.1278,6.25],"Family":[0.3748,2.6627,0],"Coding":[0,4.6394,0],"Dashboard/Analytics":[0,1.5714,1.50],"Heartbeat":[0,20.314,2.50],"Identity/Setup":[0.1039,0,0],"System":[0.2956,0.9051,0.50],"Memory":[0,0.8642,0],"Skills":[0.3395,3.7399,0],"Family Tree":[0,2.3495,0],"Config":[0,0,0],"Other":[20.7572,36.2493,1.50]};
+const dailyData = {"WhatsApp/Groups":[19.0052,95.0796,0],"Chat/Social":[0.3746,14.8533,4.50],"Mindmap":[0,13.1278,13.00],"Family":[0.3748,2.6627,0],"Coding":[0,4.6394,2.50],"Dashboard/Analytics":[0,1.5714,2.50],"Heartbeat":[0,20.314,4.00],"Identity/Setup":[0.1039,0,0],"Family Tree":[0,2.3495,11.50],"System":[0.2956,0.9051,1.50],"Memory":[0,0.8642,0],"Skills":[0.3395,3.7399,1.50],"Config":[0,0,1.00],"Other":[20.7572,36.2493,11.18]};
 
 const stackedDatasets = data.map((d, i) => ({
   label: d.cat,
