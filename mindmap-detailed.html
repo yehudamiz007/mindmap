@@ -31,12 +31,46 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%}
 .sub-node .node-emoji,.leaf-node .node-emoji{font-size:0.7em}
 @keyframes glow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.2)}}
 .cat-node .node-circle{animation:glow 3s ease-in-out infinite}
+#panel{position:fixed;top:0;right:-340px;width:340px;height:100%;background:rgba(15,23,42,.95);border-left:1px solid #334155;backdrop-filter:blur(12px);z-index:50;transition:right .3s ease;overflow-y:auto;pointer-events:auto}
+#panel.open{right:0}
+#panel-close{position:absolute;top:12px;right:12px;background:none;border:none;color:#94a3b8;font-size:20px;cursor:pointer;padding:4px 8px;border-radius:4px}
+#panel-close:hover{color:#e2e8f0;background:rgba(255,255,255,.1)}
+#panel-header{padding:24px 20px 16px;border-bottom:1px solid #1e293b}
+#panel-emoji{font-size:36px;margin-bottom:8px}
+#panel-title{font-size:18px;font-weight:700;color:#e2e8f0;margin-bottom:4px}
+#panel-level{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:1px}
+#panel-body{padding:16px 20px}
+#panel-desc{color:#cbd5e1;font-size:13px;line-height:1.6;margin-bottom:16px}
+#panel-children-title{color:#94a3b8;font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.panel-child{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;margin-bottom:4px;cursor:pointer;transition:background .2s}
+.panel-child:hover{background:rgba(255,255,255,.06)}
+.panel-child-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.panel-child-name{color:#e2e8f0;font-size:13px}
+#panel-path{padding:0 20px 16px}
+#panel-path span{color:#64748b;font-size:11px}
+#panel-path a{color:#94a3b8;font-size:11px;cursor:pointer;text-decoration:none}
+#panel-path a:hover{color:#e2e8f0}
+.panel-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:middle}
 </style>
 </head>
 <body>
 <canvas id="bg"></canvas>
 <canvas id="lines"></canvas>
 <div id="ui"></div>
+<div id="panel">
+  <button id="panel-close">&times;</button>
+  <div id="panel-header">
+    <div id="panel-emoji"></div>
+    <div id="panel-title"></div>
+    <div id="panel-level"></div>
+  </div>
+  <div id="panel-path"></div>
+  <div id="panel-body">
+    <div id="panel-desc"></div>
+    <div id="panel-children-title"></div>
+    <div id="panel-children"></div>
+  </div>
+</div>
 <script>
 const DATA=[
 ["center",null,0,"🦞","OpenClaw","#64748b"],
@@ -317,6 +351,7 @@ DATA.forEach((d,i)=>{
   text.className="node-text";
   text.textContent=o.label;
   el.appendChild(text);
+  el.addEventListener("click",(e)=>{e.stopPropagation();if(!dragMoved)openPanel(o.id);});
   ui.appendChild(el);
   nodeEls[o.id]=el;
   setTimeout(()=>el.classList.add("visible"),100+i*25);
@@ -367,20 +402,211 @@ function updatePositions(){
 }
 
 // Interaction
-let dragging=false,lastX,lastY;
-document.addEventListener("pointerdown",e=>{dragging=true;lastX=e.clientX;lastY=e.clientY});
+let dragging=false,lastX,lastY,dragMoved=false;
+document.addEventListener("pointerdown",e=>{dragging=true;dragMoved=false;lastX=e.clientX;lastY=e.clientY});
 document.addEventListener("pointermove",e=>{
   if(!dragging)return;
-  camX-=(e.clientX-lastX)/zoom;
-  camY-=(e.clientY-lastY)/zoom;
+  const dx=e.clientX-lastX,dy=e.clientY-lastY;
+  if(Math.abs(dx)>3||Math.abs(dy)>3)dragMoved=true;
+  camX-=dx/zoom;
+  camY-=dy/zoom;
   lastX=e.clientX;lastY=e.clientY;
 });
-document.addEventListener("pointerup",()=>dragging=false);
+document.addEventListener("pointerup",(e)=>{dragging=false;if(!dragMoved&&!e.target.closest('.node,.panel-child,#panel'))panel.classList.remove("open");});
 document.addEventListener("wheel",e=>{
   e.preventDefault();
   const f=e.deltaY>0?0.9:1.1;
   zoom=Math.max(0.1,Math.min(3,zoom*f));
 },{passive:false});
+
+// Descriptions
+const DESC={
+  "center":"OpenClaw is an open-source AI agent gateway. It connects LLMs to messaging platforms, tools, and devices through a single WebSocket daemon.",
+  "gw":"The Gateway is the core daemon that owns all connections - messaging surfaces, clients, and nodes. Runs on port 18789.",
+  "gw-ws":"WebSocket API for all client communication. JSON frames with typed request/response protocol.",
+  "gw-ws-1":"All messages use JSON text frames with schema validation via TypeBox.",
+  "gw-ws-2":"Gateway token authentication. First frame must be a connect handshake with auth token.",
+  "gw-ws-3":"Device pairing system. New devices require approval; local connections can be auto-approved.",
+  "gw-d":"Long-lived daemon process. Maintains provider connections and emits events.",
+  "gw-d-1":"Default bind address 127.0.0.1:18789. Configurable via gateway settings.",
+  "gw-d-2":"Health endpoint included in hello-ok handshake. Used by supervision tools.",
+  "gw-d-3":"Server-push events: agent, chat, presence, health, heartbeat, cron, tick, shutdown.",
+  "gw-h":"HTTP server on the same port as WebSocket. Serves canvas, A2UI, and API endpoints.",
+  "gw-h-1":"Agent-editable HTML/CSS/JS served at /__openclaw__/canvas/.",
+  "gw-h-2":"A2UI host at /__openclaw__/a2ui/ for agent-to-UI interactions.",
+  "gw-h-3":"OpenAI-compatible HTTP API for integration with external tools.",
+  "ch":"15+ messaging channel integrations. Each channel is a plugin with its own protocol adapter.",
+  "ch-wa":"WhatsApp integration via Baileys (WhatsApp Web protocol). Supports DMs, groups, and media.",
+  "ch-wa-1":"Baileys library for WhatsApp Web protocol. No official API needed.",
+  "ch-wa-2":"Direct messages with allowlist policy. Groups with open/mention-based activation.",
+  "ch-wa-3":"Images, audio, video, documents - full media support in both directions.",
+  "ch-tg":"Telegram bot integration via grammY framework.",
+  "ch-tg-1":"grammY - modern Telegram Bot API framework for TypeScript.",
+  "ch-tg-2":"Full Telegram Bot API support including inline keyboards and media.",
+  "ch-more":"Additional channel plugins: Discord, Signal, Slack, iMessage, IRC, Matrix, MS Teams, Line, Nostr, Google Chat.",
+  "ch-more-1":"Discord bot via discord.js. Supports channels, threads, reactions.",
+  "ch-more-2":"Signal messenger integration via signal-cli.",
+  "ch-more-3":"Slack bot integration with workspace events.",
+  "ch-more-4":"iMessage via local imsg CLI (macOS only).",
+  "ch-more-5":"IRC protocol support.",
+  "ch-more-6":"Matrix protocol via matrix-js-sdk.",
+  "ch-more-7":"Microsoft Teams bot integration.",
+  "ch-more-8":"LINE messaging platform integration.",
+  "ch-more-9":"Nostr decentralized protocol support.",
+  "ch-more-10":"Google Chat workspace integration.",
+  "ag":"The AI agent system. Manages sessions, the agent loop, and memory persistence.",
+  "ag-s":"Session management. DMs collapse into main; groups get isolated sessions.",
+  "ag-s-1":"Main session - shared context for direct chats with the owner.",
+  "ag-s-2":"Isolated sessions - separate context per group or agent task.",
+  "ag-s-3":"Sub-agents spawned for background tasks. Auto-announce results when done.",
+  "ag-s-4":"Context compaction - summarizes long conversations to fit token limits.",
+  "ag-al":"The core agent loop: receive message → build prompt → call LLM → execute tools → respond.",
+  "ag-al-1":"System prompt built from AGENTS.md, SOUL.md, skills, and runtime context.",
+  "ag-al-2":"Tool calls executed in sequence. Results fed back to the LLM.",
+  "ag-al-3":"Streaming responses with chunking for long messages.",
+  "ag-al-4":"Automatic retry with exponential backoff on transient failures.",
+  "ag-m":"File-based memory system. MEMORY.md for long-term, daily notes for raw logs.",
+  "ag-m-1":"MEMORY.md - curated long-term memory. Only loaded in main session for security.",
+  "ag-m-2":"Daily journal files in memory/YYYY-MM-DD.md for raw event logging.",
+  "ag-m-3":"Semantic search across memory files using memory_search tool.",
+  "mo":"Multi-provider model support with failover, aliases, and feature detection.",
+  "mo-p":"Model providers - each with their own API adapter and capabilities.",
+  "mo-p-1":"Anthropic - Claude models (Opus, Sonnet). Primary provider.",
+  "mo-p-2":"OpenAI - GPT models. Wide ecosystem support.",
+  "mo-p-3":"xAI - Grok models. Good for web search and real-time info.",
+  "mo-p-4":"Google - Gemini models. Large context windows.",
+  "mo-p-5":"Ollama - local model hosting. No API key needed.",
+  "mo-p-6":"OpenRouter - unified API for 100+ models from multiple providers.",
+  "mo-f":"Model features and configuration options.",
+  "mo-f-1":"Automatic failover to backup models when primary is unavailable.",
+  "mo-f-2":"Short aliases for models (e.g., 'grok' → 'xai/grok-3').",
+  "mo-f-3":"Thinking/reasoning mode for complex tasks. Configurable depth.",
+  "mo-f-4":"Vision capabilities for image analysis and understanding.",
+  "to":"Built-in tools, skills from ClawHub, and extension plugins.",
+  "to-b":"Core tools available to every agent session.",
+  "to-b-1":"exec - Run shell commands with background continuation and PTY support.",
+  "to-b-2":"read/write/edit - File operations with line-level precision.",
+  "to-b-3":"browser - Full browser automation via Playwright (click, type, navigate, screenshot).",
+  "to-b-4":"web_search - Brave Search API for web queries.",
+  "to-b-5":"web_fetch - Fetch and extract readable content from URLs.",
+  "to-b-6":"cron - Schedule jobs, reminders, and recurring tasks.",
+  "to-b-7":"message - Send messages across channels, reactions, polls.",
+  "to-b-8":"tts - Text-to-speech via ElevenLabs or local engines.",
+  "to-sk":"Skills are packaged tool instructions with SKILL.md files.",
+  "to-sk-1":"ClawHub - community marketplace for discovering and sharing skills.",
+  "to-sk-2":"SKILL.md - skill definition file with instructions, scripts, and references.",
+  "to-sk-3":"Custom skills in the workspace skills/ directory.",
+  "to-ex":"Extension plugins for adding new capabilities.",
+  "to-ex-1":"Plugin SDK for building new channel adapters and tools.",
+  "to-ex-2":"openclaw.plugin.json - plugin manifest with capabilities declaration.",
+  "no":"Mobile and desktop nodes that connect to the Gateway for device capabilities.",
+  "no-pl":"Supported platforms for node connections.",
+  "no-pl-1":"iOS node via TestFlight app. Camera, canvas, location.",
+  "no-pl-2":"Android node with full capabilities: camera, canvas, chat, screen.",
+  "no-pl-3":"macOS companion app with menu bar, voice overlay, canvas.",
+  "no-pl-4":"Headless node for servers and automation.",
+  "no-ca":"Device capabilities exposed through node connections.",
+  "no-ca-1":"Camera capture - snap photos, record clips from front/back cameras.",
+  "no-ca-2":"Screen recording and capture.",
+  "no-ca-3":"GPS location tracking with configurable accuracy.",
+  "no-ca-4":"Canvas - HTML surface rendered on the device, controlled by the agent.",
+  "no-ca-5":"Audio - voice input/output, wake word detection.",
+  "ws":"The agent workspace - files that define personality, memory, and skills.",
+  "ws-cf":"Core configuration files loaded every session.",
+  "ws-cf-1":"AGENTS.md - workspace rules, safety constraints, conventions.",
+  "ws-cf-2":"SOUL.md - agent personality, tone, and behavioral guidelines.",
+  "ws-cf-3":"USER.md - information about the human (name, timezone, preferences).",
+  "ws-cf-4":"IDENTITY.md - the agent's own identity (name, creature, emoji).",
+  "ws-cf-5":"TOOLS.md - local tool notes (camera names, SSH hosts, voices).",
+  "ws-me":"Memory files for continuity across sessions.",
+  "ws-me-1":"MEMORY.md - curated long-term memory, updated periodically.",
+  "ws-me-2":"memory/*.md - daily journal files with raw session logs.",
+  "ws-me-3":"HEARTBEAT.md - checklist for periodic background tasks.",
+  "ws-sk":"Custom skills installed in the workspace.",
+  "ws-sk-1":"Hebrew language skill - bilingual communication.",
+  "ws-sk-2":"Husband support - relationship tips for Ilana.",
+  "ws-sk-3":"Parenting - tailored to Avior, Nitai, Arbel.",
+  "ws-sk-4":"Coffee Master - La Marzocco Linea Micra expertise.",
+  "ws-sk-5":"AI Chief Architect - system design and tech decisions.",
+  "ws-sk-6":"Technical Analysis - charts, Elliott Wave, ICT concepts.",
+  "ws-sk-7":"Fitness & Nutrition - training and meal planning.",
+  "ws-sk-8":"Secure Skill Downloader - security gate for skill installs.",
+  "au":"Automation systems for scheduled and event-driven tasks.",
+  "au-cr":"Cron job scheduler for timed tasks.",
+  "au-cr-1":"Scheduled jobs with cron expressions and timezone support.",
+  "au-cr-2":"One-shot jobs triggered at a specific time.",
+  "au-cr-3":"Recurring jobs (daily, hourly, custom intervals).",
+  "au-hb":"Heartbeat polling system for proactive background work.",
+  "au-hb-1":"Regular polling at configurable intervals (~30 min default).",
+  "au-hb-2":"HEARTBEAT.md defines what to check during each heartbeat.",
+  "au-hb-3":"Proactive checks: email, calendar, weather, mentions.",
+  "au-ho":"Event-driven hooks and integrations.",
+  "au-ho-1":"Webhook endpoints for external service integrations.",
+  "au-ho-2":"Gmail PubSub for real-time email notifications.",
+  "ui":"User interfaces for interacting with OpenClaw.",
+  "ui-w":"Web-based interfaces.",
+  "ui-w-1":"WebChat - browser-based chat UI connecting via Gateway WebSocket.",
+  "ui-w-2":"Control UI - admin dashboard for managing the Gateway.",
+  "ui-w-3":"Dashboard - usage analytics and session monitoring.",
+  "ui-w-4":"TUI - terminal-based interface for CLI users.",
+  "ui-a":"Native applications.",
+  "ui-a-1":"macOS app with menu bar integration and voice overlay.",
+  "ui-a-2":"Menu bar presence for quick access on macOS.",
+  "ui-a-3":"CLI - full command-line interface (openclaw commands).",
+  "se":"Security layers: authentication, authorization, and sandboxing.",
+  "se-au":"Authentication mechanisms.",
+  "se-au-1":"Gateway token - shared secret for WebSocket authentication.",
+  "se-au-2":"Device pairing with approval flow and device tokens.",
+  "se-au-3":"Allowlists for DM senders, group participants, and admin users.",
+  "se-sb":"Execution sandboxing and permission controls.",
+  "se-sb-1":"Exec policy - control which shell commands the agent can run.",
+  "se-sb-2":"Elevated mode - run commands with higher privileges when needed.",
+  "se-sb-3":"Tool policy - per-tool allow/deny rules.",
+};
+const LEVELS=["Core","Category","Component","Detail"];
+
+// Panel
+const panel=document.getElementById("panel");
+const panelClose=document.getElementById("panel-close");
+const panelEmoji=document.getElementById("panel-emoji");
+const panelTitle=document.getElementById("panel-title");
+const panelLevel=document.getElementById("panel-level");
+const panelPath=document.getElementById("panel-path");
+const panelDesc=document.getElementById("panel-desc");
+const panelChildrenTitle=document.getElementById("panel-children-title");
+const panelChildrenEl=document.getElementById("panel-children");
+
+function openPanel(id){
+  const o=byId[id];
+  if(!o)return;
+  panelEmoji.textContent=o.emoji||"";
+  panelTitle.textContent=o.label;
+  panelLevel.innerHTML=`<span class="panel-dot" style="background:${o.color}"></span>${LEVELS[o.level]}`;
+  // breadcrumb
+  const path=[];
+  let cur=o;
+  while(cur){path.unshift(cur);cur=cur.parent?byId[cur.parent]:null;}
+  panelPath.innerHTML=path.map((p,i)=>
+    i<path.length-1?`<a onclick="openPanel('${p.id}')">${p.emoji||""} ${p.label}</a>`:
+    `<span>${p.emoji||""} ${p.label}</span>`
+  ).join(' <span style="color:#475569"> › </span> ');
+  panelDesc.textContent=DESC[id]||"No description available.";
+  const kids=children[id]||[];
+  if(kids.length>0){
+    panelChildrenTitle.textContent=o.level===0?"Categories":o.level===1?"Components":"Children";
+    panelChildrenEl.innerHTML=kids.map(k=>
+      `<div class="panel-child" onclick="openPanel('${k.id}')">
+        <div class="panel-child-dot" style="background:${k.color}"></div>
+        <div class="panel-child-name">${k.emoji?k.emoji+" ":""}${k.label}</div>
+      </div>`
+    ).join("");
+  } else {
+    panelChildrenTitle.textContent="";
+    panelChildrenEl.innerHTML="";
+  }
+  panel.classList.add("open");
+}
+panelClose.addEventListener("click",()=>panel.classList.remove("open"));
 
 // Render loop
 function frame(t){
