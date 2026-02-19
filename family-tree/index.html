@@ -411,22 +411,30 @@
 
                 <!-- Line to Nirit & Yisrael's children -->
                 <line class="ft-line" x1="500" y1="210" x2="500" y2="230"/>
-                <line class="ft-line" x1="440" y1="230" x2="560" y2="230"/>
-                <line class="ft-line" x1="440" y1="230" x2="440" y2="250"/>
-                <line class="ft-line" x1="560" y1="230" x2="560" y2="250"/>
+                <line class="ft-line" x1="380" y1="230" x2="620" y2="230"/>
+                <line class="ft-line" x1="380" y1="230" x2="380" y2="250"/>
+                <line class="ft-line" x1="500" y1="230" x2="500" y2="250"/>
+                <line class="ft-line" x1="620" y1="230" x2="620" y2="250"/>
 
                 <!-- Yitzchak Ben-David -->
                 <g class="clickable" onclick="showPerson('yitzchak_bd')">
-                    <rect class="ft-card" x="385" y="250" width="110" height="50"/>
-                    <text class="ft-child-name" x="440" y="275">יצחק בן-דוד</text>
-                    <text class="ft-detail" x="440" y="290">בן</text>
+                    <rect class="ft-card" x="325" y="250" width="110" height="50"/>
+                    <text class="ft-child-name" x="380" y="275">יצחק בן-דוד</text>
+                    <text class="ft-detail" x="380" y="290">בן</text>
+                </g>
+
+                <!-- Yafa Ben-David z"l -->
+                <g class="clickable" onclick="showPerson('yafa_bd')">
+                    <rect class="ft-card-memorial" x="445" y="250" width="110" height="50"/>
+                    <text class="ft-child-name" x="500" y="275">יפה בן-דוד</text>
+                    <text class="ft-detail" x="500" y="290">ז"ל</text>
                 </g>
 
                 <!-- Shlomit Meira Elimelech -->
                 <g class="clickable" onclick="showPerson('shlomit_bd')">
-                    <rect class="ft-card" x="505" y="250" width="110" height="50"/>
-                    <text class="ft-child-name" x="560" y="275">שלומית מאירה</text>
-                    <text class="ft-detail" x="560" y="290">אלימלך</text>
+                    <rect class="ft-card" x="565" y="250" width="110" height="50"/>
+                    <text class="ft-child-name" x="620" y="275">שלומית מאירה</text>
+                    <text class="ft-detail" x="620" y="290">אלימלך</text>
                 </g>
 
                 <!-- Decorative corners -->
@@ -540,7 +548,7 @@
             sections: [
                 { title: '👪 הורים', text: 'יעקוב לבנברג ז"ל וחיה שרה (לבית שרגא) ז"ל' },
                 { title: '💔 אלמנה', text: 'אשתו של ישראל צבי בן-דוד ז"ל' },
-                { title: '👶 ילדים', text: 'יצחק בן-דוד (בן), שלומית מאירה אלימלך (בת)' }
+                { title: '👶 ילדים', text: 'יצחק בן-דוד (בן), יפה בן-דוד ז"ל (בת), שלומית מאירה אלימלך (בת)' }
             ]
         },
         yisrael_tzvi: {
@@ -548,7 +556,7 @@
             role: 'בעלה של נורית יהודית (לבנברג)',
             sections: [
                 { title: '💕 נשוי ל', text: 'נורית יהודית (לבית לבנברג)' },
-                { title: '👶 ילדים', text: 'יצחק בן-דוד (בן), שלומית מאירה אלימלך (בת)' },
+                { title: '👶 ילדים', text: 'יצחק בן-דוד (בן), יפה בן-דוד ז"ל (בת), שלומית מאירה אלימלך (בת)' },
                 { title: '🕯️ לזכרו', text: 'זכרו יהיה ברוך' }
             ]
         },
@@ -557,6 +565,14 @@
             role: 'בנם של ישראל צבי ז"ל ונורית יהודית',
             sections: [
                 { title: '👪 הורים', text: 'ישראל צבי בן-דוד ז"ל ונורית יהודית (לבית לבנברג)' }
+            ]
+        },
+        yafa_bd: {
+            emoji: '🕯️', name: 'יפה בן-דוד ז"ל',
+            role: 'בתם של ישראל צבי ז"ל ונורית יהודית',
+            sections: [
+                { title: '👪 הורים', text: 'ישראל צבי בן-דוד ז"ל ונורית יהודית (לבית לבנברג)' },
+                { title: '🕯️ לזכרה', text: 'זכרה יהיה ברוך' }
             ]
         },
         shlomit_bd: {
@@ -704,7 +720,7 @@
 
     function showAllStories() {
         let html = '';
-        const order = ['yaakov','chaya_sara','moshe_yosef','yafa','chana_tova','nirit','yisrael_tzvi','yitzchak_bd','shlomit_bd',
+        const order = ['yaakov','chaya_sara','moshe_yosef','yafa','chana_tova','nirit','yisrael_tzvi','yitzchak_bd','yafa_bd','shlomit_bd',
                        'vardit_l','tova_cherna','tamar_pnina','avi','vardit_m',
                        'yehuda','ilana','tamir','meital','sapir','avior','nitai','arbel'];
         order.forEach(id => {
@@ -726,7 +742,7 @@
     // Populate print stories
     window.addEventListener('load', function() {
         let html = '';
-        const order = ['yaakov','chaya_sara','moshe_yosef','yafa','chana_tova','nirit','yisrael_tzvi','yitzchak_bd','shlomit_bd',
+        const order = ['yaakov','chaya_sara','moshe_yosef','yafa','chana_tova','nirit','yisrael_tzvi','yitzchak_bd','yafa_bd','shlomit_bd',
                        'vardit_l','tova_cherna','tamar_pnina','avi','vardit_m',
                        'yehuda','ilana','tamir','meital','sapir','avior','nitai','arbel'];
         order.forEach(id => {
