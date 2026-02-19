@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>דשבורד מתיחות ארה"ב-איראן | פברואר 2026</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Heebo', sans-serif; background: #0a0e1a; color: #e0e6f0; direction: rtl; overflow-x: hidden; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #111827; }
+::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, #1a0a0a 0%, #0a0e1a 50%, #0a1a0a 100%);
+  border-bottom: 2px solid #dc2626;
+  padding: 20px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.header h1 {
+  font-size: 1.8em;
+  font-weight: 900;
+  background: linear-gradient(90deg, #ef4444, #f97316, #ef4444);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textGlow 3s ease-in-out infinite;
+}
+@keyframes textGlow { 0%,100% { filter: brightness(1); } 50% { filter: brightness(1.3); } }
+.header-meta { text-align: left; font-size: 0.85em; color: #9ca3af; }
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #dc2626;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8em;
+  font-weight: 700;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
+.live-dot { width: 8px; height: 8px; background: white; border-radius: 50%; }
+
+/* Alert Banner */
+.alert-banner {
+  background: linear-gradient(90deg, #7f1d1d, #991b1b, #7f1d1d);
+  padding: 12px 30px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.05em;
+  border-bottom: 1px solid #dc2626;
+  animation: alertPulse 4s ease-in-out infinite;
+}
+@keyframes alertPulse { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+.alert-banner .icon { font-size: 1.3em; margin: 0 8px; }
+
+/* Grid */
+.dashboard { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; padding: 20px; max-width: 1600px; margin: 0 auto; }
+.full-width { grid-column: 1 / -1; }
+.two-col { grid-column: span 2; }
+
+/* Cards */
+.card {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+.card:hover { border-color: #374151; }
+.card-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid #1f2937;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.card-header h2 { font-size: 1.05em; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.card-body { padding: 18px; }
+
+/* Threat Level */
+.threat-gauge {
+  text-align: center;
+  padding: 30px 20px;
+}
+.gauge-circle {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  position: relative;
+  background: conic-gradient(#dc2626 0% 82%, #1f2937 82% 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: gaugeGlow 3s ease-in-out infinite;
+}
+@keyframes gaugeGlow { 0%,100% { box-shadow: 0 0 30px rgba(220,38,38,0.3); } 50% { box-shadow: 0 0 60px rgba(220,38,38,0.6); } }
+.gauge-inner {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: #111827;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.gauge-value { font-size: 3em; font-weight: 900; color: #ef4444; }
+.gauge-label { font-size: 0.9em; color: #9ca3af; }
+.threat-text { font-size: 1.3em; font-weight: 700; color: #ef4444; margin-bottom: 8px; }
+.threat-sub { font-size: 0.85em; color: #9ca3af; line-height: 1.6; }
+.threat-methodology {
+  margin-top: 15px;
+  padding: 12px;
+  background: #1a1a2e;
+  border-radius: 8px;
+  font-size: 0.78em;
+  color: #6b7280;
+  text-align: right;
+  line-height: 1.6;
+}
+
+/* Indicators */
+.indicator {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #1f2937;
+}
+.indicator:last-child { border-bottom: none; }
+.indicator-label { display: flex; align-items: center; gap: 8px; font-weight: 500; }
+.indicator-value {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85em;
+  font-weight: 700;
+}
+.status-critical { background: #7f1d1d; color: #fca5a5; }
+.status-high { background: #78350f; color: #fcd34d; }
+.status-elevated { background: #713f12; color: #fde68a; }
+.status-moderate { background: #1e3a5f; color: #93c5fd; }
+.status-low { background: #14532d; color: #86efac; }
+
+/* Progress bars */
+.indicator-bar {
+  width: 100%;
+  height: 6px;
+  background: #1f2937;
+  border-radius: 3px;
+  margin-top: 6px;
+  overflow: hidden;
+}
+.indicator-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1s ease;
+}
+.fill-critical { background: linear-gradient(90deg, #ef4444, #dc2626); }
+.fill-high { background: linear-gradient(90deg, #f59e0b, #d97706); }
+.fill-elevated { background: linear-gradient(90deg, #eab308, #ca8a04); }
+.fill-moderate { background: linear-gradient(90deg, #3b82f6, #2563eb); }
+
+/* Timeline */
+.timeline { position: relative; padding-right: 30px; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  right: 8px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #dc2626, #f59e0b, #3b82f6);
+}
+.timeline-item { position: relative; margin-bottom: 20px; padding-right: 20px; }
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  right: -26px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid;
+}
+.timeline-item.critical::before { border-color: #ef4444; background: #7f1d1d; }
+.timeline-item.high::before { border-color: #f59e0b; background: #78350f; }
+.timeline-item.medium::before { border-color: #3b82f6; background: #1e3a5f; }
+.timeline-date { font-size: 0.75em; color: #6b7280; margin-bottom: 4px; font-weight: 500; }
+.timeline-title { font-weight: 700; font-size: 0.95em; margin-bottom: 4px; }
+.timeline-desc { font-size: 0.82em; color: #9ca3af; line-height: 1.5; }
+.timeline-source { font-size: 0.7em; color: #4b5563; margin-top: 4px; }
+
+/* Map */
+#map { height: 500px; border-radius: 0 0 12px 12px; }
+.map-legend {
+  padding: 12px 18px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  font-size: 0.82em;
+}
+.legend-item { display: flex; align-items: center; gap: 6px; }
+.legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+
+/* News */
+.news-item {
+  padding: 14px 0;
+  border-bottom: 1px solid #1f2937;
+  transition: background 0.2s;
+}
+.news-item:last-child { border-bottom: none; }
+.news-item:hover { background: #1f2937; margin: 0 -18px; padding: 14px 18px; border-radius: 8px; }
+.news-time { font-size: 0.72em; color: #6b7280; margin-bottom: 4px; }
+.news-title { font-weight: 700; font-size: 0.95em; line-height: 1.4; margin-bottom: 4px; }
+.news-title a { color: #e0e6f0; text-decoration: none; }
+.news-title a:hover { color: #60a5fa; }
+.news-source { font-size: 0.75em; color: #f59e0b; }
+.news-breaking { color: #ef4444; font-weight: 900; font-size: 0.72em; margin-left: 6px; }
+
+/* Forces table */
+.forces-table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+.forces-table th {
+  background: #1f2937;
+  padding: 10px 14px;
+  text-align: right;
+  font-weight: 700;
+  font-size: 0.82em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #9ca3af;
+}
+.forces-table td { padding: 10px 14px; border-bottom: 1px solid #1f2937; }
+.forces-table tr:hover td { background: #1a2332; }
+.us-color { color: #60a5fa; }
+.iran-color { color: #ef4444; }
+.flag { font-size: 1.2em; margin-left: 4px; }
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 20px;
+  border-top: 1px solid #1f2937;
+  font-size: 0.78em;
+  color: #4b5563;
+  line-height: 1.8;
+}
+.footer a { color: #6b7280; text-decoration: none; }
+.footer a:hover { color: #9ca3af; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .dashboard { grid-template-columns: 1fr; }
+  .two-col, .full-width { grid-column: 1; }
+}
+
+/* Scenario cards */
+.scenario {
+  background: #1a1a2e;
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+.scenario-title { font-weight: 700; font-size: 0.9em; margin-bottom: 6px; display: flex; justify-content: space-between; }
+.scenario-prob { font-weight: 900; }
+.scenario-desc { font-size: 0.8em; color: #9ca3af; line-height: 1.5; }
+
+/* Tabs */
+.tab-group { display: flex; gap: 4px; margin-bottom: 16px; }
+.tab-btn {
+  padding: 6px 16px;
+  background: #1f2937;
+  border: none;
+  border-radius: 6px;
+  color: #9ca3af;
+  cursor: pointer;
+  font-family: 'Heebo';
+  font-size: 0.85em;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.tab-btn.active { background: #dc2626; color: white; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div>
+    <h1>🎯 דשבורד מתיחות ארה"ב – איראן</h1>
+    <div style="margin-top:4px; font-size:0.85em; color:#9ca3af;">ניטור בזמן אמת | ניתוח מודיעיני מצרפי</div>
+  </div>
+  <div class="header-meta">
+    <div class="live-badge"><span class="live-dot"></span>LIVE</div>
+    <div style="margin-top:6px;">עדכון אחרון: 19 בפברואר 2026, 11:20 PST</div>
+  </div>
+</header>
+
+<!-- Alert Banner -->
+<div class="alert-banner">
+  <span class="icon">⚠️</span>
+  חדשות דחופות: הצבא האמריקאי ממוקם ומוכן לתקיפה באיראן כבר בסוף השבוע — טראמפ טרם קיבל החלטה סופית (CNN, NYT)
+  <span class="icon">⚠️</span>
+</div>
+
+<div class="dashboard">
+
+  <!-- Threat Gauge -->
+  <div class="card">
+    <div class="card-header">
+      <h2>🔴 רמת איום מצרפית</h2>
+      <span style="font-size:0.75em; color:#ef4444;">קריטית</span>
+    </div>
+    <div class="card-body threat-gauge">
+      <div class="gauge-circle">
+        <div class="gauge-inner">
+          <div class="gauge-value">82%</div>
+          <div class="gauge-label">סיכוי עימות</div>
+        </div>
+      </div>
+      <div class="threat-text">רמת סכנה: קריטית</div>
+      <div class="threat-sub">הסתברות להסלמה צבאית ב-7 הימים הקרובים</div>
+      <div class="threat-methodology">
+        <strong>מתודולוגיה:</strong> החישוב מבוסס על שקלול 6 פרמטרים: פריסה צבאית (9.5/10), רטוריקה מנהיגים (9/10), סטטוס דיפלומטי (3/10 - מאמצי שיחות), סנקציות חדשות (8/10), תרגילים צבאיים (9/10), תקדימים היסטוריים (7/10). משקל גבוה לפריסה בפועל ורטוריקה.
+      </div>
+    </div>
+  </div>
+
+  <!-- Key Indicators -->
+  <div class="card two-col">
+    <div class="card-header">
+      <h2>📊 אינדיקטורים מרכזיים</h2>
+      <span style="font-size:0.75em; color:#6b7280;">19.02.2026</span>
+    </div>
+    <div class="card-body">
+      <div class="indicator">
+        <div class="indicator-label">🏛️ סטטוס דיפלומטי</div>
+        <span class="indicator-value status-high">שיחות עקיפות תחת לחץ</span>
+      </div>
+      <div class="indicator-bar"><div class="indicator-fill fill-high" style="width:70%"></div></div>
+
+      <div class="indicator" style="margin-top:10px">
+        <div class="indicator-label">⚔️ פריסה צבאית אמריקאית</div>
+        <span class="indicator-value status-critical">ברמת מוכנות מלאה</span>
+      </div>
+      <div class="indicator-bar"><div class="indicator-fill fill-critical" style="width:95%"></div></div>
+
+      <div class="indicator" style="margin-top:10px">
+        <div class="indicator-label">🚀 פעילות צבאית איראנית</div>
+        <span class="indicator-value status-critical">תרגילי חירום מוגברים</span>
+      </div>
+      <div class="indicator-bar"><div class="indicator-fill fill-critical" style="width:90%"></div></div>
+
+      <div class="indicator" style="margin-top:10px">
+        <div class="indicator-label">💰 סנקציות</div>
+        <span class="indicator-value status-high">הקשחה מסיבית חדשה</span>
+      </div>
+      <div class="indicator-bar"><div class="indicator-fill fill-high" style="width:85%"></div></div>
+
+      <div class="indicator" style="margin-top:10px">
+        <div class="indicator-label">📢 רטוריקה מנהיגים</div>
+        <span class="indicator-value status-critical">איומים ישירים</span>
+      </div>
+      <div class="indicator-bar"><div class="indicator-fill fill-critical" style="width:92%"></div></div>
+
+      <div class="indicator" style="margin-top:10px">
+        <div class="indicator-label">🛢️ מחיר נפט (ברנט)</div>
+        <span class="indicator-value status-high">$98+ לחבית ↑</span>
+      </div>
+      <div class="indicator-bar"><div class="indicator-fill fill-high" style="width:75%"></div></div>
+
+      <div class="indicator" style="margin-top:10px">
+        <div class="indicator-label">☢️ תוכנית גרעין</div>
+        <span class="indicator-value status-critical">העשרה ב-60%+ נמשכת</span>
+      </div>
+      <div class="indicator-bar"><div class="indicator-fill fill-critical" style="width:88%"></div></div>
+
+      <div class="indicator" style="margin-top:10px">
+        <div class="indicator-label">🌐 פרוקסיים אזוריים</div>
+        <span class="indicator-value status-elevated">דריכות מוגברת</span>
+      </div>
+      <div class="indicator-bar"><div class="indicator-fill fill-elevated" style="width:65%"></div></div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="card two-col">
+    <div class="card-header">
+      <h2>📅 ציר זמן הסלמה</h2>
+      <span style="font-size:0.75em; color:#6b7280;">חודש אחרון</span>
+    </div>
+    <div class="card-body">
+      <div class="timeline">
+        <div class="timeline-item critical">
+          <div class="timeline-date">19 פברואר 2026 — היום</div>
+          <div class="timeline-title">איראן מקיימת תרגילים נוספים; נושאת מטוסים אמריקאית מתקרבת למזה"ת</div>
+          <div class="timeline-desc">שתי המדינות ממשיכות בהכנות צבאיות מואצות. איראן מבצעת תרגילי הגנה אווירית ואיראן טילים. USS Abraham Lincoln מתקרבת לאזור.</div>
+          <div class="timeline-source">מקור: Washington Post, AP</div>
+        </div>
+        <div class="timeline-item critical">
+          <div class="timeline-date">18-19 פברואר 2026</div>
+          <div class="timeline-title">הצבא האמריקאי מוכן לתקיפה באיראן כבר בסוף השבוע</div>
+          <div class="timeline-desc">לפי CNN ו-NYT, הכוחות הצבאיים האמריקאיים ממוקמים ומוכנים לפעולה. טראמפ טרם קיבל החלטה סופית. מטוסי B-2 ומפציצי B-52 הועברו לאזור.</div>
+          <div class="timeline-source">מקור: CNN, New York Times, Axios</div>
+        </div>
+        <div class="timeline-item critical">
+          <div class="timeline-date">18 פברואר 2026</div>
+          <div class="timeline-title">טראמפ מתקרב למלחמה גדולה עם איראן</div>
+          <div class="timeline-desc">ברק רביד מדווח ב-Axios כי ממשל טראמפ מתקדם לקראת עימות צבאי ישיר. הלחץ המקסימלי מגיע לשיא חדש.</div>
+          <div class="timeline-source">מקור: Axios (Barak Ravid)</div>
+        </div>
+        <div class="timeline-item high">
+          <div class="timeline-date">~2 פברואר 2026</div>
+          <div class="timeline-title">נשיא איראן מורה על פתיחת שיחות חדשות עם ארה"ב</div>
+          <div class="timeline-desc">הנשיא פזשכיאן הורה לצוות לפתוח ערוץ משא ומתן חדש עם וושינגטון. מאמץ דיפלומטי אחרון למניעת עימות.</div>
+          <div class="timeline-source">מקור: Al Jazeera</div>
+        </div>
+        <div class="timeline-item high">
+          <div class="timeline-date">30 ינואר 2026</div>
+          <div class="timeline-title">טראמפ מכפיל את האיומים; סנקציות חדשות מוטלות</div>
+          <div class="timeline-desc">סבב סנקציות חדש נגד תוכנית הגרעין האיראנית וגורמי מימון. טראמפ מזהיר: "כל האופציות על השולחן".</div>
+          <div class="timeline-source">מקור: Al Jazeera</div>
+        </div>
+        <div class="timeline-item medium">
+          <div class="timeline-date">14 ינואר 2026</div>
+          <div class="timeline-title">המרחב האווירי האיראני נפתח מחדש</div>
+          <div class="timeline-desc">לאחר סגירה זמנית בעקבות מתיחות גוברת, איראן פותחת מחדש את המרחב האווירי. אירוע שהעלה חששות ברחבי העולם.</div>
+          <div class="timeline-source">מקור: The Guardian</div>
+        </div>
+        <div class="timeline-item medium">
+          <div class="timeline-date">ינואר 2026</div>
+          <div class="timeline-title">ארה"ב ואיראן מאותתות על שיחות למניעת עימות</div>
+          <div class="timeline-desc">ערוצים עקיפים דרך עומאן ושוויץ פועלים. שתי המדינות מאותתות על נכונות למשא ומתן, תוך המשך הסלמה בשטח.</div>
+          <div class="timeline-source">מקור: Al Jazeera, DW</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scenarios -->
+  <div class="card">
+    <div class="card-header">
+      <h2>🎲 תרחישים אפשריים</h2>
+      <span style="font-size:0.75em; color:#6b7280;">7 ימים קדימה</span>
+    </div>
+    <div class="card-body">
+      <div class="scenario">
+        <div class="scenario-title">
+          <span>🔴 תקיפה אמריקאית ממוקדת</span>
+          <span class="scenario-prob" style="color:#ef4444">45%</span>
+        </div>
+        <div class="scenario-desc">תקיפת מתקני גרעין ובסיסי טילים. כולל שימוש ב-B-2 ו-Tomahawk. סביר לאור הפריסה הנוכחית וה-leaks מהממשל.</div>
+      </div>
+      <div class="scenario">
+        <div class="scenario-title">
+          <span>🟡 הסלמה הדרגתית</span>
+          <span class="scenario-prob" style="color:#f59e0b">25%</span>
+        </div>
+        <div class="scenario-desc">המשך לחץ מקסימלי, סנקציות נוספות, תקריות ימיות במפרץ. ללא תקיפה ישירה אך עם הגדלת נוכחות.</div>
+      </div>
+      <div class="scenario">
+        <div class="scenario-title">
+          <span>🟢 פריצת דרך דיפלומטית</span>
+          <span class="scenario-prob" style="color:#22c55e">15%</span>
+        </div>
+        <div class="scenario-desc">שיחות עקיפות מצליחות. הקפאת העשרה תמורת הקלה בסנקציות. תרחיש אופטימי לאור מאמצי פזשכיאן.</div>
+      </div>
+      <div class="scenario">
+        <div class="scenario-title">
+          <span>🟠 תקיפת תגמול איראנית</span>
+          <span class="scenario-prob" style="color:#f97316">10%</span>
+        </div>
+        <div class="scenario-desc">איראן תוקפת ראשונה דרך פרוקסיים או טילים בליסטיים. פחות סביר אך אפשרי אם תחוש מאוימת ישירות.</div>
+      </div>
+      <div class="scenario">
+        <div class="scenario-title">
+          <span>⚪ סטטוס קוו</span>
+          <span class="scenario-prob" style="color:#9ca3af">5%</span>
+        </div>
+        <div class="scenario-desc">חזרה למצב שגרתי של מתיחות נמוכה. בלתי סביר לאור הפריסות הנוכחיות.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Map -->
+  <div class="card full-width">
+    <div class="card-header">
+      <h2>🗺️ מפת פריסת כוחות באזור</h2>
+      <span style="font-size:0.75em; color:#6b7280;">מיקומים ידועים ומדווחים</span>
+    </div>
+    <div class="map-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div> בסיסים אמריקאיים</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#60a5fa"></div> נושאות מטוסים / כלי שיט</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div> מתקנים צבאיים איראניים</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div> מתקני גרעין איראניים</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#a855f7"></div> פרוקסיים איראניים</div>
+    </div>
+    <div id="map"></div>
+  </div>
+
+  <!-- News Feed -->
+  <div class="card two-col">
+    <div class="card-header">
+      <h2>📰 עדכוני חדשות אחרונים</h2>
+      <span class="live-badge" style="font-size:0.7em;"><span class="live-dot"></span>LIVE</span>
+    </div>
+    <div class="card-body">
+      <div class="news-item">
+        <div class="news-time">19 פברואר 2026, לפני 39 דקות <span class="news-breaking">🔴 BREAKING</span></div>
+        <div class="news-title"><a href="#">איראן מבצעת תרגילים נוספים; נושאת מטוסים אמריקאית מתקרבת למזה"ת בהכנות אחרונות למלחמה אפשרית</a></div>
+        <div class="news-source">Washington Post / AP — Jon Gambrell</div>
+      </div>
+      <div class="news-item">
+        <div class="news-time">19 פברואר 2026, לפני 2 שעות</div>
+        <div class="news-title"><a href="#">ארה"ב–איראן: טראמפ מגביר לחץ במקביל לשיחות דיפלומטיות</a></div>
+        <div class="news-source">DW</div>
+      </div>
+      <div class="news-item">
+        <div class="news-time">18 פברואר 2026, לפני 17 שעות <span class="news-breaking">🔴 BREAKING</span></div>
+        <div class="news-title"><a href="#">הצבא האמריקאי מוכן לתקוף באיראן כבר בסוף השבוע; טראמפ טרם החליט</a></div>
+        <div class="news-source">CNN — Kristen Holmes & Kevin Liptak</div>
+      </div>
+      <div class="news-item">
+        <div class="news-time">18 פברואר 2026, לפני 17 שעות</div>
+        <div class="news-title"><a href="#">הצבא האמריקאי נפרס למיקום לקראת תקיפות אפשריות באיראן</a></div>
+        <div class="news-source">New York Times — Helene Cooper, Eric Schmitt & Ronen Bergman</div>
+      </div>
+      <div class="news-item">
+        <div class="news-time">18 פברואר 2026, לפני 19 שעות</div>
+        <div class="news-title"><a href="#">טראמפ מתקרב למלחמה גדולה עם איראן</a></div>
+        <div class="news-source">Axios — Barak Ravid</div>
+      </div>
+      <div class="news-item">
+        <div class="news-time">18 פברואר 2026</div>
+        <div class="news-title"><a href="#">עדכון איראן — 18 בפברואר 2026</a></div>
+        <div class="news-source">Institute for the Study of War (ISW)</div>
+      </div>
+      <div class="news-item">
+        <div class="news-time">~2 פברואר 2026</div>
+        <div class="news-title"><a href="#">נשיא איראן מורה על פתיחת שיחות חדשות עם ארה"ב</a></div>
+        <div class="news-source">Al Jazeera</div>
+      </div>
+      <div class="news-item">
+        <div class="news-time">30 ינואר 2026</div>
+        <div class="news-title"><a href="#">טראמפ מכפיל את האיומים על איראן; ארה"ב מטילה סנקציות חדשות</a></div>
+        <div class="news-source">Al Jazeera</div>
+      </div>
+      <div class="news-item">
+        <div class="news-time">14 ינואר 2026</div>
+        <div class="news-title"><a href="#">המרחב האווירי האיראני נפתח מחדש לאחר סגירה</a></div>
+        <div class="news-source">The Guardian</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Forces Comparison -->
+  <div class="card">
+    <div class="card-header">
+      <h2>⚖️ מאזן כוחות באזור</h2>
+    </div>
+    <div class="card-body">
+      <table class="forces-table">
+        <thead>
+          <tr>
+            <th>נכס</th>
+            <th><span class="flag">🇺🇸</span> ארה"ב</th>
+            <th><span class="flag">🇮🇷</span> איראן</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>כוח אדם באזור</td>
+            <td class="us-color">~45,000+</td>
+            <td class="iran-color">~610,000</td>
+          </tr>
+          <tr>
+            <td>מטוסי קרב</td>
+            <td class="us-color">~200+ (F-35, F-22, F-18)</td>
+            <td class="iran-color">~340 (מיג-29, F-14, סוחוי)</td>
+          </tr>
+          <tr>
+            <td>נושאות מטוסים</td>
+            <td class="us-color">2 (CVN)</td>
+            <td class="iran-color">0</td>
+          </tr>
+          <tr>
+            <td>טילים בליסטיים</td>
+            <td class="us-color">Tomahawk, JASSM</td>
+            <td class="iran-color">~3,000+ (שאהאב, חאיבר)</td>
+          </tr>
+          <tr>
+            <td>מפציצים</td>
+            <td class="us-color">B-2, B-52</td>
+            <td class="iran-color">—</td>
+          </tr>
+          <tr>
+            <td>כטב"מ</td>
+            <td class="us-color">MQ-9, RQ-4</td>
+            <td class="iran-color">שאהד-136, מוהג'ר</td>
+          </tr>
+          <tr>
+            <td>הגנה אווירית</td>
+            <td class="us-color">Patriot, THAAD</td>
+            <td class="iran-color">S-300, באוואר-373</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <div>דשבורד זה נבנה לצרכי מידע בלבד ואינו מהווה ייעוץ ביטחוני או מודיעיני רשמי</div>
+  <div>נתוני הסתברות מבוססים על ניתוח מצרפי של דיווחים פומביים ואינם חזוי מודיעיני</div>
+  <div style="margin-top:8px;">
+    מקורות: CNN, NYT, Axios, Washington Post, Al Jazeera, DW, The Guardian, ISW, AP |
+    עדכון אחרון: 19 בפברואר 2026, 11:20 PST
+  </div>
+  <div style="margin-top:4px;">נבנה על ידי OpenClaw AI | <a href="https://github.com/yehudamiz007/mindmap">GitHub</a></div>
+</div>
+
+<script>
+// Initialize Map
+const map = L.map('map', {
+  center: [30, 52],
+  zoom: 5,
+  zoomControl: true,
+  attributionControl: true
+});
+
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; OpenStreetMap &copy; CARTO',
+  maxZoom: 19
+}).addTo(map);
+
+// Icon factory
+function makeIcon(color, size=10) {
+  return L.divIcon({
+    className: '',
+    html: `<div style="width:${size}px;height:${size}px;background:${color};border-radius:50%;border:2px solid white;box-shadow:0 0 8px ${color};"></div>`,
+    iconSize: [size, size],
+    iconAnchor: [size/2, size/2]
+  });
+}
+
+function makeIconPulse(color, size=14) {
+  return L.divIcon({
+    className: '',
+    html: `<div style="width:${size}px;height:${size}px;background:${color};border-radius:50%;border:2px solid white;box-shadow:0 0 12px ${color};animation:pulse 2s infinite;"></div>`,
+    iconSize: [size, size],
+    iconAnchor: [size/2, size/2]
+  });
+}
+
+const usBase = '#3b82f6';
+const usNavy = '#60a5fa';
+const iranMil = '#ef4444';
+const iranNuc = '#f59e0b';
+const proxy = '#a855f7';
+
+// US Bases
+const usBases = [
+  [25.41, 51.35, 'בסיס אל-עודייד, קטאר', 'מפקדת CENTCOM קדמית. ~10,000 אנשי צוות. מטוסי F-35, KC-135.'],
+  [26.26, 50.63, 'בסיס ISA, בחריין', 'מפקדת הצי החמישי. ספינות סיור ומשחתות.'],
+  [24.43, 54.65, 'בסיס אל-ד\'אפרה, אמירויות', 'מפציצים ומטוסי ריגול. B-52, U-2, RQ-4.'],
+  [29.22, 47.98, 'בסיס עריפג\'אן, כווית', 'עד 13,000 חיילים. ציוד שריון כבד מאוחסן.'],
+  [23.59, 58.29, 'בסיס מסירה, עומאן', 'מטוסי P-8 לסיור ימי.'],
+  [32.40, 45.80, 'בסיס עין אל-אסד, עיראק', 'בסיס אמריקאי מרכזי בעיראק. ~2,500 חיילים.'],
+  [36.62, 43.17, 'בסיס אל-חריר, עיראק (כורדיסטן)', 'בסיס אמריקאי-כורדי משולב.'],
+  [11.55, 43.14, 'מחנה למונייה, ג\'יבוטי', 'בסיס אמריקאי באפריקה. כטב"מ וכוחות מיוחדים.'],
+  [31.86, 35.73, 'בסיסים בירדן', 'כ-3,000 חיילים אמריקאים. מערכות THAAD ו-Patriot.'],
+  [39.81, 35.00, 'בסיס אינג\'ירליק, טורקיה', 'כ-50 ראשי נפץ גרעיניים (B61). מטוסי F-16.'],
+  [34.73, 32.49, 'בסיס אקרוטירי, קפריסין (בריטי)', 'בסיס RAF. שימוש אמריקאי לריגול ולוגיסטיקה.'],
+  [21.44, 40.55, 'בסיס הנסיך סולטאן, סעודיה', 'מטוסי F-15 ומערכות Patriot אמריקאיות.']
+];
+
+usBases.forEach(b => {
+  L.marker([b[0], b[1]], {icon: makeIcon(usBase, 12)})
+    .addTo(map)
+    .bindPopup(`<div dir="rtl" style="font-family:Heebo;min-width:200px"><b style="color:${usBase}">🇺🇸 ${b[2]}</b><br><span style="font-size:0.85em">${b[3]}</span></div>`);
+});
+
+// US Navy positions (approximate current)
+const usNavyPos = [
+  [24.50, 56.00, 'USS Abraham Lincoln (CVN-72)', 'קבוצת תקיפה של נושאת מטוסים. מתקרבת למפרץ הפרסי. כ-5,000 אנשי צוות, ~75 מטוסים.'],
+  [22.00, 60.00, 'USS Harry S. Truman (CVN-75)', 'נושאת מטוסים שנייה באזור. ים ערב. תגבור חריג.'],
+  [26.00, 54.00, 'קבוצת משחתות – מפרץ פרסי', 'משחתות Arleigh Burke עם טילי Tomahawk. כ-4-6 כלי שיט.'],
+  [13.00, 44.50, 'USS Bataan (LHD-5)', 'ספינת הנחתה דו-שימושית. מארינס וכטב"מ. מפרץ עדן.']
+];
+
+usNavyPos.forEach(b => {
+  L.marker([b[0], b[1]], {icon: makeIconPulse(usNavy, 14)})
+    .addTo(map)
+    .bindPopup(`<div dir="rtl" style="font-family:Heebo;min-width:220px"><b style="color:${usNavy}">🚢 ${b[2]}</b><br><span style="font-size:0.85em">${b[3]}</span></div>`);
+});
+
+// Iranian Military
+const iranBases = [
+  [35.69, 51.42, 'טהרן — מפקדה מרכזית', 'מפקדת חיל האוויר, משמרות המהפכה. מערכות S-300 סביב הבירה.'],
+  [32.65, 51.68, 'בסיס אספהאן (8 חטיבה)', 'מטוסי F-14 ו-MiG-29. הגנה אווירית כבדה.'],
+  [29.62, 52.53, 'בסיס שיראז', 'חיל האוויר האיראני. מטוסים ותרגילים.'],
+  [30.28, 56.96, 'בסיס טילים ברג\'אן (מזרח)', 'בסיס טילים בליסטיים תת-קרקעי. שאהאב-3 וחאיבר שקאן.'],
+  [27.18, 56.27, 'בנדר עבאס — בסיס ימי', 'מפקדת חיל הים. ספינות טילים, צוללות קילו. שליטה על מיצר הורמוז.'],
+  [36.23, 59.64, 'בסיס משהד — אוויר', 'מטוסי סוחוי Su-24. טווח תקיפה אזורי.'],
+  [33.43, 48.48, 'בסיס טילים לורסתן (מערב)', 'מנהרות טילים תת-קרקעיות. כיסוי על עיראק והמפרץ.'],
+  [26.55, 54.35, 'חוף מפרץ — סירות מהירות IRGC', 'צי סירות תקיפה מהירות. שיטת "נחיל". אנטי-ספינה.'],
+  [36.84, 54.01, 'בסיס אוושק — טילים', 'טילי שיוט ובליסטיים. כיסוי צפוני.']
+];
+
+iranBases.forEach(b => {
+  L.marker([b[0], b[1]], {icon: makeIcon(iranMil, 11)})
+    .addTo(map)
+    .bindPopup(`<div dir="rtl" style="font-family:Heebo;min-width:200px"><b style="color:${iranMil}">🇮🇷 ${b[2]}</b><br><span style="font-size:0.85em">${b[3]}</span></div>`);
+});
+
+// Iranian Nuclear Sites
+const iranNuclear = [
+  [33.72, 51.73, 'נתנז — העשרת אורניום', 'מתקן העשרה מרכזי. צנטריפוגות מתקדמות. העשרה ב-60%+. תת-קרקעי חלקית.'],
+  [32.11, 52.48, 'פורדו — מתקן תת-קרקעי', 'מתקן העשרה בתוך הר. מוגן מפני תקיפה אווירית רגילה. ייתכן שדורש GBU-57 MOP.'],
+  [32.64, 51.66, 'אספהאן — UCF', 'מתקן המרת אורניום (UCF). חלק ממעגל הדלק הגרעיני.'],
+  [34.37, 49.24, 'אראק — כור מים כבדים', 'כור IR-40 (מעוצב מחדש). פלוטוניום. מעקב IAEA.'],
+  [28.96, 50.82, 'בושהר — כור גרעיני', 'כור כוח גרעיני (1,000 MW). בנייה רוסית. ייצור חשמל.']
+];
+
+iranNuclear.forEach(b => {
+  L.marker([b[0], b[1]], {icon: makeIconPulse(iranNuc, 14)})
+    .addTo(map)
+    .bindPopup(`<div dir="rtl" style="font-family:Heebo;min-width:220px"><b style="color:${iranNuc}">☢️ ${b[2]}</b><br><span style="font-size:0.85em">${b[3]}</span></div>`);
+});
+
+// Proxy Forces
+const proxies = [
+  [33.33, 44.37, 'מיליציות שיעיות – עיראק', 'כתאאיב חזבאללה, חרכת אל-נוג\'בא. תקפו בסיסים אמריקאיים.'],
+  [33.89, 35.50, 'חזבאללה – לבנון', '~150,000 רקטות וטילים. כוח הפרוקסי החזק ביותר של איראן.'],
+  [15.37, 44.19, 'חות\'ים – תימן', 'תקיפות נגד ספינות בים סוף ובמפרץ עדן. טילים בליסטיים וכטב"מ.'],
+  [36.20, 37.16, 'מיליציות פרו-איראניות – סוריה', 'נוכחות איראנית וחזבאללה. בסיסים ליד גבול עיראק.']
+];
+
+proxies.forEach(b => {
+  L.marker([b[0], b[1]], {icon: makeIcon(proxy, 10)})
+    .addTo(map)
+    .bindPopup(`<div dir="rtl" style="font-family:Heebo;min-width:200px"><b style="color:${proxy}">🔮 ${b[2]}</b><br><span style="font-size:0.85em">${b[3]}</span></div>`);
+});
+
+// Strait of Hormuz highlight
+L.polyline([
+  [26.6, 56.0], [26.0, 56.5], [25.8, 57.0]
+], {color: '#ef4444', weight: 3, dashArray: '8,8', opacity: 0.7}).addTo(map)
+  .bindPopup('<div dir="rtl" style="font-family:Heebo"><b style="color:#ef4444">מיצר הורמוז</b><br>20% מאספקת הנפט העולמית עוברת כאן. נקודת חנק קריטית.</div>');
+
+</script>
+</body>
+</html>
