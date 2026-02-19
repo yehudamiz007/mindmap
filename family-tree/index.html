@@ -399,9 +399,35 @@
                     <text class="ft-trait" x="243" y="767">עיניים כחולות, יפהפייה</text>
                 </g>
 
-                <!-- Nirit's family branch -->
-                <line class="ft-line" x1="420" y1="210" x2="420" y2="230"/>
-                <text class="ft-sub" x="420" y="242">בן-דוד</text>
+                <!-- Nirit + Yisrael Tzvi -->
+                <text class="ft-heart" x="530" y="185">💕</text>
+                <line class="ft-line" x1="480" y1="180" x2="620" y2="180"/>
+                <g class="clickable" onclick="showPerson('yisrael_tzvi')">
+                    <rect class="ft-card-memorial" x="560" y="145" width="130" height="65"/>
+                    <text class="ft-emoji" x="625" y="170">🕯️</text>
+                    <text class="ft-name" x="625" y="186">ישראל צבי</text>
+                    <text class="ft-detail" x="625" y="200">בן-דוד ז"ל</text>
+                </g>
+
+                <!-- Line to Nirit & Yisrael's children -->
+                <line class="ft-line" x1="500" y1="210" x2="500" y2="230"/>
+                <line class="ft-line" x1="440" y1="230" x2="560" y2="230"/>
+                <line class="ft-line" x1="440" y1="230" x2="440" y2="250"/>
+                <line class="ft-line" x1="560" y1="230" x2="560" y2="250"/>
+
+                <!-- Yitzchak Ben-David -->
+                <g class="clickable" onclick="showPerson('yitzchak_bd')">
+                    <rect class="ft-card" x="385" y="250" width="110" height="50"/>
+                    <text class="ft-child-name" x="440" y="275">יצחק בן-דוד</text>
+                    <text class="ft-detail" x="440" y="290">בן</text>
+                </g>
+
+                <!-- Shlomit Meira Elimelech -->
+                <g class="clickable" onclick="showPerson('shlomit_bd')">
+                    <rect class="ft-card" x="505" y="250" width="110" height="50"/>
+                    <text class="ft-child-name" x="560" y="275">שלומית מאירה</text>
+                    <text class="ft-detail" x="560" y="290">אלימלך</text>
+                </g>
 
                 <!-- Decorative corners -->
                 <line stroke="#c4a265" stroke-width="1" x1="10" y1="10" x2="50" y2="10"/>
@@ -515,6 +541,29 @@
                 { title: '👪 הורים', text: 'יעקוב לבנברג ז"ל וחיה שרה (לבית שרגא) ז"ל' },
                 { title: '💔 אלמנה', text: 'אשתו של ישראל צבי בן-דוד ז"ל' },
                 { title: '👶 ילדים', text: 'יצחק בן-דוד (בן), שלומית מאירה אלימלך (בת)' }
+            ]
+        },
+        yisrael_tzvi: {
+            emoji: '🕯️', name: 'ישראל צבי בן-דוד ז"ל',
+            role: 'בעלה של נורית יהודית (לבנברג)',
+            sections: [
+                { title: '💕 נשוי ל', text: 'נורית יהודית (לבית לבנברג)' },
+                { title: '👶 ילדים', text: 'יצחק בן-דוד (בן), שלומית מאירה אלימלך (בת)' },
+                { title: '🕯️ לזכרו', text: 'זכרו יהיה ברוך' }
+            ]
+        },
+        yitzchak_bd: {
+            emoji: '👨', name: 'יצחק בן-דוד',
+            role: 'בנם של ישראל צבי ז"ל ונורית יהודית',
+            sections: [
+                { title: '👪 הורים', text: 'ישראל צבי בן-דוד ז"ל ונורית יהודית (לבית לבנברג)' }
+            ]
+        },
+        shlomit_bd: {
+            emoji: '👩', name: 'שלומית מאירה אלימלך',
+            role: 'בתם של ישראל צבי ז"ל ונורית יהודית',
+            sections: [
+                { title: '👪 הורים', text: 'ישראל צבי בן-דוד ז"ל ונורית יהודית (לבית לבנברג)' }
             ]
         },
         vardit_l: {
@@ -655,7 +704,7 @@
 
     function showAllStories() {
         let html = '';
-        const order = ['yaakov','chaya_sara','moshe_yosef','yafa','chana_tova','nirit',
+        const order = ['yaakov','chaya_sara','moshe_yosef','yafa','chana_tova','nirit','yisrael_tzvi','yitzchak_bd','shlomit_bd',
                        'vardit_l','tova_cherna','tamar_pnina','avi','vardit_m',
                        'yehuda','ilana','tamir','meital','sapir','avior','nitai','arbel'];
         order.forEach(id => {
@@ -677,7 +726,7 @@
     // Populate print stories
     window.addEventListener('load', function() {
         let html = '';
-        const order = ['yaakov','chaya_sara','moshe_yosef','yafa','chana_tova','nirit',
+        const order = ['yaakov','chaya_sara','moshe_yosef','yafa','chana_tova','nirit','yisrael_tzvi','yitzchak_bd','shlomit_bd',
                        'vardit_l','tova_cherna','tamar_pnina','avi','vardit_m',
                        'yehuda','ilana','tamir','meital','sapir','avior','nitai','arbel'];
         order.forEach(id => {
