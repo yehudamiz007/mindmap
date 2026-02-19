@@ -178,7 +178,7 @@
         </div>
 
         <div class="tree-svg-container">
-            <svg class="family-tree" viewBox="0 0 1200 850" xmlns="http://www.w3.org/2000/svg">
+            <svg class="family-tree" viewBox="0 0 1500 950" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
                         <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#3a2a1a" flood-opacity="0.1"/>
@@ -188,266 +188,267 @@
                     </filter>
                 </defs>
 
-                <!-- ===== ROW 0: GREAT-GRANDPARENTS ===== -->
+                <!-- ===== ROW 0: GREAT-GRANDPARENTS (y=28) ===== -->
 
                 <!-- LEFT: Yaakov + Chaya Sara Levenberg -->
-                <text class="ft-section" x="250" y="18">משפחת לבנברג</text>
+                <text class="ft-section" x="300" y="18">משפחת לבנברג</text>
                 <g class="clickable" onclick="showPerson('yaakov')">
-                    <rect class="ft-card-ancestor" x="130" y="28" width="120" height="70"/>
-                    <text class="ft-emoji" x="190" y="54">👨</text>
-                    <text class="ft-name" x="190" y="72">יעקוב</text>
-                    <text class="ft-detail" x="190" y="88">לבנברג ז"ל</text>
+                    <rect class="ft-card-ancestor" x="160" y="28" width="130" height="70"/>
+                    <text class="ft-emoji" x="225" y="54">👨</text>
+                    <text class="ft-name" x="225" y="72">יעקוב</text>
+                    <text class="ft-detail" x="225" y="88">לבנברג ז"ל</text>
                 </g>
-                <text class="ft-heart" x="265" y="66">💕</text>
+                <text class="ft-heart" x="305" y="66">💕</text>
                 <g class="clickable" onclick="showPerson('chaya_sara')">
-                    <rect class="ft-card-ancestor" x="280" y="28" width="130" height="70"/>
-                    <text class="ft-emoji" x="345" y="54">👩</text>
-                    <text class="ft-name" x="345" y="72">חיה שרה</text>
-                    <text class="ft-detail" x="345" y="88">לבית שרגא ז"ל</text>
+                    <rect class="ft-card-ancestor" x="320" y="28" width="140" height="70"/>
+                    <text class="ft-emoji" x="390" y="54">👩</text>
+                    <text class="ft-name" x="390" y="72">חיה שרה</text>
+                    <text class="ft-detail" x="390" y="88">לבית שרגא ז"ל</text>
                 </g>
 
                 <!-- RIGHT: Uri Moshe + Dina Lishuar -->
-                <text class="ft-section" x="870" y="18">משפחת לישואר</text>
+                <text class="ft-section" x="1150" y="18">משפחת לישואר</text>
                 <g class="clickable" onclick="showPerson('uri_moshe')">
-                    <rect class="ft-card-ancestor" x="780" y="28" width="120" height="70"/>
-                    <text class="ft-emoji" x="840" y="54">👨</text>
-                    <text class="ft-name" x="840" y="72">אורי משה</text>
-                    <text class="ft-detail" x="840" y="88">לישואר</text>
+                    <rect class="ft-card-ancestor" x="1020" y="28" width="130" height="70"/>
+                    <text class="ft-emoji" x="1085" y="54">👨</text>
+                    <text class="ft-name" x="1085" y="72">אורי משה</text>
+                    <text class="ft-detail" x="1085" y="88">לישואר</text>
                 </g>
-                <text class="ft-heart" x="915" y="66">💕</text>
+                <text class="ft-heart" x="1165" y="66">💕</text>
                 <g class="clickable" onclick="showPerson('dina')">
-                    <rect class="ft-card-ancestor" x="930" y="28" width="120" height="70"/>
-                    <text class="ft-emoji" x="990" y="54">👩</text>
-                    <text class="ft-name" x="990" y="72">דינה</text>
-                    <text class="ft-detail" x="990" y="88">לבית לוינשטין</text>
+                    <rect class="ft-card-ancestor" x="1180" y="28" width="130" height="70"/>
+                    <text class="ft-emoji" x="1245" y="54">👩</text>
+                    <text class="ft-name" x="1245" y="72">דינה</text>
+                    <text class="ft-detail" x="1245" y="88">לבית לוינשטין</text>
                 </g>
 
-                <!-- Lines down -->
-                <line class="ft-line" x1="265" y1="98" x2="265" y2="120"/>
-                <line class="ft-line" x1="915" y1="98" x2="915" y2="120"/>
+                <!-- Lines down from great-grandparents -->
+                <line class="ft-line" x1="310" y1="98" x2="310" y2="125"/>
+                <line class="ft-line" x1="1150" y1="98" x2="1150" y2="125"/>
 
                 <!-- Levenberg siblings bar -->
-                <line class="ft-line" x1="120" y1="120" x2="420" y2="120"/>
-                <line class="ft-line" x1="120" y1="120" x2="120" y2="145"/>
-                <line class="ft-line" x1="265" y1="120" x2="265" y2="145"/>
-                <line class="ft-line" x1="420" y1="120" x2="420" y2="145"/>
+                <line class="ft-line" x1="140" y1="125" x2="900" y2="125"/>
+                <line class="ft-line" x1="140" y1="125" x2="140" y2="155"/>
+                <line class="ft-line" x1="380" y1="125" x2="380" y2="155"/>
+                <line class="ft-line" x1="900" y1="125" x2="900" y2="155"/>
 
-                <!-- ===== ROW 1: LEVENBERG SIBLINGS + YAFA ===== -->
+                <!-- Lishuar line down to Yafa -->
+                <line class="ft-line" x1="1150" y1="125" x2="620" y2="125"/>
+                <line class="ft-line" x1="620" y1="125" x2="620" y2="155"/>
+
+                <!-- ===== ROW 1: CHILDREN (y=155, h=70) ===== -->
 
                 <!-- Chana Tova z"l -->
                 <g class="clickable" onclick="showPerson('chana_tova')">
-                    <rect class="ft-card-memorial" x="60" y="145" width="120" height="65"/>
-                    <text class="ft-emoji" x="120" y="170">🕯️</text>
-                    <text class="ft-name" x="120" y="186">חנה טובה</text>
-                    <text class="ft-detail" x="120" y="200">ז"ל - הבכורה</text>
+                    <rect class="ft-card-memorial" x="75" y="155" width="130" height="70"/>
+                    <text class="ft-emoji" x="140" y="180">🕯️</text>
+                    <text class="ft-name" x="140" y="198">חנה טובה</text>
+                    <text class="ft-detail" x="140" y="214">ז"ל - הבכורה</text>
                 </g>
 
                 <!-- Moshe Yosef -->
                 <g class="clickable" onclick="showPerson('moshe_yosef')">
-                    <rect class="ft-card-founder" x="195" y="145" width="140" height="70"/>
-                    <text class="ft-emoji" x="265" y="170">👨</text>
-                    <text class="ft-name" x="265" y="188">משה יוסף</text>
-                    <text class="ft-detail" x="265" y="203">לבנברג</text>
+                    <rect class="ft-card-founder" x="310" y="155" width="140" height="70"/>
+                    <text class="ft-emoji" x="380" y="180">👨</text>
+                    <text class="ft-name" x="380" y="198">משה יוסף</text>
+                    <text class="ft-detail" x="380" y="214">לבנברג</text>
                 </g>
 
-                <!-- Heart + connection line -->
-                <line class="ft-line" x1="335" y1="180" x2="550" y2="180"/>
-                <text class="ft-heart" x="445" y="185">💕</text>
+                <!-- Marriage line Moshe Yosef + Yafa -->
+                <line class="ft-line" x1="450" y1="190" x2="550" y2="190"/>
+                <text class="ft-heart" x="500" y="195">💕</text>
 
                 <!-- Yafa -->
-                <line class="ft-line" x1="915" y1="120" x2="620" y2="120"/>
-                <line class="ft-line" x1="620" y1="120" x2="620" y2="145"/>
                 <g class="clickable" onclick="showPerson('yafa')">
-                    <rect class="ft-card-founder" x="550" y="145" width="140" height="70"/>
-                    <text class="ft-emoji" x="620" y="170">👩</text>
-                    <text class="ft-name" x="620" y="188">יפה</text>
-                    <text class="ft-detail" x="620" y="203">לבית לישואר</text>
+                    <rect class="ft-card-founder" x="550" y="155" width="140" height="70"/>
+                    <text class="ft-emoji" x="620" y="180">👩</text>
+                    <text class="ft-name" x="620" y="198">יפה</text>
+                    <text class="ft-detail" x="620" y="214">לבית לישואר</text>
                 </g>
 
                 <!-- Nirit Yehudit -->
                 <g class="clickable" onclick="showPerson('nirit')">
-                    <rect class="ft-card" x="360" y="145" width="120" height="65"/>
-                    <text class="ft-emoji" x="420" y="170">👩</text>
-                    <text class="ft-name" x="420" y="186">נורית יהודית</text>
-                    <text class="ft-detail" x="420" y="200">בן-דוד (לבנברג)</text>
+                    <rect class="ft-card" x="835" y="155" width="130" height="70"/>
+                    <text class="ft-emoji" x="900" y="180">👩</text>
+                    <text class="ft-name" x="900" y="198">נורית יהודית</text>
+                    <text class="ft-detail" x="900" y="214">בן-דוד (לבנברג)</text>
                 </g>
 
-                <!-- Line down from Moshe Yosef + Yafa -->
-                <line class="ft-line" x1="445" y1="215" x2="445" y2="250"/>
+                <!-- Marriage line Nirit + Yisrael Tzvi -->
+                <line class="ft-line" x1="965" y1="190" x2="1060" y2="190"/>
+                <text class="ft-heart" x="1012" y="195">💕</text>
 
-                <!-- Bar for their daughters -->
-                <line class="ft-line" x1="265" y1="250" x2="740" y2="250"/>
-                <line class="ft-line" x1="265" y1="250" x2="265" y2="280"/>
-                <line class="ft-line" x1="500" y1="250" x2="500" y2="280"/>
-                <line class="ft-line" x1="740" y1="250" x2="740" y2="280"/>
+                <!-- Yisrael Tzvi -->
+                <g class="clickable" onclick="showPerson('yisrael_tzvi')">
+                    <rect class="ft-card-memorial" x="1060" y="155" width="130" height="70"/>
+                    <text class="ft-emoji" x="1125" y="180">🕯️</text>
+                    <text class="ft-name" x="1125" y="198">ישראל צבי</text>
+                    <text class="ft-detail" x="1125" y="214">בן-דוד ז"ל</text>
+                </g>
 
-                <!-- ===== ROW 2: LEVENBERG DAUGHTERS ===== -->
+                <!-- ===== LINES TO ROW 1.5: Nirit & Yisrael's children ===== -->
+                <line class="ft-line" x1="1012" y1="225" x2="1012" y2="255"/>
+                <line class="ft-line" x1="870" y1="255" x2="1160" y2="255"/>
+                <line class="ft-line" x1="870" y1="255" x2="870" y2="285"/>
+                <line class="ft-line" x1="1012" y1="255" x2="1012" y2="285"/>
+                <line class="ft-line" x1="1160" y1="255" x2="1160" y2="285"/>
+
+                <!-- ===== ROW 1.5: NIRIT'S CHILDREN (y=285, h=55) ===== -->
+
+                <g class="clickable" onclick="showPerson('yitzchak_bd')">
+                    <rect class="ft-card" x="810" y="285" width="120" height="55"/>
+                    <text class="ft-child-name" x="870" y="308">יצחק בן-דוד</text>
+                    <text class="ft-detail" x="870" y="325">בן</text>
+                </g>
+
+                <g class="clickable" onclick="showPerson('yafa_bd')">
+                    <rect class="ft-card-memorial" x="952" y="285" width="120" height="55"/>
+                    <text class="ft-child-name" x="1012" y="308">יפה בן-דוד</text>
+                    <text class="ft-detail" x="1012" y="325">ז"ל</text>
+                </g>
+
+                <g class="clickable" onclick="showPerson('shlomit_bd')">
+                    <rect class="ft-card" x="1094" y="285" width="130" height="55"/>
+                    <text class="ft-child-name" x="1159" y="308">שלומית מאירה</text>
+                    <text class="ft-detail" x="1159" y="325">אלימלך</text>
+                </g>
+
+                <!-- ===== LINES TO ROW 2: Moshe Yosef & Yafa's daughters ===== -->
+                <line class="ft-line" x1="500" y1="225" x2="500" y2="255"/>
+                <line class="ft-line" x1="300" y1="255" x2="700" y2="255"/>
+                <line class="ft-line" x1="300" y1="255" x2="300" y2="285"/>
+                <line class="ft-line" x1="500" y1="255" x2="500" y2="285"/>
+                <line class="ft-line" x1="700" y1="255" x2="700" y2="285"/>
+
+                <!-- ===== ROW 2: LEVENBERG DAUGHTERS (y=285, h=65) ===== -->
 
                 <g class="clickable" onclick="showPerson('vardit_l')">
-                    <rect class="ft-card-founder" x="200" y="280" width="130" height="65"/>
-                    <text class="ft-emoji" x="265" y="305">👩</text>
-                    <text class="ft-name" x="265" y="322">ורדית</text>
-                    <text class="ft-detail" x="265" y="337">הבכורה</text>
+                    <rect class="ft-card-founder" x="235" y="285" width="130" height="65"/>
+                    <text class="ft-emoji" x="300" y="310">👩</text>
+                    <text class="ft-name" x="300" y="327">ורדית</text>
+                    <text class="ft-detail" x="300" y="342">הבכורה</text>
                 </g>
 
                 <g class="clickable" onclick="showPerson('tova_cherna')">
-                    <rect class="ft-card" x="440" y="280" width="120" height="65"/>
-                    <text class="ft-emoji" x="500" y="305">👩</text>
-                    <text class="ft-name" x="500" y="322">טובה צ'רנה</text>
-                    <text class="ft-detail" x="500" y="337">האמצעית</text>
+                    <rect class="ft-card" x="440" y="285" width="120" height="65"/>
+                    <text class="ft-emoji" x="500" y="310">👩</text>
+                    <text class="ft-name" x="500" y="327">טובה צ'רנה</text>
+                    <text class="ft-detail" x="500" y="342">האמצעית</text>
                 </g>
 
                 <g class="clickable" onclick="showPerson('tamar_pnina')">
-                    <rect class="ft-card" x="680" y="280" width="120" height="65"/>
-                    <text class="ft-emoji" x="740" y="305">👩</text>
-                    <text class="ft-name" x="740" y="322">תמר פנינה</text>
-                    <text class="ft-detail" x="740" y="337">הצעירה</text>
+                    <rect class="ft-card" x="640" y="285" width="120" height="65"/>
+                    <text class="ft-emoji" x="700" y="310">👩</text>
+                    <text class="ft-name" x="700" y="327">תמר פנינה</text>
+                    <text class="ft-detail" x="700" y="342">הצעירה</text>
                 </g>
 
-                <!-- ===== ROW 3: AVI + VARDIT ===== -->
-                <line class="ft-line" x1="265" y1="345" x2="265" y2="375"/>
-                <text class="ft-heart" x="265" y="392">💕</text>
+                <!-- ===== ROW 3: AVI + VARDIT (y=410, h=70) ===== -->
+                <line class="ft-line" x1="300" y1="350" x2="300" y2="385"/>
+                <text class="ft-heart" x="300" y="400">💕</text>
 
                 <g class="clickable" onclick="showPerson('avi')">
-                    <rect class="ft-card-founder" x="130" y="400" width="130" height="70"/>
-                    <text class="ft-emoji" x="195" y="425">👨</text>
-                    <text class="ft-name" x="195" y="443">אבי מזרחי</text>
-                    <text class="ft-detail" x="195" y="458">ראש המשפחה</text>
+                    <rect class="ft-card-founder" x="160" y="410" width="135" height="70"/>
+                    <text class="ft-emoji" x="228" y="435">👨</text>
+                    <text class="ft-name" x="228" y="453">אבי מזרחי</text>
+                    <text class="ft-detail" x="228" y="468">ראש המשפחה</text>
                 </g>
 
                 <g class="clickable" onclick="showPerson('vardit_m')">
-                    <rect class="ft-card-founder" x="280" y="400" width="140" height="70"/>
-                    <text class="ft-emoji" x="350" y="425">👩</text>
-                    <text class="ft-name" x="350" y="443">ורדית מזרחי</text>
-                    <text class="ft-detail" x="350" y="458">אם המשפחה</text>
+                    <rect class="ft-card-founder" x="315" y="410" width="145" height="70"/>
+                    <text class="ft-emoji" x="388" y="435">👩</text>
+                    <text class="ft-name" x="388" y="453">ורדית מזרחי</text>
+                    <text class="ft-detail" x="388" y="468">אם המשפחה</text>
                 </g>
-                <text class="ft-sub" x="275" y="487">🎉 40 שנה לאבי וורדית מזרחי! 18.02.1986 — 18.02.2026 ❤️</text>
+                <text class="ft-sub" x="310" y="498">🎉 40 שנה לאבי וורדית מזרחי! 18.02.1986 — 18.02.2026 ❤️</text>
 
                 <!-- Line to children -->
-                <line class="ft-line" x1="275" y1="490" x2="275" y2="520"/>
-                <line class="ft-line" x1="130" y1="520" x2="750" y2="520"/>
-                <line class="ft-line" x1="130" y1="520" x2="130" y2="550"/>
-                <line class="ft-line" x1="440" y1="520" x2="440" y2="550"/>
-                <line class="ft-line" x1="750" y1="520" x2="750" y2="550"/>
+                <line class="ft-line" x1="310" y1="505" x2="310" y2="535"/>
+                <line class="ft-line" x1="150" y1="535" x2="780" y2="535"/>
+                <line class="ft-line" x1="150" y1="535" x2="150" y2="560"/>
+                <line class="ft-line" x1="470" y1="535" x2="470" y2="560"/>
+                <line class="ft-line" x1="780" y1="535" x2="780" y2="560"/>
 
-                <!-- ===== ROW 4: MIZRACHI CHILDREN ===== -->
+                <!-- ===== ROW 4: MIZRACHI CHILDREN (y=560, h=70) ===== -->
 
                 <g class="clickable" onclick="showPerson('yehuda')">
-                    <rect class="ft-card" x="20" y="550" width="110" height="70"/>
-                    <text class="ft-emoji" x="75" y="575">👨‍💻</text>
-                    <text class="ft-name" x="75" y="593">יהודה</text>
-                    <text class="ft-detail" x="75" y="607">הבכור</text>
+                    <rect class="ft-card" x="40" y="560" width="115" height="70"/>
+                    <text class="ft-emoji" x="98" y="585">👨‍💻</text>
+                    <text class="ft-name" x="98" y="603">יהודה</text>
+                    <text class="ft-detail" x="98" y="617">הבכור</text>
                 </g>
-                <text class="ft-heart" x="143" y="588">💕</text>
+                <text class="ft-heart" x="168" y="598">💕</text>
                 <g class="clickable" onclick="showPerson('ilana')">
-                    <rect class="ft-card" x="155" y="550" width="110" height="70"/>
-                    <text class="ft-emoji" x="210" y="575">👩</text>
-                    <text class="ft-name" x="210" y="593">אילנה</text>
-                    <text class="ft-detail" x="210" y="607">בריסקמן מזרחי</text>
+                    <rect class="ft-card" x="180" y="560" width="115" height="70"/>
+                    <text class="ft-emoji" x="238" y="585">👩</text>
+                    <text class="ft-name" x="238" y="603">אילנה</text>
+                    <text class="ft-detail" x="238" y="617">בריסקמן מזרחי</text>
                 </g>
-                <text class="ft-sub" x="143" y="637">💍 נישואין 14.09.2016 | ביחד מ-23.10.2010</text>
+                <text class="ft-sub" x="168" y="647">💍 נישואין 14.09.2016 | ביחד מ-23.10.2010</text>
 
                 <g class="clickable" onclick="showPerson('tamir')">
-                    <rect class="ft-card" x="370" y="550" width="110" height="70"/>
-                    <text class="ft-emoji" x="425" y="575">👨</text>
-                    <text class="ft-name" x="425" y="593">תמיר</text>
-                    <text class="ft-detail" x="425" y="607">האמצעי</text>
+                    <rect class="ft-card" x="395" y="560" width="115" height="70"/>
+                    <text class="ft-emoji" x="453" y="585">👨</text>
+                    <text class="ft-name" x="453" y="603">תמיר</text>
+                    <text class="ft-detail" x="453" y="617">האמצעי</text>
                 </g>
-                <text class="ft-heart" x="493" y="588">💕</text>
+                <text class="ft-heart" x="523" y="598">💕</text>
                 <g class="clickable" onclick="showPerson('meital')">
-                    <rect class="ft-card" x="505" y="550" width="110" height="70"/>
-                    <text class="ft-emoji" x="560" y="575">👩</text>
-                    <text class="ft-name" x="560" y="593">מיטל</text>
-                    <text class="ft-detail" x="560" y="607">מזרחי</text>
+                    <rect class="ft-card" x="535" y="560" width="115" height="70"/>
+                    <text class="ft-emoji" x="593" y="585">👩</text>
+                    <text class="ft-name" x="593" y="603">מיטל</text>
+                    <text class="ft-detail" x="593" y="617">מזרחי</text>
                 </g>
 
                 <g class="clickable" onclick="showPerson('sapir')">
-                    <rect class="ft-card" x="690" y="550" width="120" height="70"/>
-                    <text class="ft-emoji" x="750" y="575">✨</text>
-                    <text class="ft-name" x="750" y="593">ספיר</text>
-                    <text class="ft-detail" x="750" y="607">הצעירה</text>
+                    <rect class="ft-card" x="720" y="560" width="120" height="70"/>
+                    <text class="ft-emoji" x="780" y="585">✨</text>
+                    <text class="ft-name" x="780" y="603">ספיר</text>
+                    <text class="ft-detail" x="780" y="617">הצעירה</text>
                 </g>
 
-                <!-- ===== ROW 5: GRANDCHILDREN ===== -->
-                <line class="ft-line" x1="143" y1="640" x2="143" y2="670"/>
-                <line class="ft-line" x1="43" y1="670" x2="243" y2="670"/>
-                <line class="ft-line" x1="43" y1="670" x2="43" y2="695"/>
-                <line class="ft-line" x1="143" y1="670" x2="143" y2="695"/>
-                <line class="ft-line" x1="243" y1="670" x2="243" y2="695"/>
+                <!-- ===== ROW 5: GRANDCHILDREN (y=710, h=85) ===== -->
+                <line class="ft-line" x1="168" y1="655" x2="168" y2="680"/>
+                <line class="ft-line" x1="48" y1="680" x2="288" y2="680"/>
+                <line class="ft-line" x1="48" y1="680" x2="48" y2="710"/>
+                <line class="ft-line" x1="168" y1="680" x2="168" y2="710"/>
+                <line class="ft-line" x1="288" y1="680" x2="288" y2="710"/>
 
                 <g class="clickable" onclick="showPerson('avior')">
-                    <rect class="ft-card" x="-10" y="695" width="106" height="85"/>
-                    <text class="ft-emoji" x="43" y="720">🎨</text>
-                    <text class="ft-child-name" x="43" y="738">אביאור</text>
-                    <text class="ft-detail" x="43" y="752">19.04.2019</text>
-                    <text class="ft-trait" x="43" y="767">צייר מוכשר, יצירתי</text>
+                    <rect class="ft-card" x="-7" y="710" width="110" height="85"/>
+                    <text class="ft-emoji" x="48" y="735">🎨</text>
+                    <text class="ft-child-name" x="48" y="753">אביאור</text>
+                    <text class="ft-detail" x="48" y="767">19.04.2019</text>
+                    <text class="ft-trait" x="48" y="782">צייר מוכשר, יצירתי</text>
                 </g>
 
                 <g class="clickable" onclick="showPerson('nitai')">
-                    <rect class="ft-card" x="90" y="695" width="106" height="85"/>
-                    <text class="ft-emoji" x="143" y="720">⚽</text>
-                    <text class="ft-child-name" x="143" y="738">ניתאי</text>
-                    <text class="ft-detail" x="143" y="752">11.01.2022</text>
-                    <text class="ft-trait" x="143" y="767">ספורטאי, כריזמטי</text>
+                    <rect class="ft-card" x="113" y="710" width="110" height="85"/>
+                    <text class="ft-emoji" x="168" y="735">⚽</text>
+                    <text class="ft-child-name" x="168" y="753">ניתאי</text>
+                    <text class="ft-detail" x="168" y="767">11.01.2022</text>
+                    <text class="ft-trait" x="168" y="782">ספורטאי, כריזמטי</text>
                 </g>
 
                 <g class="clickable" onclick="showPerson('arbel')">
-                    <rect class="ft-card" x="190" y="695" width="106" height="85"/>
-                    <text class="ft-emoji" x="243" y="720">💙</text>
-                    <text class="ft-child-name" x="243" y="738">ארבל</text>
-                    <text class="ft-detail" x="243" y="752">08.04.2025</text>
-                    <text class="ft-trait" x="243" y="767">עיניים כחולות, יפהפייה</text>
-                </g>
-
-                <!-- Nirit + Yisrael Tzvi -->
-                <text class="ft-heart" x="530" y="185">💕</text>
-                <line class="ft-line" x1="480" y1="180" x2="620" y2="180"/>
-                <g class="clickable" onclick="showPerson('yisrael_tzvi')">
-                    <rect class="ft-card-memorial" x="560" y="145" width="130" height="65"/>
-                    <text class="ft-emoji" x="625" y="170">🕯️</text>
-                    <text class="ft-name" x="625" y="186">ישראל צבי</text>
-                    <text class="ft-detail" x="625" y="200">בן-דוד ז"ל</text>
-                </g>
-
-                <!-- Line to Nirit & Yisrael's children -->
-                <line class="ft-line" x1="500" y1="210" x2="500" y2="230"/>
-                <line class="ft-line" x1="380" y1="230" x2="620" y2="230"/>
-                <line class="ft-line" x1="380" y1="230" x2="380" y2="250"/>
-                <line class="ft-line" x1="500" y1="230" x2="500" y2="250"/>
-                <line class="ft-line" x1="620" y1="230" x2="620" y2="250"/>
-
-                <!-- Yitzchak Ben-David -->
-                <g class="clickable" onclick="showPerson('yitzchak_bd')">
-                    <rect class="ft-card" x="325" y="250" width="110" height="50"/>
-                    <text class="ft-child-name" x="380" y="275">יצחק בן-דוד</text>
-                    <text class="ft-detail" x="380" y="290">בן</text>
-                </g>
-
-                <!-- Yafa Ben-David z"l -->
-                <g class="clickable" onclick="showPerson('yafa_bd')">
-                    <rect class="ft-card-memorial" x="445" y="250" width="110" height="50"/>
-                    <text class="ft-child-name" x="500" y="275">יפה בן-דוד</text>
-                    <text class="ft-detail" x="500" y="290">ז"ל</text>
-                </g>
-
-                <!-- Shlomit Meira Elimelech -->
-                <g class="clickable" onclick="showPerson('shlomit_bd')">
-                    <rect class="ft-card" x="565" y="250" width="110" height="50"/>
-                    <text class="ft-child-name" x="620" y="275">שלומית מאירה</text>
-                    <text class="ft-detail" x="620" y="290">אלימלך</text>
+                    <rect class="ft-card" x="233" y="710" width="110" height="85"/>
+                    <text class="ft-emoji" x="288" y="735">💙</text>
+                    <text class="ft-child-name" x="288" y="753">ארבל</text>
+                    <text class="ft-detail" x="288" y="767">08.04.2025</text>
+                    <text class="ft-trait" x="288" y="782">עיניים כחולות, יפהפייה</text>
                 </g>
 
                 <!-- Decorative corners -->
                 <line stroke="#c4a265" stroke-width="1" x1="10" y1="10" x2="50" y2="10"/>
                 <line stroke="#c4a265" stroke-width="1" x1="10" y1="10" x2="10" y2="50"/>
-                <line stroke="#c4a265" stroke-width="1" x1="1190" y1="10" x2="1150" y2="10"/>
-                <line stroke="#c4a265" stroke-width="1" x1="1190" y1="10" x2="1190" y2="50"/>
-                <line stroke="#c4a265" stroke-width="1" x1="10" y1="840" x2="50" y2="840"/>
-                <line stroke="#c4a265" stroke-width="1" x1="10" y1="840" x2="10" y2="800"/>
-                <line stroke="#c4a265" stroke-width="1" x1="1190" y1="840" x2="1150" y2="840"/>
-                <line stroke="#c4a265" stroke-width="1" x1="1190" y1="840" x2="1190" y2="800"/>
+                <line stroke="#c4a265" stroke-width="1" x1="1490" y1="10" x2="1450" y2="10"/>
+                <line stroke="#c4a265" stroke-width="1" x1="1490" y1="10" x2="1490" y2="50"/>
+                <line stroke="#c4a265" stroke-width="1" x1="10" y1="940" x2="50" y2="940"/>
+                <line stroke="#c4a265" stroke-width="1" x1="10" y1="940" x2="10" y2="900"/>
+                <line stroke="#c4a265" stroke-width="1" x1="1490" y1="940" x2="1450" y2="940"/>
+                <line stroke="#c4a265" stroke-width="1" x1="1490" y1="940" x2="1490" y2="900"/>
 
-                <text class="ft-detail" x="600" y="830" text-anchor="middle" font-style="italic">
+                <text class="ft-detail" x="750" y="930" text-anchor="middle" font-style="italic">
                     משפחת מזרחי-לבנברג - שורשים חזקים וענפים פורחים 🌳
                 </text>
             </svg>
