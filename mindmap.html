@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Yehuda's Mind Map</title>
+<title>OpenClaw Architecture</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden;background:#0a0a1a;font-family:'Segoe UI',system-ui,sans-serif;touch-action:none}
@@ -12,10 +12,10 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%}
 .node{position:absolute;pointer-events:auto;cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;transition:transform .3s,opacity .3s,box-shadow .3s;user-select:none;opacity:0;transform:scale(0)}
 .node.visible{opacity:1;transform:scale(1)}
 .node:hover{transform:scale(1.1)!important;z-index:10}
-.center-node{min-width:70px;min-height:70px;padding:10px;background:radial-gradient(circle,#1e293b,#0f172a);border:3px solid #64748b;font-size:12px;font-weight:700;color:#e2e8f0;box-shadow:0 0 30px rgba(100,116,139,.4);z-index:5;pointer-events:auto}
-.cat-node{min-width:70px;min-height:70px;padding:10px;font-size:10px;font-weight:600;color:#fff;z-index:4}
-.sub-node{min-width:70px;min-height:70px;padding:10px;font-size:9px;font-weight:600;color:#fff;z-index:3}
-.leaf-node{min-width:70px;min-height:70px;padding:10px;font-size:8.5px;font-weight:500;color:#fff;z-index:2}
+.center-node{min-width:70px;min-height:70px;width:70px;height:70px;padding:10px;background:radial-gradient(circle,#1e293b,#0f172a);border:3px solid #64748b;font-size:12px;font-weight:700;color:#e2e8f0;box-shadow:0 0 30px rgba(100,116,139,.4);z-index:5}
+.cat-node{min-width:70px;min-height:70px;width:70px;height:70px;padding:10px;font-size:10px;font-weight:600;color:#fff;z-index:4}
+.sub-node{min-width:70px;min-height:70px;width:70px;height:70px;padding:10px;font-size:9px;font-weight:600;color:#fff;z-index:3}
+.leaf-node{min-width:70px;min-height:70px;width:70px;height:70px;padding:10px;font-size:8.5px;font-weight:500;color:#fff;z-index:2}
 .node-label{display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.2;padding:4px}
 .node-emoji{font-size:1.4em}
 @keyframes glow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.2)}}
@@ -27,343 +27,313 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%}
 <canvas id="lines"></canvas>
 <div id="ui"></div>
 <script>
-const DATA = [
-  {id:'arch',emoji:'🏗️',label:'Chief\nArchitect',color:'#3b82f6',subs:[
-    {label:'System\nDesign',leaves:['Microservices','Event-Driven','CQRS','Hexagonal']},
-    {label:'Cloud &\nInfra',leaves:['Kubernetes','Serverless','Terraform','Multi-Cloud']},
-    {label:'Security\nArch',leaves:['Zero Trust','OAuth2/OIDC','Threat\nModeling','Encryption']},
-    {label:'API\nDesign',leaves:['REST/\nOpenAPI','GraphQL','gRPC','AsyncAPI']},
-    {label:'DevOps',leaves:['CI/CD','GitOps','Feature\nFlags','Platform\nEng']},
-    {label:'LLMs\n& RAG',leaves:['Model\nSelection','Fine-tuning','Vector DBs','Embeddings']},
-    {label:'Agentic\nAI',leaves:['ReAct/\nPlanning','Tool Use','Multi-Agent','Memory\nSystems']}
-  ]},
-  {id:'llm',emoji:'🤖',label:'LLM\nModels',color:'#00c8c8',subs:[
-    {label:'Claude\nOpus 4',leaves:['Primary\nModel','200K\nContext','Anthropic\nAPI']},
-    {label:'Gemini\n2.0 Flash',leaves:['Fallback','Google API','Fast']},
-    {label:'Grok 3',leaves:['xAI','Alternative','200K\nContext']}
-  ]},
-  {id:'wa',emoji:'💬',label:'WhatsApp',color:'#25d366',subs:[
-    {label:'Contacts',leaves:['Yehuda\n(Owner)','Ilana','Sapir','Avi\n(אבא)']},
-    {label:'Groups',leaves:['מזרחי\nאימפריה']},
-    {label:'Config',leaves:['DM:\nAllowlist','Groups:\nOpen','No Mention\nRequired']}
-  ]},
-  {id:'husband',emoji:'💑',label:'Husband',color:'#ec4899',subs:[
-    {label:'Milestones',leaves:['Wedding\n14.09.2016','Together\n23.10.2010','Birthday\n11.04.1993']},
-    {label:'Support',leaves:['WhatsApp\n24/7','Tips &\nReminders','Warm\nWords']}
-  ]},
-  {id:'parent',emoji:'👨‍👩‍👧‍👦',label:'Parenting',color:'#22c55e',subs:[
-    {label:'Avior (6)\n🎨',leaves:['כיתה א׳','Art &\nCreativity','Humor']},
-    {label:'Nitai (4)\n⚽',leaves:['גן ילדים','Sports','Charismatic']},
-    {label:'Arbel\n(10m) 💙',leaves:['Crawling','Blue Eyes','Baby Care']}
-  ]},
-  {id:'hebrew',emoji:'🇮🇱',label:'Hebrew',color:'#eab308',subs:[
-    {label:'Language',leaves:['Israeli\nSlang','Grammar','Fem/Masc']},
-    {label:'Culture',leaves:['Holidays','Traditions','Bilingual']}
-  ]},
-  {id:'ta',emoji:'📈',label:'Technical\nAnalysis',color:'#a855f7',subs:[
-    {label:'Smart\nMoney',leaves:['ICT\nConcepts','Order\nBlocks','Fair Value\nGaps']},
-    {label:'Wave\nTheory',leaves:['Elliott\nWave','Wyckoff\nMethod']},
-    {label:'Advanced',leaves:['Harmonics','Volume\nProfile','Order\nFlow']}
-  ]},
-  {id:'sec',emoji:'🛡️',label:'Security\nGate',color:'#ef4444',subs:[
-    {label:'Scanning',leaves:['7 Categories','Code\nAnalysis','Prompt\nInjection']},
-    {label:'Policy',leaves:['Triple\nConfirm','Boss Only','Full\nLogging']}
-  ]},
-  {id:'fit',emoji:'💪',label:'Fitness &\nNutrition',color:'#10b981',subs:[
-    {label:'Strength',leaves:['Hypertrophy','Progressive\nOverload','PPL/\nUpper-Lower']},
-    {label:'Cardio',leaves:['LISS','HIIT','Conditioning']},
-    {label:'Nutrition',leaves:['Macros &\nCalories','Meal Plans','Supplements']},
-    {label:'Recovery',leaves:['Sleep','Stress','Deload']}
-  ]},
-  {id:'coffee',emoji:'☕',label:'Coffee\nMaster',color:'#b4783c',subs:[
-    {label:'Espresso',leaves:['Grind\nSettings','Dose &\nYield','Extraction']},
-    {label:'Milk',leaves:['Steaming','Latte Art','Texturing']},
-    {label:'Machine',leaves:['La Marzocco\nMicra','Maintenance','Cleaning']}
-  ]}
+const DATA=[
+["center",null,0,"🦞","OpenClaw","#64748b"],
+// 1. Gateway
+["gw","center",1,"🌐","Gateway","#3b82f6"],
+["gw-ws","gw",2,"","WebSocket API","#3b82f6"],
+["gw-ws-1","gw-ws",3,"","JSON Protocol","#3b82f6"],
+["gw-ws-2","gw-ws",3,"","Auth/Token","#3b82f6"],
+["gw-ws-3","gw-ws",3,"","Pairing","#3b82f6"],
+["gw-d","gw",2,"","Daemon","#3b82f6"],
+["gw-d-1","gw-d",3,"","Port 18789","#3b82f6"],
+["gw-d-2","gw-d",3,"","Health Check","#3b82f6"],
+["gw-d-3","gw-d",3,"","Events","#3b82f6"],
+["gw-h","gw",2,"","HTTP Server","#3b82f6"],
+["gw-h-1","gw-h",3,"","Canvas Host","#3b82f6"],
+["gw-h-2","gw-h",3,"","A2UI","#3b82f6"],
+["gw-h-3","gw-h",3,"","OpenAI API","#3b82f6"],
+// 2. Channels
+["ch","center",1,"💬","Channels","#8b5cf6"],
+["ch-wa","ch",2,"","WhatsApp","#8b5cf6"],
+["ch-wa-1","ch-wa",3,"","Baileys","#8b5cf6"],
+["ch-wa-2","ch-wa",3,"","DM/Groups","#8b5cf6"],
+["ch-wa-3","ch-wa",3,"","Media","#8b5cf6"],
+["ch-tg","ch",2,"","Telegram","#8b5cf6"],
+["ch-tg-1","ch-tg",3,"","grammY","#8b5cf6"],
+["ch-tg-2","ch-tg",3,"","Bot API","#8b5cf6"],
+["ch-more","ch",2,"","More","#8b5cf6"],
+["ch-more-1","ch-more",3,"","Discord","#8b5cf6"],
+["ch-more-2","ch-more",3,"","Signal","#8b5cf6"],
+["ch-more-3","ch-more",3,"","Slack","#8b5cf6"],
+["ch-more-4","ch-more",3,"","iMessage","#8b5cf6"],
+["ch-more-5","ch-more",3,"","IRC","#8b5cf6"],
+["ch-more-6","ch-more",3,"","Matrix","#8b5cf6"],
+["ch-more-7","ch-more",3,"","MS Teams","#8b5cf6"],
+["ch-more-8","ch-more",3,"","Line","#8b5cf6"],
+["ch-more-9","ch-more",3,"","Nostr","#8b5cf6"],
+["ch-more-10","ch-more",3,"","Google Chat","#8b5cf6"],
+// 3. Agent
+["ag","center",1,"🤖","Agent","#ec4899"],
+["ag-s","ag",2,"","Sessions","#ec4899"],
+["ag-s-1","ag-s",3,"","Main","#ec4899"],
+["ag-s-2","ag-s",3,"","Isolated","#ec4899"],
+["ag-s-3","ag-s",3,"","Sub-agents","#ec4899"],
+["ag-s-4","ag-s",3,"","Compaction","#ec4899"],
+["ag-al","ag",2,"","Agent Loop","#ec4899"],
+["ag-al-1","ag-al",3,"","System Prompt","#ec4899"],
+["ag-al-2","ag-al",3,"","Tool Calls","#ec4899"],
+["ag-al-3","ag-al",3,"","Streaming","#ec4899"],
+["ag-al-4","ag-al",3,"","Retry","#ec4899"],
+["ag-m","ag",2,"","Memory","#ec4899"],
+["ag-m-1","ag-m",3,"","MEMORY.md","#ec4899"],
+["ag-m-2","ag-m",3,"","Daily Notes","#ec4899"],
+["ag-m-3","ag-m",3,"","memory_search","#ec4899"],
+// 4. Models
+["mo","center",1,"🧠","Models","#f59e0b"],
+["mo-p","mo",2,"","Providers","#f59e0b"],
+["mo-p-1","mo-p",3,"","Anthropic","#f59e0b"],
+["mo-p-2","mo-p",3,"","OpenAI","#f59e0b"],
+["mo-p-3","mo-p",3,"","xAI/Grok","#f59e0b"],
+["mo-p-4","mo-p",3,"","Google","#f59e0b"],
+["mo-p-5","mo-p",3,"","Ollama","#f59e0b"],
+["mo-p-6","mo-p",3,"","OpenRouter","#f59e0b"],
+["mo-f","mo",2,"","Features","#f59e0b"],
+["mo-f-1","mo-f",3,"","Failover","#f59e0b"],
+["mo-f-2","mo-f",3,"","Aliases","#f59e0b"],
+["mo-f-3","mo-f",3,"","Thinking","#f59e0b"],
+["mo-f-4","mo-f",3,"","Vision","#f59e0b"],
+// 5. Tools
+["to","center",1,"🔧","Tools","#10b981"],
+["to-b","to",2,"","Built-in","#10b981"],
+["to-b-1","to-b",3,"","exec","#10b981"],
+["to-b-2","to-b",3,"","read/write","#10b981"],
+["to-b-3","to-b",3,"","browser","#10b981"],
+["to-b-4","to-b",3,"","web_search","#10b981"],
+["to-b-5","to-b",3,"","web_fetch","#10b981"],
+["to-b-6","to-b",3,"","cron","#10b981"],
+["to-b-7","to-b",3,"","message","#10b981"],
+["to-b-8","to-b",3,"","tts","#10b981"],
+["to-sk","to",2,"","Skills","#10b981"],
+["to-sk-1","to-sk",3,"","ClawHub","#10b981"],
+["to-sk-2","to-sk",3,"","SKILL.md","#10b981"],
+["to-sk-3","to-sk",3,"","Custom Skills","#10b981"],
+["to-ex","to",2,"","Extensions","#10b981"],
+["to-ex-1","to-ex",3,"","Plugin SDK","#10b981"],
+["to-ex-2","to-ex",3,"","openclaw.plugin.json","#10b981"],
+// 6. Nodes
+["no","center",1,"📱","Nodes","#06b6d4"],
+["no-pl","no",2,"","Platforms","#06b6d4"],
+["no-pl-1","no-pl",3,"","iOS","#06b6d4"],
+["no-pl-2","no-pl",3,"","Android","#06b6d4"],
+["no-pl-3","no-pl",3,"","macOS","#06b6d4"],
+["no-pl-4","no-pl",3,"","Headless","#06b6d4"],
+["no-ca","no",2,"","Capabilities","#06b6d4"],
+["no-ca-1","no-ca",3,"","Camera","#06b6d4"],
+["no-ca-2","no-ca",3,"","Screen","#06b6d4"],
+["no-ca-3","no-ca",3,"","Location","#06b6d4"],
+["no-ca-4","no-ca",3,"","Canvas","#06b6d4"],
+["no-ca-5","no-ca",3,"","Audio","#06b6d4"],
+// 7. Workspace
+["ws","center",1,"📂","Workspace","#f97316"],
+["ws-cf","ws",2,"","Core Files","#f97316"],
+["ws-cf-1","ws-cf",3,"","AGENTS.md","#f97316"],
+["ws-cf-2","ws-cf",3,"","SOUL.md","#f97316"],
+["ws-cf-3","ws-cf",3,"","USER.md","#f97316"],
+["ws-cf-4","ws-cf",3,"","IDENTITY.md","#f97316"],
+["ws-cf-5","ws-cf",3,"","TOOLS.md","#f97316"],
+["ws-me","ws",2,"","Memory","#f97316"],
+["ws-me-1","ws-me",3,"","MEMORY.md","#f97316"],
+["ws-me-2","ws-me",3,"","memory/*.md","#f97316"],
+["ws-me-3","ws-me",3,"","HEARTBEAT.md","#f97316"],
+["ws-sk","ws",2,"","Skills","#f97316"],
+["ws-sk-1","ws-sk",3,"","hebrew","#f97316"],
+["ws-sk-2","ws-sk",3,"","husband","#f97316"],
+["ws-sk-3","ws-sk",3,"","parenting","#f97316"],
+["ws-sk-4","ws-sk",3,"","coffee-master","#f97316"],
+["ws-sk-5","ws-sk",3,"","ai-architect","#f97316"],
+["ws-sk-6","ws-sk",3,"","technical-analysis","#f97316"],
+["ws-sk-7","ws-sk",3,"","fitness-nutrition","#f97316"],
+["ws-sk-8","ws-sk",3,"","secure-downloader","#f97316"],
+// 8. Automation
+["au","center",1,"⚡","Automation","#ef4444"],
+["au-cr","au",2,"","Cron","#ef4444"],
+["au-cr-1","au-cr",3,"","Scheduled Jobs","#ef4444"],
+["au-cr-2","au-cr",3,"","One-shot","#ef4444"],
+["au-cr-3","au-cr",3,"","Recurring","#ef4444"],
+["au-hb","au",2,"","Heartbeat","#ef4444"],
+["au-hb-1","au-hb",3,"","Polling","#ef4444"],
+["au-hb-2","au-hb",3,"","HEARTBEAT.md","#ef4444"],
+["au-hb-3","au-hb",3,"","Proactive Checks","#ef4444"],
+["au-ho","au",2,"","Hooks","#ef4444"],
+["au-ho-1","au-ho",3,"","Webhooks","#ef4444"],
+["au-ho-2","au-ho",3,"","Gmail PubSub","#ef4444"],
+// 9. Interfaces
+["ui","center",1,"🖥️","Interfaces","#a855f7"],
+["ui-w","ui",2,"","Web","#a855f7"],
+["ui-w-1","ui-w",3,"","WebChat","#a855f7"],
+["ui-w-2","ui-w",3,"","Control UI","#a855f7"],
+["ui-w-3","ui-w",3,"","Dashboard","#a855f7"],
+["ui-w-4","ui-w",3,"","TUI","#a855f7"],
+["ui-a","ui",2,"","Apps","#a855f7"],
+["ui-a-1","ui-a",3,"","macOS App","#a855f7"],
+["ui-a-2","ui-a",3,"","Menu Bar","#a855f7"],
+["ui-a-3","ui-a",3,"","CLI","#a855f7"],
+// 10. Security
+["se","center",1,"🔒","Security","#64748b"],
+["se-au","se",2,"","Auth","#64748b"],
+["se-au-1","se-au",3,"","Gateway Token","#64748b"],
+["se-au-2","se-au",3,"","Device Pairing","#64748b"],
+["se-au-3","se-au",3,"","Allowlists","#64748b"],
+["se-sb","se",2,"","Sandboxing","#64748b"],
+["se-sb-1","se-sb",3,"","Exec Policy","#64748b"],
+["se-sb-2","se-sb",3,"","Elevated Mode","#64748b"],
+["se-sb-3","se-sb",3,"","Tool Policy","#64748b"],
 ];
 
-const ui = document.getElementById('ui');
-const bgCanvas = document.getElementById('bg');
-const lineCanvas = document.getElementById('lines');
-const bgCtx = bgCanvas.getContext('2d');
-const lineCtx = lineCanvas.getContext('2d');
+// Build lookup
+const byId={};
+const children={};
+DATA.forEach(d=>{const o={id:d[0],parent:d[1],level:d[2],emoji:d[3],label:d[4],color:d[5],wx:0,wy:0};byId[o.id]=o;if(o.parent){(children[o.parent]=children[o.parent]||[]).push(o)}});
 
-let W, H, cx, cy, dpr;
-let panX = 0, panY = 0, zoom = 1;
-let dragging = false, dragStartX, dragStartY, panStartX, panStartY;
-let expandedCat = null, expandedSub = null;
-let stars = [];
-let allNodes = []; // {el, x, y, type}
-let lineData = []; // {x1,y1,x2,y2,color,alpha}
-
-function resize() {
-  dpr = window.devicePixelRatio || 1;
-  W = window.innerWidth; H = window.innerHeight;
-  cx = W / 2; cy = H / 2;
-  bgCanvas.width = W * dpr; bgCanvas.height = H * dpr;
-  bgCanvas.style.width = W + 'px'; bgCanvas.style.height = H + 'px';
-  bgCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  lineCanvas.width = W * dpr; lineCanvas.height = H * dpr;
-  lineCanvas.style.width = W + 'px'; lineCanvas.style.height = H + 'px';
-  lineCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  initStars();
-  layout();
-}
-
-function initStars() {
-  stars = [];
-  for (let i = 0; i < 200; i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.5+.3,a:Math.random(),s:Math.random()*.005+.002});
-}
-
-function drawBg() {
-  bgCtx.fillStyle = '#0a0a1a';
-  bgCtx.fillRect(0, 0, W, H);
-  for (const s of stars) {
-    s.a += s.s;
-    const a = .3 + Math.abs(Math.sin(s.a)) * .7;
-    bgCtx.beginPath();
-    bgCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-    bgCtx.fillStyle = `rgba(255,255,255,${a})`;
-    bgCtx.fill();
-  }
-}
-
-function drawLines() {
-  lineCtx.clearRect(0, 0, W, H);
-  for (const l of lineData) {
-    const sx = (l.x1 + panX) * zoom + cx * (1 - zoom);
-    const sy = (l.y1 + panY) * zoom + cy * (1 - zoom);
-    const ex = (l.x2 + panX) * zoom + cx * (1 - zoom);
-    const ey = (l.y2 + panY) * zoom + cy * (1 - zoom);
-    lineCtx.beginPath();
-    lineCtx.moveTo(sx, sy);
-    lineCtx.lineTo(ex, ey);
-    lineCtx.strokeStyle = l.color;
-    lineCtx.globalAlpha = l.alpha;
-    lineCtx.lineWidth = l.width || 1.5;
-    lineCtx.stroke();
-    lineCtx.globalAlpha = 1;
-  }
-}
-
-function screenPos(x, y) {
-  return {
-    x: (x + panX) * zoom + cx * (1 - zoom),
-    y: (y + panY) * zoom + cy * (1 - zoom)
-  };
-}
-
-function posNode(el, x, y) {
-  const p = screenPos(x, y);
-  const w = el.offsetWidth || 0;
-  const h = el.offsetHeight || 0;
-  el.style.left = (p.x - w / 2) + 'px';
-  el.style.top = (p.y - h / 2) + 'px';
-  el.style.transform = `scale(${zoom})`;
-}
-
-function makeEl(cls, html, color) {
-  const el = document.createElement('div');
-  el.className = 'node ' + cls;
-  el.innerHTML = `<div class="node-label">${html}</div>`;
-  if (color) {
-    if (cls === 'cat-node') {
-      el.style.background = `radial-gradient(circle, ${color}dd, ${color}88)`;
-      el.style.border = `2px solid ${color}`;
-      el.style.boxShadow = `0 0 20px ${color}66`;
-    } else if (cls === 'sub-node') {
-      el.style.background = `radial-gradient(circle, ${color}bb, ${color}66)`;
-      el.style.border = `1.5px solid ${color}aa`;
-      el.style.boxShadow = `0 0 12px ${color}44`;
-    } else if (cls === 'leaf-node') {
-      el.style.background = `radial-gradient(circle, ${color}99, ${color}44)`;
-      el.style.border = `1px solid ${color}77`;
-      el.style.boxShadow = `0 0 8px ${color}33`;
-    }
-  }
-  ui.appendChild(el);
-  return el;
-}
-
-let centerEl;
-let catEls = [];
-let subEls = [];
-let leafEls = [];
-
-function clearSubs() {
-  for (const s of subEls) { s.el.classList.remove('visible'); setTimeout(() => s.el.remove(), 300); }
-  subEls = [];
-  clearLeaves();
-  expandedSub = null;
-}
-
-function clearLeaves() {
-  for (const l of leafEls) { l.el.classList.remove('visible'); setTimeout(() => l.el.remove(), 300); }
-  leafEls = [];
-}
-
-function build() {
-  // Center
-  centerEl = makeEl('center-node', '<span class="node-emoji">🧠</span>8 Skills');
-  centerEl.classList.add('visible');
-
-  // Categories
-  const n = DATA.length;
-  DATA.forEach((cat, i) => {
-    const a = (i / n) * Math.PI * 2 - Math.PI / 2;
-    const r = Math.min(W, H) * 0.3;
-    const x = cx + Math.cos(a) * r;
-    const y = cy + Math.sin(a) * r;
-    const el = makeEl('cat-node', `<span class="node-emoji">${cat.emoji}</span>${cat.label.replace(/\n/g,'<br>')}`, cat.color);
-    el.dataset.idx = i;
-    el.addEventListener('click', (e) => { e.stopPropagation(); toggleCat(i); });
-    setTimeout(() => el.classList.add('visible'), 50 + i * 40);
-    catEls.push({el, x, y, cat, angle: a, radius: r});
+// Layout
+function layout(){
+  const center=byId["center"];
+  center.wx=0;center.wy=0;
+  const cats=children["center"]||[];
+  const catCount=cats.length;
+  cats.forEach((cat,i)=>{
+    const a=(2*Math.PI*i/catCount)-Math.PI/2;
+    cat.wx=Math.cos(a)*280;
+    cat.wy=Math.sin(a)*280;
+    const subs=children[cat.id]||[];
+    // angle sector for this category: spread subs within a wedge pointing outward
+    const catAngle=a;
+    const subSpread=Math.min(Math.PI*0.6, Math.PI*0.4+subs.length*0.12);
+    subs.forEach((sub,j)=>{
+      const sa=catAngle-subSpread/2+subSpread*(subs.length===1?0.5:j/(subs.length-1));
+      sub.wx=cat.wx+Math.cos(sa)*180;
+      sub.wy=cat.wy+Math.sin(sa)*180;
+      const leaves=children[sub.id]||[];
+      const leafSpread=Math.min(Math.PI*0.7, Math.PI*0.3+leaves.length*0.1);
+      const subAngle=Math.atan2(sub.wy-cat.wy,sub.wx-cat.wx);
+      leaves.forEach((leaf,k)=>{
+        const la=subAngle-leafSpread/2+leafSpread*(leaves.length===1?0.5:k/(leaves.length-1));
+        leaf.wx=sub.wx+Math.cos(la)*130;
+        leaf.wy=sub.wy+Math.sin(la)*130;
+      });
+    });
   });
-
-  layout();
 }
+layout();
 
-function toggleCat(idx) {
-  if (expandedCat === idx) {
-    clearSubs();
-    expandedCat = null;
-    lineData = lineData.filter(l => l.level !== 2 && l.level !== 3);
-    drawLines();
-    return;
-  }
-  clearSubs();
-  expandedCat = idx;
-  expandedSub = null;
-  lineData = lineData.filter(l => l.level !== 2 && l.level !== 3);
+// Camera
+let camX=0,camY=0,zoom=0.45;
+const ui=document.getElementById("ui");
+const bgC=document.getElementById("bg");
+const lnC=document.getElementById("lines");
+const bgCtx=bgC.getContext("2d");
+const lnCtx=lnC.getContext("2d");
 
-  const cat = DATA[idx];
-  const ce = catEls[idx];
-  const sn = cat.subs.length;
-  const baseAngle = ce.angle;
-  const spread = Math.min(Math.PI * 0.6, sn * 0.3);
-  const subR = 110;
-
-  cat.subs.forEach((sub, j) => {
-    const sa = baseAngle - spread / 2 + (sn === 1 ? 0 : (j / (sn - 1)) * spread);
-    const sx = ce.x + Math.cos(sa) * subR;
-    const sy = ce.y + Math.sin(sa) * subR;
-    const el = makeEl('sub-node', sub.label.replace(/\n/g,'<br>'), cat.color);
-    el.dataset.catIdx = idx;
-    el.dataset.subIdx = j;
-    el.addEventListener('click', (e) => { e.stopPropagation(); toggleSub(idx, j); });
-    setTimeout(() => el.classList.add('visible'), 30 + j * 30);
-    subEls.push({el, x: sx, y: sy, sub, angle: sa, parentX: ce.x, parentY: ce.y, catIdx: idx});
-    lineData.push({x1: ce.x, y1: ce.y, x2: sx, y2: sy, color: cat.color + '88', alpha: 0.6, width: 1.2, level: 2});
-  });
-
-  layout();
+function resize(){
+  const w=window.innerWidth,h=window.innerHeight;
+  bgC.width=w;bgC.height=h;
+  lnC.width=w;lnC.height=h;
 }
-
-function toggleSub(catIdx, subIdx) {
-  if (expandedSub !== null && expandedSub.cat === catIdx && expandedSub.sub === subIdx) {
-    clearLeaves();
-    expandedSub = null;
-    lineData = lineData.filter(l => l.level !== 3);
-    drawLines();
-    return;
-  }
-  clearLeaves();
-  lineData = lineData.filter(l => l.level !== 3);
-  expandedSub = {cat: catIdx, sub: subIdx};
-
-  const cat = DATA[catIdx];
-  const sub = cat.subs[subIdx];
-  const se = subEls.find(s => s.catIdx === catIdx && s.sub === sub);
-  if (!se) return;
-
-  const ln = sub.leaves.length;
-  const baseAngle = se.angle;
-  const spread = Math.min(Math.PI * 0.5, ln * 0.35);
-  const leafR = 80;
-
-  sub.leaves.forEach((leaf, k) => {
-    const la = baseAngle - spread / 2 + (ln === 1 ? 0 : (k / (ln - 1)) * spread);
-    const lx = se.x + Math.cos(la) * leafR;
-    const ly = se.y + Math.sin(la) * leafR;
-    const el = makeEl('leaf-node', leaf.replace(/\n/g,'<br>'), cat.color);
-    setTimeout(() => el.classList.add('visible'), 20 + k * 25);
-    leafEls.push({el, x: lx, y: ly});
-    lineData.push({x1: se.x, y1: se.y, x2: lx, y2: ly, color: cat.color + '66', alpha: 0.4, width: 1, level: 3});
-  });
-
-  layout();
-}
-
-function layout() {
-  if (centerEl) posNode(centerEl, cx, cy);
-  for (const c of catEls) posNode(c.el, c.x, c.y);
-  for (const s of subEls) posNode(s.el, s.x, s.y);
-  for (const l of leafEls) posNode(l.el, l.x, l.y);
-
-  // Update center lines
-  lineData = lineData.filter(l => l.level);
-  for (const c of catEls) {
-    lineData.push({x1: cx, y1: cy, x2: c.x, y2: c.y, color: c.cat.color + '55', alpha: 0.35, width: 1.5, level: 1});
-  }
-
-  drawLines();
-}
-
-// Pan & Zoom
-document.addEventListener('mousedown', e => {
-  dragging = true; dragStartX = e.clientX; dragStartY = e.clientY;
-  panStartX = panX; panStartY = panY;
-});
-document.addEventListener('mousemove', e => {
-  if (!dragging) return;
-  panX = panStartX + (e.clientX - dragStartX) / zoom;
-  panY = panStartY + (e.clientY - dragStartY) / zoom;
-  layout();
-});
-document.addEventListener('mouseup', () => dragging = false);
-document.addEventListener('wheel', e => {
-  e.preventDefault();
-  zoom = Math.max(0.3, Math.min(3, zoom - e.deltaY * 0.001));
-  layout();
-}, {passive: false});
-
-// Touch
-let touches0 = null, initDist = 0, initZoom = 1;
-document.addEventListener('touchstart', e => {
-  if (e.touches.length === 1) {
-    dragging = true;
-    dragStartX = e.touches[0].clientX; dragStartY = e.touches[0].clientY;
-    panStartX = panX; panStartY = panY;
-  } else if (e.touches.length === 2) {
-    dragging = false;
-    initDist = Math.hypot(e.touches[1].clientX - e.touches[0].clientX, e.touches[1].clientY - e.touches[0].clientY);
-    initZoom = zoom;
-  }
-});
-document.addEventListener('touchmove', e => {
-  e.preventDefault();
-  if (e.touches.length === 1 && dragging) {
-    panX = panStartX + (e.touches[0].clientX - dragStartX) / zoom;
-    panY = panStartY + (e.touches[0].clientY - dragStartY) / zoom;
-    layout();
-  } else if (e.touches.length === 2) {
-    const d = Math.hypot(e.touches[1].clientX - e.touches[0].clientX, e.touches[1].clientY - e.touches[0].clientY);
-    zoom = Math.max(0.3, Math.min(3, initZoom * (d / initDist)));
-    layout();
-  }
-}, {passive: false});
-document.addEventListener('touchend', () => dragging = false);
-
-function animate() {
-  drawBg();
-  requestAnimationFrame(animate);
-}
-
-window.addEventListener('resize', resize);
+window.addEventListener("resize",resize);
 resize();
-build();
-animate();
+
+// Stars
+const stars=Array.from({length:200},()=>({x:Math.random()*4000-2000,y:Math.random()*4000-2000,r:Math.random()*1.5+0.5,b:Math.random()}));
+function drawStars(t){
+  bgCtx.clearRect(0,0,bgC.width,bgC.height);
+  const cx=bgC.width/2,cy=bgC.height/2;
+  stars.forEach(s=>{
+    const sx=cx+(s.x-camX)*zoom*0.3;
+    const sy=cy+(s.y-camY)*zoom*0.3;
+    if(sx<-5||sx>bgC.width+5||sy<-5||sy>bgC.height+5)return;
+    const a=0.4+0.6*Math.sin(t*0.001+s.b*6.28);
+    bgCtx.beginPath();bgCtx.arc(sx,sy,s.r,0,6.28);
+    bgCtx.fillStyle=`rgba(255,255,255,${a})`;bgCtx.fill();
+  });
+}
+
+// Create DOM nodes
+const nodeEls={};
+DATA.forEach((d,i)=>{
+  const o=byId[d[0]];
+  const el=document.createElement("div");
+  const cls=["center-node","cat-node","sub-node","leaf-node"][o.level];
+  el.className="node "+cls;
+  if(o.level===1){
+    el.style.background=`radial-gradient(circle,${o.color}dd,${o.color}88)`;
+    el.style.border=`2px solid ${o.color}`;
+    el.style.boxShadow=`0 0 20px ${o.color}66`;
+  } else if(o.level===2){
+    el.style.background=`radial-gradient(circle,${o.color}99,${o.color}55)`;
+    el.style.border=`2px solid ${o.color}88`;
+    el.style.boxShadow=`0 0 12px ${o.color}44`;
+  } else if(o.level===3){
+    el.style.background=`radial-gradient(circle,${o.color}66,${o.color}33)`;
+    el.style.border=`1px solid ${o.color}66`;
+    el.style.boxShadow=`0 0 8px ${o.color}22`;
+  }
+  el.innerHTML=`<div class="node-label">${o.emoji?`<span class="node-emoji">${o.emoji}</span>`:""}<span>${o.label}</span></div>`;
+  ui.appendChild(el);
+  nodeEls[o.id]=el;
+  setTimeout(()=>el.classList.add("visible"),100+i*25);
+});
+
+// Draw lines
+function drawLines(){
+  const cx=lnC.width/2,cy=lnC.height/2;
+  lnCtx.clearRect(0,0,lnC.width,lnC.height);
+  DATA.forEach(d=>{
+    const o=byId[d[0]];
+    if(!o.parent)return;
+    const p=byId[o.parent];
+    const x1=cx+(p.wx-camX)*zoom;
+    const y1=cy+(p.wy-camY)*zoom;
+    const x2=cx+(o.wx-camX)*zoom;
+    const y2=cy+(o.wy-camY)*zoom;
+    const grad=lnCtx.createLinearGradient(x1,y1,x2,y2);
+    grad.addColorStop(0,p.color+"88");
+    grad.addColorStop(1,o.color+"44");
+    lnCtx.beginPath();lnCtx.moveTo(x1,y1);lnCtx.lineTo(x2,y2);
+    lnCtx.strokeStyle=grad;
+    lnCtx.lineWidth=o.level===1?2:o.level===2?1.5:1;
+    lnCtx.stroke();
+  });
+}
+
+// Position nodes
+function updatePositions(){
+  const cx=lnC.width/2,cy=lnC.height/2;
+  DATA.forEach(d=>{
+    const o=byId[d[0]];
+    const el=nodeEls[o.id];
+    const sx=cx+(o.wx-camX)*zoom-35;
+    const sy=cy+(o.wy-camY)*zoom-35;
+    el.style.left=sx+"px";
+    el.style.top=sy+"px";
+    el.style.transform=el.classList.contains("visible")?`scale(${zoom<0.3?0.6:zoom<0.5?0.8:1})`:"scale(0)";
+  });
+}
+
+// Interaction
+let dragging=false,lastX,lastY;
+document.addEventListener("pointerdown",e=>{dragging=true;lastX=e.clientX;lastY=e.clientY});
+document.addEventListener("pointermove",e=>{
+  if(!dragging)return;
+  camX-=(e.clientX-lastX)/zoom;
+  camY-=(e.clientY-lastY)/zoom;
+  lastX=e.clientX;lastY=e.clientY;
+});
+document.addEventListener("pointerup",()=>dragging=false);
+document.addEventListener("wheel",e=>{
+  e.preventDefault();
+  const f=e.deltaY>0?0.9:1.1;
+  zoom=Math.max(0.1,Math.min(3,zoom*f));
+},{passive:false});
+
+// Render loop
+function frame(t){
+  drawStars(t);
+  drawLines();
+  updatePositions();
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
 </script>
 </body>
 </html>
