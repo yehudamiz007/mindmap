@@ -31,6 +31,19 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%}
 #nav a{background:rgba(15,23,42,.85);border:1px solid #334155;border-radius:8px;padding:8px 14px;color:#94a3b8;font-size:11px;text-decoration:none;text-align:center;backdrop-filter:blur(8px);transition:all .2s}
 #nav a:hover{color:#e2e8f0;border-color:#64748b}
 #nav a.active{color:#e2e8f0;border-color:#3b82f6}
+#sidebar{position:fixed;top:0;right:-380px;width:360px;height:100%;background:rgba(15,23,42,.95);border-left:1px solid #334155;backdrop-filter:blur(12px);z-index:30;transition:right .3s ease;overflow-y:auto;pointer-events:auto;padding:24px}
+#sidebar.open{right:0}
+#sidebar .close-btn{position:absolute;top:12px;right:14px;background:none;border:none;color:#94a3b8;font-size:22px;cursor:pointer}
+#sidebar .close-btn:hover{color:#e2e8f0}
+#sidebar .sb-emoji{font-size:48px;text-align:center;margin:8px 0 12px}
+#sidebar .sb-title{color:#e2e8f0;font-size:20px;font-weight:700;text-align:center;margin-bottom:6px}
+#sidebar .sb-desc{color:#94a3b8;font-size:13px;line-height:1.6;margin-bottom:16px}
+#sidebar .sb-tag{display:inline-block;background:rgba(59,130,246,.15);color:#93c5fd;border-radius:6px;padding:3px 10px;font-size:11px;margin:2px 4px 2px 0}
+#sidebar .sb-section{color:#64748b;font-size:11px;text-transform:uppercase;letter-spacing:1px;margin:16px 0 8px;font-weight:600}
+#sidebar .sb-children{display:flex;flex-wrap:wrap;gap:6px}
+#sidebar .sb-child{background:rgba(255,255,255,.06);border:1px solid #334155;border-radius:8px;padding:6px 12px;color:#cbd5e1;font-size:12px;cursor:pointer;transition:all .2s}
+#sidebar .sb-child:hover{background:rgba(255,255,255,.12);border-color:#64748b}
+.node.selected{transform:scale(1.18)!important;z-index:11;filter:brightness(1.3)}
 #title{position:fixed;top:20px;left:20px;pointer-events:none;z-index:20}
 #title h1{color:#e2e8f0;font-size:20px;font-weight:700;letter-spacing:-.5px}
 #title p{color:#64748b;font-size:12px;margin-top:4px}
@@ -66,7 +79,70 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%}
   <div class="leg-item"><div class="leg-dot" style="background:#64748b"></div>Security - Auth & sandboxing</div>
 </div>
 
+<div id="sidebar">
+  <button class="close-btn" onclick="closeSidebar()">&times;</button>
+  <div id="sb-content"></div>
+</div>
+
 <script>
+// Descriptions for sidebar
+const DESC = {
+  "center": "OpenClaw is an open-source AI agent gateway that connects LLMs to messaging platforms, devices, and tools. It runs as a daemon on your machine and orchestrates everything.",
+  "gw": "The Gateway is the core daemon process. It manages WebSocket connections, HTTP endpoints, sessions, and routes messages between channels and the agent.",
+  "ch": "15+ messaging platform integrations - from WhatsApp and Telegram to Discord, Signal, Slack, iMessage, and more. Each runs as an extension plugin.",
+  "ag": "The Agent loop handles conversation sessions, memory management, tool calls, and multi-turn reasoning. Supports main sessions and isolated sub-agents.",
+  "mo": "Multi-provider model support - Anthropic, OpenAI, Google, xAI (Grok), Ollama (local), and OpenRouter. Hot-swap between models per session.",
+  "to": "Built-in tools: shell exec, browser automation, web search/fetch, 50+ skill plugins, and custom extensions. Tools are policy-controlled.",
+  "no": "Paired devices (iOS, Android, macOS) that extend the agent's reach - camera access, screen capture, location, notifications, and canvas rendering.",
+  "ws": "The agent's file workspace - AGENTS.md, SOUL.md, MEMORY.md, custom skills, and all persistent files. This is the agent's home directory.",
+  "au": "Cron jobs for scheduled tasks, heartbeat polling for periodic checks, and webhook triggers. Powers reminders, daily routines, and background automation.",
+  "ui": "Web-based interfaces: WebChat for browser conversations, Control UI for management, CLI for terminal access, and native macOS app.",
+  "se": "Token-based auth, device pairing with approval flow, sandboxed execution, allowlists for DMs/groups, and tool policy controls.",
+  "gw-ws": "WebSocket API on port 18789 for real-time bidirectional communication between the gateway and connected clients.",
+  "gw-d": "Long-running daemon process that starts on boot and manages all gateway services and extension lifecycle.",
+  "gw-h": "HTTP server for REST API endpoints, health checks, webhook receivers, and static file serving.",
+  "ch-wa": "WhatsApp integration via Baileys (unofficial API). Supports DMs, groups, reactions, media, voice messages, and QR code pairing.",
+  "ch-tg": "Telegram bot integration via grammY framework. Supports commands, inline queries, media, groups, and webhook/polling modes.",
+  "ch-dc": "Discord bot with full guild support - channels, threads, reactions, components (buttons/selects), voice, and slash commands.",
+  "ch-sg": "Signal messenger integration for private, encrypted conversations.",
+  "ch-sl": "Slack workspace integration with channel management, threads, and app home.",
+  "ch-im": "iMessage integration for Apple ecosystem messaging (macOS only).",
+  "ch-more": "IRC, Google Chat, Microsoft Teams, Matrix, Webchat, SMS/Twilio, Email, and more.",
+  "ag-s": "Session management - main session, isolated sub-agents, session history, spawn/steer/kill controls.",
+  "ag-l": "The core agent reasoning loop - processes messages, decides tool calls, manages conversation flow and model interactions.",
+  "ag-m": "Memory system - MEMORY.md for long-term, daily files for journals, memory search with semantic retrieval.",
+  "mo-an": "Anthropic Claude models - Opus, Sonnet, Haiku. Primary provider for advanced reasoning.",
+  "mo-oa": "OpenAI GPT models - GPT-4o, o1, o3. Strong for code and structured output.",
+  "mo-gk": "xAI Grok models - Grok-3. Good for real-time knowledge and web-aware tasks.",
+  "mo-go": "Google Gemini models - Pro, Flash, Ultra. Multimodal with long context windows.",
+  "mo-ol": "Ollama for running local models - Llama, Mistral, CodeLlama. No API key needed.",
+  "mo-or": "OpenRouter aggregator - access 100+ models through a single API endpoint.",
+  "to-ex": "Shell command execution with PTY support, background processes, timeouts, and session management.",
+  "to-br": "Browser automation via Playwright - navigate, click, type, screenshot, snapshot DOM for AI interaction.",
+  "to-web": "Web search (Brave API) and URL fetching with markdown extraction for research tasks.",
+  "to-sk": "50+ built-in skills (GitHub, Spotify, 1Password, weather...) plus custom workspace skills.",
+  "to-pl": "Extension plugin system - channels, memory backends, voice, and custom integrations.",
+  "no-ios": "iOS companion app for camera, notifications, location, and screen access on iPhone/iPad.",
+  "no-and": "Android companion for camera, notifications, location on Android devices.",
+  "no-mac": "macOS native app with system integration, menu bar, and screen recording.",
+  "no-cam": "Remote camera access - snap photos, record clips, front/back switching.",
+  "no-can": "Canvas rendering - present HTML/JS UIs on paired devices, interactive dashboards.",
+  "ws-ag": "AGENTS.md - workspace rules, conventions, and behavioral guidelines for the agent.",
+  "ws-so": "SOUL.md - the agent's personality, values, tone, and identity definition.",
+  "ws-mem": "MEMORY.md - curated long-term memory. Daily files in memory/ for journals.",
+  "ws-sk": "8 custom skills: Chief Architect, Husband, Parenting, Hebrew, Technical Analysis, Security Gate, Fitness & Nutrition, Coffee Master.",
+  "au-cr": "Cron scheduler - one-shot, recurring, or cron-expression jobs. Runs in main or isolated sessions.",
+  "au-hb": "Heartbeat polling - periodic check-ins driven by HEARTBEAT.md. Batches multiple checks.",
+  "au-wh": "Webhook endpoints for external triggers and integrations.",
+  "ui-wc": "Browser-based chat interface at localhost - conversation UI with markdown rendering.",
+  "ui-cu": "Control panel for managing config, extensions, sessions, and monitoring.",
+  "ui-cl": "Command-line interface - `openclaw` command for all management operations.",
+  "ui-ma": "Native macOS application with menu bar integration and system notifications.",
+  "se-tk": "Token-based authentication for API access and session security.",
+  "se-pr": "Device pairing flow with QR codes, approval/rejection for new nodes.",
+  "se-sb": "Sandboxed execution environments for safe tool operation."
+};
+
 // DATA: [id, parentId, level, emoji, label, color, description]
 const DATA = [
   // Center
@@ -274,18 +350,20 @@ function updatePositions() {
 }
 
 // Interaction
-let dragging = false, lastX, lastY;
+let dragging = false, dragged = false, lastX, lastY;
 document.addEventListener("pointerdown", e => {
-  if (e.target.closest('#legend,#nav,#title')) return;
-  dragging = true; lastX = e.clientX; lastY = e.clientY;
+  if (e.target.closest('#legend,#nav,#title,#sidebar')) return;
+  dragging = true; dragged = false; lastX = e.clientX; lastY = e.clientY;
 });
 document.addEventListener("pointermove", e => {
   if (!dragging) return;
-  camX -= (e.clientX - lastX) / zoom;
-  camY -= (e.clientY - lastY) / zoom;
+  const dx = e.clientX - lastX, dy = e.clientY - lastY;
+  if (Math.abs(dx) > 3 || Math.abs(dy) > 3) dragged = true;
+  camX -= dx / zoom;
+  camY -= dy / zoom;
   lastX = e.clientX; lastY = e.clientY;
 });
-document.addEventListener("pointerup", () => dragging = false);
+document.addEventListener("pointerup", () => { dragging = false; });
 document.addEventListener("wheel", e => {
   e.preventDefault();
   const f = e.deltaY > 0 ? 0.92 : 1.08;
@@ -314,6 +392,69 @@ document.addEventListener("touchmove", e => {
     e.preventDefault();
   }
 }, {passive: false});
+
+// Sidebar
+let selectedNode = null;
+const sidebar = document.getElementById("sidebar");
+const sbContent = document.getElementById("sb-content");
+
+function closeSidebar() {
+  sidebar.classList.remove("open");
+  if (selectedNode) { nodeEls[selectedNode].classList.remove("selected"); selectedNode = null; }
+}
+
+function openSidebar(id) {
+  const o = byId[id];
+  if (!o) return;
+  if (selectedNode) nodeEls[selectedNode].classList.remove("selected");
+  selectedNode = id;
+  nodeEls[id].classList.add("selected");
+  
+  const kids = children[id] || [];
+  const parent = o.parent ? byId[o.parent] : null;
+  const desc = DESC[id] || "";
+  const label = o.label.replace(/\n/g, " ");
+  
+  let html = "";
+  if (o.emoji) html += `<div class="sb-emoji">${o.emoji}</div>`;
+  html += `<div class="sb-title">${label}</div>`;
+  if (desc) html += `<div class="sb-desc">${desc}</div>`;
+  
+  // Tags
+  html += `<div style="text-align:center;margin-bottom:12px">`;
+  html += `<span class="sb-tag">Level ${o.level}</span>`;
+  if (parent) html += `<span class="sb-tag" style="cursor:pointer" onclick="openSidebar('${parent.id}')">${parent.emoji || ""} ${parent.label.replace(/\n/g," ")}</span>`;
+  html += `</div>`;
+  
+  if (kids.length) {
+    html += `<div class="sb-section">Sub-components (${kids.length})</div>`;
+    html += `<div class="sb-children">`;
+    kids.forEach(k => {
+      const kLabel = k.label.replace(/\n/g, " ");
+      html += `<div class="sb-child" onclick="openSidebar('${k.id}')">${k.emoji ? k.emoji + " " : ""}${kLabel}</div>`;
+    });
+    html += `</div>`;
+  }
+  
+  sbContent.innerHTML = html;
+  sidebar.classList.add("open");
+}
+
+// Click detection on nodes
+Object.keys(nodeEls).forEach(id => {
+  nodeEls[id].addEventListener("click", e => {
+    if (dragged) return;
+    e.stopPropagation();
+    openSidebar(id);
+  });
+});
+
+// Click outside closes sidebar
+document.addEventListener("pointerup", e => {
+  if (!dragging && !e.target.closest("#sidebar") && !e.target.closest(".node")) {
+    closeSidebar();
+  }
+});
 
 // Render loop
 function frame(t) {
