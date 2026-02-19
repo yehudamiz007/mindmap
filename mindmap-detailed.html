@@ -9,10 +9,11 @@
 html,body{width:100%;height:100%;overflow:hidden;background:#0a0a1a;font-family:'Segoe UI',system-ui,sans-serif;touch-action:none}
 canvas{position:fixed;top:0;left:0;width:100%;height:100%}
 #ui{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none}
-.node{position:absolute;pointer-events:auto;cursor:pointer;display:flex;flex-direction:column;align-items:center;text-align:center;transition:transform .3s,opacity .3s,box-shadow .3s;user-select:none;opacity:0;transform:scale(0)}
+.node{position:absolute;pointer-events:auto;cursor:pointer;display:flex;flex-direction:column;align-items:center;text-align:center;transition:transform .3s,opacity .3s;user-select:none}
+.node.hidden{opacity:0;transform:scale(0)!important;pointer-events:none}
 .node.visible{opacity:1;transform:scale(1)}
 .node:hover{transform:scale(1.1)!important;z-index:10}
-.node-circle{border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.node-circle{border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
 .node-text{margin-top:4px;white-space:nowrap;max-width:120px;overflow:visible;text-overflow:clip;line-height:1.2;text-shadow:0 0 6px rgba(0,0,0,.9),0 0 12px rgba(0,0,0,.7);transform-origin:center top}
 .center-node .node-circle{width:70px;height:70px;background:radial-gradient(circle,#1e293b,#0f172a);border:3px solid #64748b;box-shadow:0 0 30px rgba(100,116,139,.4)}
 .center-node .node-text{font-size:12px;font-weight:700;color:#e2e8f0;white-space:normal;max-width:140px}
@@ -29,6 +30,7 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%}
 .node-emoji{font-size:1.2em}
 .cat-node .node-emoji{font-size:1em}
 .sub-node .node-emoji,.leaf-node .node-emoji{font-size:0.7em}
+.collapse-badge{position:absolute;bottom:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:#475569;color:#e2e8f0;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 0 6px rgba(0,0,0,.5);pointer-events:none}
 @keyframes glow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.2)}}
 .cat-node .node-circle{animation:glow 3s ease-in-out infinite}
 #panel{position:fixed;top:0;right:-340px;width:340px;height:100%;background:rgba(15,23,42,.95);border-left:1px solid #334155;backdrop-filter:blur(12px);z-index:50;transition:right .3s ease;overflow-y:auto;pointer-events:auto}
@@ -74,7 +76,6 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%}
 <script>
 const DATA=[
 ["center",null,0,"🦞","Yehuda Mizrahi OpenClaw","#64748b"],
-// 1. Gateway
 ["gw","center",1,"🌐","Gateway","#3b82f6"],
 ["gw-ws","gw",2,"","WebSocket API","#3b82f6"],
 ["gw-ws-1","gw-ws",3,"","JSON Protocol","#3b82f6"],
@@ -88,7 +89,6 @@ const DATA=[
 ["gw-h-1","gw-h",3,"","Canvas Host","#3b82f6"],
 ["gw-h-2","gw-h",3,"","A2UI","#3b82f6"],
 ["gw-h-3","gw-h",3,"","OpenAI API","#3b82f6"],
-// 2. Channels
 ["ch","center",1,"💬","Channels","#8b5cf6"],
 ["ch-wa","ch",2,"","WhatsApp","#8b5cf6"],
 ["ch-wa-1","ch-wa",3,"","Baileys","#8b5cf6"],
@@ -108,7 +108,6 @@ const DATA=[
 ["ch-more-8","ch-more",3,"","Line","#8b5cf6"],
 ["ch-more-9","ch-more",3,"","Nostr","#8b5cf6"],
 ["ch-more-10","ch-more",3,"","Google Chat","#8b5cf6"],
-// 3. Agent
 ["ag","center",1,"🤖","Agent","#ec4899"],
 ["ag-s","ag",2,"","Sessions","#ec4899"],
 ["ag-s-1","ag-s",3,"","Main","#ec4899"],
@@ -124,7 +123,6 @@ const DATA=[
 ["ag-m-1","ag-m",3,"","MEMORY.md","#ec4899"],
 ["ag-m-2","ag-m",3,"","Daily Notes","#ec4899"],
 ["ag-m-3","ag-m",3,"","memory_search","#ec4899"],
-// 4. Models
 ["mo","center",1,"🧠","Models","#f59e0b"],
 ["mo-p","mo",2,"","Providers","#f59e0b"],
 ["mo-p-1","mo-p",3,"","Anthropic","#f59e0b"],
@@ -138,7 +136,6 @@ const DATA=[
 ["mo-f-2","mo-f",3,"","Aliases","#f59e0b"],
 ["mo-f-3","mo-f",3,"","Thinking","#f59e0b"],
 ["mo-f-4","mo-f",3,"","Vision","#f59e0b"],
-// 5. Tools
 ["to","center",1,"🔧","Tools","#10b981"],
 ["to-b","to",2,"","Built-in","#10b981"],
 ["to-b-1","to-b",3,"","exec","#10b981"],
@@ -156,7 +153,6 @@ const DATA=[
 ["to-ex","to",2,"","Extensions","#10b981"],
 ["to-ex-1","to-ex",3,"","Plugin SDK","#10b981"],
 ["to-ex-2","to-ex",3,"","openclaw.plugin.json","#10b981"],
-// 6. Nodes
 ["no","center",1,"📱","Nodes","#06b6d4"],
 ["no-pl","no",2,"","Platforms","#06b6d4"],
 ["no-pl-1","no-pl",3,"","iOS","#06b6d4"],
@@ -169,7 +165,6 @@ const DATA=[
 ["no-ca-3","no-ca",3,"","Location","#06b6d4"],
 ["no-ca-4","no-ca",3,"","Canvas","#06b6d4"],
 ["no-ca-5","no-ca",3,"","Audio","#06b6d4"],
-// 7. Workspace
 ["ws","center",1,"📂","Workspace","#f97316"],
 ["ws-cf","ws",2,"","Core Files","#f97316"],
 ["ws-cf-1","ws-cf",3,"","AGENTS.md","#f97316"],
@@ -181,8 +176,6 @@ const DATA=[
 ["ws-me-1","ws-me",3,"","MEMORY.md","#f97316"],
 ["ws-me-2","ws-me",3,"","memory/*.md","#f97316"],
 ["ws-me-3","ws-me",3,"","HEARTBEAT.md","#f97316"],
-// Skills moved to top-level "My Skills" category
-// 8. Automation
 ["au","center",1,"⚡","Automation","#ef4444"],
 ["au-cr","au",2,"","Cron","#ef4444"],
 ["au-cr-1","au-cr",3,"","Scheduled Jobs","#ef4444"],
@@ -195,7 +188,6 @@ const DATA=[
 ["au-ho","au",2,"","Hooks","#ef4444"],
 ["au-ho-1","au-ho",3,"","Webhooks","#ef4444"],
 ["au-ho-2","au-ho",3,"","Gmail PubSub","#ef4444"],
-// 9. Interfaces
 ["ui","center",1,"🖥️","Interfaces","#a855f7"],
 ["ui-w","ui",2,"","Web","#a855f7"],
 ["ui-w-1","ui-w",3,"","WebChat","#a855f7"],
@@ -206,7 +198,6 @@ const DATA=[
 ["ui-a-1","ui-a",3,"","macOS App","#a855f7"],
 ["ui-a-2","ui-a",3,"","Menu Bar","#a855f7"],
 ["ui-a-3","ui-a",3,"","CLI","#a855f7"],
-// 10. Security
 ["se","center",1,"🔒","Security","#64748b"],
 ["se-au","se",2,"","Auth","#64748b"],
 ["se-au-1","se-au",3,"","Gateway Token","#64748b"],
@@ -216,47 +207,59 @@ const DATA=[
 ["se-sb-1","se-sb",3,"","Exec Policy","#64748b"],
 ["se-sb-2","se-sb",3,"","Elevated Mode","#64748b"],
 ["se-sb-3","se-sb",3,"","Tool Policy","#64748b"],
-// 11. My Skills
-["sk","center",1,"\u{1F3AF}","My Skills","#22d3ee"],
-["sk-arch","sk",2,"\u{1F3DB}\uFE0F","AI Chief Architect","#22d3ee"],
+["sk","center",1,"🎯","My Skills","#22d3ee"],
+["sk-arch","sk",2,"🏛️","AI Chief Architect","#22d3ee"],
 ["sk-arch-1","sk-arch",3,"","System Design","#22d3ee"],
 ["sk-arch-2","sk-arch",3,"","ADRs","#22d3ee"],
 ["sk-arch-3","sk-arch",3,"","LLM/Agentic AI","#22d3ee"],
-["sk-heb","sk",2,"\u{1F1EE}\u{1F1F1}","Hebrew","#22d3ee"],
+["sk-heb","sk",2,"🇮🇱","Hebrew","#22d3ee"],
 ["sk-heb-1","sk-heb",3,"","Bilingual Chat","#22d3ee"],
 ["sk-heb-2","sk-heb",3,"","Cultural Context","#22d3ee"],
-["sk-hub","sk",2,"\u{1F491}","Husband","#22d3ee"],
+["sk-hub","sk",2,"💑","Husband","#22d3ee"],
 ["sk-hub-1","sk-hub",3,"","Relationship Tips","#22d3ee"],
 ["sk-hub-2","sk-hub",3,"","Gift Ideas","#22d3ee"],
 ["sk-hub-3","sk-hub",3,"","Date Planning","#22d3ee"],
-["sk-par","sk",2,"\u{1F468}\u200D\u{1F467}\u200D\u{1F466}","Parenting","#22d3ee"],
+["sk-par","sk",2,"👨‍👧‍👦","Parenting","#22d3ee"],
 ["sk-par-1","sk-par",3,"","Age Activities","#22d3ee"],
 ["sk-par-2","sk-par",3,"","Milestones","#22d3ee"],
 ["sk-par-3","sk-par",3,"","Meal Plans","#22d3ee"],
-["sk-cof","sk",2,"\u2615","Coffee Master","#22d3ee"],
+["sk-cof","sk",2,"☕","Coffee Master","#22d3ee"],
 ["sk-cof-1","sk-cof",3,"","Espresso Recipes","#22d3ee"],
 ["sk-cof-2","sk-cof",3,"","Linea Micra","#22d3ee"],
 ["sk-cof-3","sk-cof",3,"","Latte Art","#22d3ee"],
-["sk-ta","sk",2,"\u{1F4CA}","Technical Analysis","#22d3ee"],
+["sk-ta","sk",2,"📊","Technical Analysis","#22d3ee"],
 ["sk-ta-1","sk-ta",3,"","Elliott Wave","#22d3ee"],
 ["sk-ta-2","sk-ta",3,"","ICT/Smart Money","#22d3ee"],
 ["sk-ta-3","sk-ta",3,"","Chart Patterns","#22d3ee"],
-["sk-fit","sk",2,"\u{1F4AA}","Fitness & Nutrition","#22d3ee"],
+["sk-fit","sk",2,"💪","Fitness & Nutrition","#22d3ee"],
 ["sk-fit-1","sk-fit",3,"","Training Plans","#22d3ee"],
 ["sk-fit-2","sk-fit",3,"","Meal Planning","#22d3ee"],
 ["sk-fit-3","sk-fit",3,"","Supplements","#22d3ee"],
-["sk-sec","sk",2,"\u{1F6E1}\uFE0F","Security Gate","#22d3ee"],
+["sk-sec","sk",2,"🛡️","Security Gate","#22d3ee"],
 ["sk-sec-1","sk-sec",3,"","Code Scanning","#22d3ee"],
 ["sk-sec-2","sk-sec",3,"","Prompt Injection","#22d3ee"],
 ["sk-sec-3","sk-sec",3,"","Triple Confirm","#22d3ee"],
 ];
 
-// Build lookup
 const byId={};
 const children={};
 DATA.forEach(d=>{const o={id:d[0],parent:d[1],level:d[2],emoji:d[3],label:d[4],color:d[5],wx:0,wy:0};byId[o.id]=o;if(o.parent){(children[o.parent]=children[o.parent]||[]).push(o)}});
 
-// Layout - no overlap
+// Collapse tracking - empty = all expanded
+const collapsed=new Set();
+
+function hasChildren(id){return children[id]&&children[id].length>0}
+
+function isVisible(id){
+  // Walk up ancestors; if any ancestor is collapsed, this node is hidden
+  let cur=byId[id];
+  while(cur.parent){
+    if(collapsed.has(cur.parent))return false;
+    cur=byId[cur.parent];
+  }
+  return true;
+}
+
 function layout(){
   const center=byId["center"];
   center.wx=0;center.wy=0;
@@ -268,9 +271,8 @@ function layout(){
     cat.wy=Math.sin(a)*350;
     const subs=children[cat.id]||[];
     const catAngle=a;
-    // wider spread for more subs, minimum gap between subs
-    const minGap=0.25; // radians between subs
-    const subSpread=Math.max(subs.length*minGap, Math.PI*0.5);
+    const minGap=0.25;
+    const subSpread=Math.max(subs.length*minGap,Math.PI*0.5);
     const subRadius=200+subs.length*15;
     subs.forEach((sub,j)=>{
       const sa=catAngle-subSpread/2+subSpread*(subs.length===1?0.5:j/(subs.length-1));
@@ -279,7 +281,7 @@ function layout(){
       const leaves=children[sub.id]||[];
       const subAngle=Math.atan2(sub.wy-cat.wy,sub.wx-cat.wx);
       const leafMinGap=0.22;
-      const leafSpread=Math.max(leaves.length*leafMinGap, Math.PI*0.4);
+      const leafSpread=Math.max(leaves.length*leafMinGap,Math.PI*0.4);
       const leafRadius=120+leaves.length*12;
       leaves.forEach((leaf,k)=>{
         const la=subAngle-leafSpread/2+leafSpread*(leaves.length===1?0.5:k/(leaves.length-1));
@@ -288,7 +290,6 @@ function layout(){
       });
     });
   });
-  // Force-based overlap resolution
   const allNodes=DATA.map(d=>byId[d[0]]);
   for(let iter=0;iter<80;iter++){
     let moved=false;
@@ -302,7 +303,6 @@ function layout(){
         if(dist<req&&dist>0){
           const push=(req-dist)/2*0.5;
           const nx=dx/dist,ny=dy/dist;
-          // don't move center
           if(a.id!=="center"){a.wx-=nx*push;a.wy-=ny*push;}
           if(b.id!=="center"){b.wx+=nx*push;b.wy+=ny*push;}
           moved=true;
@@ -314,7 +314,6 @@ function layout(){
 }
 layout();
 
-// Camera
 let camX=0,camY=0,zoom=0.45;
 const ui=document.getElementById("ui");
 const bgC=document.getElementById("bg");
@@ -330,9 +329,8 @@ function resize(){
 window.addEventListener("resize",resize);
 resize();
 
-// Stars - tiled for infinite background
 var TILE=2000;
-var starTile=Array.from({length:80},function(){return{x:Math.random()*TILE,y:Math.random()*TILE,r:Math.random()*0.8+0.2,b:Math.random()}});
+var starTile=Array.from({length:80},function(){return{x:Math.random()*TILE,y:Math.random()*TILE,r:Math.random()*0.6+0.2,b:Math.random()}});
 function drawStars(t){
   bgCtx.clearRect(0,0,bgC.width,bgC.height);
   var cx=bgC.width/2,cy=bgC.height/2;
@@ -365,7 +363,7 @@ function drawStars(t){
 
 // Create DOM nodes
 const nodeEls={};
-const circleSizes=[50,40,28,20];
+const badgeEls={};
 DATA.forEach((d,i)=>{
   const o=byId[d[0]];
   const el=document.createElement("div");
@@ -373,9 +371,7 @@ DATA.forEach((d,i)=>{
   el.className="node "+cls;
   const circle=document.createElement("div");
   circle.className="node-circle";
-  if(o.level===0){
-    // center styled via CSS
-  } else if(o.level===1){
+  if(o.level===1){
     circle.style.background=`radial-gradient(circle,${o.color}dd,${o.color}88)`;
     circle.style.border=`2px solid ${o.color}`;
     circle.style.boxShadow=`0 0 20px ${o.color}66`;
@@ -389,24 +385,48 @@ DATA.forEach((d,i)=>{
     circle.style.boxShadow=`0 0 8px ${o.color}22`;
   }
   if(o.emoji) circle.innerHTML=`<span class="node-emoji">${o.emoji}</span>`;
+  // Collapse badge
+  if(hasChildren(o.id)){
+    const badge=document.createElement("div");
+    badge.className="collapse-badge";
+    badge.textContent="+";
+    badge.style.display="none";
+    circle.appendChild(badge);
+    badgeEls[o.id]=badge;
+  }
   el.appendChild(circle);
   const text=document.createElement("div");
   text.className="node-text";
   text.textContent=o.label;
   el.appendChild(text);
-  el.addEventListener("click",(e)=>{e.stopPropagation();if(!dragMoved)openPanel(o.id);});
+  el.addEventListener("click",(e)=>{
+    e.stopPropagation();
+    if(dragMoved)return;
+    // Toggle collapse if has children
+    if(hasChildren(o.id)){
+      if(collapsed.has(o.id)){collapsed.delete(o.id)}else{collapsed.add(o.id)}
+      updateBadges();
+    }
+    openPanel(o.id);
+  });
   ui.appendChild(el);
   nodeEls[o.id]=el;
   setTimeout(()=>el.classList.add("visible"),100+i*25);
 });
 
-// Draw lines
+function updateBadges(){
+  for(const id in badgeEls){
+    badgeEls[id].style.display=collapsed.has(id)?"flex":"none";
+  }
+}
+
 function drawLines(){
   const cx=lnC.width/2,cy=lnC.height/2;
   lnCtx.clearRect(0,0,lnC.width,lnC.height);
   DATA.forEach(d=>{
     const o=byId[d[0]];
     if(!o.parent)return;
+    if(!isVisible(o.id))return;
     const p=byId[o.parent];
     const x1=cx+(p.wx-camX)*zoom;
     const y1=cy+(p.wy-camY)*zoom;
@@ -422,37 +442,40 @@ function drawLines(){
   });
 }
 
-// Position nodes
 function updatePositions(){
   const cx=lnC.width/2,cy=lnC.height/2;
   const halfSizes=[35,20,14,10];
   DATA.forEach(d=>{
     const o=byId[d[0]];
     const el=nodeEls[o.id];
+    const vis=isVisible(o.id);
+    if(!vis){
+      el.classList.add("hidden");
+      el.classList.remove("visible");
+      return;
+    }
+    el.classList.remove("hidden");
+    if(!el.classList.contains("visible"))el.classList.add("visible");
     const hs=halfSizes[o.level];
     const sx=cx+(o.wx-camX)*zoom-hs;
     const sy=cy+(o.wy-camY)*zoom-hs;
     el.style.left=sx+"px";
     el.style.top=sy+"px";
-    // Keep text readable at zoom out: scale text inversely
     const textEl=el.querySelector('.node-text');
     if(textEl){
       const compensate=zoom<0.3?1.8:zoom<0.45?1.4:zoom<0.6?1.15:1;
       textEl.style.transform=`scale(${compensate})`;
     }
-    el.style.transform=el.classList.contains("visible")?`scale(1)`:"scale(0)";
   });
 }
 
-// Interaction
 let dragging=false,lastX,lastY,dragMoved=false;
 document.addEventListener("pointerdown",e=>{dragging=true;dragMoved=false;lastX=e.clientX;lastY=e.clientY});
 document.addEventListener("pointermove",e=>{
   if(!dragging)return;
   const dx=e.clientX-lastX,dy=e.clientY-lastY;
   if(Math.abs(dx)>3||Math.abs(dy)>3)dragMoved=true;
-  camX-=dx/zoom;
-  camY-=dy/zoom;
+  camX-=dx/zoom;camY-=dy/zoom;
   lastX=e.clientX;lastY=e.clientY;
 });
 document.addEventListener("pointerup",(e)=>{dragging=false;if(!dragMoved&&!e.target.closest('.node,.panel-child,#panel'))panel.classList.remove("open");});
@@ -462,7 +485,6 @@ document.addEventListener("wheel",e=>{
   zoom=Math.max(0.1,Math.min(3,zoom*f));
 },{passive:false});
 
-// Descriptions
 const DESC={
   "center":"OpenClaw is an open-source AI agent gateway. It connects LLMs to messaging platforms, tools, and devices through a single WebSocket daemon.",
   "gw":"The Gateway is the core daemon that owns all connections - messaging surfaces, clients, and nodes. Runs on port 18789.",
@@ -565,7 +587,6 @@ const DESC={
   "ws-me-1":"MEMORY.md - curated long-term memory, updated periodically.",
   "ws-me-2":"memory/*.md - daily journal files with raw session logs.",
   "ws-me-3":"HEARTBEAT.md - checklist for periodic background tasks.",
-  // ws-sk moved to top-level My Skills
   "au":"Automation systems for scheduled and event-driven tasks.",
   "au-cr":"Cron job scheduler for timed tasks.",
   "au-cr-1":"Scheduled jobs with cron expressions and timezone support.",
@@ -632,7 +653,6 @@ const DESC={
 };
 const LEVELS=["Core","Category","Component","Detail"];
 
-// Panel
 const panel=document.getElementById("panel");
 const panelClose=document.getElementById("panel-close");
 const panelEmoji=document.getElementById("panel-emoji");
@@ -649,7 +669,6 @@ function openPanel(id){
   panelEmoji.textContent=o.emoji||"";
   panelTitle.textContent=o.label;
   panelLevel.innerHTML=`<span class="panel-dot" style="background:${o.color}"></span>${LEVELS[o.level]}`;
-  // breadcrumb
   const path=[];
   let cur=o;
   while(cur){path.unshift(cur);cur=cur.parent?byId[cur.parent]:null;}
@@ -675,7 +694,6 @@ function openPanel(id){
 }
 panelClose.addEventListener("click",()=>panel.classList.remove("open"));
 
-// Render loop
 function frame(t){
   drawStars(t);
   drawLines();
