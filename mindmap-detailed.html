@@ -197,7 +197,7 @@ const byId={};
 const children={};
 DATA.forEach(d=>{const o={id:d[0],parent:d[1],level:d[2],emoji:d[3],label:d[4],color:d[5],wx:0,wy:0};byId[o.id]=o;if(o.parent){(children[o.parent]=children[o.parent]||[]).push(o)}});
 
-// Layout
+// Layout - no overlap
 function layout(){
   const center=byId["center"];
   center.wx=0;center.wy=0;
@@ -205,26 +205,53 @@ function layout(){
   const catCount=cats.length;
   cats.forEach((cat,i)=>{
     const a=(2*Math.PI*i/catCount)-Math.PI/2;
-    cat.wx=Math.cos(a)*280;
-    cat.wy=Math.sin(a)*280;
+    cat.wx=Math.cos(a)*350;
+    cat.wy=Math.sin(a)*350;
     const subs=children[cat.id]||[];
-    // angle sector for this category: spread subs within a wedge pointing outward
     const catAngle=a;
-    const subSpread=Math.min(Math.PI*0.6, Math.PI*0.4+subs.length*0.12);
+    // wider spread for more subs, minimum gap between subs
+    const minGap=0.25; // radians between subs
+    const subSpread=Math.max(subs.length*minGap, Math.PI*0.5);
+    const subRadius=200+subs.length*15;
     subs.forEach((sub,j)=>{
       const sa=catAngle-subSpread/2+subSpread*(subs.length===1?0.5:j/(subs.length-1));
-      sub.wx=cat.wx+Math.cos(sa)*180;
-      sub.wy=cat.wy+Math.sin(sa)*180;
+      sub.wx=cat.wx+Math.cos(sa)*subRadius;
+      sub.wy=cat.wy+Math.sin(sa)*subRadius;
       const leaves=children[sub.id]||[];
-      const leafSpread=Math.min(Math.PI*0.7, Math.PI*0.3+leaves.length*0.1);
       const subAngle=Math.atan2(sub.wy-cat.wy,sub.wx-cat.wx);
+      const leafMinGap=0.22;
+      const leafSpread=Math.max(leaves.length*leafMinGap, Math.PI*0.4);
+      const leafRadius=120+leaves.length*12;
       leaves.forEach((leaf,k)=>{
         const la=subAngle-leafSpread/2+leafSpread*(leaves.length===1?0.5:k/(leaves.length-1));
-        leaf.wx=sub.wx+Math.cos(la)*130;
-        leaf.wy=sub.wy+Math.sin(la)*130;
+        leaf.wx=sub.wx+Math.cos(la)*leafRadius;
+        leaf.wy=sub.wy+Math.sin(la)*leafRadius;
       });
     });
   });
+  // Force-based overlap resolution
+  const allNodes=DATA.map(d=>byId[d[0]]);
+  for(let iter=0;iter<80;iter++){
+    let moved=false;
+    for(let i=0;i<allNodes.length;i++){
+      for(let j=i+1;j<allNodes.length;j++){
+        const a=allNodes[i],b=allNodes[j];
+        const dx=b.wx-a.wx,dy=b.wy-a.wy;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+        const minDist=[60,50,40,35];
+        const req=minDist[a.level]+minDist[b.level];
+        if(dist<req&&dist>0){
+          const push=(req-dist)/2*0.5;
+          const nx=dx/dist,ny=dy/dist;
+          // don't move center
+          if(a.id!=="center"){a.wx-=nx*push;a.wy-=ny*push;}
+          if(b.id!=="center"){b.wx+=nx*push;b.wy+=ny*push;}
+          moved=true;
+        }
+      }
+    }
+    if(!moved)break;
+  }
 }
 layout();
 
