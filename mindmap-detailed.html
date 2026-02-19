@@ -9,17 +9,28 @@
 html,body{width:100%;height:100%;overflow:hidden;background:#0a0a1a;font-family:'Segoe UI',system-ui,sans-serif;touch-action:none}
 canvas{position:fixed;top:0;left:0;width:100%;height:100%}
 #ui{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none}
-.node{position:absolute;pointer-events:auto;cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;transition:transform .3s,opacity .3s,box-shadow .3s;user-select:none;opacity:0;transform:scale(0)}
+.node{position:absolute;pointer-events:auto;cursor:pointer;display:flex;flex-direction:column;align-items:center;text-align:center;transition:transform .3s,opacity .3s,box-shadow .3s;user-select:none;opacity:0;transform:scale(0)}
 .node.visible{opacity:1;transform:scale(1)}
 .node:hover{transform:scale(1.1)!important;z-index:10}
-.center-node{min-width:70px;min-height:70px;width:70px;height:70px;padding:10px;background:radial-gradient(circle,#1e293b,#0f172a);border:3px solid #64748b;font-size:12px;font-weight:700;color:#e2e8f0;box-shadow:0 0 30px rgba(100,116,139,.4);z-index:5}
-.cat-node{min-width:70px;min-height:70px;width:70px;height:70px;padding:10px;font-size:10px;font-weight:600;color:#fff;z-index:4}
-.sub-node{min-width:70px;min-height:70px;width:70px;height:70px;padding:10px;font-size:9px;font-weight:600;color:#fff;z-index:3}
-.leaf-node{min-width:70px;min-height:70px;width:70px;height:70px;padding:10px;font-size:8.5px;font-weight:500;color:#fff;z-index:2}
-.node-label{display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.2;padding:4px}
-.node-emoji{font-size:1.4em}
+.node-circle{border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.node-text{margin-top:4px;white-space:nowrap;max-width:90px;overflow:visible;text-overflow:clip;line-height:1.2}
+.center-node .node-circle{width:50px;height:50px;background:radial-gradient(circle,#1e293b,#0f172a);border:3px solid #64748b;box-shadow:0 0 30px rgba(100,116,139,.4)}
+.center-node .node-text{font-size:11px;font-weight:700;color:#e2e8f0}
+.center-node{z-index:5}
+.cat-node .node-circle{width:40px;height:40px}
+.cat-node .node-text{font-size:9px;font-weight:600;color:#fff}
+.cat-node{z-index:4}
+.sub-node .node-circle{width:28px;height:28px}
+.sub-node .node-text{font-size:8px;font-weight:600;color:#fff}
+.sub-node{z-index:3}
+.leaf-node .node-circle{width:20px;height:20px}
+.leaf-node .node-text{font-size:7.5px;font-weight:500;color:#fff}
+.leaf-node{z-index:2}
+.node-emoji{font-size:1.2em}
+.cat-node .node-emoji{font-size:1em}
+.sub-node .node-emoji,.leaf-node .node-emoji{font-size:0.7em}
 @keyframes glow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.2)}}
-.cat-node{animation:glow 3s ease-in-out infinite}
+.cat-node .node-circle{animation:glow 3s ease-in-out infinite}
 </style>
 </head>
 <body>
@@ -250,25 +261,35 @@ function drawStars(t){
 
 // Create DOM nodes
 const nodeEls={};
+const circleSizes=[50,40,28,20];
 DATA.forEach((d,i)=>{
   const o=byId[d[0]];
   const el=document.createElement("div");
   const cls=["center-node","cat-node","sub-node","leaf-node"][o.level];
   el.className="node "+cls;
-  if(o.level===1){
-    el.style.background=`radial-gradient(circle,${o.color}dd,${o.color}88)`;
-    el.style.border=`2px solid ${o.color}`;
-    el.style.boxShadow=`0 0 20px ${o.color}66`;
+  const circle=document.createElement("div");
+  circle.className="node-circle";
+  if(o.level===0){
+    // center styled via CSS
+  } else if(o.level===1){
+    circle.style.background=`radial-gradient(circle,${o.color}dd,${o.color}88)`;
+    circle.style.border=`2px solid ${o.color}`;
+    circle.style.boxShadow=`0 0 20px ${o.color}66`;
   } else if(o.level===2){
-    el.style.background=`radial-gradient(circle,${o.color}99,${o.color}55)`;
-    el.style.border=`2px solid ${o.color}88`;
-    el.style.boxShadow=`0 0 12px ${o.color}44`;
+    circle.style.background=`radial-gradient(circle,${o.color}99,${o.color}55)`;
+    circle.style.border=`2px solid ${o.color}88`;
+    circle.style.boxShadow=`0 0 12px ${o.color}44`;
   } else if(o.level===3){
-    el.style.background=`radial-gradient(circle,${o.color}66,${o.color}33)`;
-    el.style.border=`1px solid ${o.color}66`;
-    el.style.boxShadow=`0 0 8px ${o.color}22`;
+    circle.style.background=`radial-gradient(circle,${o.color}66,${o.color}33)`;
+    circle.style.border=`1px solid ${o.color}66`;
+    circle.style.boxShadow=`0 0 8px ${o.color}22`;
   }
-  el.innerHTML=`<div class="node-label">${o.emoji?`<span class="node-emoji">${o.emoji}</span>`:""}<span>${o.label}</span></div>`;
+  if(o.emoji) circle.innerHTML=`<span class="node-emoji">${o.emoji}</span>`;
+  el.appendChild(circle);
+  const text=document.createElement("div");
+  text.className="node-text";
+  text.textContent=o.label;
+  el.appendChild(text);
   ui.appendChild(el);
   nodeEls[o.id]=el;
   setTimeout(()=>el.classList.add("visible"),100+i*25);
@@ -299,11 +320,13 @@ function drawLines(){
 // Position nodes
 function updatePositions(){
   const cx=lnC.width/2,cy=lnC.height/2;
+  const halfSizes=[25,20,14,10];
   DATA.forEach(d=>{
     const o=byId[d[0]];
     const el=nodeEls[o.id];
-    const sx=cx+(o.wx-camX)*zoom-35;
-    const sy=cy+(o.wy-camY)*zoom-35;
+    const hs=halfSizes[o.level];
+    const sx=cx+(o.wx-camX)*zoom-hs;
+    const sy=cy+(o.wy-camY)*zoom-hs;
     el.style.left=sx+"px";
     el.style.top=sy+"px";
     el.style.transform=el.classList.contains("visible")?`scale(${zoom<0.3?0.6:zoom<0.5?0.8:1})`:"scale(0)";
