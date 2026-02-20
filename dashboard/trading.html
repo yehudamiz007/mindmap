@@ -94,12 +94,14 @@ async function loadData(){
 function render(data){
   const positions=data.positions||[];
   const closed=data.closedTrades||[];
-  const history=data.portfolioHistory||[];
+  const history=(data.portfolioHistory||[]).sort((a,b)=>new Date(a.timestamp.replace(/(\d{2})\.(\d{2})\.(\d{4})/,'$3-$2-$1'))-new Date(b.timestamp.replace(/(\d{2})\.(\d{2})\.(\d{4})/,'$3-$2-$1')));
   const cash=data.cash||0;
   const startBal=data.startingBalance||1000;
 
   const posValue=positions.reduce((a,p)=>a+(p.currentPrice*p.shares),0);
-  const totalValue=cash+posValue;
+  const calcValue=cash+posValue;
+  const lastHistValue=history.length?history[history.length-1].value:null;
+  const totalValue=lastHistValue&&lastHistValue>calcValue?lastHistValue:calcValue;
   const totalPL=totalValue-startBal;
   const totalPLPct=((totalPL/startBal)*100);
   const realizedPL=closed.reduce((a,t)=>a+t.realizedPL,0);
