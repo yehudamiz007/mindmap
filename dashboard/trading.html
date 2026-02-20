@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🤖 Grok Trading Platform - Virtual $1,000</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a1a;--card:#111827;--border:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--green:#10b981;--red:#ef4444;--yellow:#f59e0b;--blue:#3b82f6;--purple:#8b5cf6;--cyan:#06b6d4}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;padding:20px}
+.container{max-width:1400px;margin:0 auto}
+header{text-align:center;padding:24px 0;border-bottom:1px solid var(--border);margin-bottom:24px}
+header h1{font-size:28px;margin-bottom:6px;background:linear-gradient(135deg,var(--green),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+header .subtitle{color:var(--muted);font-size:13px}
+header .update-time{color:var(--cyan);font-size:12px;margin-top:6px;font-weight:600}
+.stats-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:24px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+.stat-card .stat-value{font-size:24px;font-weight:700;margin-bottom:2px}
+.stat-card .stat-label{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:1px}
+.chart-wrap{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:24px;position:relative}
+.chart-wrap h2{font-size:16px;color:var(--muted);margin-bottom:16px;font-weight:600}
+canvas#chart{width:100%;height:280px}
+.section-title{font-size:18px;font-weight:700;margin:24px 0 12px;color:var(--text)}
+.table-wrap{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:24px}
+table{width:100%;border-collapse:collapse}
+thead{background:rgba(255,255,255,.03)}
+th{padding:12px 14px;text-align:right;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.04);font-size:13px;white-space:nowrap}
+tr:hover{background:rgba(255,255,255,.02)}
+tr:last-child td{border-bottom:none}
+.ticker{font-weight:700;color:var(--cyan);font-size:14px}
+.ticker-name{color:var(--muted);font-size:10px}
+.pos{color:var(--green)}
+.neg{color:var(--red)}
+.weight-bar{width:80px;height:6px;background:rgba(255,255,255,.06);border-radius:3px;display:inline-block;vertical-align:middle;margin-left:6px}
+.weight-fill{height:100%;border-radius:3px;background:var(--cyan)}
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600}
+.badge-buy{background:rgba(16,185,129,.15);color:var(--green);border:1px solid rgba(16,185,129,.2)}
+.badge-sell{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+.no-data{text-align:center;padding:60px 20px;color:var(--muted)}
+.no-data .icon{font-size:48px;margin-bottom:12px}
+.closed-section{opacity:.85}
+@media(max-width:768px){
+  body{padding:10px}
+  th,td{padding:8px 6px;font-size:11px}
+  header h1{font-size:22px}
+  canvas#chart{height:200px}
+  .stats-bar{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>🤖 Grok Trading Platform</h1>
+    <div class="subtitle">פלטפורמת מסחר וירטואלית - $1,000 הון התחלתי</div>
+    <div class="update-time" id="updateTime">טוען...</div>
+  </header>
+  <div class="stats-bar" id="statsBar"></div>
+  <div class="chart-wrap">
+    <h2>📈 שווי הפורטפוליו לאורך זמן</h2>
+    <canvas id="chart"></canvas>
+  </div>
+  <div class="section-title">💼 פוזיציות פתוחות</div>
+  <div class="table-wrap" id="positionsTable"></div>
+  <div class="section-title closed-section">📜 היסטוריית פוזיציות סגורות</div>
+  <div class="table-wrap closed-section" id="closedTable"></div>
+</div>
+
+<script>
+async function loadData(){
+  try{
+    const resp=await fetch('portfolio.json');
+    const data=await resp.json();
+    render(data);
+  }catch(e){
+    document.getElementById('positionsTable').innerHTML='<div class="no-data"><div class="icon">🔄</div><p>ממתין לריצה ראשונה של הג\'וב</p></div>';
+  }
+}
+
+function render(data){
+  const positions=data.positions||[];
+  const closed=data.closedTrades||[];
+  const history=data.portfolioHistory||[];
+  const cash=data.cash||0;
+  const startBal=data.startingBalance||1000;
+
+  // Calculate portfolio value
+  const posValue=positions.reduce((a,p)=>a+(p.currentPrice*p.shares),0);
+  const totalValue=cash+posValue;
+  const totalPL=totalValue-startBal;
+  const totalPLPct=((totalPL/startBal)*100);
+  const realizedPL=closed.reduce((a,t)=>a+t.realizedPL,0);
+  const unrealizedPL=positions.reduce((a,p)=>a+p.unrealizedPL,0);
+
+  document.getElementById('updateTime').textContent='עדכון אחרון: '+(history.length?history[history.length-1].timestamp:'N/A');
+
+  // Stats
+  document.getElementById('statsBar').innerHTML=`
+    <div class="stat-card"><div class="stat-value" style="color:var(--cyan)">$${totalValue.toFixed(2)}</div><div class="stat-label">שווי פורטפוליו</div></div>
+    <div class="stat-card"><div class="stat-value ${totalPL>=0?'pos':'neg'}">${totalPL>=0?'+':''}$${totalPL.toFixed(2)}</div><div class="stat-label">רווח/הפסד כולל (${totalPLPct>=0?'+':''}${totalPLPct.toFixed(2)}%)</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--yellow)">$${cash.toFixed(2)}</div><div class="stat-label">מזומן פנוי</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--purple)">${positions.length}</div><div class="stat-label">פוזיציות פתוחות</div></div>
+    <div class="stat-card"><div class="stat-value ${unrealizedPL>=0?'pos':'neg'}">${unrealizedPL>=0?'+':''}$${unrealizedPL.toFixed(2)}</div><div class="stat-label">רווח לא ממומש</div></div>
+    <div class="stat-card"><div class="stat-value ${realizedPL>=0?'pos':'neg'}">${realizedPL>=0?'+':''}$${realizedPL.toFixed(2)}</div><div class="stat-label">רווח ממומש</div></div>
+  `;
+
+  // Chart
+  drawChart(history,startBal);
+
+  // Positions table
+  if(positions.length){
+    let html=`<table><thead><tr><th>טיקר</th><th>מחיר כניסה</th><th>מחיר נוכחי</th><th>כמות</th><th>סכום מושקע</th><th>שווי שוק</th><th>P&L</th><th>P&L %</th><th>משקל %</th></tr></thead><tbody>`;
+    positions.sort((a,b)=>(b.currentPrice*b.shares)-(a.currentPrice*a.shares)).forEach(p=>{
+      const mv=p.currentPrice*p.shares;
+      const invested=p.avgCost*p.shares;
+      const upl=mv-invested;
+      const uplPct=((upl/invested)*100);
+      const weight=((mv/totalValue)*100);
+      html+=`<tr>
+        <td><div class="ticker">${p.ticker}</div><div class="ticker-name">${p.name||''}</div></td>
+        <td>$${p.avgCost.toFixed(2)}</td>
+        <td>$${p.currentPrice.toFixed(2)}</td>
+        <td>${p.shares.toFixed(4)}</td>
+        <td>$${invested.toFixed(2)}</td>
+        <td>$${mv.toFixed(2)}</td>
+        <td class="${upl>=0?'pos':'neg'}">${upl>=0?'+':''}$${upl.toFixed(2)}</td>
+        <td class="${uplPct>=0?'pos':'neg'}">${uplPct>=0?'+':''}${uplPct.toFixed(2)}%</td>
+        <td>${weight.toFixed(1)}% <div class="weight-bar"><div class="weight-fill" style="width:${Math.min(weight,100)}%"></div></div></td>
+      </tr>`;
+    });
+    html+='</tbody></table>';
+    document.getElementById('positionsTable').innerHTML=html;
+  } else {
+    document.getElementById('positionsTable').innerHTML='<div class="no-data"><div class="icon">💼</div><p>אין פוזיציות פתוחות</p></div>';
+  }
+
+  // Closed trades
+  if(closed.length){
+    let html=`<table><thead><tr><th>טיקר</th><th>כניסה</th><th>יציאה</th><th>כמות</th><th>קנייה</th><th>מכירה</th><th>P&L</th><th>P&L %</th><th>תאריך קנייה</th><th>תאריך מכירה</th></tr></thead><tbody>`;
+    closed.slice().reverse().forEach(t=>{
+      html+=`<tr>
+        <td><div class="ticker">${t.ticker}</div></td>
+        <td>$${t.buyPrice.toFixed(2)}</td>
+        <td>$${t.sellPrice.toFixed(2)}</td>
+        <td>${t.shares.toFixed(4)}</td>
+        <td>$${(t.buyPrice*t.shares).toFixed(2)}</td>
+        <td>$${(t.sellPrice*t.shares).toFixed(2)}</td>
+        <td class="${t.realizedPL>=0?'pos':'neg'}">${t.realizedPL>=0?'+':''}$${t.realizedPL.toFixed(2)}</td>
+        <td class="${t.realizedPLPct>=0?'pos':'neg'}">${t.realizedPLPct>=0?'+':''}${t.realizedPLPct.toFixed(2)}%</td>
+        <td style="color:var(--muted);font-size:11px">${t.buyDate||'-'}</td>
+        <td style="color:var(--muted);font-size:11px">${t.sellDate||'-'}</td>
+      </tr>`;
+    });
+    html+='</tbody></table>';
+    document.getElementById('closedTable').innerHTML=html;
+  } else {
+    document.getElementById('closedTable').innerHTML='<div class="no-data"><div class="icon">📜</div><p>אין עסקאות סגורות עדיין</p></div>';
+  }
+}
+
+function drawChart(history,startBal){
+  const canvas=document.getElementById('chart');
+  const ctx=canvas.getContext('2d');
+  const dpr=window.devicePixelRatio||1;
+  const rect=canvas.getBoundingClientRect();
+  canvas.width=rect.width*dpr;
+  canvas.height=rect.height*dpr;
+  ctx.scale(dpr,dpr);
+  const W=rect.width,H=rect.height;
+  const pad={t:20,r:20,b:40,l:60};
+
+  if(history.length<2){
+    ctx.fillStyle='#94a3b8';ctx.font='14px Segoe UI';ctx.textAlign='center';
+    ctx.fillText('הגרף יתעדכן לאחר מספר ריצות',W/2,H/2);
+    return;
+  }
+
+  const values=history.map(h=>h.value);
+  const minV=Math.min(...values,startBal)*0.995;
+  const maxV=Math.max(...values,startBal)*1.005;
+  const rangeV=maxV-minV||1;
+  const chartW=W-pad.l-pad.r;
+  const chartH=H-pad.t-pad.b;
+
+  function x(i){return pad.l+chartW*(i/(history.length-1))}
+  function y(v){return pad.t+chartH*(1-(v-minV)/rangeV)}
+
+  // Grid
+  ctx.strokeStyle='rgba(255,255,255,.05)';ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){
+    const yy=pad.t+chartH*(i/4);
+    ctx.beginPath();ctx.moveTo(pad.l,yy);ctx.lineTo(W-pad.r,yy);ctx.stroke();
+    const val=maxV-rangeV*(i/4);
+    ctx.fillStyle='#64748b';ctx.font='11px Segoe UI';ctx.textAlign='right';
+    ctx.fillText('$'+val.toFixed(2),pad.l-8,yy+4);
+  }
+
+  // Starting balance line
+  ctx.strokeStyle='rgba(245,158,11,.3)';ctx.lineWidth=1;ctx.setLineDash([5,5]);
+  ctx.beginPath();ctx.moveTo(pad.l,y(startBal));ctx.lineTo(W-pad.r,y(startBal));ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='#f59e0b';ctx.font='10px Segoe UI';ctx.textAlign='left';
+  ctx.fillText('$'+startBal+' start',pad.l+4,y(startBal)-6);
+
+  // Line
+  const lastVal=values[values.length-1];
+  const lineColor=lastVal>=startBal?'#10b981':'#ef4444';
+  const gradFill=ctx.createLinearGradient(0,pad.t,0,H-pad.b);
+  gradFill.addColorStop(0,(lastVal>=startBal?'rgba(16,185,129,':'rgba(239,68,68,')+'.15)');
+  gradFill.addColorStop(1,'rgba(0,0,0,0)');
+
+  // Fill
+  ctx.beginPath();
+  ctx.moveTo(x(0),y(values[0]));
+  for(let i=1;i<values.length;i++) ctx.lineTo(x(i),y(values[i]));
+  ctx.lineTo(x(values.length-1),H-pad.b);
+  ctx.lineTo(x(0),H-pad.b);
+  ctx.closePath();
+  ctx.fillStyle=gradFill;ctx.fill();
+
+  // Stroke
+  ctx.beginPath();
+  ctx.moveTo(x(0),y(values[0]));
+  for(let i=1;i<values.length;i++) ctx.lineTo(x(i),y(values[i]));
+  ctx.strokeStyle=lineColor;ctx.lineWidth=2.5;ctx.stroke();
+
+  // Dots
+  values.forEach((v,i)=>{
+    ctx.beginPath();ctx.arc(x(i),y(v),3,0,Math.PI*2);
+    ctx.fillStyle=lineColor;ctx.fill();
+  });
+
+  // Last value label
+  ctx.fillStyle=lineColor;ctx.font='bold 13px Segoe UI';ctx.textAlign='left';
+  ctx.fillText('$'+lastVal.toFixed(2),x(values.length-1)+8,y(lastVal)+4);
+
+  // X-axis labels
+  ctx.fillStyle='#64748b';ctx.font='10px Segoe UI';ctx.textAlign='center';
+  const step=Math.max(1,Math.floor(history.length/6));
+  for(let i=0;i<history.length;i+=step){
+    const label=history[i].timestamp.split(' ').slice(0,2).join(' ');
+    ctx.fillText(label,x(i),H-pad.b+18);
+  }
+}
+
+window.addEventListener('resize',loadData);
+loadData();
+</script>
+</body>
+</html>

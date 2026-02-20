@@ -1,0 +1,10 @@
+{
+  "cash": 1000,
+  "startingBalance": 1000,
+  "startDate": "2026-02-20T20:00:00Z",
+  "positions": [],
+  "closedTrades": [],
+  "portfolioHistory": [
+    {"timestamp": "2026-02-20 22:00 IST", "value": 1000}
+  ]
+}
