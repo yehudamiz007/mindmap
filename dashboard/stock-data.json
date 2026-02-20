@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "20.02.2026 08:49 PST",
+  "lastUpdated": "20.02.2026 09:42 IST",
   "stocks": [
-    {
-      "ticker": "NVDA",
-      "name": "NVIDIA Corp",
-      "price": "$750.00",
-      "news": 7.5,
-      "analyst": 8.2,
-      "technical": 6.8,
-      "total": 7.5,
-      "notes": "חברת טכנולוגיה מובילה עם דגש על AI, חדשות חיוביות על חדשנות."
-    },
     {
       "ticker": "TSLA",
       "name": "Tesla, Inc.",
-      "price": "$350.00",
-      "news": 6.5,
-      "analyst": 7.0,
-      "technical": 6.0,
-      "total": 6.5,
-      "notes": "חדשנות ברכבים חשמליים, אך חששות לגבי תחרות ושווי שוק."
-    },
-    {
-      "ticker": "AAPL",
-      "name": "Apple Inc.",
-      "price": "$220.00",
-      "news": 7.0,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.2,
-      "notes": "חברה יציבה עם מוצרים חדשים, תמיכה אנליסטים חזקה."
-    },
-    {
-      "ticker": "AMD",
-      "name": "Advanced Micro Devices",
-      "price": "$180.00",
-      "news": 6.8,
-      "analyst": 7.8,
-      "technical": 6.5,
-      "total": 7.0,
-      "notes": "מתחרה חזק ל-NVDA, צמיחה בשוק השבבים."
-    },
-    {
-      "ticker": "MSFT",
-      "name": "Microsoft Corporation",
-      "price": "$450.00",
-      "news": 7.2,
+      "price": "$N/A",
+      "news": 8.5,
       "analyst": 8.0,
-      "technical": 7.5,
-      "total": 7.6,
-      "notes": "מובילה בענן וב-AI, תחזיות חיוביות."
-    },
-    {
-      "ticker": "GOOGL",
-      "name": "Alphabet Inc.",
-      "price": "$175.00",
-      "news": 6.9,
-      "analyst": 7.5,
-      "technical": 6.8,
-      "total": 7.1,
-      "notes": "צמיחה בפרסום ו-AI, יציבות בשוק."
-    },
-    {
-      "ticker": "AMZN",
-      "name": "Amazon.com Inc.",
-      "price": "$200.00",
-      "news": 7.0,
-      "analyst": 7.8,
-      "technical": 6.7,
-      "total": 7.2,
-      "notes": "מובילה במסחר אלקטרוני וענן, תמיכה אנליסטים."
-    },
-    {
-      "ticker": "META",
-      "name": "Meta Platforms Inc.",
-      "price": "$500.00",
-      "news": 6.5,
-      "analyst": 7.2,
-      "technical": 6.3,
-      "total": 6.7,
-      "notes": "השקעות ב-VR, אך חששות לגבי רגולציה."
-    },
-    {
-      "ticker": "INTC",
-      "name": "Intel Corporation",
-      "price": "$45.00",
-      "news": 5.5,
-      "analyst": 6.0,
-      "technical": 5.8,
-      "total": 5.8,
-      "notes": "מאבקים תחרותיים, אך תוכניות התאוששות."
-    },
-    {
-      "ticker": "RIVN",
-      "name": "Rivian Automotive",
-      "price": "$20.00",
-      "news": 6.0,
-      "analyst": 6.5,
-      "technical": 5.5,
-      "total": 6.0,
-      "notes": "פוטנציאל צמיחה ב-EV, אך סיכונים תפעוליים."
-    },
-    {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies",
-      "price": "$25.00",
-      "news": 6.2,
-      "analyst": 6.8,
-      "technical": 6.0,
-      "total": 6.3,
-      "notes": "צמיחה בניתוח נתונים, חוזים ממשלתיים."
+      "technical": 8.2,
+      "total": 8.2,
+      "notes": "נבחר בשל חדשות על האצת לוחות זמנים לייצור דגמים חדשים."
     },
     {
       "ticker": "BTC",
       "name": "Bitcoin",
-      "price": "$70,000.00",
-      "news": 7.5,
-      "analyst": 7.0,
-      "technical": 7.2,
-      "total": 7.2,
-      "notes": "מטבע דיגיטלי מוביל, תנודתיות גבוהה אך עניין גובר."
+      "price": "$N/A",
+      "news": 8.5,
+      "analyst": 8.0,
+      "technical": 8.3,
+      "total": 8.3,
+      "notes": "נבחר בשל חדשות על אימוץ מוסדי ואישורי ETF פוטנציאליים."
+    },
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA Corp",
+      "price": "$N/A",
+      "news": 8.5,
+      "analyst": 8.5,
+      "technical": 8.8,
+      "total": 8.6,
+      "notes": "נבחר בשל שליטה בשוק ה-AI וה-GPU עם חשיפות מוצר קרובות."
     },
     {
       "ticker": "ETH",
       "name": "Ethereum",
-      "price": "$3,500.00",
+      "price": "$N/A",
+      "news": 8.0,
+      "analyst": 7.8,
+      "technical": 8.1,
+      "total": 8.0,
+      "notes": "נבחר בשל שדרוגי רשת קרובים וצמיחת DeFi."
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms, Inc.",
+      "price": "$N/A",
+      "news": 8.0,
+      "analyst": 7.8,
+      "technical": 7.9,
+      "total": 7.9,
+      "notes": "נבחר בשל צמיחה בהכנסות מפרסום וחיוביות סביב השקעות ב-VR."
+    },
+    {
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices",
+      "price": "$N/A",
+      "news": 8.0,
+      "analyst": 7.5,
+      "technical": 7.8,
+      "total": 7.8,
+      "notes": "נבחר בשל צמיחה חזקה במרכזי נתונים וביקוש לשבבי AI."
+    },
+    {
+      "ticker": "SMCI",
+      "name": "Super Micro Computer",
+      "price": "$N/A",
+      "news": 7.5,
+      "analyst": 7.8,
+      "technical": 8.0,
+      "total": 7.8,
+      "notes": "נבחר בשל ביקוש לשרתי AI ושדרוגי אנליסטים."
+    },
+    {
+      "ticker": "PANW",
+      "name": "Palo Alto Networks",
+      "price": "$N/A",
+      "news": 7.8,
+      "analyst": 7.9,
+      "technical": 7.6,
+      "total": 7.8,
+      "notes": "נבחר בשל חוזק במגזר הסייבר ושינויי אנליסטים חיוביים."
+    },
+    {
+      "ticker": "AAPL",
+      "name": "Apple Inc.",
+      "price": "$N/A",
+      "news": 7.8,
+      "analyst": 7.5,
+      "technical": 7.7,
+      "total": 7.7,
+      "notes": "נבחר בשל שמועות על עדכון מוצר גדול שמניע עניין משקיעים."
+    },
+    {
+      "ticker": "QCOM",
+      "name": "Qualcomm Inc.",
+      "price": "$N/A",
+      "news": 7.5,
+      "analyst": 7.2,
+      "technical": 7.8,
+      "total": 7.5,
+      "notes": "נבחר בשל התרחבות 5G ועסקאות שבבים לרכב."
+    },
+    {
+      "ticker": "LRCX",
+      "name": "Lam Research Corp",
+      "price": "$N/A",
       "news": 7.0,
       "analyst": 7.5,
-      "technical": 6.8,
-      "total": 7.1,
-      "notes": "חוזים חכמים, שדרוגי רשת צפויים."
+      "technical": 7.8,
+      "total": 7.5,
+      "notes": "נבחר בשל ביקוש לציוד מוליכים למחצה ופריצה טכנית."
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$150.00",
-      "news": 6.8,
+      "price": "$N/A",
+      "news": 7.5,
       "analyst": 7.2,
-      "technical": 6.5,
-      "total": 6.8,
-      "notes": "צמיחה מהירה, פתרונות קנה מידה."
+      "technical": 7.8,
+      "total": 7.5,
+      "notes": "נבחר בשל התרחבות במערכת NFT ומשחקים."
     },
     {
-      "ticker": "DOGE",
-      "name": "Dogecoin",
-      "price": "$0.15",
-      "news": 5.5,
-      "analyst": 5.0,
-      "technical": 5.2,
-      "total": 5.2,
-      "notes": "מטבע מם, תנודתיות גבוהה, תלוי במדיה חברתית."
+      "ticker": "CRM",
+      "name": "Salesforce, Inc.",
+      "price": "$N/A",
+      "news": 7.2,
+      "analyst": 7.5,
+      "technical": 7.4,
+      "total": 7.4,
+      "notes": "נבחר בשל הפתעות רווח חיוביות ומומנטום בענן."
+    },
+    {
+      "ticker": "ADBE",
+      "name": "Adobe Inc.",
+      "price": "$N/A",
+      "news": 7.0,
+      "analyst": 7.3,
+      "technical": 7.5,
+      "total": 7.3,
+      "notes": "נבחר בשל אימוץ כלי AI גנרטיביים וצמיחת מנויים."
+    },
+    {
+      "ticker": "ADA",
+      "name": "Cardano",
+      "price": "$N/A",
+      "news": 7.0,
+      "analyst": 6.8,
+      "technical": 7.2,
+      "total": 7.0,
+      "notes": "נבחר בשל שותפויות חדשות ועניין בתגמולי staking."
     }
   ]
 }
