@@ -236,8 +236,10 @@ function drawChart(history,startBal){
     ctx.fillStyle=lineColor;ctx.fill();
   });
 
-  ctx.fillStyle=lineColor;ctx.font='bold 13px Segoe UI';ctx.textAlign='left';
-  ctx.fillText('$'+lastVal.toFixed(2),x(values.length-1)+8,y(lastVal)+4);
+  ctx.fillStyle=lineColor;ctx.font='bold 13px Segoe UI';
+  const lastX=x(values.length-1);
+  if(lastX+80>W){ctx.textAlign='right';ctx.fillText('$'+lastVal.toFixed(2),lastX-8,y(lastVal)-8);}
+  else{ctx.textAlign='left';ctx.fillText('$'+lastVal.toFixed(2),lastX+8,y(lastVal)+4);}
 
   ctx.fillStyle='#64748b';ctx.font='10px Segoe UI';ctx.textAlign='center';
   const step=Math.max(1,Math.floor(history.length/6));
