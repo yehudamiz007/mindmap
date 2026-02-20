@@ -179,7 +179,7 @@ function drawChart(history,startBal){
   canvas.height=rect.height*dpr;
   ctx.scale(dpr,dpr);
   const W=rect.width,H=rect.height;
-  const pad={t:20,r:20,b:40,l:60};
+  const pad={t:20,r:80,b:40,l:60};
 
   if(history.length<2){
     ctx.fillStyle='#94a3b8';ctx.font='14px Segoe UI';ctx.textAlign='center';
