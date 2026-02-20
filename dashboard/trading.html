@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🦞 MOLTTA - Molt Trading Arena</title>
+<title>MOLTTA - Molt Trading Arena</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#0a0a1a;--card:#111827;--border:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--green:#10b981;--red:#ef4444;--yellow:#f59e0b;--blue:#3b82f6;--purple:#8b5cf6;--cyan:#06b6d4}
@@ -54,25 +54,25 @@ tr:last-child td{border-bottom:none}
 <body>
 <div class="container">
   <header>
-    <h1>🦞 MOLTTA</h1>
+    <h1>MOLTTA</h1>
     <div class="subtitle">Molt Trading Arena - Virtual Trading Platform - $1,000 Starting Capital</div>
     <div class="update-time" id="updateTime">Loading...</div>
   </header>
   <div class="stats-bar" id="statsBar"></div>
   <div class="chart-wrap">
-    <h2>📈 Portfolio Value Over Time</h2>
+    <h2>Portfolio Value Over Time</h2>
     <canvas id="chart"></canvas>
   </div>
-  <div class="section-title">💼 Open Positions</div>
+  <div class="section-title">Open Positions</div>
   <div class="table-wrap" id="positionsTable"></div>
-  <div class="section-title closed-section">📜 Closed Trades History</div>
+  <div class="section-title closed-section">Closed Trades History</div>
   <div class="table-wrap closed-section" id="closedTable"></div>
   <div class="legend">
     <h3>Scoring Legend</h3>
     <div class="legend-items">
-      <div class="legend-item"><div class="legend-dot" style="background:var(--cyan)"></div>📰 News Sentiment (30%)</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div>🎯 Analyst Targets (35%)</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div>📈 Technical Analysis (35%)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--cyan)"></div>News Sentiment (30%)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div>Analyst Targets (35%)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div>Technical Analysis (35%)</div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>7+ = Buy</div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--muted)"></div>5-7 = Hold</div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>&lt;4 = Sell</div>
@@ -87,7 +87,7 @@ async function loadData(){
     const data=await resp.json();
     render(data);
   }catch(e){
-    document.getElementById('positionsTable').innerHTML='<div class="no-data"><div class="icon">🔄</div><p>Waiting for first trading run...</p></div>';
+    document.getElementById('positionsTable').innerHTML='<div class="no-data"><p>Waiting for first trading run...</p></div>';
   }
 }
 
@@ -119,7 +119,7 @@ function render(data){
   drawChart(history,startBal);
 
   if(positions.length){
-    let html=`<table><thead><tr><th>Ticker</th><th>Entry</th><th>Current</th><th>Shares</th><th>Invested</th><th>Mkt Value</th><th>P&L</th><th>P&L %</th><th>📰</th><th>🎯</th><th>📈</th><th>Score</th><th>Weight</th></tr></thead><tbody>`;
+    let html=`<table><thead><tr><th>Ticker</th><th>Entry</th><th>Current</th><th>Shares</th><th>Invested</th><th>Mkt Value</th><th>P&L</th><th>P&L %</th><th>News</th><th>Targets</th><th>Tech</th><th>Score</th><th>Weight</th></tr></thead><tbody>`;
     positions.sort((a,b)=>(b.currentPrice*b.shares)-(a.currentPrice*a.shares)).forEach(p=>{
       const mv=p.currentPrice*p.shares;
       const invested=p.avgCost*p.shares;
@@ -146,7 +146,7 @@ function render(data){
     html+='</tbody></table>';
     document.getElementById('positionsTable').innerHTML=html;
   } else {
-    document.getElementById('positionsTable').innerHTML='<div class="no-data"><div class="icon">💼</div><p>No open positions</p></div>';
+    document.getElementById('positionsTable').innerHTML='<div class="no-data"><p>No open positions</p></div>';
   }
 
   if(closed.length){
@@ -169,7 +169,7 @@ function render(data){
     html+='</tbody></table>';
     document.getElementById('closedTable').innerHTML=html;
   } else {
-    document.getElementById('closedTable').innerHTML='<div class="no-data"><div class="icon">📜</div><p>No closed trades yet</p></div>';
+    document.getElementById('closedTable').innerHTML='<div class="no-data"><p>No closed trades yet</p></div>';
   }
 }
 
