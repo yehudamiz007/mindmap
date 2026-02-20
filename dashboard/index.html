@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 Daily Stock Scanner - OpenClaw</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a1a;--card:#111827;--border:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--green:#10b981;--red:#ef4444;--yellow:#f59e0b;--blue:#3b82f6;--purple:#8b5cf6;--cyan:#06b6d4}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;padding:20px}
+.container{max-width:1400px;margin:0 auto}
+header{text-align:center;padding:30px 0;border-bottom:1px solid var(--border);margin-bottom:30px}
+header h1{font-size:32px;margin-bottom:8px;background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+header .subtitle{color:var(--muted);font-size:14px}
+header .update-time{color:var(--cyan);font-size:13px;margin-top:8px;font-weight:600}
+.stats-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:30px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center}
+.stat-card .stat-value{font-size:28px;font-weight:700;margin-bottom:4px}
+.stat-card .stat-label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:1px}
+.table-wrap{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+table{width:100%;border-collapse:collapse}
+thead{background:rgba(255,255,255,.03)}
+th{padding:14px 16px;text-align:right;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.04);font-size:14px;white-space:nowrap}
+tr:hover{background:rgba(255,255,255,.02)}
+tr:last-child td{border-bottom:none}
+.rank{width:40px;height:40px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:16px}
+.rank-1{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000}
+.rank-2{background:linear-gradient(135deg,#94a3b8,#64748b);color:#000}
+.rank-3{background:linear-gradient(135deg,#cd7f32,#a0522d);color:#fff}
+.rank-other{background:rgba(255,255,255,.06);color:var(--muted)}
+.ticker{font-weight:700;font-size:16px;color:var(--cyan)}
+.ticker-name{color:var(--muted);font-size:11px;margin-top:2px}
+.price{font-weight:600}
+.change-pos{color:var(--green)}
+.change-neg{color:var(--red)}
+.score-bar{display:flex;align-items:center;gap:8px}
+.score-fill{height:8px;border-radius:4px;min-width:4px;transition:width .5s}
+.score-val{font-weight:600;font-size:13px;min-width:30px}
+.signal{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-weight:600;font-size:13px}
+.signal-strong-buy{background:rgba(16,185,129,.15);color:var(--green);border:1px solid rgba(16,185,129,.3)}
+.signal-buy{background:rgba(245,158,11,.1);color:var(--yellow);border:1px solid rgba(245,158,11,.2)}
+.signal-hold{background:rgba(148,163,184,.1);color:var(--muted);border:1px solid rgba(148,163,184,.2)}
+.signal-sell{background:rgba(249,115,22,.1);color:#f97316;border:1px solid rgba(249,115,22,.2)}
+.signal-strong-sell{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+.total-score{font-size:22px;font-weight:700}
+.legend{margin-top:24px;padding:20px;background:var(--card);border:1px solid var(--border);border-radius:12px}
+.legend h3{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.legend-items{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--muted)}
+.legend-item{display:flex;align-items:center;gap:6px}
+.legend-dot{width:10px;height:10px;border-radius:50%}
+.no-data{text-align:center;padding:80px 20px;color:var(--muted)}
+.no-data .icon{font-size:64px;margin-bottom:16px}
+.no-data h2{color:var(--text);margin-bottom:8px}
+@media(max-width:768px){
+  body{padding:10px}
+  th,td{padding:10px 8px;font-size:12px}
+  .ticker{font-size:14px}
+  .total-score{font-size:18px}
+  header h1{font-size:24px}
+  .stat-card{padding:14px}
+  .stat-card .stat-value{font-size:22px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>📊 Daily Stock Scanner</h1>
+    <div class="subtitle">ניתוח יומי אוטומטי - חדשות, מחירי יעד אנליסטים, וניתוח טכני</div>
+    <div class="update-time" id="updateTime">טוען...</div>
+  </header>
+  <div class="stats-bar" id="statsBar"></div>
+  <div class="table-wrap" id="tableWrap"></div>
+  <div class="legend">
+    <h3>מקרא ציונים</h3>
+    <div class="legend-items">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--cyan)"></div>חדשות וסנטימנט (30%)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div>מחירי יעד אנליסטים (35%)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div>ניתוח טכני (35%)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>8-10 = קנייה חזקה</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div>6-7.9 = קנייה</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--muted)"></div>4-5.9 = החזקה</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>1-3.9 = מכירה</div>
+    </div>
+  </div>
+</div>
+
+<script>
+async function loadData(){
+  try{
+    // Try loading from embedded data first, then fall back to fetch
+    let data;
+    if(typeof STOCK_DATA!=='undefined'){
+      data=STOCK_DATA;
+    } else {
+      const resp=await fetch('stock-data.json');
+      data=await resp.json();
+    }
+    render(data);
+  }catch(e){
+    document.getElementById('tableWrap').innerHTML=
+      '<div class="no-data"><div class="icon">🔄</div><h2>ממתין לסריקה ראשונה</h2><p>הג\'וב היומי ירוץ בקרוב ויעדכן את הנתונים</p></div>';
+  }
+}
+
+function getSignalClass(score){
+  if(score>=8)return'signal-strong-buy';
+  if(score>=6.5)return'signal-buy';
+  if(score>=4.5)return'signal-hold';
+  if(score>=2.5)return'signal-sell';
+  return'signal-strong-sell';
+}
+function getSignalText(score){
+  if(score>=8)return'🟢 קנייה חזקה';
+  if(score>=6.5)return'🟡 קנייה';
+  if(score>=4.5)return'⚪ החזקה';
+  if(score>=2.5)return'🟠 מכירה';
+  return'🔴 מכירה חזקה';
+}
+function scoreColor(score){
+  if(score>=8)return'var(--green)';
+  if(score>=6.5)return'var(--yellow)';
+  if(score>=4.5)return'var(--muted)';
+  return'var(--red)';
+}
+
+function render(data){
+  const stocks=data.stocks||[];
+  document.getElementById('updateTime').textContent='עדכון אחרון: '+data.lastUpdated;
+
+  if(!stocks.length){
+    document.getElementById('tableWrap').innerHTML=
+      '<div class="no-data"><div class="icon">🔄</div><h2>ממתין לסריקה ראשונה</h2><p>הג\'וב היומי ירוץ בקרוב ויעדכן את הנתונים</p></div>';
+    return;
+  }
+
+  // Stats
+  const strongBuys=stocks.filter(s=>s.total>=8).length;
+  const buys=stocks.filter(s=>s.total>=6.5&&s.total<8).length;
+  const avgScore=(stocks.reduce((a,s)=>a+s.total,0)/stocks.length).toFixed(1);
+  document.getElementById('statsBar').innerHTML=`
+    <div class="stat-card"><div class="stat-value" style="color:var(--green)">${strongBuys}</div><div class="stat-label">קנייה חזקה</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--yellow)">${buys}</div><div class="stat-label">נוטה לקנייה</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--cyan)">${stocks.length}</div><div class="stat-label">מניות נסרקו</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--purple)">${avgScore}</div><div class="stat-label">ציון ממוצע</div></div>
+  `;
+
+  // Table
+  let html=`<table>
+    <thead><tr>
+      <th>#</th><th>טיקר</th><th>מחיר</th>
+      <th>📰 חדשות</th><th>🎯 אנליסטים</th><th>📈 טכני</th>
+      <th>ציון כולל</th><th>סיגנל</th><th>הערות</th>
+    </tr></thead><tbody>`;
+
+  stocks.sort((a,b)=>b.total-a.total).forEach((s,i)=>{
+    const rankClass=i<3?`rank-${i+1}`:'rank-other';
+    html+=`<tr>
+      <td><div class="rank ${rankClass}">${i+1}</div></td>
+      <td><div class="ticker">${s.ticker}</div><div class="ticker-name">${s.name||''}</div></td>
+      <td class="price">${s.price||'-'}</td>
+      <td>${scoreBar(s.news,'var(--cyan)')}</td>
+      <td>${scoreBar(s.analyst,'var(--purple)')}</td>
+      <td>${scoreBar(s.technical,'var(--yellow)')}</td>
+      <td><div class="total-score" style="color:${scoreColor(s.total)}">${s.total.toFixed(1)}</div></td>
+      <td><div class="signal ${getSignalClass(s.total)}">${getSignalText(s.total)}</div></td>
+      <td style="color:var(--muted);font-size:12px;max-width:200px;white-space:normal">${s.notes||''}</td>
+    </tr>`;
+  });
+  html+='</tbody></table>';
+  document.getElementById('tableWrap').innerHTML=html;
+}
+
+function scoreBar(score,color){
+  const w=Math.max(score*10,4);
+  return`<div class="score-bar"><div class="score-fill" style="width:${w}%;background:${color}"></div><div class="score-val" style="color:${color}">${score.toFixed(1)}</div></div>`;
+}
+
+loadData();
+</script>
+</body>
+</html>
