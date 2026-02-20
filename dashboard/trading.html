@@ -108,12 +108,7 @@ function render(data){
   document.getElementById('updateTime').textContent='Last Update: '+(history.length?history[history.length-1].timestamp:'N/A');
 
   document.getElementById('statsBar').innerHTML=`
-    <div class="stat-card"><div class="stat-value" style="color:var(--cyan)">$${totalValue.toFixed(2)}</div><div class="stat-label">Portfolio Value</div></div>
-    <div class="stat-card"><div class="stat-value ${totalPL>=0?'pos':'neg'}">${totalPL>=0?'+':''}$${totalPL.toFixed(2)}</div><div class="stat-label">Total P&L (${totalPLPct>=0?'+':''}${totalPLPct.toFixed(2)}%)</div></div>
-    <div class="stat-card"><div class="stat-value" style="color:var(--yellow)">$${cash.toFixed(2)}</div><div class="stat-label">Free Cash</div></div>
-    <div class="stat-card"><div class="stat-value" style="color:var(--purple)">${positions.length}</div><div class="stat-label">Open Positions</div></div>
-    <div class="stat-card"><div class="stat-value ${unrealizedPL>=0?'pos':'neg'}">${unrealizedPL>=0?'+':''}$${unrealizedPL.toFixed(2)}</div><div class="stat-label">Unrealized P&L</div></div>
-    <div class="stat-card"><div class="stat-value ${realizedPL>=0?'pos':'neg'}">${realizedPL>=0?'+':''}$${realizedPL.toFixed(2)}</div><div class="stat-label">Realized P&L</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--cyan)">$${totalValue.toFixed(2)}</div><div class="stat-label">Portfolio Value (${totalPLPct>=0?'+':''}${totalPLPct.toFixed(2)}%)</div></div>
   `;
 
   drawChart(history,startBal);
