@@ -1,5 +1,5 @@
 {
-  "cash": 0.00,
+  "cash": 0.06,
   "startingBalance": 1000,
   "startDate": "2026-02-21T01:30:00+02:00",
   "positions": [
@@ -11,10 +11,10 @@
       "currentPrice": 314.98,
       "unrealizedPL": 0.00,
       "unrealizedPLPct": 0.00,
-      "newsScore": 7.0,
+      "newsScore": 7.5,
       "analystScore": 8.0,
-      "technicalScore": 8.0,
-      "combinedScore": 7.7,
+      "technicalScore": 7.0,
+      "combinedScore": 7.5,
       "buyDate": "2026-02-21T01:28:00+02:00"
     },
     {
@@ -26,9 +26,9 @@
       "unrealizedPL": 0.00,
       "unrealizedPLPct": 0.00,
       "newsScore": 8.0,
-      "analystScore": 8.0,
-      "technicalScore": 7.0,
-      "combinedScore": 7.65,
+      "analystScore": 8.5,
+      "technicalScore": 7.5,
+      "combinedScore": 7.975,
       "buyDate": "2026-02-21T01:28:00+02:00"
     },
     {
@@ -39,10 +39,10 @@
       "currentPrice": 264.58,
       "unrealizedPL": 0.00,
       "unrealizedPLPct": 0.00,
-      "newsScore": 8.0,
-      "analystScore": 7.0,
+      "newsScore": 7.8,
+      "analystScore": 7.5,
       "technicalScore": 7.0,
-      "combinedScore": 7.3,
+      "combinedScore": 7.42,
       "buyDate": "2026-02-21T01:28:00+02:00"
     },
     {
@@ -53,10 +53,10 @@
       "currentPrice": 655.66,
       "unrealizedPL": 0.00,
       "unrealizedPLPct": 0.00,
-      "newsScore": 6.0,
+      "newsScore": 6.5,
       "analystScore": 8.0,
       "technicalScore": 7.0,
-      "combinedScore": 7.05,
+      "combinedScore": 7.2,
       "buyDate": "2026-02-21T01:28:00+02:00"
     },
     {
@@ -67,10 +67,10 @@
       "currentPrice": 200.15,
       "unrealizedPL": 0.00,
       "unrealizedPLPct": 0.00,
-      "newsScore": 6.0,
-      "analystScore": 7.0,
-      "technicalScore": 7.0,
-      "combinedScore": 6.7,
+      "newsScore": 7.0,
+      "analystScore": 7.5,
+      "technicalScore": 7.2,
+      "combinedScore": 7.245,
       "buyDate": "2026-02-21T01:28:00+02:00"
     },
     {
@@ -81,30 +81,44 @@
       "currentPrice": 397.23,
       "unrealizedPL": 0.00,
       "unrealizedPLPct": 0.00,
-      "newsScore": 6.0,
+      "newsScore": 6.8,
       "analystScore": 7.0,
-      "technicalScore": 6.0,
-      "combinedScore": 6.35,
+      "technicalScore": 6.5,
+      "combinedScore": 6.765,
       "buyDate": "2026-02-21T01:28:00+02:00"
     },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon.com Inc",
+      "shares": 0.476,
+      "avgCost": 210.11,
+      "currentPrice": 210.11,
+      "unrealizedPL": 0.00,
+      "unrealizedPLPct": 0.00,
+      "newsScore": 7.5,
+      "analystScore": 8.0,
+      "technicalScore": 8.5,
+      "combinedScore": 8.025,
+      "buyDate": "2026-02-20T15:30:00-08:00"
+    }
+  ],
+  "closedTrades": [
     {
       "ticker": "TSLA",
       "name": "Tesla Inc",
       "shares": 0.243,
-      "avgCost": 411.82,
-      "currentPrice": 411.82,
-      "unrealizedPL": 0.00,
-      "unrealizedPLPct": 0.00,
-      "newsScore": 5.0,
-      "analystScore": 6.0,
-      "technicalScore": 5.0,
-      "combinedScore": 5.35,
-      "buyDate": "2026-02-21T01:28:00+02:00"
+      "buyPrice": 411.82,
+      "sellPrice": 411.82,
+      "buyDate": "2026-02-21T01:28:00+02:00",
+      "sellDate": "2026-02-20T15:30:00-08:00",
+      "realizedPL": 0.00,
+      "realizedPLPct": 0.00,
+      "sellReason": "Rotated to AMZN (score 8.025 vs 4.85)"
     }
   ],
-  "closedTrades": [],
   "portfolioHistory": [
     {"timestamp": "21.02.2026 01:30 IST", "value": 1000},
-    {"timestamp": "21.02.2026 01:28 IST", "value": 1000.03}
+    {"timestamp": "21.02.2026 01:28 IST", "value": 1000.03},
+    {"timestamp": "20.02.2026 15:30 PST", "value": 1000.03}
   ]
 }
