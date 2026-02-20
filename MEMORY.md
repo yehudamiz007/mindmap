@@ -44,6 +44,8 @@
 - parenting — tailored to Avior, Nitai, Arbel
 - hebrew — bilingual Hebrew/English
 - technical-analysis — ניתוח טכני למניות, קריפטו ושווקים פיננסיים
+- market-news-sentiment — ניתוח סנטימנט חדשות למניות וקריפטו (Grok model)
+- analyst-price-targets — מחירי יעד אנליסטים ודירוגי קונצנזוס
 - secure-skill-downloader — שומר סף אבטחה לכל התקנת סקיל מבחוץ (MANDATORY)
 
 ## Mindmap
