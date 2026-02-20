@@ -110,13 +110,14 @@ function render(data){
 
   // Positions table
   if(positions.length){
-    let html=`<table><thead><tr><th>טיקר</th><th>מחיר כניסה</th><th>מחיר נוכחי</th><th>כמות</th><th>סכום מושקע</th><th>שווי שוק</th><th>P&L</th><th>P&L %</th><th>משקל %</th></tr></thead><tbody>`;
+    let html=`<table><thead><tr><th>טיקר</th><th>מחיר כניסה</th><th>מחיר נוכחי</th><th>כמות</th><th>סכום מושקע</th><th>שווי שוק</th><th>P&L</th><th>P&L %</th><th>📰</th><th>🎯</th><th>📈</th><th>ציון</th><th>משקל %</th></tr></thead><tbody>`;
     positions.sort((a,b)=>(b.currentPrice*b.shares)-(a.currentPrice*a.shares)).forEach(p=>{
       const mv=p.currentPrice*p.shares;
       const invested=p.avgCost*p.shares;
       const upl=mv-invested;
       const uplPct=((upl/invested)*100);
       const weight=((mv/totalValue)*100);
+      const ns=p.newsScore||'-',as2=p.analystScore||'-',ts=p.technicalScore||'-',cs=p.combinedScore||'-';
       html+=`<tr>
         <td><div class="ticker">${p.ticker}</div><div class="ticker-name">${p.name||''}</div></td>
         <td>$${p.avgCost.toFixed(2)}</td>
@@ -126,6 +127,10 @@ function render(data){
         <td>$${mv.toFixed(2)}</td>
         <td class="${upl>=0?'pos':'neg'}">${upl>=0?'+':''}$${upl.toFixed(2)}</td>
         <td class="${uplPct>=0?'pos':'neg'}">${uplPct>=0?'+':''}${uplPct.toFixed(2)}%</td>
+        <td style="color:var(--cyan)">${typeof ns==='number'?ns.toFixed(1):ns}</td>
+        <td style="color:var(--purple)">${typeof as2==='number'?as2.toFixed(1):as2}</td>
+        <td style="color:var(--yellow)">${typeof ts==='number'?ts.toFixed(1):ts}</td>
+        <td style="font-weight:700;color:${typeof cs==='number'?(cs>=7?'var(--green)':cs>=5?'var(--yellow)':'var(--red)'):'var(--muted)'}">${typeof cs==='number'?cs.toFixed(1):cs}</td>
         <td>${weight.toFixed(1)}% <div class="weight-bar"><div class="weight-fill" style="width:${Math.min(weight,100)}%"></div></div></td>
       </tr>`;
     });
