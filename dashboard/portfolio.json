@@ -10,7 +10,12 @@
       "avgCost": 145.20,
       "currentPrice": 145.20,
       "unrealizedPL": 0.00,
-      "unrealizedPLPct": 0.00
+      "unrealizedPLPct": 0.00,
+      "newsScore": 5.0,
+      "analystScore": 5.0,
+      "technicalScore": 5.0,
+      "combinedScore": 5.0,
+      "buyDate": "20.02.2026 22:00"
     },
     {
       "ticker": "AAPL",
@@ -19,7 +24,12 @@
       "avgCost": 180.00,
       "currentPrice": 180.00,
       "unrealizedPL": 0.00,
-      "unrealizedPLPct": 0.00
+      "unrealizedPLPct": 0.00,
+      "newsScore": 5.0,
+      "analystScore": 5.0,
+      "technicalScore": 5.0,
+      "combinedScore": 5.0,
+      "buyDate": "20.02.2026 22:00"
     },
     {
       "ticker": "MSFT",
@@ -28,7 +38,12 @@
       "avgCost": 420.00,
       "currentPrice": 420.00,
       "unrealizedPL": 0.00,
-      "unrealizedPLPct": 0.00
+      "unrealizedPLPct": 0.00,
+      "newsScore": 5.0,
+      "analystScore": 5.0,
+      "technicalScore": 5.0,
+      "combinedScore": 5.0,
+      "buyDate": "20.02.2026 22:00"
     },
     {
       "ticker": "AMZN",
@@ -37,7 +52,12 @@
       "avgCost": 175.00,
       "currentPrice": 175.00,
       "unrealizedPL": 0.00,
-      "unrealizedPLPct": 0.00
+      "unrealizedPLPct": 0.00,
+      "newsScore": 5.0,
+      "analystScore": 5.0,
+      "technicalScore": 5.0,
+      "combinedScore": 5.0,
+      "buyDate": "20.02.2026 22:00"
     },
     {
       "ticker": "TSLA",
@@ -46,7 +66,12 @@
       "avgCost": 250.00,
       "currentPrice": 250.00,
       "unrealizedPL": 0.00,
-      "unrealizedPLPct": 0.00
+      "unrealizedPLPct": 0.00,
+      "newsScore": 5.0,
+      "analystScore": 5.0,
+      "technicalScore": 5.0,
+      "combinedScore": 5.0,
+      "buyDate": "20.02.2026 22:00"
     },
     {
       "ticker": "GOOG",
@@ -55,7 +80,12 @@
       "avgCost": 140.00,
       "currentPrice": 140.00,
       "unrealizedPL": 0.00,
-      "unrealizedPLPct": 0.00
+      "unrealizedPLPct": 0.00,
+      "newsScore": 5.0,
+      "analystScore": 5.0,
+      "technicalScore": 5.0,
+      "combinedScore": 5.0,
+      "buyDate": "20.02.2026 22:00"
     },
     {
       "ticker": "META",
@@ -64,7 +94,12 @@
       "avgCost": 500.00,
       "currentPrice": 500.00,
       "unrealizedPL": 0.00,
-      "unrealizedPLPct": 0.00
+      "unrealizedPLPct": 0.00,
+      "newsScore": 5.0,
+      "analystScore": 5.0,
+      "technicalScore": 5.0,
+      "combinedScore": 5.0,
+      "buyDate": "20.02.2026 22:00"
     },
     {
       "ticker": "BTC",
@@ -73,7 +108,12 @@
       "avgCost": 60000.00,
       "currentPrice": 60000.00,
       "unrealizedPL": 0.00,
-      "unrealizedPLPct": 0.00
+      "unrealizedPLPct": 0.00,
+      "newsScore": 5.0,
+      "analystScore": 5.0,
+      "technicalScore": 5.0,
+      "combinedScore": 5.0,
+      "buyDate": "20.02.2026 22:00"
     },
     {
       "ticker": "ETH",
@@ -82,7 +122,12 @@
       "avgCost": 3000.00,
       "currentPrice": 3000.00,
       "unrealizedPL": 0.00,
-      "unrealizedPLPct": 0.00
+      "unrealizedPLPct": 0.00,
+      "newsScore": 5.0,
+      "analystScore": 5.0,
+      "technicalScore": 5.0,
+      "combinedScore": 5.0,
+      "buyDate": "20.02.2026 22:00"
     },
     {
       "ticker": "AMD",
@@ -91,12 +136,18 @@
       "avgCost": 150.00,
       "currentPrice": 150.00,
       "unrealizedPL": 0.00,
-      "unrealizedPLPct": 0.00
+      "unrealizedPLPct": 0.00,
+      "newsScore": 5.0,
+      "analystScore": 5.0,
+      "technicalScore": 5.0,
+      "combinedScore": 5.0,
+      "buyDate": "20.02.2026 22:00"
     }
   ],
   "closedTrades": [],
   "portfolioHistory": [
     {"timestamp": "2026-02-20 22:00 IST", "value": 1000},
-    {"timestamp": "2026-02-20 23:05 IST", "value": 1000}
+    {"timestamp": "2026-02-20 23:05 IST", "value": 1000},
+    {"timestamp": "2026-02-21 01:12 IST", "value": 1001.90}
   ]
 }
