@@ -1,10 +1,102 @@
 {
-  "cash": 1000,
+  "cash": 0.00,
   "startingBalance": 1000,
   "startDate": "2026-02-20T20:00:00Z",
-  "positions": [],
+  "positions": [
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA Corp",
+      "shares": 0.6887,
+      "avgCost": 145.20,
+      "currentPrice": 145.20,
+      "unrealizedPL": 0.00,
+      "unrealizedPLPct": 0.00
+    },
+    {
+      "ticker": "AAPL",
+      "name": "Apple Inc",
+      "shares": 0.5556,
+      "avgCost": 180.00,
+      "currentPrice": 180.00,
+      "unrealizedPL": 0.00,
+      "unrealizedPLPct": 0.00
+    },
+    {
+      "ticker": "MSFT",
+      "name": "Microsoft Corp",
+      "shares": 0.2381,
+      "avgCost": 420.00,
+      "currentPrice": 420.00,
+      "unrealizedPL": 0.00,
+      "unrealizedPLPct": 0.00
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon.com Inc",
+      "shares": 0.5714,
+      "avgCost": 175.00,
+      "currentPrice": 175.00,
+      "unrealizedPL": 0.00,
+      "unrealizedPLPct": 0.00
+    },
+    {
+      "ticker": "TSLA",
+      "name": "Tesla, Inc",
+      "shares": 0.4000,
+      "avgCost": 250.00,
+      "currentPrice": 250.00,
+      "unrealizedPL": 0.00,
+      "unrealizedPLPct": 0.00
+    },
+    {
+      "ticker": "GOOG",
+      "name": "Alphabet Inc",
+      "shares": 0.7143,
+      "avgCost": 140.00,
+      "currentPrice": 140.00,
+      "unrealizedPL": 0.00,
+      "unrealizedPLPct": 0.00
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms Inc",
+      "shares": 0.2000,
+      "avgCost": 500.00,
+      "currentPrice": 500.00,
+      "unrealizedPL": 0.00,
+      "unrealizedPLPct": 0.00
+    },
+    {
+      "ticker": "BTC",
+      "name": "Bitcoin",
+      "shares": 0.0017,
+      "avgCost": 60000.00,
+      "currentPrice": 60000.00,
+      "unrealizedPL": 0.00,
+      "unrealizedPLPct": 0.00
+    },
+    {
+      "ticker": "ETH",
+      "name": "Ethereum",
+      "shares": 0.0333,
+      "avgCost": 3000.00,
+      "currentPrice": 3000.00,
+      "unrealizedPL": 0.00,
+      "unrealizedPLPct": 0.00
+    },
+    {
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices",
+      "shares": 0.6667,
+      "avgCost": 150.00,
+      "currentPrice": 150.00,
+      "unrealizedPL": 0.00,
+      "unrealizedPLPct": 0.00
+    }
+  ],
   "closedTrades": [],
   "portfolioHistory": [
-    {"timestamp": "2026-02-20 22:00 IST", "value": 1000}
+    {"timestamp": "2026-02-20 22:00 IST", "value": 1000},
+    {"timestamp": "2026-02-20 23:05 IST", "value": 1000}
   ]
 }
