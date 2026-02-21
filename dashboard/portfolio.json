@@ -1,5 +1,5 @@
 {
-  "cash": 0.33236,
+  "cash": 0.0,
   "startingBalance": 1000,
   "startDate": "2026-02-21T01:30:00+02:00",
   "positions": [
@@ -11,10 +11,10 @@
       "currentPrice": 314.98,
       "unrealizedPL": 0.00,
       "unrealizedPLPct": 0.00,
-      "newsScore": 6.0,
+      "newsScore": 6.5,
       "analystScore": 8.0,
       "technicalScore": 7.0,
-      "combinedScore": 7.05,
+      "combinedScore": 7.2,
       "buyDate": "2026-02-21T01:28:00+02:00"
     },
     {
@@ -43,20 +43,6 @@
       "analystScore": 7.5,
       "technicalScore": 7.2,
       "combinedScore": 7.605,
-      "buyDate": "2026-02-21T01:28:00+02:00"
-    },
-    {
-      "ticker": "AMD",
-      "name": "Advanced Micro Devices Inc",
-      "shares": 0.599,
-      "avgCost": 200.15,
-      "currentPrice": 200.15,
-      "unrealizedPL": 0.00,
-      "unrealizedPLPct": 0.00,
-      "newsScore": 6.5,
-      "analystScore": 7.5,
-      "technicalScore": 7.0,
-      "combinedScore": 7.025,
       "buyDate": "2026-02-21T01:28:00+02:00"
     },
     {
@@ -100,6 +86,34 @@
       "technicalScore": 7.5,
       "combinedScore": 7.5,
       "buyDate": "2026-02-20T19:00:00-08:00"
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms Inc",
+      "shares": 0.11,
+      "avgCost": 655.66,
+      "currentPrice": 655.66,
+      "unrealizedPL": 0.00,
+      "unrealizedPLPct": 0.00,
+      "newsScore": 8.0,
+      "analystScore": 8.0,
+      "technicalScore": 7.5,
+      "combinedScore": 7.825,
+      "buyDate": "2026-02-20T20:00:00-08:00"
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon.com Inc",
+      "shares": 0.229,
+      "avgCost": 210.11,
+      "currentPrice": 210.11,
+      "unrealizedPL": 0.00,
+      "unrealizedPLPct": 0.00,
+      "newsScore": 8.0,
+      "analystScore": 8.0,
+      "technicalScore": 7.5,
+      "combinedScore": 7.825,
+      "buyDate": "2026-02-20T20:00:00-08:00"
     }
   ],
   "closedTrades": [
@@ -162,6 +176,18 @@
       "realizedPL": 0.00,
       "realizedPLPct": 0.00,
       "sellReason": "Rotated to NFLX (score 7.5 vs 7.005)"
+    },
+    {
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices Inc",
+      "shares": 0.599,
+      "buyPrice": 200.15,
+      "sellPrice": 200.15,
+      "buyDate": "2026-02-21T01:28:00+02:00",
+      "sellDate": "2026-02-20T20:00:00-08:00",
+      "realizedPL": 0.00,
+      "realizedPLPct": 0.00,
+      "sellReason": "Rotated to META (score 7.825 vs 7.025)"
     }
   ],
   "portfolioHistory": [
@@ -171,6 +197,7 @@
     {"timestamp": "20.02.2026 16:00 PST", "value": 999.95},
     {"timestamp": "20.02.2026 17:00 PST", "value": 999.95},
     {"timestamp": "20.02.2026 18:00 PST", "value": 999.95},
-    {"timestamp": "20.02.2026 19:00 PST", "value": 1000.32}
+    {"timestamp": "20.02.2026 19:00 PST", "value": 1000.32},
+    {"timestamp": "20.02.2026 20:00 PST", "value": 1000.40}
   ]
 }
