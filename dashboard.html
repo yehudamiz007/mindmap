@@ -4,170 +4,89 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yehuda AI - Analytics Dashboard</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 <style>
+:root{--bg:#0a0a1a;--card:#12122a;--border:#1e1e3a;--text:#e0e0f0;--dim:#8888aa;--accent:#6c63ff;--green:#00d97e;--red:#ff6b6b;--orange:#ff9f43;--cyan:#00d2ff}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0a1a;color:#e0e0e0;font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;padding:20px}
-h1{text-align:center;font-size:2rem;margin-bottom:30px;background:linear-gradient(135deg,#ff6b6b,#ffd93d,#6bcb77,#4d96ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:30px}
-.card{background:linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:24px;text-align:center;backdrop-filter:blur(10px)}
-.card .label{font-size:.85rem;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.card .value{font-size:2rem;font-weight:700}
-.card:nth-child(1) .value{color:#ff6b6b}
-.card:nth-child(2) .value{color:#ffd93d}
-.card:nth-child(3) .value{color:#6bcb77}
-.card:nth-child(4) .value{color:#4d96ff}
-.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px}
-.full-width{grid-column:1/-1}
-.chart-box{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px}
-.chart-box h2{text-align:center;font-size:1.1rem;color:#aaa;margin-bottom:16px}
-canvas{max-height:400px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:1rem}
+h1{text-align:center;font-size:1.8rem;margin:1rem 0 .5rem;background:linear-gradient(135deg,var(--accent),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{text-align:center;color:var(--dim);font-size:.85rem;margin-bottom:1.5rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:2rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem;text-align:center}
+.card .label{font-size:.75rem;color:var(--dim);text-transform:uppercase;letter-spacing:.05em}
+.card .value{font-size:1.6rem;font-weight:700;margin-top:.3rem}
+.card .value.green{color:var(--green)}.card .value.accent{color:var(--accent)}.card .value.orange{color:var(--orange)}.card .value.cyan{color:var(--cyan)}.card .value.red{color:var(--red)}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:1.5rem}
+.chart-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem}
+.chart-box h3{font-size:.95rem;color:var(--dim);margin-bottom:.8rem}
+canvas{max-height:300px}
+@media(max-width:500px){.charts{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
-<h1>✨ Yehuda AI - Analytics Dashboard</h1>
-<div class="cards">
-  <div class="card"><div class="label">Total Questions</div><div class="value">648</div></div>
-  <div class="card"><div class="label">Total Cost</div><div class="value">$298.60</div></div>
-  <div class="card"><div class="label">Categories</div><div class="value">14</div></div>
-  <div class="card"><div class="label">Most Expensive</div><div class="value">WhatsApp</div></div>
-  <div class="card"><div class="label">Days Active</div><div class="value">3</div></div>
-</div>
+<h1>Yehuda AI - Analytics Dashboard</h1>
+<div class="subtitle" id="updated"></div>
+<div class="cards" id="cards"></div>
 <div class="charts">
-  <div class="chart-box"><h2>Question Distribution</h2><canvas id="donut"></canvas></div>
-  <div class="chart-box"><h2>Cost per Category ($) — sorted descending</h2><canvas id="bar"></canvas></div>
-  <div class="chart-box full-width"><h2>Daily Cost Breakdown by Category ($)</h2><canvas id="stacked"></canvas></div>
+  <div class="chart-box"><h3>Daily Cost ($)</h3><canvas id="dailyCost"></canvas></div>
+  <div class="chart-box"><h3>Cost by Model</h3><canvas id="modelDonut"></canvas></div>
+  <div class="chart-box"><h3>Daily Token Usage</h3><canvas id="dailyTokens"></canvas></div>
+  <div class="chart-box"><h3>Daily Cost by Model</h3><canvas id="dailyModelCost"></canvas></div>
 </div>
 <script>
-// Category data from transcript analysis (2026-02-18)
-// Original categories kept + "General" broken into sub-categories
-const data = [
-  { cat: 'WhatsApp/Groups',    count: 229, cost: 89.72 },
-  { cat: 'Chat/Social',        count: 68,  cost: 30.88 },
-  { cat: 'Mindmap',            count: 42,  cost: 38.36 },
-  { cat: 'Family',             count: 51,  cost: 18.84 },
-  { cat: 'Coding',             count: 22,  cost: 19.95 },
-  { cat: 'Dashboard/Analytics',count: 23,  cost: 19.22 },
-  { cat: 'Heartbeat',          count: 38,  cost: 17.47 },
-  { cat: 'Identity/Setup',     count: 22,  cost: 9.63  },
-  { cat: 'Family Tree',        count: 12,  cost: 14.90 },
-  { cat: 'System',             count: 24,  cost: 10.60 },
-  { cat: 'Memory',             count: 20,  cost: 5.12  },
-  { cat: 'Skills',             count: 9,   cost: 6.01  },
-  { cat: 'Config',             count: 2,   cost: 1.23  },
-  { cat: 'Other',              count: 86,  cost: 16.67 }
-];
+const charts = {};
+const colors = ['#6c63ff','#00d97e','#ff6b6b','#ff9f43','#00d2ff','#e056fd','#f9ca24','#7ed6df','#686de0','#badc58'];
+const gridColor = 'rgba(255,255,255,0.06)';
+const tickColor = '#8888aa';
 
-const colors = [
-  '#ff6b6b','#ffd93d','#4d96ff','#6bcb77','#ff922b',
-  '#cc5de8','#20c997','#f06595','#868e96','#74c0fc',
-  '#fcc419','#a9e34b','#e599f7','#ced4da'
-];
+function makeCard(label, value, cls) { return `<div class="card"><div class="label">${label}</div><div class="value ${cls}">${value}</div></div>`; }
 
-// Donut chart - sorted by count descending
-const donutData = [...data].sort((a,b) => b.count - a.count);
-new Chart(document.getElementById('donut'), {
-  type: 'doughnut',
-  data: {
-    labels: donutData.map(d => `${d.cat} (${d.count})`),
-    datasets: [{
-      data: donutData.map(d => d.count),
-      backgroundColor: colors,
-      borderColor: '#0a0a1a',
-      borderWidth: 3
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'bottom',
-        labels: { color: '#ccc', padding: 10, font: { size: 11 } }
-      }
-    }
-  }
-});
+function load() {
+  fetch('costs.json?t='+Date.now()).then(r=>r.json()).then(d => {
+    document.getElementById('updated').textContent = 'Last updated: ' + new Date(d.lastUpdated).toLocaleString();
+    
+    const models = Object.entries(d.byModel).sort((a,b)=>b[1].cost-a[1].cost);
+    const topModel = models[0] ? models[0][0] : 'N/A';
+    const avgDaily = d.daysActive ? (d.totalCost / d.daysActive).toFixed(2) : '0';
+    
+    document.getElementById('cards').innerHTML = [
+      makeCard('Total Cost', '$'+d.totalCost.toFixed(2), 'green'),
+      makeCard('Total Tokens', (d.totalTokens/1e6).toFixed(2)+'M', 'accent'),
+      makeCard('API Calls', d.totalCalls.toLocaleString(), 'cyan'),
+      makeCard('Days Active', d.daysActive, 'orange'),
+      makeCard('Top Model', topModel.replace('claude-','c-'), 'red'),
+      makeCard('Avg Daily', '$'+avgDaily, 'green'),
+    ].join('');
 
-// Bar chart - sorted by cost descending
-const barData = [...data].sort((a,b) => b.cost - a.cost);
-new Chart(document.getElementById('bar'), {
-  type: 'bar',
-  data: {
-    labels: barData.map(d => d.cat),
-    datasets: [{
-      data: barData.map(d => d.cost),
-      backgroundColor: colors,
-      borderRadius: 6
-    }]
-  },
-  options: {
-    responsive: true,
-    indexAxis: 'y',
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        callbacks: {
-          label: ctx => `$${ctx.raw.toFixed(2)}`
-        }
-      }
-    },
-    scales: {
-      x: {
-        ticks: { color: '#aaa', callback: v => '$' + v },
-        grid: { color: 'rgba(255,255,255,0.05)' }
-      },
-      y: {
-        ticks: { color: '#ccc', font: { size: 11 } },
-        grid: { display: false }
-      }
-    }
-  }
-});
+    const dates = d.daily.map(x=>x.date.slice(5));
+    const opts = (stacked) => ({responsive:true,plugins:{legend:{labels:{color:tickColor}}},scales:{x:{ticks:{color:tickColor},grid:{color:gridColor},stacked},y:{ticks:{color:tickColor},grid:{color:gridColor},stacked}}});
 
-// Stacked bar chart - Daily Cost Breakdown by Category
-const dailyDates = ["2026-02-17","2026-02-18","2026-02-19"];
-const dailyData = {"WhatsApp/Groups":[19.0052,95.0796,0],"Chat/Social":[0.3746,14.8533,4.50],"Mindmap":[0,13.1278,13.00],"Family":[0.3748,2.6627,0],"Coding":[0,4.6394,2.50],"Dashboard/Analytics":[0,1.5714,2.50],"Heartbeat":[0,20.314,4.00],"Identity/Setup":[0.1039,0,0],"Family Tree":[0,2.3495,11.50],"System":[0.2956,0.9051,1.50],"Memory":[0,0.8642,0],"Skills":[0.3395,3.7399,1.50],"Config":[0,0,1.00],"Other":[20.7572,36.2493,11.18]};
+    // Daily cost bar
+    if(charts.dc) charts.dc.destroy();
+    charts.dc = new Chart(document.getElementById('dailyCost'),{type:'bar',data:{labels:dates,datasets:[{label:'Cost $',data:d.daily.map(x=>x.cost),backgroundColor:'#6c63ff',borderRadius:4}]},options:opts()});
 
-const stackedDatasets = data.map((d, i) => ({
-  label: d.cat,
-  data: dailyData[d.cat] || dailyDates.map(() => 0),
-  backgroundColor: colors[i],
-  borderRadius: 2
-}));
+    // Model donut
+    if(charts.md) charts.md.destroy();
+    charts.md = new Chart(document.getElementById('modelDonut'),{type:'doughnut',data:{labels:models.map(m=>m[0]),datasets:[{data:models.map(m=>m[1].cost),backgroundColor:colors.slice(0,models.length)}]},options:{responsive:true,plugins:{legend:{labels:{color:tickColor}}}}});
 
-new Chart(document.getElementById('stacked'), {
-  type: 'bar',
-  data: {
-    labels: dailyDates,
-    datasets: stackedDatasets
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'bottom',
-        labels: { color: '#ccc', padding: 8, font: { size: 11 }, boxWidth: 14 }
-      },
-      tooltip: {
-        callbacks: {
-          label: ctx => `${ctx.dataset.label}: $${ctx.raw.toFixed(4)}`
-        }
-      }
-    },
-    scales: {
-      x: {
-        stacked: true,
-        ticks: { color: '#ccc' },
-        grid: { color: 'rgba(255,255,255,0.05)' }
-      },
-      y: {
-        stacked: true,
-        ticks: { color: '#aaa', callback: v => '$' + v },
-        grid: { color: 'rgba(255,255,255,0.05)' }
-      }
-    }
-  }
-});
+    // Daily tokens stacked
+    if(charts.dt) charts.dt.destroy();
+    charts.dt = new Chart(document.getElementById('dailyTokens'),{type:'bar',data:{labels:dates,datasets:[
+      {label:'Input',data:d.daily.map(x=>x.inputTokens),backgroundColor:'#6c63ff'},
+      {label:'Output',data:d.daily.map(x=>x.outputTokens),backgroundColor:'#00d97e'},
+      {label:'Cache Read',data:d.daily.map(x=>x.cacheReadTokens),backgroundColor:'#00d2ff'},
+      {label:'Cache Write',data:d.daily.map(x=>x.cacheWriteTokens),backgroundColor:'#ff9f43'},
+    ]},options:opts(true)});
+
+    // Daily cost by model stacked
+    const allModels = [...new Set(d.daily.flatMap(x=>Object.keys(x.byModel)))];
+    if(charts.dm) charts.dm.destroy();
+    charts.dm = new Chart(document.getElementById('dailyModelCost'),{type:'bar',data:{labels:dates,datasets:allModels.map((m,i)=>({label:m,data:d.daily.map(x=>(x.byModel[m]||{}).cost||0),backgroundColor:colors[i%colors.length]}))},options:opts(true)});
+  }).catch(e=>console.error('Failed to load costs.json',e));
+}
+
+load();
+setInterval(load, 300000);
 </script>
 </body>
 </html>

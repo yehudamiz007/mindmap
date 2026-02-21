@@ -1,0 +1,127 @@
+{
+  "lastUpdated": "2026-02-21T00:17:35.925Z",
+  "totalCost": 446.407105,
+  "totalTokens": 1025856,
+  "totalCalls": 1813,
+  "totalSessions": 85,
+  "daysActive": 5,
+  "daily": [
+    {
+      "date": "2026-02-17",
+      "cost": 41.250794,
+      "tokens": 50218,
+      "inputTokens": 509,
+      "outputTokens": 49709,
+      "cacheReadTokens": 4281085,
+      "cacheWriteTokens": 6058397,
+      "calls": 225,
+      "sessions": 2,
+      "byModel": {
+        "claude-opus-4-6": {
+          "cost": 41.250794,
+          "tokens": 50218,
+          "calls": 225
+        }
+      }
+    },
+    {
+      "date": "2026-02-18",
+      "cost": 200.511545,
+      "tokens": 192696,
+      "inputTokens": 1457,
+      "outputTokens": 191239,
+      "cacheReadTokens": 16482133,
+      "cacheWriteTokens": 29997155,
+      "calls": 649,
+      "sessions": 16,
+      "byModel": {
+        "claude-opus-4-6": {
+          "cost": 200.511545,
+          "tokens": 192696,
+          "calls": 649
+        }
+      }
+    },
+    {
+      "date": "2026-02-19",
+      "cost": 110.999907,
+      "tokens": 143932,
+      "inputTokens": 21817,
+      "outputTokens": 122115,
+      "cacheReadTokens": 22784549,
+      "cacheWriteTokens": 15439698,
+      "calls": 431,
+      "sessions": 31,
+      "byModel": {
+        "claude-opus-4-6": {
+          "cost": 110.884932,
+          "tokens": 121045,
+          "calls": 426
+        },
+        "grok-3": {
+          "cost": 0.114974,
+          "tokens": 22887,
+          "calls": 5
+        }
+      }
+    },
+    {
+      "date": "2026-02-20",
+      "cost": 86.528526,
+      "tokens": 587007,
+      "inputTokens": 456273,
+      "outputTokens": 130734,
+      "cacheReadTokens": 18413455,
+      "cacheWriteTokens": 11578277,
+      "calls": 417,
+      "sessions": 40,
+      "byModel": {
+        "claude-opus-4-6": {
+          "cost": 82.089444,
+          "tokens": 84321,
+          "calls": 307
+        },
+        "grok-3": {
+          "cost": 4.439082,
+          "tokens": 502686,
+          "calls": 110
+        }
+      }
+    },
+    {
+      "date": "2026-02-21",
+      "cost": 7.116334,
+      "tokens": 52003,
+      "inputTokens": 31090,
+      "outputTokens": 20913,
+      "cacheReadTokens": 3569038,
+      "cacheWriteTokens": 741210,
+      "calls": 91,
+      "sessions": 4,
+      "byModel": {
+        "claude-opus-4-6": {
+          "cost": 6.425149,
+          "tokens": 13237,
+          "calls": 64
+        },
+        "grok-3": {
+          "cost": 0.691185,
+          "tokens": 38766,
+          "calls": 27
+        }
+      }
+    }
+  ],
+  "byModel": {
+    "claude-opus-4-6": {
+      "cost": 441.161864,
+      "tokens": 461517,
+      "calls": 1671
+    },
+    "grok-3": {
+      "cost": 5.245241,
+      "tokens": 564339,
+      "calls": 142
+    }
+  }
+}
