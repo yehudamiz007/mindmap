@@ -206,6 +206,27 @@
                     <text class="ft-detail" x="400" y="90">לבית שרגא ז"ל</text>
                 </g>
 
+                <!-- CENTER-RIGHT: Yehuda Sr + Rivka Mizrahi -->
+                <text class="ft-section" x="780" y="18">משפחת מזרחי</text>
+                <g class="clickable" onclick="showPerson('yehuda_mizrahi_sr')">
+                    <rect class="ft-card-memorial" x="670" y="30" width="130" height="70"/>
+                    <text class="ft-emoji" x="735" y="56">🕯️</text>
+                    <text class="ft-name" x="735" y="74">יהודה מזרחי</text>
+                    <text class="ft-detail" x="735" y="90">ז"ל</text>
+                </g>
+                <text class="ft-heart" x="815" y="68">💕</text>
+                <g class="clickable" onclick="showPerson('rivka_mizrahi')">
+                    <rect class="ft-card-memorial" x="830" y="30" width="140" height="70"/>
+                    <text class="ft-emoji" x="900" y="56">🕯️</text>
+                    <text class="ft-name" x="900" y="74">רבקה (בקי)</text>
+                    <text class="ft-detail" x="900" y="90">מזרחי ז"ל</text>
+                </g>
+
+                <!-- Line from Mizrahi grandparents to Avi -->
+                <line class="ft-line" x1="815" y1="100" x2="815" y2="145"/>
+                <line class="ft-line" x1="815" y1="145" x2="228" y2="145"/>
+                <line class="ft-line" x1="228" y1="145" x2="228" y2="540"/>
+
                 <!-- RIGHT: Uri Moshe + Dina Lishuar -->
                 <text class="ft-section" x="1250" y="18">משפחת לישואר</text>
                 <g class="clickable" onclick="showPerson('uri_moshe')">
@@ -607,10 +628,29 @@
                 { title: '💕 נשואה', text: 'נשואה ב"ה, יש ילדים' }
             ]
         },
+        yehuda_mizrahi_sr: {
+            emoji: '🕯️', name: 'יהודה מזרחי ז"ל',
+            role: 'סבא - אביו של אבי מזרחי',
+            sections: [
+                { title: '💕 נשוי ל', text: 'רבקה (בקי) מזרחי ז"ל' },
+                { title: '👶 ילדים', text: 'אבי מזרחי' },
+                { title: '🕯️ לזכרו', text: 'סבא של יהודה, תמיר וספיר. זכרו יהיה ברוך.' }
+            ]
+        },
+        rivka_mizrahi: {
+            emoji: '🕯️', name: 'רבקה (בקי) מזרחי ז"ל',
+            role: 'סבתא - אמו של אבי מזרחי',
+            sections: [
+                { title: '💕 נשואה ל', text: 'יהודה מזרחי ז"ל' },
+                { title: '👶 ילדים', text: 'אבי מזרחי' },
+                { title: '🕯️ לזכרה', text: 'סבתא של יהודה, תמיר וספיר. זכרה יהיה ברוך.' }
+            ]
+        },
         avi: {
             emoji: '👨', name: 'אבי מזרחי',
             role: 'ראש משפחת מזרחי',
             sections: [
+                { title: '👪 הורים', text: 'יהודה מזרחי ז"ל ורבקה (בקי) מזרחי ז"ל' },
                 { title: '📱 וואטסאפ', text: '+972505904074' },
                 { title: '💕 נשוי ל', text: 'ורדית (לבית לבנברג) - מאז 18.02.1986' },
                 { title: '👶 ילדים', text: 'יהודה (בכור), תמיר (אמצעי), ספיר (צעירה)' },
@@ -719,7 +759,7 @@
 
     function showAllStories() {
         let html = '';
-        const order = ['yaakov','chaya_sara','moshe_yosef','yafa','chana_tova','nirit','yisrael_tzvi','yitzchak_bd','yafa_bd','shlomit_bd',
+        const order = ['yaakov','chaya_sara','uri_moshe','dina','yehuda_mizrahi_sr','rivka_mizrahi','moshe_yosef','yafa','chana_tova','nirit','yisrael_tzvi','yitzchak_bd','yafa_bd','shlomit_bd',
                        'vardit_l','tova_cherna','tamar_pnina','avi','vardit_m',
                        'yehuda','ilana','tamir','meital','sapir','avior','nitai','arbel'];
         order.forEach(id => {
@@ -741,7 +781,7 @@
     // Populate print stories
     window.addEventListener('load', function() {
         let html = '';
-        const order = ['yaakov','chaya_sara','moshe_yosef','yafa','chana_tova','nirit','yisrael_tzvi','yitzchak_bd','yafa_bd','shlomit_bd',
+        const order = ['yaakov','chaya_sara','uri_moshe','dina','yehuda_mizrahi_sr','rivka_mizrahi','moshe_yosef','yafa','chana_tova','nirit','yisrael_tzvi','yitzchak_bd','yafa_bd','shlomit_bd',
                        'vardit_l','tova_cherna','tamar_pnina','avi','vardit_m',
                        'yehuda','ilana','tamir','meital','sapir','avior','nitai','arbel'];
         order.forEach(id => {
