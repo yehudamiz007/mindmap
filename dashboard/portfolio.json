@@ -11,10 +11,10 @@
       "currentPrice": 314.98,
       "unrealizedPL": 0.00,
       "unrealizedPLPct": 0.00,
-      "newsScore": 6.5,
+      "newsScore": 7.5,
       "analystScore": 8.0,
       "technicalScore": 7.0,
-      "combinedScore": 7.2,
+      "combinedScore": 7.5,
       "buyDate": "2026-02-21T01:28:00+02:00"
     },
     {
@@ -25,10 +25,10 @@
       "currentPrice": 189.82,
       "unrealizedPL": 0.00,
       "unrealizedPLPct": 0.00,
-      "newsScore": 8.8,
+      "newsScore": 8.5,
       "analystScore": 8.5,
       "technicalScore": 7.8,
-      "combinedScore": 8.345,
+      "combinedScore": 8.255,
       "buyDate": "2026-02-21T01:28:00+02:00"
     },
     {
@@ -39,10 +39,10 @@
       "currentPrice": 264.58,
       "unrealizedPL": 0.00,
       "unrealizedPLPct": 0.00,
-      "newsScore": 8.2,
+      "newsScore": 8.0,
       "analystScore": 7.5,
       "technicalScore": 7.2,
-      "combinedScore": 7.605,
+      "combinedScore": 7.545,
       "buyDate": "2026-02-21T01:28:00+02:00"
     },
     {
@@ -200,6 +200,7 @@
     {"timestamp": "20.02.2026 19:00 PST", "value": 1000.32},
     {"timestamp": "20.02.2026 20:00 PST", "value": 1000.40},
     {"timestamp": "20.02.2026 21:00 PST", "value": 1000.32},
-    {"timestamp": "20.02.2026 22:00 PST", "value": 1000.32}
+    {"timestamp": "20.02.2026 22:00 PST", "value": 1000.32},
+    {"timestamp": "20.02.2026 23:00 PST", "value": 1000.32}
   ]
 }
