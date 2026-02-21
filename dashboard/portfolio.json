@@ -13,8 +13,8 @@
       "unrealizedPLPct": 0.00,
       "newsScore": 7.5,
       "analystScore": 8.0,
-      "technicalScore": 8.0,
-      "combinedScore": 7.85,
+      "technicalScore": 7.5,
+      "combinedScore": 7.675,
       "buyDate": "2026-02-21T01:28:00+02:00"
     },
     {
@@ -27,8 +27,8 @@
       "unrealizedPLPct": 0.00,
       "newsScore": 9.0,
       "analystScore": 8.5,
-      "technicalScore": 7.5,
-      "combinedScore": 8.3,
+      "technicalScore": 8.0,
+      "combinedScore": 8.475,
       "buyDate": "2026-02-21T01:28:00+02:00"
     },
     {
@@ -56,7 +56,7 @@
       "newsScore": 8.5,
       "analystScore": 8.5,
       "technicalScore": 8.0,
-      "combinedScore": 8.3,
+      "combinedScore": 8.325,
       "buyDate": "2026-02-20T16:00:00-08:00"
     },
     {
@@ -69,23 +69,9 @@
       "unrealizedPLPct": 0.00,
       "newsScore": 8.5,
       "analystScore": 8.2,
-      "technicalScore": 7.5,
-      "combinedScore": 8.04,
+      "technicalScore": 7.8,
+      "combinedScore": 8.15,
       "buyDate": "2026-02-20T18:00:00-08:00"
-    },
-    {
-      "ticker": "META",
-      "name": "Meta Platforms Inc",
-      "shares": 0.11,
-      "avgCost": 655.66,
-      "currentPrice": 655.66,
-      "unrealizedPL": 0.00,
-      "unrealizedPLPct": 0.00,
-      "newsScore": 7.0,
-      "analystScore": 8.0,
-      "technicalScore": 7.5,
-      "combinedScore": 7.525,
-      "buyDate": "2026-02-20T20:00:00-08:00"
     },
     {
       "ticker": "AMZN",
@@ -95,10 +81,10 @@
       "currentPrice": 210.11,
       "unrealizedPL": 0.00,
       "unrealizedPLPct": 0.00,
-      "newsScore": 8.0,
+      "newsScore": 8.5,
       "analystScore": 8.0,
       "technicalScore": 8.0,
-      "combinedScore": 8.0,
+      "combinedScore": 8.15,
       "buyDate": "2026-02-20T20:00:00-08:00"
     },
     {
@@ -114,6 +100,20 @@
       "technicalScore": 7.5,
       "combinedScore": 7.825,
       "buyDate": "2026-02-21T02:00:00-08:00"
+    },
+    {
+      "ticker": "MSFT",
+      "name": "Microsoft Corp",
+      "shares": 0.1816,
+      "avgCost": 397.23,
+      "currentPrice": 397.23,
+      "unrealizedPL": 0.00,
+      "unrealizedPLPct": 0.00,
+      "newsScore": 8.0,
+      "analystScore": 8.0,
+      "technicalScore": 7.5,
+      "combinedScore": 7.825,
+      "buyDate": "2026-02-21T11:32:00-08:00"
     }
   ],
   "closedTrades": [
@@ -200,6 +200,18 @@
       "realizedPL": 0.00,
       "realizedPLPct": 0.00,
       "sellReason": "Rotated to AMD (score 7.825 vs 7.175)"
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms Inc",
+      "shares": 0.11,
+      "buyPrice": 655.66,
+      "sellPrice": 655.66,
+      "buyDate": "2026-02-20T20:00:00-08:00",
+      "sellDate": "2026-02-21T11:32:00-08:00",
+      "realizedPL": 0.00,
+      "realizedPLPct": 0.00,
+      "sellReason": "Rotated to MSFT (score 7.825 vs 7.245)"
     }
   ],
   "portfolioHistory": [
@@ -218,6 +230,7 @@
     {"timestamp": "21.02.2026 01:00 PST", "value": 1000.40},
     {"timestamp": "21.02.2026 02:00 PST", "value": 1000.40},
     {"timestamp": "21.02.2026 03:00 PST", "value": 1000.40},
-    {"timestamp": "21.02.2026 04:00 PST", "value": 1000.40}
+    {"timestamp": "21.02.2026 04:00 PST", "value": 1000.40},
+    {"timestamp": "21.02.2026 11:32 PST", "value": 1000.39}
   ]
 }
