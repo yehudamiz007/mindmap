@@ -199,6 +199,7 @@
     {"timestamp": "20.02.2026 18:00 PST", "value": 999.95},
     {"timestamp": "20.02.2026 19:00 PST", "value": 1000.32},
     {"timestamp": "20.02.2026 20:00 PST", "value": 1000.40},
-    {"timestamp": "20.02.2026 21:00 PST", "value": 1000.32}
+    {"timestamp": "20.02.2026 21:00 PST", "value": 1000.32},
+    {"timestamp": "20.02.2026 22:00 PST", "value": 1000.32}
   ]
 }
