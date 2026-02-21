@@ -1,5 +1,5 @@
 {
-  "cash": 0.15,
+  "cash": 0.30,
   "startingBalance": 1000,
   "startDate": "2026-02-21T01:30:00+02:00",
   "positions": [
@@ -46,20 +46,6 @@
       "buyDate": "2026-02-21T01:28:00+02:00"
     },
     {
-      "ticker": "META",
-      "name": "Meta Platforms Inc",
-      "shares": 0.229,
-      "avgCost": 655.66,
-      "currentPrice": 655.66,
-      "unrealizedPL": 0.00,
-      "unrealizedPLPct": 0.00,
-      "newsScore": 6.0,
-      "analystScore": 8.0,
-      "technicalScore": 7.0,
-      "combinedScore": 7.05,
-      "buyDate": "2026-02-21T01:28:00+02:00"
-    },
-    {
       "ticker": "AMD",
       "name": "Advanced Micro Devices Inc",
       "shares": 0.599,
@@ -100,6 +86,20 @@
       "technicalScore": 8.0,
       "combinedScore": 8.175,
       "buyDate": "2026-02-20T16:00:00-08:00"
+    },
+    {
+      "ticker": "ORCL",
+      "name": "Oracle Corp",
+      "shares": 1.015,
+      "avgCost": 148.08,
+      "currentPrice": 148.08,
+      "unrealizedPL": 0.00,
+      "unrealizedPLPct": 0.00,
+      "newsScore": 7.0,
+      "analystScore": 7.5,
+      "technicalScore": 8.0,
+      "combinedScore": 7.525,
+      "buyDate": "2026-02-20T17:00:00-08:00"
     }
   ],
   "closedTrades": [
@@ -126,12 +126,25 @@
       "realizedPL": 0.00,
       "realizedPLPct": 0.00,
       "sellReason": "Rotated to MU (score 8.175 vs 6.675)"
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms Inc",
+      "shares": 0.229,
+      "buyPrice": 655.66,
+      "sellPrice": 655.66,
+      "buyDate": "2026-02-21T01:28:00+02:00",
+      "sellDate": "2026-02-20T17:00:00-08:00",
+      "realizedPL": 0.00,
+      "realizedPLPct": 0.00,
+      "sellReason": "Rotated to ORCL (score 7.525 vs 7.05)"
     }
   ],
   "portfolioHistory": [
     {"timestamp": "21.02.2026 01:30 IST", "value": 1000},
     {"timestamp": "21.02.2026 01:28 IST", "value": 1000.03},
     {"timestamp": "20.02.2026 15:30 PST", "value": 1000.03},
-    {"timestamp": "20.02.2026 16:00 PST", "value": 999.95}
+    {"timestamp": "20.02.2026 16:00 PST", "value": 999.95},
+    {"timestamp": "20.02.2026 17:00 PST", "value": 999.95}
   ]
 }
