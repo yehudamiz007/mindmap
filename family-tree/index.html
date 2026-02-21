@@ -334,18 +334,14 @@
                 <!-- ===== LINES TO ROW 2: Moshe Yosef & Yafa's daughters ===== -->
                 <line class="ft-line" x1="480" y1="230" x2="480" y2="380"/>
                 <line class="ft-line" x1="300" y1="380" x2="660" y2="380"/>
-                <line class="ft-line" x1="300" y1="380" x2="300" y2="410"/>
+                <!-- Vardit: line from children bar down to her card in Row 3 -->
+                <line class="ft-line" x1="300" y1="380" x2="300" y2="500"/>
+                <line class="ft-line" x1="300" y1="500" x2="388" y2="500"/>
+                <line class="ft-line" x1="388" y1="500" x2="388" y2="540"/>
                 <line class="ft-line" x1="480" y1="380" x2="480" y2="410"/>
                 <line class="ft-line" x1="660" y1="380" x2="660" y2="410"/>
 
                 <!-- ===== ROW 2: LEVENBERG DAUGHTERS (y=410, h=65) ===== -->
-
-                <g class="clickable" onclick="showPerson('vardit_l')">
-                    <rect class="ft-card-founder" x="235" y="410" width="130" height="65"/>
-                    <text class="ft-emoji" x="300" y="435">👩</text>
-                    <text class="ft-name" x="300" y="452">ורדית</text>
-                    <text class="ft-detail" x="300" y="467">הבכורה</text>
-                </g>
 
                 <g class="clickable" onclick="showPerson('tova_cherna')">
                     <rect class="ft-card" x="420" y="410" width="120" height="65"/>
@@ -362,8 +358,7 @@
                 </g>
 
                 <!-- ===== ROW 3: AVI + VARDIT (y=540, h=70) ===== -->
-                <line class="ft-line" x1="300" y1="475" x2="300" y2="510"/>
-                <text class="ft-heart" x="300" y="528">💕</text>
+                <text class="ft-heart" x="305" y="575">💕</text>
 
                 <g class="clickable" onclick="showPerson('avi')">
                     <rect class="ft-card-founder" x="160" y="540" width="135" height="70"/>
@@ -660,12 +655,14 @@
         },
         vardit_m: {
             emoji: '👩', name: 'ורדית מזרחי',
-            role: 'אם המשפחה - לבית לבנברג',
+            role: 'אם המשפחה - הבת הבכורה של משה יוסף ויפה לבנברג',
             sections: [
                 { title: '👪 הורים', text: 'משה יוסף ויפה לבנברג' },
+                { title: '👧 אחיות', text: 'טובה צ\'רנה (אמצעית), תמר פנינה (צעירה)' },
                 { title: '💕 נשואה ל', text: 'אבי מזרחי - מאז 18.02.1986' },
                 { title: '👶 ילדים', text: 'יהודה (בכור), תמיר (אמצעי), ספיר (צעירה)' },
-                { title: '👫 נכדים', text: 'אביאור, ניתאי, ארבל' }
+                { title: '👫 נכדים', text: 'אביאור, ניתאי, ארבל' },
+                { title: '🎉', text: '40 שנות נישואין! 1986-2026' }
             ]
         },
         yehuda: {
