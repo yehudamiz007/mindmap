@@ -1,5 +1,5 @@
 {
-  "cash": 0.31236,
+  "cash": 0.33236,
   "startingBalance": 1000,
   "startDate": "2026-02-21T01:30:00+02:00",
   "positions": [
@@ -74,20 +74,6 @@
       "buyDate": "2026-02-20T16:00:00-08:00"
     },
     {
-      "ticker": "ORCL",
-      "name": "Oracle Corp",
-      "shares": 1.015,
-      "avgCost": 148.08,
-      "currentPrice": 148.08,
-      "unrealizedPL": 0.00,
-      "unrealizedPLPct": 0.00,
-      "newsScore": 5.5,
-      "analystScore": 7.5,
-      "technicalScore": 7.8,
-      "combinedScore": 7.005,
-      "buyDate": "2026-02-20T17:00:00-08:00"
-    },
-    {
       "ticker": "AVGO",
       "name": "Broadcom Inc",
       "shares": 0.3008,
@@ -100,6 +86,20 @@
       "technicalScore": 8.0,
       "combinedScore": 8.22,
       "buyDate": "2026-02-20T18:00:00-08:00"
+    },
+    {
+      "ticker": "NFLX",
+      "name": "Netflix Inc",
+      "shares": 1.911,
+      "avgCost": 78.67,
+      "currentPrice": 78.67,
+      "unrealizedPL": 0.00,
+      "unrealizedPLPct": 0.00,
+      "newsScore": 7.5,
+      "analystScore": 7.5,
+      "technicalScore": 7.5,
+      "combinedScore": 7.5,
+      "buyDate": "2026-02-20T19:00:00-08:00"
     }
   ],
   "closedTrades": [
@@ -150,6 +150,18 @@
       "realizedPL": 0.00,
       "realizedPLPct": 0.00,
       "sellReason": "Rotated to AVGO (score 8.22 vs 6.925)"
+    },
+    {
+      "ticker": "ORCL",
+      "name": "Oracle Corp",
+      "shares": 1.015,
+      "buyPrice": 148.08,
+      "sellPrice": 148.08,
+      "buyDate": "2026-02-20T17:00:00-08:00",
+      "sellDate": "2026-02-20T19:00:00-08:00",
+      "realizedPL": 0.00,
+      "realizedPLPct": 0.00,
+      "sellReason": "Rotated to NFLX (score 7.5 vs 7.005)"
     }
   ],
   "portfolioHistory": [
@@ -158,6 +170,7 @@
     {"timestamp": "20.02.2026 15:30 PST", "value": 1000.03},
     {"timestamp": "20.02.2026 16:00 PST", "value": 999.95},
     {"timestamp": "20.02.2026 17:00 PST", "value": 999.95},
-    {"timestamp": "20.02.2026 18:00 PST", "value": 999.95}
+    {"timestamp": "20.02.2026 18:00 PST", "value": 999.95},
+    {"timestamp": "20.02.2026 19:00 PST", "value": 1000.32}
   ]
 }
