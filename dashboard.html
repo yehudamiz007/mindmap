@@ -30,8 +30,21 @@ td{font-size:.85rem}
 </style>
 </head>
 <body>
-<h1>Yehuda AI - Analytics Dashboard</h1>
+<div style="display:flex;justify-content:center;align-items:center;gap:16px;margin:1rem 0 .5rem">
+<h1 style="margin:0">Yehuda AI - Analytics Dashboard</h1>
+<button id="updateBtn" onclick="updateCosts()" style="background:#6c63ff;color:white;border:none;padding:8px 20px;border-radius:8px;font-family:inherit;font-weight:700;font-size:0.85em;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all 0.2s;box-shadow:0 0 15px rgba(108,99,255,0.3);" onmouseover="this.style.background='#7c73ff';this.style.boxShadow='0 0 25px rgba(108,99,255,0.5)'" onmouseout="this.style.background='#6c63ff';this.style.boxShadow='0 0 15px rgba(108,99,255,0.3)'">🔄 Update</button>
+</div>
 <div class="subtitle" id="updated"></div>
+<script>
+function updateCosts(){
+  const btn=document.getElementById('updateBtn');
+  btn.innerHTML='⏳ Updating...';btn.style.background='#4a42cc';btn.style.cursor='wait';btn.disabled=true;
+  fetch('http://localhost:18789/api/cron/wake',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:'Run the cost dashboard update now: execute node C:\\\\Users\\\\YEHUDA\\\\.openclaw\\\\workspace\\\\scripts\\\\update-costs.js then git add costs.json && git commit -m "Cost dashboard update" && git push. Do this silently.',mode:'now'})}).then(r=>{
+    if(r.ok){btn.innerHTML='✅ Sent!';btn.style.background='#00d97e';setTimeout(()=>{btn.innerHTML='🔄 Update';btn.style.background='#6c63ff';btn.style.cursor='pointer';btn.disabled=false;},3000);}
+    else throw new Error();
+  }).catch(()=>{btn.innerHTML='❌ Error';btn.style.background='#ff6b6b';setTimeout(()=>{btn.innerHTML='🔄 Update';btn.style.background='#6c63ff';btn.style.cursor='pointer';btn.disabled=false;},3000);});
+}
+</script>
 <div class="cards" id="cards"></div>
 
 <h2>📊 עלויות לפי קטגוריה</h2>
