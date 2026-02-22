@@ -70,6 +70,49 @@ canvas#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 @media(max-width:640px){.header{padding:32px 0 16px}.clock{font-size:2.5rem}.grid{grid-template-columns:1fr}.toolbar{flex-direction:column}.search-box{min-width:100%}}
 /* Scrollbar */
 ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px}
+/* Cron Section */
+.cron-section{margin-top:48px}
+.cron-stats{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.cron-stat{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:12px;padding:12px 20px;font-size:.85rem;color:var(--text-dim);display:flex;align-items:center;gap:6px}
+.cron-stat b{color:var(--text);font-size:1.1rem}
+.cron-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.cron-filter{padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text-dim);cursor:pointer;font-size:.8rem;transition:.2s}
+.cron-filter:hover{background:var(--surface-hover);color:var(--text)}
+.cron-filter.active{background:rgba(129,140,248,.15);color:var(--accent);border-color:rgba(129,140,248,.3)}
+.cron-table-wrap{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.cron-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.cron-table th{text-align:left;padding:14px 16px;color:var(--text-dim);font-weight:500;font-size:.75rem;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border);white-space:nowrap}
+.cron-table td{padding:12px 16px;border-bottom:1px solid var(--border);vertical-align:middle}
+.cron-table tr:last-child td{border-bottom:none}
+.cron-table tr:hover td{background:var(--surface-hover)}
+.cron-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.cron-dot.ok{background:var(--green);box-shadow:0 0 6px rgba(52,211,153,.5)}
+.cron-dot.pending{background:var(--text-dim)}
+.cron-name{font-weight:600;font-size:.9rem}
+.cron-desc{color:var(--text-dim);font-size:.78rem;max-width:260px;line-height:1.4}
+.badge{display:inline-block;padding:2px 10px;border-radius:6px;font-size:.72rem;font-weight:600;letter-spacing:.3px}
+.badge-trading{background:rgba(168,85,247,.15);color:#c084fc}
+.badge-maintenance{background:rgba(34,211,238,.12);color:#22d3ee}
+.badge-news{background:rgba(59,130,246,.15);color:#60a5fa}
+.badge-reminders{background:rgba(250,204,21,.12);color:#facc15}
+.badge-grok{background:rgba(251,146,60,.15);color:#fb923c}
+.badge-claude{background:rgba(129,140,248,.15);color:#818cf8}
+.badge-system{background:rgba(161,161,170,.12);color:#a1a1aa}
+.cron-schedule{cursor:pointer;font-family:'Courier New',monospace;font-size:.82rem;color:var(--accent);border-bottom:1px dashed rgba(129,140,248,.3);padding-bottom:1px}
+.cron-schedule:hover{color:#a78bfa}
+.cron-schedule-human{font-size:.72rem;color:var(--text-dim);margin-top:2px}
+.cron-schedule-edit{display:none;gap:4px;align-items:center}
+.cron-schedule-edit input{padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:'Courier New',monospace;font-size:.82rem;width:120px;outline:none}
+.cron-schedule-edit input:focus{border-color:var(--accent)}
+.cron-schedule-edit button{padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text-dim);cursor:pointer;font-size:.75rem}
+.toggle{position:relative;width:36px;height:20px;cursor:pointer}
+.toggle input{opacity:0;width:0;height:0}
+.toggle .slider{position:absolute;inset:0;background:rgba(255,255,255,.1);border-radius:10px;transition:.2s}
+.toggle .slider::before{content:'';position:absolute;width:16px;height:16px;left:2px;top:2px;background:var(--text-dim);border-radius:50%;transition:.2s}
+.toggle input:checked+.slider{background:rgba(52,211,153,.3)}
+.toggle input:checked+.slider::before{transform:translateX(16px);background:var(--green)}
+.cron-note{font-size:.75rem;color:var(--text-dim);opacity:.6;margin-top:12px;text-align:center;font-style:italic}
+@media(max-width:900px){.cron-table-wrap{overflow-x:auto}.cron-desc{max-width:160px}}
 </style>
 </head>
 <body>
@@ -87,6 +130,19 @@ canvas#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
     <button class="btn" id="addBtn" onclick="openModal()">＋ Add Link</button>
   </div>
   <div id="appContainer"></div>
+  <!-- Cron Jobs Section -->
+  <div class="cron-section" id="cronSection">
+    <div class="category-title">⏰ Cron Jobs</div>
+    <div class="cron-stats" id="cronStats"></div>
+    <div class="cron-filters" id="cronFilters"></div>
+    <div class="cron-table-wrap">
+      <table class="cron-table">
+        <thead><tr><th>Status</th><th>Name</th><th>Description</th><th>Schedule</th><th>Model</th><th>Category</th><th>Enabled</th></tr></thead>
+        <tbody id="cronBody"></tbody>
+      </table>
+    </div>
+    <div class="cron-note">💡 Changes here are display-only — actual cron updates require the OpenClaw CLI</div>
+  </div>
 </div>
 <!-- Add Modal -->
 <div class="modal-overlay" id="modal">
@@ -110,6 +166,8 @@ const DEFAULT_APPS=[
   {id:'stocks',icon:'📊',name:'Stock Scanner',desc:'Daily automated stock & crypto analysis',url:'https://yehudamiz007.github.io/mindmap/dashboard/',cat:'Dashboards'},
   {id:'tasks',icon:'📋',name:'Task Manager',desc:'Jira/Monday-style task management',url:'https://yehudamiz007.github.io/mindmap/tasks.html',cat:'Apps'},
   {id:'mindmap-detailed',icon:'🗺️',name:'Detailed Mindmap',desc:'Detailed brain map with all info',url:'https://yehudamiz007.github.io/mindmap/mindmap-detailed.html',cat:'Tools'},
+  {id:'family-tree',icon:'🌳',name:'Family Tree',desc:'Mizrahi family tree',url:'https://yehudamiz007.github.io/mindmap/family-tree/',cat:'Dashboards'},
+  {id:'iran-dashboard',icon:'🛡️',name:'Iran War Map',desc:'Iran conflict intelligence dashboard',url:'https://yehudamiz007.github.io/mindmap/iran-dashboard/',cat:'Dashboards'},
   {id:'moltta',icon:'🎯',name:'Moltta',desc:'Moltta platform',url:'https://moltta.com',cat:'Apps'}
 ];
 let customApps=JSON.parse(localStorage.getItem('hub_custom')||'[]');
