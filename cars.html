@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>השוואת רכבים - ישראל 2024-2025</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1117;--card:#1a1d27;--card2:#232734;--accent:#6c5ce7;--accent2:#a29bfe;--green:#00b894;--red:#e17055;--yellow:#fdcb6e;--text:#e8e8e8;--text2:#8b8fa3;--border:#2d3141;--shadow:0 4px 24px rgba(0,0,0,.4)}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:rtl}
+a{color:var(--accent2);text-decoration:none}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.header{background:linear-gradient(135deg,#1a1d27,#232734);padding:20px;text-align:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;backdrop-filter:blur(10px)}
+.header h1{font-size:1.8em;margin-bottom:4px;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header p{color:var(--text2);font-size:.9em}
+.nav{display:flex;justify-content:center;gap:8px;margin-top:12px;flex-wrap:wrap}
+.nav button{background:var(--card2);border:1px solid var(--border);color:var(--text2);padding:8px 18px;border-radius:20px;cursor:pointer;font-size:.85em;transition:.2s}
+.nav button:hover,.nav button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.container{max-width:1400px;margin:0 auto;padding:16px}
+.search-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.search-bar input,.search-bar select{background:var(--card);border:1px solid var(--border);color:var(--text);padding:10px 16px;border-radius:10px;font-size:.9em;outline:none;transition:.2s}
+.search-bar input:focus,.search-bar select:focus{border-color:var(--accent)}
+.search-bar input{flex:1;min-width:200px}
+.search-bar select{min-width:140px}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.filter-chip{background:var(--card);border:1px solid var(--border);color:var(--text2);padding:6px 14px;border-radius:16px;cursor:pointer;font-size:.8em;transition:.2s;user-select:none}
+.filter-chip:hover,.filter-chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.price-range{display:flex;align-items:center;gap:8px;background:var(--card);padding:8px 14px;border-radius:10px;border:1px solid var(--border);font-size:.85em}
+.price-range input[type=range]{width:120px;accent-color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;transition:.3s;cursor:pointer;position:relative;overflow:hidden}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--accent)}
+.card.selected{border-color:var(--green);box-shadow:0 0 20px rgba(0,184,148,.2)}
+.card-brand{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.brand-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3em;font-weight:700;color:#fff}
+.card-brand h3{font-size:1.05em;color:var(--text)}
+.card-brand .year{font-size:.8em;color:var(--text2);margin-right:auto}
+.card-specs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:12px 0}
+.spec{display:flex;align-items:center;gap:6px;font-size:.8em;color:var(--text2)}
+.spec .val{color:var(--text);font-weight:600}
+.spec-icon{font-size:1em}
+.card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.card-price{font-size:1.1em;font-weight:700;color:var(--green)}
+.card-type{font-size:.75em;padding:3px 10px;border-radius:10px;background:var(--card2);color:var(--text2)}
+.btn-compare{background:var(--accent);color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.8em;transition:.2s;white-space:nowrap}
+.btn-compare:hover{background:var(--accent2)}
+.btn-compare.added{background:var(--green)}
+.compare-bar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:2px solid var(--accent);padding:12px 20px;display:flex;align-items:center;gap:12px;z-index:200;transform:translateY(100%);transition:.3s;flex-wrap:wrap}
+.compare-bar.show{transform:translateY(0)}
+.compare-bar .cars{display:flex;gap:8px;flex:1;flex-wrap:wrap}
+.compare-bar .car-chip{background:var(--card2);padding:6px 12px;border-radius:8px;font-size:.8em;display:flex;align-items:center;gap:6px}
+.compare-bar .car-chip .remove{cursor:pointer;color:var(--red);font-weight:700}
+.compare-bar .btn-go{background:var(--accent);color:#fff;border:none;padding:10px 24px;border-radius:8px;cursor:pointer;font-size:.9em;font-weight:600}
+.compare-table-wrap{overflow-x:auto;margin:16px 0}
+table.compare{width:100%;border-collapse:collapse;min-width:600px}
+table.compare th,table.compare td{padding:10px 14px;text-align:right;border-bottom:1px solid var(--border);font-size:.85em}
+table.compare th{background:var(--card2);color:var(--text);font-weight:600;position:sticky;top:0}
+table.compare td{background:var(--card)}
+table.compare tr:hover td{background:var(--card2)}
+table.compare .best{color:var(--green);font-weight:700}
+table.compare .worst{color:var(--red);font-weight:700}
+table.compare .label{color:var(--text2);font-weight:600;background:var(--card2);min-width:140px}
+.brands-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin:16px 0}
+.brand-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;cursor:pointer;transition:.2s}
+.brand-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.brand-card .icon{font-size:2em;margin-bottom:6px}
+.brand-card .name{font-size:.9em;font-weight:600}
+.brand-card .count{font-size:.75em;color:var(--text2)}
+.similar-section{margin-top:24px}
+.similar-section h3{margin-bottom:12px;color:var(--accent2)}
+.back-btn{background:var(--card2);border:1px solid var(--border);color:var(--text);padding:8px 16px;border-radius:8px;cursor:pointer;margin-bottom:16px;font-size:.85em}
+.back-btn:hover{border-color:var(--accent)}
+.detail-hero{background:var(--card);border-radius:14px;padding:24px;margin-bottom:16px;border:1px solid var(--border)}
+.detail-hero .top{display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.detail-hero h2{font-size:1.5em}
+.detail-specs{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.detail-spec{background:var(--card2);padding:12px;border-radius:10px}
+.detail-spec .label{font-size:.75em;color:var(--text2);margin-bottom:4px}
+.detail-spec .value{font-size:1em;font-weight:600}
+.empty{text-align:center;padding:60px 20px;color:var(--text2)}
+.empty .icon{font-size:3em;margin-bottom:12px}
+.fade-in{animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.stars{color:var(--yellow)}
+.engine-badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.7em;font-weight:600}
+.engine-badge.electric{background:#00b89433;color:var(--green)}
+.engine-badge.hybrid{background:#6c5ce733;color:var(--accent2)}
+.engine-badge.petrol{background:#fdcb6e33;color:var(--yellow)}
+.engine-badge.diesel{background:#e1705533;color:var(--red)}
+@media(max-width:768px){
+.header h1{font-size:1.3em}
+.grid{grid-template-columns:1fr}
+.search-bar{flex-direction:column}
+.search-bar input,.search-bar select{width:100%}
+.brands-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}
+.compare-bar{flex-direction:column;align-items:stretch}
+.compare-bar .cars{justify-content:center}
+}
+.tab-content{display:none}.tab-content.active{display:block}
+.count-badge{background:var(--accent);color:#fff;font-size:.7em;padding:1px 7px;border-radius:10px;margin-right:4px}
+</style>
+</head>
+<body>
+<div class="header">
+<h1>🚗 השוואת רכבים - ישראל</h1>
+<p>מאגר רכבים מקיף | 2024-2025 | השוואה חכמה</p>
+<div class="nav">
+<button class="active" onclick="showTab('browse')">🏠 עיון</button>
+<button onclick="showTab('brands')">🏷️ מותגים</button>
+<button onclick="showTab('compare')" id="nav-compare">📊 השוואה <span class="count-badge" id="compare-count" style="display:none">0</span></button>
+</div>
+</div>
+<div class="container">
+<div class="tab-content active" id="tab-browse">
+<div class="search-bar">
+<input type="text" id="search" placeholder="🔍 חיפוש לפי מותג, דגם, סוג..." oninput="filterCars()">
+<select id="filter-engine" onchange="filterCars()"><option value="">⚡ סוג מנוע</option><option value="בנזין">בנזין</option><option value="דיזל">דיזל</option><option value="היברידי">היברידי</option><option value="חשמלי">חשמלי</option></select>
+<select id="filter-body" onchange="filterCars()"><option value="">🚙 סוג מרכב</option><option value="סדאן">סדאן</option><option value="SUV">SUV</option><option value="האצ'בק">האצ'בק</option><option value="קרוסאובר">קרוסאובר</option><option value="מיניוואן">מיניוואן</option><option value="קופה">קופה</option><option value="סטיישן">סטיישן</option></select>
+<select id="filter-drive" onchange="filterCars()"><option value="">🔧 הנעה</option><option value="קדמי">קדמית</option><option value="אחורי">אחורית</option><option value="4x4">4x4</option></select>
+</div>
+<div class="price-range">
+<span>מחיר:</span>
+<input type="range" id="price-min" min="50" max="800" value="50" step="10" oninput="updatePriceLabel();filterCars()">
+<span id="price-min-label">50K</span>
+<span>—</span>
+<input type="range" id="price-max" min="50" max="800" value="800" step="10" oninput="updatePriceLabel();filterCars()">
+<span id="price-max-label">800K</span>
+<span>₪ (אלפים)</span>
+</div>
+<div id="results-count" style="margin:10px 0;font-size:.85em;color:var(--text2)"></div>
+<div class="grid" id="car-grid"></div>
+</div>
+<div class="tab-content" id="tab-brands">
+<div class="brands-grid" id="brands-grid"></div>
+<div id="brand-cars" style="display:none">
+<button class="back-btn" onclick="showBrandsMain()">→ חזרה למותגים</button>
+<h2 id="brand-title" style="margin-bottom:16px"></h2>
+<div class="grid" id="brand-car-grid"></div>
+</div>
+</div>
+<div class="tab-content" id="tab-compare">
+<div id="compare-empty" class="empty"><div class="icon">📊</div><p>בחרו 2-4 רכבים להשוואה</p><p style="margin-top:8px;font-size:.9em">חזרו לעיון ולחצו "הוסף להשוואה"</p></div>
+<div class="compare-table-wrap" id="compare-table-wrap" style="display:none"></div>
+<div class="similar-section" id="similar-section" style="display:none">
+<h3>🔍 רכבים דומים שאולי יעניינו אתכם</h3>
+<div class="grid" id="similar-grid"></div>
+</div>
+</div>
+<div class="tab-content" id="tab-detail"></div>
+</div>
+<div class="compare-bar" id="compare-bar">
+<span style="font-weight:600;white-space:nowrap">📊 השוואה:</span>
+<div class="cars" id="compare-chips"></div>
+<button class="btn-go" onclick="showTab('compare')">השווה עכשיו</button>
+</div>
+
+<script>
+const brandColors={Toyota:'#eb0a1e',Honda:'#cc0000',Hyundai:'#002c5f',Kia:'#05141f','Mazda':'#910000',Nissan:'#c3002f',BMW:'#1c69d4',Mercedes:'#333',Audi:'#bb0a30',Volkswagen:'#001e50',Skoda:'#4ba82e',Seat:'#e03a27',Volvo:'#003057',Tesla:'#cc0000',BYD:'#c00',Geely:'#1a3e72',Chery:'#c41230',Ford:'#003478',Chevrolet:'#d1a836',Jeep:'#3a5a2c',Subaru:'#013b8c',Mitsubishi:'#e60012',Suzuki:'#e30613',Peugeot:'#1f3c73',Citroen:'#ac1926',Renault:'#ffcc00',Dacia:'#646b52',Cupra:'#003d2e',MG:'#b0002d',Lexus:'#1a1a2e',Genesis:'#82623e',Porsche:'#b12b28',LandRover:'#005a2b',Mini:'#231f20',Fiat:'#990033',AlfaRomeo:'#981e32'};
+const brandKey=b=>b.replace(/\s/g,'');
+
+const DB=[
+// Toyota
+{brand:"Toyota",model:"קורולה",year:2024,engine:"היברידי",hp:140,torque:185,acc:9.2,fuel:4.3,range:null,trunk:361,length:4630,width:1780,height:1435,weight:1370,seats:5,airbags:9,safety:5,drive:"קדמי",trans:"אוטומט",body:"סדאן",priceMin:145,priceMax:175},
+{brand:"Toyota",model:"קורולה קרוס",year:2024,engine:"היברידי",hp:197,torque:190,acc:8.1,fuel:4.5,range:null,trunk:433,length:4460,width:1825,height:1620,weight:1410,seats:5,airbags:9,safety:5,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:165,priceMax:195},
+{brand:"Toyota",model:"יאריס",year:2024,engine:"היברידי",hp:116,torque:141,acc:9.7,fuel:3.8,range:null,trunk:286,length:3940,width:1745,height:1500,weight:1085,seats:5,airbags:9,safety:5,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:115,priceMax:140},
+{brand:"Toyota",model:"יאריס קרוס",year:2024,engine:"היברידי",hp:116,torque:141,acc:11.2,fuel:4.4,range:null,trunk:397,length:4180,width:1765,height:1560,weight:1180,seats:5,airbags:9,safety:5,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:140,priceMax:165},
+{brand:"Toyota",model:"C-HR",year:2024,engine:"היברידי",hp:197,torque:190,acc:8.0,fuel:4.7,range:null,trunk:388,length:4360,width:1830,height:1560,weight:1430,seats:5,airbags:9,safety:5,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:175,priceMax:210},
+{brand:"Toyota",model:"RAV4",year:2024,engine:"היברידי",hp:222,torque:221,acc:7.7,fuel:5.0,range:null,trunk:580,length:4600,width:1855,height:1685,weight:1695,seats:5,airbags:9,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:200,priceMax:260},
+{brand:"Toyota",model:"קאמרי",year:2025,engine:"היברידי",hp:225,torque:221,acc:7.2,fuel:4.8,range:null,trunk:493,length:4920,width:1840,height:1445,weight:1635,seats:5,airbags:9,safety:5,drive:"קדמי",trans:"אוטומט",body:"סדאן",priceMin:195,priceMax:240},
+{brand:"Toyota",model:"הייליין",year:2024,engine:"היברידי",hp:245,torque:239,acc:6.8,fuel:6.3,range:null,trunk:658,length:4965,width:1930,height:1755,weight:2030,seats:7,airbags:9,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:320,priceMax:380},
+{brand:"Toyota",model:"bZ4X",year:2024,engine:"חשמלי",hp:218,torque:337,acc:6.9,fuel:16.7,range:460,trunk:452,length:4690,width:1860,height:1650,weight:1920,seats:5,airbags:8,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:220,priceMax:260},
+// Honda
+{brand:"Honda",model:"סיוויק",year:2024,engine:"בנזין",hp:158,torque:187,acc:8.5,fuel:6.1,range:null,trunk:410,length:4550,width:1800,height:1415,weight:1350,seats:5,airbags:10,safety:5,drive:"קדמי",trans:"אוטומט",body:"סדאן",priceMin:150,priceMax:180},
+{brand:"Honda",model:"HR-V",year:2024,engine:"היברידי",hp:131,torque:253,acc:10.6,fuel:5.4,range:null,trunk:304,length:4340,width:1790,height:1580,weight:1370,seats:5,airbags:6,safety:5,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:150,priceMax:175},
+{brand:"Honda",model:"ZR-V",year:2024,engine:"היברידי",hp:184,torque:315,acc:8.0,fuel:5.8,range:null,trunk:380,length:4570,width:1840,height:1620,weight:1560,seats:5,airbags:10,safety:5,drive:"קדמי",trans:"אוטומט",body:"SUV",priceMin:185,priceMax:215},
+{brand:"Honda",model:"CR-V",year:2024,engine:"היברידי",hp:204,torque:335,acc:8.2,fuel:5.7,range:null,trunk:587,length:4690,width:1865,height:1680,weight:1740,seats:5,airbags:10,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:220,priceMax:270},
+// Hyundai
+{brand:"Hyundai",model:"i10",year:2024,engine:"בנזין",hp:67,torque:96,acc:14.3,fuel:5.1,range:null,trunk:252,length:3670,width:1680,height:1480,weight:960,seats:5,airbags:6,safety:4,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:80,priceMax:100},
+{brand:"Hyundai",model:"i20",year:2024,engine:"בנזין",hp:100,torque:172,acc:10.5,fuel:5.3,range:null,trunk:352,length:4070,width:1775,height:1450,weight:1150,seats:5,airbags:6,safety:5,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:100,priceMax:130},
+{brand:"Hyundai",model:"אלנטרה",year:2024,engine:"בנזין",hp:159,torque:195,acc:8.5,fuel:6.2,range:null,trunk:474,length:4650,width:1825,height:1415,weight:1350,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"סדאן",priceMin:140,priceMax:170},
+{brand:"Hyundai",model:"בארה",year:2024,engine:"בנזין",hp:160,torque:195,acc:8.8,fuel:6.8,range:null,trunk:411,length:4325,width:1790,height:1590,weight:1380,seats:5,airbags:6,safety:5,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:140,priceMax:170},
+{brand:"Hyundai",model:"טוסון",year:2024,engine:"היברידי",hp:230,torque:350,acc:7.7,fuel:5.2,range:null,trunk:546,length:4500,width:1865,height:1650,weight:1650,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"SUV",priceMin:180,priceMax:225},
+{brand:"Hyundai",model:"קונה",year:2024,engine:"חשמלי",hp:218,torque:255,acc:7.4,fuel:14.6,range:454,trunk:466,length:4355,width:1825,height:1575,weight:1740,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:175,priceMax:210},
+{brand:"Hyundai",model:"IONIQ 5",year:2024,engine:"חשמלי",hp:325,torque:605,acc:5.1,fuel:17.0,range:481,trunk:527,length:4635,width:1890,height:1605,weight:1985,seats:5,airbags:8,safety:5,drive:"4x4",trans:"אוטומט",body:"קרוסאובר",priceMin:230,priceMax:300},
+{brand:"Hyundai",model:"IONIQ 6",year:2024,engine:"חשמלי",hp:325,torque:605,acc:5.1,fuel:14.3,range:524,trunk:401,length:4855,width:1880,height:1495,weight:2010,seats:5,airbags:8,safety:5,drive:"4x4",trans:"אוטומט",body:"סדאן",priceMin:250,priceMax:320},
+{brand:"Hyundai",model:"סנטה פה",year:2025,engine:"היברידי",hp:232,torque:367,acc:7.8,fuel:5.8,range:null,trunk:628,length:4830,width:1900,height:1770,weight:1890,seats:7,airbags:10,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:280,priceMax:350},
+// Kia
+{brand:"Kia",model:"פיקנטו",year:2024,engine:"בנזין",hp:67,torque:96,acc:14.2,fuel:4.8,range:null,trunk:255,length:3595,width:1595,height:1485,weight:940,seats:5,airbags:6,safety:4,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:75,priceMax:95},
+{brand:"Kia",model:"ריו",year:2024,engine:"בנזין",hp:100,torque:172,acc:10.8,fuel:5.5,range:null,trunk:325,length:4065,width:1725,height:1450,weight:1130,seats:5,airbags:6,safety:4,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:95,priceMax:120},
+{brand:"Kia",model:"סיד",year:2024,engine:"בנזין",hp:160,torque:195,acc:8.6,fuel:6.3,range:null,trunk:395,length:4310,width:1800,height:1445,weight:1290,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:130,priceMax:155},
+{brand:"Kia",model:"ניירו",year:2024,engine:"היברידי",hp:141,torque:265,acc:10.4,fuel:4.4,range:null,trunk:451,length:4420,width:1825,height:1570,weight:1420,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:155,priceMax:185},
+{brand:"Kia",model:"ניירו EV",year:2024,engine:"חשמלי",hp:204,torque:255,acc:7.8,fuel:16.2,range:460,trunk:475,length:4420,width:1825,height:1570,weight:1740,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:195,priceMax:225},
+{brand:"Kia",model:"ספורטאז'",year:2024,engine:"היברידי",hp:230,torque:350,acc:7.8,fuel:5.3,range:null,trunk:543,length:4515,width:1865,height:1645,weight:1650,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"SUV",priceMin:180,priceMax:230},
+{brand:"Kia",model:"EV6",year:2024,engine:"חשמלי",hp:325,torque:605,acc:5.2,fuel:16.5,range:484,trunk:490,length:4680,width:1880,height:1550,weight:2015,seats:5,airbags:8,safety:5,drive:"4x4",trans:"אוטומט",body:"קרוסאובר",priceMin:250,priceMax:330},
+{brand:"Kia",model:"EV9",year:2024,engine:"חשמלי",hp:384,torque:600,acc:5.3,fuel:20.6,range:490,trunk:333,length:5010,width:1980,height:1755,weight:2530,seats:7,airbags:10,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:340,priceMax:420},
+{brand:"Kia",model:"סורנטו",year:2024,engine:"היברידי",hp:230,torque:350,acc:8.0,fuel:5.9,range:null,trunk:616,length:4810,width:1900,height:1700,weight:1870,seats:7,airbags:10,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:270,priceMax:330},
+// BMW
+{brand:"BMW",model:"סדרה 3",year:2024,engine:"בנזין",hp:245,torque:400,acc:5.8,fuel:7.1,range:null,trunk:480,length:4713,width:1827,height:1440,weight:1570,seats:5,airbags:8,safety:5,drive:"אחורי",trans:"אוטומט",body:"סדאן",priceMin:280,priceMax:380},
+{brand:"BMW",model:"iX1",year:2024,engine:"חשמלי",hp:313,torque:494,acc:5.6,fuel:16.8,range:440,trunk:490,length:4500,width:1845,height:1642,weight:2050,seats:5,airbags:8,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:270,priceMax:320},
+{brand:"BMW",model:"X1",year:2024,engine:"בנזין",hp:170,torque:240,acc:8.3,fuel:6.8,range:null,trunk:540,length:4500,width:1845,height:1642,weight:1600,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"SUV",priceMin:240,priceMax:300},
+{brand:"BMW",model:"X3",year:2024,engine:"בנזין",hp:245,torque:400,acc:6.3,fuel:7.5,range:null,trunk:550,length:4726,width:1891,height:1676,weight:1770,seats:5,airbags:8,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:340,priceMax:420},
+{brand:"BMW",model:"i4",year:2024,engine:"חשמלי",hp:340,torque:430,acc:5.6,fuel:16.1,range:493,trunk:470,length:4783,width:1852,height:1448,weight:2050,seats:5,airbags:8,safety:5,drive:"אחורי",trans:"אוטומט",body:"סדאן",priceMin:310,priceMax:400},
+// Mercedes
+{brand:"Mercedes",model:"A-Class",year:2024,engine:"בנזין",hp:163,torque:250,acc:8.0,fuel:6.5,range:null,trunk:370,length:4419,width:1796,height:1440,weight:1395,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:230,priceMax:280},
+{brand:"Mercedes",model:"C-Class",year:2024,engine:"היברידי",hp:204,torque:320,acc:7.3,fuel:5.9,range:null,trunk:455,length:4751,width:1820,height:1437,weight:1625,seats:5,airbags:9,safety:5,drive:"אחורי",trans:"אוטומט",body:"סדאן",priceMin:310,priceMax:400},
+{brand:"Mercedes",model:"GLA",year:2024,engine:"בנזין",hp:163,torque:250,acc:8.6,fuel:6.9,range:null,trunk:435,length:4410,width:1834,height:1611,weight:1495,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:240,priceMax:300},
+{brand:"Mercedes",model:"GLC",year:2024,engine:"היברידי",hp:204,torque:320,acc:7.8,fuel:6.4,range:null,trunk:600,length:4716,width:1890,height:1640,weight:1850,seats:5,airbags:8,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:350,priceMax:440},
+{brand:"Mercedes",model:"EQA",year:2024,engine:"חשמלי",hp:190,torque:375,acc:8.6,fuel:17.7,range:426,trunk:340,length:4463,width:1834,height:1620,weight:2040,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:270,priceMax:330},
+// Audi
+{brand:"Audi",model:"A3",year:2024,engine:"בנזין",hp:150,torque:250,acc:8.2,fuel:6.0,range:null,trunk:380,length:4343,width:1816,height:1425,weight:1350,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"סדאן",priceMin:200,priceMax:260},
+{brand:"Audi",model:"Q3",year:2024,engine:"בנזין",hp:150,torque:250,acc:8.8,fuel:6.7,range:null,trunk:530,length:4484,width:1849,height:1616,weight:1530,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"SUV",priceMin:240,priceMax:300},
+{brand:"Audi",model:"Q4 e-tron",year:2024,engine:"חשמלי",hp:286,torque:545,acc:6.2,fuel:17.0,range:467,trunk:520,length:4588,width:1865,height:1632,weight:2050,seats:5,airbags:8,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:280,priceMax:360},
+// Volkswagen
+{brand:"Volkswagen",model:"פולו",year:2024,engine:"בנזין",hp:95,torque:175,acc:10.8,fuel:5.2,range:null,trunk:355,length:4074,width:1751,height:1451,weight:1180,seats:5,airbags:6,safety:5,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:105,priceMax:135},
+{brand:"Volkswagen",model:"גולף",year:2024,engine:"בנזין",hp:150,torque:250,acc:8.3,fuel:5.6,range:null,trunk:381,length:4284,width:1789,height:1456,weight:1330,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:155,priceMax:195},
+{brand:"Volkswagen",model:"טיגואן",year:2024,engine:"בנזין",hp:190,torque:320,acc:7.4,fuel:6.5,range:null,trunk:615,length:4534,width:1839,height:1657,weight:1570,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"SUV",priceMin:195,priceMax:260},
+{brand:"Volkswagen",model:"ID.4",year:2024,engine:"חשמלי",hp:286,torque:545,acc:6.5,fuel:16.3,range:518,trunk:543,length:4584,width:1852,height:1640,weight:2090,seats:5,airbags:8,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:220,priceMax:280},
+{brand:"Volkswagen",model:"ID.3",year:2024,engine:"חשמלי",hp:204,torque:310,acc:7.3,fuel:15.0,range:426,trunk:385,length:4261,width:1809,height:1568,weight:1815,seats:5,airbags:8,safety:5,drive:"אחורי",trans:"אוטומט",body:"האצ'בק",priceMin:175,priceMax:215},
+// Skoda
+{brand:"Skoda",model:"פאביה",year:2024,engine:"בנזין",hp:95,torque:175,acc:10.7,fuel:5.1,range:null,trunk:380,length:4108,width:1780,height:1460,weight:1190,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:100,priceMax:130},
+{brand:"Skoda",model:"אוקטביה",year:2024,engine:"בנזין",hp:150,torque:250,acc:8.1,fuel:5.6,range:null,trunk:600,length:4689,width:1829,height:1469,weight:1380,seats:5,airbags:9,safety:5,drive:"קדמי",trans:"אוטומט",body:"סדאן",priceMin:150,priceMax:195},
+{brand:"Skoda",model:"קארוק",year:2024,engine:"בנזין",hp:150,torque:250,acc:8.5,fuel:6.0,range:null,trunk:521,length:4382,width:1841,height:1603,weight:1420,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"SUV",priceMin:160,priceMax:200},
+{brand:"Skoda",model:"קודיאק",year:2024,engine:"בנזין",hp:190,torque:320,acc:7.6,fuel:7.0,range:null,trunk:650,length:4699,width:1882,height:1676,weight:1680,seats:7,airbags:9,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:220,priceMax:280},
+// Tesla
+{brand:"Tesla",model:"Model 3",year:2024,engine:"חשמלי",hp:283,torque:420,acc:6.1,fuel:14.0,range:513,trunk:561,length:4720,width:1849,height:1441,weight:1765,seats:5,airbags:8,safety:5,drive:"אחורי",trans:"אוטומט",body:"סדאן",priceMin:180,priceMax:250},
+{brand:"Tesla",model:"Model Y",year:2024,engine:"חשמלי",hp:299,torque:420,acc:5.0,fuel:15.7,range:507,trunk:854,length:4751,width:1921,height:1624,weight:1909,seats:5,airbags:8,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:210,priceMax:300},
+// BYD
+{brand:"BYD",model:"ATTO 3",year:2024,engine:"חשמלי",hp:204,torque:310,acc:7.3,fuel:15.3,range:420,trunk:440,length:4455,width:1875,height:1615,weight:1750,seats:5,airbags:7,safety:5,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:155,priceMax:180},
+{brand:"BYD",model:"Seal",year:2024,engine:"חשמלי",hp:313,torque:360,acc:5.9,fuel:14.2,range:520,trunk:400,length:4800,width:1875,height:1460,weight:1985,seats:5,airbags:8,safety:5,drive:"אחורי",trans:"אוטומט",body:"סדאן",priceMin:195,priceMax:260},
+{brand:"BYD",model:"Dolphin",year:2024,engine:"חשמלי",hp:177,torque:290,acc:7.0,fuel:13.0,range:427,trunk:345,length:4290,width:1770,height:1570,weight:1520,seats:5,airbags:6,safety:5,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:130,priceMax:155},
+{brand:"BYD",model:"TANG",year:2024,engine:"חשמלי",hp:517,torque:680,acc:4.4,fuel:19.2,range:400,trunk:235,length:4870,width:1950,height:1725,weight:2490,seats:7,airbags:8,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:280,priceMax:340},
+// Mazda
+{brand:"Mazda",model:"3",year:2024,engine:"בנזין",hp:186,torque:240,acc:8.0,fuel:6.4,range:null,trunk:350,length:4460,width:1795,height:1440,weight:1380,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:145,priceMax:175},
+{brand:"Mazda",model:"CX-30",year:2024,engine:"בנזין",hp:186,torque:240,acc:8.3,fuel:6.5,range:null,trunk:430,length:4395,width:1795,height:1540,weight:1430,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:155,priceMax:190},
+{brand:"Mazda",model:"CX-5",year:2024,engine:"בנזין",hp:194,torque:258,acc:7.8,fuel:6.9,range:null,trunk:506,length:4575,width:1845,height:1680,weight:1570,seats:5,airbags:8,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:180,priceMax:230},
+{brand:"Mazda",model:"CX-60",year:2024,engine:"היברידי",hp:327,torque:500,acc:5.8,fuel:1.5,range:null,trunk:570,length:4745,width:1890,height:1680,weight:1910,seats:5,airbags:8,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:270,priceMax:340},
+// Nissan
+{brand:"Nissan",model:"מיקרה",year:2024,engine:"בנזין",hp:92,torque:140,acc:11.8,fuel:5.1,range:null,trunk:300,length:3999,width:1743,height:1455,weight:1090,seats:5,airbags:6,safety:4,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:90,priceMax:110},
+{brand:"Nissan",model:"קשקאי",year:2024,engine:"היברידי",hp:190,torque:330,acc:7.9,fuel:5.3,range:null,trunk:504,length:4425,width:1838,height:1635,weight:1520,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:170,priceMax:210},
+{brand:"Nissan",model:"X-Trail",year:2024,engine:"היברידי",hp:213,torque:330,acc:8.2,fuel:5.8,range:null,trunk:575,length:4680,width:1840,height:1725,weight:1740,seats:7,airbags:8,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:220,priceMax:270},
+{brand:"Nissan",model:"Ariya",year:2024,engine:"חשמלי",hp:242,torque:300,acc:7.5,fuel:16.6,range:403,trunk:468,length:4595,width:1850,height:1660,weight:1920,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:220,priceMax:280},
+// Volvo
+{brand:"Volvo",model:"XC40",year:2024,engine:"בנזין",hp:197,torque:300,acc:7.4,fuel:7.0,range:null,trunk:452,length:4425,width:1863,height:1652,weight:1630,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"SUV",priceMin:230,priceMax:280},
+{brand:"Volvo",model:"EX30",year:2024,engine:"חשמלי",hp:272,torque:343,acc:5.3,fuel:15.7,range:460,trunk:318,length:4233,width:1837,height:1549,weight:1790,seats:5,airbags:8,safety:5,drive:"אחורי",trans:"אוטומט",body:"קרוסאובר",priceMin:195,priceMax:240},
+{brand:"Volvo",model:"XC60",year:2024,engine:"היברידי",hp:350,torque:580,acc:5.4,fuel:2.1,range:null,trunk:468,length:4708,width:1902,height:1658,weight:2100,seats:5,airbags:8,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:340,priceMax:430},
+// Geely
+{brand:"Geely",model:"Geometry C",year:2024,engine:"חשמלי",hp:204,torque:310,acc:7.0,fuel:14.5,range:460,trunk:380,length:4432,width:1833,height:1560,weight:1600,seats:5,airbags:6,safety:4,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:135,priceMax:160},
+{brand:"Geely",model:"Monjaro",year:2024,engine:"היברידי",hp:340,torque:545,acc:5.9,fuel:1.5,range:null,trunk:540,length:4770,width:1895,height:1689,weight:1975,seats:5,airbags:8,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:230,priceMax:280},
+// Chery
+{brand:"Chery",model:"Tiggo 4 Pro",year:2024,engine:"בנזין",hp:147,torque:210,acc:9.5,fuel:7.0,range:null,trunk:340,length:4318,width:1831,height:1648,weight:1375,seats:5,airbags:6,safety:4,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:115,priceMax:140},
+{brand:"Chery",model:"Tiggo 7 Pro",year:2024,engine:"בנזין",hp:197,torque:290,acc:8.3,fuel:7.2,range:null,trunk:475,length:4500,width:1842,height:1746,weight:1490,seats:5,airbags:6,safety:4,drive:"קדמי",trans:"אוטומט",body:"SUV",priceMin:140,priceMax:170},
+{brand:"Chery",model:"Tiggo 8 Pro",year:2024,engine:"בנזין",hp:197,torque:290,acc:8.5,fuel:7.5,range:null,trunk:889,length:4722,width:1860,height:1745,weight:1620,seats:7,airbags:6,safety:4,drive:"קדמי",trans:"אוטומט",body:"SUV",priceMin:160,priceMax:195},
+// Ford
+{brand:"Ford",model:"פוקוס",year:2024,engine:"בנזין",hp:150,torque:240,acc:8.5,fuel:5.9,range:null,trunk:375,length:4378,width:1825,height:1484,weight:1340,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:140,priceMax:170},
+{brand:"Ford",model:"פומה",year:2024,engine:"היברידי",hp:155,torque:240,acc:9.0,fuel:5.0,range:null,trunk:456,length:4186,width:1805,height:1536,weight:1310,seats:5,airbags:6,safety:5,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:145,priceMax:175},
+{brand:"Ford",model:"קוגה",year:2024,engine:"היברידי",hp:190,torque:200,acc:9.2,fuel:5.4,range:null,trunk:475,length:4614,width:1883,height:1679,weight:1700,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"SUV",priceMin:190,priceMax:240},
+// Chevrolet
+{brand:"Chevrolet",model:"טראקס",year:2024,engine:"בנזין",hp:137,torque:162,acc:9.5,fuel:6.7,range:null,trunk:440,length:4260,width:1786,height:1635,weight:1320,seats:5,airbags:6,safety:4,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:120,priceMax:150},
+// Jeep
+{brand:"Jeep",model:"אבנג'ר",year:2024,engine:"חשמלי",hp:156,torque:260,acc:9.0,fuel:15.9,range:392,trunk:355,length:4084,width:1776,height:1528,weight:1595,seats:5,airbags:6,safety:4,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:170,priceMax:200},
+{brand:"Jeep",model:"רנגלר",year:2024,engine:"בנזין",hp:285,torque:347,acc:7.2,fuel:10.5,range:null,trunk:548,length:4334,width:1894,height:1848,weight:2010,seats:5,airbags:6,safety:3,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:300,priceMax:400},
+// Subaru
+{brand:"Subaru",model:"XV",year:2024,engine:"בנזין",hp:154,torque:196,acc:10.0,fuel:7.0,range:null,trunk:340,length:4480,width:1800,height:1615,weight:1510,seats:5,airbags:8,safety:5,drive:"4x4",trans:"אוטומט",body:"קרוסאובר",priceMin:165,priceMax:200},
+{brand:"Subaru",model:"פורסטר",year:2024,engine:"בנזין",hp:182,torque:240,acc:9.0,fuel:7.4,range:null,trunk:509,length:4640,width:1820,height:1730,weight:1620,seats:5,airbags:8,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:190,priceMax:240},
+{brand:"Subaru",model:"אאוטבק",year:2024,engine:"בנזין",hp:182,torque:240,acc:9.2,fuel:7.6,range:null,trunk:561,length:4870,width:1875,height:1675,weight:1680,seats:5,airbags:8,safety:5,drive:"4x4",trans:"אוטומט",body:"סטיישן",priceMin:210,priceMax:260},
+// Mitsubishi
+{brand:"Mitsubishi",model:"ASX",year:2024,engine:"היברידי",hp:143,torque:255,acc:10.5,fuel:5.0,range:null,trunk:422,length:4235,width:1797,height:1570,weight:1360,seats:5,airbags:6,safety:5,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:140,priceMax:170},
+{brand:"Mitsubishi",model:"אאוטלנדר",year:2024,engine:"היברידי",hp:248,torque:450,acc:7.5,fuel:1.8,range:null,trunk:469,length:4710,width:1862,height:1740,weight:1995,seats:7,airbags:10,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:240,priceMax:300},
+// Suzuki
+{brand:"Suzuki",model:"סוויפט",year:2024,engine:"היברידי",hp:82,torque:112,acc:12.5,fuel:4.5,range:null,trunk:265,length:3860,width:1735,height:1495,weight:1010,seats:5,airbags:6,safety:4,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:95,priceMax:115},
+{brand:"Suzuki",model:"ויטרה",year:2024,engine:"היברידי",hp:129,torque:235,acc:10.2,fuel:5.0,range:null,trunk:375,length:4175,width:1775,height:1610,weight:1300,seats:5,airbags:6,safety:4,drive:"4x4",trans:"אוטומט",body:"קרוסאובר",priceMin:140,priceMax:170},
+{brand:"Suzuki",model:"S-Cross",year:2024,engine:"היברידי",hp:129,torque:235,acc:10.5,fuel:5.1,range:null,trunk:430,length:4300,width:1785,height:1585,weight:1320,seats:5,airbags:6,safety:4,drive:"4x4",trans:"אוטומט",body:"קרוסאובר",priceMin:155,priceMax:180},
+// Peugeot
+{brand:"Peugeot",model:"208",year:2024,engine:"בנזין",hp:100,torque:205,acc:10.0,fuel:5.3,range:null,trunk:311,length:4055,width:1745,height:1430,weight:1150,seats:5,airbags:6,safety:4,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:105,priceMax:135},
+{brand:"Peugeot",model:"e-208",year:2024,engine:"חשמלי",hp:156,torque:260,acc:8.1,fuel:15.0,range:362,trunk:311,length:4055,width:1745,height:1430,weight:1455,seats:5,airbags:6,safety:4,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:150,priceMax:175},
+{brand:"Peugeot",model:"2008",year:2024,engine:"בנזין",hp:130,torque:230,acc:9.1,fuel:5.8,range:null,trunk:434,length:4300,width:1770,height:1530,weight:1270,seats:5,airbags:6,safety:4,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:135,priceMax:165},
+{brand:"Peugeot",model:"3008",year:2024,engine:"היברידי",hp:225,torque:360,acc:7.9,fuel:1.3,range:null,trunk:520,length:4447,width:1841,height:1624,weight:1790,seats:5,airbags:6,safety:5,drive:"קדמי",trans:"אוטומט",body:"SUV",priceMin:210,priceMax:260},
+// Citroen
+{brand:"Citroen",model:"C3",year:2024,engine:"בנזין",hp:83,torque:118,acc:13.0,fuel:5.4,range:null,trunk:300,length:3981,width:1755,height:1474,weight:1050,seats:5,airbags:6,safety:3,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:85,priceMax:110},
+{brand:"Citroen",model:"C4",year:2024,engine:"בנזין",hp:130,torque:230,acc:9.4,fuel:5.8,range:null,trunk:380,length:4360,width:1800,height:1525,weight:1300,seats:5,airbags:6,safety:4,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:135,priceMax:165},
+{brand:"Citroen",model:"C5 Aircross",year:2024,engine:"היברידי",hp:225,torque:360,acc:8.0,fuel:1.5,range:null,trunk:580,length:4500,width:1860,height:1685,weight:1780,seats:5,airbags:6,safety:4,drive:"קדמי",trans:"אוטומט",body:"SUV",priceMin:195,priceMax:240},
+// Renault
+{brand:"Renault",model:"קליאו",year:2024,engine:"היברידי",hp:145,torque:205,acc:9.3,fuel:4.2,range:null,trunk:391,length:4050,width:1798,height:1440,weight:1230,seats:5,airbags:6,safety:5,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:110,priceMax:140},
+{brand:"Renault",model:"קפצ'ור",year:2024,engine:"היברידי",hp:145,torque:205,acc:10.1,fuel:4.7,range:null,trunk:440,length:4227,width:1797,height:1576,weight:1330,seats:5,airbags:6,safety:5,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:130,priceMax:160},
+{brand:"Renault",model:"מגאן E-Tech",year:2024,engine:"חשמלי",hp:220,torque:300,acc:7.4,fuel:15.5,range:450,trunk:440,length:4200,width:1768,height:1505,weight:1636,seats:5,airbags:6,safety:5,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:180,priceMax:220},
+// Dacia
+{brand:"Dacia",model:"סנדרו",year:2024,engine:"בנזין",hp:90,torque:160,acc:12.5,fuel:5.3,range:null,trunk:410,length:4088,width:1848,height:1499,weight:1060,seats:5,airbags:6,safety:3,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:70,priceMax:90},
+{brand:"Dacia",model:"דאסטר",year:2025,engine:"היברידי",hp:140,torque:205,acc:10.1,fuel:4.7,range:null,trunk:478,length:4343,width:1813,height:1656,weight:1390,seats:5,airbags:6,safety:4,drive:"קדמי",trans:"אוטומט",body:"SUV",priceMin:120,priceMax:155},
+// Cupra
+{brand:"Cupra",model:"לאון",year:2024,engine:"בנזין",hp:245,torque:370,acc:6.3,fuel:7.0,range:null,trunk:380,length:4368,width:1799,height:1441,weight:1390,seats:5,airbags:8,safety:5,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:185,priceMax:230},
+{brand:"Cupra",model:"פורמנטור",year:2024,engine:"בנזין",hp:245,torque:370,acc:6.2,fuel:7.2,range:null,trunk:420,length:4450,width:1839,height:1511,weight:1520,seats:5,airbags:8,safety:5,drive:"4x4",trans:"אוטומט",body:"קרוסאובר",priceMin:210,priceMax:270},
+{brand:"Cupra",model:"Born",year:2024,engine:"חשמלי",hp:231,torque:310,acc:6.6,fuel:15.8,range:424,trunk:385,length:4322,width:1809,height:1537,weight:1810,seats:5,airbags:8,safety:5,drive:"אחורי",trans:"אוטומט",body:"האצ'בק",priceMin:185,priceMax:230},
+// MG
+{brand:"MG",model:"ZS EV",year:2024,engine:"חשמלי",hp:177,torque:280,acc:8.2,fuel:16.7,range:403,trunk:470,length:4323,width:1809,height:1649,weight:1620,seats:5,airbags:6,safety:4,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:140,priceMax:170},
+{brand:"MG",model:"MG4",year:2024,engine:"חשמלי",hp:204,torque:250,acc:7.7,fuel:15.8,range:450,trunk:363,length:4287,width:1836,height:1504,weight:1655,seats:5,airbags:6,safety:5,drive:"אחורי",trans:"אוטומט",body:"האצ'בק",priceMin:140,priceMax:175},
+{brand:"MG",model:"Marvel R",year:2024,engine:"חשמלי",hp:288,torque:665,acc:4.9,fuel:17.7,range:370,trunk:357,length:4674,width:1919,height:1618,weight:1920,seats:5,airbags:6,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:190,priceMax:230},
+// Lexus
+{brand:"Lexus",model:"UX",year:2024,engine:"היברידי",hp:199,torque:190,acc:8.5,fuel:4.8,range:null,trunk:320,length:4495,width:1840,height:1540,weight:1560,seats:5,airbags:10,safety:5,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:230,priceMax:280},
+{brand:"Lexus",model:"NX",year:2024,engine:"היברידי",hp:244,torque:239,acc:7.4,fuel:5.8,range:null,trunk:520,length:4660,width:1865,height:1660,weight:1800,seats:5,airbags:10,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:300,priceMax:380},
+{brand:"Lexus",model:"RZ",year:2024,engine:"חשמלי",hp:313,torque:435,acc:5.6,fuel:18.1,range:400,trunk:522,length:4805,width:1895,height:1635,weight:2100,seats:5,airbags:10,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:350,priceMax:420},
+// Genesis
+{brand:"Genesis",model:"GV60",year:2024,engine:"חשמלי",hp:314,torque:605,acc:5.4,fuel:17.3,range:451,trunk:432,length:4515,width:1890,height:1580,weight:2095,seats:5,airbags:10,safety:5,drive:"4x4",trans:"אוטומט",body:"קרוסאובר",priceMin:280,priceMax:350},
+{brand:"Genesis",model:"GV70",year:2024,engine:"בנזין",hp:300,torque:421,acc:5.8,fuel:8.9,range:null,trunk:542,length:4715,width:1910,height:1630,weight:1920,seats:5,airbags:10,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:320,priceMax:400},
+// Porsche
+{brand:"Porsche",model:"מאקאן",year:2024,engine:"חשמלי",hp:408,torque:650,acc:5.2,fuel:18.4,range:513,trunk:540,length:4784,width:1938,height:1622,weight:2405,seats:5,airbags:10,safety:5,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:450,priceMax:600},
+// Land Rover
+{brand:"Land Rover",model:"דיסקברי ספורט",year:2024,engine:"בנזין",hp:200,torque:340,acc:8.6,fuel:8.1,range:null,trunk:564,length:4597,width:2069,height:1727,weight:1938,seats:5,airbags:6,safety:4,drive:"4x4",trans:"אוטומט",body:"SUV",priceMin:320,priceMax:400},
+// Mini
+{brand:"Mini",model:"קופר",year:2024,engine:"בנזין",hp:156,torque:230,acc:7.4,fuel:5.8,range:null,trunk:210,length:3860,width:1727,height:1432,weight:1220,seats:4,airbags:6,safety:4,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:175,priceMax:220},
+{brand:"Mini",model:"קאנטרימן",year:2024,engine:"בנזין",hp:170,torque:250,acc:8.2,fuel:6.5,range:null,trunk:505,length:4433,width:1843,height:1656,weight:1555,seats:5,airbags:6,safety:5,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:215,priceMax:270},
+// Fiat
+{brand:"Fiat",model:"500e",year:2024,engine:"חשמלי",hp:118,torque:220,acc:9.0,fuel:14.0,range:310,trunk:185,length:3632,width:1683,height:1527,weight:1320,seats:4,airbags:6,safety:4,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:140,priceMax:170},
+{brand:"Fiat",model:"טיפו",year:2024,engine:"בנזין",hp:100,torque:200,acc:11.5,fuel:5.7,range:null,trunk:440,length:4377,width:1793,height:1495,weight:1260,seats:5,airbags:6,safety:3,drive:"קדמי",trans:"אוטומט",body:"סדאן",priceMin:100,priceMax:130},
+// Seat
+{brand:"Seat",model:"איביזה",year:2024,engine:"בנזין",hp:95,torque:175,acc:10.9,fuel:5.2,range:null,trunk:355,length:4059,width:1780,height:1444,weight:1165,seats:5,airbags:6,safety:5,drive:"קדמי",trans:"אוטומט",body:"האצ'בק",priceMin:95,priceMax:120},
+{brand:"Seat",model:"ארונה",year:2024,engine:"בנזין",hp:110,torque:200,acc:10.0,fuel:5.5,range:null,trunk:400,length:4138,width:1780,height:1553,weight:1225,seats:5,airbags:6,safety:5,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:110,priceMax:140},
+// Alfa Romeo
+{brand:"Alfa Romeo",model:"טונאלה",year:2024,engine:"היברידי",hp:160,torque:240,acc:8.8,fuel:5.8,range:null,trunk:500,length:4528,width:1844,height:1601,weight:1520,seats:5,airbags:6,safety:5,drive:"קדמי",trans:"אוטומט",body:"קרוסאובר",priceMin:210,priceMax:260}
+];
+
+// State
+let compareList=[];
+let currentView='browse';
+let filteredCars=[...DB];
+
+function fmt(n){return n?n.toLocaleString():'—'}
+function fmtPrice(min,max){return `₪${min>999?min:min+'K'}-${max>999?max:max+'K'}`}
+function priceStr(min,max){return `₪${min},000 - ₪${max},000`}
+function engineClass(e){return e==='חשמלי'?'electric':e==='היברידי'?'hybrid':e==='דיזל'?'diesel':'petrol'}
+function stars(n){return '★'.repeat(n)+'☆'.repeat(5-n)}
+function getColor(brand){return brandColors[brandKey(brand)]||'#666'}
+function initial(brand){return brand.charAt(0)}
+
+function showTab(id){
+document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+document.getElementById('tab-'+id).classList.add('active');
+document.querySelectorAll('.nav button')[id==='browse'?0:id==='brands'?1:2].classList.add('active');
+currentView=id;
+if(id==='compare')renderCompare();
+if(id==='brands')renderBrands();
+}
+
+function updatePriceLabel(){
+document.getElementById('price-min-label').textContent=document.getElementById('price-min').value+'K';
+document.getElementById('price-max-label').textContent=document.getElementById('price-max').value+'K';
+}
+
+function filterCars(){
+const q=document.getElementById('search').value.toLowerCase();
+const eng=document.getElementById('filter-engine').value;
+const body=document.getElementById('filter-body').value;
+const drv=document.getElementById('filter-drive').value;
+const pmin=+document.getElementById('price-min').value;
+const pmax=+document.getElementById('price-max').value;
+filteredCars=DB.filter(c=>{
+if(q&&!(c.brand.toLowerCase().includes(q)||c.model.toLowerCase().includes(q)||c.engine.includes(q)||c.body.includes(q)))return false;
+if(eng&&c.engine!==eng)return false;
+if(body&&c.body!==body)return false;
+if(drv&&c.drive!==drv)return false;
+if(c.priceMax<pmin||c.priceMin>pmax)return false;
+return true;
+});
+renderGrid();
+}
+
+function renderGrid(){
+const g=document.getElementById('car-grid');
+document.getElementById('results-count').textContent=`${filteredCars.length} רכבים נמצאו`;
+g.innerHTML=filteredCars.map((c,i)=>carCard(c,i)).join('');
+}
+
+function carCard(c,idx){
+const inComp=compareList.some(x=>x===c);
+const id=DB.indexOf(c);
+return `<div class="card fade-in ${inComp?'selected':''}" onclick="showDetail(${id})">
+<div class="card-brand">
+<div class="brand-icon" style="background:${getColor(c.brand)}">${initial(c.brand)}</div>
+<div><h3>${c.brand} ${c.model}</h3><span class="engine-badge ${engineClass(c.engine)}">${c.engine}</span></div>
+<span class="year">${c.year}</span>
+</div>
+<div class="card-specs">
+<div class="spec"><span class="spec-icon">🐎</span><span class="val">${c.hp}</span> כ"ס</div>
+<div class="spec"><span class="spec-icon">⚡</span><span class="val">${c.acc}</span> שנ׳ 0-100</div>
+<div class="spec"><span class="spec-icon">⛽</span><span class="val">${c.fuel}</span> ${c.engine==='חשמלי'?'kWh':'ל/100ק"מ'}</div>
+<div class="spec"><span class="spec-icon">📦</span><span class="val">${c.trunk}</span> ליטר</div>
+${c.range?`<div class="spec"><span class="spec-icon">🔋</span><span class="val">${c.range}</span> ק"מ טווח</div>`:''}
+<div class="spec"><span class="spec-icon">👥</span><span class="val">${c.seats}</span> מושבים</div>
+</div>
+<div class="card-footer">
+<span class="card-price">${priceStr(c.priceMin,c.priceMax)}</span>
+<button class="btn-compare ${inComp?'added':''}" onclick="event.stopPropagation();toggleCompare(${id})">${inComp?'✓ נבחר':'הוסף להשוואה'}</button>
+</div>
+</div>`;
+}
+
+function toggleCompare(id){
+const c=DB[id];
+const idx=compareList.indexOf(c);
+if(idx>-1)compareList.splice(idx,1);
+else if(compareList.length<4)compareList.push(c);
+else{alert('ניתן להשוות עד 4 רכבים');return}
+updateCompareBar();
+if(currentView==='browse')renderGrid();
+else if(currentView==='compare')renderCompare();
+else if(currentView==='brands')renderBrandCars(c.brand);
+}
+
+function updateCompareBar(){
+const bar=document.getElementById('compare-bar');
+const chips=document.getElementById('compare-chips');
+const cnt=document.getElementById('compare-count');
+if(compareList.length>0){
+bar.classList.add('show');
+cnt.style.display='inline';
+cnt.textContent=compareList.length;
+}else{
+bar.classList.remove('show');
+cnt.style.display='none';
+}
+chips.innerHTML=compareList.map((c,i)=>`<div class="car-chip">${c.brand} ${c.model}<span class="remove" onclick="toggleCompare(${DB.indexOf(c)})">✕</span></div>`).join('');
+}
+
+function renderCompare(){
+const wrap=document.getElementById('compare-table-wrap');
+const empty=document.getElementById('compare-empty');
+const sim=document.getElementById('similar-section');
+if(compareList.length<2){wrap.style.display='none';empty.style.display='block';sim.style.display='none';return}
+empty.style.display='none';wrap.style.display='block';sim.style.display='block';
+
+const specs=[
+['מותג','brand',null],['דגם','model',null],['שנה','year',null],
+['סוג מנוע','engine',null],['כ"ס','hp','max'],['מומנט (ניוטון-מטר)','torque','max'],
+['0-100 קמ"ש (שנ׳)','acc','min'],['צריכה','fuel','min'],['טווח חשמלי (ק"מ)','range','max'],
+['תא מטען (ליטר)','trunk','max'],['אורך (מ"מ)','length',null],['רוחב (מ"מ)','width',null],
+['גובה (מ"מ)','height',null],['משקל (ק"ג)','weight','min'],['מושבים','seats',null],
+['כריות אוויר','airbags','max'],['דירוג בטיחות','safety','max'],['הנעה','drive',null],
+['תיבת הילוכים','trans',null],['סוג מרכב','body',null],
+['מחיר מינ׳ (אלפי ₪)','priceMin','min'],['מחיר מקס׳ (אלפי ₪)','priceMax','min']
+];
+let html='<table class="compare"><thead><tr><th>מפרט</th>';
+compareList.forEach(c=>{html+=`<th>${c.brand} ${c.model}</th>`});
+html+='</tr></thead><tbody>';
+specs.forEach(([label,key,opt])=>{
+const vals=compareList.map(c=>c[key]);
+const nums=vals.filter(v=>typeof v==='number'&&v!==null);
+let best=null,worst=null;
+if(opt&&nums.length>1){
+best=opt==='max'?Math.max(...nums):Math.min(...nums);
+worst=opt==='max'?Math.min(...nums):Math.max(...nums);
+if(best===worst)best=worst=null;
+}
+html+=`<tr><td class="label">${label}</td>`;
+vals.forEach(v=>{
+let cls='';
+if(v===best)cls='best';else if(v===worst)cls='worst';
+let display=v;
+if(key==='safety')display=stars(v);
+else if(v===null||v===undefined)display='—';
+else if(typeof v==='number')display=fmt(v);
+html+=`<td class="${cls}">${display}</td>`;
+});
+html+='</tr>';
+});
+html+='</tbody></table>';
+wrap.innerHTML=html;
+
+// Similar cars
+const ref=compareList[0];
+const similar=DB.filter(c=>!compareList.includes(c)&&c.body===ref.body&&Math.abs(c.priceMin-ref.priceMin)<60).slice(0,4);
+document.getElementById('similar-grid').innerHTML=similar.map(c=>carCard(c,DB.indexOf(c))).join('');
+}
+
+function renderBrands(){
+const brands=[...new Set(DB.map(c=>c.brand))].sort();
+const main=document.getElementById('brands-grid');
+document.getElementById('brand-cars').style.display='none';
+main.style.display='grid';
+main.innerHTML=brands.map(b=>{
+const cnt=DB.filter(c=>c.brand===b).length;
+return `<div class="brand-card" onclick="showBrand('${b}')">
+<div class="icon" style="color:${getColor(b)}">${initial(b)}</div>
+<div class="name">${b}</div>
+<div class="count">${cnt} דגמים</div>
+</div>`;
+}).join('');
+}
+
+function showBrand(b){
+document.getElementById('brands-grid').style.display='none';
+document.getElementById('brand-cars').style.display='block';
+document.getElementById('brand-title').textContent=b;
+renderBrandCars(b);
+}
+function renderBrandCars(b){
+const cars=DB.filter(c=>c.brand===b);
+document.getElementById('brand-car-grid').innerHTML=cars.map(c=>carCard(c,DB.indexOf(c))).join('');
+}
+function showBrandsMain(){
+document.getElementById('brands-grid').style.display='grid';
+document.getElementById('brand-cars').style.display='none';
+}
+
+function showDetail(id){
+const c=DB[id];
+showTab('detail');
+// Add detail tab temporarily
+document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+const tab=document.getElementById('tab-detail');
+tab.classList.add('active');
+document.querySelectorAll('.tab-content').forEach(t=>{if(t!==tab)t.classList.remove('active')});
+
+const specRows=[
+['סוג מנוע',c.engine],['כוח סוס',c.hp+' כ"ס'],['מומנט',c.torque+' ניוטון-מטר'],
+['0-100 קמ"ש',c.acc+' שניות'],['צריכת דלק/חשמל',c.fuel+(c.engine==='חשמלי'?' kWh/100ק"מ':' ל/100ק"מ')],
+c.range?['טווח חשמלי',c.range+' ק"מ']:null,
+['תא מטען',c.trunk+' ליטר'],['אורך',fmt(c.length)+' מ"מ'],['רוחב',fmt(c.width)+' מ"מ'],
+['גובה',fmt(c.height)+' מ"מ'],['משקל',fmt(c.weight)+' ק"ג'],['מושבים',c.seats],
+['כריות אוויר',c.airbags],['בטיחות Euro NCAP',stars(c.safety)],
+['הנעה',c.drive],['תיבת הילוכים',c.trans],['סוג מרכב',c.body],
+['טווח מחירים',priceStr(c.priceMin,c.priceMax)]
+].filter(Boolean);
+
+const inComp=compareList.includes(c);
+tab.innerHTML=`<button class="back-btn" onclick="showTab('browse')">→ חזרה לעיון</button>
+<div class="detail-hero fade-in">
+<div class="top">
+<div class="brand-icon" style="background:${getColor(c.brand)};font-size:1.5em;width:56px;height:56px">${initial(c.brand)}</div>
+<div><h2>${c.brand} ${c.model}</h2><span class="engine-badge ${engineClass(c.engine)}" style="font-size:.9em">${c.engine}</span> <span style="color:var(--text2)">${c.year}</span></div>
+<button class="btn-compare ${inComp?'added':''}" style="margin-right:auto;padding:10px 20px;font-size:.9em" onclick="toggleCompare(${id});showDetail(${id})">${inComp?'✓ בהשוואה':'הוסף להשוואה'}</button>
+</div>
+<div class="detail-specs">${specRows.map(([l,v])=>`<div class="detail-spec"><div class="label">${l}</div><div class="value">${v}</div></div>`).join('')}</div>
+</div>
+<div class="similar-section"><h3>🔍 רכבים דומים</h3><div class="grid">${getSimilar(c).map(s=>carCard(s,DB.indexOf(s))).join('')}</div></div>`;
+}
+
+function getSimilar(c){
+return DB.filter(x=>x!==c&&x.body===c.body&&Math.abs(x.priceMin-c.priceMin)<50).sort((a,b)=>Math.abs(a.priceMin-c.priceMin)-Math.abs(b.priceMin-c.priceMin)).slice(0,4);
+}
+
+// Handle detail tab in nav
+const origShowTab=showTab;
+
+// Init
+filterCars();
+</script>
+</body>
+</html>
