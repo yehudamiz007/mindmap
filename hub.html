@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🏠 Hub — מרכז הבקרה</title>
+<title>🏠 Hub — Command Center</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#0a0a0f;--surface:rgba(255,255,255,0.04);--surface-hover:rgba(255,255,255,0.08);--border:rgba(255,255,255,0.06);--border-hover:rgba(255,255,255,0.12);--text:#e4e4e7;--text-dim:#71717a;--accent:#818cf8;--accent2:#a78bfa;--green:#34d399;--red:#f87171;--glass:rgba(15,15,25,0.7)}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;direction:rtl}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;direction:ltr}
 canvas#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 .container{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:24px 20px 60px}
 /* Header */
@@ -29,7 +29,7 @@ canvas#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 .btn.active{background:rgba(129,140,248,.15);color:var(--accent);border-color:rgba(129,140,248,.3)}
 /* Category */
 .category{margin-bottom:32px}
-.category-title{font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:14px;padding-right:4px}
+.category-title{font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:14px;padding-left:4px}
 /* Grid */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
 .grid.list-view{grid-template-columns:1fr}
@@ -41,10 +41,10 @@ canvas#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 .card .icon{font-size:2.5rem;margin-bottom:14px;display:block}
 .card .name{font-size:1.05rem;font-weight:600;margin-bottom:6px}
 .card .desc{font-size:.82rem;color:var(--text-dim);line-height:1.5}
-.card .status-dot{position:absolute;top:16px;left:16px;width:8px;height:8px;border-radius:50%;background:var(--text-dim);transition:.3s}
+.card .status-dot{position:absolute;top:16px;right:16px;width:8px;height:8px;border-radius:50%;background:var(--text-dim);transition:.3s}
 .card .status-dot.online{background:var(--green);box-shadow:0 0 8px rgba(52,211,153,.5)}
 .card .status-dot.offline{background:var(--red)}
-.card .fav-star{position:absolute;top:14px;left:36px;font-size:.9rem;opacity:0;transition:.2s;cursor:pointer;z-index:2}
+.card .fav-star{position:absolute;top:14px;right:36px;font-size:.9rem;opacity:0;transition:.2s;cursor:pointer;z-index:2}
 .card:hover .fav-star{opacity:.5}
 .card .fav-star:hover,.card .fav-star.starred{opacity:1}
 .card .meta{font-size:.7rem;color:var(--text-dim);margin-top:12px;opacity:.5}
@@ -82,34 +82,34 @@ canvas#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
   </header>
   <div class="stats-bar" id="statsBar"></div>
   <div class="toolbar">
-    <input class="search-box" id="search" placeholder="🔍 חיפוש אפליקציות..." autocomplete="off">
-    <button class="btn" id="viewToggle" onclick="toggleView()">☰ רשימה</button>
-    <button class="btn" id="addBtn" onclick="openModal()">＋ הוסף קישור</button>
+    <input class="search-box" id="search" placeholder="🔍 Search apps..." autocomplete="off">
+    <button class="btn" id="viewToggle" onclick="toggleView()">☰ List</button>
+    <button class="btn" id="addBtn" onclick="openModal()">＋ Add Link</button>
   </div>
   <div id="appContainer"></div>
 </div>
 <!-- Add Modal -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
-    <h3>➕ הוסף קישור חדש</h3>
-    <input id="mName" placeholder="שם">
-    <input id="mUrl" placeholder="כתובת URL">
-    <input id="mIcon" placeholder="אימוג'י (למשל 🔗)" maxlength="4">
-    <input id="mDesc" placeholder="תיאור קצר">
-    <select id="mCat"><option value="כלים">כלים</option><option value="דשבורדים">דשבורדים</option><option value="אפליקציות">אפליקציות</option><option value="סימניות">סימניות</option></select>
+    <h3>➕ Add New Link</h3>
+    <input id="mName" placeholder="Name">
+    <input id="mUrl" placeholder="URL">
+    <input id="mIcon" placeholder="Emoji (e.g. 🔗)" maxlength="4">
+    <input id="mDesc" placeholder="Short description">
+    <select id="mCat"><option value="Tools">Tools</option><option value="Dashboards">Dashboards</option><option value="Apps">Apps</option><option value="Bookmarks">Bookmarks</option></select>
     <div class="modal-actions">
-      <button class="btn btn-primary" onclick="saveLink()">שמור</button>
-      <button class="btn" onclick="closeModal()">ביטול</button>
+      <button class="btn btn-primary" onclick="saveLink()">Save</button>
+      <button class="btn" onclick="closeModal()">Cancel</button>
     </div>
   </div>
 </div>
 <script>
 const DEFAULT_APPS=[
-  {id:'mindmap',icon:'🧠',name:'מיינדמאפ',desc:'מפת מוח אינטראקטיבית',url:'https://yehudamiz007.github.io/mindmap/',cat:'כלים'},
-  {id:'costs',icon:'📊',name:'דשבורד עלויות',desc:'ניטור עלויות OpenClaw',url:'https://yehudamiz007.github.io/mindmap/dashboard/',cat:'דשבורדים'},
-  {id:'tasks',icon:'📋',name:'ניהול משימות',desc:'מערכת ניהול משימות כמו Jira/Monday',url:'https://yehudamiz007.github.io/mindmap/tasks.html',cat:'אפליקציות'},
-  {id:'cars',icon:'🚗',name:'השוואת רכבים',desc:'השוואת 100+ דגמי רכב בישראל',url:'https://yehudamiz007.github.io/mindmap/cars.html',cat:'אפליקציות'},
-  {id:'mindmap-detailed',icon:'🗺️',name:'מיינדמאפ מפורט',desc:'מפת מוח מפורטת עם כל הפרטים',url:'https://yehudamiz007.github.io/mindmap/mindmap-detailed.html',cat:'כלים'}
+  {id:'mindmap',icon:'🧠',name:'Mindmap',desc:'Interactive brain map',url:'https://yehudamiz007.github.io/mindmap/',cat:'Tools'},
+  {id:'costs',icon:'📊',name:'Cost Dashboard',desc:'OpenClaw cost monitoring',url:'https://yehudamiz007.github.io/mindmap/dashboard/',cat:'Dashboards'},
+  {id:'tasks',icon:'📋',name:'Task Manager',desc:'Jira/Monday-style task management',url:'https://yehudamiz007.github.io/mindmap/tasks.html',cat:'Apps'},
+  {id:'cars',icon:'🚗',name:'Car Comparison',desc:'Compare 100+ car models in Israel',url:'https://yehudamiz007.github.io/mindmap/cars.html',cat:'Apps'},
+  {id:'mindmap-detailed',icon:'🗺️',name:'Detailed Mindmap',desc:'Detailed brain map with all info',url:'https://yehudamiz007.github.io/mindmap/mindmap-detailed.html',cat:'Tools'}
 ];
 let customApps=JSON.parse(localStorage.getItem('hub_custom')||'[]');
 let favorites=JSON.parse(localStorage.getItem('hub_favs')||'[]');
@@ -127,14 +127,14 @@ function updateClock(){
   const now=new Date();
   const h=now.getHours(),m=now.getMinutes();
   document.getElementById('clock').textContent=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
-  let g='לילה טוב 🌙';
-  if(h>=5&&h<12)g='בוקר טוב ☀️';
-  else if(h>=12&&h<17)g='צהריים טובים 🌤';
-  else if(h>=17&&h<21)g='ערב טוב 🌅';
+  let g='Good Night 🌙';
+  if(h>=5&&h<12)g='Good Morning ☀️';
+  else if(h>=12&&h<17)g='Good Afternoon 🌤';
+  else if(h>=17&&h<21)g='Good Evening 🌅';
   document.getElementById('greeting').textContent=g;
-  const days=['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
-  const months=['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
-  document.getElementById('dateLine').textContent=`יום ${days[now.getDay()]}, ${now.getDate()} ב${months[now.getMonth()]} ${now.getFullYear()}`;
+  const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('dateLine').textContent=`${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
 }
 updateClock();setInterval(updateClock,10000);
 
@@ -143,10 +143,10 @@ function updateStats(){
   const apps=allApps();
   const cats=new Set(apps.map(a=>a.cat));
   document.getElementById('statsBar').innerHTML=`
-    <div class="stat"><b>${apps.length}</b> אפליקציות</div>
-    <div class="stat"><b>${cats.size}</b> קטגוריות</div>
-    <div class="stat"><b>${favorites.length}</b> מועדפים</div>
-    <div class="stat"><b>${recents.length}</b> אחרונים</div>`;
+    <div class="stat"><b>${apps.length}</b> Apps</div>
+    <div class="stat"><b>${cats.size}</b> Categories</div>
+    <div class="stat"><b>${favorites.length}</b> Favorites</div>
+    <div class="stat"><b>${recents.length}</b> Recent</div>`;
 }
 
 // Status check
@@ -162,11 +162,11 @@ function renderApps(){
   // Favorites first
   const favApps=apps.filter(a=>favorites.includes(a.id||a.name));
   const rest=apps.filter(a=>!favorites.includes(a.id||a.name));
-  if(favApps.length)cats['⭐ מועדפים']=favApps;
+  if(favApps.length)cats['⭐ Favorites']=favApps;
   rest.forEach(a=>{const c=a.cat||'אחר';(cats[c]=cats[c]||[]).push(a)});
   
   let html='';
-  const catOrder=['⭐ מועדפים','דשבורדים','אפליקציות','כלים','סימניות'];
+  const catOrder=['⭐ Favorites','Dashboards','Apps','Tools','Bookmarks'];
   const sorted=Object.keys(cats).sort((a,b)=>catOrder.indexOf(a)-catOrder.indexOf(b));
   let i=0;
   sorted.forEach(cat=>{
@@ -177,6 +177,7 @@ function renderApps(){
       const isFav=favorites.includes(aid);
       const isCustom=customApps.some(c=>c.name===a.name);
       html+=`<a class="card" href="${a.url}" target="_blank" rel="noopener" style="animation-delay:${i*60}ms" onclick="trackRecent('${aid}')">
+
         <span class="status-dot ${st}"></span>
         <span class="fav-star ${isFav?'starred':''}" onclick="event.preventDefault();event.stopPropagation();toggleFav('${aid}')">${isFav?'★':'☆'}</span>
         ${listView?'':'<span class="icon">'+a.icon+'</span>'}
@@ -184,7 +185,7 @@ function renderApps(){
           ${listView?'<span class="icon">'+a.icon+'</span>':''}
           <div class="name">${a.name}</div>
           <div class="desc">${a.desc}</div>
-          ${isCustom?'<div class="meta">קישור מותאם אישית · <span style="cursor:pointer;color:var(--red)" onclick="event.preventDefault();event.stopPropagation();removeCustom(\''+a.name+'\')">מחק</span></div>':''}
+          ${isCustom?'<div class="meta">Custom link · <span style="cursor:pointer;color:var(--red)" onclick="event.preventDefault();event.stopPropagation();removeCustom(\''+a.name+'\')">Delete</span></div>':''}
         </div>
       </a>`;
       i++;
@@ -209,7 +210,7 @@ function trackRecent(id){
 function toggleView(){
   listView=!listView;
   localStorage.setItem('hub_listview',listView?'1':'0');
-  document.getElementById('viewToggle').textContent=listView?'⊞ רשת':'☰ רשימה';
+  document.getElementById('viewToggle').textContent=listView?'⊞ Grid':'☰ List';
   renderApps();
 }
 function openModal(){document.getElementById('modal').classList.add('show')}
@@ -228,7 +229,7 @@ function removeCustom(name){
 }
 
 document.getElementById('search').addEventListener('input',renderApps);
-if(listView)document.getElementById('viewToggle').textContent='⊞ רשת';
+if(listView)document.getElementById('viewToggle').textContent='⊞ Grid';
 
 // Init
 renderApps();
