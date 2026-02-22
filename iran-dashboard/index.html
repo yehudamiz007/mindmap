@@ -307,7 +307,8 @@ body { font-family: 'Heebo', sans-serif; background: #0a0e1a; color: #e0e6f0; di
     <button id="updateBtn" onclick="updateDashboard()" style="background:#dc2626;color:white;border:none;padding:10px 24px;border-radius:8px;font-family:'Heebo',sans-serif;font-weight:700;font-size:0.95em;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all 0.2s;box-shadow:0 0 20px rgba(220,38,38,0.3);" onmouseover="this.style.background='#ef4444';this.style.boxShadow='0 0 30px rgba(220,38,38,0.5)'" onmouseout="this.style.background='#dc2626';this.style.boxShadow='0 0 20px rgba(220,38,38,0.3)'">🔄 עדכן נתונים</button>
     <div>
       <div class="live-badge"><span class="live-dot"></span>LIVE</div>
-      <div style="margin-top:6px;">עדכון אחרון: <span id="lastUpdate">19 בפברואר 2026, 11:20 PST</span></div>
+      <div style="margin-top:6px;">עדכון אחרון: <span id="lastUpdate"></span></div>
+      <script>document.getElementById('lastUpdate').textContent=new Date().toLocaleString('he-IL',{timeZone:'Asia/Jerusalem',day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'})+' IST';</script>
     </div>
   </div>
 </header>
@@ -766,7 +767,7 @@ L.polyline([
 ], {color: '#ef4444', weight: 3, dashArray: '8,8', opacity: 0.7}).addTo(map)
   .bindPopup('<div dir="rtl" style="font-family:Heebo"><b style="color:#ef4444">מיצר הורמוז</b><br>20% מאספקת הנפט העולמית עוברת כאן. נקודת חנק קריטית.</div>');
 
-// Update button
+// Update button - tries local gateway first, falls back to WhatsApp instruction
 function updateDashboard(){
   const btn=document.getElementById('updateBtn');
   btn.innerHTML='⏳ מעדכן...';
@@ -774,17 +775,20 @@ function updateDashboard(){
   btn.style.cursor='wait';
   btn.disabled=true;
   
-  // Send request to OpenClaw gateway to trigger an update
-  fetch('http://localhost:18789/api/cron/wake',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:'Update the Iran dashboard: search for latest US-Iran tension news from the last 24 hours, update all data in iran-dashboard/index.html with fresh intelligence, commit and push to GitHub. Send a WhatsApp confirmation when done.',mode:'now'})}).then(r=>{
-    if(r.ok){
-      btn.innerHTML='✅ בקשה נשלחה!';
-      btn.style.background='#15803d';
-      setTimeout(()=>{btn.innerHTML='🔄 עדכן נתונים';btn.style.background='#dc2626';btn.style.cursor='pointer';btn.disabled=false;},3000);
-    } else throw new Error();
+  const resetBtn=()=>{setTimeout(()=>{btn.innerHTML='🔄 עדכן נתונים';btn.style.background='#dc2626';btn.style.cursor='pointer';btn.disabled=false;},4000);};
+  
+  fetch('http://localhost:18789/api/cron/wake',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:'Update the Iran dashboard: search for latest US-Iran tension news from the last 24 hours, update all data in iran-dashboard/index.html with fresh intelligence, commit and push to GitHub.',mode:'now'}),signal:AbortSignal.timeout(5000)}).then(r=>{
+    if(r.ok){btn.innerHTML='✅ בקשה נשלחה!';btn.style.background='#15803d';resetBtn();}
+    else throw new Error();
   }).catch(()=>{
-    btn.innerHTML='❌ שגיאה - נסה שוב';
-    btn.style.background='#7f1d1d';
-    setTimeout(()=>{btn.innerHTML='🔄 עדכן נתונים';btn.style.background='#dc2626';btn.style.cursor='pointer';btn.disabled=false;},3000);
+    // Fallback: copy command to clipboard
+    const msg='עדכן את דשבורד איראן עם חדשות טריות מ-24 שעות אחרונות';
+    navigator.clipboard.writeText(msg).then(()=>{
+      btn.innerHTML='📋 הפקודה הועתקה - שלח בוואטסאפ';btn.style.background='#15803d';
+    }).catch(()=>{
+      btn.innerHTML='💬 שלח בוואטסאפ: עדכן דשבורד איראן';btn.style.background='#1e3a5f';
+    });
+    resetBtn();
   });
 }
 </script>
