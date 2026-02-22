@@ -124,7 +124,7 @@ function saveCustom(){localStorage.setItem('hub_custom',JSON.stringify(customApp
 
 // Clock & Greeting
 function updateClock(){
-  const now=new Date();
+  const now=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Jerusalem'}));
   const h=now.getHours(),m=now.getMinutes();
   document.getElementById('clock').textContent=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
   let g='Good Night 🌙';
