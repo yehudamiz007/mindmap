@@ -168,7 +168,7 @@ const DEFAULT_APPS=[
   {id:'mindmap-detailed',icon:'🗺️',name:'Detailed Mindmap',desc:'Detailed brain map with all info',url:'https://yehudamiz007.github.io/mindmap/mindmap-detailed.html',cat:'Tools'},
   {id:'family-tree',icon:'🌳',name:'Family Tree',desc:'Mizrahi family tree',url:'https://yehudamiz007.github.io/mindmap/family-tree/',cat:'Dashboards'},
   {id:'iran-dashboard',icon:'🛡️',name:'Iran War Map',desc:'Iran conflict intelligence dashboard',url:'https://yehudamiz007.github.io/mindmap/iran-dashboard/',cat:'Dashboards'},
-  {id:'moltta',icon:'🎯',name:'Moltta',desc:'Moltta platform',url:'https://moltta.com',cat:'Apps'}
+  {id:'moltta',icon:'🎯',name:'Moltta',desc:'Virtual trading platform',url:'https://yehudamiz007.github.io/mindmap/dashboard/trading.html',cat:'Apps'}
 ];
 let customApps=JSON.parse(localStorage.getItem('hub_custom')||'[]');
 let favorites=JSON.parse(localStorage.getItem('hub_favs')||'[]');
@@ -322,6 +322,92 @@ allApps().forEach(a=>checkStatus(a.url,a.id||a.name));
 
 // Close modal on overlay click
 document.getElementById('modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal()});
+
+// === CRON JOBS ===
+const CRON_JOBS=[
+  {id:'74a0a646-b83d-441b-bbdc-8a8613dbcdfd',name:'Backup MEMORY.md',description:'Backs up MEMORY.md to memory/backups/ every hour. Keeps only last 48 backups.',schedule:'0 * * * *',scheduleHuman:'Every hour',tz:'Asia/Jerusalem',enabled:true,model:'claude-opus-4-6',category:'Maintenance',lastStatus:'ok'},
+  {id:'df402cec-2d90-4241-88a0-03e0f451cef9',name:'Daily AI News Summary',description:'Fetches AI news from TechCrunch, VentureBeat, The Verge, Ars Technica. Picks top 5-6 stories from last 24h, writes Hebrew summary, sends to WhatsApp.',schedule:'0 9 * * 0-5',scheduleHuman:'Daily 9:00 AM (Sun-Fri)',tz:'Asia/Jerusalem',enabled:true,model:'grok-3',category:'News',lastStatus:'ok'},
+  {id:'b496cdfe-7a7c-4462-b172-7d3fe8dbb758',name:'Daily Stock Scanner',description:'Grok picks 15 best stocks/crypto to buy. Analyzes news sentiment (30%), analyst targets (35%), technical analysis (35%).',schedule:'0 9,17 * * *',scheduleHuman:'Daily 9:00 AM & 5:00 PM',tz:'Asia/Jerusalem',enabled:true,model:'grok-3',category:'Trading',lastStatus:'ok'},
+  {id:'aa64c5a7-930c-454b-9fc2-db1d1a54beee',name:'Cost Dashboard Update',description:'Runs update-costs.js to calculate OpenClaw API costs, pushes costs.json to GitHub.',schedule:'0 9,21 * * *',scheduleHuman:'Daily 9:00 AM & 9:00 PM',tz:'Asia/Jerusalem',enabled:true,model:'claude-opus-4-6',category:'Maintenance',lastStatus:'ok'},
+  {id:'e1eb3b60-b369-41e4-be2e-fbf5f0844f79',name:'Grok Virtual Trader',description:'Manages a virtual $1,000 stock portfolio. Fetches real prices, runs 3-pillar analysis, rotates positions.',schedule:'0 16-23 * * 1-6',scheduleHuman:'Hourly 4-11 PM (Mon-Sat)',tz:'Asia/Jerusalem',enabled:true,model:'grok-3',category:'Trading',lastStatus:'ok'},
+  {id:'968e059d-dc07-4651-8577-05b3f3c9fb3e',name:'Arbel Birthday Reminder',description:'Reminds 1 week before Arbel birthday (April 8).',schedule:'0 8 1 4 *',scheduleHuman:'April 1, 8:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'system-event',category:'Reminders',lastStatus:'pending'},
+  {id:'b59cde1a-e3d0-4cbc-a564-d03579e3e6b2',name:'Ilana Birthday Reminder',description:'Reminds 1 week before Ilana birthday (April 11).',schedule:'0 8 4 4 *',scheduleHuman:'April 4, 8:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'system-event',category:'Reminders',lastStatus:'pending'},
+  {id:'b208a785-8b36-40fc-b989-dd217237636b',name:'Avior Birthday Reminder',description:'Reminds 1 week before Avior birthday (April 19).',schedule:'0 8 12 4 *',scheduleHuman:'April 12, 8:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'system-event',category:'Reminders',lastStatus:'pending'},
+  {id:'5996c738-544e-4633-9ce0-72703242fb1e',name:'Wedding Anniversary Reminder',description:'Reminds 1 week before wedding anniversary (September 14).',schedule:'0 8 7 9 *',scheduleHuman:'September 7, 8:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'system-event',category:'Reminders',lastStatus:'pending'},
+  {id:'74767929-3a2d-49c6-8317-902e71e6d339',name:'Nitai Birthday Reminder',description:'Reminds 1 week before Nitai birthday (January 11).',schedule:'0 8 4 1 *',scheduleHuman:'January 4, 8:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'system-event',category:'Reminders',lastStatus:'pending'}
+];
+
+const cronOverrides=JSON.parse(localStorage.getItem('hub_cron_overrides')||'{}');
+const cronToggles=JSON.parse(localStorage.getItem('hub_cron_toggles')||'{}');
+let cronFilter='All';
+
+const CAT_BADGE={'Trading':'badge-trading','Maintenance':'badge-maintenance','News':'badge-news','Reminders':'badge-reminders'};
+const MODEL_BADGE={'grok-3':'badge-grok','claude-opus-4-6':'badge-claude','system-event':'badge-system'};
+
+function getCronEnabled(job){return cronToggles[job.id]!==undefined?cronToggles[job.id]:job.enabled}
+function getCronSchedule(job){return cronOverrides[job.id]||job.schedule}
+
+function renderCronStats(){
+  const active=CRON_JOBS.filter(j=>getCronEnabled(j)).length;
+  const cats={};CRON_JOBS.forEach(j=>{cats[j.category]=(cats[j.category]||0)+1});
+  let html=`<div class="cron-stat"><b>${CRON_JOBS.length}</b>Total</div><div class="cron-stat"><b>${active}</b>Active</div>`;
+  for(const[c,n]of Object.entries(cats))html+=`<div class="cron-stat"><span class="badge ${CAT_BADGE[c]||''}">${c}</span><b>${n}</b></div>`;
+  document.getElementById('cronStats').innerHTML=html;
+}
+
+function renderCronFilters(){
+  const cats=['All',...new Set(CRON_JOBS.map(j=>j.category))];
+  document.getElementById('cronFilters').innerHTML=cats.map(c=>`<button class="cron-filter${cronFilter===c?' active':''}" onclick="cronFilter='${c}';renderCron()">${c}</button>`).join('');
+}
+
+function renderCronTable(){
+  const jobs=cronFilter==='All'?CRON_JOBS:CRON_JOBS.filter(j=>j.category===cronFilter);
+  document.getElementById('cronBody').innerHTML=jobs.map(j=>{
+    const en=getCronEnabled(j);
+    const sched=getCronSchedule(j);
+    return`<tr style="opacity:${en?1:.45}">
+      <td><span class="cron-dot ${j.lastStatus}"></span></td>
+      <td><div class="cron-name">${j.name}</div></td>
+      <td><div class="cron-desc">${j.description}</div></td>
+      <td>
+        <div class="cron-schedule-show" id="sched-show-${j.id}" onclick="editSchedule('${j.id}')">
+          <div class="cron-schedule">${sched}</div>
+          <div class="cron-schedule-human">${j.scheduleHuman}</div>
+        </div>
+        <div class="cron-schedule-edit" id="sched-edit-${j.id}">
+          <input value="${sched}" id="sched-input-${j.id}" onkeydown="if(event.key==='Enter')saveSchedule('${j.id}');if(event.key==='Escape')cancelSchedule('${j.id}')">
+          <button onclick="saveSchedule('${j.id}')">✓</button>
+          <button onclick="cancelSchedule('${j.id}')">✕</button>
+        </div>
+      </td>
+      <td><span class="badge ${MODEL_BADGE[j.model]||''}">${j.model}</span></td>
+      <td><span class="badge ${CAT_BADGE[j.category]||''}">${j.category}</span></td>
+      <td><label class="toggle"><input type="checkbox" ${en?'checked':''} onchange="toggleCron('${j.id}',this.checked)"><span class="slider"></span></label></td>
+    </tr>`}).join('');
+}
+
+function renderCron(){renderCronStats();renderCronFilters();renderCronTable()}
+
+function editSchedule(id){
+  document.getElementById('sched-show-'+id).style.display='none';
+  const el=document.getElementById('sched-edit-'+id);el.style.display='flex';
+  el.querySelector('input').focus();
+}
+function saveSchedule(id){
+  const v=document.getElementById('sched-input-'+id).value.trim();
+  if(v){cronOverrides[id]=v;localStorage.setItem('hub_cron_overrides',JSON.stringify(cronOverrides))}
+  cancelSchedule(id);renderCronTable();
+}
+function cancelSchedule(id){
+  document.getElementById('sched-show-'+id).style.display='';
+  document.getElementById('sched-edit-'+id).style.display='none';
+}
+function toggleCron(id,val){
+  cronToggles[id]=val;localStorage.setItem('hub_cron_toggles',JSON.stringify(cronToggles));
+  renderCron();
+}
+
+renderCron();
 </script>
 </body>
 </html>
