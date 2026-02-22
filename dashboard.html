@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,18 +8,24 @@
 <style>
 :root{--bg:#0a0a1a;--card:#12122a;--border:#1e1e3a;--text:#e0e0f0;--dim:#8888aa;--accent:#6c63ff;--green:#00d97e;--red:#ff6b6b;--orange:#ff9f43;--cyan:#00d2ff}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:1rem}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:1rem;direction:rtl}
 h1{text-align:center;font-size:1.8rem;margin:1rem 0 .5rem;background:linear-gradient(135deg,var(--accent),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+h2{text-align:center;font-size:1.3rem;margin:2rem 0 1rem;color:var(--cyan)}
 .subtitle{text-align:center;color:var(--dim);font-size:.85rem;margin-bottom:1.5rem}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:2rem}
 .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem;text-align:center}
 .card .label{font-size:.75rem;color:var(--dim);text-transform:uppercase;letter-spacing:.05em}
 .card .value{font-size:1.6rem;font-weight:700;margin-top:.3rem}
 .card .value.green{color:var(--green)}.card .value.accent{color:var(--accent)}.card .value.orange{color:var(--orange)}.card .value.cyan{color:var(--cyan)}.card .value.red{color:var(--red)}
-.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:1.5rem}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:1.5rem;margin-bottom:2rem}
 .chart-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem}
-.chart-box h3{font-size:.95rem;color:var(--dim);margin-bottom:.8rem}
+.chart-box h3{font-size:.95rem;color:var(--dim);margin-bottom:.8rem;text-align:center}
 canvas{max-height:300px}
+table{width:100%;border-collapse:collapse;direction:rtl}
+th,td{padding:.6rem .8rem;text-align:right;border-bottom:1px solid var(--border)}
+th{color:var(--dim);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em}
+td{font-size:.85rem}
+.pct-bar{display:inline-block;height:6px;border-radius:3px;margin-left:.5rem;vertical-align:middle}
 @media(max-width:500px){.charts{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
@@ -27,6 +33,23 @@ canvas{max-height:300px}
 <h1>Yehuda AI - Analytics Dashboard</h1>
 <div class="subtitle" id="updated"></div>
 <div class="cards" id="cards"></div>
+
+<h2>📊 עלויות לפי קטגוריה</h2>
+<div class="charts">
+  <div class="chart-box"><h3>התפלגות עלויות לפי קטגוריה</h3><canvas id="categoryDonut"></canvas></div>
+  <div class="chart-box"><h3>עלות יומית לפי קטגוריה</h3><canvas id="dailyCategoryStack"></canvas></div>
+</div>
+<div class="charts">
+  <div class="chart-box" style="grid-column:1/-1">
+    <h3>סיכום קטגוריות</h3>
+    <table id="categoryTable">
+      <thead><tr><th>קטגוריה</th><th>עלות</th><th>טוקנים</th><th>קריאות</th><th>% מסה״כ</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+<h2>📈 סקירה כללית</h2>
 <div class="charts">
   <div class="chart-box"><h3>Daily Cost ($)</h3><canvas id="dailyCost"></canvas></div>
   <div class="chart-box"><h3>Cost by Model</h3><canvas id="modelDonut"></canvas></div>
@@ -36,6 +59,7 @@ canvas{max-height:300px}
 <script>
 const charts = {};
 const colors = ['#6c63ff','#00d97e','#ff6b6b','#ff9f43','#00d2ff','#e056fd','#f9ca24','#7ed6df','#686de0','#badc58'];
+const catColors = {'מסחר':'#ff6b6b','סיכום יומי':'#ff9f43','תחזוקה':'#00d2ff','וואטסאפ / צ\'אט ראשי':'#6c63ff','סאב-אייג\'נטים':'#00d97e','ג\'ובים אחרים':'#e056fd'};
 const gridColor = 'rgba(255,255,255,0.06)';
 const tickColor = '#8888aa';
 
@@ -43,33 +67,62 @@ function makeCard(label, value, cls) { return `<div class="card"><div class="lab
 
 function load() {
   fetch('costs.json?t='+Date.now()).then(r=>r.json()).then(d => {
-    document.getElementById('updated').textContent = 'Last updated: ' + new Date(d.lastUpdated).toLocaleString();
-    
+    document.getElementById('updated').textContent = 'עדכון אחרון: ' + new Date(d.lastUpdated).toLocaleString('he-IL');
+
     const models = Object.entries(d.byModel).sort((a,b)=>b[1].cost-a[1].cost);
     const topModel = models[0] ? models[0][0] : 'N/A';
     const avgDaily = d.daysActive ? (d.totalCost / d.daysActive).toFixed(2) : '0';
-    
+
     document.getElementById('cards').innerHTML = [
-      makeCard('Total Cost', '$'+d.totalCost.toFixed(2), 'green'),
-      makeCard('Total Tokens', (d.totalTokens/1e6).toFixed(2)+'M', 'accent'),
-      makeCard('API Calls', d.totalCalls.toLocaleString(), 'cyan'),
-      makeCard('Days Active', d.daysActive, 'orange'),
-      makeCard('Top Model', topModel.replace('claude-','c-'), 'red'),
-      makeCard('Avg Daily', '$'+avgDaily, 'green'),
+      makeCard('עלות כוללת', '$'+d.totalCost.toFixed(2), 'green'),
+      makeCard('טוקנים', (d.totalTokens/1e6).toFixed(2)+'M', 'accent'),
+      makeCard('קריאות API', d.totalCalls.toLocaleString(), 'cyan'),
+      makeCard('ימים פעילים', d.daysActive, 'orange'),
+      makeCard('מודל מוביל', topModel.replace('claude-','c-'), 'red'),
+      makeCard('ממוצע יומי', '$'+avgDaily, 'green'),
     ].join('');
 
     const dates = d.daily.map(x=>x.date.slice(5));
     const opts = (stacked) => ({responsive:true,plugins:{legend:{labels:{color:tickColor}}},scales:{x:{ticks:{color:tickColor},grid:{color:gridColor},stacked},y:{ticks:{color:tickColor},grid:{color:gridColor},stacked}}});
 
-    // Daily cost bar
+    // === Category Charts ===
+    if (d.byCategory) {
+      const cats = Object.entries(d.byCategory).sort((a,b)=>b[1].cost-a[1].cost);
+      
+      // Category donut
+      if(charts.cd) charts.cd.destroy();
+      charts.cd = new Chart(document.getElementById('categoryDonut'),{type:'doughnut',data:{
+        labels:cats.map(c=>c[0]),
+        datasets:[{data:cats.map(c=>c[1].cost),backgroundColor:cats.map(c=>catColors[c[0]]||'#686de0')}]
+      },options:{responsive:true,plugins:{legend:{labels:{color:tickColor,font:{size:13}}}}}});
+
+      // Category table
+      const tbody = document.querySelector('#categoryTable tbody');
+      tbody.innerHTML = cats.map(([name,v]) => {
+        const pct = d.totalCost > 0 ? (v.cost/d.totalCost*100) : 0;
+        const col = catColors[name]||'#686de0';
+        return `<tr><td><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${col};margin-left:6px"></span>${name}</td><td>$${v.cost.toFixed(2)}</td><td>${(v.tokens/1000).toFixed(1)}K</td><td>${v.calls}</td><td><span class="pct-bar" style="width:${Math.max(pct,2)}px;background:${col}"></span>${pct.toFixed(1)}%</td></tr>`;
+      }).join('');
+    }
+
+    // Daily category stacked bar
+    if (d.dailyByCategory && d.dailyByCategory.length) {
+      const allCats = Object.keys(d.byCategory || {});
+      const dcDates = d.dailyByCategory.map(x=>x.date.slice(5));
+      if(charts.dcs) charts.dcs.destroy();
+      charts.dcs = new Chart(document.getElementById('dailyCategoryStack'),{type:'bar',data:{
+        labels:dcDates,
+        datasets:allCats.map(cat=>({label:cat,data:d.dailyByCategory.map(x=>x[cat]||0),backgroundColor:catColors[cat]||'#686de0'}))
+      },options:opts(true)});
+    }
+
+    // === Existing Charts ===
     if(charts.dc) charts.dc.destroy();
     charts.dc = new Chart(document.getElementById('dailyCost'),{type:'bar',data:{labels:dates,datasets:[{label:'Cost $',data:d.daily.map(x=>x.cost),backgroundColor:'#6c63ff',borderRadius:4}]},options:opts()});
 
-    // Model donut
     if(charts.md) charts.md.destroy();
     charts.md = new Chart(document.getElementById('modelDonut'),{type:'doughnut',data:{labels:models.map(m=>m[0]),datasets:[{data:models.map(m=>m[1].cost),backgroundColor:colors.slice(0,models.length)}]},options:{responsive:true,plugins:{legend:{labels:{color:tickColor}}}}});
 
-    // Daily tokens stacked
     if(charts.dt) charts.dt.destroy();
     charts.dt = new Chart(document.getElementById('dailyTokens'),{type:'bar',data:{labels:dates,datasets:[
       {label:'Input',data:d.daily.map(x=>x.inputTokens),backgroundColor:'#6c63ff'},
@@ -78,7 +131,6 @@ function load() {
       {label:'Cache Write',data:d.daily.map(x=>x.cacheWriteTokens),backgroundColor:'#ff9f43'},
     ]},options:opts(true)});
 
-    // Daily cost by model stacked
     const allModels = [...new Set(d.daily.flatMap(x=>Object.keys(x.byModel)))];
     if(charts.dm) charts.dm.destroy();
     charts.dm = new Chart(document.getElementById('dailyModelCost'),{type:'bar',data:{labels:dates,datasets:allModels.map((m,i)=>({label:m,data:d.daily.map(x=>(x.byModel[m]||{}).cost||0),backgroundColor:colors[i%colors.length]}))},options:opts(true)});
