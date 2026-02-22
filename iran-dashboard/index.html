@@ -303,9 +303,12 @@ body { font-family: 'Heebo', sans-serif; background: #0a0e1a; color: #e0e6f0; di
     <h1>🎯 דשבורד מתיחות ארה"ב – איראן</h1>
     <div style="margin-top:4px; font-size:0.85em; color:#9ca3af;">ניטור בזמן אמת | ניתוח מודיעיני מצרפי</div>
   </div>
-  <div class="header-meta">
-    <div class="live-badge"><span class="live-dot"></span>LIVE</div>
-    <div style="margin-top:6px;">עדכון אחרון: 19 בפברואר 2026, 11:20 PST</div>
+  <div class="header-meta" style="display:flex;align-items:center;gap:12px;">
+    <button id="updateBtn" onclick="updateDashboard()" style="background:#dc2626;color:white;border:none;padding:10px 24px;border-radius:8px;font-family:'Heebo',sans-serif;font-weight:700;font-size:0.95em;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all 0.2s;box-shadow:0 0 20px rgba(220,38,38,0.3);" onmouseover="this.style.background='#ef4444';this.style.boxShadow='0 0 30px rgba(220,38,38,0.5)'" onmouseout="this.style.background='#dc2626';this.style.boxShadow='0 0 20px rgba(220,38,38,0.3)'">🔄 עדכן נתונים</button>
+    <div>
+      <div class="live-badge"><span class="live-dot"></span>LIVE</div>
+      <div style="margin-top:6px;">עדכון אחרון: <span id="lastUpdate">19 בפברואר 2026, 11:20 PST</span></div>
+    </div>
   </div>
 </header>
 
@@ -763,6 +766,27 @@ L.polyline([
 ], {color: '#ef4444', weight: 3, dashArray: '8,8', opacity: 0.7}).addTo(map)
   .bindPopup('<div dir="rtl" style="font-family:Heebo"><b style="color:#ef4444">מיצר הורמוז</b><br>20% מאספקת הנפט העולמית עוברת כאן. נקודת חנק קריטית.</div>');
 
+// Update button
+function updateDashboard(){
+  const btn=document.getElementById('updateBtn');
+  btn.innerHTML='⏳ מעדכן...';
+  btn.style.background='#991b1b';
+  btn.style.cursor='wait';
+  btn.disabled=true;
+  
+  // Send request to OpenClaw gateway to trigger an update
+  fetch('http://localhost:18789/api/cron/wake',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:'Update the Iran dashboard: search for latest US-Iran tension news from the last 24 hours, update all data in iran-dashboard/index.html with fresh intelligence, commit and push to GitHub. Send a WhatsApp confirmation when done.',mode:'now'})}).then(r=>{
+    if(r.ok){
+      btn.innerHTML='✅ בקשה נשלחה!';
+      btn.style.background='#15803d';
+      setTimeout(()=>{btn.innerHTML='🔄 עדכן נתונים';btn.style.background='#dc2626';btn.style.cursor='pointer';btn.disabled=false;},3000);
+    } else throw new Error();
+  }).catch(()=>{
+    btn.innerHTML='❌ שגיאה - נסה שוב';
+    btn.style.background='#7f1d1d';
+    setTimeout(()=>{btn.innerHTML='🔄 עדכן נתונים';btn.style.background='#dc2626';btn.style.cursor='pointer';btn.disabled=false;},3000);
+  });
+}
 </script>
 </body>
 </html>
