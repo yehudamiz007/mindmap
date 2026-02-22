@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "22.02.2026 07:00 IST",
+  "lastUpdated": "22.02.2026 07:00 PST",
   "stocks": [
     {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
       "price": "$189.82",
+      "news": 9.0,
+      "analyst": 9.0,
+      "technical": 8.5,
+      "total": 8.8,
+      "notes": "נבחר בגלל הביקוש הגבוה לשבבי AI וצפי לרווחים חזקים השבוע."
+    },
+    {
+      "ticker": "AAPL",
+      "name": "Apple Inc",
+      "price": "$264.58",
       "news": 8.5,
-      "analyst": 8.0,
-      "technical": 7.5,
-      "total": 8.0,
-      "notes": "נבחר בשל הביקוש הגובר לשבבי AI ודיווח על השקעה של 30 מיליארד דולר ב-OpenAI."
+      "analyst": 8.5,
+      "technical": 8.0,
+      "total": 8.3,
+      "notes": "נבחר בגלל חדשות חיוביות על פסיקות מכס וסטטוס של מניית צמיחה."
     },
     {
-      "ticker": "TSM",
-      "name": "Taiwan Semiconductor",
-      "price": "$370.54",
+      "ticker": "GOOGL",
+      "name": "Alphabet Inc",
+      "price": "$302.85",
       "news": 8.0,
-      "analyst": 8.2,
-      "technical": 7.8,
-      "total": 8.0,
-      "notes": "ספק מרכזי לשבבי AI עם הזמנות מוגברות וחדשות חיוביות על הרחבת קיבולת."
+      "analyst": 8.5,
+      "technical": 8.0,
+      "total": 8.2,
+      "notes": "נבחר בגלל אימוץ של Gemini והעלאת יעדי מחיר על ידי אנליסטים."
     },
     {
-      "ticker": "BTC",
-      "name": "Bitcoin",
-      "price": "$68042.45",
+      "ticker": "META",
+      "name": "Meta Platforms Inc",
+      "price": "$655.66",
       "news": 7.5,
-      "analyst": 7.8,
-      "technical": 7.2,
-      "total": 7.5,
-      "notes": "פריצה מעל התנגדות מפתח עם זרימת כספים ל-ETF ותמיכה ממגמות מאקרו."
+      "analyst": 8.0,
+      "technical": 8.0,
+      "total": 7.9,
+      "notes": "נבחר בגלל יסודות חזקים והשקעות ב-VR/AR שמתחילות להניב תוצאות."
+    },
+    {
+      "ticker": "ADBE",
+      "name": "Adobe Inc",
+      "price": "$258.61",
+      "news": 8.0,
+      "analyst": 8.5,
+      "technical": 7.0,
+      "total": 7.8,
+      "notes": "נבחר בגלל פוטנציאל עלייה משמעותי ופעילות מוגברת באופציות."
     },
     {
       "ticker": "AMD",
       "name": "Advanced Micro Devices",
       "price": "$200.15",
-      "news": 7.8,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.4,
-      "notes": "צמיחה בתחום ה-AI ומרכזי נתונים עם תיקונים חיוביים ברווחים."
-    },
-    {
-      "ticker": "ASML",
-      "name": "ASML Holding",
-      "price": "$1469.59",
-      "news": 7.0,
-      "analyst": 7.5,
-      "technical": 7.2,
-      "total": 7.3,
-      "notes": "שחקן מרכזי בציוד ייצור שבבים, נהנה מהתאוששות ממחסור עולמי."
-    },
-    {
-      "ticker": "SOL",
-      "name": "Solana",
-      "price": "$85.26",
-      "news": 7.2,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.2,
-      "notes": "בלוקצ'יין מהיר עם אימוץ גובר ב-NFT ו-DeFi, פריצת מחירים לאחרונה."
-    },
-    {
-      "ticker": "LRCX",
-      "name": "Lam Research",
-      "price": "$244.92",
-      "news": 6.8,
-      "analyst": 7.0,
-      "technical": 6.5,
-      "total": 6.8,
-      "notes": "מוביל בציוד שבבים עם תוצאות רבעוניות חזקות והנחיות כלפי מעלה."
-    },
-    {
-      "ticker": "RBLX",
-      "name": "Roblox Corp",
-      "price": "$62.00",
-      "news": 7.0,
-      "analyst": 6.5,
-      "technical": 6.8,
-      "total": 6.8,
-      "notes": "מגזר המטאוורס ומשחקים מתחמם עם צמיחת משתמשים חזקה השבוע."
-    },
-    {
-      "ticker": "ETH",
-      "name": "Ethereum",
-      "price": "$1975.39",
-      "news": 6.8,
-      "analyst": 7.0,
-      "technical": 6.5,
-      "total": 6.8,
-      "notes": "שדרוגי רשת קרובים ותשואות סטייקינג מושכות תנופה."
-    },
-    {
-      "ticker": "SMCI",
-      "name": "Super Micro Computer",
-      "price": "$32.42",
       "news": 7.5,
-      "analyst": 6.5,
-      "technical": 6.0,
-      "total": 6.6,
-      "notes": "צמיחה נפיצה בביקוש לשרתי AI, פריצה מעל התנגדות מפתח."
+      "analyst": 8.0,
+      "technical": 7.5,
+      "total": 7.7,
+      "notes": "נבחר בגלל צמיחה ב-AI ומרכזי נתונים עם שדרוגים מאנליסטים."
     },
     {
-      "ticker": "ARM",
-      "name": "Arm Holdings",
-      "price": "$125.58",
+      "ticker": "MSFT",
+      "name": "Microsoft Corp",
+      "price": "$397.23",
+      "news": 7.0,
+      "analyst": 7.5,
+      "technical": 7.5,
+      "total": 7.4,
+      "notes": "נבחר בגלל צמיחת Azure בענן למרות חששות מפרויקטים אחרים."
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon.com Inc",
+      "price": "$210.11",
+      "news": 7.0,
+      "analyst": 7.0,
+      "technical": 7.5,
+      "total": 7.2,
+      "notes": "נבחר בגלל חוזק במסחר אלקטרוני לקראת עונת החגים."
+    },
+    {
+      "ticker": "CRM",
+      "name": "Salesforce, Inc",
+      "price": "$185.16",
       "news": 6.5,
-      "analyst": 6.8,
-      "technical": 6.2,
-      "total": 6.5,
-      "notes": "עניין גובר בעיצובי שבבים חסכוניים באנרגיה עם דיווחים על קנייה פנימית."
-    },
-    {
-      "ticker": "QCOM",
-      "name": "Qualcomm",
-      "price": "$142.88",
-      "news": 6.0,
-      "analyst": 6.2,
+      "analyst": 6.0,
       "technical": 6.5,
-      "total": 6.2,
-      "notes": "ביקוש חזק לשבבי 5G ורכב, עם הפתעות חיוביות ברווחים."
+      "total": 6.3,
+      "notes": "נבחר בגלל צמיחה בהכנסות ממנויים למרות קיצוץ ביעדים."
     },
     {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies",
-      "price": "N/A",
+      "ticker": "ETH-USD",
+      "name": "Ethereum",
+      "price": "$1,949.92",
+      "news": 7.0,
+      "analyst": 6.5,
+      "technical": 5.5,
+      "total": 6.3,
+      "notes": "נבחר בגלל שדרוגי רשת וצמיחה בהימור למרות לחץ שוק."
+    },
+    {
+      "ticker": "TSLA",
+      "name": "Tesla, Inc",
+      "price": "$411.82",
       "news": 6.0,
-      "analyst": 6.0,
-      "technical": 6.0,
-      "total": 6.0,
-      "notes": "חוזים ממשלתיים וניתוח נתוני AI מניעים צמיחה, פריצה טכנית לאחרונה."
-    },
-    {
-      "ticker": "CRWD",
-      "name": "CrowdStrike",
-      "price": "$388.60",
-      "news": 5.5,
-      "analyst": 6.0,
-      "technical": 5.8,
-      "total": 5.8,
-      "notes": "ביקוש לאבטחת סייבר עולה עם פריצות מתוקשרות, קונצנזוס אנליסטים חזק."
-    },
-    {
-      "ticker": "ADA",
-      "name": "Cardano",
-      "price": "$0.2766",
-      "news": 5.8,
       "analyst": 5.5,
-      "technical": 5.2,
-      "total": 5.5,
-      "notes": "פעילות מפתחים גוברת לקראת שדרוגי חוזים חכמים, תמחור נמוך יחסית."
+      "technical": 6.5,
+      "total": 6.0,
+      "notes": "נבחר בגלל חדשות על טכנולוגיית סוללות חדשה למרות בעיות משפטיות."
+    },
+    {
+      "ticker": "BTC-USD",
+      "name": "Bitcoin",
+      "price": "$67,447.41",
+      "news": 6.5,
+      "analyst": 6.0,
+      "technical": 5.5,
+      "total": 6.0,
+      "notes": "נבחר בגלל קטליזטורים מאקרו עם אישורי ETF אפשריים."
+    },
+    {
+      "ticker": "SOL-USD",
+      "name": "Solana",
+      "price": "$83.61",
+      "news": 6.0,
+      "analyst": 5.5,
+      "technical": 4.5,
+      "total": 5.3,
+      "notes": "נבחר בגלל פעילות הולכת וגדלה ב-DeFi ו-NFT למרות ירידה חדה."
+    },
+    {
+      "ticker": "ADA-USD",
+      "name": "Cardano",
+      "price": "$0.27",
+      "news": 5.5,
+      "analyst": 5.0,
+      "technical": 4.5,
+      "total": 5.0,
+      "notes": "נבחר בגלל עדכוני רשת קרובים למרות מחיר נמוך."
+    },
+    {
+      "ticker": "XRP-USD",
+      "name": "Ripple",
+      "price": "$1.40",
+      "news": 5.0,
+      "analyst": 4.5,
+      "technical": 4.5,
+      "total": 4.7,
+      "notes": "נבחר בגלל התפתחויות משפטיות חיוביות אפשריות למרות ביקוש נמוך ל-ETF."
     }
   ]
 }
