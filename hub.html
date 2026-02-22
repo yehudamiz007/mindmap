@@ -130,6 +130,18 @@ canvas#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
     <button class="btn" id="addBtn" onclick="openModal()">＋ Add Link</button>
   </div>
   <div id="appContainer"></div>
+  <!-- Skills Section -->
+  <div class="cron-section" id="skillsSection">
+    <div class="category-title">🎯 Skills & Capabilities</div>
+    <div class="cron-stats" id="skillsStats"></div>
+    <div class="cron-filters" id="skillsFilters"></div>
+    <div class="cron-table-wrap">
+      <table class="cron-table">
+        <thead><tr><th>Icon</th><th>Name</th><th>Description</th><th>Category</th><th>Model</th></tr></thead>
+        <tbody id="skillsBody"></tbody>
+      </table>
+    </div>
+  </div>
   <!-- Cron Jobs Section -->
   <div class="cron-section" id="cronSection">
     <div class="category-title">⏰ Cron Jobs</div>
@@ -408,6 +420,52 @@ function toggleCron(id,val){
 }
 
 renderCron();
+
+// === SKILLS ===
+const SKILLS=[
+  {icon:'🏛️',name:'AI Chief Architect',desc:'System design, architecture decisions, ADRs, technology choices, microservices, cloud-native, LLM/Agentic AI',cat:'Technical',model:'claude-opus-4-6'},
+  {icon:'💕',name:'Husband',desc:'Relationship support for Yehuda & Ilana. Available for Ilana on WhatsApp - tips, reminders, warm words',cat:'Personal',model:'claude-opus-4-6'},
+  {icon:'👶',name:'Parenting',desc:'Tailored parenting for Avior (6), Nitai (4), Arbel (9mo). Activities, milestones, meals, behavior tips',cat:'Personal',model:'claude-opus-4-6'},
+  {icon:'🇮🇱',name:'Hebrew',desc:'Bilingual Hebrew/English communication, cultural context, modern Israeli Hebrew & slang',cat:'Language',model:'claude-opus-4-6'},
+  {icon:'📈',name:'Technical Analysis',desc:'Advanced chart analysis - Elliott Wave, Wyckoff, ICT/Smart Money, harmonic patterns, order flow',cat:'Trading',model:'claude-opus-4-6'},
+  {icon:'📰',name:'Market News Sentiment',desc:'News sentiment analysis for stocks & crypto. Fetches real-time news, analyzes sentiment, actionable signals',cat:'Trading',model:'grok-3'},
+  {icon:'🎯',name:'Analyst Price Targets',desc:'Aggregates analyst ratings, consensus estimates, fair value calculations with upside/downside potential',cat:'Trading',model:'claude-opus-4-6'},
+  {icon:'☕',name:'Coffee Master',desc:'Espresso recipes, milk steaming, latte art, grinder settings for La Marzocco Linea Micra',cat:'Lifestyle',model:'claude-opus-4-6'},
+  {icon:'💪',name:'Fitness & Nutrition',desc:'Workout plans, strength training, body recomposition, macros, meal prep, supplements, recovery',cat:'Lifestyle',model:'claude-opus-4-6'},
+  {icon:'🔒',name:'Secure Skill Downloader',desc:'Security gatekeeper for all skill installations. Scans for malicious code, prompt injection, credential theft',cat:'Security',model:'claude-opus-4-6'},
+  {icon:'🛠️',name:'Skill Creator',desc:'Design, structure, and package new AgentSkills with scripts, references, and assets',cat:'Technical',model:'claude-opus-4-6'},
+  {icon:'🌤️',name:'Weather',desc:'Current weather and forecasts, no API key required',cat:'Utility',model:'claude-opus-4-6'},
+  {icon:'🔐',name:'Healthcheck',desc:'Host security hardening, firewall/SSH audits, risk-tolerance configuration for OpenClaw deployments',cat:'Security',model:'claude-opus-4-6'}
+];
+
+const SKILL_CAT_COLORS={'Trading':'badge-trading','Technical':'badge-maintenance','Personal':'badge-reminders','Language':'badge-news','Lifestyle':'badge-grok','Security':'badge-claude','Utility':'badge-system'};
+let skillFilter='All';
+
+function renderSkillsStats(){
+  const cats={};SKILLS.forEach(s=>{cats[s.cat]=(cats[s.cat]||0)+1});
+  let html=`<div class="cron-stat"><b>${SKILLS.length}</b>Total Skills</div>`;
+  for(const[c,n]of Object.entries(cats))html+=`<div class="cron-stat"><span class="badge ${SKILL_CAT_COLORS[c]||''}">${c}</span><b>${n}</b></div>`;
+  document.getElementById('skillsStats').innerHTML=html;
+}
+
+function renderSkillsFilters(){
+  const cats=['All',...new Set(SKILLS.map(s=>s.cat))];
+  document.getElementById('skillsFilters').innerHTML=cats.map(c=>`<button class="cron-filter${skillFilter===c?' active':''}" onclick="skillFilter='${c}';renderSkills()">${c}</button>`).join('');
+}
+
+function renderSkillsTable(){
+  const skills=skillFilter==='All'?SKILLS:SKILLS.filter(s=>s.cat===skillFilter);
+  document.getElementById('skillsBody').innerHTML=skills.map(s=>`<tr>
+    <td style="font-size:1.4rem;text-align:center">${s.icon}</td>
+    <td><div class="cron-name">${s.name}</div></td>
+    <td><div class="cron-desc">${s.desc}</div></td>
+    <td><span class="badge ${SKILL_CAT_COLORS[s.cat]||''}">${s.cat}</span></td>
+    <td><span class="badge ${MODEL_BADGE[s.model]||''}">${s.model}</span></td>
+  </tr>`).join('');
+}
+
+function renderSkills(){renderSkillsStats();renderSkillsFilters();renderSkillsTable()}
+renderSkills();
 </script>
 </body>
 </html>
