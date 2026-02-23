@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>OpenClaw Memory Architecture</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #080810;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  min-height: 100vh;
+  color: #e4e4e7;
+  overflow-x: hidden;
+}
+
+/* ── Canvas bg ── */
+#bgCanvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.4; }
+
+.page { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 48px 24px 80px; }
+
+/* ── Header ── */
+.header { text-align: center; margin-bottom: 56px; }
+.header h1 { font-size: 28px; font-weight: 300; letter-spacing: -0.5px; background: linear-gradient(135deg, #c4b5fd, #818cf8, #67e8f9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.header p { font-size: 13px; color: #52525b; margin-top: 8px; letter-spacing: 1px; text-transform: uppercase; }
+
+/* ── Layer card ── */
+.layer {
+  position: relative;
+  border-radius: 16px;
+  padding: 24px 28px;
+  margin-bottom: 16px;
+  border: 1px solid transparent;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: default;
+}
+.layer:hover { transform: translateX(4px); }
+
+/* colors per layer */
+.layer-ctx  { background: rgba(129,140,248,0.06); border-color: rgba(129,140,248,0.2); }
+.layer-cache{ background: rgba(251,191,36,0.05);  border-color: rgba(251,191,36,0.2); }
+.layer-daily{ background: rgba(52,211,153,0.05);  border-color: rgba(52,211,153,0.2); }
+.layer-mem  { background: rgba(167,139,250,0.06); border-color: rgba(167,139,250,0.25); }
+.layer-git  { background: rgba(248,113,113,0.05); border-color: rgba(248,113,113,0.2); }
+
+.layer-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+.layer-icon { font-size: 26px; flex-shrink: 0; }
+.layer-title { font-size: 16px; font-weight: 600; }
+.layer-ctx  .layer-title  { color: #818cf8; }
+.layer-cache .layer-title { color: #fbbf24; }
+.layer-daily .layer-title { color: #34d399; }
+.layer-mem  .layer-title  { color: #a78bfa; }
+.layer-git  .layer-title  { color: #f87171; }
+
+.layer-sub  { font-size: 11px; color: #52525b; letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+
+.layer-body { display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; }
+.layer-desc { flex: 1; min-width: 200px; font-size: 13px; color: #a1a1aa; line-height: 1.7; }
+
+/* badges */
+.badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+.badge {
+  font-size: 10px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+.badge-blue   { background: rgba(129,140,248,0.15); color: #818cf8; border: 1px solid rgba(129,140,248,0.2); }
+.badge-yellow { background: rgba(251,191,36,0.12);  color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); }
+.badge-green  { background: rgba(52,211,153,0.12);  color: #34d399; border: 1px solid rgba(52,211,153,0.2); }
+.badge-purple { background: rgba(167,139,250,0.12); color: #a78bfa; border: 1px solid rgba(167,139,250,0.2); }
+.badge-red    { background: rgba(248,113,113,0.12); color: #f87171; border: 1px solid rgba(248,113,113,0.2); }
+
+/* mini visual */
+.layer-visual { flex-shrink: 0; width: 180px; }
+
+/* ctx bar */
+.ctx-bar-wrap { height: 10px; background: rgba(129,140,248,0.1); border-radius: 5px; overflow: hidden; margin-bottom: 6px; }
+.ctx-bar-fill { height: 100%; border-radius: 5px; background: linear-gradient(90deg, #818cf8, #6366f1); animation: ctxPulse 3s ease-in-out infinite; }
+@keyframes ctxPulse {
+  0%   { width: 10%; }
+  70%  { width: 90%; }
+  85%  { width: 90%; opacity: 1; }
+  90%  { width: 90%; opacity: 0.3; }
+  95%  { width: 12%; opacity: 1; }
+  100% { width: 12%; }
+}
+.ctx-bar-label { font-size: 9px; color: #3f3f46; display: flex; justify-content: space-between; }
+
+/* cache rings */
+.cache-ring-wrap { display: flex; justify-content: center; }
+.cache-ring { position: relative; width: 70px; height: 70px; }
+.cache-ring svg { transform: rotate(-90deg); }
+.cache-ring circle.bg   { fill: none; stroke: rgba(251,191,36,0.1); stroke-width: 6; }
+.cache-ring circle.fill { fill: none; stroke: #fbbf24; stroke-width: 6; stroke-dasharray: 163; stroke-dashoffset: 16; stroke-linecap: round; animation: ringFill 2s ease forwards; }
+@keyframes ringFill { from { stroke-dashoffset: 163; } to { stroke-dashoffset: 16; } }
+.cache-ring-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #fbbf24; }
+
+/* daily file list */
+.file-list { display: flex; flex-direction: column; gap: 4px; }
+.file-item { display: flex; align-items: center; gap: 6px; font-size: 10px; color: #52525b; }
+.file-dot { width: 5px; height: 5px; border-radius: 50%; background: #34d399; animation: filePulse 2s ease infinite; }
+.file-dot:nth-child(1) { animation-delay: 0s; }
+@keyframes filePulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
+.file-name { font-family: monospace; color: #71717a; }
+.file-tag { margin-left: auto; font-size: 9px; padding: 1px 6px; border-radius: 4px; }
+.file-tag.new { background: rgba(52,211,153,0.15); color: #34d399; }
+.file-tag.old { background: rgba(63,63,70,0.3); color: #52525b; }
+
+/* memory key-val */
+.mem-kv { display: flex; flex-direction: column; gap: 5px; }
+.mem-row { display: flex; gap: 6px; align-items: center; font-size: 10px; }
+.mem-key { color: #a78bfa; font-family: monospace; min-width: 60px; }
+.mem-val { color: #71717a; font-family: monospace; }
+.mem-cursor { animation: blink 1s step-end infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* git commits */
+.git-log { display: flex; flex-direction: column; gap: 5px; }
+.git-commit { display: flex; align-items: center; gap: 8px; font-size: 10px; }
+.git-hash { font-family: monospace; color: #f87171; opacity: 0.7; }
+.git-msg { color: #71717a; }
+.git-dot-line { display: flex; flex-direction: column; align-items: center; gap: 0; }
+.git-dot2 { width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid #f87171; flex-shrink: 0; }
+.git-line2 { width: 1.5px; height: 10px; background: rgba(248,113,113,0.2); }
+
+/* ── Arrow connectors ── */
+.connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 4px 0;
+  font-size: 10px;
+  color: #3f3f46;
+  letter-spacing: 1px;
+}
+.conn-line { flex: 1; max-width: 120px; height: 1px; background: linear-gradient(90deg, transparent, #3f3f46, transparent); }
+.conn-arrow { font-size: 16px; color: #3f3f46; }
+
+/* ── Section labels ── */
+.section-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #3f3f46;
+  text-align: center;
+  margin: 32px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-label::before, .section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #27272a);
+}
+.section-label::after { background: linear-gradient(90deg, #27272a, transparent); }
+
+/* ── Legend ── */
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 48px;
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.02);
+}
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #71717a; }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* ── Flow diagram ── */
+.flow {
+  margin: 40px 0;
+  padding: 28px;
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.015);
+}
+.flow-title { font-size: 11px; color: #52525b; letter-spacing: 2px; text-transform: uppercase; text-align: center; margin-bottom: 24px; }
+.flow-row { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap; }
+.flow-node {
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 11px;
+  text-align: center;
+  min-width: 100px;
+  position: relative;
+}
+.flow-arrow { font-size: 18px; color: #3f3f46; padding: 0 4px; }
+.fn-user  { background: rgba(129,140,248,0.1); border: 1px solid rgba(129,140,248,0.25); color: #818cf8; }
+.fn-ctx   { background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.2); color: #fbbf24; }
+.fn-comp  { background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.2); color: #f87171; }
+.fn-mem   { background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.25); color: #a78bfa; }
+.fn-hb    { background: rgba(52,211,153,0.08); border: 1px solid rgba(52,211,153,0.2); color: #34d399; }
+.fn-label { font-size: 9px; color: #52525b; margin-top: 3px; }
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>OpenClaw Memory Architecture</h1>
+    <p>Short-term &amp; Long-term memory layers</p>
+  </div>
+
+  <!-- Flow diagram -->
+  <div class="flow">
+    <div class="flow-title">Memory Flow - How it works</div>
+    <div class="flow-row">
+      <div class="flow-node fn-user">
+        💬 User message
+        <div class="fn-label">input</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node fn-ctx">
+        🪟 Context Window
+        <div class="fn-label">short-term</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node fn-comp">
+        ⚡ Compaction
+        <div class="fn-label">when full</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node fn-mem">
+        🧠 MEMORY.md
+        <div class="fn-label">long-term</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node fn-hb">
+        💓 Heartbeat
+        <div class="fn-label">re-injects</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHORT TERM -->
+  <div class="section-label">Short-Term Memory</div>
+
+  <!-- Layer 1: Context Window -->
+  <div class="layer layer-ctx">
+    <div class="layer-header">
+      <div class="layer-icon">🪟</div>
+      <div>
+        <div class="layer-title">Context Window</div>
+        <div class="layer-sub">Active session • In-memory • Ephemeral</div>
+      </div>
+    </div>
+    <div class="layer-body">
+      <div class="layer-desc">
+        Everything the agent sees right now. The full conversation history, system prompt, tool outputs - all packed into a single sliding window. When it fills up, compaction kicks in automatically.
+        <div class="badges">
+          <span class="badge badge-blue">200K tokens</span>
+          <span class="badge badge-blue">~150K words</span>
+          <span class="badge badge-blue">resets on restart</span>
+        </div>
+      </div>
+      <div class="layer-visual">
+        <div style="font-size:9px;color:#52525b;margin-bottom:6px;letter-spacing:1px;">FILL LEVEL</div>
+        <div class="ctx-bar-wrap"><div class="ctx-bar-fill"></div></div>
+        <div class="ctx-bar-label"><span>0</span><span>LIMIT</span><span>200K</span></div>
+        <div style="margin-top:10px;font-size:9px;color:#52525b;">compaction at ~85%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">
+    <div class="conn-line"></div>
+    <span class="conn-arrow">↓</span>
+    <span>cache layer wraps around context</span>
+    <div class="conn-line"></div>
+  </div>
+
+  <!-- Layer 2: Prompt Cache -->
+  <div class="layer layer-cache">
+    <div class="layer-header">
+      <div class="layer-icon">⚡</div>
+      <div>
+        <div class="layer-title">Prompt Cache</div>
+        <div class="layer-sub">Provider-side • Auto • Cost optimization</div>
+      </div>
+    </div>
+    <div class="layer-body">
+      <div class="layer-desc">
+        Anthropic caches the static parts of your context (system prompt, skill files, memory) server-side. Each new message re-uses the cache instead of re-processing everything. Result: 90%+ cache hit rate and up to 10x cheaper API calls.
+        <div class="badges">
+          <span class="badge badge-yellow">90% hit rate</span>
+          <span class="badge badge-yellow">~10x cheaper</span>
+          <span class="badge badge-yellow">auto-managed</span>
+        </div>
+      </div>
+      <div class="layer-visual">
+        <div class="cache-ring-wrap">
+          <div class="cache-ring">
+            <svg viewBox="0 0 70 70" width="70" height="70">
+              <circle class="bg" cx="35" cy="35" r="26"/>
+              <circle class="fill" cx="35" cy="35" r="26"/>
+            </svg>
+            <div class="cache-ring-pct">90%</div>
+          </div>
+        </div>
+        <div style="text-align:center;font-size:9px;color:#52525b;margin-top:6px;">cache hit rate</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LONG TERM -->
+  <div class="section-label" style="margin-top:36px;">Long-Term Memory</div>
+
+  <!-- Layer 3: Daily Notes -->
+  <div class="layer layer-daily">
+    <div class="layer-header">
+      <div class="layer-icon">📝</div>
+      <div>
+        <div class="layer-title">Daily Memory Files</div>
+        <div class="layer-sub">Disk • Persistent • Raw logs</div>
+      </div>
+    </div>
+    <div class="layer-body">
+      <div class="layer-desc">
+        Every session writes a daily log file: <code style="color:#34d399;font-size:11px;">memory/YYYY-MM-DD.md</code>. Raw events, decisions, conversations. The agent's raw journal - everything that happened, unfiltered.
+        <div class="badges">
+          <span class="badge badge-green">auto-written</span>
+          <span class="badge badge-green">daily files</span>
+          <span class="badge badge-green">raw logs</span>
+        </div>
+      </div>
+      <div class="layer-visual">
+        <div class="file-list">
+          <div class="file-item"><div class="file-dot"></div><span class="file-name">2026-02-23.md</span><span class="file-tag new">today</span></div>
+          <div class="file-item"><div class="file-dot" style="animation-delay:0.3s"></div><span class="file-name">2026-02-22.md</span><span class="file-tag old">yesterday</span></div>
+          <div class="file-item"><div class="file-dot" style="animation-delay:0.6s"></div><span class="file-name">2026-02-21.md</span><span class="file-tag old">older</span></div>
+          <div class="file-item"><div class="file-dot" style="animation-delay:0.9s"></div><span class="file-name">2026-02-20.md</span><span class="file-tag old">older</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">
+    <div class="conn-line"></div>
+    <span class="conn-arrow">↓</span>
+    <span>distilled into long-term memory</span>
+    <div class="conn-line"></div>
+  </div>
+
+  <!-- Layer 4: MEMORY.md -->
+  <div class="layer layer-mem">
+    <div class="layer-header">
+      <div class="layer-icon">🧠</div>
+      <div>
+        <div class="layer-title">MEMORY.md</div>
+        <div class="layer-sub">Long-term • Curated • Always loaded</div>
+      </div>
+    </div>
+    <div class="layer-body">
+      <div class="layer-desc">
+        The agent's curated long-term memory. Loaded at the start of every session. Contains family info, key decisions, project state, skills, preferences - everything worth remembering forever. Updated by the agent, for the agent.
+        <div class="badges">
+          <span class="badge badge-purple">loaded every session</span>
+          <span class="badge badge-purple">agent-maintained</span>
+          <span class="badge badge-purple">hourly backup</span>
+        </div>
+      </div>
+      <div class="layer-visual">
+        <div class="mem-kv">
+          <div class="mem-row"><span class="mem-key">family:</span><span class="mem-val">Ilana, Avior...</span></div>
+          <div class="mem-row"><span class="mem-key">skills:</span><span class="mem-val">8 active</span></div>
+          <div class="mem-row"><span class="mem-key">crons:</span><span class="mem-val">11 jobs</span></div>
+          <div class="mem-row"><span class="mem-key">owner:</span><span class="mem-val">Yehuda<span class="mem-cursor">|</span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">
+    <div class="conn-line"></div>
+    <span class="conn-arrow">↓</span>
+    <span>backed up to git for disaster recovery</span>
+    <div class="conn-line"></div>
+  </div>
+
+  <!-- Layer 5: Git -->
+  <div class="layer layer-git">
+    <div class="layer-header">
+      <div class="layer-icon">🗄️</div>
+      <div>
+        <div class="layer-title">Git Repository</div>
+        <div class="layer-sub">Remote • Versioned • Disaster recovery</div>
+      </div>
+    </div>
+    <div class="layer-body">
+      <div class="layer-desc">
+        The entire workspace is a git repo. All dashboards, scripts, memory files - versioned and pushed to GitHub. Survives machine crashes, reinstalls, anything. The ultimate backup layer.
+        <div class="badges">
+          <span class="badge badge-red">GitHub Pages</span>
+          <span class="badge badge-red">full history</span>
+          <span class="badge badge-red">always recoverable</span>
+        </div>
+      </div>
+      <div class="layer-visual">
+        <div class="git-log">
+          <div class="git-commit">
+            <div class="git-dot-line"><div class="git-dot2" style="border-color:#34d399"></div><div class="git-line2"></div></div>
+            <span class="git-hash">04a0ed4</span>
+            <span class="git-msg">Add hub dashboard</span>
+          </div>
+          <div class="git-commit">
+            <div class="git-dot-line"><div class="git-dot2"></div><div class="git-line2"></div></div>
+            <span class="git-hash">c27118a</span>
+            <span class="git-msg">Grok trader update</span>
+          </div>
+          <div class="git-commit">
+            <div class="git-dot-line"><div class="git-dot2"></div><div class="git-line2" style="opacity:0"></div></div>
+            <span class="git-hash">9b8a9b4</span>
+            <span class="git-msg">Iran dashboard</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#818cf8"></div>Short-term (session)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#fbbf24"></div>Cache (provider)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#34d399"></div>Daily logs (disk)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#a78bfa"></div>Long-term (MEMORY.md)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f87171"></div>Remote (Git)</div>
+  </div>
+
+</div>
+
+<script>
+// Particle bg
+const canvas = document.getElementById('bgCanvas');
+const ctx2 = canvas.getContext('2d');
+let W, H, particles = [];
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+for (let i = 0; i < 60; i++) {
+  particles.push({
+    x: Math.random() * 1200,
+    y: Math.random() * 2000,
+    r: Math.random() * 1.5 + 0.3,
+    vx: (Math.random() - 0.5) * 0.2,
+    vy: (Math.random() - 0.5) * 0.1,
+    c: ['#818cf8','#a78bfa','#34d399','#fbbf24','#f87171'][Math.floor(Math.random()*5)],
+    a: Math.random() * 0.5 + 0.1
+  });
+}
+
+function draw() {
+  ctx2.clearRect(0, 0, W, H);
+  particles.forEach(p => {
+    ctx2.beginPath();
+    ctx2.arc(p.x % W, p.y % H, p.r, 0, Math.PI*2);
+    ctx2.fillStyle = p.c;
+    ctx2.globalAlpha = p.a;
+    ctx2.fill();
+    p.x += p.vx;
+    p.y += p.vy;
+    if (p.x < 0) p.x = W;
+    if (p.x > W) p.x = 0;
+    if (p.y < 0) p.y = H;
+    if (p.y > H) p.y = 0;
+  });
+  ctx2.globalAlpha = 1;
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>
