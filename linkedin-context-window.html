@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Context Window Architecture</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #0d0d1a;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  color: #e4e4e7;
+}
+.scene {
+  width: 800px;
+  height: 500px;
+  position: relative;
+  background: #0d0d1a;
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 30px;
+}
+
+/* Title */
+.title {
+  text-align: center;
+  font-size: 13px;
+  color: #71717a;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+/* Columns layout */
+.columns {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  height: 400px;
+}
+
+/* Context Window */
+.ctx-col { flex: 2; }
+.ctx-label {
+  font-size: 11px;
+  color: #818cf8;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ctx-counter {
+  font-size: 11px;
+  color: #52525b;
+  font-variant-numeric: tabular-nums;
+}
+.ctx-window {
+  width: 100%;
+  height: 320px;
+  border: 1px solid rgba(129,140,248,0.2);
+  border-radius: 12px;
+  background: rgba(129,140,248,0.03);
+  position: relative;
+  overflow: hidden;
+}
+.ctx-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to top, rgba(129,140,248,0.35), rgba(129,140,248,0.08));
+  transition: height 0.4s ease;
+  border-radius: 0 0 11px 11px;
+}
+.ctx-limit-line {
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background: rgba(248,113,113,0.5);
+  top: 15%;
+  left: 0;
+}
+.ctx-limit-label {
+  position: absolute;
+  right: 8px;
+  top: calc(15% - 14px);
+  font-size: 9px;
+  color: rgba(248,113,113,0.7);
+  letter-spacing: 1px;
+}
+.tokens-scroll {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 6px;
+  align-content: flex-end;
+}
+.token {
+  width: 18px;
+  height: 6px;
+  border-radius: 2px;
+  background: rgba(129,140,248,0.5);
+  transition: opacity 0.3s;
+}
+.token.new {
+  background: rgba(52,211,153,0.7);
+  animation: tokenPop 0.4s ease forwards;
+}
+.token.cached {
+  background: rgba(251,191,36,0.6);
+}
+@keyframes tokenPop {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Compaction flash */
+.compaction-flash {
+  position: absolute;
+  inset: 0;
+  background: rgba(248,113,113,0.15);
+  border-radius: 11px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.compaction-flash.active { opacity: 1; }
+
+/* Right column */
+.right-col { flex: 1; display: flex; flex-direction: column; gap: 14px; }
+
+/* Cache box */
+.cache-box {
+  border: 1px solid rgba(251,191,36,0.25);
+  border-radius: 12px;
+  background: rgba(251,191,36,0.04);
+  padding: 12px;
+}
+.box-label {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.cache-label { color: #fbbf24; }
+.cache-hit {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #52525b;
+  margin-bottom: 4px;
+}
+.cache-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #52525b;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.cache-dot.hit {
+  background: #fbbf24;
+  box-shadow: 0 0 6px rgba(251,191,36,0.6);
+}
+.cache-pct {
+  font-size: 20px;
+  font-weight: 200;
+  color: #fbbf24;
+  letter-spacing: -1px;
+}
+.cache-sub { font-size: 10px; color: #52525b; }
+
+/* Memory box */
+.memory-box {
+  border: 1px solid rgba(52,211,153,0.25);
+  border-radius: 12px;
+  background: rgba(52,211,153,0.04);
+  padding: 12px;
+  flex: 1;
+}
+.memory-label { color: #34d399; }
+.memory-lines { display: flex; flex-direction: column; gap: 4px; margin-top: 4px; }
+.mem-line {
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(52,211,153,0.2);
+  transition: background 0.3s, width 0.5s;
+}
+.mem-line.active { background: rgba(52,211,153,0.5); }
+.mem-save-indicator {
+  font-size: 10px;
+  color: #34d399;
+  margin-top: 8px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.mem-save-indicator.show { opacity: 1; }
+
+/* Heartbeat */
+.heartbeat-box {
+  border: 1px solid rgba(167,139,250,0.25);
+  border-radius: 12px;
+  background: rgba(167,139,250,0.04);
+  padding: 12px;
+}
+.hb-label { color: #a78bfa; }
+.hb-pulse {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+.hb-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #a78bfa;
+}
+.hb-dot.pulse {
+  animation: pulse 1.5s ease infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(167,139,250,0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(167,139,250,0); }
+}
+.hb-text { font-size: 10px; color: #52525b; }
+
+/* Compaction event */
+.event-banner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: rgba(248,113,113,0.15);
+  border: 1px solid rgba(248,113,113,0.4);
+  border-radius: 12px;
+  padding: 12px 20px;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+}
+.event-banner.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+.event-banner .ev-title { font-size: 14px; color: #f87171; font-weight: 600; }
+.event-banner .ev-sub { font-size: 11px; color: #71717a; margin-top: 4px; }
+
+/* Arrows */
+.arrows {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.arrow-label {
+  position: absolute;
+  font-size: 9px;
+  color: #3f3f46;
+  letter-spacing: 1px;
+}
+
+/* Step indicator */
+.step-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+.step-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #27272a;
+  transition: background 0.3s;
+}
+.step-dot.active { background: #818cf8; }
+</style>
+</head>
+<body>
+<div class="scene" id="scene">
+  <div class="title">Context Window - How OpenClaw Solves Memory</div>
+
+  <div class="columns">
+    <!-- Context Window -->
+    <div class="ctx-col">
+      <div class="ctx-label">
+        <span>Context Window</span>
+        <span class="ctx-counter" id="tokenCount">0 / 200K tokens</span>
+      </div>
+      <div class="ctx-window" id="ctxWindow">
+        <div class="ctx-limit-line"></div>
+        <div class="ctx-limit-label">LIMIT</div>
+        <div class="ctx-fill" id="ctxFill" style="height:0%"></div>
+        <div class="compaction-flash" id="compFlash"></div>
+        <div class="tokens-scroll" id="tokensScroll"></div>
+      </div>
+    </div>
+
+    <!-- Right panels -->
+    <div class="right-col">
+      <!-- Cache -->
+      <div class="cache-box">
+        <div class="box-label cache-label">Prompt Cache</div>
+        <div class="cache-hit">
+          <div class="cache-dot" id="cacheDot"></div>
+          <span id="cacheStatus">waiting...</span>
+        </div>
+        <div class="cache-pct" id="cachePct">0%</div>
+        <div class="cache-sub">cache hit rate</div>
+      </div>
+
+      <!-- Memory -->
+      <div class="memory-box">
+        <div class="box-label memory-label">MEMORY.md</div>
+        <div class="memory-lines" id="memLines">
+          <div class="mem-line" style="width:80%"></div>
+          <div class="mem-line" style="width:60%"></div>
+          <div class="mem-line" style="width:90%"></div>
+          <div class="mem-line" style="width:45%"></div>
+          <div class="mem-line" style="width:70%"></div>
+        </div>
+        <div class="mem-save-indicator" id="memSave">
+          <span>●</span> saving memory...
+        </div>
+      </div>
+
+      <!-- Heartbeat -->
+      <div class="heartbeat-box">
+        <div class="box-label hb-label">Heartbeat</div>
+        <div class="hb-pulse">
+          <div class="hb-dot pulse" id="hbDot"></div>
+          <span class="hb-text" id="hbText">agent active</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Event banner -->
+  <div class="event-banner" id="eventBanner">
+    <div class="ev-title">⚡ Compaction</div>
+    <div class="ev-sub">Summarizing context... memory preserved</div>
+  </div>
+
+  <!-- Step dots -->
+  <div class="step-row" id="stepRow">
+    <div class="step-dot active" id="s0"></div>
+    <div class="step-dot" id="s1"></div>
+    <div class="step-dot" id="s2"></div>
+    <div class="step-dot" id="s3"></div>
+    <div class="step-dot" id="s4"></div>
+  </div>
+</div>
+
+<script>
+const ctxFill = document.getElementById('ctxFill');
+const tokenCount = document.getElementById('tokenCount');
+const tokensScroll = document.getElementById('tokensScroll');
+const cacheDot = document.getElementById('cacheDot');
+const cacheStatus = document.getElementById('cacheStatus');
+const cachePct = document.getElementById('cachePct');
+const memLines = document.getElementById('memLines').children;
+const memSave = document.getElementById('memSave');
+const compFlash = document.getElementById('compFlash');
+const eventBanner = document.getElementById('eventBanner');
+const hbText = document.getElementById('hbText');
+
+let fillPct = 0;
+let tokenNum = 0;
+let cacheHitRate = 0;
+let step = 0;
+let tokenInterval;
+
+function setStep(n) {
+  for (let i = 0; i < 5; i++) {
+    document.getElementById('s'+i).classList.toggle('active', i === n);
+  }
+}
+
+function addToken(type = 'normal') {
+  const t = document.createElement('div');
+  t.className = 'token' + (type === 'new' ? ' new' : type === 'cached' ? ' cached' : '');
+  tokensScroll.appendChild(t);
+  // keep max ~120 tokens visible
+  while (tokensScroll.children.length > 120) {
+    tokensScroll.removeChild(tokensScroll.firstChild);
+  }
+}
+
+function updateFill(pct) {
+  fillPct = pct;
+  ctxFill.style.height = pct + '%';
+  const tokens = Math.round(pct * 2000);
+  tokenNum = tokens;
+  tokenCount.textContent = tokens.toLocaleString() + ' / 200K tokens';
+}
+
+// Phase 1: Fill up context (normal chat)
+function phase1() {
+  step = 0; setStep(0);
+  cacheStatus.textContent = 'warming up...';
+  let pct = 0;
+  tokenInterval = setInterval(() => {
+    pct += 1.2;
+    updateFill(Math.min(pct, 85));
+    addToken(Math.random() < 0.3 ? 'cached' : 'new');
+
+    // grow cache hit rate
+    if (cacheHitRate < 90) {
+      cacheHitRate = Math.min(90, cacheHitRate + 2);
+      cachePct.textContent = Math.round(cacheHitRate) + '%';
+      if (cacheHitRate > 20) {
+        cacheDot.classList.add('hit');
+        cacheStatus.textContent = 'cache hit!';
+      }
+    }
+
+    if (pct >= 85) {
+      clearInterval(tokenInterval);
+      setTimeout(phase2, 400);
+    }
+  }, 80);
+}
+
+// Phase 2: Compaction fires
+function phase2() {
+  step = 1; setStep(1);
+  compFlash.classList.add('active');
+  eventBanner.classList.add('show');
+
+  // Save to memory
+  setTimeout(() => {
+    memSave.classList.add('show');
+    Array.from(memLines).forEach((l, i) => {
+      setTimeout(() => l.classList.add('active'), i * 100);
+    });
+  }, 300);
+
+  setTimeout(() => {
+    compFlash.classList.remove('active');
+    eventBanner.classList.remove('show');
+    memSave.classList.remove('show');
+    // Drain context
+    phase3();
+  }, 1800);
+}
+
+// Phase 3: Context drained, new session starts fresh from memory
+function phase3() {
+  step = 2; setStep(2);
+  // Clear tokens
+  tokensScroll.innerHTML = '';
+
+  let pct = 85;
+  const drain = setInterval(() => {
+    pct -= 4;
+    updateFill(Math.max(pct, 8));
+    if (pct <= 8) {
+      clearInterval(drain);
+      setTimeout(phase4, 500);
+    }
+  }, 40);
+}
+
+// Phase 4: New session loads memory, fills again normally
+function phase4() {
+  step = 3; setStep(3);
+  hbText.textContent = 'loading memory...';
+
+  // Activate memory lines to show loading
+  Array.from(memLines).forEach((l, i) => {
+    setTimeout(() => {
+      l.classList.add('active');
+      setTimeout(() => l.classList.remove('active'), 500);
+    }, i * 80);
+  });
+
+  setTimeout(() => {
+    hbText.textContent = 'agent active';
+    step = 4; setStep(4);
+    // Restart fill - but now with higher cache rate
+    let pct = 8;
+    tokenInterval = setInterval(() => {
+      pct += 0.8;
+      updateFill(Math.min(pct, 82));
+      addToken(Math.random() < 0.7 ? 'cached' : 'new'); // mostly cached now
+
+      if (pct >= 82) {
+        clearInterval(tokenInterval);
+        // Loop
+        setTimeout(() => {
+          tokensScroll.innerHTML = '';
+          phase1();
+        }, 1500);
+      }
+    }, 80);
+  }, 1000);
+}
+
+// Start
+setTimeout(phase1, 800);
+</script>
+</body>
+</html>
