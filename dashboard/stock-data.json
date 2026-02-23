@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "23.02.2026 07:00 IST",
+  "lastUpdated": "23.02.2026 15:00 IST",
   "stocks": [
-    {
-      "ticker": "GOOGL",
-      "name": "Alphabet Inc",
-      "price": "$314.98",
-      "news": 8.5,
-      "analyst": 8.5,
-      "technical": 8.0,
-      "total": 8.3,
-      "notes": "גדילה חזקה בתחום ה-AI ודירוג חיובי ממיזוהו עם יעד של $410."
-    },
     {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
-      "price": "$189.82",
+      "price": "$193.17",
       "news": 8.5,
       "analyst": 8.0,
       "technical": 7.5,
-      "total": 8.0,
-      "notes": "מומנטום חזק ב-AI ושותפות מורחבת עם Meta."
+      "total": 7.98,
+      "notes": "נבחר בשל ביקוש חזק לשבבי AI ודירוגים חיוביים של אנליסטים עם צפי לרווחים גבוהים."
     },
     {
-      "ticker": "AMZN",
-      "name": "Amazon.com Inc",
-      "price": "$210.11",
+      "ticker": "ASML",
+      "name": "ASML Holding",
+      "price": "$1485.27",
       "news": 8.0,
       "analyst": 8.0,
       "technical": 7.5,
-      "total": 7.8,
-      "notes": "השקעה של סטיב כהן וצמיחה חזקה ב-AWS."
+      "total": 7.83,
+      "notes": "שחקן מפתח בייצור שבבי AI עם ביקוש גבוה למכונות ליתוגרפיה EUV."
     },
     {
-      "ticker": "AAPL",
-      "name": "Apple Inc",
-      "price": "$264.58",
-      "news": 7.5,
+      "ticker": "MDB",
+      "name": "MongoDB Inc",
+      "price": "$319.55",
+      "news": 8.5,
       "analyst": 8.0,
-      "technical": 7.5,
-      "total": 7.7,
-      "notes": "השפעה חיובית מפסיקת מכסים ושמועות על השקת מוצר."
+      "technical": 7.0,
+      "total": 7.80,
+      "notes": "מוביל בתחום מסדי נתונים GenAI עם צפי חיובי לפני דוחות רווחים."
+    },
+    {
+      "ticker": "SMCI",
+      "name": "Super Micro Computer",
+      "price": "$31.87",
+      "news": 8.0,
+      "analyst": 7.5,
+      "technical": 6.5,
+      "total": 7.31,
+      "notes": "צמיחה בתחום תשתיות AI עם שדרוג דירוג ורבעון חזק."
+    },
+    {
+      "ticker": "BTC",
+      "name": "Bitcoin",
+      "price": "$65953.76",
+      "news": 6.5,
+      "analyst": 7.5,
+      "technical": 6.5,
+      "total": 6.86,
+      "notes": "אימוץ מוסדי מתמשך עם פוטנציאל לאישורי ETF."
     },
     {
       "ticker": "AMD",
       "name": "Advanced Micro Devices",
-      "price": "$200.15",
-      "news": 7.0,
-      "analyst": 7.5,
-      "technical": 8.0,
-      "total": 7.5,
-      "notes": "ביקוש גבוה לשבבי AI ותחזית חיובית למרכזי נתונים."
-    },
-    {
-      "ticker": "META",
-      "name": "Meta Platforms Inc",
-      "price": "$655.66",
+      "price": "$197.76",
       "news": 6.5,
       "analyst": 7.0,
-      "technical": 8.5,
-      "total": 7.4,
-      "notes": "צמיחת משתמשים מחודשת והשקעות ב-VR/AR."
+      "technical": 7.0,
+      "total": 6.85,
+      "notes": "צמיחה בתחום AI ומשחקים עם השקת מוצר חדש צפויה השבוע."
     },
     {
-      "ticker": "XRP-USD",
-      "name": "Ripple",
-      "price": "$1.3678",
-      "news": 7.5,
+      "ticker": "PLTR",
+      "name": "Palantir Technologies",
+      "price": "N/A",
+      "news": 7.0,
       "analyst": 7.0,
       "technical": 6.5,
-      "total": 7.0,
-      "notes": "סנטימנט שורי בקרב מחזיקים וחדשות על טוקניזציה של יהלומים."
+      "total": 6.83,
+      "notes": "חוזים ממשלתיים וניתוחי AI ממשיכים לתמוך בצמיחה."
     },
     {
-      "ticker": "SOL-USD",
-      "name": "Solana",
-      "price": "$79.07",
+      "ticker": "ARM",
+      "name": "Arm Holdings",
+      "price": "$126.09",
       "news": 6.0,
       "analyst": 6.5,
-      "technical": 6.5,
-      "total": 6.4,
-      "notes": "צמיחה מהירה של המערכת האקולוגית ופעילות מפתחים."
+      "technical": 6.8,
+      "total": 6.46,
+      "notes": "הכנסות מרישוי עיצוב שבבים עולות עם התרחבות במובייל ו-IoT."
+    },
+    {
+      "ticker": "SOL",
+      "name": "Solana",
+      "price": "$80.16",
+      "news": 6.0,
+      "analyst": 7.0,
+      "technical": 6.0,
+      "total": 6.35,
+      "notes": "בלוקצ'יין מהיר צובר נתח שוק ב-DeFi ו-NFT עם עלויות עסקה נמוכות."
     },
     {
       "ticker": "TSLA",
-      "name": "Tesla, Inc.",
-      "price": "$411.82",
+      "name": "Tesla Inc",
+      "price": "$402.75",
       "news": 5.5,
-      "analyst": 6.0,
-      "technical": 7.0,
-      "total": 6.2,
-      "notes": "חדשות שליליות על פסק דין משפטי ותגובות מעורבות ל-Robotaxi."
-    },
-    {
-      "ticker": "MSFT",
-      "name": "Microsoft Corp",
-      "price": "$397.23",
-      "news": 5.0,
       "analyst": 6.5,
-      "technical": 7.0,
-      "total": 6.2,
-      "notes": "חששות מקריסת מניה למרות נוכחות בשוק הסרת פחמן."
+      "technical": 6.8,
+      "total": 6.31,
+      "notes": "התרגשות סביב חשיפת דגם חדש ומספרי מסירה חזקים."
     },
     {
-      "ticker": "QCOM",
-      "name": "Qualcomm Inc.",
-      "price": "$142.88",
-      "news": 5.0,
-      "analyst": 5.5,
-      "technical": 6.5,
-      "total": 5.7,
-      "notes": "אזהרת מורגן סטנלי שהפוטנציאל כבר מתומחר."
+      "ticker": "ADA",
+      "name": "Cardano",
+      "price": "$0.27",
+      "news": 6.5,
+      "analyst": 6.5,
+      "technical": 5.5,
+      "total": 6.16,
+      "notes": "תכונות חוזים חכמים חדשים ושותפויות מגבירות את צמיחת המערכת."
     },
     {
-      "ticker": "ETH-USD",
+      "ticker": "ETH",
       "name": "Ethereum",
-      "price": "$1,879.26",
+      "price": "$1908.82",
       "news": 5.5,
-      "analyst": 6.0,
-      "technical": 5.0,
-      "total": 5.5,
-      "notes": "תקוע מתחת ל-$2k עם צמיחה מואטת אך יציב מול מכסים."
+      "analyst": 7.0,
+      "technical": 5.8,
+      "total": 6.13,
+      "notes": "שדרוגי רשת ותגמולי staking מעוררים עניין מחודש."
     },
     {
       "ticker": "LRCX",
-      "name": "Lam Research Corp",
-      "price": "$244.92",
+      "name": "Lam Research",
+      "price": "$244.75",
       "news": 4.5,
-      "analyst": 5.0,
-      "technical": 6.0,
-      "total": 5.2,
-      "notes": "דירוג שלילי ממליץ לא לרדוף אחרי המניה."
-    },
-    {
-      "ticker": "ADA-USD",
-      "name": "Cardano",
-      "price": "$0.2658",
-      "news": 5.5,
       "analyst": 5.5,
-      "technical": 4.5,
-      "total": 5.2,
-      "notes": "דחיפה של Grayscale מול ירידת מחיר לשפל של 2024."
+      "technical": 6.5,
+      "total": 5.56,
+      "notes": "ביקוש לציוד מוליכים למחצה עולה עם השקעות במפעלים חדשים."
     },
     {
-      "ticker": "BTC-USD",
-      "name": "Bitcoin",
-      "price": "$65,789.54",
+      "ticker": "QCOM",
+      "name": "Qualcomm",
+      "price": "$143.07",
+      "news": 5.0,
+      "analyst": 5.5,
+      "technical": 6.0,
+      "total": 5.53,
+      "notes": "פריסת 5G ועסקאות שבבים לרכב מספקות קטליזטור חזק."
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings",
+      "price": "$363.47",
       "news": 4.0,
-      "analyst": 5.0,
+      "analyst": 6.0,
       "technical": 5.5,
-      "total": 4.9,
-      "notes": "אי ודאות ממכסים וזרימות שליליות מ-ETF."
+      "total": 5.23,
+      "notes": "תחום הסייבר מתחמם עם פריצות מתוקשרות שמגבירות ביקוש."
     }
   ]
 }
