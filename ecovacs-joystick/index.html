@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -181,19 +181,19 @@ input[type=range]::-webkit-slider-thumb{
 <div class="conn-row">
   <div class="conn-left">
     <div class="conn-dot" id="connDot"></div>
-    <span class="conn-label" id="connLabel">לא מחובר</span>
+    <span class="conn-label" id="connLabel">×œ× ×ž×—×•×‘×¨</span>
   </div>
   <span class="conn-url" id="connUrl"></span>
-  <button class="settings-btn" onclick="toggleSetup()">⚙️</button>
+  <button class="settings-btn" onclick="toggleSetup()">âš™ï¸</button>
 </div>
 
 <!-- Setup -->
 <div class="setup-card" id="setupCard">
-  <h3>⚙️ חיבור לשרת</h3>
-  <p>הפעל <strong>start_deebot.bat</strong> במחשב.<br>הכנס את כתובת ה-Tunnel שמופיעה.</p>
+  <h3>âš™ï¸ ×—×™×‘×•×¨ ×œ×©×¨×ª</h3>
+  <p>×”×¤×¢×œ <strong>start_deebot.bat</strong> ×‘×ž×—×©×‘.<br>×”×›× ×¡ ××ª ×›×ª×•×‘×ª ×”-Tunnel ×©×ž×•×¤×™×¢×”.</p>
   <div class="url-row">
-    <input class="url-input" id="urlInput" type="url" placeholder="https://tracked-artists-specialists-avatar.trycloudflare.com" autocomplete="off" spellcheck="false"/>
-    <button class="connect-btn" onclick="connect()">חבר</button>
+    <input class="url-input" id="urlInput" type="url" placeholder="https://martial-cio-smile-caution.trycloudflare.com" autocomplete="off" spellcheck="false"/>
+    <button class="connect-btn" onclick="connect()">×—×‘×¨</button>
   </div>
 </div>
 
@@ -201,80 +201,80 @@ input[type=range]::-webkit-slider-thumb{
 <div class="status-card">
   <div class="status-left">
     <div class="status-name">DEEBOT X8 PRO OMNI</div>
-    <div class="status-state"><span class="sdot" id="sdot"></span><span id="sText">ממתין...</span></div>
+    <div class="status-state"><span class="sdot" id="sdot"></span><span id="sText">×ž×ž×ª×™×Ÿ...</span></div>
     <div class="last-cmd" id="lastCmd"></div>
   </div>
   <div class="status-right">
-    <div class="batt-icon" id="battIcon">🔋</div>
+    <div class="batt-icon" id="battIcon">ðŸ”‹</div>
     <div class="batt-pct" id="battPct">--%</div>
   </div>
 </div>
 
 <!-- Robot -->
-<div class="robot-visual"><div class="robot-body" id="robotBody"><div class="robot-ring"></div>🤖</div></div>
+<div class="robot-visual"><div class="robot-body" id="robotBody"><div class="robot-ring"></div>ðŸ¤–</div></div>
 
 <!-- Main controls -->
 <div class="section">
-  <div class="section-label">פקודות ראשיות</div>
+  <div class="section-label">×¤×§×•×“×•×ª ×¨××©×™×•×ª</div>
   <div class="grid3">
-    <button class="btn g" onclick="cmd('clean')"  id="btn-clean">  <span class="icon">🧹</span>נקה</button>
-    <button class="btn y" onclick="cmd('pause')"  id="btn-pause">  <span class="icon">⏸️</span>השהה</button>
-    <button class="btn g" onclick="cmd('resume')" id="btn-resume"> <span class="icon">▶️</span>המשך</button>
-    <button class="btn r" onclick="cmd('stop')"   id="btn-stop">   <span class="icon">⏹️</span>עצור</button>
-    <button class="btn b" onclick="cmd('charge')" id="btn-charge"> <span class="icon">🏠</span>בסיס</button>
-    <button class="btn p" onclick="cmd('sound')"  id="btn-sound">  <span class="icon">🔊</span>צליל</button>
+    <button class="btn g" onclick="cmd('clean')"  id="btn-clean">  <span class="icon">ðŸ§¹</span>× ×§×”</button>
+    <button class="btn y" onclick="cmd('pause')"  id="btn-pause">  <span class="icon">â¸ï¸</span>×”×©×”×”</button>
+    <button class="btn g" onclick="cmd('resume')" id="btn-resume"> <span class="icon">â–¶ï¸</span>×”×ž×©×š</button>
+    <button class="btn r" onclick="cmd('stop')"   id="btn-stop">   <span class="icon">â¹ï¸</span>×¢×¦×•×¨</button>
+    <button class="btn b" onclick="cmd('charge')" id="btn-charge"> <span class="icon">ðŸ </span>×‘×¡×™×¡</button>
+    <button class="btn p" onclick="cmd('sound')"  id="btn-sound">  <span class="icon">ðŸ”Š</span>×¦×œ×™×œ</button>
   </div>
 </div>
 
 <!-- Work mode -->
 <div class="section">
-  <div class="section-label">מצב עבודה</div>
+  <div class="section-label">×ž×¦×‘ ×¢×‘×•×“×”</div>
   <div class="seg-wrap" id="modeSegs">
-    <button class="seg" data-mode="vacuum_mop"      onclick="setMode(this)">שאיבה+ניגוב</button>
-    <button class="seg" data-mode="vacuum"           onclick="setMode(this)">שאיבה</button>
-    <button class="seg" data-mode="mop"              onclick="setMode(this)">ניגוב</button>
-    <button class="seg" data-mode="mop_after_vacuum" onclick="setMode(this)">ניגוב אחרי</button>
+    <button class="seg" data-mode="vacuum_mop"      onclick="setMode(this)">×©××™×‘×”+× ×™×’×•×‘</button>
+    <button class="seg" data-mode="vacuum"           onclick="setMode(this)">×©××™×‘×”</button>
+    <button class="seg" data-mode="mop"              onclick="setMode(this)">× ×™×’×•×‘</button>
+    <button class="seg" data-mode="mop_after_vacuum" onclick="setMode(this)">× ×™×’×•×‘ ××—×¨×™</button>
   </div>
 </div>
 
 <!-- Fan speed -->
 <div class="section">
-  <div class="section-label">עוצמת שאיבה</div>
+  <div class="section-label">×¢×•×¦×ž×ª ×©××™×‘×”</div>
   <div class="seg-wrap" id="fanSegs">
-    <button class="seg" data-fan="quiet"    onclick="setFan(this)">שקט</button>
-    <button class="seg" data-fan="normal"   onclick="setFan(this)">רגיל</button>
-    <button class="seg" data-fan="max"      onclick="setFan(this)">מקסימום</button>
-    <button class="seg" data-fan="max_plus" onclick="setFan(this)">טורבו</button>
+    <button class="seg" data-fan="quiet"    onclick="setFan(this)">×©×§×˜</button>
+    <button class="seg" data-fan="normal"   onclick="setFan(this)">×¨×’×™×œ</button>
+    <button class="seg" data-fan="max"      onclick="setFan(this)">×ž×§×¡×™×ž×•×</button>
+    <button class="seg" data-fan="max_plus" onclick="setFan(this)">×˜×•×¨×‘×•</button>
   </div>
 </div>
 
 <!-- Water level -->
 <div class="section">
-  <div class="section-label">כמות מים (ניגוב)</div>
+  <div class="section-label">×›×ž×•×ª ×ž×™× (× ×™×’×•×‘)</div>
   <div class="seg-wrap" id="waterSegs">
-    <button class="seg" data-water="low"       onclick="setWater(this)">נמוך</button>
-    <button class="seg" data-water="medium"    onclick="setWater(this)">בינוני</button>
-    <button class="seg" data-water="high"      onclick="setWater(this)">גבוה</button>
-    <button class="seg" data-water="ultrahigh" onclick="setWater(this)">מקסימום</button>
+    <button class="seg" data-water="low"       onclick="setWater(this)">× ×ž×•×š</button>
+    <button class="seg" data-water="medium"    onclick="setWater(this)">×‘×™× ×•× ×™</button>
+    <button class="seg" data-water="high"      onclick="setWater(this)">×’×‘×•×”</button>
+    <button class="seg" data-water="ultrahigh" onclick="setWater(this)">×ž×§×¡×™×ž×•×</button>
   </div>
 </div>
 
 <!-- Volume -->
 <div class="section">
-  <div class="section-label">עוצמת קול</div>
+  <div class="section-label">×¢×•×¦×ž×ª ×§×•×œ</div>
   <div class="vol-row">
-    <span class="vol-label">🔇</span>
+    <span class="vol-label">ðŸ”‡</span>
     <input type="range" min="0" max="10" value="7" id="volSlider" oninput="document.getElementById('volVal').textContent=this.value" onchange="setVolume(this.value)"/>
     <span class="vol-val" id="volVal">7</span>
-    <span style="font-size:.72rem;color:var(--text-dim)">🔊</span>
+    <span style="font-size:.72rem;color:var(--text-dim)">ðŸ”Š</span>
   </div>
 </div>
 
 <!-- Clean count -->
 <div class="section">
-  <div class="section-label">מספר סריקות</div>
+  <div class="section-label">×ž×¡×¤×¨ ×¡×¨×™×§×•×ª</div>
   <div class="count-row">
-    <span class="count-label">כמה פעמים לסרוק את החדר?</span>
+    <span class="count-label">×›×ž×” ×¤×¢×ž×™× ×œ×¡×¨×•×§ ××ª ×”×—×“×¨?</span>
     <div class="count-btns">
       <button class="count-btn" onclick="changeCount(-1)">-</button>
       <span class="count-val" id="countVal">1</span>
@@ -286,7 +286,7 @@ input[type=range]::-webkit-slider-thumb{
 <!-- Refresh -->
 <div class="section">
   <button class="btn wide b" style="width:100%" onclick="refresh()" id="btn-refresh">
-    <span class="icon">🔄</span> רענן סטטוס
+    <span class="icon">ðŸ”„</span> ×¨×¢× ×Ÿ ×¡×˜×˜×•×¡
   </button>
 </div>
 
@@ -294,7 +294,7 @@ input[type=range]::-webkit-slider-thumb{
 
 <script>
 const SK = 'deebot_url';
-let serverUrl = localStorage.getItem(SK) || 'https://tracked-artists-specialists-avatar.trycloudflare.com';
+let serverUrl = localStorage.getItem(SK) || 'https://martial-cio-smile-caution.trycloudflare.com';
 let busy = false;
 let currentCount = 1;
 
@@ -336,7 +336,7 @@ function sClass(s) {
 function updateUI(d) {
   if (!d) return;
   document.getElementById('connDot').className = 'conn-dot ok';
-  document.getElementById('connLabel').textContent = 'מחובר';
+  document.getElementById('connLabel').textContent = '×ž×—×•×‘×¨';
   document.getElementById('connUrl').textContent = serverUrl.replace('https://','').substring(0,30);
 
   const cls = sClass(d.state);
@@ -344,7 +344,7 @@ function updateUI(d) {
   document.getElementById('sText').textContent = translateState(d.state);
 
   const pct = parseInt((d.battery||'0'));
-  document.getElementById('battIcon').textContent = pct >= 50 ? '🔋' : '🪫';
+  document.getElementById('battIcon').textContent = pct >= 50 ? 'ðŸ”‹' : 'ðŸª«';
   document.getElementById('battPct').textContent = d.battery || '--%';
 
   const rb = document.getElementById('robotBody');
@@ -369,14 +369,14 @@ function updateUI(d) {
   }
 
   if (d.action) {
-    document.getElementById('lastCmd').textContent = 'בוצע: ' + d.action;
+    document.getElementById('lastCmd').textContent = '×‘×•×¦×¢: ' + d.action;
     setTimeout(() => document.getElementById('lastCmd').textContent = '', 4000);
   }
 }
 
 function translateState(s) {
-  const m = {'Cleaning':'מנקה...','Returning to dock':'חוזר לבסיס...','Docked':'בבסיס','Idle':'ממתין','Paused':'מושהה','Error':'שגיאה'};
-  return m[s] || s || 'לא ידוע';
+  const m = {'Cleaning':'×ž× ×§×”...','Returning to dock':'×—×•×–×¨ ×œ×‘×¡×™×¡...','Docked':'×‘×‘×¡×™×¡','Idle':'×ž×ž×ª×™×Ÿ','Paused':'×ž×•×©×”×”','Error':'×©×’×™××”'};
+  return m[s] || s || '×œ× ×™×“×•×¢';
 }
 
 function setSegActive(groupId, attr, val) {
@@ -387,13 +387,13 @@ function setSegActive(groupId, attr, val) {
 
 function setOffline() {
   document.getElementById('connDot').className = 'conn-dot';
-  document.getElementById('connLabel').textContent = 'לא מחובר';
-  document.getElementById('sText').textContent = 'שרת לא זמין';
+  document.getElementById('connLabel').textContent = '×œ× ×ž×—×•×‘×¨';
+  document.getElementById('sText').textContent = '×©×¨×ª ×œ× ×–×ž×™×Ÿ';
 }
 
 // API
 async function apiFetch(path) {
-  if (!serverUrl) { toast('הכנס כתובת שרת', 'err'); return null; }
+  if (!serverUrl) { toast('×”×›× ×¡ ×›×ª×•×‘×ª ×©×¨×ª', 'err'); return null; }
   const res = await fetch(serverUrl + path, { signal: AbortSignal.timeout(35000) });
   if (!res.ok) throw new Error('HTTP ' + res.status);
   return res.json();
@@ -408,14 +408,14 @@ async function cmd(c) {
   if (busy) return; busy = true;
   const b = document.getElementById('btn-' + c);
   const orig = b.querySelector('.icon').textContent;
-  b.classList.add('loading'); b.querySelector('.icon').textContent = '⏳';
-  toast('שולח...', '');
+  b.classList.add('loading'); b.querySelector('.icon').textContent = 'â³';
+  toast('×©×•×œ×—...', '');
   try {
     const d = await apiFetch('/api/' + c);
     if (d) updateUI(d);
-    const msgs = {clean:'🧹 מתחיל לנקות',stop:'⏹️ עצר',pause:'⏸️ מושהה',resume:'▶️ ממשיך',charge:'🏠 חוזר לבסיס',sound:'🔊 צליל!'};
-    toast(msgs[c] || 'בוצע', 'ok');
-  } catch(e) { toast('שגיאה: '+e.message, 'err'); setOffline(); }
+    const msgs = {clean:'ðŸ§¹ ×ž×ª×—×™×œ ×œ× ×§×•×ª',stop:'â¹ï¸ ×¢×¦×¨',pause:'â¸ï¸ ×ž×•×©×”×”',resume:'â–¶ï¸ ×ž×ž×©×™×š',charge:'ðŸ  ×—×•×–×¨ ×œ×‘×¡×™×¡',sound:'ðŸ”Š ×¦×œ×™×œ!'};
+    toast(msgs[c] || '×‘×•×¦×¢', 'ok');
+  } catch(e) { toast('×©×’×™××”: '+e.message, 'err'); setOffline(); }
   b.classList.remove('loading'); b.querySelector('.icon').textContent = orig;
   busy = false;
 }
@@ -424,48 +424,48 @@ async function setMode(el) {
   const mode = el.dataset.mode;
   document.querySelectorAll('#modeSegs .seg').forEach(s => s.className = 'seg');
   el.className = 'seg active';
-  toast('מחליף מצב...', '');
-  try { const d = await apiFetch('/api/mode/' + mode); if (d) { updateUI(d); toast('מצב: '+el.textContent, 'ok'); } }
-  catch(e) { toast('שגיאה', 'err'); }
+  toast('×ž×—×œ×™×£ ×ž×¦×‘...', '');
+  try { const d = await apiFetch('/api/mode/' + mode); if (d) { updateUI(d); toast('×ž×¦×‘: '+el.textContent, 'ok'); } }
+  catch(e) { toast('×©×’×™××”', 'err'); }
 }
 
 async function setFan(el) {
   const fan = el.dataset.fan;
   document.querySelectorAll('#fanSegs .seg').forEach(s => s.className = 'seg');
   el.className = 'seg active';
-  toast('מחליף עוצמה...', '');
-  try { const d = await apiFetch('/api/fan_speed/' + fan); if (d) { updateUI(d); toast('עוצמה: '+el.textContent, 'ok'); } }
-  catch(e) { toast('שגיאה', 'err'); }
+  toast('×ž×—×œ×™×£ ×¢×•×¦×ž×”...', '');
+  try { const d = await apiFetch('/api/fan_speed/' + fan); if (d) { updateUI(d); toast('×¢×•×¦×ž×”: '+el.textContent, 'ok'); } }
+  catch(e) { toast('×©×’×™××”', 'err'); }
 }
 
 async function setWater(el) {
   const water = el.dataset.water;
   document.querySelectorAll('#waterSegs .seg').forEach(s => s.className = 'seg');
   el.className = 'seg active';
-  toast('מחליף מים...', '');
-  try { const d = await apiFetch('/api/water/' + water); if (d) { updateUI(d); toast('מים: '+el.textContent, 'ok'); } }
-  catch(e) { toast('שגיאה', 'err'); }
+  toast('×ž×—×œ×™×£ ×ž×™×...', '');
+  try { const d = await apiFetch('/api/water/' + water); if (d) { updateUI(d); toast('×ž×™×: '+el.textContent, 'ok'); } }
+  catch(e) { toast('×©×’×™××”', 'err'); }
 }
 
 async function setVolume(val) {
-  try { const d = await apiFetch('/api/volume/' + val); if (d) { updateUI(d); toast('עוצמת קול: '+val, 'ok'); } }
-  catch(e) { toast('שגיאה', 'err'); }
+  try { const d = await apiFetch('/api/volume/' + val); if (d) { updateUI(d); toast('×¢×•×¦×ž×ª ×§×•×œ: '+val, 'ok'); } }
+  catch(e) { toast('×©×’×™××”', 'err'); }
 }
 
 async function changeCount(delta) {
   const newVal = Math.max(1, Math.min(4, currentCount + delta));
   currentCount = newVal;
   document.getElementById('countVal').textContent = newVal;
-  try { const d = await apiFetch('/api/count/' + newVal); if (d) { updateUI(d); toast('סריקות: '+newVal, 'ok'); } }
-  catch(e) { toast('שגיאה', 'err'); }
+  try { const d = await apiFetch('/api/count/' + newVal); if (d) { updateUI(d); toast('×¡×¨×™×§×•×ª: '+newVal, 'ok'); } }
+  catch(e) { toast('×©×’×™××”', 'err'); }
 }
 
 async function refresh() {
   const b = document.getElementById('btn-refresh');
-  b.classList.add('loading'); b.querySelector('.icon').textContent = '⏳';
+  b.classList.add('loading'); b.querySelector('.icon').textContent = 'â³';
   await fetchStatus();
-  b.classList.remove('loading'); b.querySelector('.icon').textContent = '🔄';
-  toast('עודכן', 'ok');
+  b.classList.remove('loading'); b.querySelector('.icon').textContent = 'ðŸ”„';
+  toast('×¢×•×“×›×Ÿ', 'ok');
 }
 
 // Toast
@@ -483,3 +483,4 @@ setInterval(fetchStatus, 30000);
 </script>
 </body>
 </html>
+
