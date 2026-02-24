@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -11,16 +11,8 @@
   --border:rgba(255,255,255,0.08);--text:#e4e4e7;--text-dim:#71717a;
   --accent:#818cf8;--green:#34d399;--yellow:#fbbf24;--red:#f87171;--orange:#fb923c;--purple:#a78bfa;
 }
-body{
-  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  background:var(--bg);color:var(--text);min-height:100vh;
-  display:flex;flex-direction:column;align-items:center;
-  padding:18px 14px 50px;
-  background-image:radial-gradient(ellipse at 25% 25%,rgba(129,140,248,0.07) 0%,transparent 55%),
-                   radial-gradient(ellipse at 75% 75%,rgba(52,211,153,0.04) 0%,transparent 55%);
-}
-h1{font-size:1.4rem;font-weight:300;letter-spacing:-0.5px;margin-bottom:3px;
-   background:linear-gradient(135deg,#e4e4e7,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:18px 14px 50px;background-image:radial-gradient(ellipse at 25% 25%,rgba(129,140,248,0.07) 0%,transparent 55%),radial-gradient(ellipse at 75% 75%,rgba(52,211,153,0.04) 0%,transparent 55%)}
+h1{font-size:1.4rem;font-weight:300;letter-spacing:-0.5px;margin-bottom:3px;background:linear-gradient(135deg,#e4e4e7,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .subtitle{font-size:.78rem;color:var(--text-dim);margin-bottom:16px}
 .conn-row{width:100%;max-width:440px;display:flex;align-items:center;gap:8px;margin-bottom:12px;padding:8px 12px;background:var(--surface);border-radius:11px;border:1px solid var(--border);justify-content:space-between}
 .conn-left{display:flex;align-items:center;gap:6px}
@@ -60,7 +52,7 @@ h1{font-size:1.4rem;font-weight:300;letter-spacing:-0.5px;margin-bottom:3px;
 @keyframes rspin{to{transform:rotate(360deg)}}
 @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 .section{width:100%;max-width:440px;margin-bottom:14px}
-.section-label{font-size:.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;padding-right:2px}
+.section-label{font-size:.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .btn{padding:0;border-radius:13px;border:1px solid var(--border);background:var(--surface);color:var(--text-dim);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:all .13s;font-family:inherit;font-size:.72rem;height:64px;-webkit-user-select:none;user-select:none}
 .btn .icon{font-size:1.4rem;line-height:1}
@@ -80,7 +72,6 @@ h1{font-size:1.4rem;font-weight:300;letter-spacing:-0.5px;margin-bottom:3px;
 .seg:active{background:var(--surface2)}
 .seg.active{background:rgba(129,140,248,.18);color:var(--accent)}
 .vol-row{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:13px}
-.vol-label{font-size:.72rem;color:var(--text-dim);min-width:30px}
 input[type=range]{flex:1;-webkit-appearance:none;height:4px;background:rgba(255,255,255,.1);border-radius:2px;outline:none}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer}
 .vol-val{font-size:.8rem;color:var(--accent);min-width:20px;text-align:center}
@@ -97,31 +88,31 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 </head>
 <body>
 
-<h1>DEEBOT Controller</h1>
+<h1>&#129302; DEEBOT Controller</h1>
 <p class="subtitle">X8 PRO OMNI</p>
 
 <div class="conn-row">
   <div class="conn-left">
     <div class="conn-dot" id="connDot"></div>
-    <span class="conn-label" id="connLabel">לא מחובר</span>
+    <span class="conn-label" id="connLabel">Disconnected</span>
   </div>
   <span class="conn-url" id="connUrl"></span>
-  <button class="settings-btn" onclick="toggleSetup()">&#9881;</button>
+  <button class="settings-btn" onclick="toggleSetup()">&#9881; Setup</button>
 </div>
 
 <div class="setup-card" id="setupCard">
-  <h3>&#9881; חיבור לשרת</h3>
-  <p>הפעל <strong>start_deebot.bat</strong> במחשב.<br>הכנס את כתובת ה-Tunnel שמופיעה.</p>
+  <h3>&#9881; Server Setup</h3>
+  <p>Run <strong>start_deebot.bat</strong> on your PC.<br>Then paste the Tunnel URL below.</p>
   <div class="url-row">
     <input class="url-input" id="urlInput" type="url" placeholder="https://xxxx.trycloudflare.com" autocomplete="off" spellcheck="false"/>
-    <button class="connect-btn" onclick="connect()">חבר</button>
+    <button class="connect-btn" onclick="connect()">Connect</button>
   </div>
 </div>
 
 <div class="status-card">
   <div class="status-left">
     <div class="status-name">DEEBOT X8 PRO OMNI</div>
-    <div class="status-state"><span class="sdot" id="sdot"></span><span id="sText">ממתין...</span></div>
+    <div class="status-state"><span class="sdot" id="sdot"></span><span id="sText">Waiting...</span></div>
     <div class="last-cmd" id="lastCmd"></div>
   </div>
   <div class="status-right">
@@ -135,63 +126,63 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 </div>
 
 <div class="section">
-  <div class="section-label">פקודות ראשיות</div>
+  <div class="section-label">Main Controls</div>
   <div class="grid3">
-    <button class="btn g" onclick="cmd('clean')"  id="btn-clean">  <span class="icon">&#129529;</span>נקה</button>
-    <button class="btn y" onclick="cmd('pause')"  id="btn-pause">  <span class="icon">&#9208;</span>השהה</button>
-    <button class="btn g" onclick="cmd('resume')" id="btn-resume"> <span class="icon">&#9654;</span>המשך</button>
-    <button class="btn r" onclick="cmd('stop')"   id="btn-stop">   <span class="icon">&#9209;</span>עצור</button>
-    <button class="btn b" onclick="cmd('charge')" id="btn-charge"> <span class="icon">&#127968;</span>בסיס</button>
-    <button class="btn p" onclick="cmd('sound')"  id="btn-sound">  <span class="icon">&#128266;</span>צליל</button>
+    <button class="btn g" onclick="cmd('clean')"  id="btn-clean">  <span class="icon">&#129529;</span>Clean</button>
+    <button class="btn y" onclick="cmd('pause')"  id="btn-pause">  <span class="icon">&#9208;</span>Pause</button>
+    <button class="btn g" onclick="cmd('resume')" id="btn-resume"> <span class="icon">&#9654;</span>Resume</button>
+    <button class="btn r" onclick="cmd('stop')"   id="btn-stop">   <span class="icon">&#9209;</span>Stop</button>
+    <button class="btn b" onclick="cmd('charge')" id="btn-charge"> <span class="icon">&#127968;</span>Dock</button>
+    <button class="btn p" onclick="cmd('sound')"  id="btn-sound">  <span class="icon">&#128266;</span>Sound</button>
   </div>
 </div>
 
 <div class="section">
-  <div class="section-label">מצב עבודה</div>
+  <div class="section-label">Work Mode</div>
   <div class="seg-wrap" id="modeSegs">
-    <button class="seg" data-mode="vacuum_mop"      onclick="setMode(this)">שאיבה+ניגוב</button>
-    <button class="seg" data-mode="vacuum"           onclick="setMode(this)">שאיבה</button>
-    <button class="seg" data-mode="mop"              onclick="setMode(this)">ניגוב</button>
-    <button class="seg" data-mode="mop_after_vacuum" onclick="setMode(this)">ניגוב אחרי</button>
+    <button class="seg" data-mode="vacuum_mop"      onclick="setMode(this)">Vac+Mop</button>
+    <button class="seg" data-mode="vacuum"           onclick="setMode(this)">Vacuum</button>
+    <button class="seg" data-mode="mop"              onclick="setMode(this)">Mop</button>
+    <button class="seg" data-mode="mop_after_vacuum" onclick="setMode(this)">Mop After</button>
   </div>
 </div>
 
 <div class="section">
-  <div class="section-label">עוצמת שאיבה</div>
+  <div class="section-label">Suction Power</div>
   <div class="seg-wrap" id="fanSegs">
-    <button class="seg" data-fan="quiet"    onclick="setFan(this)">שקט</button>
-    <button class="seg" data-fan="normal"   onclick="setFan(this)">רגיל</button>
-    <button class="seg" data-fan="max"      onclick="setFan(this)">מקסימום</button>
-    <button class="seg" data-fan="max_plus" onclick="setFan(this)">טורבו</button>
+    <button class="seg" data-fan="quiet"    onclick="setFan(this)">Quiet</button>
+    <button class="seg" data-fan="normal"   onclick="setFan(this)">Normal</button>
+    <button class="seg" data-fan="max"      onclick="setFan(this)">Max</button>
+    <button class="seg" data-fan="max_plus" onclick="setFan(this)">Turbo</button>
   </div>
 </div>
 
 <div class="section">
-  <div class="section-label">כמות מים (ניגוב)</div>
+  <div class="section-label">Water Level</div>
   <div class="seg-wrap" id="waterSegs">
-    <button class="seg" data-water="low"       onclick="setWater(this)">נמוך</button>
-    <button class="seg" data-water="medium"    onclick="setWater(this)">בינוני</button>
-    <button class="seg" data-water="high"      onclick="setWater(this)">גבוה</button>
-    <button class="seg" data-water="ultrahigh" onclick="setWater(this)">מקסימום</button>
+    <button class="seg" data-water="low"       onclick="setWater(this)">Low</button>
+    <button class="seg" data-water="medium"    onclick="setWater(this)">Medium</button>
+    <button class="seg" data-water="high"      onclick="setWater(this)">High</button>
+    <button class="seg" data-water="ultrahigh" onclick="setWater(this)">Max</button>
   </div>
 </div>
 
 <div class="section">
-  <div class="section-label">עוצמת קול</div>
+  <div class="section-label">Volume</div>
   <div class="vol-row">
-    <span class="vol-label">&#128263;</span>
+    <span style="font-size:.9rem">&#128263;</span>
     <input type="range" min="0" max="10" value="7" id="volSlider"
       oninput="document.getElementById('volVal').textContent=this.value"
       onchange="setVolume(this.value)"/>
     <span class="vol-val" id="volVal">7</span>
-    <span style="font-size:.72rem;color:var(--text-dim)">&#128266;</span>
+    <span style="font-size:.9rem">&#128266;</span>
   </div>
 </div>
 
 <div class="section">
-  <div class="section-label">מספר סריקות</div>
+  <div class="section-label">Clean Count</div>
   <div class="count-row">
-    <span class="count-label">כמה פעמים לסרוק?</span>
+    <span class="count-label">How many passes per room?</span>
     <div class="count-btns">
       <button class="count-btn" onclick="changeCount(-1)">-</button>
       <span class="count-val" id="countVal">1</span>
@@ -202,7 +193,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 
 <div class="section">
   <button class="btn wide b" style="width:100%" onclick="refresh()" id="btn-refresh">
-    <span class="icon">&#128260;</span> רענן סטטוס
+    <span class="icon">&#128260;</span> Refresh Status
   </button>
 </div>
 
@@ -218,14 +209,14 @@ let currentCount = 1;
   const saved = localStorage.getItem(SK) || serverUrl;
   document.getElementById('urlInput').value = saved;
   serverUrl = saved;
-  if (saved) { document.getElementById('setupCard').style.display = 'none'; fetchStatus(); }
+  if(saved){ document.getElementById('setupCard').style.display='none'; fetchStatus(); }
 })();
 
-function toggleSetup(){const c=document.getElementById('setupCard');c.style.display=c.style.display==='none'?'block':'none'}
+function toggleSetup(){ const c=document.getElementById('setupCard'); c.style.display=c.style.display==='none'?'block':'none'; }
 function connect(){
   const v=document.getElementById('urlInput').value.trim().replace(/\/$/,'');
-  if(!v)return;serverUrl=v;localStorage.setItem(SK,v);
-  document.getElementById('setupCard').style.display='none';fetchStatus();
+  if(!v)return; serverUrl=v; localStorage.setItem(SK,v);
+  document.getElementById('setupCard').style.display='none'; fetchStatus();
 }
 function sClass(s){
   s=(s||'').toLowerCase();
@@ -236,20 +227,17 @@ function sClass(s){
   if(s.includes('error'))return'error';
   return'idle';
 }
-function translateState(s){
-  return {'Cleaning':'מנקה...','Returning to dock':'חוזר לבסיס...','Docked':'בבסיס','Idle':'ממתין','Paused':'מושהה','Error':'שגיאה'}[s]||s||'לא ידוע';
-}
 function setSegActive(gid,attr,val){
   document.querySelectorAll('#'+gid+' .seg').forEach(s=>s.className='seg'+(s.dataset[attr]===val?' active':''));
 }
 function updateUI(d){
   if(!d)return;
   document.getElementById('connDot').className='conn-dot ok';
-  document.getElementById('connLabel').textContent='מחובר';
-  document.getElementById('connUrl').textContent=serverUrl.replace('https://','').substring(0,30);
+  document.getElementById('connLabel').textContent='Connected';
+  document.getElementById('connUrl').textContent=serverUrl.replace('https://','').substring(0,32);
   const cls=sClass(d.state);
   document.getElementById('sdot').className='sdot '+cls;
-  document.getElementById('sText').textContent=translateState(d.state);
+  document.getElementById('sText').textContent=d.state||'Unknown';
   const pct=parseInt((d.battery||'0'));
   document.getElementById('battIcon').textContent=pct>=50?'\u{1F50B}':'\u{1FAAB}';
   document.getElementById('battPct').textContent=d.battery||'--%';
@@ -263,60 +251,61 @@ function updateUI(d){
     const mk={'VACUUM_AND_MOP':'vacuum_mop','VACUUM':'vacuum','MOP':'mop','MOP_AFTER_VACUUM':'mop_after_vacuum'};
     setSegActive('modeSegs','mode',mk[d.mode]||d.mode.toLowerCase());
   }
-  if(d.volume!==undefined&&d.volume!=='?'){document.getElementById('volSlider').value=d.volume;document.getElementById('volVal').textContent=d.volume;}
-  if(d.clean_count!==undefined&&d.clean_count!=='?'){currentCount=d.clean_count;document.getElementById('countVal').textContent=d.clean_count;}
-  if(d.action){document.getElementById('lastCmd').textContent='בוצע: '+d.action;setTimeout(()=>document.getElementById('lastCmd').textContent='',4000);}
+  if(d.volume!==undefined&&d.volume!=='?'){ document.getElementById('volSlider').value=d.volume; document.getElementById('volVal').textContent=d.volume; }
+  if(d.clean_count!==undefined&&d.clean_count!=='?'){ currentCount=d.clean_count; document.getElementById('countVal').textContent=d.clean_count; }
+  if(d.action){ document.getElementById('lastCmd').textContent='Done: '+d.action; setTimeout(()=>document.getElementById('lastCmd').textContent='',4000); }
 }
 function setOffline(){
   document.getElementById('connDot').className='conn-dot';
-  document.getElementById('connLabel').textContent='לא מחובר';
-  document.getElementById('sText').textContent='שרת לא זמין';
+  document.getElementById('connLabel').textContent='Disconnected';
+  document.getElementById('sText').textContent='Server unavailable';
 }
 async function apiFetch(path){
-  if(!serverUrl){toast('הכנס כתובת שרת','err');return null;}
+  if(!serverUrl){ toast('Enter server URL','err'); return null; }
   const res=await fetch(serverUrl+path,{signal:AbortSignal.timeout(35000)});
   if(!res.ok)throw new Error('HTTP '+res.status);
   return res.json();
 }
-async function fetchStatus(){try{const d=await apiFetch('/api/status');if(d)updateUI(d);}catch{setOffline();}}
+async function fetchStatus(){ try{ const d=await apiFetch('/api/status'); if(d)updateUI(d); }catch{ setOffline(); } }
 async function cmd(c){
-  if(busy)return;busy=true;
-  const b=document.getElementById('btn-'+c);const orig=b.querySelector('.icon').textContent;
-  b.classList.add('loading');b.querySelector('.icon').textContent='...';
-  toast('שולח...','');
+  if(busy)return; busy=true;
+  const b=document.getElementById('btn-'+c); const orig=b.querySelector('.icon').textContent;
+  b.classList.add('loading'); b.querySelector('.icon').textContent='...';
+  toast('Sending...','');
   try{
-    const d=await apiFetch('/api/'+c);if(d)updateUI(d);
-    toast({'clean':'נקה התחיל','stop':'עצר','pause':'מושהה','resume':'ממשיך','charge':'חוזר לבסיס','sound':'מנגן!'}[c]||'בוצע','ok');
-  }catch(e){toast('שגיאה: '+e.message,'err');setOffline();}
-  b.classList.remove('loading');b.querySelector('.icon').textContent=orig;busy=false;
+    const d=await apiFetch('/api/'+c); if(d)updateUI(d);
+    const msgs={clean:'Cleaning started',stop:'Stopped',pause:'Paused',resume:'Resumed',charge:'Going to dock',sound:'Playing sound!'};
+    toast(msgs[c]||'Done','ok');
+  }catch(e){ toast('Error: '+e.message,'err'); setOffline(); }
+  b.classList.remove('loading'); b.querySelector('.icon').textContent=orig; busy=false;
 }
 async function setMode(el){
   const mode=el.dataset.mode;
-  document.querySelectorAll('#modeSegs .seg').forEach(s=>s.className='seg');el.className='seg active';
-  try{const d=await apiFetch('/api/mode/'+mode);if(d){updateUI(d);toast('מצב: '+el.textContent,'ok');}}catch{toast('שגיאה','err');}
+  document.querySelectorAll('#modeSegs .seg').forEach(s=>s.className='seg'); el.className='seg active';
+  try{ const d=await apiFetch('/api/mode/'+mode); if(d){ updateUI(d); toast('Mode: '+el.textContent,'ok'); } }catch{ toast('Error','err'); }
 }
 async function setFan(el){
   const fan=el.dataset.fan;
-  document.querySelectorAll('#fanSegs .seg').forEach(s=>s.className='seg');el.className='seg active';
-  try{const d=await apiFetch('/api/fan_speed/'+fan);if(d){updateUI(d);toast('עוצמה: '+el.textContent,'ok');}}catch{toast('שגיאה','err');}
+  document.querySelectorAll('#fanSegs .seg').forEach(s=>s.className='seg'); el.className='seg active';
+  try{ const d=await apiFetch('/api/fan_speed/'+fan); if(d){ updateUI(d); toast('Power: '+el.textContent,'ok'); } }catch{ toast('Error','err'); }
 }
 async function setWater(el){
   const water=el.dataset.water;
-  document.querySelectorAll('#waterSegs .seg').forEach(s=>s.className='seg');el.className='seg active';
-  try{const d=await apiFetch('/api/water/'+water);if(d){updateUI(d);toast('מים: '+el.textContent,'ok');}}catch{toast('שגיאה','err');}
+  document.querySelectorAll('#waterSegs .seg').forEach(s=>s.className='seg'); el.className='seg active';
+  try{ const d=await apiFetch('/api/water/'+water); if(d){ updateUI(d); toast('Water: '+el.textContent,'ok'); } }catch{ toast('Error','err'); }
 }
-async function setVolume(val){try{const d=await apiFetch('/api/volume/'+val);if(d){updateUI(d);toast('קול: '+val,'ok');}}catch{toast('שגיאה','err');}}
+async function setVolume(val){ try{ const d=await apiFetch('/api/volume/'+val); if(d){ updateUI(d); toast('Volume: '+val,'ok'); } }catch{ toast('Error','err'); } }
 async function changeCount(delta){
-  const nv=Math.max(1,Math.min(4,currentCount+delta));currentCount=nv;
+  const nv=Math.max(1,Math.min(4,currentCount+delta)); currentCount=nv;
   document.getElementById('countVal').textContent=nv;
-  try{const d=await apiFetch('/api/count/'+nv);if(d){updateUI(d);toast('סריקות: '+nv,'ok');}}catch{toast('שגיאה','err');}
+  try{ const d=await apiFetch('/api/count/'+nv); if(d){ updateUI(d); toast('Passes: '+nv,'ok'); } }catch{ toast('Error','err'); }
 }
 async function refresh(){
-  const b=document.getElementById('btn-refresh');b.classList.add('loading');b.querySelector('.icon').textContent='...';
-  await fetchStatus();b.classList.remove('loading');b.querySelector('.icon').textContent='\u{1F504}';toast('עודכן','ok');
+  const b=document.getElementById('btn-refresh'); b.classList.add('loading'); b.querySelector('.icon').textContent='...';
+  await fetchStatus(); b.classList.remove('loading'); b.querySelector('.icon').textContent='\u{1F504}'; toast('Updated','ok');
 }
 let toastT;
-function toast(msg,type){clearTimeout(toastT);const el=document.getElementById('toast');el.textContent=msg;el.className='toast show'+(type?' '+type:'');toastT=setTimeout(()=>el.className='toast',2600);}
+function toast(msg,type){ clearTimeout(toastT); const el=document.getElementById('toast'); el.textContent=msg; el.className='toast show'+(type?' '+type:''); toastT=setTimeout(()=>el.className='toast',2600); }
 setInterval(fetchStatus,30000);
 </script>
 </body>
