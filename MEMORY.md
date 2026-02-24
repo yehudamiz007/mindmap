@@ -47,6 +47,14 @@
 - market-news-sentiment — ניתוח סנטימנט חדשות למניות וקריפטו (Grok 4 model)
 - analyst-price-targets — מחירי יעד אנליסטים ודירוגי קונצנזוס
 - secure-skill-downloader — שומר סף אבטחה לכל התקנת סקיל מבחוץ (MANDATORY)
+- ecovacs — שליטה ב-DEEBOT X8 PRO OMNI (clean/stop/pause/charge/status/sound)
+
+## Smart Home
+- **DEEBOT X8 PRO OMNI** (ECOVACS)
+  - Account: yehudamiz007@gmail.com
+  - Script: `workspace/scripts/ecovacs.py`
+  - Python: `C:\Users\YEHUDA\AppData\Local\Programs\Python\Python311\python.exe`
+  - Commands: status, clean, stop, pause, resume, charge, sound
 
 ## Mindmap & Dashboards
 - File: `workspace/mindmap.html` — interactive brain map
