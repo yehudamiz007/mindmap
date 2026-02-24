@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏠 Hub — Command Center</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--surface:rgba(255,255,255,0.04);--surface-hover:rgba(255,255,255,0.08);--border:rgba(255,255,255,0.06);--border-hover:rgba(255,255,255,0.12);--text:#e4e4e7;--text-dim:#71717a;--accent:#818cf8;--accent2:#a78bfa;--green:#34d399;--red:#f87171;--glass:rgba(15,15,25,0.7)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;direction:ltr}
+canvas#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+.container{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:24px 20px 60px}
+/* Header */
+.header{text-align:center;padding:48px 0 24px}
+.clock{font-size:3.5rem;font-weight:200;letter-spacing:-2px;background:linear-gradient(135deg,#e4e4e7,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1}
+.greeting{font-size:1.15rem;color:var(--text-dim);margin-top:8px}
+.date-line{font-size:.85rem;color:var(--text-dim);margin-top:4px;opacity:.6}
+/* Stats bar */
+.stats-bar{display:flex;justify-content:center;gap:28px;margin:28px 0 20px;flex-wrap:wrap}
+.stat{display:flex;align-items:center;gap:6px;font-size:.82rem;color:var(--text-dim)}
+.stat b{color:var(--text);font-size:1rem}
+/* Toolbar */
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:24px}
+.search-box{flex:1;min-width:200px;padding:10px 16px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:.95rem;outline:none;transition:.2s}
+.search-box:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(129,140,248,.15)}
+.search-box::placeholder{color:var(--text-dim)}
+.btn{padding:9px 16px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text-dim);cursor:pointer;font-size:.85rem;transition:.2s;display:flex;align-items:center;gap:5px}
+.btn:hover{background:var(--surface-hover);color:var(--text);border-color:var(--border-hover)}
+.btn.active{background:rgba(129,140,248,.15);color:var(--accent);border-color:rgba(129,140,248,.3)}
+/* Category */
+.category{margin-bottom:32px}
+.category-title{font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:14px;padding-left:4px}
+/* Grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.grid.list-view{grid-template-columns:1fr}
+/* Card */
+.card{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:16px;padding:24px;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;text-decoration:none;color:inherit;display:block;opacity:0;transform:translateY(16px);animation:fadeUp .5s forwards}
+.card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(129,140,248,.06),transparent);opacity:0;transition:.3s}
+.card:hover{border-color:var(--border-hover);transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.3)}
+.card:hover::before{opacity:1}
+.card .icon{font-size:2.5rem;margin-bottom:14px;display:block}
+.card .name{font-size:1.05rem;font-weight:600;margin-bottom:6px}
+.card .desc{font-size:.82rem;color:var(--text-dim);line-height:1.5}
+.card .status-dot{position:absolute;top:16px;right:16px;width:8px;height:8px;border-radius:50%;background:var(--text-dim);transition:.3s}
+.card .status-dot.online{background:var(--green);box-shadow:0 0 8px rgba(52,211,153,.5)}
+.card .status-dot.offline{background:var(--red)}
+.card .fav-star{position:absolute;top:14px;right:36px;font-size:.9rem;opacity:0;transition:.2s;cursor:pointer;z-index:2}
+.card:hover .fav-star{opacity:.5}
+.card .fav-star:hover,.card .fav-star.starred{opacity:1}
+.card .meta{font-size:.7rem;color:var(--text-dim);margin-top:12px;opacity:.5}
+/* List view card */
+.list-view .card{display:flex;align-items:center;gap:16px;padding:16px 20px}
+.list-view .card .icon{font-size:1.8rem;margin-bottom:0;flex-shrink:0}
+.list-view .card .card-body{flex:1}
+.list-view .card .name{margin-bottom:2px}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.show{display:flex}
+.modal{background:#16161e;border:1px solid var(--border);border-radius:20px;padding:32px;width:100%;max-width:440px}
+.modal h3{margin-bottom:20px;font-size:1.1rem}
+.modal input,.modal select{width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:.9rem;margin-bottom:12px;outline:none}
+.modal input:focus,.modal select:focus{border-color:var(--accent)}
+.modal-actions{display:flex;gap:10px;margin-top:8px}
+.modal-actions .btn{flex:1;justify-content:center}
+.btn-primary{background:rgba(129,140,248,.2)!important;color:var(--accent)!important;border-color:rgba(129,140,248,.3)!important}
+/* Favorites section */
+.fav-badge{background:rgba(250,204,21,.1);color:#facc15;font-size:.65rem;padding:2px 8px;border-radius:6px;margin-right:8px}
+/* Responsive */
+@media(max-width:640px){.header{padding:32px 0 16px}.clock{font-size:2.5rem}.grid{grid-template-columns:1fr}.toolbar{flex-direction:column}.search-box{min-width:100%}}
+/* Scrollbar */
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px}
+/* Cron Section */
+.cron-section{margin-top:48px}
+.cron-stats{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.cron-stat{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:12px;padding:12px 20px;font-size:.85rem;color:var(--text-dim);display:flex;align-items:center;gap:6px}
+.cron-stat b{color:var(--text);font-size:1.1rem}
+.cron-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.cron-filter{padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text-dim);cursor:pointer;font-size:.8rem;transition:.2s}
+.cron-filter:hover{background:var(--surface-hover);color:var(--text)}
+.cron-filter.active{background:rgba(129,140,248,.15);color:var(--accent);border-color:rgba(129,140,248,.3)}
+.cron-table-wrap{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.cron-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.cron-table th{text-align:left;padding:14px 16px;color:var(--text-dim);font-weight:500;font-size:.75rem;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border);white-space:nowrap}
+.cron-table td{padding:12px 16px;border-bottom:1px solid var(--border);vertical-align:middle}
+.cron-table tr:last-child td{border-bottom:none}
+.cron-table tr:hover td{background:var(--surface-hover)}
+.cron-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.cron-dot.ok{background:var(--green);box-shadow:0 0 6px rgba(52,211,153,.5)}
+.cron-dot.pending{background:var(--text-dim)}
+.cron-name{font-weight:600;font-size:.9rem}
+.cron-desc{color:var(--text-dim);font-size:.78rem;max-width:260px;line-height:1.4}
+.badge{display:inline-block;padding:2px 10px;border-radius:6px;font-size:.72rem;font-weight:600;letter-spacing:.3px}
+.badge-trading{background:rgba(168,85,247,.15);color:#c084fc}
+.badge-maintenance{background:rgba(34,211,238,.12);color:#22d3ee}
+.badge-news{background:rgba(59,130,246,.15);color:#60a5fa}
+.badge-reminders{background:rgba(250,204,21,.12);color:#facc15}
+.badge-grok{background:rgba(251,146,60,.15);color:#fb923c}
+.badge-claude{background:rgba(129,140,248,.15);color:#818cf8}
+.badge-system{background:rgba(161,161,170,.12);color:#a1a1aa}
+.cron-schedule{cursor:pointer;font-family:'Courier New',monospace;font-size:.82rem;color:var(--accent);border-bottom:1px dashed rgba(129,140,248,.3);padding-bottom:1px}
+.cron-schedule:hover{color:#a78bfa}
+.cron-schedule-human{font-size:.72rem;color:var(--text-dim);margin-top:2px}
+.cron-schedule-edit{display:none;gap:4px;align-items:center}
+.cron-schedule-edit input{padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:'Courier New',monospace;font-size:.82rem;width:120px;outline:none}
+.cron-schedule-edit input:focus{border-color:var(--accent)}
+.cron-schedule-edit button{padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text-dim);cursor:pointer;font-size:.75rem}
+.toggle{position:relative;width:36px;height:20px;cursor:pointer}
+.toggle input{opacity:0;width:0;height:0}
+.toggle .slider{position:absolute;inset:0;background:rgba(255,255,255,.1);border-radius:10px;transition:.2s}
+.toggle .slider::before{content:'';position:absolute;width:16px;height:16px;left:2px;top:2px;background:var(--text-dim);border-radius:50%;transition:.2s}
+.toggle input:checked+.slider{background:rgba(52,211,153,.3)}
+.toggle input:checked+.slider::before{transform:translateX(16px);background:var(--green)}
+.cron-note{font-size:.75rem;color:var(--text-dim);opacity:.6;margin-top:12px;text-align:center;font-style:italic}
+@media(max-width:900px){.cron-table-wrap{overflow-x:auto}.cron-desc{max-width:160px}}
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+<div class="container">
+  <header class="header">
+    <div class="clock" id="clock"></div>
+    <div class="greeting" id="greeting"></div>
+    <div class="date-line" id="dateLine"></div>
+  </header>
+  <div class="stats-bar" id="statsBar"></div>
+  <div class="toolbar">
+    <input class="search-box" id="search" placeholder="🔍 Search apps..." autocomplete="off">
+    <button class="btn" id="viewToggle" onclick="toggleView()">☰ List</button>
+    <button class="btn" id="addBtn" onclick="openModal()">＋ Add Link</button>
+  </div>
+  <div id="appContainer"></div>
+  <!-- Skills Section -->
+  <div class="cron-section" id="skillsSection">
+    <div class="category-title">🎯 Skills & Capabilities</div>
+    <div class="cron-stats" id="skillsStats"></div>
+    <div class="cron-filters" id="skillsFilters"></div>
+    <div class="cron-table-wrap">
+      <table class="cron-table">
+        <thead><tr><th>Icon</th><th>Name</th><th>Description</th><th>Category</th><th>Model</th></tr></thead>
+        <tbody id="skillsBody"></tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Cron Jobs Section -->
+  <div class="cron-section" id="cronSection">
+    <div class="category-title">⏰ Cron Jobs</div>
+    <div class="cron-stats" id="cronStats"></div>
+    <div class="cron-filters" id="cronFilters"></div>
+    <div class="cron-table-wrap">
+      <table class="cron-table">
+        <thead><tr><th>Status</th><th>Name</th><th>Description</th><th>Schedule</th><th>Model</th><th>Category</th><th>Enabled</th></tr></thead>
+        <tbody id="cronBody"></tbody>
+      </table>
+    </div>
+    <div class="cron-note">💡 Changes here are display-only — actual cron updates require the OpenClaw CLI</div>
+  </div>
+</div>
+<!-- Add Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h3>➕ Add New Link</h3>
+    <input id="mName" placeholder="Name">
+    <input id="mUrl" placeholder="URL">
+    <input id="mIcon" placeholder="Emoji (e.g. 🔗)" maxlength="4">
+    <input id="mDesc" placeholder="Short description">
+    <select id="mCat"><option value="Tools">Tools</option><option value="Dashboards">Dashboards</option><option value="Apps">Apps</option><option value="Bookmarks">Bookmarks</option></select>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="saveLink()">Save</button>
+      <button class="btn" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+<script>
+const DEFAULT_APPS=[
+  {id:'mindmap',icon:'🧠',name:'Mindmap',desc:'Interactive brain map',url:'https://yehudamiz007.github.io/mindmap/',cat:'Tools'},
+  {id:'costs',icon:'💰',name:'Cost Dashboard',desc:'OpenClaw cost monitoring & analytics',url:'https://yehudamiz007.github.io/mindmap/dashboard.html',cat:'Dashboards'},
+  {id:'stocks',icon:'📊',name:'Stock Scanner',desc:'Daily automated stock & crypto analysis',url:'https://yehudamiz007.github.io/mindmap/dashboard/',cat:'Dashboards'},
+  {id:'tasks',icon:'📋',name:'Task Manager',desc:'Jira/Monday-style task management',url:'https://yehudamiz007.github.io/mindmap/tasks.html',cat:'Apps'},
+  {id:'mindmap-detailed',icon:'🗺️',name:'Detailed Mindmap',desc:'Detailed brain map with all info',url:'https://yehudamiz007.github.io/mindmap/mindmap-detailed.html',cat:'Tools'},
+  {id:'family-tree',icon:'🌳',name:'Family Tree',desc:'Mizrahi family tree',url:'https://yehudamiz007.github.io/mindmap/family-tree/',cat:'Dashboards'},
+  {id:'iran-dashboard',icon:'🛡️',name:'Iran War Map',desc:'Iran conflict intelligence dashboard',url:'https://yehudamiz007.github.io/mindmap/iran-dashboard/',cat:'Dashboards'},
+  {id:'moltta',icon:'🎯',name:'MOLTTA',desc:'Molt Trading Arena - Virtual trading platform',url:'https://yehudamiz007.github.io/mindmap/dashboard/trading.html',cat:'Apps'},
+  {id:'models',icon:'🤖',name:'Multimodal Management',desc:'Model registry, use cases & routing instructions',url:'https://yehudamiz007.github.io/mindmap/models/',cat:'Dashboards'}
+];
+let customApps=JSON.parse(localStorage.getItem('hub_custom')||'[]');
+let favorites=JSON.parse(localStorage.getItem('hub_favs')||'[]');
+let recents=JSON.parse(localStorage.getItem('hub_recents')||'[]');
+let listView=localStorage.getItem('hub_listview')==='1';
+let statusCache={};
+
+function allApps(){return[...DEFAULT_APPS,...customApps]}
+function saveFavs(){localStorage.setItem('hub_favs',JSON.stringify(favorites))}
+function saveRecents(){localStorage.setItem('hub_recents',JSON.stringify(recents))}
+function saveCustom(){localStorage.setItem('hub_custom',JSON.stringify(customApps))}
+
+// Clock & Greeting
+function updateClock(){
+  const now=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Jerusalem'}));
+  const h=now.getHours(),m=now.getMinutes();
+  document.getElementById('clock').textContent=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+  let g='Good Night 🌙';
+  if(h>=5&&h<12)g='Good Morning ☀️';
+  else if(h>=12&&h<17)g='Good Afternoon 🌤';
+  else if(h>=17&&h<21)g='Good Evening 🌅';
+  document.getElementById('greeting').textContent=g;
+  const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('dateLine').textContent=`${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+}
+updateClock();setInterval(updateClock,10000);
+
+// Stats
+function updateStats(){
+  const apps=allApps();
+  const cats=new Set(apps.map(a=>a.cat));
+  document.getElementById('statsBar').innerHTML=`
+    <div class="stat"><b>${apps.length}</b> Apps</div>
+    <div class="stat"><b>${cats.size}</b> Categories</div>
+    <div class="stat"><b>${favorites.length}</b> Favorites</div>
+    <div class="stat"><b>${recents.length}</b> Recent</div>`;
+}
+
+// Status check
+function checkStatus(url,id){
+  fetch(url,{mode:'no-cors',cache:'no-cache'}).then(()=>{statusCache[id]='online';renderApps()}).catch(()=>{statusCache[id]='offline';renderApps()});
+}
+
+// Render
+function renderApps(){
+  const q=document.getElementById('search').value.trim().toLowerCase();
+  const apps=allApps().filter(a=>!q||a.name.includes(q)||a.desc.includes(q)||a.cat.includes(q));
+  const cats={};
+  // Favorites first
+  const favApps=apps.filter(a=>favorites.includes(a.id||a.name));
+  const rest=apps.filter(a=>!favorites.includes(a.id||a.name));
+  if(favApps.length)cats['⭐ Favorites']=favApps;
+  rest.forEach(a=>{const c=a.cat||'אחר';(cats[c]=cats[c]||[]).push(a)});
+  
+  let html='';
+  const catOrder=['⭐ Favorites','Dashboards','Apps','Tools','Bookmarks'];
+  const sorted=Object.keys(cats).sort((a,b)=>catOrder.indexOf(a)-catOrder.indexOf(b));
+  let i=0;
+  sorted.forEach(cat=>{
+    html+=`<div class="category"><div class="category-title">${cat}</div><div class="grid${listView?' list-view':''}">`;
+    cats[cat].forEach(a=>{
+      const aid=a.id||a.name;
+      const st=statusCache[aid]||'';
+      const isFav=favorites.includes(aid);
+      const isCustom=customApps.some(c=>c.name===a.name);
+      html+=`<a class="card" href="${a.url}" target="_blank" rel="noopener" style="animation-delay:${i*60}ms" onclick="trackRecent('${aid}')">
+
+        <span class="status-dot ${st}"></span>
+        <span class="fav-star ${isFav?'starred':''}" onclick="event.preventDefault();event.stopPropagation();toggleFav('${aid}')">${isFav?'★':'☆'}</span>
+        ${listView?'':'<span class="icon">'+a.icon+'</span>'}
+        <div class="card-body">
+          ${listView?'<span class="icon">'+a.icon+'</span>':''}
+          <div class="name">${a.name}</div>
+          <div class="desc">${a.desc}</div>
+          ${isCustom?'<div class="meta">Custom link · <span style="cursor:pointer;color:var(--red)" onclick="event.preventDefault();event.stopPropagation();removeCustom(\''+a.name+'\')">Delete</span></div>':''}
+        </div>
+      </a>`;
+      i++;
+    });
+    html+=`</div></div>`;
+  });
+  document.getElementById('appContainer').innerHTML=html;
+  updateStats();
+}
+
+function toggleFav(id){
+  const i=favorites.indexOf(id);
+  i>=0?favorites.splice(i,1):favorites.push(id);
+  saveFavs();renderApps();
+}
+function trackRecent(id){
+  recents=recents.filter(r=>r!==id);
+  recents.unshift(id);
+  if(recents.length>10)recents.pop();
+  saveRecents();
+}
+function toggleView(){
+  listView=!listView;
+  localStorage.setItem('hub_listview',listView?'1':'0');
+  document.getElementById('viewToggle').textContent=listView?'⊞ Grid':'☰ List';
+  renderApps();
+}
+function openModal(){document.getElementById('modal').classList.add('show')}
+function closeModal(){document.getElementById('modal').classList.remove('show')}
+function saveLink(){
+  const n=document.getElementById('mName').value.trim();
+  const u=document.getElementById('mUrl').value.trim();
+  if(!n||!u)return;
+  customApps.push({id:'custom_'+Date.now(),icon:document.getElementById('mIcon').value||'🔗',name:n,url:u,desc:document.getElementById('mDesc').value||'',cat:document.getElementById('mCat').value});
+  saveCustom();closeModal();renderApps();
+  ['mName','mUrl','mIcon','mDesc'].forEach(x=>document.getElementById(x).value='');
+}
+function removeCustom(name){
+  customApps=customApps.filter(a=>a.name!==name);
+  saveCustom();renderApps();
+}
+
+document.getElementById('search').addEventListener('input',renderApps);
+if(listView)document.getElementById('viewToggle').textContent='⊞ Grid';
+
+// Init
+renderApps();
+allApps().forEach(a=>checkStatus(a.url,a.id||a.name));
+
+// Background animation
+(function(){
+  const c=document.getElementById('bgCanvas'),ctx=c.getContext('2d');
+  let w,h;
+  function resize(){w=c.width=innerWidth;h=c.height=innerHeight}
+  resize();addEventListener('resize',resize);
+  const orbs=[
+    {x:.3,y:.4,r:300,color:'rgba(99,102,241,.07)',vx:.0002,vy:.0003},
+    {x:.7,y:.6,r:250,color:'rgba(168,85,247,.06)',vx:-.0003,vy:.0002},
+    {x:.5,y:.2,r:200,color:'rgba(59,130,246,.05)',vx:.0001,vy:-.0002}
+  ];
+  function draw(t){
+    ctx.clearRect(0,0,w,h);
+    orbs.forEach(o=>{
+      o.x+=o.vx;o.y+=o.vy;
+      if(o.x<0||o.x>1)o.vx*=-1;
+      if(o.y<0||o.y>1)o.vy*=-1;
+      const g=ctx.createRadialGradient(o.x*w,o.y*h,0,o.x*w,o.y*h,o.r);
+      g.addColorStop(0,o.color);g.addColorStop(1,'transparent');
+      ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// Close modal on overlay click
+document.getElementById('modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal()});
+
+// === CRON JOBS ===
+const CRON_JOBS=[
+  {id:'74a0a646-b83d-441b-bbdc-8a8613dbcdfd',name:'Backup MEMORY.md',description:'Backs up MEMORY.md to memory/backups/ every hour. Keeps only last 48 backups.',schedule:'0 * * * *',scheduleHuman:'Every hour',tz:'Asia/Jerusalem',enabled:true,model:'claude-opus-4-6',category:'Maintenance',lastStatus:'ok'},
+  {id:'df402cec-2d90-4241-88a0-03e0f451cef9',name:'Daily AI News Summary',description:'Fetches AI news from TechCrunch, VentureBeat, The Verge, Ars Technica. Picks top 5-6 stories from last 24h, writes Hebrew summary, sends to WhatsApp.',schedule:'0 9 * * 0-5',scheduleHuman:'Daily 9:00 AM (Sun-Fri)',tz:'Asia/Jerusalem',enabled:true,model:'grok-3',category:'News',lastStatus:'ok'},
+  {id:'b496cdfe-7a7c-4462-b172-7d3fe8dbb758',name:'Daily Stock Scanner',description:'Grok picks 15 best stocks/crypto to buy. Analyzes news sentiment (30%), analyst targets (35%), technical analysis (35%).',schedule:'0 9,17 * * *',scheduleHuman:'Daily 9:00 AM & 5:00 PM',tz:'Asia/Jerusalem',enabled:true,model:'grok-3',category:'Trading',lastStatus:'ok'},
+  {id:'aa64c5a7-930c-454b-9fc2-db1d1a54beee',name:'Cost Dashboard Update',description:'Runs update-costs.js to calculate OpenClaw API costs, pushes costs.json to GitHub.',schedule:'0 9,21 * * *',scheduleHuman:'Daily 9:00 AM & 9:00 PM',tz:'Asia/Jerusalem',enabled:true,model:'claude-opus-4-6',category:'Maintenance',lastStatus:'ok'},
+  {id:'e1eb3b60-b369-41e4-be2e-fbf5f0844f79',name:'Grok Virtual Trader',description:'Manages a virtual $1,000 stock portfolio. Fetches real prices, runs 3-pillar analysis, rotates positions.',schedule:'0 16-23 * * 1-6',scheduleHuman:'Hourly 4-11 PM (Mon-Sat)',tz:'Asia/Jerusalem',enabled:true,model:'grok-3',category:'Trading',lastStatus:'ok'},
+  {id:'968e059d-dc07-4651-8577-05b3f3c9fb3e',name:'Arbel Birthday Reminder',description:'Reminds 1 week before Arbel birthday (April 8).',schedule:'0 8 1 4 *',scheduleHuman:'April 1, 8:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'system-event',category:'Reminders',lastStatus:'pending'},
+  {id:'b59cde1a-e3d0-4cbc-a564-d03579e3e6b2',name:'Ilana Birthday Reminder',description:'Reminds 1 week before Ilana birthday (April 11).',schedule:'0 8 4 4 *',scheduleHuman:'April 4, 8:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'system-event',category:'Reminders',lastStatus:'pending'},
+  {id:'b208a785-8b36-40fc-b989-dd217237636b',name:'Avior Birthday Reminder',description:'Reminds 1 week before Avior birthday (April 19).',schedule:'0 8 12 4 *',scheduleHuman:'April 12, 8:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'system-event',category:'Reminders',lastStatus:'pending'},
+  {id:'5996c738-544e-4633-9ce0-72703242fb1e',name:'Wedding Anniversary Reminder',description:'Reminds 1 week before wedding anniversary (September 14).',schedule:'0 8 7 9 *',scheduleHuman:'September 7, 8:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'system-event',category:'Reminders',lastStatus:'pending'},
+  {id:'74767929-3a2d-49c6-8317-902e71e6d339',name:'Nitai Birthday Reminder',description:'Reminds 1 week before Nitai birthday (January 11).',schedule:'0 8 4 1 *',scheduleHuman:'January 4, 8:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'system-event',category:'Reminders',lastStatus:'pending'}
+];
+
+const cronOverrides=JSON.parse(localStorage.getItem('hub_cron_overrides')||'{}');
+const cronToggles=JSON.parse(localStorage.getItem('hub_cron_toggles')||'{}');
+let cronFilter='All';
+
+const CAT_BADGE={'Trading':'badge-trading','Maintenance':'badge-maintenance','News':'badge-news','Reminders':'badge-reminders'};
+const MODEL_BADGE={'grok-3':'badge-grok','claude-opus-4-6':'badge-claude','system-event':'badge-system'};
+
+function getCronEnabled(job){return cronToggles[job.id]!==undefined?cronToggles[job.id]:job.enabled}
+function getCronSchedule(job){return cronOverrides[job.id]||job.schedule}
+
+function renderCronStats(){
+  const active=CRON_JOBS.filter(j=>getCronEnabled(j)).length;
+  const cats={};CRON_JOBS.forEach(j=>{cats[j.category]=(cats[j.category]||0)+1});
+  let html=`<div class="cron-stat"><b>${CRON_JOBS.length}</b>Total</div><div class="cron-stat"><b>${active}</b>Active</div>`;
+  for(const[c,n]of Object.entries(cats))html+=`<div class="cron-stat"><span class="badge ${CAT_BADGE[c]||''}">${c}</span><b>${n}</b></div>`;
+  document.getElementById('cronStats').innerHTML=html;
+}
+
+function renderCronFilters(){
+  const cats=['All',...new Set(CRON_JOBS.map(j=>j.category))];
+  document.getElementById('cronFilters').innerHTML=cats.map(c=>`<button class="cron-filter${cronFilter===c?' active':''}" onclick="cronFilter='${c}';renderCron()">${c}</button>`).join('');
+}
+
+function renderCronTable(){
+  const jobs=cronFilter==='All'?CRON_JOBS:CRON_JOBS.filter(j=>j.category===cronFilter);
+  document.getElementById('cronBody').innerHTML=jobs.map(j=>{
+    const en=getCronEnabled(j);
+    const sched=getCronSchedule(j);
+    return`<tr style="opacity:${en?1:.45}">
+      <td><span class="cron-dot ${j.lastStatus}"></span></td>
+      <td><div class="cron-name">${j.name}</div></td>
+      <td><div class="cron-desc">${j.description}</div></td>
+      <td>
+        <div class="cron-schedule-show" id="sched-show-${j.id}" onclick="editSchedule('${j.id}')">
+          <div class="cron-schedule">${sched}</div>
+          <div class="cron-schedule-human">${j.scheduleHuman}</div>
+        </div>
+        <div class="cron-schedule-edit" id="sched-edit-${j.id}">
+          <input value="${sched}" id="sched-input-${j.id}" onkeydown="if(event.key==='Enter')saveSchedule('${j.id}');if(event.key==='Escape')cancelSchedule('${j.id}')">
+          <button onclick="saveSchedule('${j.id}')">✓</button>
+          <button onclick="cancelSchedule('${j.id}')">✕</button>
+        </div>
+      </td>
+      <td><span class="badge ${MODEL_BADGE[j.model]||''}">${j.model}</span></td>
+      <td><span class="badge ${CAT_BADGE[j.category]||''}">${j.category}</span></td>
+      <td><label class="toggle"><input type="checkbox" ${en?'checked':''} onchange="toggleCron('${j.id}',this.checked)"><span class="slider"></span></label></td>
+    </tr>`}).join('');
+}
+
+function renderCron(){renderCronStats();renderCronFilters();renderCronTable()}
+
+function editSchedule(id){
+  document.getElementById('sched-show-'+id).style.display='none';
+  const el=document.getElementById('sched-edit-'+id);el.style.display='flex';
+  el.querySelector('input').focus();
+}
+function saveSchedule(id){
+  const v=document.getElementById('sched-input-'+id).value.trim();
+  if(v){cronOverrides[id]=v;localStorage.setItem('hub_cron_overrides',JSON.stringify(cronOverrides))}
+  cancelSchedule(id);renderCronTable();
+}
+function cancelSchedule(id){
+  document.getElementById('sched-show-'+id).style.display='';
+  document.getElementById('sched-edit-'+id).style.display='none';
+}
+function toggleCron(id,val){
+  cronToggles[id]=val;localStorage.setItem('hub_cron_toggles',JSON.stringify(cronToggles));
+  renderCron();
+}
+
+renderCron();
+
+// === SKILLS ===
+const SKILLS=[
+  {icon:'🏛️',name:'AI Chief Architect',desc:'System design, architecture decisions, ADRs, technology choices, microservices, cloud-native, LLM/Agentic AI',cat:'Technical',model:'claude-opus-4-6'},
+  {icon:'💕',name:'Husband',desc:'Relationship support for Yehuda & Ilana. Available for Ilana on WhatsApp - tips, reminders, warm words',cat:'Personal',model:'claude-opus-4-6'},
+  {icon:'👶',name:'Parenting',desc:'Tailored parenting for Avior (6), Nitai (4), Arbel (9mo). Activities, milestones, meals, behavior tips',cat:'Personal',model:'claude-opus-4-6'},
+  {icon:'🇮🇱',name:'Hebrew',desc:'Bilingual Hebrew/English communication, cultural context, modern Israeli Hebrew & slang',cat:'Language',model:'claude-opus-4-6'},
+  {icon:'📈',name:'Technical Analysis',desc:'Advanced chart analysis - Elliott Wave, Wyckoff, ICT/Smart Money, harmonic patterns, order flow',cat:'Trading',model:'claude-opus-4-6'},
+  {icon:'📰',name:'Market News Sentiment',desc:'News sentiment analysis for stocks & crypto. Fetches real-time news, analyzes sentiment, actionable signals',cat:'Trading',model:'grok-3'},
+  {icon:'🎯',name:'Analyst Price Targets',desc:'Aggregates analyst ratings, consensus estimates, fair value calculations with upside/downside potential',cat:'Trading',model:'claude-opus-4-6'},
+  {icon:'☕',name:'Coffee Master',desc:'Espresso recipes, milk steaming, latte art, grinder settings for La Marzocco Linea Micra',cat:'Lifestyle',model:'claude-opus-4-6'},
+  {icon:'💪',name:'Fitness & Nutrition',desc:'Workout plans, strength training, body recomposition, macros, meal prep, supplements, recovery',cat:'Lifestyle',model:'claude-opus-4-6'},
+  {icon:'🔒',name:'Secure Skill Downloader',desc:'Security gatekeeper for all skill installations. Scans for malicious code, prompt injection, credential theft',cat:'Security',model:'claude-opus-4-6'},
+  {icon:'🛠️',name:'Skill Creator',desc:'Design, structure, and package new AgentSkills with scripts, references, and assets',cat:'Technical',model:'claude-opus-4-6'},
+  {icon:'🌤️',name:'Weather',desc:'Current weather and forecasts, no API key required',cat:'Utility',model:'claude-opus-4-6'},
+  {icon:'🔐',name:'Healthcheck',desc:'Host security hardening, firewall/SSH audits, risk-tolerance configuration for OpenClaw deployments',cat:'Security',model:'claude-opus-4-6'}
+];
+
+const SKILL_CAT_COLORS={'Trading':'badge-trading','Technical':'badge-maintenance','Personal':'badge-reminders','Language':'badge-news','Lifestyle':'badge-grok','Security':'badge-claude','Utility':'badge-system'};
+let skillFilter='All';
+
+function renderSkillsStats(){
+  const cats={};SKILLS.forEach(s=>{cats[s.cat]=(cats[s.cat]||0)+1});
+  let html=`<div class="cron-stat"><b>${SKILLS.length}</b>Total Skills</div>`;
+  for(const[c,n]of Object.entries(cats))html+=`<div class="cron-stat"><span class="badge ${SKILL_CAT_COLORS[c]||''}">${c}</span><b>${n}</b></div>`;
+  document.getElementById('skillsStats').innerHTML=html;
+}
+
+function renderSkillsFilters(){
+  const cats=['All',...new Set(SKILLS.map(s=>s.cat))];
+  document.getElementById('skillsFilters').innerHTML=cats.map(c=>`<button class="cron-filter${skillFilter===c?' active':''}" onclick="skillFilter='${c}';renderSkills()">${c}</button>`).join('');
+}
+
+function renderSkillsTable(){
+  const skills=skillFilter==='All'?SKILLS:SKILLS.filter(s=>s.cat===skillFilter);
+  document.getElementById('skillsBody').innerHTML=skills.map(s=>`<tr>
+    <td style="font-size:1.4rem;text-align:center">${s.icon}</td>
+    <td><div class="cron-name">${s.name}</div></td>
+    <td><div class="cron-desc">${s.desc}</div></td>
+    <td><span class="badge ${SKILL_CAT_COLORS[s.cat]||''}">${s.cat}</span></td>
+    <td><span class="badge ${MODEL_BADGE[s.model]||''}">${s.model}</span></td>
+  </tr>`).join('');
+}
+
+function renderSkills(){renderSkillsStats();renderSkillsFilters();renderSkillsTable()}
+renderSkills();
+</script>
+</body>
+</html>

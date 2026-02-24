@@ -15,7 +15,7 @@ description: >
 ## Model Override
 
 **Always request Grok model** for this skill - it has superior real-time web awareness.
-Use `session_status` with model override `xai/grok-3` if not already set, or note to the user that Grok is recommended.
+Use `session_status` with model override `xai/grok-4` if not already set, or note to the user that Grok is recommended.
 
 ## When User Asks About a Ticker/Coin
 

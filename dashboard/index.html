@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +20,7 @@ header .update-time{color:var(--cyan);font-size:13px;margin-top:8px;font-weight:
 .table-wrap{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
 table{width:100%;border-collapse:collapse}
 thead{background:rgba(255,255,255,.03)}
-th{padding:14px 16px;text-align:right;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap}
+th{padding:14px 16px;text-align:left;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap}
 td{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.04);font-size:14px;white-space:nowrap}
 tr:hover{background:rgba(255,255,255,.02)}
 tr:last-child td{border-bottom:none}
@@ -67,21 +67,21 @@ tr:last-child td{border-bottom:none}
 <div class="container">
   <header>
     <h1>📊 Daily Stock Scanner</h1>
-    <div class="subtitle">ניתוח יומי אוטומטי - חדשות, מחירי יעד אנליסטים, וניתוח טכני</div>
-    <div class="update-time" id="updateTime">טוען...</div>
+    <div class="subtitle">Automated daily analysis - News, analyst price targets & technical analysis</div>
+    <div class="update-time" id="updateTime">Loading...</div>
   </header>
   <div class="stats-bar" id="statsBar"></div>
   <div class="table-wrap" id="tableWrap"></div>
   <div class="legend">
-    <h3>מקרא ציונים</h3>
+    <h3>Score Legend</h3>
     <div class="legend-items">
-      <div class="legend-item"><div class="legend-dot" style="background:var(--cyan)"></div>חדשות וסנטימנט (30%)</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div>מחירי יעד אנליסטים (35%)</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div>ניתוח טכני (35%)</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>8-10 = קנייה חזקה</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div>6-7.9 = קנייה</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--muted)"></div>4-5.9 = החזקה</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>1-3.9 = מכירה</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--cyan)"></div>News & Sentiment (30%)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div>Analyst Price Targets (35%)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div>Technical Analysis (35%)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>8-10 = Strong Buy</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div>6-7.9 = Buy</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--muted)"></div>4-5.9 = Hold</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>1-3.9 = Sell</div>
     </div>
   </div>
 </div>
@@ -100,7 +100,7 @@ async function loadData(){
     render(data);
   }catch(e){
     document.getElementById('tableWrap').innerHTML=
-      '<div class="no-data"><div class="icon">🔄</div><h2>ממתין לסריקה ראשונה</h2><p>הג\'וב היומי ירוץ בקרוב ויעדכן את הנתונים</p></div>';
+      '<div class="no-data"><div class="icon">🔄</div><h2>Waiting for first scan</h2><p>The daily job will run soon and update the data</p></div>';
   }
 }
 
@@ -112,11 +112,11 @@ function getSignalClass(score){
   return'signal-strong-sell';
 }
 function getSignalText(score){
-  if(score>=8)return'🟢 קנייה חזקה';
-  if(score>=6.5)return'🟡 קנייה';
-  if(score>=4.5)return'⚪ החזקה';
-  if(score>=2.5)return'🟠 מכירה';
-  return'🔴 מכירה חזקה';
+  if(score>=8)return'🟢 Strong Buy';
+  if(score>=6.5)return'🟡 Buy';
+  if(score>=4.5)return'⚪ Hold';
+  if(score>=2.5)return'🟠 Sell';
+  return'🔴 Strong Sell';
 }
 function scoreColor(score){
   if(score>=8)return'var(--green)';
@@ -127,11 +127,11 @@ function scoreColor(score){
 
 function render(data){
   const stocks=data.stocks||[];
-  document.getElementById('updateTime').textContent='עדכון אחרון: '+data.lastUpdated;
+  document.getElementById('updateTime').textContent='Last updated: '+data.lastUpdated;
 
   if(!stocks.length){
     document.getElementById('tableWrap').innerHTML=
-      '<div class="no-data"><div class="icon">🔄</div><h2>ממתין לסריקה ראשונה</h2><p>הג\'וב היומי ירוץ בקרוב ויעדכן את הנתונים</p></div>';
+      '<div class="no-data"><div class="icon">🔄</div><h2>Waiting for first scan</h2><p>The daily job will run soon and update the data</p></div>';
     return;
   }
 
@@ -140,18 +140,18 @@ function render(data){
   const buys=stocks.filter(s=>s.total>=6.5&&s.total<8).length;
   const avgScore=(stocks.reduce((a,s)=>a+s.total,0)/stocks.length).toFixed(1);
   document.getElementById('statsBar').innerHTML=`
-    <div class="stat-card"><div class="stat-value" style="color:var(--green)">${strongBuys}</div><div class="stat-label">קנייה חזקה</div></div>
-    <div class="stat-card"><div class="stat-value" style="color:var(--yellow)">${buys}</div><div class="stat-label">נוטה לקנייה</div></div>
-    <div class="stat-card"><div class="stat-value" style="color:var(--cyan)">${stocks.length}</div><div class="stat-label">מניות נסרקו</div></div>
-    <div class="stat-card"><div class="stat-value" style="color:var(--purple)">${avgScore}</div><div class="stat-label">ציון ממוצע</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--green)">${strongBuys}</div><div class="stat-label">Strong Buy</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--yellow)">${buys}</div><div class="stat-label">Leaning Buy</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--cyan)">${stocks.length}</div><div class="stat-label">Stocks Scanned</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--purple)">${avgScore}</div><div class="stat-label">Average Score</div></div>
   `;
 
   // Table
   let html=`<table>
     <thead><tr>
-      <th>#</th><th>טיקר</th><th>מחיר</th>
-      <th>📰 חדשות</th><th>🎯 אנליסטים</th><th>📈 טכני</th>
-      <th>ציון כולל</th><th>סיגנל</th><th>הערות</th>
+      <th>#</th><th>Ticker</th><th>Price</th>
+      <th>📰 News</th><th>🎯 Analysts</th><th>📈 Technical</th>
+      <th>Total Score</th><th>Signal</th><th>Notes</th>
     </tr></thead><tbody>`;
 
   stocks.sort((a,b)=>b.total-a.total).forEach((s,i)=>{
