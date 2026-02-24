@@ -272,7 +272,7 @@ const CRON_JOBS = [
     schedule:"Every hour 16:00-23:00 (Mon-Sat IST)",
     scheduleShort:"0 16-23 * * 1-6",
     target:"isolated",
-    model:"xai/grok-3",
+    model:"xai/grok-4-0709",
     category:"trading",
     skills:["technical-analysis","analyst-price-targets","market-news-sentiment"],
     skillLabels:[
@@ -292,7 +292,7 @@ const CRON_JOBS = [
     schedule:"Daily 09:00 & 17:00 IST",
     scheduleShort:"0 9,17 * * *",
     target:"isolated",
-    model:"xai/grok-3",
+    model:"xai/grok-4-0709",
     category:"trading",
     skills:["technical-analysis","analyst-price-targets","market-news-sentiment"],
     skillLabels:[
@@ -312,7 +312,7 @@ const CRON_JOBS = [
     schedule:"Daily 09:00 (Sun-Fri IST)",
     scheduleShort:"0 9 * * 0-5",
     target:"isolated",
-    model:"xai/grok-3",
+    model:"xai/grok-4-0709",
     category:"news",
     skills:["market-news-sentiment","hebrew"],
     skillLabels:[
@@ -331,7 +331,7 @@ const CRON_JOBS = [
     schedule:"Daily 12:00 IST",
     scheduleShort:"0 12 * * *",
     target:"isolated",
-    model:"xai/grok-3",
+    model:"xai/grok-4-0709",
     category:"geo",
     skills:["market-news-sentiment","ai-chief-architect"],
     skillLabels:[
@@ -616,6 +616,7 @@ const PRICING = {
   'claude-sonnet-4-6':{input:3.00,output:15.00},
   'claude-opus-4-6':{input:15.00,output:75.00},
   'claude-haiku-3-5':{input:0.80,output:4.00},
+  'grok-4-0709':{input:3.00,output:15.00},
   'grok-3':{input:3.00,output:15.00},
   'grok-3-mini':{input:0.30,output:0.50},
   'mistral-large-latest':{input:2.00,output:6.00},
@@ -747,10 +748,10 @@ const FLOW_NODES = [
   { id:'sched', label:'⏰ Cron\nScheduler', sub:'OpenClaw', x:0, y:1, type:'scheduler', color:'#94a3b8' },
 
   // Isolated sub-agents (cron)
-  { id:'trader',   label:'📈 Grok\nVirtual Trader',   sub:'xai/grok-3 · hourly',        x:-3, y:2, type:'isolated', color:'#34d399', cat:'trading' },
-  { id:'scanner',  label:'🔍 Daily Stock\nScanner',    sub:'xai/grok-3 · 2×/day',        x:-2, y:2, type:'isolated', color:'#34d399', cat:'trading' },
-  { id:'ainews',   label:'📰 AI יומי\nWhatsApp',       sub:'xai/grok-3 · 09:00',         x:-1, y:2, type:'isolated', color:'#fbbf24', cat:'news' },
-  { id:'iran',     label:'🗺️ Iran\nDashboard',         sub:'xai/grok-3 · 12:00',         x:0,  y:2, type:'isolated', color:'#fb7185', cat:'geo' },
+  { id:'trader',   label:'📈 Grok\nVirtual Trader',   sub:'xai/grok-4-0709 · hourly',        x:-3, y:2, type:'isolated', color:'#34d399', cat:'trading' },
+  { id:'scanner',  label:'🔍 Daily Stock\nScanner',    sub:'xai/grok-4-0709 · 2×/day',        x:-2, y:2, type:'isolated', color:'#34d399', cat:'trading' },
+  { id:'ainews',   label:'📰 AI יומי\nWhatsApp',       sub:'xai/grok-4-0709 · 09:00',         x:-1, y:2, type:'isolated', color:'#fbbf24', cat:'news' },
+  { id:'iran',     label:'🗺️ Iran\nDashboard',         sub:'xai/grok-4-0709 · 12:00',         x:0,  y:2, type:'isolated', color:'#fb7185', cat:'geo' },
   { id:'cost',     label:'💰 Cost\nDashboard',         sub:'claude-sonnet · 2×/day',      x:1,  y:2, type:'isolated', color:'#60a5fa', cat:'system' },
   { id:'backup',   label:'💾 Hub HTML\nBackup',        sub:'claude-sonnet · hourly',      x:2,  y:2, type:'isolated', color:'#60a5fa', cat:'system' },
   { id:'memory',   label:'🧠 Memory\nBackup',          sub:'claude-sonnet · hourly',      x:3,  y:2, type:'isolated', color:'#60a5fa', cat:'system' },
@@ -1011,6 +1012,6 @@ setInterval(()=>{
 
 loadAll();
 </script>
-<!-- deploy 202602241115 -->
+<!-- deploy 202602241117 -->
 </body>
 </html>
