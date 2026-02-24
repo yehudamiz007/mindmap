@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +22,7 @@
   --orange:#fb923c;
   --blue:#60a5fa;
 }
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:rtl}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:ltr}
 body::before{
   content:'';position:fixed;inset:0;z-index:0;
   background:radial-gradient(ellipse at 20% 50%,rgba(129,140,248,0.05) 0%,transparent 60%),
@@ -50,7 +50,7 @@ body::before{
   color:var(--text-dim);cursor:pointer;font-size:.82rem;transition:.2s;font-family:inherit}
 .sort-btn:hover{background:var(--surface2);color:var(--text)}
 .sort-btn.active{background:rgba(129,140,248,.15);color:var(--accent);border-color:rgba(129,140,248,.3)}
-.refresh-btn{margin-right:auto;padding:8px 18px;border-radius:10px;border:1px solid rgba(129,140,248,.3);
+.refresh-btn{margin-left:auto;padding:8px 18px;border-radius:10px;border:1px solid rgba(129,140,248,.3);
   background:rgba(129,140,248,.1);color:var(--accent);cursor:pointer;font-size:.85rem;
   transition:.2s;display:flex;align-items:center;gap:6px;font-family:inherit}
 .refresh-btn:hover{background:rgba(129,140,248,.2)}
@@ -90,7 +90,7 @@ body::before{
 .token-val.low{color:var(--green)}
 .task-text{font-size:.82rem;color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
 .cost-label{font-size:.82rem;font-variant-numeric:tabular-nums;min-width:56px;text-align:left}
-.section-label{font-size:.78rem;color:var(--text-dim);margin-bottom:12px;padding-right:4px;letter-spacing:.3px}
+.section-label{font-size:.78rem;color:var(--text-dim);margin-bottom:12px;padding-left:4px;letter-spacing:.3px}
 .auto-refresh{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-dim)}
 .auto-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
 </style>
@@ -100,39 +100,39 @@ body::before{
 
   <div class="header">
     <h1>🤖 Sub-Agents Dashboard</h1>
-    <p>מעקב עלויות וסטטוס סאב-אגנטים בזמן אמת</p>
-    <div class="last-update" id="lastUpdate">טוען...</div>
+    <p>Real-time cost tracking & sub-agent status</p>
+    <div class="last-update" id="lastUpdate">Loading...</div>
   </div>
 
   <div class="summary-grid" id="summaryGrid">
-    <div class="summary-card"><div class="label">סאב-אגנטים פעילים</div><div class="value accent" id="totalAgents">-</div><div class="sub">סשנים</div></div>
-    <div class="summary-card"><div class="label">סה"כ טוקנים</div><div class="value yellow" id="totalTokens">-</div><div class="sub">קלט + פלט</div></div>
-    <div class="summary-card"><div class="label">עלות משוערת</div><div class="value green" id="totalCost">-</div><div class="sub">USD (הערכה)</div></div>
-    <div class="summary-card"><div class="label">עלות בגובה ביותר</div><div class="value" id="highestCost" style="color:var(--red)">-</div><div class="sub" id="highestName">-</div></div>
-    <div class="summary-card"><div class="label">עדכון אוטומטי</div><div class="value" style="font-size:1.1rem;margin-top:4px"><span class="auto-refresh"><span class="auto-dot"></span> כל 30 שניות</span></div><div class="sub" id="nextRefresh">-</div></div>
+    <div class="summary-card"><div class="label">Active Sub-Agents</div><div class="value accent" id="totalAgents">-</div><div class="sub">Sessions</div></div>
+    <div class="summary-card"><div class="label">Total Tokens</div><div class="value yellow" id="totalTokens">-</div><div class="sub">Input + Output</div></div>
+    <div class="summary-card"><div class="label">Estimated Cost</div><div class="value green" id="totalCost">-</div><div class="sub">USD (estimate)</div></div>
+    <div class="summary-card"><div class="label">Highest Cost</div><div class="value" id="highestCost" style="color:var(--red)">-</div><div class="sub" id="highestName">-</div></div>
+    <div class="summary-card"><div class="label">Auto Refresh</div><div class="value" style="font-size:1.1rem;margin-top:4px"><span class="auto-refresh"><span class="auto-dot"></span> Every 30s</span></div><div class="sub" id="nextRefresh">-</div></div>
   </div>
 
   <div class="controls">
-    <span class="sort-label">מיון:</span>
-    <button class="sort-btn active" onclick="setSort('cost', event)">💰 עלות (יקר לזול)</button>
-    <button class="sort-btn" onclick="setSort('tokens', event)">📊 טוקנים</button>
-    <button class="sort-btn" onclick="setSort('name', event)">🔤 שם</button>
-    <button class="sort-btn" onclick="setSort('updated', event)">🕐 עדכון אחרון</button>
-    <button class="refresh-btn" id="refreshBtn" onclick="loadData()"><span class="icon">🔄</span> רענן נתונים</button>
+    <span class="sort-label">Sort:</span>
+    <button class="sort-btn active" onclick="setSort('cost', event)">💰 Cost (high to low)</button>
+    <button class="sort-btn" onclick="setSort('tokens', event)">📊 Tokens</button>
+    <button class="sort-btn" onclick="setSort('name', event)">🔤 Name</button>
+    <button class="sort-btn" onclick="setSort('updated', event)">🕐 Last Updated</button>
+    <button class="refresh-btn" id="refreshBtn" onclick="loadData()"><span class="icon">🔄</span> Refresh</button>
   </div>
 
-  <div class="section-label" id="agentCount">טוען...</div>
+  <div class="section-label" id="agentCount">Loading...</div>
   <div class="table-wrap">
     <div class="table-header">
-      <div>שם / זיהוי</div>
-      <div>מודל</div>
-      <div>סטטוס</div>
-      <div>טוקנים</div>
-      <div>עלות משוערת</div>
-      <div>עדכון אחרון</div>
+      <div>Name / ID</div>
+      <div>Model</div>
+      <div>Status</div>
+      <div>Tokens</div>
+      <div>Est. Cost</div>
+      <div>Last Updated</div>
       <div></div>
     </div>
-    <div id="agentList"><div class="loading"><div class="spinner"></div>טוען אגנטים...</div></div>
+    <div id="agentList"><div class="loading"><div class="spinner"></div>Loading agents...</div></div>
   </div>
 
 </div>
@@ -185,14 +185,14 @@ function fmtTime(ts) {
   const d = new Date(ts);
   const now = new Date();
   const diff = (now - d) / 1000;
-  if (diff < 60) return 'עכשיו';
-  if (diff < 3600) return `לפני ${Math.floor(diff/60)} ד'`;
-  if (diff < 86400) return `לפני ${Math.floor(diff/3600)} שע'`;
-  return d.toLocaleDateString('he-IL');
+  if (diff < 60) return 'Just now';
+  if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
+  if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
+  return d.toLocaleDateString('en-US');
 }
 
 function getModelShort(model) {
-  if (!model) return 'לא ידוע';
+  if (!model) return 'Unknown';
   return model.replace('anthropic/','').replace('xai/','').replace('mistral/','').replace('google/','');
 }
 
@@ -205,9 +205,9 @@ function getTokenClass(tokens, ctx) {
 
 function getStatusBadge(session) {
   const diff = (Date.now() - (session.updatedAt || 0)) / 1000;
-  if (diff < 30) return `<span class="status-badge running"><span class="dot pulse"></span>פועל</span>`;
-  if (diff < 300) return `<span class="status-badge active"><span class="dot"></span>אחרון</span>`;
-  return `<span class="status-badge idle"><span class="dot"></span>ממתין</span>`;
+  if (diff < 30) return `<span class="status-badge running"><span class="dot pulse"></span>Running</span>`;
+  if (diff < 300) return `<span class="status-badge active"><span class="dot"></span>Recent</span>`;
+  return `<span class="status-badge idle"><span class="dot"></span>Idle</span>`;
 }
 
 function getCostColor(cost, maxCost) {
@@ -246,10 +246,10 @@ function renderTable(sessions) {
     list.innerHTML = `
       <div class="empty-state">
         <div class="icon">🤖</div>
-        <p>אין סאב-אגנטים פעילים</p>
-        <small>סאב-אגנטים יופיעו כאן בעת הפעלתם</small>
+        <p>No active sub-agents</p>
+        <small>Sub-agents will appear here once launched</small>
       </div>`;
-    document.getElementById('agentCount').textContent = 'אין סאב-אגנטים פעילים';
+    document.getElementById('agentCount').textContent = 'No active sub-agents';
     return;
   }
 
@@ -262,7 +262,7 @@ function renderTable(sessions) {
     const tokens = s.totalTokens || 0;
     const tokClass = getTokenClass(tokens, s.contextTokens);
     const modelShort = getModelShort(s.model);
-    const name = s.displayName || s.key || 'לא ידוע';
+    const name = s.displayName || s.key || 'Unknown';
     const shortName = name.length > 28 ? name.substring(0,25)+'...' : name;
 
     const lastMsg = s.messages && s.messages[0];
@@ -285,7 +285,7 @@ function renderTable(sessions) {
       </div>
       <div><span class="model-chip" title="${s.model||''}">${modelShort}</span></div>
       <div>${getStatusBadge(s)}</div>
-      <div><span class="token-val ${tokClass}" title="${tokens.toLocaleString()} טוקנים">${fmtTokens(tokens)}</span></div>
+      <div><span class="token-val ${tokClass}" title="${tokens.toLocaleString()} tokens">${fmtTokens(tokens)}</span></div>
       <div>
         <div class="cost-cell">
           <span class="cost-label" style="color:${costColor}">$${fmt(cost,4)}</span>
@@ -297,8 +297,8 @@ function renderTable(sessions) {
     </div>`;
   }).join('');
 
-  const sortLabel = sortKey === 'cost' ? 'עלות' : sortKey === 'tokens' ? 'טוקנים' : sortKey === 'name' ? 'שם' : 'עדכון';
-  document.getElementById('agentCount').textContent = `${sorted.length} סאב-אגנטים - ממוינים לפי ${sortLabel}`;
+  const sortLabel = sortKey === 'cost' ? 'Cost' : sortKey === 'tokens' ? 'Tokens' : sortKey === 'name' ? 'Name' : 'Last Updated';
+  document.getElementById('agentCount').textContent = `${sorted.length} sub-agent${sorted.length !== 1 ? 's' : ''} - sorted by ${sortLabel}`;
 }
 
 function updateSummary(sessions) {
@@ -334,7 +334,7 @@ async function loadData() {
       const data = await res.json();
       sessions = data.sessions || data || [];
     } else {
-      throw new Error('API לא זמין');
+      throw new Error('API unavailable');
     }
 
     allSessions = sessions.filter(s => s.kind === 'subagent' || s.key?.includes('subagent') || s.key?.includes('isolated'));
@@ -344,7 +344,7 @@ async function loadData() {
 
     renderTable(allSessions);
     updateSummary(allSessions);
-    document.getElementById('lastUpdate').textContent = 'עדכון אחרון: ' + new Date().toLocaleTimeString('he-IL');
+    document.getElementById('lastUpdate').textContent = 'Last updated: ' + new Date().toLocaleTimeString('en-US');
 
   } catch (e) {
     showOfflineState(e.message);
@@ -355,17 +355,17 @@ async function loadData() {
 
 function showOfflineState(msg) {
   const demo = [
-    { key:'isolated-market-analysis', displayName:'Market Sentiment Analyzer', model:'xai/grok-3', totalTokens:45200, contextTokens:200000, updatedAt:Date.now()-120000, kind:'subagent', messages:[{role:'user',content:[{type:'text',text:'נתח סנטימנט חדשות NVDA'}]}] },
+    { key:'isolated-market-analysis', displayName:'Market Sentiment Analyzer', model:'xai/grok-3', totalTokens:45200, contextTokens:200000, updatedAt:Date.now()-120000, kind:'subagent', messages:[{role:'user',content:[{type:'text',text:'Analyze NVDA news sentiment'}]}] },
     { key:'isolated-tech-research', displayName:'Tech Research Agent', model:'anthropic/claude-sonnet-4-6', totalTokens:31800, contextTokens:200000, updatedAt:Date.now()-600000, kind:'subagent', messages:[{role:'user',content:[{type:'text',text:'Research AI chip market trends Q1 2026'}]}] },
-    { key:'isolated-price-targets', displayName:'Price Target Aggregator', model:'anthropic/claude-sonnet-4-6', totalTokens:18500, contextTokens:200000, updatedAt:Date.now()-3600000, kind:'subagent', messages:[{role:'user',content:[{type:'text',text:'מחירי יעד אנליסטים TSLA'}]}] },
-    { key:'isolated-portfolio-check', displayName:'Portfolio Monitor', model:'mistral/mistral-large-latest', totalTokens:9200, contextTokens:200000, updatedAt:Date.now()-86400000, kind:'subagent', messages:[{role:'user',content:[{type:'text',text:'בדוק פורטפוליו יומי'}]}] },
+    { key:'isolated-price-targets', displayName:'Price Target Aggregator', model:'anthropic/claude-sonnet-4-6', totalTokens:18500, contextTokens:200000, updatedAt:Date.now()-3600000, kind:'subagent', messages:[{role:'user',content:[{type:'text',text:'Analyst price targets TSLA'}]}] },
+    { key:'isolated-portfolio-check', displayName:'Portfolio Monitor', model:'mistral/mistral-large-latest', totalTokens:9200, contextTokens:200000, updatedAt:Date.now()-86400000, kind:'subagent', messages:[{role:'user',content:[{type:'text',text:'Daily portfolio check'}]}] },
   ];
 
   allSessions = demo;
   renderTable(allSessions);
   updateSummary(allSessions);
   document.getElementById('lastUpdate').innerHTML =
-    `<span style="color:var(--yellow)">⚠️ מצב אופליין - Gateway לא זמין (${msg}) — מציג דמו</span>`;
+    `<span style="color:var(--yellow)">⚠️ Offline mode - Gateway unavailable (${msg}) — showing demo data</span>`;
 }
 
 let countdown = 30;
@@ -375,11 +375,11 @@ setInterval(() => {
     countdown = 30;
     loadData();
   }
-  document.getElementById('nextRefresh').textContent = `רענון אוטומטי בעוד ${countdown} שניות`;
+  document.getElementById('nextRefresh').textContent = `Auto-refresh in ${countdown}s`;
 }, 1000);
 
 loadData();
 </script>
-<!-- deploy 202602240520 -->
+<!-- deploy 202602240554 -->
 </body>
 </html>
