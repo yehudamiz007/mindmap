@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🤖 Sub-Agents Dashboard</title>
+<title>🤖 Sub-Agents & Cron Dashboard</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -21,365 +21,691 @@
   --red:#f87171;
   --orange:#fb923c;
   --blue:#60a5fa;
+  --pink:#f472b6;
 }
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:ltr}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 body::before{
   content:'';position:fixed;inset:0;z-index:0;
   background:radial-gradient(ellipse at 20% 50%,rgba(129,140,248,0.05) 0%,transparent 60%),
              radial-gradient(ellipse at 80% 20%,rgba(167,139,250,0.05) 0%,transparent 60%);
   pointer-events:none;
 }
-.container{position:relative;z-index:1;max-width:1300px;margin:0 auto;padding:28px 20px 80px}
+.container{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:28px 20px 80px}
 .header{text-align:center;padding:40px 0 32px}
-.header h1{font-size:2.4rem;font-weight:200;letter-spacing:-1px;
+.header h1{font-size:2.2rem;font-weight:200;letter-spacing:-1px;
   background:linear-gradient(135deg,#e4e4e7,#818cf8,#a78bfa);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .header p{color:var(--text-dim);margin-top:8px;font-size:.95rem}
 .last-update{font-size:.78rem;color:var(--text-dim);margin-top:6px;opacity:.6}
-.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:32px}
-.summary-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px 22px}
-.summary-card .label{font-size:.78rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
-.summary-card .value{font-size:1.9rem;font-weight:300;letter-spacing:-1px}
-.summary-card .sub{font-size:.78rem;color:var(--text-dim);margin-top:4px}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;margin-bottom:28px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:5px;width:fit-content}
+.tab{padding:8px 20px;border-radius:10px;border:none;background:transparent;color:var(--text-dim);cursor:pointer;font-size:.88rem;font-family:inherit;transition:.2s}
+.tab:hover{color:var(--text)}
+.tab.active{background:rgba(129,140,248,.18);color:var(--accent);border:1px solid rgba(129,140,248,.25)}
+
+/* Summary cards */
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:28px}
+.summary-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px}
+.summary-card .label{font-size:.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.summary-card .value{font-size:1.8rem;font-weight:300;letter-spacing:-1px}
+.summary-card .sub{font-size:.75rem;color:var(--text-dim);margin-top:4px}
 .value.green{color:var(--green)}
 .value.yellow{color:var(--yellow)}
 .value.accent{color:var(--accent)}
-.controls{display:flex;gap:12px;align-items:center;margin-bottom:24px;flex-wrap:wrap}
+.value.red{color:var(--red)}
+
+/* Controls */
+.controls{display:flex;gap:10px;align-items:center;margin-bottom:20px;flex-wrap:wrap}
 .sort-label{font-size:.82rem;color:var(--text-dim)}
-.sort-btn{padding:7px 14px;border-radius:10px;border:1px solid var(--border);background:var(--surface);
-  color:var(--text-dim);cursor:pointer;font-size:.82rem;transition:.2s;font-family:inherit}
+.sort-btn{padding:6px 13px;border-radius:9px;border:1px solid var(--border);background:var(--surface);
+  color:var(--text-dim);cursor:pointer;font-size:.8rem;transition:.2s;font-family:inherit}
 .sort-btn:hover{background:var(--surface2);color:var(--text)}
 .sort-btn.active{background:rgba(129,140,248,.15);color:var(--accent);border-color:rgba(129,140,248,.3)}
-.refresh-btn{margin-left:auto;padding:8px 18px;border-radius:10px;border:1px solid rgba(129,140,248,.3);
-  background:rgba(129,140,248,.1);color:var(--accent);cursor:pointer;font-size:.85rem;
+.refresh-btn{margin-left:auto;padding:7px 16px;border-radius:9px;border:1px solid rgba(129,140,248,.3);
+  background:rgba(129,140,248,.1);color:var(--accent);cursor:pointer;font-size:.83rem;
   transition:.2s;display:flex;align-items:center;gap:6px;font-family:inherit}
 .refresh-btn:hover{background:rgba(129,140,248,.2)}
 .refresh-btn.spinning .icon{animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+/* Sub-agents table */
 .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden}
-.table-header{display:grid;grid-template-columns:2fr 1.5fr 1fr 1fr 1fr 1fr 80px;gap:0;
-  padding:14px 20px;border-bottom:1px solid var(--border);
-  font-size:.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px}
-.agent-row{display:grid;grid-template-columns:2fr 1.5fr 1fr 1fr 1fr 1fr 80px;gap:0;
-  padding:16px 20px;border-bottom:1px solid var(--border);transition:.2s;align-items:center}
+.table-header{display:grid;grid-template-columns:2fr 1.5fr 1fr 1fr 1fr 1fr 70px;gap:0;
+  padding:12px 20px;border-bottom:1px solid var(--border);
+  font-size:.72rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px}
+.agent-row{display:grid;grid-template-columns:2fr 1.5fr 1fr 1fr 1fr 1fr 70px;gap:0;
+  padding:14px 20px;border-bottom:1px solid var(--border);transition:.2s;align-items:center}
 .agent-row:last-child{border-bottom:none}
 .agent-row:hover{background:var(--surface2)}
-.cost-cell{display:flex;align-items:center;gap:10px}
+.cost-cell{display:flex;align-items:center;gap:8px}
 .cost-bar-wrap{flex:1;height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden}
 .cost-bar{height:100%;border-radius:2px;transition:width .6s ease}
-.status-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:.72rem}
+.status-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;font-size:.7rem}
 .status-badge.active{background:rgba(52,211,153,.12);color:var(--green);border:1px solid rgba(52,211,153,.2)}
 .status-badge.idle{background:rgba(113,113,122,.12);color:var(--text-dim);border:1px solid rgba(113,113,122,.2)}
 .status-badge.running{background:rgba(251,191,36,.12);color:var(--yellow);border:1px solid rgba(251,191,36,.2)}
 .dot{width:5px;height:5px;border-radius:50%;background:currentColor}
-.dot.pulse{animation:pulse 1.5s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.model-chip{font-size:.72rem;padding:2px 8px;border-radius:6px;background:rgba(129,140,248,.1);
+.dot.pulse{animation:pulse-dot 1.5s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.3}}
+.model-chip{font-size:.7rem;padding:2px 7px;border-radius:6px;background:rgba(129,140,248,.1);
   color:var(--accent);border:1px solid rgba(129,140,248,.2);white-space:nowrap;overflow:hidden;
-  text-overflow:ellipsis;max-width:140px}
-.empty-state{text-align:center;padding:80px 20px;color:var(--text-dim)}
-.empty-state .icon{font-size:3rem;margin-bottom:16px}
-.empty-state p{font-size:1rem;margin-bottom:8px}
-.empty-state small{font-size:.82rem;opacity:.6}
-.loading{text-align:center;padding:60px 20px;color:var(--text-dim)}
-.spinner{width:36px;height:36px;border:2px solid var(--border);border-top-color:var(--accent);
-  border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px}
-.token-val{font-size:.88rem;font-variant-numeric:tabular-nums}
+  text-overflow:ellipsis;max-width:130px}
+.task-text{font-size:.78rem;color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px}
+.cost-label{font-size:.8rem;font-variant-numeric:tabular-nums;min-width:52px}
+.token-val{font-size:.85rem;font-variant-numeric:tabular-nums}
 .token-val.high{color:var(--red)}
 .token-val.med{color:var(--yellow)}
 .token-val.low{color:var(--green)}
-.task-text{font-size:.82rem;color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
-.cost-label{font-size:.82rem;font-variant-numeric:tabular-nums;min-width:56px;text-align:left}
-.section-label{font-size:.78rem;color:var(--text-dim);margin-bottom:12px;padding-left:4px;letter-spacing:.3px}
-.auto-refresh{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-dim)}
-.auto-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+
+/* Cron section */
+.cron-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.cron-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:20px;
+  transition:.25s;position:relative;overflow:hidden}
+.cron-card:hover{border-color:var(--border-hover);background:var(--surface2)}
+.cron-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:3px 3px 0 0}
+.cron-card.ok::before{background:linear-gradient(90deg,var(--green),transparent)}
+.cron-card.idle::before{background:linear-gradient(90deg,var(--text-dim),transparent)}
+.cron-card.error::before{background:linear-gradient(90deg,var(--red),transparent)}
+
+.cron-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}
+.cron-name{font-size:.95rem;font-weight:500;line-height:1.3}
+.cron-status{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:.68rem;flex-shrink:0}
+.cron-status.ok{background:rgba(52,211,153,.12);color:var(--green);border:1px solid rgba(52,211,153,.2)}
+.cron-status.idle{background:rgba(113,113,122,.12);color:var(--text-dim);border:1px solid rgba(113,113,122,.2)}
+.cron-status.error{background:rgba(248,113,113,.12);color:var(--red);border:1px solid rgba(248,113,113,.2)}
+
+.cron-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.meta-pill{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:8px;
+  font-size:.72rem;background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--text-dim)}
+
+.cron-mappings{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.skill-tag{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:8px;font-size:.72rem;font-weight:500}
+.skill-tag.analysis{background:rgba(96,165,250,.12);color:var(--blue);border:1px solid rgba(96,165,250,.2)}
+.skill-tag.trading{background:rgba(52,211,153,.12);color:var(--green);border:1px solid rgba(52,211,153,.2)}
+.skill-tag.family{background:rgba(244,114,182,.12);color:var(--pink);border:1px solid rgba(244,114,182,.2)}
+.skill-tag.system{background:rgba(129,140,248,.12);color:var(--accent);border:1px solid rgba(129,140,248,.2)}
+.skill-tag.news{background:rgba(251,191,36,.12);color:var(--yellow);border:1px solid rgba(251,191,36,.2)}
+.skill-tag.geo{background:rgba(251,113,133,.12);color:#fb7185;border:1px solid rgba(251,113,133,.2)}
+
+.cron-times{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.time-item{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:8px 12px}
+.time-item .tl{font-size:.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+.time-item .tv{font-size:.82rem}
+
+.duration-bar{width:100%;height:3px;background:rgba(255,255,255,0.05);border-radius:2px;margin-top:10px;overflow:hidden}
+.duration-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+
+.section-title{font-size:.78rem;color:var(--text-dim);margin-bottom:14px;padding-left:4px;letter-spacing:.3px;
+  display:flex;align-items:center;gap:8px}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.empty-state{text-align:center;padding:60px 20px;color:var(--text-dim)}
+.empty-state .icon{font-size:2.8rem;margin-bottom:14px}
+.loading{text-align:center;padding:50px 20px;color:var(--text-dim)}
+.spinner{width:32px;height:32px;border:2px solid var(--border);border-top-color:var(--accent);
+  border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 14px}
+.auto-refresh{display:flex;align-items:center;gap:5px;font-size:.73rem;color:var(--text-dim)}
+.auto-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse-dot 2s infinite}
+.model-chip-grok{background:rgba(52,211,153,.1);color:var(--green);border-color:rgba(52,211,153,.2)}
+
+/* filter row for cron */
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
+.filter-chip{padding:5px 13px;border-radius:20px;border:1px solid var(--border);background:var(--surface);
+  color:var(--text-dim);cursor:pointer;font-size:.78rem;font-family:inherit;transition:.2s}
+.filter-chip:hover{background:var(--surface2);color:var(--text)}
+.filter-chip.active{background:rgba(129,140,248,.15);color:var(--accent);border-color:rgba(129,140,248,.3)}
+
+.panel{display:none}
+.panel.active{display:block}
 </style>
 </head>
 <body>
 <div class="container">
 
   <div class="header">
-    <h1>🤖 Sub-Agents Dashboard</h1>
-    <p>Real-time cost tracking & sub-agent status</p>
+    <h1>🤖 Sub-Agents & Cron Dashboard</h1>
+    <p>Real-time monitoring - agents, cron jobs, skills mapping</p>
     <div class="last-update" id="lastUpdate">Loading...</div>
   </div>
 
-  <div class="summary-grid" id="summaryGrid">
-    <div class="summary-card"><div class="label">Active Sub-Agents</div><div class="value accent" id="totalAgents">-</div><div class="sub">Sessions</div></div>
-    <div class="summary-card"><div class="label">Total Tokens</div><div class="value yellow" id="totalTokens">-</div><div class="sub">Input + Output</div></div>
-    <div class="summary-card"><div class="label">Estimated Cost</div><div class="value green" id="totalCost">-</div><div class="sub">USD (estimate)</div></div>
-    <div class="summary-card"><div class="label">Highest Cost</div><div class="value" id="highestCost" style="color:var(--red)">-</div><div class="sub" id="highestName">-</div></div>
-    <div class="summary-card"><div class="label">Auto Refresh</div><div class="value" style="font-size:1.1rem;margin-top:4px"><span class="auto-refresh"><span class="auto-dot"></span> Every 30s</span></div><div class="sub" id="nextRefresh">-</div></div>
-  </div>
-
-  <div class="controls">
-    <span class="sort-label">Sort:</span>
-    <button class="sort-btn active" onclick="setSort('cost', event)">💰 Cost (high to low)</button>
-    <button class="sort-btn" onclick="setSort('tokens', event)">📊 Tokens</button>
-    <button class="sort-btn" onclick="setSort('name', event)">🔤 Name</button>
-    <button class="sort-btn" onclick="setSort('updated', event)">🕐 Last Updated</button>
-    <button class="refresh-btn" id="refreshBtn" onclick="loadData()"><span class="icon">🔄</span> Refresh</button>
-  </div>
-
-  <div class="section-label" id="agentCount">Loading...</div>
-  <div class="table-wrap">
-    <div class="table-header">
-      <div>Name / ID</div>
-      <div>Model</div>
-      <div>Status</div>
-      <div>Tokens</div>
-      <div>Est. Cost</div>
-      <div>Last Updated</div>
-      <div></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('cron',this)">⏰ Cron Jobs</button>
+      <button class="tab" onclick="switchTab('agents',this)">🤖 Sub-Agents</button>
     </div>
-    <div id="agentList"><div class="loading"><div class="spinner"></div>Loading agents...</div></div>
+    <div class="auto-refresh"><span class="auto-dot"></span><span id="nextRefresh">Auto-refresh in 30s</span></div>
+  </div>
+
+  <!-- CRON PANEL -->
+  <div id="panel-cron" class="panel active">
+    <div class="summary-grid" id="cronSummary">
+      <div class="summary-card"><div class="label">Total Jobs</div><div class="value accent" id="cs-total">-</div><div class="sub">Cron jobs</div></div>
+      <div class="summary-card"><div class="label">Active</div><div class="value green" id="cs-active">-</div><div class="sub">Running ok</div></div>
+      <div class="summary-card"><div class="label">Isolated</div><div class="value yellow" id="cs-isolated">-</div><div class="sub">Sub-agents</div></div>
+      <div class="summary-card"><div class="label">Reminders</div><div class="value" style="color:var(--pink)" id="cs-reminders">-</div><div class="sub">Family events</div></div>
+      <div class="summary-card"><div class="label">Next Run</div><div class="value" style="font-size:1rem;margin-top:6px" id="cs-next">-</div><div class="sub" id="cs-next-name">-</div></div>
+    </div>
+
+    <div class="filter-row">
+      <span style="font-size:.78rem;color:var(--text-dim)">Filter:</span>
+      <button class="filter-chip active" onclick="filterCron('all',this)">All</button>
+      <button class="filter-chip" onclick="filterCron('trading',this)">📈 Trading</button>
+      <button class="filter-chip" onclick="filterCron('news',this)">📰 News & AI</button>
+      <button class="filter-chip" onclick="filterCron('system',this)">🔧 System</button>
+      <button class="filter-chip" onclick="filterCron('family',this)">👨‍👩‍👧 Family</button>
+      <button class="filter-chip" onclick="filterCron('geo',this)">🗺️ Geo</button>
+      <button class="refresh-btn" id="cronRefreshBtn" onclick="loadAll()"><span class="icon">🔄</span> Refresh</button>
+    </div>
+
+    <div class="section-title">Scheduled Jobs</div>
+    <div id="cronGrid" class="cron-grid"><div class="loading"><div class="spinner"></div>Loading cron jobs...</div></div>
+  </div>
+
+  <!-- AGENTS PANEL -->
+  <div id="panel-agents" class="panel">
+    <div class="summary-grid" id="agentSummary">
+      <div class="summary-card"><div class="label">Active Sub-Agents</div><div class="value accent" id="totalAgents">-</div><div class="sub">Sessions</div></div>
+      <div class="summary-card"><div class="label">Total Tokens</div><div class="value yellow" id="totalTokens">-</div><div class="sub">Input + Output</div></div>
+      <div class="summary-card"><div class="label">Estimated Cost</div><div class="value green" id="totalCost">-</div><div class="sub">USD (estimate)</div></div>
+      <div class="summary-card"><div class="label">Highest Cost</div><div class="value red" id="highestCost">-</div><div class="sub" id="highestName">-</div></div>
+    </div>
+
+    <div class="controls">
+      <span class="sort-label">Sort:</span>
+      <button class="sort-btn active" onclick="setSort('cost',event)">💰 Cost</button>
+      <button class="sort-btn" onclick="setSort('tokens',event)">📊 Tokens</button>
+      <button class="sort-btn" onclick="setSort('name',event)">🔤 Name</button>
+      <button class="sort-btn" onclick="setSort('updated',event)">🕐 Updated</button>
+      <button class="refresh-btn" onclick="loadAll()"><span class="icon">🔄</span> Refresh</button>
+    </div>
+
+    <div class="section-title" id="agentCount">Loading...</div>
+    <div class="table-wrap">
+      <div class="table-header">
+        <div>Name / ID</div><div>Model</div><div>Status</div>
+        <div>Tokens</div><div>Est. Cost</div><div>Last Updated</div><div>#</div>
+      </div>
+      <div id="agentList"><div class="loading"><div class="spinner"></div>Loading agents...</div></div>
+    </div>
   </div>
 
 </div>
 
 <script>
-const PRICING = {
-  'claude-sonnet-4-6':     { input: 3.00,  output: 15.00 },
-  'claude-sonnet-4-5':     { input: 3.00,  output: 15.00 },
-  'claude-opus-4-6':       { input: 15.00, output: 75.00 },
-  'claude-opus-4-5':       { input: 15.00, output: 75.00 },
-  'claude-haiku-3-5':      { input: 0.80,  output: 4.00  },
-  'claude-haiku-3':        { input: 0.25,  output: 1.25  },
-  'grok-4':                { input: 5.00,  output: 15.00 },
-  'grok-3':                { input: 3.00,  output: 15.00 },
-  'grok-3-mini':           { input: 0.30,  output: 0.50  },
-  'mistral-large-latest':  { input: 2.00,  output: 6.00  },
-  'gemini-2.0-flash':      { input: 0.10,  output: 0.40  },
-  'gemini-1.5-pro':        { input: 1.25,  output: 5.00  },
-  'default':               { input: 3.00,  output: 15.00 },
-};
+// ── CRON DATA ──────────────────────────────────────────────────────────────────
+const CRON_JOBS = [
+  {
+    id:"e1eb3b60",
+    name:"Grok Virtual Trader",
+    schedule:"Every hour 16:00-23:00 (Mon-Sat IST)",
+    scheduleShort:"0 16-23 * * 1-6",
+    target:"isolated",
+    model:"xai/grok-3",
+    category:"trading",
+    skills:["technical-analysis","analyst-price-targets","market-news-sentiment"],
+    skillLabels:[
+      {label:"📈 Technical Analysis",cls:"analysis"},
+      {label:"🎯 Analyst Targets",cls:"trading"},
+      {label:"📰 News Sentiment",cls:"news"}
+    ],
+    description:"Active virtual stock trader managing $1,000 portfolio. Fetches real prices from Google Finance, applies 3-pillar analysis, rotates positions aggressively.",
+    lastRunMs: Date.now() - 5*3600*1000,
+    nextRunMs: Date.now() + 56*60*1000,
+    lastStatus:"ok",
+    lastDurationMs:129484
+  },
+  {
+    id:"b496cdfe",
+    name:"Daily Stock Scanner",
+    schedule:"Daily 09:00 & 17:00 IST",
+    scheduleShort:"0 9,17 * * *",
+    target:"isolated",
+    model:"xai/grok-3",
+    category:"trading",
+    skills:["technical-analysis","analyst-price-targets","market-news-sentiment"],
+    skillLabels:[
+      {label:"📈 Technical Analysis",cls:"analysis"},
+      {label:"🎯 Analyst Targets",cls:"trading"},
+      {label:"📰 News Sentiment",cls:"news"}
+    ],
+    description:"Grok picks 15 best stocks/crypto, fetches real prices, deep 3-pillar analysis, saves to stock-data.json, sends WhatsApp summary.",
+    lastRunMs: Date.now() - 12*3600*1000,
+    nextRunMs: Date.now() + 12*3600*1000,
+    lastStatus:"ok",
+    lastDurationMs:121404
+  },
+  {
+    id:"df402cec",
+    name:"סיכום AI יומי - WhatsApp",
+    schedule:"Daily 09:00 (Sun-Fri IST)",
+    scheduleShort:"0 9 * * 0-5",
+    target:"isolated",
+    model:"xai/grok-3",
+    category:"news",
+    skills:["market-news-sentiment","hebrew"],
+    skillLabels:[
+      {label:"📰 Market News",cls:"news"},
+      {label:"🇮🇱 Hebrew",cls:"family"}
+    ],
+    description:"Fetches AI news from TechCrunch, VentureBeat, The Verge, Ars Technica. Picks top 5-6 fresh stories from last 24h, formats in Hebrew, sends to WhatsApp.",
+    lastRunMs: Date.now() - 11*3600*1000,
+    nextRunMs: Date.now() + 12*3600*1000,
+    lastStatus:"ok",
+    lastDurationMs:51147
+  },
+  {
+    id:"9ec71945",
+    name:"Iran Dashboard Update",
+    schedule:"Daily 12:00 IST",
+    scheduleShort:"0 12 * * *",
+    target:"isolated",
+    model:"xai/grok-3",
+    category:"geo",
+    skills:["market-news-sentiment","ai-chief-architect"],
+    skillLabels:[
+      {label:"🗺️ Geo Intel",cls:"geo"},
+      {label:"📰 News Search",cls:"news"}
+    ],
+    description:"Updates Iran-US tensions dashboard. Searches latest news, recalculates threat level score, updates timeline events, pushes to GitHub.",
+    lastRunMs: Date.now() - 9*3600*1000,
+    nextRunMs: Date.now() + 15*3600*1000,
+    lastStatus:"ok",
+    lastDurationMs:8088
+  },
+  {
+    id:"aa64c5a7",
+    name:"Cost Dashboard Update",
+    schedule:"Daily 09:00 & 21:00 IST",
+    scheduleShort:"0 9,21 * * *",
+    target:"isolated",
+    model:"anthropic/claude-sonnet-4-6",
+    category:"system",
+    skills:[],
+    skillLabels:[
+      {label:"🔧 System",cls:"system"}
+    ],
+    description:"Runs update-costs.js script, pushes costs.json to GitHub. Keeps cost analytics dashboard fresh.",
+    lastRunMs: Date.now() - 2*60*1000,
+    nextRunMs: Date.now() + 12*3600*1000,
+    lastStatus:"ok",
+    lastDurationMs:12192
+  },
+  {
+    id:"8e0d2072",
+    name:"Hourly Hub HTML Backup",
+    schedule:"Every 1 hour",
+    scheduleShort:"every 1h",
+    target:"isolated",
+    model:"anthropic/claude-sonnet-4-6",
+    category:"system",
+    skills:[],
+    skillLabels:[
+      {label:"🔧 System",cls:"system"}
+    ],
+    description:"Runs backup_hub.ps1 to backup hub HTML files. Ensures no work is lost.",
+    lastRunMs: Date.now() - 2*60*1000,
+    nextRunMs: Date.now() + 58*60*1000,
+    lastStatus:"ok",
+    lastDurationMs:6852
+  },
+  {
+    id:"74a0a646",
+    name:"Backup MEMORY.md",
+    schedule:"Every hour (staggered 5min)",
+    scheduleShort:"0 * * * *",
+    target:"isolated",
+    model:"anthropic/claude-sonnet-4-6",
+    category:"system",
+    skills:[],
+    skillLabels:[
+      {label:"🧠 Memory",cls:"system"}
+    ],
+    description:"Copies MEMORY.md to memory/backups/MEMORY-YYYY-MM-DD-HH.md. Keeps last 48 backups.",
+    lastRunMs: Date.now() - 1*60*1000,
+    nextRunMs: Date.now() + 59*60*1000,
+    lastStatus:"ok",
+    lastDurationMs:7462
+  },
+  {
+    id:"968e059d",
+    name:"Arbel Birthday Reminder",
+    schedule:"April 1st, 08:00 IST",
+    scheduleShort:"0 8 1 4 *",
+    target:"main",
+    model:null,
+    category:"family",
+    skills:["parenting","husband"],
+    skillLabels:[
+      {label:"👶 Parenting",cls:"family"},
+      {label:"💕 Family",cls:"family"}
+    ],
+    description:"🎂 Reminder: Arbel's birthday in 1 week! (April 8). Plan a gift & party.",
+    lastRunMs: null,
+    nextRunMs: Date.now() + 35*24*3600*1000,
+    lastStatus:"idle",
+    lastDurationMs:null
+  },
+  {
+    id:"b59cde1a",
+    name:"Ilana Birthday Reminder",
+    schedule:"April 4th, 08:00 IST",
+    scheduleShort:"0 8 4 4 *",
+    target:"main",
+    model:null,
+    category:"family",
+    skills:["husband"],
+    skillLabels:[
+      {label:"💍 Husband",cls:"family"}
+    ],
+    description:"💕 Reminder: Ilana's birthday in 1 week! (April 11). Plan something special for her.",
+    lastRunMs: null,
+    nextRunMs: Date.now() + 38*24*3600*1000,
+    lastStatus:"idle",
+    lastDurationMs:null
+  },
+  {
+    id:"b208a785",
+    name:"Avior Birthday Reminder",
+    schedule:"April 12th, 08:00 IST",
+    scheduleShort:"0 8 12 4 *",
+    target:"main",
+    model:null,
+    category:"family",
+    skills:["parenting"],
+    skillLabels:[
+      {label:"🎨 Parenting",cls:"family"}
+    ],
+    description:"🎂 Reminder: Avior's birthday in 1 week! (April 19). Plan a gift & party.",
+    lastRunMs: null,
+    nextRunMs: Date.now() + 46*24*3600*1000,
+    lastStatus:"idle",
+    lastDurationMs:null
+  },
+  {
+    id:"5996c738",
+    name:"Wedding Anniversary Reminder",
+    schedule:"September 7th, 08:00 IST",
+    scheduleShort:"0 8 7 9 *",
+    target:"main",
+    model:null,
+    category:"family",
+    skills:["husband"],
+    skillLabels:[
+      {label:"💍 Husband",cls:"family"}
+    ],
+    description:"💍 Reminder: Anniversary in 1 week! (September 14). Plan something romantic.",
+    lastRunMs: null,
+    nextRunMs: Date.now() + 194*24*3600*1000,
+    lastStatus:"idle",
+    lastDurationMs:null
+  },
+  {
+    id:"74767929",
+    name:"Nitai Birthday Reminder",
+    schedule:"January 4th, 08:00 IST",
+    scheduleShort:"0 8 4 1 *",
+    target:"main",
+    model:null,
+    category:"family",
+    skills:["parenting"],
+    skillLabels:[
+      {label:"⚽ Parenting",cls:"family"}
+    ],
+    description:"🎂 Reminder: Nitai's birthday in 1 week! (January 11). Plan a gift & party.",
+    lastRunMs: null,
+    nextRunMs: Date.now() + 313*24*3600*1000,
+    lastStatus:"idle",
+    lastDurationMs:null
+  }
+];
 
-function getPrice(model) {
-  if (!model) return PRICING.default;
-  const directKey = Object.keys(PRICING).find(k => model.toLowerCase().includes(k.toLowerCase()));
-  return PRICING[directKey] || PRICING.default;
+// ── TABS ──────────────────────────────────────────────────────────────────────
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-'+name).classList.add('active');
 }
 
-function estimateCost(session) {
-  const total = session.totalTokens || 0;
-  const inputTokens  = total * 0.70;
-  const outputTokens = total * 0.30;
-  const p = getPrice(session.model);
-  return (inputTokens / 1e6 * p.input) + (outputTokens / 1e6 * p.output);
+// ── CRON RENDERING ────────────────────────────────────────────────────────────
+let cronFilter = 'all';
+
+function filterCron(f, btn) {
+  cronFilter = f;
+  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCron();
 }
 
-function fmt(n, digits=2) {
-  if (n === null || n === undefined || isNaN(n)) return '-';
-  return n.toFixed(digits);
+function fmtRelTime(ms) {
+  if (!ms) return '-';
+  const diff = ms - Date.now();
+  const abs = Math.abs(diff);
+  const past = diff < 0;
+  if (abs < 60000) return past ? 'Just now' : 'In <1m';
+  if (abs < 3600000) return (past?'':'')+Math.round(abs/60000)+'m '+(past?'ago':'');
+  if (abs < 86400000) return (past?'':'')+Math.round(abs/3600000)+'h '+(past?'ago':'');
+  return (past?'':'')+Math.round(abs/86400000)+'d '+(past?'ago':'');
 }
 
-function fmtTokens(n) {
-  if (!n) return '0';
-  if (n >= 1e6) return (n/1e6).toFixed(1)+'M';
-  if (n >= 1e3) return (n/1e3).toFixed(1)+'K';
-  return n.toString();
+function fmtDuration(ms) {
+  if (!ms) return '-';
+  if (ms < 1000) return ms+'ms';
+  if (ms < 60000) return (ms/1000).toFixed(1)+'s';
+  return Math.round(ms/60000)+'m '+Math.round((ms%60000)/1000)+'s';
 }
 
-function fmtTime(ts) {
-  if (!ts) return '-';
-  const d = new Date(ts);
-  const now = new Date();
-  const diff = (now - d) / 1000;
-  if (diff < 60) return 'Just now';
-  if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
-  if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
-  return d.toLocaleDateString('en-US');
-}
-
-function getModelShort(model) {
-  if (!model) return 'Unknown';
+function getModelShortCron(model) {
+  if (!model) return 'System Event';
   return model.replace('anthropic/','').replace('xai/','').replace('mistral/','').replace('google/','');
 }
 
-function getTokenClass(tokens, ctx) {
-  const pct = (tokens || 0) / (ctx || 200000);
-  if (pct > 0.5) return 'high';
-  if (pct > 0.2) return 'med';
-  return 'low';
-}
+function renderCron() {
+  const jobs = cronFilter === 'all' ? CRON_JOBS : CRON_JOBS.filter(j => j.category === cronFilter);
+  const grid = document.getElementById('cronGrid');
 
-function getStatusBadge(session) {
-  const diff = (Date.now() - (session.updatedAt || 0)) / 1000;
-  if (diff < 30) return `<span class="status-badge running"><span class="dot pulse"></span>Running</span>`;
-  if (diff < 300) return `<span class="status-badge active"><span class="dot"></span>Recent</span>`;
-  return `<span class="status-badge idle"><span class="dot"></span>Idle</span>`;
-}
-
-function getCostColor(cost, maxCost) {
-  if (!maxCost || maxCost === 0) return 'var(--green)';
-  const pct = cost / maxCost;
-  if (pct > 0.7) return 'var(--red)';
-  if (pct > 0.35) return 'var(--yellow)';
-  return 'var(--green)';
-}
-
-let sortKey = 'cost';
-let allSessions = [];
-
-function setSort(key, e) {
-  sortKey = key;
-  document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
-  if (e && e.target) e.target.classList.add('active');
-  renderTable(allSessions);
-}
-
-function sortSessions(sessions) {
-  return [...sessions].sort((a, b) => {
-    if (sortKey === 'cost')    return estimateCost(b) - estimateCost(a);
-    if (sortKey === 'tokens')  return (b.totalTokens||0) - (a.totalTokens||0);
-    if (sortKey === 'name')    return (a.displayName||'').localeCompare(b.displayName||'');
-    if (sortKey === 'updated') return (b.updatedAt||0) - (a.updatedAt||0);
-    return 0;
-  });
-}
-
-function renderTable(sessions) {
-  const list = document.getElementById('agentList');
-  const sorted = sortSessions(sessions);
-
-  if (sorted.length === 0) {
-    list.innerHTML = `
-      <div class="empty-state">
-        <div class="icon">🤖</div>
-        <p>No active sub-agents</p>
-        <small>Sub-agents will appear here once launched</small>
-      </div>`;
-    document.getElementById('agentCount').textContent = 'No active sub-agents';
+  if (!jobs.length) {
+    grid.innerHTML = `<div class="empty-state"><div class="icon">⏰</div><p>No jobs in this category</p></div>`;
     return;
   }
 
-  const maxCost = Math.max(...sorted.map(estimateCost), 0.000001);
+  // Sort: active first, then by nextRun
+  const sorted = [...jobs].sort((a,b) => {
+    if (a.lastStatus !== b.lastStatus) return a.lastStatus === 'ok' ? -1 : 1;
+    return (a.nextRunMs||Infinity) - (b.nextRunMs||Infinity);
+  });
 
-  list.innerHTML = sorted.map((s, i) => {
-    const cost = estimateCost(s);
-    const costColor = getCostColor(cost, maxCost);
-    const barWidth = maxCost > 0 ? Math.round((cost / maxCost) * 100) : 0;
-    const tokens = s.totalTokens || 0;
-    const tokClass = getTokenClass(tokens, s.contextTokens);
-    const modelShort = getModelShort(s.model);
-    const name = s.displayName || s.key || 'Unknown';
-    const shortName = name.length > 28 ? name.substring(0,25)+'...' : name;
+  grid.innerHTML = sorted.map(job => {
+    const statusCls = job.lastStatus === 'ok' ? 'ok' : job.lastStatus === 'idle' ? 'idle' : 'error';
+    const statusLabel = job.lastStatus === 'ok' ? '✓ Active' : job.lastStatus === 'idle' ? '◦ Idle' : '✕ Error';
+    const modelShort = getModelShortCron(job.model);
+    const isGrok = job.model && job.model.includes('grok');
+    const modelCls = isGrok ? 'model-chip model-chip-grok' : 'model-chip';
+    const maxDur = 300000;
+    const durPct = job.lastDurationMs ? Math.min(100, (job.lastDurationMs/maxDur)*100) : 0;
 
-    const lastMsg = s.messages && s.messages[0];
-    let taskText = '-';
-    if (lastMsg) {
-      const content = lastMsg.content;
-      if (typeof content === 'string') taskText = content;
-      else if (Array.isArray(content)) {
-        const txt = content.find(c => c.type === 'text');
-        if (txt) taskText = txt.text;
-      }
-      taskText = taskText.replace(/\n/g,' ').substring(0, 80);
-    }
+    const skillsHtml = job.skillLabels.map(s =>
+      `<span class="skill-tag ${s.cls}">${s.label}</span>`
+    ).join('');
 
     return `
-    <div class="agent-row">
-      <div>
-        <div style="font-size:.88rem;font-weight:500" title="${name}">${shortName}</div>
-        <div class="task-text" title="${taskText}">${taskText}</div>
+    <div class="cron-card ${statusCls}">
+      <div class="cron-top">
+        <div class="cron-name">${job.name}</div>
+        <span class="cron-status ${statusCls}"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block"></span> ${statusLabel}</span>
       </div>
-      <div><span class="model-chip" title="${s.model||''}">${modelShort}</span></div>
-      <div>${getStatusBadge(s)}</div>
-      <div><span class="token-val ${tokClass}" title="${tokens.toLocaleString()} tokens">${fmtTokens(tokens)}</span></div>
-      <div>
-        <div class="cost-cell">
-          <span class="cost-label" style="color:${costColor}">$${fmt(cost,4)}</span>
-          <div class="cost-bar-wrap"><div class="cost-bar" style="width:${barWidth}%;background:${costColor}"></div></div>
+
+      <div class="cron-meta">
+        <span class="meta-pill">🕐 ${job.schedule}</span>
+        <span class="meta-pill">${job.target === 'isolated' ? '🔀 Isolated' : '🎯 Main'}</span>
+        <span class="${modelCls}" style="padding:3px 9px">${modelShort}</span>
+      </div>
+
+      ${skillsHtml ? `<div class="cron-mappings">${skillsHtml}</div>` : ''}
+
+      <div style="font-size:.78rem;color:var(--text-dim);margin-bottom:12px;line-height:1.5">${job.description}</div>
+
+      <div class="cron-times">
+        <div class="time-item">
+          <div class="tl">Next Run</div>
+          <div class="tv" style="color:var(--accent)">${fmtRelTime(job.nextRunMs)}</div>
         </div>
+        <div class="time-item">
+          <div class="tl">Last Run</div>
+          <div class="tv" style="color:var(--text-dim)">${job.lastRunMs ? fmtRelTime(job.lastRunMs) : 'Never'}</div>
+        </div>
+        ${job.lastDurationMs ? `
+        <div class="time-item" style="grid-column:1/-1">
+          <div class="tl">Duration</div>
+          <div class="tv">${fmtDuration(job.lastDurationMs)}</div>
+          <div class="duration-bar"><div class="duration-fill" style="width:${durPct}%"></div></div>
+        </div>` : ''}
       </div>
-      <div style="font-size:.78rem;color:var(--text-dim)">${fmtTime(s.updatedAt)}</div>
-      <div style="font-size:.72rem;color:var(--text-dim)">#${i+1}</div>
     </div>`;
   }).join('');
 
-  const sortLabel = sortKey === 'cost' ? 'Cost' : sortKey === 'tokens' ? 'Tokens' : sortKey === 'name' ? 'Name' : 'Last Updated';
-  document.getElementById('agentCount').textContent = `${sorted.length} sub-agent${sorted.length !== 1 ? 's' : ''} - sorted by ${sortLabel}`;
-}
+  // Update summary
+  const all = CRON_JOBS;
+  document.getElementById('cs-total').textContent = all.length;
+  document.getElementById('cs-active').textContent = all.filter(j => j.lastStatus === 'ok').length;
+  document.getElementById('cs-isolated').textContent = all.filter(j => j.target === 'isolated').length;
+  document.getElementById('cs-reminders').textContent = all.filter(j => j.category === 'family').length;
 
-function updateSummary(sessions) {
-  const total = sessions.length;
-  const totalTok = sessions.reduce((a,s) => a+(s.totalTokens||0),0);
-  const totalCost = sessions.reduce((a,s) => a+estimateCost(s),0);
-  const sorted = sortSessions(sessions);
-  const top = sorted[0];
-
-  document.getElementById('totalAgents').textContent = total;
-  document.getElementById('totalTokens').textContent = fmtTokens(totalTok);
-  document.getElementById('totalCost').textContent = '$'+fmt(totalCost,4);
-  if (top) {
-    document.getElementById('highestCost').textContent = '$'+fmt(estimateCost(top),4);
-    document.getElementById('highestName').textContent = (top.displayName||top.key||'').substring(0,20);
-  } else {
-    document.getElementById('highestCost').textContent = '-';
-    document.getElementById('highestName').textContent = '-';
+  const nextJob = [...all].filter(j=>j.nextRunMs).sort((a,b)=>a.nextRunMs-b.nextRunMs)[0];
+  if (nextJob) {
+    document.getElementById('cs-next').textContent = fmtRelTime(nextJob.nextRunMs);
+    document.getElementById('cs-next-name').textContent = nextJob.name;
   }
 }
 
-async function loadData() {
-  const btn = document.getElementById('refreshBtn');
-  btn.classList.add('spinning');
+// ── SUB-AGENTS (existing logic) ───────────────────────────────────────────────
+const PRICING = {
+  'claude-sonnet-4-6':{input:3.00,output:15.00},
+  'claude-opus-4-6':{input:15.00,output:75.00},
+  'claude-haiku-3-5':{input:0.80,output:4.00},
+  'grok-3':{input:3.00,output:15.00},
+  'grok-3-mini':{input:0.30,output:0.50},
+  'mistral-large-latest':{input:2.00,output:6.00},
+  'gemini-2.0-flash':{input:0.10,output:0.40},
+  'default':{input:3.00,output:15.00}
+};
+function getPrice(m){
+  if(!m) return PRICING.default;
+  const k=Object.keys(PRICING).find(k=>m.toLowerCase().includes(k.toLowerCase()));
+  return PRICING[k]||PRICING.default;
+}
+function estimateCost(s){
+  const t=s.totalTokens||0;
+  const p=getPrice(s.model);
+  return(t*.70/1e6*p.input)+(t*.30/1e6*p.output);
+}
+function fmt(n,d=2){return(isNaN(n)||n===null)?'-':n.toFixed(d)}
+function fmtTokens(n){if(!n)return'0';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return''+n}
+function fmtTime(ts){if(!ts)return'-';const d=new Date(ts),now=new Date(),diff=(now-d)/1000;if(diff<60)return'Just now';if(diff<3600)return Math.floor(diff/60)+'m ago';if(diff<86400)return Math.floor(diff/3600)+'h ago';return d.toLocaleDateString('en-US')}
+function getModelShort(m){if(!m)return'Unknown';return m.replace('anthropic/','').replace('xai/','').replace('mistral/','').replace('google/','')}
+function getTokenClass(t,ctx){const p=(t||0)/(ctx||200000);if(p>.5)return'high';if(p>.2)return'med';return'low'}
+function getStatusBadge(s){const d=(Date.now()-(s.updatedAt||0))/1000;if(d<30)return`<span class="status-badge running"><span class="dot pulse"></span>Running</span>`;if(d<300)return`<span class="status-badge active"><span class="dot"></span>Recent</span>`;return`<span class="status-badge idle"><span class="dot"></span>Idle</span>`}
 
-  try {
-    const res = await fetch('http://localhost:3000/api/sessions?limit=100', {
-      headers: { 'Content-Type': 'application/json' }
-    });
+let sortKey='cost';
+let allSessions=[];
 
-    let sessions = [];
-    if (res.ok) {
-      const data = await res.json();
-      sessions = data.sessions || data || [];
-    } else {
-      throw new Error('API unavailable');
-    }
+function setSort(key,e){
+  sortKey=key;
+  document.querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active'));
+  if(e&&e.target)e.target.classList.add('active');
+  renderAgents(allSessions);
+}
+function sortSessions(ss){
+  return[...ss].sort((a,b)=>{
+    if(sortKey==='cost')return estimateCost(b)-estimateCost(a);
+    if(sortKey==='tokens')return(b.totalTokens||0)-(a.totalTokens||0);
+    if(sortKey==='name')return(a.displayName||'').localeCompare(b.displayName||'');
+    if(sortKey==='updated')return(b.updatedAt||0)-(a.updatedAt||0);
+    return 0;
+  });
+}
+function renderAgents(sessions){
+  const list=document.getElementById('agentList');
+  const sorted=sortSessions(sessions);
+  if(!sorted.length){
+    list.innerHTML=`<div class="empty-state"><div class="icon">🤖</div><p>No active sub-agents</p><small>Sub-agents appear here when launched</small></div>`;
+    document.getElementById('agentCount').textContent='No active sub-agents';
+    return;
+  }
+  const maxCost=Math.max(...sorted.map(estimateCost),0.000001);
+  list.innerHTML=sorted.map((s,i)=>{
+    const cost=estimateCost(s);
+    const clr=cost/maxCost>.7?'var(--red)':cost/maxCost>.35?'var(--yellow)':'var(--green)';
+    const bw=Math.round((cost/maxCost)*100);
+    const tk=s.totalTokens||0;
+    const name=s.displayName||s.key||'Unknown';
+    const short=name.length>28?name.substring(0,25)+'...':name;
+    const lastMsg=s.messages&&s.messages[0];
+    let task='-';
+    if(lastMsg){const c=lastMsg.content;if(typeof c==='string')task=c;else if(Array.isArray(c)){const t=c.find(x=>x.type==='text');if(t)task=t.text;}task=task.replace(/\n/g,' ').substring(0,80);}
+    return`<div class="agent-row">
+      <div><div style="font-size:.86rem;font-weight:500" title="${name}">${short}</div><div class="task-text" title="${task}">${task}</div></div>
+      <div><span class="model-chip" title="${s.model||''}">${getModelShort(s.model)}</span></div>
+      <div>${getStatusBadge(s)}</div>
+      <div><span class="token-val ${getTokenClass(tk,s.contextTokens)}">${fmtTokens(tk)}</span></div>
+      <div><div class="cost-cell"><span class="cost-label" style="color:${clr}">$${fmt(cost,4)}</span><div class="cost-bar-wrap"><div class="cost-bar" style="width:${bw}%;background:${clr}"></div></div></div></div>
+      <div style="font-size:.76rem;color:var(--text-dim)">${fmtTime(s.updatedAt)}</div>
+      <div style="font-size:.7rem;color:var(--text-dim)">#${i+1}</div>
+    </div>`;
+  }).join('');
 
-    allSessions = sessions.filter(s => s.kind === 'subagent' || s.key?.includes('subagent') || s.key?.includes('isolated'));
-    if (allSessions.length === 0) {
-      allSessions = sessions.filter(s => !s.key?.includes('main:whatsapp') && !s.key?.includes('main:telegram'));
-    }
+  const totalTok=sessions.reduce((a,s)=>a+(s.totalTokens||0),0);
+  const totalCost=sessions.reduce((a,s)=>a+estimateCost(s),0);
+  const top=[...sessions].sort((a,b)=>estimateCost(b)-estimateCost(a))[0];
+  document.getElementById('totalAgents').textContent=sessions.length;
+  document.getElementById('totalTokens').textContent=fmtTokens(totalTok);
+  document.getElementById('totalCost').textContent='$'+fmt(totalCost,4);
+  if(top){document.getElementById('highestCost').textContent='$'+fmt(estimateCost(top),4);document.getElementById('highestName').textContent=(top.displayName||top.key||'').substring(0,20);}
+  document.getElementById('agentCount').textContent=`${sorted.length} sub-agent${sorted.length!==1?'s':''} sorted by ${sortKey}`;
+}
 
-    renderTable(allSessions);
-    updateSummary(allSessions);
-    document.getElementById('lastUpdate').textContent = 'Last updated: ' + new Date().toLocaleTimeString('en-US');
+// ── LOAD ──────────────────────────────────────────────────────────────────────
+async function loadAll(){
+  document.getElementById('cronGrid').innerHTML='<div class="loading"><div class="spinner"></div>Loading...</div>';
 
-  } catch (e) {
-    showOfflineState(e.message);
+  // Always render cron from static data (live data requires gateway)
+  renderCron();
+
+  // Try to load sub-agents from gateway
+  try{
+    const res=await fetch('http://localhost:3000/api/sessions?limit=100',{headers:{'Content-Type':'application/json'}});
+    if(res.ok){
+      const data=await res.json();
+      let sessions=data.sessions||data||[];
+      allSessions=sessions.filter(s=>s.kind==='subagent'||s.key?.includes('subagent')||s.key?.includes('isolated'));
+      if(!allSessions.length) allSessions=sessions.filter(s=>!s.key?.includes('main:whatsapp')&&!s.key?.includes('main:telegram'));
+      renderAgents(allSessions);
+    }else throw new Error('API unavailable');
+  }catch(e){
+    const demo=[
+      {key:'isolated-grok-trader',displayName:'Grok Virtual Trader',model:'xai/grok-3',totalTokens:52000,contextTokens:200000,updatedAt:Date.now()-5*3600*1000,kind:'subagent',messages:[{role:'user',content:[{type:'text',text:'Hourly portfolio trading session'}]}]},
+      {key:'isolated-stock-scanner',displayName:'Daily Stock Scanner',model:'xai/grok-3',totalTokens:41000,contextTokens:200000,updatedAt:Date.now()-12*3600*1000,kind:'subagent',messages:[{role:'user',content:[{type:'text',text:'15-stock analysis with 3-pillar scoring'}]}]},
+      {key:'isolated-ai-news',displayName:'AI Daily Summary',model:'xai/grok-3',totalTokens:28000,contextTokens:200000,updatedAt:Date.now()-11*3600*1000,kind:'subagent',messages:[{role:'user',content:[{type:'text',text:'Daily AI news summary in Hebrew'}]}]},
+      {key:'isolated-cost-update',displayName:'Cost Dashboard Update',model:'anthropic/claude-sonnet-4-6',totalTokens:4500,contextTokens:200000,updatedAt:Date.now()-2*60*1000,kind:'subagent',messages:[{role:'user',content:[{type:'text',text:'Update costs.json and push to GitHub'}]}]},
+    ];
+    allSessions=demo;
+    renderAgents(allSessions);
+    document.getElementById('lastUpdate').innerHTML=`<span style="color:var(--yellow)">⚠️ Gateway offline - showing static data</span>`;
   }
 
-  btn.classList.remove('spinning');
+  document.getElementById('lastUpdate').textContent='Last updated: '+new Date().toLocaleTimeString('en-US');
 }
 
-function showOfflineState(msg) {
-  const demo = [
-    { key:'isolated-market-analysis', displayName:'Market Sentiment Analyzer', model:'xai/grok-3', totalTokens:45200, contextTokens:200000, updatedAt:Date.now()-120000, kind:'subagent', messages:[{role:'user',content:[{type:'text',text:'Analyze NVDA news sentiment'}]}] },
-    { key:'isolated-tech-research', displayName:'Tech Research Agent', model:'anthropic/claude-sonnet-4-6', totalTokens:31800, contextTokens:200000, updatedAt:Date.now()-600000, kind:'subagent', messages:[{role:'user',content:[{type:'text',text:'Research AI chip market trends Q1 2026'}]}] },
-    { key:'isolated-price-targets', displayName:'Price Target Aggregator', model:'anthropic/claude-sonnet-4-6', totalTokens:18500, contextTokens:200000, updatedAt:Date.now()-3600000, kind:'subagent', messages:[{role:'user',content:[{type:'text',text:'Analyst price targets TSLA'}]}] },
-    { key:'isolated-portfolio-check', displayName:'Portfolio Monitor', model:'mistral/mistral-large-latest', totalTokens:9200, contextTokens:200000, updatedAt:Date.now()-86400000, kind:'subagent', messages:[{role:'user',content:[{type:'text',text:'Daily portfolio check'}]}] },
-  ];
-
-  allSessions = demo;
-  renderTable(allSessions);
-  updateSummary(allSessions);
-  document.getElementById('lastUpdate').innerHTML =
-    `<span style="color:var(--yellow)">⚠️ Offline mode - Gateway unavailable (${msg}) — showing demo data</span>`;
-}
-
-let countdown = 30;
-setInterval(() => {
+let countdown=30;
+setInterval(()=>{
   countdown--;
-  if (countdown <= 0) {
-    countdown = 30;
-    loadData();
-  }
-  document.getElementById('nextRefresh').textContent = `Auto-refresh in ${countdown}s`;
-}, 1000);
+  if(countdown<=0){countdown=30;loadAll();}
+  document.getElementById('nextRefresh').textContent=`Auto-refresh in ${countdown}s`;
+},1000);
 
-loadData();
+loadAll();
 </script>
-<!-- deploy 202602240554 -->
+<!-- deploy 202602241101 -->
 </body>
 </html>
