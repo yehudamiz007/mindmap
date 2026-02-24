@@ -88,6 +88,7 @@ body::before{
 .dot{width:5px;height:5px;border-radius:50%;background:currentColor}
 .dot.pulse{animation:pulse-dot 1.5s infinite}
 @keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .model-chip{font-size:.7rem;padding:2px 7px;border-radius:6px;background:rgba(129,140,248,.1);
   color:var(--accent);border:1px solid rgba(129,140,248,.2);white-space:nowrap;overflow:hidden;
   text-overflow:ellipsis;max-width:130px}
@@ -173,6 +174,7 @@ body::before{
     <div class="tabs">
       <button class="tab active" onclick="switchTab('cron',this)">⏰ Cron Jobs</button>
       <button class="tab" onclick="switchTab('agents',this)">🤖 Sub-Agents</button>
+      <button class="tab" onclick="switchTab('flow',this)">🔀 Flow</button>
     </div>
     <div class="auto-refresh"><span class="auto-dot"></span><span id="nextRefresh">Auto-refresh in 30s</span></div>
   </div>
@@ -200,6 +202,35 @@ body::before{
 
     <div class="section-title">Scheduled Jobs</div>
     <div id="cronGrid" class="cron-grid"><div class="loading"><div class="spinner"></div>Loading cron jobs...</div></div>
+  </div>
+
+  <!-- FLOW PANEL -->
+  <div id="panel-flow" class="panel">
+    <div style="margin-bottom:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <div style="font-size:.82rem;color:var(--text-dim)">
+        תרשים זרימה - איך Main Agent מפעיל Sub-Agents דרך Cron Jobs
+      </div>
+      <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="filter-chip active" onclick="setFlowMode('all',this)">All</button>
+        <button class="filter-chip" onclick="setFlowMode('trading',this)">📈 Trading</button>
+        <button class="filter-chip" onclick="setFlowMode('news',this)">📰 News</button>
+        <button class="filter-chip" onclick="setFlowMode('system',this)">🔧 System</button>
+        <button class="filter-chip" onclick="setFlowMode('family',this)">👨‍👩‍👧 Family</button>
+      </div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden">
+      <svg id="flowSvg" width="100%" style="display:block"></svg>
+    </div>
+    <div style="margin-top:14px;display:flex;gap:20px;flex-wrap:wrap;font-size:.75rem;color:var(--text-dim);padding:0 4px">
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#818cf8;margin-right:5px"></span>Main Agent</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#34d399;margin-right:5px"></span>Trading</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#fbbf24;margin-right:5px"></span>News & AI</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#60a5fa;margin-right:5px"></span>System</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#f472b6;margin-right:5px"></span>Family</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#fb7185;margin-right:5px"></span>Geo</span>
+      <span style="margin-left:10px"><span style="display:inline-block;width:22px;height:2px;background:#818cf8;margin-right:5px;vertical-align:middle"></span>Isolated sub-agent</span>
+      <span><span style="display:inline-block;width:22px;height:2px;background:#f472b6;border-top:2px dashed #f472b6;margin-right:5px;vertical-align:middle"></span>Main session</span>
+    </div>
   </div>
 
   <!-- AGENTS PANEL -->
@@ -466,6 +497,7 @@ function switchTab(name, btn) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('panel-'+name).classList.add('active');
+  if (name === 'flow') setTimeout(renderFlow, 50);
 }
 
 // ── CRON RENDERING ────────────────────────────────────────────────────────────
@@ -697,6 +729,279 @@ async function loadAll(){
   document.getElementById('lastUpdate').textContent='Last updated: '+new Date().toLocaleTimeString('en-US');
 }
 
+// ── FLOW DIAGRAM ─────────────────────────────────────────────────────────────
+let flowMode = 'all';
+
+function setFlowMode(m, btn) {
+  flowMode = m;
+  document.querySelectorAll('#panel-flow .filter-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderFlow();
+}
+
+const FLOW_NODES = [
+  // Main agent
+  { id:'main', label:'🦞 Main Agent', sub:'agent:main', x:0, y:0, type:'main', color:'#818cf8' },
+
+  // Scheduler
+  { id:'sched', label:'⏰ Cron\nScheduler', sub:'OpenClaw', x:0, y:1, type:'scheduler', color:'#94a3b8' },
+
+  // Isolated sub-agents (cron)
+  { id:'trader',   label:'📈 Grok\nVirtual Trader',   sub:'xai/grok-3 · hourly',        x:-3, y:2, type:'isolated', color:'#34d399', cat:'trading' },
+  { id:'scanner',  label:'🔍 Daily Stock\nScanner',    sub:'xai/grok-3 · 2×/day',        x:-2, y:2, type:'isolated', color:'#34d399', cat:'trading' },
+  { id:'ainews',   label:'📰 AI יומי\nWhatsApp',       sub:'xai/grok-3 · 09:00',         x:-1, y:2, type:'isolated', color:'#fbbf24', cat:'news' },
+  { id:'iran',     label:'🗺️ Iran\nDashboard',         sub:'xai/grok-3 · 12:00',         x:0,  y:2, type:'isolated', color:'#fb7185', cat:'geo' },
+  { id:'cost',     label:'💰 Cost\nDashboard',         sub:'claude-sonnet · 2×/day',      x:1,  y:2, type:'isolated', color:'#60a5fa', cat:'system' },
+  { id:'backup',   label:'💾 Hub HTML\nBackup',        sub:'claude-sonnet · hourly',      x:2,  y:2, type:'isolated', color:'#60a5fa', cat:'system' },
+  { id:'memory',   label:'🧠 Memory\nBackup',          sub:'claude-sonnet · hourly',      x:3,  y:2, type:'isolated', color:'#60a5fa', cat:'system' },
+
+  // Main-session jobs (reminders)
+  { id:'rem-arbel',  label:'🎂 Arbel\nReminder',    sub:'System · Apr 1',  x:-2, y:3, type:'main-event', color:'#f472b6', cat:'family' },
+  { id:'rem-ilana',  label:'💕 Ilana\nReminder',    sub:'System · Apr 4',  x:-1, y:3, type:'main-event', color:'#f472b6', cat:'family' },
+  { id:'rem-avior',  label:'🎨 Avior\nReminder',    sub:'System · Apr 12', x:0,  y:3, type:'main-event', color:'#f472b6', cat:'family' },
+  { id:'rem-wed',    label:'💍 Anniversary\nReminder', sub:'System · Sep 7', x:1, y:3, type:'main-event', color:'#f472b6', cat:'family' },
+  { id:'rem-nitai',  label:'⚽ Nitai\nReminder',    sub:'System · Jan 4',  x:2,  y:3, type:'main-event', color:'#f472b6', cat:'family' },
+
+  // Outputs
+  { id:'out-portfolio', label:'📄 portfolio\n.json', sub:'GitHub Pages', x:-3, y:3, type:'output', color:'#34d399', cat:'trading' },
+  { id:'out-stocks',    label:'📊 stock-data\n.json', sub:'GitHub Pages', x:-2.2, y:3.8, type:'output', color:'#34d399', cat:'trading' },
+  { id:'out-wa',        label:'💬 WhatsApp\nMessage', sub:'+972502446410', x:-1, y:3.8, type:'output', color:'#fbbf24', cat:'news' },
+  { id:'out-iran',      label:'🗺️ iran-data\n.json', sub:'GitHub Pages', x:0, y:3.8, type:'output', color:'#fb7185', cat:'geo' },
+  { id:'out-costs',     label:'📈 costs\n.json', sub:'GitHub Pages', x:1, y:3.8, type:'output', color:'#60a5fa', cat:'system' },
+];
+
+const FLOW_EDGES = [
+  // main → scheduler
+  { from:'main', to:'sched', type:'solid' },
+
+  // scheduler → isolated jobs
+  { from:'sched', to:'trader',  type:'solid', label:'0 16-23 Mon-Sat' },
+  { from:'sched', to:'scanner', type:'solid', label:'0 9,17 daily' },
+  { from:'sched', to:'ainews',  type:'solid', label:'0 9 Sun-Fri' },
+  { from:'sched', to:'iran',    type:'solid', label:'0 12 daily' },
+  { from:'sched', to:'cost',    type:'solid', label:'0 9,21 daily' },
+  { from:'sched', to:'backup',  type:'solid', label:'every 1h' },
+  { from:'sched', to:'memory',  type:'solid', label:'0 * * * *' },
+
+  // scheduler → main-session reminders (dashed)
+  { from:'sched', to:'rem-arbel', type:'dashed' },
+  { from:'sched', to:'rem-ilana', type:'dashed' },
+  { from:'sched', to:'rem-avior', type:'dashed' },
+  { from:'sched', to:'rem-wed',   type:'dashed' },
+  { from:'sched', to:'rem-nitai', type:'dashed' },
+
+  // outputs
+  { from:'trader',  to:'out-portfolio', type:'output' },
+  { from:'scanner', to:'out-stocks',    type:'output' },
+  { from:'ainews',  to:'out-wa',        type:'output' },
+  { from:'iran',    to:'out-iran',      type:'output' },
+  { from:'cost',    to:'out-costs',     type:'output' },
+];
+
+// Skills mapping per node
+const NODE_SKILLS = {
+  trader:  ['technical-analysis','analyst-price-targets','market-news-sentiment'],
+  scanner: ['technical-analysis','analyst-price-targets','market-news-sentiment'],
+  ainews:  ['market-news-sentiment','hebrew'],
+  iran:    ['market-news-sentiment'],
+  'rem-arbel': ['parenting'],
+  'rem-ilana': ['husband'],
+  'rem-avior': ['parenting'],
+  'rem-wed':   ['husband'],
+  'rem-nitai': ['parenting'],
+};
+
+function renderFlow() {
+  const svg = document.getElementById('flowSvg');
+  const W = svg.parentElement.offsetWidth || 900;
+
+  const CATS = flowMode === 'all' ? null : [flowMode];
+
+  // Filter visible nodes
+  const visibleIds = new Set();
+  visibleIds.add('main');
+  visibleIds.add('sched');
+  FLOW_NODES.forEach(n => {
+    if (!n.cat || !CATS || CATS.includes(n.cat)) visibleIds.add(n.id);
+  });
+  // also show outputs of visible nodes
+  FLOW_EDGES.forEach(e => {
+    if (visibleIds.has(e.from) && e.type === 'output') visibleIds.add(e.to);
+  });
+
+  const visNodes = FLOW_NODES.filter(n => visibleIds.has(n.id));
+
+  // Layout: rows
+  const ROW_H = 140;
+  const COL_W = 130;
+
+  // Group nodes by row
+  const rows = {};
+  visNodes.forEach(n => {
+    if (!rows[n.y]) rows[n.y] = [];
+    rows[n.y].push(n);
+  });
+
+  // Assign pixel positions
+  const nodePos = {};
+  Object.entries(rows).forEach(([row, nodes]) => {
+    const y = parseInt(row);
+    const count = nodes.length;
+    const totalW = (count - 1) * COL_W;
+    nodes.sort((a,b) => a.x - b.x);
+    nodes.forEach((n, i) => {
+      nodePos[n.id] = {
+        x: W/2 - totalW/2 + i * COL_W,
+        y: 60 + y * ROW_H
+      };
+    });
+  });
+
+  // SVG height
+  const maxY = Math.max(...visNodes.map(n => nodePos[n.id]?.y || 0)) + 90;
+  svg.setAttribute('height', maxY + 40);
+
+  const NW = 110, NH = 52;
+
+  // Draw
+  let html = `<defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="rgba(129,140,248,0.6)"/>
+    </marker>
+    <marker id="arr-dashed" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="rgba(244,114,182,0.6)"/>
+    </marker>
+    <marker id="arr-output" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="rgba(100,116,139,0.5)"/>
+    </marker>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>`;
+
+  // Edges first
+  FLOW_EDGES.forEach(e => {
+    if (!visibleIds.has(e.from) || !visibleIds.has(e.to)) return;
+    const f = nodePos[e.from], t = nodePos[e.to];
+    if (!f || !t) return;
+
+    const fx = f.x, fy = f.y + NH;
+    const tx = t.x, ty = t.y;
+    const mx = (fx + tx) / 2, my = (fy + ty) / 2;
+
+    const isDashed = e.type === 'dashed';
+    const isOutput = e.type === 'output';
+    const color = isDashed ? 'rgba(244,114,182,0.45)' : isOutput ? 'rgba(100,116,139,0.35)' : 'rgba(129,140,248,0.5)';
+    const dash = isDashed ? 'stroke-dasharray="5,4"' : isOutput ? 'stroke-dasharray="3,3"' : '';
+    const marker = isDashed ? 'arr-dashed' : isOutput ? 'arr-output' : 'arr';
+    const strokeW = isOutput ? 1.2 : 1.8;
+
+    const cy1 = fy + (ty - fy) * 0.4;
+    const cy2 = fy + (ty - fy) * 0.6;
+
+    html += `<path d="M${fx},${fy} C${fx},${cy1} ${tx},${cy2} ${tx},${ty}"
+      fill="none" stroke="${color}" stroke-width="${strokeW}" ${dash} marker-end="url(#${marker})"/>`;
+
+    if (e.label && !isOutput && !isDashed) {
+      html += `<text x="${mx}" y="${my}" text-anchor="middle" fill="rgba(113,113,122,0.8)"
+        font-size="9" font-family="system-ui">${e.label}</text>`;
+    }
+  });
+
+  // Nodes
+  visNodes.forEach(n => {
+    const pos = nodePos[n.id];
+    if (!pos) return;
+    const x = pos.x - NW/2, y = pos.y;
+    const isMain = n.type === 'main';
+    const isScheduler = n.type === 'scheduler';
+    const isOutput = n.type === 'output';
+    const isFamilyEvent = n.type === 'main-event';
+
+    const r = isMain ? 12 : 8;
+    const opacity = isOutput ? '0.55' : '1';
+    const borderColor = n.color;
+    const bgOpacity = isMain ? '0.18' : isOutput ? '0.06' : '0.10';
+    const skills = NODE_SKILLS[n.id];
+
+    const lines = n.label.split('\n');
+    const skillDots = skills ? skills.slice(0,3).map((s,i) => {
+      const colors = ['#818cf8','#34d399','#fbbf24'];
+      return `<circle cx="${NW/2 - 12 + i*8}" cy="${NH-7}" r="3" fill="${colors[i%3]}" opacity="0.8"/>`;
+    }).join('') : '';
+
+    html += `
+    <g transform="translate(${x},${y})" opacity="${opacity}" style="cursor:pointer"
+       onclick="showNodeDetail('${n.id}')">
+      <rect width="${NW}" height="${NH}" rx="${r}" ry="${r}"
+        fill="${borderColor}" fill-opacity="${bgOpacity}"
+        stroke="${borderColor}" stroke-opacity="0.5" stroke-width="${isMain?2:1.5}"/>
+      ${isMain ? `<rect width="${NW}" height="${NH}" rx="${r}" ry="${r}" fill="none"
+        stroke="${borderColor}" stroke-opacity="0.2" stroke-width="6" filter="url(#glow)"/>` : ''}
+      <text x="${NW/2}" y="${lines.length>1?17:NH/2+4}" text-anchor="middle"
+        fill="${isOutput?'#71717a':'#e4e4e7'}" font-size="${isMain?12:10}" font-weight="${isMain?600:400}"
+        font-family="system-ui">${lines[0]}</text>
+      ${lines[1] ? `<text x="${NW/2}" y="30" text-anchor="middle"
+        fill="${isOutput?'#4b5563':'#94a3b8'}" font-size="9" font-family="system-ui">${lines[1]}</text>` : ''}
+      ${!isMain && !isOutput && !isScheduler ? `
+        <text x="${NW/2}" y="${NH-5}" text-anchor="middle"
+          fill="${n.color}" font-size="8" font-family="system-ui" opacity="0.75">${n.sub}</text>` : ''}
+      ${isScheduler ? `<text x="${NW/2}" y="${NH-5}" text-anchor="middle"
+        fill="#94a3b8" font-size="8" font-family="system-ui">${n.sub}</text>` : ''}
+      ${skillDots}
+    </g>`;
+  });
+
+  svg.innerHTML = html;
+}
+
+// Simple detail tooltip on click
+function showNodeDetail(id) {
+  const node = FLOW_NODES.find(n => n.id === id);
+  if (!node) return;
+  const job = CRON_JOBS.find(j => {
+    const map = {trader:'e1eb3b60',scanner:'b496cdfe',ainews:'df402cec',iran:'9ec71945',cost:'aa64c5a7',backup:'8e0d2072',memory:'74a0a646'};
+    return map[id] && j.id === map[id];
+  });
+  const skills = NODE_SKILLS[id];
+  let msg = `${node.label.replace('\n',' ')}\n`;
+  if (node.sub) msg += `Model: ${node.sub}\n`;
+  if (skills) msg += `Skills: ${skills.join(', ')}\n`;
+  if (job) msg += `Schedule: ${job.schedule}\nLast run: ${fmtRelTime(job.lastRunMs)}\nDuration: ${fmtDuration(job.lastDurationMs)}`;
+  // Show as a toast-style overlay instead of alert
+  showToast(node.label.replace('\n',' '), node, job, skills);
+}
+
+function showToast(title, node, job, skills) {
+  let existing = document.getElementById('flow-toast');
+  if (existing) existing.remove();
+
+  const skillHtml = skills ? skills.map(s=>`<span style="background:rgba(129,140,248,.15);color:#818cf8;padding:2px 8px;border-radius:6px;font-size:11px">${s}</span>`).join(' ') : '';
+  const d = document.createElement('div');
+  d.id = 'flow-toast';
+  d.style.cssText = `position:fixed;bottom:30px;right:30px;background:#1e293b;border:1px solid rgba(129,140,248,.3);border-radius:16px;padding:18px 20px;max-width:300px;z-index:999;box-shadow:0 8px 32px rgba(0,0,0,.5);animation:fadeIn .2s ease`;
+  d.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div style="font-weight:600;font-size:.92rem">${title}</div>
+      <button onclick="document.getElementById('flow-toast').remove()" style="background:none;border:none;color:#71717a;cursor:pointer;font-size:18px;line-height:1">×</button>
+    </div>
+    ${node.sub ? `<div style="font-size:.78rem;color:#94a3b8;margin-bottom:6px">Model: ${node.sub}</div>` : ''}
+    ${job ? `<div style="font-size:.78rem;color:#94a3b8;margin-bottom:4px">📅 ${job.schedule}</div>` : ''}
+    ${job ? `<div style="font-size:.78rem;color:#94a3b8;margin-bottom:4px">⏱ Duration: ${fmtDuration(job.lastDurationMs)}</div>` : ''}
+    ${job ? `<div style="font-size:.78rem;color:#94a3b8;margin-bottom:8px">🕐 Last run: ${fmtRelTime(job.lastRunMs)}</div>` : ''}
+    ${skillHtml ? `<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px">${skillHtml}</div>` : ''}
+    ${job ? `<div style="margin-top:10px;font-size:.75rem;color:#64748b;line-height:1.5">${job.description.substring(0,120)}...</div>` : ''}
+  `;
+  document.body.appendChild(d);
+  setTimeout(() => { if(d.parentNode) d.remove(); }, 6000);
+}
+
+// re-render flow on tab switch and resize
+window.addEventListener('resize', () => {
+  if (document.getElementById('panel-flow').classList.contains('active')) renderFlow();
+});
+
 let countdown=30;
 setInterval(()=>{
   countdown--;
@@ -706,6 +1011,6 @@ setInterval(()=>{
 
 loadAll();
 </script>
-<!-- deploy 202602241101 -->
+<!-- deploy 202602241115 -->
 </body>
 </html>
