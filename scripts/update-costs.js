@@ -7,11 +7,11 @@ const OUTPUT = path.join('C:\\Users\\YEHUDA\\.openclaw\\workspace\\costs.json');
 
 // Category mappings
 const CRON_JOB_CATEGORIES = {
-  'e1eb3b60-b369-41e4-be2e-fbf5f0844f79': { name: 'Grok Virtual Trader', category: 'מסחר' },
-  'b496cdfe-7a7c-4462-b172-7d3fe8dbb758': { name: 'Daily Stock Scanner', category: 'מסחר' },
-  'df402cec-2d90-4241-88a0-03e0f451cef9': { name: 'סיכום AI יומי', category: 'סיכום יומי' },
-  'aa64c5a7-930c-454b-9fc2-db1d1a54beee': { name: 'Cost Dashboard Update', category: 'תחזוקה' },
-  '74a0a646-b83d-441b-bbdc-8a8613dbcdfd': { name: 'Backup MEMORY.md', category: 'תחזוקה' },
+  'e1eb3b60-b369-41e4-be2e-fbf5f0844f79': { name: 'Grok Virtual Trader', category: 'Trading' },
+  'b496cdfe-7a7c-4462-b172-7d3fe8dbb758': { name: 'Daily Stock Scanner', category: 'Trading' },
+  'df402cec-2d90-4241-88a0-03e0f451cef9': { name: 'Daily AI Summary', category: 'Daily Summary' },
+  'aa64c5a7-930c-454b-9fc2-db1d1a54beee': { name: 'Cost Dashboard Update', category: 'Maintenance' },
+  '74a0a646-b83d-441b-bbdc-8a8613dbcdfd': { name: 'Backup MEMORY.md', category: 'Maintenance' },
 };
 
 const MAIN_SESSION_ID = '0b8a66e9-8346-4180-841b-afff6a820b4a';
@@ -34,7 +34,7 @@ function buildCronSessionMap() {
             const obj = JSON.parse(line);
             if (obj.sessionId) {
               const info = CRON_JOB_CATEGORIES[jobId];
-              sessionCategoryMap[obj.sessionId] = info ? info.category : 'ג\'ובים אחרים';
+              sessionCategoryMap[obj.sessionId] = info ? info.category : 'Other Jobs';
             }
           } catch {}
         }
@@ -50,7 +50,7 @@ function getFileCategory(filePath) {
   const basename = path.basename(filePath, '.jsonl');
   
   // Known main session
-  if (basename === MAIN_SESSION_ID) return 'וואטסאפ / צ\'אט ראשי';
+  if (basename === MAIN_SESSION_ID) return 'WhatsApp / Main Chat';
   
   // Check cron session map
   if (sessionCategoryMap[basename]) return sessionCategoryMap[basename];
@@ -68,20 +68,20 @@ function getFileCategory(filePath) {
           continue;
         }
         const key = obj.sessionKey || obj.session || '';
-        if (key === 'agent:main:main') return 'וואטסאפ / צ\'אט ראשי';
-        if (key.includes('subagent')) return 'סאב-אייג\'נטים';
+        if (key === 'agent:main:main') return 'WhatsApp / Main Chat';
+        if (key.includes('subagent')) return 'Sub-Agents';
         if (key.includes(':cron:')) {
           for (const [jobId, info] of Object.entries(CRON_JOB_CATEGORIES)) {
             if (key.includes(jobId)) return info.category;
           }
-          return 'ג\'ובים אחרים';
+          return 'Other Jobs';
         }
       } catch {}
     }
   } catch {}
   
   // Default: subagent (most non-main sessions are subagents)
-  return 'סאב-אייג\'נטים';
+  return 'Sub-Agents';
 }
 
 const daily = {};

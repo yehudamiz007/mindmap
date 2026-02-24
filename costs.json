@@ -1,9 +1,9 @@
 {
-  "lastUpdated": "2026-02-24T07:02:46.960Z",
-  "totalCost": 634.068436,
-  "totalTokens": 3142749,
-  "totalCalls": 3272,
-  "totalSessions": 217,
+  "lastUpdated": "2026-02-24T10:21:12.259Z",
+  "totalCost": 637.42038,
+  "totalTokens": 3365885,
+  "totalCalls": 3338,
+  "totalSessions": 227,
   "daysActive": 8,
   "daily": [
     {
@@ -169,29 +169,29 @@
     },
     {
       "date": "2026-02-24",
-      "cost": 1.502466,
-      "tokens": 121100,
-      "inputTokens": 109599,
-      "outputTokens": 11501,
-      "cacheReadTokens": 810613,
-      "cacheWriteTokens": 165079,
-      "calls": 66,
-      "sessions": 18,
+      "cost": 4.85441,
+      "tokens": 344236,
+      "inputTokens": 320096,
+      "outputTokens": 24140,
+      "cacheReadTokens": 3787674,
+      "cacheWriteTokens": 700939,
+      "calls": 132,
+      "sessions": 29,
       "byModel": {
         "claude-sonnet-4-6": {
-          "cost": 0.712302,
-          "tokens": 3024,
-          "calls": 30
+          "cost": 3.711054,
+          "tokens": 13030,
+          "calls": 77
         },
         "grok-3": {
-          "cost": 0.759757,
-          "tokens": 57528,
-          "calls": 34
+          "cost": 1.022991,
+          "tokens": 91204,
+          "calls": 49
         },
         "mistral-large-latest": {
-          "cost": 0.030407,
-          "tokens": 60548,
-          "calls": 2
+          "cost": 0.120365,
+          "tokens": 240002,
+          "calls": 6
         }
       }
     }
@@ -203,129 +203,125 @@
       "calls": 2324
     },
     "grok-3": {
-      "cost": 23.868997,
-      "tokens": 2108511,
-      "calls": 776
+      "cost": 24.132231,
+      "tokens": 2142187,
+      "calls": 791
     },
     "claude-sonnet-4-6": {
-      "cost": 9.211789,
-      "tokens": 42913,
-      "calls": 155
+      "cost": 12.210541,
+      "tokens": 52919,
+      "calls": 202
     },
     "mistral-large-latest": {
-      "cost": 0.21206,
-      "tokens": 419800,
-      "calls": 17
+      "cost": 0.302018,
+      "tokens": 599254,
+      "calls": 21
     }
   },
   "byCategory": {
-    "תחזוקה": {
-      "cost": 12.090163,
-      "tokens": 36978,
-      "calls": 282
+    "Maintenance": {
+      "cost": 12.302179,
+      "tokens": 38330,
+      "calls": 293
     },
-    "מסחר": {
-      "cost": 21.619792,
-      "tokens": 1841422,
-      "calls": 686,
-      "jobs": [
-        "Grok Virtual Trader",
-        "Daily Stock Scanner"
-      ]
+    "Trading": {
+      "cost": 22.182193,
+      "tokens": 1878086,
+      "calls": 708
     },
-    "ג'ובים אחרים": {
-      "cost": 1.127717,
-      "tokens": 79057,
-      "calls": 40
+    "Other Jobs": {
+      "cost": 1.375885,
+      "tokens": 94709,
+      "calls": 51
     },
-    "סאב-אייג'נטים": {
-      "cost": 512.874968,
-      "tokens": 992781,
-      "calls": 1953
-    },
-    "וואטסאפ / צ'אט ראשי": {
+    "WhatsApp / Main Chat": {
       "cost": 85.535934,
       "tokens": 60700,
       "calls": 275
     },
-    "סיכום יומי": {
-      "cost": 0.819861,
-      "tokens": 131811,
-      "calls": 36
+    "Sub-Agents": {
+      "cost": 514.809424,
+      "tokens": 1122878,
+      "calls": 1951
+    },
+    "Daily Summary": {
+      "cost": 1.214765,
+      "tokens": 171182,
+      "calls": 60
     }
   },
   "dailyByCategory": [
     {
       "date": "2026-02-17",
-      "תחזוקה": 0,
-      "מסחר": 0,
-      "ג'ובים אחרים": 0,
-      "סאב-אייג'נטים": 41.250794,
-      "וואטסאפ / צ'אט ראשי": 0,
-      "סיכום יומי": 0
+      "Maintenance": 0,
+      "Trading": 0,
+      "Other Jobs": 0,
+      "WhatsApp / Main Chat": 0,
+      "Sub-Agents": 41.250794,
+      "Daily Summary": 0
     },
     {
       "date": "2026-02-18",
-      "תחזוקה": 1.056694,
-      "מסחר": 0,
-      "ג'ובים אחרים": 0,
-      "סאב-אייג'נטים": 199.454852,
-      "וואטסאפ / צ'אט ראשי": 0,
-      "סיכום יומי": 0
+      "Maintenance": 1.056694,
+      "Trading": 0,
+      "Other Jobs": 0,
+      "WhatsApp / Main Chat": 0,
+      "Sub-Agents": 199.454852,
+      "Daily Summary": 0
     },
     {
       "date": "2026-02-19",
-      "תחזוקה": 2.312237,
-      "מסחר": 0,
-      "ג'ובים אחרים": 0.040106,
-      "סאב-אייג'נטים": 108.572695,
-      "וואטסאפ / צ'אט ראשי": 0,
-      "סיכום יומי": 0.074869
+      "Maintenance": 2.312237,
+      "Trading": 0,
+      "Other Jobs": 0.040106,
+      "WhatsApp / Main Chat": 0,
+      "Sub-Agents": 108.572695,
+      "Daily Summary": 0.074869
     },
     {
       "date": "2026-02-20",
-      "תחזוקה": 2.312144,
-      "מסחר": 4.323272,
-      "ג'ובים אחרים": 0,
-      "סאב-אייג'נטים": 75.583208,
-      "וואטסאפ / צ'אט ראשי": 4.194092,
-      "סיכום יומי": 0.115811
+      "Maintenance": 2.312144,
+      "Trading": 4.323272,
+      "Other Jobs": 0,
+      "WhatsApp / Main Chat": 4.194092,
+      "Sub-Agents": 75.583208,
+      "Daily Summary": 0.115811
     },
     {
       "date": "2026-02-21",
-      "תחזוקה": 1.700263,
-      "מסחר": 9.455782,
-      "ג'ובים אחרים": 0,
-      "סאב-אייג'נטים": 5.898978,
-      "וואטסאפ / צ'אט ראשי": 54.682843,
-      "סיכום יומי": 0.107047
+      "Maintenance": 1.700263,
+      "Trading": 9.455782,
+      "Other Jobs": 0,
+      "WhatsApp / Main Chat": 54.682843,
+      "Sub-Agents": 5.898978,
+      "Daily Summary": 0.107047
     },
     {
       "date": "2026-02-22",
-      "תחזוקה": 2.370755,
-      "מסחר": 1.130341,
-      "ג'ובים אחרים": 0.411839,
-      "סאב-אייג'נטים": 51.974225,
-      "וואטסאפ / צ'אט ראשי": 26.658999,
-      "סיכום יומי": 0.409226
+      "Maintenance": 2.370755,
+      "Trading": 1.130341,
+      "Other Jobs": 0.411839,
+      "WhatsApp / Main Chat": 26.658999,
+      "Sub-Agents": 51.974225,
+      "Daily Summary": 0.409226
     },
     {
       "date": "2026-02-23",
-      "תחזוקה": 1.98753,
-      "מסחר": 6.710398,
-      "ג'ובים אחרים": 0.355454,
-      "סאב-אייג'נטים": 29.30861,
-      "וואטסאפ / צ'אט ראשי": 0,
-      "סיכום יומי": 0.112909
+      "Maintenance": 1.98753,
+      "Trading": 6.710398,
+      "Other Jobs": 0.355454,
+      "WhatsApp / Main Chat": 0,
+      "Sub-Agents": 29.30861,
+      "Daily Summary": 0.112909
     },
     {
       "date": "2026-02-24",
-      "תחזוקה": 0.35054,
-      "מסחר": 0,
-      "ג'ובים אחרים": 0.320319,
-      "סאב-אייג'נטים": 0.831607,
-      "וואטסאפ / צ'אט ראשי": 0,
-      "סיכום יומי": 0
+      "Maintenance": 0.562555,
+      "Trading": 0.562401,
+      "Other Jobs": 0.568487,
+      "WhatsApp / Main Chat": 0,
+      "Sub-Agents": 2.766063,
+      "Daily Summary": 0.394904
     }
   ]
 }
