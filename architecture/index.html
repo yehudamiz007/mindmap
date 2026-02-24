@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenClaw Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: rgba(255,255,255,0.05);
+    --surface2: rgba(255,255,255,0.08);
+    --border: rgba(255,255,255,0.1);
+    --text: #e4e4e7;
+    --muted: #71717a;
+    --purple: #818cf8;
+    --green: #34d399;
+    --yellow: #fbbf24;
+    --blue: #60a5fa;
+    --pink: #f472b6;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Starfield background */
+  #stars-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .content {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* Back nav */
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+  .nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  .nav a:hover { color: var(--text); border-color: var(--purple); background: rgba(129,140,248,0.08); }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+  .header .badge {
+    display: inline-block;
+    background: rgba(129,140,248,0.15);
+    border: 1px solid rgba(129,140,248,0.3);
+    color: var(--purple);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.9rem;
+    border-radius: 20px;
+    margin-bottom: 1.2rem;
+  }
+  .header h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, #fff 0%, var(--purple) 50%, var(--blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.8rem;
+  }
+  .header p {
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.2rem;
+  }
+
+  /* Cards */
+  .card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(129,140,248,0.12) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .card:hover { border-color: rgba(129,140,248,0.4); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+  .card:hover::before { opacity: 1; }
+
+  .card-icon {
+    font-size: 2.2rem;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+  .card-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.4rem;
+  }
+  .card-desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .card-arrow {
+    position: absolute;
+    bottom: 1.2rem;
+    right: 1.2rem;
+    color: var(--purple);
+    font-size: 1rem;
+    transition: transform 0.2s;
+  }
+  .card:hover .card-arrow { transform: translateX(4px); }
+
+  .card-accent {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent, var(--purple)), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .card:hover .card-accent { opacity: 1; }
+
+  /* Stats row */
+  .stats {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--purple);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 0.2rem;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  .card:nth-child(1) { animation: float 6s ease-in-out infinite; }
+  .card:nth-child(3) { animation: float 7s ease-in-out 1s infinite; }
+  .card:nth-child(5) { animation: float 5.5s ease-in-out 0.5s infinite; }
+  .card:hover { animation: none; }
+
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; }
+    .stats { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="stars-canvas"></canvas>
+
+<div class="content">
+  <nav class="nav">
+    <a href="https://yehudamiz007.github.io/mindmap/hub.html">← Back to Hub</a>
+  </nav>
+
+  <header class="header">
+    <div class="badge">🏗️ Technical Reference</div>
+    <h1>OpenClaw Architecture</h1>
+    <p>Interactive technical diagrams explaining how OpenClaw works under the hood.</p>
+  </header>
+
+  <div class="grid">
+
+    <a class="card" href="agent-loop.html" style="--accent: #818cf8">
+      <div class="card-accent"></div>
+      <span class="card-icon">🔄</span>
+      <div class="card-title">Agent Loop</div>
+      <div class="card-desc">How a message becomes a response - from user input through LLM calls, tool execution, and final delivery.</div>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="gateway.html" style="--accent: #60a5fa">
+      <div class="card-accent"></div>
+      <span class="card-icon">🌐</span>
+      <div class="card-title">Gateway Architecture</div>
+      <div class="card-desc">WebSocket daemon, HTTP server, 14+ channel extensions, session manager, and tool policy engine.</div>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="memory.html" style="--accent: #34d399">
+      <div class="card-accent"></div>
+      <span class="card-icon">🧠</span>
+      <div class="card-title">Memory System</div>
+      <div class="card-desc">Semantic search, context injection, daily logs, and long-term MEMORY.md - the agent's persistent mind.</div>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="cron-agents.html" style="--accent: #fbbf24">
+      <div class="card-accent"></div>
+      <span class="card-icon">⏱️</span>
+      <div class="card-title">Cron & Sub-Agents</div>
+      <div class="card-desc">Scheduled jobs, isolated sub-agent sessions, and autonomous background work with output routing.</div>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="channel-routing.html" style="--accent: #f472b6">
+      <div class="card-accent"></div>
+      <span class="card-icon">📡</span>
+      <div class="card-title">Channel Routing</div>
+      <div class="card-desc">Message flow across WhatsApp, Telegram, Discord, Signal, and webchat with normalization and delivery.</div>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="tool-execution.html" style="--accent: #f87171">
+      <div class="card-accent"></div>
+      <span class="card-icon">🔧</span>
+      <div class="card-title">Tool Execution Pipeline</div>
+      <div class="card-desc">Policy check, sandboxing, parallel execution, and result injection for all tool categories.</div>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="skills.html" style="--accent: #a78bfa">
+      <div class="card-accent"></div>
+      <span class="card-icon">💡</span>
+      <div class="card-title">Skills System</div>
+      <div class="card-desc">Dynamic skill loading - how SKILL.md files extend the agent with specialized knowledge and behaviors.</div>
+      <span class="card-arrow">→</span>
+    </a>
+
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value">7</div>
+      <div class="stat-label">Diagrams</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">14+</div>
+      <div class="stat-label">Channels</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">20+</div>
+      <div class="stat-label">Tools</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">13</div>
+      <div class="stat-label">Skills</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Starfield
+const canvas = document.getElementById('stars-canvas');
+const ctx = canvas.getContext('2d');
+let stars = [];
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+function initStars() {
+  stars = [];
+  for (let i = 0; i < 120; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.5 + 0.3,
+      a: Math.random(),
+      da: (Math.random() - 0.5) * 0.005,
+      dx: (Math.random() - 0.5) * 0.1,
+      dy: (Math.random() - 0.5) * 0.05,
+    });
+  }
+}
+
+function drawStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (const s of stars) {
+    s.a = Math.max(0.1, Math.min(1, s.a + s.da));
+    if (s.a <= 0.1 || s.a >= 1) s.da *= -1;
+    s.x = (s.x + s.dx + canvas.width) % canvas.width;
+    s.y = (s.y + s.dy + canvas.height) % canvas.height;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(129,140,248,${s.a * 0.6})`;
+    ctx.fill();
+  }
+  requestAnimationFrame(drawStars);
+}
+
+resize();
+initStars();
+drawStars();
+window.addEventListener('resize', () => { resize(); initStars(); });
+
+// Card mouse-tracking glow
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width * 100).toFixed(1);
+    const y = ((e.clientY - r.top) / r.height * 100).toFixed(1);
+    card.style.setProperty('--mx', x + '%');
+    card.style.setProperty('--my', y + '%');
+  });
+});
+</script>
+</body>
+</html>

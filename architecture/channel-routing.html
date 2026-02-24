@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Channel Routing - OpenClaw Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#0a0a0f;--surface:rgba(255,255,255,0.05);--border:rgba(255,255,255,0.1);--text:#e4e4e7;--muted:#71717a;--purple:#818cf8;--green:#34d399;--yellow:#fbbf24;--blue:#60a5fa;--pink:#f472b6;--red:#f87171}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
+  #bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+  .page{position:relative;z-index:1;max-width:1050px;margin:0 auto;padding:1.5rem 1.5rem 4rem}
+  .nav{display:flex;gap:.8rem;margin-bottom:2rem;flex-wrap:wrap}
+  .nav a{color:var(--muted);text-decoration:none;font-size:.82rem;padding:.35rem .75rem;border:1px solid var(--border);border-radius:6px;transition:all .2s}
+  .nav a:hover{color:var(--text);border-color:var(--pink)}
+  .header{text-align:center;margin-bottom:2.5rem}
+  .header .tag{display:inline-block;background:rgba(244,114,182,0.12);border:1px solid rgba(244,114,182,0.25);color:var(--pink);font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .8rem;border-radius:20px;margin-bottom:1rem}
+  .header h1{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:700;background:linear-gradient(135deg,#fff 0%,var(--pink) 60%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.5rem}
+  .header p{color:var(--muted);font-size:.92rem}
+
+  /* Lanes diagram */
+  .lanes-wrap{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:12px;overflow-x:auto;padding:1rem 1rem .5rem;margin-bottom:1.5rem}
+  .lanes-header{display:grid;grid-template-columns:80px repeat(5,1fr) 80px;gap:6px;align-items:center;margin-bottom:.6rem}
+  .lane-col-header{text-align:center;font-size:.72rem;font-weight:600;padding:.4rem .3rem;border-radius:6px;border:1px solid}
+
+  .stages{display:flex;flex-direction:column;gap:6px}
+  .stage-row{display:grid;grid-template-columns:80px repeat(5,1fr) 80px;gap:6px;align-items:center}
+  .stage-label{font-size:.7rem;color:var(--muted);text-align:right;padding-right:.6rem;font-weight:500;white-space:nowrap}
+  .stage-label-right{font-size:.7rem;color:var(--muted);padding-left:.6rem;font-weight:500;white-space:nowrap}
+
+  .cell{height:44px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.72rem;text-align:center;padding:0 .3rem;line-height:1.3;cursor:pointer;transition:all .2s;border:1px solid transparent;position:relative;overflow:hidden}
+  .cell:hover{transform:scale(1.03);z-index:2;border-color:rgba(255,255,255,.15)}
+  .cell.active-cell{border-color:var(--c)!important;box-shadow:0 0 12px var(--c)30}
+
+  /* Packet animation */
+  .cell .packet{position:absolute;width:8px;height:8px;border-radius:50%;animation:packet-move 2s ease-in-out infinite}
+  @keyframes packet-move{0%{opacity:0;left:5%}30%{opacity:1}70%{opacity:1}100%{opacity:0;left:90%}}
+
+  /* Arrows between stages */
+  .stage-arrow{display:grid;grid-template-columns:80px repeat(5,1fr) 80px;gap:6px}
+  .arrow-cell{text-align:center;color:rgba(255,255,255,.15);font-size:.8rem}
+
+  .detail{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.4rem;min-height:80px;transition:all .3s}
+  .detail.active{border-color:var(--pink)}
+  .detail h3{font-size:1rem;font-weight:600;color:#fff;margin-bottom:.5rem}
+  .detail p{font-size:.87rem;color:var(--muted);line-height:1.6}
+  .detail .tag-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.8rem}
+  .detail .tag-row span{background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,.2);color:var(--pink);font-size:.72rem;padding:.2rem .5rem;border-radius:4px;font-family:'JetBrains Mono',monospace}
+
+  .hint{text-align:center;color:var(--muted);font-size:.8rem;margin-top:.6rem;margin-bottom:1.2rem}
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div class="page">
+  <nav class="nav">
+    <a href="index.html">← Architecture Hub</a>
+    <a href="https://yehudamiz007.github.io/mindmap/hub.html">🏠 Main Hub</a>
+  </nav>
+  <header class="header">
+    <div class="tag">📡 Channel Routing</div>
+    <h1>Message Flow Across Channels</h1>
+    <p>How messages travel from phone to agent and back across 5 channels</p>
+  </header>
+
+  <div class="lanes-wrap">
+    <!-- Column headers = channels -->
+    <div class="lanes-header">
+      <div></div>
+      <div class="lane-col-header" style="color:#25D366;border-color:#25D36640;background:#25D36612">📱 WhatsApp</div>
+      <div class="lane-col-header" style="color:#2AABEE;border-color:#2AABEE40;background:#2AABEE12">✈️ Telegram</div>
+      <div class="lane-col-header" style="color:#5865F2;border-color:#5865F240;background:#5865F212">🎮 Discord</div>
+      <div class="lane-col-header" style="color:#3A76F0;border-color:#3A76F040;background:#3A76F012">🔒 Signal</div>
+      <div class="lane-col-header" style="color:#34d399;border-color:#34d39940;background:#34d39912">🖥️ Webchat</div>
+      <div></div>
+    </div>
+
+    <div class="stages" id="stages">
+      <!-- Stage 1: User sends -->
+      <div class="stage-row">
+        <div class="stage-label">User Sends</div>
+        <div class="cell" style="background:#25D36615;color:#25D366;--c:#25D366" data-title="WhatsApp: User Sends" data-info="User sends a WhatsApp message from their phone. Could be text, image, voice note, sticker, document, or location. The message is end-to-end encrypted in transit." data-tags="E2E-encrypted,text,image,voice,sticker,document">WhatsApp message sent by user<div class="packet" style="background:#25D366;animation-delay:.2s"></div></div>
+        <div class="cell" style="background:#2AABEE15;color:#2AABEE;--c:#2AABEE" data-title="Telegram: User Sends" data-info="User sends a message via the Telegram app. Can be text, media, voice, file, or use inline bot commands with / prefix. Telegram has generous file size limits." data-tags="Bot-API,commands,inline-keyboards,files,supergroups">Telegram message or command sent<div class="packet" style="background:#2AABEE;animation-delay:.5s"></div></div>
+        <div class="cell" style="background:#5865F215;color:#5865F2;--c:#5865F2" data-title="Discord: User Sends" data-info="User sends a message in a Discord server channel or DM. Can use slash commands, mention the bot, or send in a monitored channel. Discord supports rich embeds and attachments." data-tags="slash-commands,embeds,mention,server-channel,DM">Discord message, slash cmd, or DM<div class="packet" style="background:#5865F2;animation-delay:.8s"></div></div>
+        <div class="cell" style="background:#3A76F015;color:#3A76F0;--c:#3A76F0" data-title="Signal: User Sends" data-info="User sends a Signal message. All Signal messages are end-to-end encrypted. The Signal integration uses signal-cli or the Signal API bridge running locally." data-tags="E2E-encrypted,signal-cli,DM,groups,sealed-sender">Signal encrypted message sent<div class="packet" style="background:#3A76F0;animation-delay:1.1s"></div></div>
+        <div class="cell" style="background:#34d39915;color:#34d399;--c:#34d399" data-title="Webchat: User Sends" data-info="User types in the built-in webchat at localhost:18789. The webchat is a React SPA that communicates via WebSocket. Supports file uploads, markdown preview, and streaming responses." data-tags="WebSocket,localhost:18789,file-upload,markdown,streaming">Webchat message via browser UI<div class="packet" style="background:#34d399;animation-delay:1.4s"></div></div>
+        <div class="stage-label-right">↓</div>
+      </div>
+
+      <div class="stage-arrow"><div></div><div class="arrow-cell">↓</div><div class="arrow-cell">↓</div><div class="arrow-cell">↓</div><div class="arrow-cell">↓</div><div class="arrow-cell">↓</div><div></div></div>
+
+      <!-- Stage 2: Extension receives -->
+      <div class="stage-row">
+        <div class="stage-label">Extension Receives</div>
+        <div class="cell" style="background:#25D36610;color:#25D366;--c:#25D366;font-size:.68rem" data-title="WhatsApp Extension" data-info="The WhatsApp channel extension uses the Baileys library to maintain a persistent WebSocket connection to WhatsApp servers. It receives events, decodes messages, downloads media, and normalizes everything to the internal format." data-tags="Baileys-lib,WebSocket,media-download,QR-pairing,keep-alive">Baileys extension<br>decodes message</div>
+        <div class="cell" style="background:#2AABEE10;color:#2AABEE;--c:#2AABEE;font-size:.68rem" data-title="Telegram Extension" data-info="The Telegram extension uses the node-telegram-bot-api library with long-polling or webhooks. It handles all update types: messages, callback queries, inline queries, and channel posts." data-tags="node-telegram-bot-api,long-polling,webhook,callback-queries,updates">Telegram Bot API<br>long-poll / webhook</div>
+        <div class="cell" style="background:#5865F210;color:#5865F2;--c:#5865F2;font-size:.68rem" data-title="Discord Extension" data-info="The Discord extension uses discord.js with the Gateway Intent system. It subscribes to message events in configured guilds, handles slash command interactions, and manages bot presence." data-tags="discord.js,gateway-intents,slash-interactions,guild-events,presence">discord.js<br>gateway events</div>
+        <div class="cell" style="background:#3A76F010;color:#3A76F0;--c:#3A76F0;font-size:.68rem" data-title="Signal Extension" data-info="The Signal extension runs signal-cli as a subprocess or connects to a Signal API server. It monitors for incoming messages, handles attachments, and maintains the Signal protocol state." data-tags="signal-cli,subprocess,protocol-state,attachments,groups">signal-cli<br>subprocess bridge</div>
+        <div class="cell" style="background:#34d39910;color:#34d399;--c:#34d399;font-size:.68rem" data-title="Webchat Extension" data-info="The webchat extension is the built-in WebSocket server at port 18789. The browser client connects via ws:// and all messages are passed directly through the WebSocket transport." data-tags="ws://18789,SPA-client,direct-WebSocket,no-auth-required">WebSocket server<br>direct connection</div>
+        <div class="stage-label-right">↓</div>
+      </div>
+
+      <div class="stage-arrow"><div></div><div class="arrow-cell">↓</div><div class="arrow-cell">↓</div><div class="arrow-cell">↓</div><div class="arrow-cell">↓</div><div class="arrow-cell">↓</div><div></div></div>
+
+      <!-- Stage 3: Normalize -->
+      <div class="stage-row">
+        <div class="stage-label">Normalize</div>
+        <div class="cell" style="background:rgba(129,140,248,.1);color:var(--purple);--c:#818cf8;font-size:.68rem" data-title="Normalize to Internal Format" data-info="Each extension normalizes its channel-specific message format into a standard internal message object: { channel, sender, text, attachments, metadata, timestamp }. This unified format is what the agent session receives." data-tags="channel,sender,text,attachments,metadata,timestamp">{ channel: 'whatsapp',<br>sender, text, ... }</div>
+        <div class="cell" style="background:rgba(129,140,248,.1);color:var(--purple);--c:#818cf8;font-size:.68rem" data-title="Normalize to Internal Format" data-info="Telegram update objects (complex with nested message objects, from objects, etc.) are normalized to the same simple internal format. File IDs are resolved to downloadable URLs." data-tags="update-object,file-id-resolve,from-object,text,caption">{ channel: 'telegram',<br>sender, text, ... }</div>
+        <div class="cell" style="background:rgba(129,140,248,.1);color:var(--purple);--c:#818cf8;font-size:.68rem" data-title="Normalize to Internal Format" data-info="Discord Message objects are normalized. Guild ID, channel ID, member vs user distinctions are captured in metadata. Attachment URLs are included for media." data-tags="guild-id,channel-id,member,attachments,slash-interaction">{ channel: 'discord',<br>guild, text, ... }</div>
+        <div class="cell" style="background:rgba(129,140,248,.1);color:var(--purple);--c:#818cf8;font-size:.68rem" data-title="Normalize to Internal Format" data-info="Signal messages are normalized from the signal-cli JSON output. Group context, quoted messages, and reactions are all captured in the unified format." data-tags="signal-json,group-context,quote,reaction,account">{ channel: 'signal',<br>sender, text, ... }</div>
+        <div class="cell" style="background:rgba(129,140,248,.1);color:var(--purple);--c:#818cf8;font-size:.68rem" data-title="Normalize to Internal Format" data-info="Webchat messages are already simple JSON objects. They pass through normalization with minimal transformation - mostly adding channel metadata." data-tags="simple-JSON,sessionId,minimal-transform,metadata">{ channel: 'webchat',<br>sessionId, text, ... }</div>
+        <div class="stage-label-right">↓</div>
+      </div>
+
+      <div class="stage-arrow"><div></div><div class="arrow-cell">↓</div><div class="arrow-cell">↓</div><div class="arrow-cell">↓</div><div class="arrow-cell">↓</div><div class="arrow-cell">↓</div><div></div></div>
+
+      <!-- Stage 4: Agent processes (merge to center) -->
+      <div class="stage-row">
+        <div class="stage-label">Agent</div>
+        <div class="cell" style="background:rgba(52,211,153,.08);color:var(--green);--c:#34d399;grid-column:span 5;font-size:.75rem;border-radius:8px" data-title="Agent Session Processing" data-info="All channels converge at the agent session. The session manager routes the normalized message to the correct conversation context. The agent processes it identically regardless of source channel - same LLM, same tools, same memory." data-tags="channel-agnostic,unified-processing,same-LLM,same-tools,session-routing">
+          🧠 Agent Session - Processes identically regardless of source channel
+          <div class="packet" style="background:#34d399;animation-delay:.5s;width:12px;height:12px;top:calc(50% - 6px)"></div>
+        </div>
+        <div class="stage-label-right">↓</div>
+      </div>
+
+      <div class="stage-arrow"><div></div><div class="arrow-cell">↓</div><div class="arrow-cell">↓</div><div class="arrow-cell">↓</div><div class="arrow-cell">↓</div><div class="arrow-cell">↓</div><div></div></div>
+
+      <!-- Stage 5: Format for channel -->
+      <div class="stage-row">
+        <div class="stage-label">Format</div>
+        <div class="cell" style="background:#25D36610;color:#25D366;--c:#25D366;font-size:.65rem" data-title="Format for WhatsApp" data-info="WhatsApp responses are formatted with: no markdown tables (use plain text), bold/italic via *text* and _text_, voice notes converted if applicable, media sent via sendMessage with attachments. Long messages are split at natural boundaries." data-tags="no-tables,*bold*,_italic_,media-attach,split-long">Bold via *stars*<br>No tables<br>Emoji-friendly</div>
+        <div class="cell" style="background:#2AABEE10;color:#2AABEE;--c:#2AABEE;font-size:.65rem" data-title="Format for Telegram" data-info="Telegram supports full Markdown V2 formatting. HTML parse mode also supported. Inline keyboards can be added for interactive responses. Long responses are split per Telegram's 4096-char limit." data-tags="MarkdownV2,HTML-mode,inline-keyboards,4096-char-limit,split">MarkdownV2<br>Inline keyboards<br>4096 char limit</div>
+        <div class="cell" style="background:#5865F210;color:#5865F2;--c:#5865F2;font-size:.65rem" data-title="Format for Discord" data-info="Discord supports full Markdown. Rich embeds are used for structured data. Links are wrapped in <> to suppress previews. Slash command responses use interaction.reply() with ephemeral option." data-tags="markdown,embeds,suppress-embeds,<url>,ephemeral,code-blocks">Markdown + Embeds<br><links> suppress<br>Code blocks</div>
+        <div class="cell" style="background:#3A76F010;color:#3A76F0;--c:#3A76F0;font-size:.65rem" data-title="Format for Signal" data-info="Signal has minimal formatting support. Plain text with emoji. Attachments sent as files. Quote/reply via quote parameter. No markdown beyond basic line breaks." data-tags="plain-text,emoji,attachments,quote-reply,no-markdown">Plain text + emoji<br>File attachments<br>Quote replies</div>
+        <div class="cell" style="background:#34d39910;color:#34d399;--c:#34d399;font-size:.65rem" data-title="Format for Webchat" data-info="Webchat renders full Markdown including tables, code highlighting, and LaTeX math. Responses stream token-by-token in real-time. Images and files shown inline. Most feature-rich channel." data-tags="full-markdown,tables,code-highlight,LaTeX,streaming,inline-media">Full Markdown<br>Tables, code, math<br>Live streaming</div>
+        <div class="stage-label-right">↓</div>
+      </div>
+
+      <div class="stage-arrow"><div></div><div class="arrow-cell">↓</div><div class="arrow-cell">↓</div><div class="arrow-cell">↓</div><div class="arrow-cell">↓</div><div class="arrow-cell">↓</div><div></div></div>
+
+      <!-- Stage 6: Delivered -->
+      <div class="stage-row">
+        <div class="stage-label">Delivered</div>
+        <div class="cell" style="background:#25D36618;color:#25D366;--c:#25D366;font-size:.68rem" data-title="Delivered via WhatsApp" data-info="Response sent back via Baileys sendMessage API. The message appears as a WhatsApp reply from the bot account. Read receipts and delivery confirmations are captured." data-tags="Baileys-sendMessage,reply,read-receipts,delivery-confirm">✓ WhatsApp reply<br>delivered</div>
+        <div class="cell" style="background:#2AABEE18;color:#2AABEE;--c:#2AABEE;font-size:.68rem" data-title="Delivered via Telegram" data-info="Response sent via Telegram Bot API sendMessage. The user receives the reply in the same chat. Bot can optionally send typing indicator before long responses." data-tags="sendMessage,same-chat,typing-indicator,reply-to">✓ Telegram reply<br>delivered</div>
+        <div class="cell" style="background:#5865F218;color:#5865F2;--c:#5865F2;font-size:.68rem" data-title="Delivered via Discord" data-info="Response sent via Discord.js message.reply() or interaction.followUp(). Rich embeds used for structured data. Channel webhook used for some delivery patterns." data-tags="message.reply,interaction,followUp,webhook,embed">✓ Discord message<br>delivered</div>
+        <div class="cell" style="background:#3A76F018;color:#3A76F0;--c:#3A76F0;font-size:.68rem" data-title="Delivered via Signal" data-info="Response sent via signal-cli send command. The message appears in the same Signal conversation. Group delivery supported with quoting." data-tags="signal-cli-send,conversation,group-delivery,quote">✓ Signal message<br>delivered</div>
+        <div class="cell" style="background:#34d39918;color:#34d399;--c:#34d399;font-size:.68rem" data-title="Delivered via Webchat" data-info="Response streamed token-by-token over the WebSocket connection. The browser UI renders markdown in real-time as tokens arrive. Full rich formatting, code highlighting, and media preview." data-tags="WebSocket-stream,real-time,token-by-token,markdown-render,media-preview">✓ Webchat stream<br>rendered live</div>
+        <div class="stage-label-right"></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="hint">Click any cell to learn about that stage for that channel</p>
+
+  <div class="detail" id="detail">
+    <h3>Channel Routing Overview</h3>
+    <p>Every channel has its own extension that handles the protocol-specific details. But once normalized, all messages flow through the same agent pipeline. The formatting layer on the way out adapts the response to each channel's capabilities. Click any cell in the grid to learn more.</p>
+    <div class="tag-row"><span>normalized-format</span><span>channel-agnostic-agent</span><span>format-per-channel</span><span>5-channels</span></div>
+  </div>
+</div>
+
+<script>
+const bgCv=document.getElementById('bg-canvas');
+const bgCtx=bgCv.getContext('2d');
+function resizeBg(){bgCv.width=innerWidth;bgCv.height=innerHeight}
+let bgPts=[];
+function initBg(){bgPts=Array.from({length:55},()=>({x:Math.random()*bgCv.width,y:Math.random()*bgCv.height,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.15,a:Math.random()*.4+.1}))}
+function drawBg(){
+  bgCtx.clearRect(0,0,bgCv.width,bgCv.height);
+  for(const p of bgPts){
+    p.x=(p.x+p.vx+bgCv.width)%bgCv.width;
+    p.y=(p.y+p.vy+bgCv.height)%bgCv.height;
+    bgCtx.beginPath();bgCtx.arc(p.x,p.y,1.5,0,Math.PI*2);
+    bgCtx.fillStyle=`rgba(244,114,182,${p.a*.3})`;bgCtx.fill();
+  }
+  requestAnimationFrame(drawBg);
+}
+resizeBg();initBg();drawBg();
+window.addEventListener('resize',()=>{resizeBg();initBg()});
+
+const detail=document.getElementById('detail');
+document.querySelectorAll('.cell').forEach(cell=>{
+  cell.addEventListener('click',()=>{
+    document.querySelectorAll('.cell').forEach(c=>c.classList.remove('active-cell'));
+    cell.classList.add('active-cell');
+    const title=cell.dataset.title||'';
+    const info=cell.dataset.info||'';
+    const tags=(cell.dataset.tags||'').split(',').filter(Boolean);
+    detail.className='detail active';
+    detail.innerHTML=`<h3>${title}</h3><p>${info}</p><div class="tag-row">${tags.map(t=>`<span>${t.trim()}</span>`).join('')}</div>`;
+  });
+});
+</script>
+</body>
+</html>

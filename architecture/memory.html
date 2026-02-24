@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memory System - OpenClaw Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#0a0a0f;--surface:rgba(255,255,255,0.05);--border:rgba(255,255,255,0.1);--text:#e4e4e7;--muted:#71717a;--purple:#818cf8;--green:#34d399;--yellow:#fbbf24;--blue:#60a5fa;--pink:#f472b6}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
+  #bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+  .page{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:1.5rem 1.5rem 4rem}
+  .nav{display:flex;gap:.8rem;margin-bottom:2rem;flex-wrap:wrap}
+  .nav a{color:var(--muted);text-decoration:none;font-size:.82rem;padding:.35rem .75rem;border:1px solid var(--border);border-radius:6px;transition:all .2s}
+  .nav a:hover{color:var(--text);border-color:var(--green)}
+  .header{text-align:center;margin-bottom:2.5rem}
+  .header .tag{display:inline-block;background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.25);color:var(--green);font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .8rem;border-radius:20px;margin-bottom:1rem}
+  .header h1{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:700;background:linear-gradient(135deg,#fff 0%,var(--green) 60%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.5rem}
+  .header p{color:var(--muted);font-size:.92rem}
+
+  /* Cycle diagram */
+  #cycle-canvas{display:block;width:100%;border-radius:12px;background:rgba(255,255,255,0.02);border:1px solid var(--border);cursor:pointer}
+
+  /* File cards */
+  .file-row{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.5rem}
+  .file-card{flex:1;min-width:160px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1rem;cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
+  .file-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--c,#818cf8),transparent);opacity:0;transition:opacity .3s}
+  .file-card:hover{border-color:rgba(255,255,255,.2);transform:translateY(-2px)}
+  .file-card:hover::after{opacity:1}
+  .file-card .fc-icon{font-size:1.4rem;margin-bottom:.5rem}
+  .file-card .fc-name{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:#fff;margin-bottom:.25rem}
+  .file-card .fc-desc{font-size:.76rem;color:var(--muted);line-height:1.5}
+  .file-card .fc-badge{position:absolute;top:.6rem;right:.7rem;font-size:.65rem;padding:.15rem .4rem;border-radius:3px;font-weight:600}
+
+  .detail{margin-top:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.4rem;min-height:80px;transition:all .3s}
+  .detail.active{border-color:var(--green)}
+  .detail h3{font-size:1rem;font-weight:600;color:#fff;margin-bottom:.5rem}
+  .detail p{font-size:.87rem;color:var(--muted);line-height:1.6}
+  .detail .tag-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.8rem}
+  .detail .tag-row span{background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.2);color:var(--green);font-size:.72rem;padding:.2rem .5rem;border-radius:4px;font-family:'JetBrains Mono',monospace}
+  .hint{text-align:center;color:var(--muted);font-size:.8rem;margin-top:.8rem}
+
+  @media(max-width:500px){.file-row{flex-direction:column}}
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div class="page">
+  <nav class="nav">
+    <a href="index.html">← Architecture Hub</a>
+    <a href="https://yehudamiz007.github.io/mindmap/hub.html">🏠 Main Hub</a>
+  </nav>
+  <header class="header">
+    <div class="tag">🧠 Memory System</div>
+    <h1>How the Agent Remembers</h1>
+    <p>Semantic search, daily logs, and long-term memory - the agent's persistent mind</p>
+  </header>
+
+  <canvas id="cycle-canvas" height="440"></canvas>
+  <p class="hint">Click any step in the cycle to explore it</p>
+
+  <div class="file-row">
+    <div class="file-card" style="--c:#818cf8" data-title="MEMORY.md" data-info="The agent's long-term memory. Curated, distilled wisdom from all past conversations. Contains key facts about the user, family, preferences, ongoing projects, and important decisions. Only loaded in main sessions for security - never in shared/group contexts. Updated periodically during heartbeats." data-tags="long-term,curated,main-session-only,heartbeat-updated,security">
+      <div class="fc-badge" style="background:rgba(129,140,248,.15);color:var(--purple)">LT</div>
+      <div class="fc-icon">📖</div>
+      <div class="fc-name">MEMORY.md</div>
+      <div class="fc-desc">Long-term curated memory. Distilled from daily logs.</div>
+    </div>
+    <div class="file-card" style="--c:#34d399" data-title="memory/YYYY-MM-DD.md" data-info="Daily log files stored in the memory/ folder. Raw notes of what happened each day - conversations, tasks completed, decisions made, things to remember. Created automatically each day. Agent reads today's and yesterday's file on session start." data-tags="daily,raw-notes,auto-created,rolling-window,today+yesterday">
+      <div class="fc-badge" style="background:rgba(52,211,153,.15);color:var(--green)">ST</div>
+      <div class="fc-icon">📅</div>
+      <div class="fc-name">memory/YYYY-MM-DD.md</div>
+      <div class="fc-desc">Daily logs. Raw notes of conversations and tasks.</div>
+    </div>
+    <div class="file-card" style="--c:#60a5fa" data-title="SOUL.md" data-info="The agent's personality and behavioral guidelines. Defines tone, formatting rules, decision-making principles, and core identity. Always loaded as part of the system prompt. Never changes without explicit user request." data-tags="system-prompt,always-loaded,personality,tone,formatting">
+      <div class="fc-badge" style="background:rgba(96,165,250,.15);color:var(--blue)">SYS</div>
+      <div class="fc-icon">💙</div>
+      <div class="fc-name">SOUL.md</div>
+      <div class="fc-desc">Personality and behavioral identity.</div>
+    </div>
+    <div class="file-card" style="--c:#fbbf24" data-title="USER.md" data-info="Facts about the user: name, timezone, family members, contact info, role, and personal notes. Always loaded in the system prompt. Gives the agent essential context about who it's helping." data-tags="user-context,always-loaded,family,timezone,contact">
+      <div class="fc-badge" style="background:rgba(251,191,36,.15);color:var(--yellow)">USR</div>
+      <div class="fc-icon">👤</div>
+      <div class="fc-name">USER.md</div>
+      <div class="fc-desc">Facts about the human. Always in system prompt.</div>
+    </div>
+  </div>
+
+  <div class="detail" id="detail">
+    <h3>Memory System Overview</h3>
+    <p>OpenClaw agents wake up fresh each session - there's no persistent in-memory state. Instead, memory is file-based: markdown files that get read at session start and written throughout. This makes memory transparent, editable, and portable. Click the cycle or file cards above to explore.</p>
+    <div class="tag-row"><span>file-based</span><span>markdown</span><span>semantic-search</span><span>context-injection</span></div>
+  </div>
+</div>
+
+<script>
+// Background
+const bgCv=document.getElementById('bg-canvas');
+const bgCtx=bgCv.getContext('2d');
+function resizeBg(){bgCv.width=innerWidth;bgCv.height=innerHeight}
+let bgPts=[];
+function initBg(){bgPts=Array.from({length:50},()=>({x:Math.random()*bgCv.width,y:Math.random()*bgCv.height,vx:(Math.random()-.5)*.15,vy:(Math.random()-.5)*.15,a:Math.random()*.4+.1}))}
+function drawBg(){
+  bgCtx.clearRect(0,0,bgCv.width,bgCv.height);
+  for(const p of bgPts){
+    p.x=(p.x+p.vx+bgCv.width)%bgCv.width;
+    p.y=(p.y+p.vy+bgCv.height)%bgCv.height;
+    bgCtx.beginPath();bgCtx.arc(p.x,p.y,1.5,0,Math.PI*2);
+    bgCtx.fillStyle=`rgba(52,211,153,${p.a*.35})`;bgCtx.fill();
+  }
+  requestAnimationFrame(drawBg);
+}
+resizeBg();initBg();drawBg();
+window.addEventListener('resize',()=>{resizeBg();initBg()});
+
+// Cycle canvas
+const cv=document.getElementById('cycle-canvas');
+const ctx=cv.getContext('2d');
+let W,H,tick=0,activeStep=null,particles=[];
+
+const STEPS=[
+  {id:'msg',    label:'Inbound Message',  sublabel:'User sends text',         color:'#60a5fa',
+   info:'A message arrives from any channel (WhatsApp, Telegram, Discord, etc). The Gateway normalizes it and routes it to the agent session.',
+   tags:['channel-normalized','metadata','attachments']},
+  {id:'read',   label:'Read Context',     sublabel:'SOUL + USER + memory',    color:'#818cf8',
+   info:'Session starts by reading SOUL.md, USER.md, today\'s memory file, yesterday\'s memory file, and MEMORY.md (main session only). This context is injected into the system prompt.',
+   tags:['SOUL.md','USER.md','memory/YYYY-MM-DD.md','MEMORY.md']},
+  {id:'search', label:'memory_search',    sublabel:'Semantic search',          color:'#34d399',
+   info:'The memory_search tool performs semantic similarity search across memory files. Finds relevant past context even if not in the recent window. Uses embedding-based retrieval.',
+   tags:['semantic-search','embeddings','similarity','context-retrieval']},
+  {id:'inject', label:'Context Injection',sublabel:'Relevant facts injected',  color:'#fbbf24',
+   info:'Relevant memory snippets are injected into the LLM context window before the current message. This gives the agent relevant background without consuming full memory budget.',
+   tags:['token-efficient','dynamic','relevance-ranked','injection']},
+  {id:'resp',   label:'Response',         sublabel:'LLM generates reply',      color:'#34d399',
+   info:'The LLM generates its response with full context: system prompt + memory + conversation history + current message. The response is streamed back to the channel.',
+   tags:['streaming','channel-formatted','tool-calls-possible']},
+  {id:'write',  label:'Write to Daily Log',sublabel:'memory/YYYY-MM-DD.md',    color:'#f472b6',
+   info:'After responding, significant information is written to today\'s daily log file. The agent writes what happened, decisions made, things to remember - like a diary entry.',
+   tags:['auto-write','daily-file','raw-notes','persistent']},
+  {id:'update', label:'Update MEMORY.md', sublabel:'Periodic distillation',    color:'#818cf8',
+   info:'During heartbeats (a few times per day), the agent reviews recent daily files and updates MEMORY.md with distilled long-term insights. Old irrelevant info gets pruned.',
+   tags:['heartbeat-triggered','distillation','pruning','curated-wisdom']},
+];
+
+function setup(){
+  const rect=cv.getBoundingClientRect();
+  W=cv.width=rect.width*devicePixelRatio;
+  H=cv.height;
+  ctx.scale(devicePixelRatio,1);
+  W=rect.width;
+}
+
+function getStepPos(i){
+  const n=STEPS.length;
+  const cx=W/2, cy=H/2;
+  const rx=Math.min(W*.38,200), ry=Math.min(H*.38,160);
+  const angle=(i/n)*Math.PI*2 - Math.PI/2;
+  return {x:cx+Math.cos(angle)*rx, y:cy+Math.sin(angle)*ry};
+}
+
+function drawArrowArc(i){
+  const n=STEPS.length;
+  const from=getStepPos(i), to=getStepPos((i+1)%n);
+  const step=STEPS[i];
+  ctx.save();
+  ctx.strokeStyle=step.color;
+  ctx.lineWidth=1.5;
+  ctx.globalAlpha=.4;
+  ctx.setLineDash([5,4]);
+  ctx.beginPath();
+  // Slightly curved via midpoint
+  const mx=(from.x+to.x)/2, my=(from.y+to.y)/2;
+  const cx2=W/2, cy2=H/2;
+  const vx=mx-cx2, vy=my-cy2;
+  const len=Math.sqrt(vx*vx+vy*vy)||1;
+  const cpx=mx+vx/len*18, cpy=my+vy/len*18;
+  ctx.moveTo(from.x,from.y); ctx.quadraticCurveTo(cpx,cpy,to.x,to.y);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  // arrowhead
+  const dx=to.x-cpx,dy=to.y-cpy;
+  const angle2=Math.atan2(dy,dx);
+  ctx.globalAlpha=.7;
+  ctx.fillStyle=step.color;
+  ctx.beginPath();
+  ctx.moveTo(to.x,to.y);
+  ctx.lineTo(to.x-10*Math.cos(angle2-.4),to.y-10*Math.sin(angle2-.4));
+  ctx.lineTo(to.x-10*Math.cos(angle2+.4),to.y-10*Math.sin(angle2+.4));
+  ctx.closePath();ctx.fill();
+  ctx.restore();
+}
+
+function drawStep(i,hovered){
+  const pos=getStepPos(i);
+  const s=STEPS[i];
+  const r=hovered?38:32;
+  const pulse=Math.sin(tick*.04+i*0.9)*.5+.5;
+  ctx.save();
+  // Glow
+  ctx.beginPath();ctx.arc(pos.x,pos.y,r+6+pulse*4,0,Math.PI*2);
+  ctx.strokeStyle=s.color;ctx.lineWidth=1;ctx.globalAlpha=pulse*.35*(hovered?1.8:1);ctx.stroke();
+  // Fill
+  ctx.globalAlpha=1;
+  const bg=ctx.createRadialGradient(pos.x,pos.y,0,pos.x,pos.y,r);
+  bg.addColorStop(0,s.color+'35');bg.addColorStop(1,s.color+'10');
+  ctx.fillStyle=bg;ctx.beginPath();ctx.arc(pos.x,pos.y,r,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle=s.color+(hovered?'':i===activeStep?'cc':'66');
+  ctx.lineWidth=hovered||i===activeStep?2:1.5;
+  ctx.beginPath();ctx.arc(pos.x,pos.y,r,0,Math.PI*2);ctx.stroke();
+  // Text
+  ctx.fillStyle='#fff';ctx.textAlign='center';ctx.font=`600 ${r<34?9:10}px Inter`;
+  const words=s.label.split(' ');
+  if(words.length<=2){
+    ctx.fillText(s.label,pos.x,pos.y+(s.sublabel?-6:4));
+  } else {
+    ctx.fillText(words.slice(0,2).join(' '),pos.x,pos.y-12);
+    ctx.fillText(words.slice(2).join(' '),pos.x,pos.y+1);
+  }
+  if(s.sublabel){
+    ctx.fillStyle='rgba(255,255,255,.4)';ctx.font=`8px Inter`;
+    ctx.fillText(s.sublabel,pos.x,pos.y+12);
+  }
+  // Step number
+  ctx.fillStyle=s.color;ctx.font=`bold 8px Inter`;
+  ctx.fillText(`${i+1}`,pos.x,pos.y+r-5);
+  ctx.restore();
+}
+
+// Center label
+function drawCenter(){
+  ctx.save();
+  ctx.textAlign='center';
+  ctx.fillStyle='rgba(255,255,255,.7)';
+  ctx.font=`600 13px Inter`;
+  ctx.fillText('Memory',W/2,H/2-8);
+  ctx.font=`12px Inter`;
+  ctx.fillStyle='rgba(255,255,255,.3)';
+  ctx.fillText('Cycle',W/2,H/2+8);
+  // center circle
+  ctx.beginPath();ctx.arc(W/2,H/2,28,0,Math.PI*2);
+  ctx.strokeStyle='rgba(52,211,153,.2)';ctx.lineWidth=1;ctx.stroke();
+  ctx.restore();
+}
+
+let hovIdx=null;
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  tick++;
+  // Spawn particles along cycle
+  if(tick%25===0){
+    const i=Math.floor(Math.random()*STEPS.length);
+    const p=getStepPos(i), p2=getStepPos((i+1)%STEPS.length);
+    particles.push({x:p.x,y:p.y,tx:p2.x,ty:p2.y,t:0,speed:.008+Math.random()*.006,color:STEPS[i].color});
+  }
+  // Edges
+  for(let i=0;i<STEPS.length;i++) drawArrowArc(i);
+  // Center
+  drawCenter();
+  // Particles
+  for(let i=particles.length-1;i>=0;i--){
+    const p=particles[i];
+    p.t=Math.min(1,p.t+p.speed);
+    const x=p.x+(p.tx-p.x)*p.t, y=p.y+(p.ty-p.y)*p.t;
+    ctx.save();ctx.beginPath();ctx.arc(x,y,2.5,0,Math.PI*2);
+    ctx.fillStyle=p.color;ctx.globalAlpha=Math.sin(p.t*Math.PI)*0.85;ctx.fill();ctx.restore();
+    if(p.t>=1)particles.splice(i,1);
+  }
+  // Steps
+  for(let i=0;i<STEPS.length;i++) drawStep(i,i===hovIdx);
+  requestAnimationFrame(draw);
+}
+
+window.addEventListener('load',()=>{setup();draw();});
+window.addEventListener('resize',setup);
+
+function getHoveredStep(mx,my,scaleY){
+  for(let i=0;i<STEPS.length;i++){
+    const pos=getStepPos(i);
+    if(Math.hypot(mx-pos.x,(my*H/cv.getBoundingClientRect().height)-pos.y)<38) return i;
+  }
+  return null;
+}
+
+cv.addEventListener('mousemove',e=>{
+  const r=cv.getBoundingClientRect();
+  const mx=e.clientX-r.left, my=e.clientY-r.top;
+  const idx=getHoveredStep(mx,my);
+  hovIdx=idx;
+  cv.style.cursor=idx!==null?'pointer':'default';
+});
+
+cv.addEventListener('click',e=>{
+  const r=cv.getBoundingClientRect();
+  const mx=e.clientX-r.left, my=e.clientY-r.top;
+  const idx=getHoveredStep(mx,my);
+  if(idx!==null){
+    activeStep=idx;
+    const s=STEPS[idx];
+    const det=document.getElementById('detail');
+    det.className='detail active';
+    det.innerHTML=`<h3>Step ${idx+1}: ${s.label}</h3><p>${s.info}</p><div class="tag-row">${s.tags.map(t=>`<span>${t}</span>`).join('')}</div>`;
+  }
+});
+
+// File cards
+document.querySelectorAll('.file-card').forEach(card=>{
+  card.addEventListener('click',()=>{
+    const det=document.getElementById('detail');
+    det.className='detail active';
+    det.innerHTML=`<h3>${card.dataset.title}</h3><p>${card.dataset.info}</p><div class="tag-row">${card.dataset.tags.split(',').map(t=>`<span>${t.trim()}</span>`).join('')}</div>`;
+  });
+});
+</script>
+</body>
+</html>

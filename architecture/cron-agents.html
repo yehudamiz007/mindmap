@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cron & Sub-Agents - OpenClaw Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#0a0a0f;--surface:rgba(255,255,255,0.05);--border:rgba(255,255,255,0.1);--text:#e4e4e7;--muted:#71717a;--purple:#818cf8;--green:#34d399;--yellow:#fbbf24;--blue:#60a5fa;--pink:#f472b6;--red:#f87171}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
+  #bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+  .page{position:relative;z-index:1;max-width:1050px;margin:0 auto;padding:1.5rem 1.5rem 4rem}
+  .nav{display:flex;gap:.8rem;margin-bottom:2rem;flex-wrap:wrap}
+  .nav a{color:var(--muted);text-decoration:none;font-size:.82rem;padding:.35rem .75rem;border:1px solid var(--border);border-radius:6px;transition:all .2s}
+  .nav a:hover{color:var(--text);border-color:var(--yellow)}
+  .header{text-align:center;margin-bottom:2.5rem}
+  .header .tag{display:inline-block;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.25);color:var(--yellow);font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .8rem;border-radius:20px;margin-bottom:1rem}
+  .header h1{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:700;background:linear-gradient(135deg,#fff 0%,var(--yellow) 60%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.5rem}
+  .header p{color:var(--muted);font-size:.92rem}
+
+  /* Flow */
+  .flow{display:flex;align-items:center;gap:0;overflow-x:auto;padding:1.5rem;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:12px;margin-bottom:1.5rem;flex-wrap:nowrap;min-height:140px}
+  .flow-node{flex-shrink:0;text-align:center;cursor:pointer;position:relative}
+  .flow-node-inner{width:90px;height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:1.5px solid;border-radius:10px;transition:all .25s;padding:6px}
+  .flow-node:hover .flow-node-inner{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+  .flow-node .icon{font-size:1.4rem}
+  .flow-node .name{font-size:.72rem;font-weight:600;line-height:1.2}
+  .flow-node .sub{font-size:.62rem;color:var(--muted);line-height:1.2}
+  .flow-arrow{flex-shrink:0;width:32px;text-align:center;color:var(--muted);font-size:.9rem;display:flex;flex-direction:column;align-items:center}
+  .flow-arrow span{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted);white-space:nowrap}
+
+  /* Animated dot on arrows */
+  .arrow-dot{width:6px;height:6px;border-radius:50%;animation:slide-dot 2s linear infinite;margin-top:2px}
+  @keyframes slide-dot{0%{opacity:0;transform:translateX(-8px)}30%{opacity:1}70%{opacity:1}100%{opacity:0;transform:translateX(8px)}}
+
+  /* Jobs table */
+  .section-title{font-size:.85rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+  .section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+  .jobs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:.7rem;margin-bottom:1.5rem}
+  .job-card{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:.9rem 1rem;cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
+  .job-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent,#818cf8);border-radius:3px 0 0 3px}
+  .job-card:hover{border-color:rgba(255,255,255,.15);transform:translateX(2px)}
+  .job-card .schedule{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--accent,var(--yellow));margin-bottom:.35rem}
+  .job-card .jname{font-size:.87rem;font-weight:600;color:#fff;margin-bottom:.2rem}
+  .job-card .jdesc{font-size:.76rem;color:var(--muted)}
+  .job-card .jmodel{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted);margin-top:.35rem;opacity:.7}
+  .job-card .status{position:absolute;top:.7rem;right:.8rem;width:7px;height:7px;border-radius:50%;animation:pulse-dot 2s ease-in-out infinite}
+  @keyframes pulse-dot{0%,100%{opacity:.4;transform:scale(.8)}50%{opacity:1;transform:scale(1.1)}}
+
+  .detail{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.4rem;min-height:80px;transition:all .3s}
+  .detail.active{border-color:var(--yellow)}
+  .detail h3{font-size:1rem;font-weight:600;color:#fff;margin-bottom:.5rem}
+  .detail p{font-size:.87rem;color:var(--muted);line-height:1.6}
+  .detail .tag-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.8rem}
+  .detail .tag-row span{background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,.2);color:var(--yellow);font-size:.72rem;padding:.2rem .5rem;border-radius:4px;font-family:'JetBrains Mono',monospace}
+
+  @media(max-width:600px){.flow{overflow-x:auto}.jobs-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div class="page">
+  <nav class="nav">
+    <a href="index.html">← Architecture Hub</a>
+    <a href="https://yehudamiz007.github.io/mindmap/hub.html">🏠 Main Hub</a>
+  </nav>
+  <header class="header">
+    <div class="tag">⏱️ Cron & Sub-Agents</div>
+    <h1>Scheduled Jobs & Sub-Agents</h1>
+    <p>How OpenClaw runs background work autonomously on a schedule</p>
+  </header>
+
+  <!-- Flow diagram -->
+  <div class="flow" id="flow">
+    <div class="flow-node" data-title="Cron Scheduler" data-info="The cron scheduler watches a list of configured jobs with standard cron expressions. It fires jobs at exact times with second precision. Each job specifies: schedule, task prompt, model, output destination, and session isolation level." data-tags="cron-expression,second-precision,isolation,model-per-job">
+      <div class="flow-node-inner" style="border-color:#fbbf2480;background:#fbbf2412;color:#fbbf24">
+        <div class="icon">⏰</div>
+        <div class="name" style="color:#fbbf24">Cron Scheduler</div>
+        <div class="sub">cron expression</div>
+      </div>
+    </div>
+    <div class="flow-arrow">→<br><div class="arrow-dot" style="background:#fbbf24"></div><span>fires</span></div>
+
+    <div class="flow-node" data-title="Spawn Sub-Agent" data-info="The scheduler spawns an isolated sub-agent session. This is a completely separate LLM context from the main session. It has its own tool policy, model selection, and context window. The parent session is not affected." data-tags="isolated,fresh-context,tool-policy,ephemeral">
+      <div class="flow-node-inner" style="border-color:#818cf880;background:#818cf812;color:#818cf8">
+        <div class="icon">🤖</div>
+        <div class="name" style="color:#818cf8">Spawn Sub-Agent</div>
+        <div class="sub">isolated session</div>
+      </div>
+    </div>
+    <div class="flow-arrow">→<br><div class="arrow-dot" style="background:#818cf8"></div><span>runs</span></div>
+
+    <div class="flow-node" data-title="LLM Model Run" data-info="The sub-agent runs with its configured model (may differ from the main agent). It receives the task prompt and executes the job - which may include tool calls, web searches, file operations, or API calls." data-tags="model-configured,task-prompt,tool-calls,autonomous">
+      <div class="flow-node-inner" style="border-color:#34d39980;background:#34d39912;color:#34d399">
+        <div class="icon">🧠</div>
+        <div class="name" style="color:#34d399">LLM Run</div>
+        <div class="sub">configured model</div>
+      </div>
+    </div>
+    <div class="flow-arrow">→<br><div class="arrow-dot" style="background:#34d399"></div><span>produces</span></div>
+
+    <div class="flow-node" data-title="Output: File" data-info="Sub-agents can write output to files in the workspace. Common patterns: writing daily reports, updating data files, creating summaries, or appending to memory files." data-tags="workspace-file,markdown,JSON,append">
+      <div class="flow-node-inner" style="border-color:#60a5fa80;background:#60a5fa12;color:#60a5fa">
+        <div class="icon">📄</div>
+        <div class="name" style="color:#60a5fa">File Output</div>
+        <div class="sub">workspace write</div>
+      </div>
+    </div>
+    <div class="flow-arrow" style="font-size:.7rem;color:var(--muted)">or</div>
+
+    <div class="flow-node" data-title="Output: WhatsApp / Channel" data-info="Sub-agents can send messages directly to channels using the message tool. This enables automated reminders, daily briefings, alerts, and notifications delivered to WhatsApp, Telegram, or Discord." data-tags="message-tool,WhatsApp,Telegram,Discord,push-notification">
+      <div class="flow-node-inner" style="border-color:#f472b680;background:#f472b612;color:#f472b6">
+        <div class="icon">📱</div>
+        <div class="name" style="color:#f472b6">Channel Delivery</div>
+        <div class="sub">push message</div>
+      </div>
+    </div>
+    <div class="flow-arrow" style="font-size:.7rem;color:var(--muted)">or</div>
+
+    <div class="flow-node" data-title="Output: GitHub" data-info="Sub-agents can push code, commit files, and update GitHub repositories via the exec tool (git commands). Used for automated documentation updates, publishing diagrams, or syncing workspace data." data-tags="git-push,exec,commit,CI/CD-triggers">
+      <div class="flow-node-inner" style="border-color:#a78bfa80;background:#a78bfa12;color:#a78bfa">
+        <div class="icon">📦</div>
+        <div class="name" style="color:#a78bfa">GitHub Push</div>
+        <div class="sub">git commit + push</div>
+      </div>
+    </div>
+    <div class="flow-arrow">→<br><div class="arrow-dot" style="background:#f87171"></div><span>then</span></div>
+
+    <div class="flow-node" data-title="Session Destroyed" data-info="After the job completes (or hits timeout), the sub-agent session is cleanly destroyed. No memory leaks, no lingering state. The next run gets a completely fresh context, guaranteeing deterministic behavior." data-tags="clean-teardown,no-state-leak,ephemeral,timeout-enforced">
+      <div class="flow-node-inner" style="border-color:#f8717180;background:#f8717112;color:#f87171">
+        <div class="icon">💨</div>
+        <div class="name" style="color:#f87171">Session Destroyed</div>
+        <div class="sub">clean teardown</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cron jobs list -->
+  <div class="section-title">Configured Cron Jobs</div>
+  <div class="jobs-grid">
+
+    <div class="job-card" style="--accent:#fbbf24" data-title="Morning Briefing" data-info="Every weekday morning at 8:30 AM. Fetches the day's calendar, checks email, checks weather, and sends a morning briefing to WhatsApp. Uses the main model for quality output." data-tags="weekdays,WhatsApp,calendar,email,weather">
+      <div class="status" style="background:#34d399"></div>
+      <div class="schedule">30 8 * * 1-5</div>
+      <div class="jname">☀️ Morning Briefing</div>
+      <div class="jdesc">Daily briefing: calendar + email + weather to WhatsApp</div>
+      <div class="jmodel">model: claude-sonnet</div>
+    </div>
+
+    <div class="job-card" style="--accent:#60a5fa" data-title="Memory Maintenance" data-info="Runs twice a day (noon and midnight). Reviews today's daily memory file, distills important insights, and updates MEMORY.md with long-term relevant facts. Prunes outdated information." data-tags="daily-twice,MEMORY.md,distillation,pruning">
+      <div class="status" style="background:#34d399"></div>
+      <div class="schedule">0 0,12 * * *</div>
+      <div class="jname">🧠 Memory Maintenance</div>
+      <div class="jdesc">Review daily logs and update long-term MEMORY.md</div>
+      <div class="jmodel">model: claude-haiku (fast)</div>
+    </div>
+
+    <div class="job-card" style="--accent:#34d399" data-title="GitHub Auto-Push" data-info="Every night at 11 PM. Commits and pushes any changes in the workspace to GitHub. This ensures all skills, memory files, and configuration changes are backed up automatically." data-tags="nightly,git-push,backup,workspace-sync">
+      <div class="status" style="background:#34d399"></div>
+      <div class="schedule">0 23 * * *</div>
+      <div class="jname">📦 Nightly GitHub Push</div>
+      <div class="jdesc">Auto-commit and push workspace changes to GitHub</div>
+      <div class="jmodel">model: exec-only (no LLM)</div>
+    </div>
+
+    <div class="job-card" style="--accent:#f472b6" data-title="Weekly Summary" data-info="Every Sunday at 9 AM. Generates a comprehensive summary of the week: what happened, tasks completed, things learned, and goals for next week. Delivered to WhatsApp as a formatted report." data-tags="weekly,Sunday,WhatsApp,summary,goals">
+      <div class="status" style="background:#fbbf24"></div>
+      <div class="schedule">0 9 * * 0</div>
+      <div class="jname">📊 Weekly Summary</div>
+      <div class="jdesc">Weekly recap and next-week planning delivered to WhatsApp</div>
+      <div class="jmodel">model: claude-sonnet</div>
+    </div>
+
+    <div class="job-card" style="--accent:#818cf8" data-title="Health Check" data-info="Every hour. Checks system health: disk space, memory usage, network status, OpenClaw gateway status, and any error logs. Sends alert to WhatsApp if anything is abnormal." data-tags="hourly,health,disk,memory,alerts">
+      <div class="status" style="background:#34d399"></div>
+      <div class="schedule">0 * * * *</div>
+      <div class="jname">💓 System Health Check</div>
+      <div class="jdesc">Monitor system resources and gateway status, alert on issues</div>
+      <div class="jmodel">model: claude-haiku</div>
+    </div>
+
+    <div class="job-card" style="--accent:#fbbf24" data-title="Kids Reminders" data-info="School day mornings at 7:45 AM. Sends a reminder to Ilana's WhatsApp with the kids' schedule for the day: Avior's school, Nitai's gan, any special events or appointments." data-tags="weekdays,7:45am,WhatsApp-Ilana,kids,schedule">
+      <div class="status" style="background:#34d399"></div>
+      <div class="schedule">45 7 * * 0-4</div>
+      <div class="jname">👨‍👩‍👦 Kids Daily Reminder</div>
+      <div class="jdesc">Morning reminder to Ilana with kids' schedule for the day</div>
+      <div class="jmodel">model: claude-haiku</div>
+    </div>
+
+    <div class="job-card" style="--accent:#60a5fa" data-title="Stock Market Check" data-info="Weekdays at market open (9:30 AM EST). Checks portfolio positions, news sentiment, and key levels. Sends a quick market update to WhatsApp with any notable alerts." data-tags="weekdays,9:30am,stocks,portfolio,alerts">
+      <div class="status" style="background:#fbbf24"></div>
+      <div class="schedule">30 9 * * 1-5</div>
+      <div class="jname">📈 Market Open Check</div>
+      <div class="jdesc">Portfolio check + news sentiment at market open</div>
+      <div class="jmodel">model: claude-sonnet</div>
+    </div>
+
+    <div class="job-card" style="--accent:#f87171" data-title="Heartbeat Poll" data-info="Every 30 minutes during waking hours (8 AM - 11 PM). The heartbeat checks HEARTBEAT.md for any tasks, reviews if any urgent emails or calendar events need attention, and handles proactive notifications." data-tags="30min,8am-11pm,HEARTBEAT.md,proactive,calendar">
+      <div class="status" style="background:#34d399"></div>
+      <div class="schedule">*/30 8-23 * * *</div>
+      <div class="jname">💗 Heartbeat Poll</div>
+      <div class="jdesc">Proactive check: calendar, email, HEARTBEAT.md tasks</div>
+      <div class="jmodel">model: claude-haiku</div>
+    </div>
+
+    <div class="job-card" style="--accent:#a78bfa" data-title="Evening Wind-Down" data-info="Every weekday at 9 PM. Sends a gentle evening check-in to WhatsApp. Summaries what was accomplished today, any pending items for tomorrow, and a personalized good evening message." data-tags="weekdays,9pm,WhatsApp,wind-down,tomorrow-prep">
+      <div class="status" style="background:#34d399"></div>
+      <div class="schedule">0 21 * * 1-5</div>
+      <div class="jname">🌙 Evening Wind-Down</div>
+      <div class="jdesc">Daily wrap-up and tomorrow prep delivered to WhatsApp</div>
+      <div class="jmodel">model: claude-haiku</div>
+    </div>
+
+    <div class="job-card" style="--accent:#34d399" data-title="Workspace Cleanup" data-info="Every Sunday at 10 PM. Cleans up temporary files, compresses old logs, organizes workspace folders, and updates the workspace index. Keeps the workspace tidy automatically." data-tags="weekly,Sunday,cleanup,compression,organization">
+      <div class="status" style="background:#fbbf24"></div>
+      <div class="schedule">0 22 * * 0</div>
+      <div class="jname">🧹 Workspace Cleanup</div>
+      <div class="jdesc">Compress logs, cleanup temp files, organize workspace</div>
+      <div class="jmodel">model: exec-only</div>
+    </div>
+
+    <div class="job-card" style="--accent:#f472b6" data-title="Birthday Check" data-info="Every morning at 8 AM. Checks if today is a birthday or anniversary for anyone in the family or contact list. Sends a reminder to prepare a message or gift if so." data-tags="daily,8am,birthdays,anniversaries,reminders">
+      <div class="status" style="background:#34d399"></div>
+      <div class="schedule">0 8 * * *</div>
+      <div class="jname">🎂 Birthday Checker</div>
+      <div class="jdesc">Daily check for birthdays and anniversaries, reminder alerts</div>
+      <div class="jmodel">model: claude-haiku</div>
+    </div>
+
+    <div class="job-card" style="--accent:#fbbf24" data-title="Architecture Diagrams" data-info="A one-time sub-agent task: build all 7 interactive architecture diagrams and publish them to GitHub Pages. This is an example of a complex sub-agent task that runs to completion and self-terminates." data-tags="one-time,complex-task,GitHub-Pages,self-terminating,parallel-files">
+      <div class="status" style="background:#818cf8;animation:none"></div>
+      <div class="schedule">triggered manually</div>
+      <div class="jname">🏗️ Architecture Diagrams</div>
+      <div class="jdesc">One-shot: build and publish interactive architecture docs</div>
+      <div class="jmodel">model: claude-sonnet-4-6</div>
+    </div>
+
+  </div>
+
+  <div class="detail" id="detail">
+    <h3>Cron & Sub-Agent Overview</h3>
+    <p>Sub-agents are ephemeral LLM sessions spawned for specific tasks. They run in complete isolation - no shared context with the main session. This design enables autonomous background work without risking interference with active conversations. Click any flow node or job card to learn more.</p>
+    <div class="tag-row"><span>isolated</span><span>ephemeral</span><span>model-configurable</span><span>multi-output</span></div>
+  </div>
+</div>
+
+<script>
+const bgCv=document.getElementById('bg-canvas');
+const bgCtx=bgCv.getContext('2d');
+function resizeBg(){bgCv.width=innerWidth;bgCv.height=innerHeight}
+let bgPts=[];
+function initBg(){bgPts=Array.from({length:60},()=>({x:Math.random()*bgCv.width,y:Math.random()*bgCv.height,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.15,a:Math.random()*.4+.1}))}
+function drawBg(){
+  bgCtx.clearRect(0,0,bgCv.width,bgCv.height);
+  for(const p of bgPts){
+    p.x=(p.x+p.vx+bgCv.width)%bgCv.width;
+    p.y=(p.y+p.vy+bgCv.height)%bgCv.height;
+    bgCtx.beginPath();bgCtx.arc(p.x,p.y,1.5,0,Math.PI*2);
+    bgCtx.fillStyle=`rgba(251,191,36,${p.a*.3})`;bgCtx.fill();
+  }
+  requestAnimationFrame(drawBg);
+}
+resizeBg();initBg();drawBg();
+window.addEventListener('resize',()=>{resizeBg();initBg()});
+
+const detail=document.getElementById('detail');
+
+document.querySelectorAll('.flow-node, .job-card').forEach(el=>{
+  el.addEventListener('click',()=>{
+    const title=el.dataset.title||'';
+    const info=el.dataset.info||'';
+    const tags=(el.dataset.tags||'').split(',').filter(Boolean);
+    detail.className='detail active';
+    detail.innerHTML=`<h3>${title}</h3><p>${info}</p><div class="tag-row">${tags.map(t=>`<span>${t.trim()}</span>`).join('')}</div>`;
+  });
+});
+</script>
+</body>
+</html>

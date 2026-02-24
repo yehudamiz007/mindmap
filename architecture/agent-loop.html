@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Loop - OpenClaw Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a0f; --surface: rgba(255,255,255,0.05); --border: rgba(255,255,255,0.1);
+    --text: #e4e4e7; --muted: #71717a;
+    --purple: #818cf8; --green: #34d399; --yellow: #fbbf24; --blue: #60a5fa; --pink: #f472b6; --red: #f87171;
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
+
+  #bg-canvas { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+
+  .page { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+
+  .nav { display:flex; gap:0.8rem; margin-bottom:2rem; flex-wrap:wrap; }
+  .nav a { color:var(--muted); text-decoration:none; font-size:0.82rem; padding:0.35rem 0.75rem; border:1px solid var(--border); border-radius:6px; transition:all 0.2s; }
+  .nav a:hover { color:var(--text); border-color:var(--purple); }
+
+  .header { text-align:center; margin-bottom:2.5rem; }
+  .header .tag { display:inline-block; background:rgba(129,140,248,0.12); border:1px solid rgba(129,140,248,0.25); color:var(--purple); font-size:0.72rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; padding:0.25rem 0.8rem; border-radius:20px; margin-bottom:1rem; }
+  .header h1 { font-size:clamp(1.6rem,4vw,2.4rem); font-weight:700; background:linear-gradient(135deg,#fff 0%,var(--purple) 60%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:0.5rem; }
+  .header p { color:var(--muted); font-size:0.92rem; }
+
+  /* Flow diagram */
+  #flow-canvas { display:block; width:100%; cursor:pointer; border-radius:12px; background:rgba(255,255,255,0.02); border:1px solid var(--border); }
+
+  /* Detail panel */
+  .detail { margin-top:1.5rem; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1.4rem; min-height:80px; transition:all 0.3s; }
+  .detail.active { border-color:var(--purple); }
+  .detail h3 { font-size:1rem; font-weight:600; color:#fff; margin-bottom:0.5rem; }
+  .detail p { font-size:0.87rem; color:var(--muted); line-height:1.6; }
+  .detail .tag-row { display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.8rem; }
+  .detail .tag-row span { background:rgba(129,140,248,0.12); border:1px solid rgba(129,140,248,0.2); color:var(--purple); font-size:0.72rem; padding:0.2rem 0.5rem; border-radius:4px; font-family:'JetBrains Mono',monospace; }
+
+  /* Legend */
+  .legend { display:flex; gap:1.2rem; flex-wrap:wrap; margin-top:1rem; justify-content:center; }
+  .legend-item { display:flex; align-items:center; gap:0.4rem; font-size:0.78rem; color:var(--muted); }
+  .legend-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+
+  .hint { text-align:center; color:var(--muted); font-size:0.8rem; margin-top:0.8rem; }
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+
+<div class="page">
+  <nav class="nav">
+    <a href="index.html">← Architecture Hub</a>
+    <a href="https://yehudamiz007.github.io/mindmap/hub.html">🏠 Main Hub</a>
+  </nav>
+
+  <header class="header">
+    <div class="tag">🔄 Agent Loop</div>
+    <h1>How a Message Becomes a Response</h1>
+    <p>The complete lifecycle from user input to delivered reply</p>
+  </header>
+
+  <canvas id="flow-canvas" height="520"></canvas>
+  <p class="hint">Click any node to learn more</p>
+
+  <div class="detail" id="detail">
+    <h3>Agent Loop Overview</h3>
+    <p>The agent loop is the core of OpenClaw. Every message travels through this pipeline - from the moment it arrives on a channel to when the final response is delivered back. Click any node above to explore each step in detail.</p>
+    <div class="tag-row">
+      <span>async/await</span><span>streaming</span><span>tool-use</span><span>parallel-calls</span>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#818cf8"></div> Core Agent</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#60a5fa"></div> I/O Layer</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#34d399"></div> LLM / AI</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#fbbf24"></div> Tool Layer</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f472b6"></div> Delivery</div>
+  </div>
+</div>
+
+<script>
+// Background particles
+const bgCv = document.getElementById('bg-canvas');
+const bgCtx = bgCv.getContext('2d');
+let pts = [];
+function resizeBg() { bgCv.width = innerWidth; bgCv.height = innerHeight; }
+function initPts() {
+  pts = Array.from({length:60}, () => ({
+    x: Math.random()*bgCv.width, y: Math.random()*bgCv.height,
+    vx:(Math.random()-.5)*.3, vy:(Math.random()-.5)*.3,
+    a: Math.random()*0.5+0.1
+  }));
+}
+function drawBg() {
+  bgCtx.clearRect(0,0,bgCv.width,bgCv.height);
+  for(const p of pts) {
+    p.x=(p.x+p.vx+bgCv.width)%bgCv.width;
+    p.y=(p.y+p.vy+bgCv.height)%bgCv.height;
+    bgCtx.beginPath(); bgCtx.arc(p.x,p.y,1.5,0,Math.PI*2);
+    bgCtx.fillStyle=`rgba(129,140,248,${p.a*0.4})`; bgCtx.fill();
+  }
+  requestAnimationFrame(drawBg);
+}
+resizeBg(); initPts(); drawBg();
+window.addEventListener('resize', ()=>{ resizeBg(); initPts(); });
+
+// Main flow canvas
+const cv = document.getElementById('flow-canvas');
+const ctx = cv.getContext('2d');
+let W, H, nodes, particles, tick=0, hoveredNode=null;
+
+const NODE_DATA = [
+  { id:'user',    label:'User',         sublabel:'Message arrives',      color:'#60a5fa', x:.08, y:.5,  r:34,
+    info:'User sends a message via any connected channel (WhatsApp, Telegram, Discord, webchat, etc). The raw message includes text, attachments, sender metadata, and channel context.',
+    tags:['WhatsApp','Telegram','Discord','Signal','webchat'] },
+  { id:'gw',      label:'Gateway',      sublabel:':18789 WebSocket',      color:'#818cf8', x:.22, y:.5,  r:34,
+    info:'The Gateway daemon listens on port 18789. It receives events from all channel extensions, authenticates them, and routes them to the appropriate agent session. It also handles HTTP endpoints for health checks and webhooks.',
+    tags:['ws://localhost:18789','HTTP server','webhook endpoints','auth'] },
+  { id:'session', label:'Agent Session',sublabel:'Context window built',  color:'#818cf8', x:.38, y:.5,  r:36,
+    info:'Each conversation has an isolated Agent Session. When a message arrives, the session loads its context: SOUL.md, USER.md, today\'s memory file, MEMORY.md (for main sessions), available skills, and the conversation history.',
+    tags:['context window','SOUL.md','USER.md','skill injection','history'] },
+  { id:'llm',     label:'LLM API',      sublabel:'Claude / GPT / Gemini', color:'#34d399', x:.55, y:.5,  r:36,
+    info:'The context window is sent to the configured LLM (Claude Sonnet by default). The model processes the full context and either generates a final response or decides to call one or more tools to gather more information.',
+    tags:['claude-sonnet-4-6','streaming','function-calling','thinking'] },
+  { id:'tools',   label:'Tool Calls',   sublabel:'Parallel execution',    color:'#fbbf24', x:.72, y:.3,  r:32,
+    info:'When the LLM decides to use tools, multiple tool calls can run in parallel. Each tool goes through the policy engine before execution. Results stream back and are injected into the context for the next LLM pass.',
+    tags:['exec','browser','web_fetch','read','write','message'] },
+  { id:'results', label:'Tool Results', sublabel:'Injected to context',   color:'#fbbf24', x:.72, y:.7,  r:32,
+    info:'Tool results (text output, file contents, web data, screenshots) are formatted and appended to the conversation context. The LLM receives all results and continues reasoning. Multiple tool rounds may occur.',
+    tags:['stdout','file contents','DOM snapshot','web text','images'] },
+  { id:'response',label:'Final Response',sublabel:'LLM generates text',   color:'#34d399', x:.87, y:.5,  r:34,
+    info:'After all tool calls complete, the LLM generates the final response text. This may include markdown formatting, code blocks, links, or structured data depending on the channel format requirements.',
+    tags:['markdown','streaming output','channel formatting','emojis'] },
+  { id:'deliver', label:'Delivery',     sublabel:'Back to channel',        color:'#f472b6', x:.96, y:.5,  r:28,
+    info:'The formatted response is delivered back through the same channel extension that received the original message. The extension handles channel-specific formatting (no tables in WhatsApp, suppressed embeds in Discord, etc).',
+    tags:['WhatsApp reply','Telegram message','Discord send','TTS'] },
+];
+
+const EDGES = [
+  ['user','gw'],['gw','session'],['session','llm'],
+  ['llm','tools'],['tools','results'],['results','llm'],
+  ['llm','response'],['response','deliver']
+];
+
+function setup() {
+  const rect = cv.getBoundingClientRect();
+  W = cv.width = rect.width * devicePixelRatio;
+  H = cv.height;
+  ctx.scale(devicePixelRatio, 1);
+  W = rect.width;
+
+  nodes = NODE_DATA.map(n => ({
+    ...n,
+    cx: n.x * W,
+    cy: n.y * H,
+    pulse: Math.random() * Math.PI * 2,
+  }));
+  particles = [];
+}
+
+function spawnParticle(fromNode, toNode) {
+  particles.push({ fx:fromNode.cx, fy:fromNode.cy, tx:toNode.cx, ty:toNode.cy, t:0, speed:0.005+Math.random()*0.005, color:fromNode.color });
+}
+
+function drawArrow(x1,y1,x2,y2,color,alpha=0.35) {
+  const dx=x2-x1, dy=y2-y1, len=Math.sqrt(dx*dx+dy*dy);
+  const ux=dx/len, uy=dy/len;
+  const sx=x1+ux*35, sy=y1+uy*35, ex=x2-ux*35, ey=y2-uy*35;
+  ctx.save();
+  ctx.globalAlpha=alpha;
+  ctx.strokeStyle=color;
+  ctx.lineWidth=1.5;
+  ctx.setLineDash([6,4]);
+  ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(ex,ey); ctx.stroke();
+  ctx.setLineDash([]);
+  // arrowhead
+  const angle=Math.atan2(ey-sy,ex-sx);
+  ctx.fillStyle=color;
+  ctx.globalAlpha=alpha*1.5;
+  ctx.beginPath();
+  ctx.moveTo(ex,ey);
+  ctx.lineTo(ex-10*Math.cos(angle-0.4),ey-10*Math.sin(angle-0.4));
+  ctx.lineTo(ex-10*Math.cos(angle+0.4),ey-10*Math.sin(angle+0.4));
+  ctx.closePath(); ctx.fill();
+  ctx.restore();
+}
+
+function drawNode(n, hovered) {
+  const pulse = Math.sin(n.pulse + tick*0.03) * 0.5 + 0.5;
+  ctx.save();
+
+  // Glow ring
+  if(hovered) {
+    const grd = ctx.createRadialGradient(n.cx,n.cy,n.r,n.cx,n.cy,n.r+20);
+    grd.addColorStop(0, n.color+'60'); grd.addColorStop(1,'transparent');
+    ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(n.cx,n.cy,n.r+20,0,Math.PI*2); ctx.fill();
+  }
+
+  // Outer pulse ring
+  ctx.beginPath(); ctx.arc(n.cx,n.cy,n.r+6+pulse*4,0,Math.PI*2);
+  ctx.strokeStyle=n.color; ctx.lineWidth=1; ctx.globalAlpha=pulse*0.4*( hovered?1.5:1); ctx.stroke();
+
+  // Main circle
+  ctx.globalAlpha=1;
+  const bg = ctx.createRadialGradient(n.cx-n.r*.3,n.cy-n.r*.3,0,n.cx,n.cy,n.r);
+  bg.addColorStop(0,n.color+'33'); bg.addColorStop(1,n.color+'11');
+  ctx.fillStyle=bg; ctx.beginPath(); ctx.arc(n.cx,n.cy,n.r,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle=n.color+(hovered?'ff':'88'); ctx.lineWidth=hovered?2:1.5;
+  ctx.beginPath(); ctx.arc(n.cx,n.cy,n.r,0,Math.PI*2); ctx.stroke();
+
+  // Label
+  ctx.fillStyle='#fff'; ctx.textAlign='center'; ctx.font=`600 ${Math.max(9,n.r*.38)}px Inter`;
+  ctx.fillText(n.label, n.cx, n.cy+(n.sublabel?-5:4));
+  if(n.sublabel) {
+    ctx.fillStyle='rgba(255,255,255,0.45)'; ctx.font=`${Math.max(7,n.r*.27)}px Inter`;
+    ctx.fillText(n.sublabel, n.cx, n.cy+10);
+  }
+  ctx.restore();
+}
+
+function draw() {
+  ctx.clearRect(0,0,W,H);
+  tick++;
+
+  // Spawn particles
+  if(tick%18===0) {
+    for(let i=0;i<EDGES.length;i++) {
+      if(Math.random()<0.4) {
+        const fn=nodes.find(n=>n.id===EDGES[i][0]);
+        const tn=nodes.find(n=>n.id===EDGES[i][1]);
+        if(fn&&tn) spawnParticle(fn,tn);
+      }
+    }
+  }
+
+  // Draw edges
+  for(const [a,b] of EDGES) {
+    const fn=nodes.find(n=>n.id===a), tn=nodes.find(n=>n.id===b);
+    if(fn&&tn) drawArrow(fn.cx,fn.cy,tn.cx,tn.cy,fn.color);
+  }
+
+  // Draw particles
+  for(let i=particles.length-1;i>=0;i--) {
+    const p=particles[i];
+    p.t=Math.min(1,p.t+p.speed);
+    const x=p.fx+(p.tx-p.fx)*p.t;
+    const y=p.fy+(p.ty-p.fy)*p.t;
+    ctx.save();
+    ctx.beginPath(); ctx.arc(x,y,3,0,Math.PI*2);
+    ctx.fillStyle=p.color; ctx.globalAlpha=Math.sin(p.t*Math.PI);
+    ctx.fill();
+    ctx.restore();
+    if(p.t>=1) particles.splice(i,1);
+  }
+
+  // Draw nodes
+  nodes.forEach(n => { n.pulse += 0.02; drawNode(n, n===hoveredNode); });
+
+  requestAnimationFrame(draw);
+}
+
+// Setup & interactions
+window.addEventListener('load', ()=>{ setup(); draw(); });
+window.addEventListener('resize', setup);
+
+cv.addEventListener('mousemove', e => {
+  const r=cv.getBoundingClientRect();
+  const mx=(e.clientX-r.left), my=(e.clientY-r.top)*H/r.height;
+  hoveredNode=null;
+  for(const n of nodes) {
+    const d=Math.hypot(mx-n.cx,my-n.cy);
+    if(d<n.r+8) { hoveredNode=n; cv.style.cursor='pointer'; break; }
+  }
+  if(!hoveredNode) cv.style.cursor='default';
+});
+
+cv.addEventListener('click', e => {
+  const r=cv.getBoundingClientRect();
+  const mx=(e.clientX-r.left), my=(e.clientY-r.top)*H/r.height;
+  for(const n of nodes) {
+    const d=Math.hypot(mx-n.cx,my-n.cy);
+    if(d<n.r+8) {
+      const det=document.getElementById('detail');
+      det.className='detail active';
+      det.innerHTML=`<h3>${n.label}</h3><p>${n.info}</p><div class="tag-row">${n.tags.map(t=>`<span>${t}</span>`).join('')}</div>`;
+      break;
+    }
+  }
+});
+</script>
+</body>
+</html>

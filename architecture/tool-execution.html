@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tool Execution Pipeline - OpenClaw Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#0a0a0f;--surface:rgba(255,255,255,0.05);--border:rgba(255,255,255,0.1);--text:#e4e4e7;--muted:#71717a;--purple:#818cf8;--green:#34d399;--yellow:#fbbf24;--blue:#60a5fa;--pink:#f472b6;--red:#f87171}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
+  #bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+  .page{position:relative;z-index:1;max-width:1050px;margin:0 auto;padding:1.5rem 1.5rem 4rem}
+  .nav{display:flex;gap:.8rem;margin-bottom:2rem;flex-wrap:wrap}
+  .nav a{color:var(--muted);text-decoration:none;font-size:.82rem;padding:.35rem .75rem;border:1px solid var(--border);border-radius:6px;transition:all .2s}
+  .nav a:hover{color:var(--text);border-color:var(--red)}
+  .header{text-align:center;margin-bottom:2.5rem}
+  .header .tag{display:inline-block;background:rgba(248,113,113,0.12);border:1px solid rgba(248,113,113,0.25);color:var(--red);font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .8rem;border-radius:20px;margin-bottom:1rem}
+  .header h1{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:700;background:linear-gradient(135deg,#fff 0%,var(--red) 60%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.5rem}
+  .header p{color:var(--muted);font-size:.92rem}
+
+  /* Pipeline */
+  #pipeline-canvas{display:block;width:100%;border-radius:12px;background:rgba(255,255,255,.02);border:1px solid var(--border);cursor:pointer;margin-bottom:.6rem}
+  .hint{text-align:center;color:var(--muted);font-size:.8rem;margin-bottom:1.5rem}
+
+  /* Tool categories grid */
+  .sec-title{font-size:.85rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
+  .sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+  .tool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.7rem;margin-bottom:1.5rem}
+  .tool-cat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.9rem 1rem;cursor:pointer;transition:all .25s;position:relative}
+  .tool-cat:hover{border-color:rgba(255,255,255,.2);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.3)}
+  .tool-cat .tc-header{display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem}
+  .tool-cat .tc-icon{font-size:1.2rem}
+  .tool-cat .tc-name{font-size:.9rem;font-weight:600;color:#fff}
+  .tool-cat .tc-tools{display:flex;flex-wrap:wrap;gap:.35rem}
+  .tool-chip{font-family:'JetBrains Mono',monospace;font-size:.68rem;padding:.18rem .45rem;border-radius:4px;background:rgba(255,255,255,.06);color:var(--muted);border:1px solid rgba(255,255,255,.08)}
+  .tool-cat .policy-badge{position:absolute;top:.6rem;right:.7rem;font-size:.65rem;font-weight:600;padding:.15rem .4rem;border-radius:3px}
+
+  /* Policy legend */
+  .policy-legend{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem}
+  .pl-item{display:flex;align-items:center;gap:.5rem;font-size:.8rem}
+  .pl-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+  .pl-label{color:var(--text)}
+  .pl-sub{color:var(--muted);font-size:.73rem;margin-left:.2rem}
+
+  .detail{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.4rem;min-height:80px;transition:all .3s}
+  .detail.active{border-color:var(--red)}
+  .detail h3{font-size:1rem;font-weight:600;color:#fff;margin-bottom:.5rem}
+  .detail p{font-size:.87rem;color:var(--muted);line-height:1.6}
+  .detail .tag-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.8rem}
+  .detail .tag-row span{background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,.2);color:var(--red);font-size:.72rem;padding:.2rem .5rem;border-radius:4px;font-family:'JetBrains Mono',monospace}
+
+  @media(max-width:600px){.tool-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div class="page">
+  <nav class="nav">
+    <a href="index.html">← Architecture Hub</a>
+    <a href="https://yehudamiz007.github.io/mindmap/hub.html">🏠 Main Hub</a>
+  </nav>
+  <header class="header">
+    <div class="tag">🔧 Tool Pipeline</div>
+    <h1>Tool Execution Pipeline</h1>
+    <p>Policy check, sandboxing, and parallel execution for every tool call</p>
+  </header>
+
+  <canvas id="pipeline-canvas" height="200"></canvas>
+  <p class="hint">Click any stage to learn more</p>
+
+  <!-- Policy legend -->
+  <div class="policy-legend">
+    <div class="pl-item"><div class="pl-dot" style="background:#34d399"></div><div><span class="pl-label">full</span><span class="pl-sub">- all tools available</span></div></div>
+    <div class="pl-item"><div class="pl-dot" style="background:#fbbf24"></div><div><span class="pl-label">allowlist</span><span class="pl-sub">- only listed tools</span></div></div>
+    <div class="pl-item"><div class="pl-dot" style="background:#f87171"></div><div><span class="pl-label">deny</span><span class="pl-sub">- no tools (text only)</span></div></div>
+  </div>
+
+  <div class="sec-title">Tool Categories</div>
+  <div class="tool-grid">
+    <div class="tool-cat" data-title="File System Tools" data-info="Read, write, and edit files in the workspace and allowed paths. The read tool reads file contents with optional offset/limit for large files. Write creates or overwrites files. Edit makes surgical text replacements. All file operations are sandboxed to allowed directories." data-tags="read,write,edit,sandbox,workspace-scoped">
+      <div class="policy-badge" style="background:rgba(52,211,153,.15);color:#34d399">full</div>
+      <div class="tc-header"><div class="tc-icon">📁</div><div class="tc-name">File System</div></div>
+      <div class="tc-tools"><span class="tool-chip">read</span><span class="tool-chip">write</span><span class="tool-chip">edit</span></div>
+    </div>
+
+    <div class="tool-cat" data-title="Shell Execution" data-info="The exec tool runs shell commands with full PTY support for interactive programs. It supports background execution, timeout, working directory, env vars, and pty mode for TTY-requiring CLIs. The most powerful tool - policy strictly controls who can use it." data-tags="exec,pty,background,timeout,env-vars,workdir,elevated">
+      <div class="policy-badge" style="background:rgba(251,191,36,.15);color:#fbbf24">policy</div>
+      <div class="tc-header"><div class="tc-icon">⚡</div><div class="tc-name">Shell Execution</div></div>
+      <div class="tc-tools"><span class="tool-chip">exec</span><span class="tool-chip">process</span></div>
+    </div>
+
+    <div class="tool-cat" data-title="Web & Browser" data-info="Three web access tools: web_search uses the Brave API for web searches. web_fetch fetches and extracts markdown from URLs without a browser. browser controls a full Chromium browser via Playwright - supports clicks, typing, screenshots, and automation." data-tags="web_search,web_fetch,browser,Brave-API,Playwright,CDP,screenshot">
+      <div class="policy-badge" style="background:rgba(52,211,153,.15);color:#34d399">full</div>
+      <div class="tc-header"><div class="tc-icon">🌐</div><div class="tc-name">Web & Browser</div></div>
+      <div class="tc-tools"><span class="tool-chip">web_search</span><span class="tool-chip">web_fetch</span><span class="tool-chip">browser</span></div>
+    </div>
+
+    <div class="tool-cat" data-title="Messaging" data-info="The message tool sends messages to any connected channel: WhatsApp, Telegram, Discord, Signal, Slack. Supports text, media, reactions, polls, threads, and voice messages. Also manages bot status, activity, and presence." data-tags="message,WhatsApp,Telegram,Discord,Signal,reactions,polls,media,TTS">
+      <div class="policy-badge" style="background:rgba(251,191,36,.15);color:#fbbf24">policy</div>
+      <div class="tc-header"><div class="tc-icon">💬</div><div class="tc-name">Messaging</div></div>
+      <div class="tc-tools"><span class="tool-chip">message</span><span class="tool-chip">tts</span></div>
+    </div>
+
+    <div class="tool-cat" data-title="Node & Device Control" data-info="The nodes tool controls paired physical devices (phones, Pis, cameras). Actions: status, camera_snap, screen_record, location_get, run commands, notify. Enables the agent to see through cameras, get locations, and control remote devices." data-tags="nodes,camera_snap,screen_record,location_get,notify,run,paired-devices">
+      <div class="policy-badge" style="background:rgba(251,191,36,.15);color:#fbbf24">policy</div>
+      <div class="tc-header"><div class="tc-icon">📱</div><div class="tc-name">Node / Device</div></div>
+      <div class="tc-tools"><span class="tool-chip">nodes</span></div>
+    </div>
+
+    <div class="tool-cat" data-title="Canvas & UI" data-info="The canvas tool presents, hides, navigates, and evals JavaScript in the canvas iframe. Used for showing interactive diagrams, dashboards, and HTML apps. Snapshot captures the rendered UI for vision-based analysis." data-tags="canvas,present,hide,navigate,eval,snapshot,a2ui">
+      <div class="policy-badge" style="background:rgba(52,211,153,.15);color:#34d399">full</div>
+      <div class="tc-header"><div class="tc-icon">🖼️</div><div class="tc-name">Canvas & UI</div></div>
+      <div class="tc-tools"><span class="tool-chip">canvas</span></div>
+    </div>
+
+    <div class="tool-cat" data-title="Vision / Image Analysis" data-info="The image tool sends one or more images to a vision model for analysis. Supports up to 20 images per call. Used for: analyzing screenshots, reading charts, identifying objects, reading documents, and processing camera snapshots." data-tags="image,vision-model,multi-image,screenshot-analysis,OCR,chart-reading">
+      <div class="policy-badge" style="background:rgba(52,211,153,.15);color:#34d399">full</div>
+      <div class="tc-header"><div class="tc-icon">👁️</div><div class="tc-name">Vision</div></div>
+      <div class="tc-tools"><span class="tool-chip">image</span></div>
+    </div>
+
+    <div class="tool-cat" data-title="Sub-Agent Management" data-info="The subagents tool manages spawned sub-agent sessions: list active agents, steer them with new instructions, or kill them. Enables orchestration patterns where a main agent oversees multiple parallel worker agents." data-tags="subagents,list,steer,kill,orchestration,parallel-workers">
+      <div class="policy-badge" style="background:rgba(248,113,113,.15);color:#f87171">restricted</div>
+      <div class="tc-header"><div class="tc-icon">🤖</div><div class="tc-name">Sub-Agents</div></div>
+      <div class="tc-tools"><span class="tool-chip">subagents</span></div>
+    </div>
+  </div>
+
+  <div class="detail" id="detail">
+    <h3>Tool Execution Pipeline</h3>
+    <p>Every tool call goes through the same pipeline: the agent requests a tool, the policy engine validates access, the tool executes in a sandboxed context, and the result is returned to the agent's context window. Multiple tool calls can execute in parallel within a single LLM turn. Click the pipeline stages or tool categories above to explore.</p>
+    <div class="tag-row"><span>policy-check</span><span>sandboxed</span><span>parallel-execution</span><span>result-injection</span></div>
+  </div>
+</div>
+
+<script>
+// Background
+const bgCv=document.getElementById('bg-canvas');
+const bgCtx=bgCv.getContext('2d');
+function resizeBg(){bgCv.width=innerWidth;bgCv.height=innerHeight}
+let bgPts=[];
+function initBg(){bgPts=Array.from({length:50},()=>({x:Math.random()*bgCv.width,y:Math.random()*bgCv.height,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.15,a:Math.random()*.4+.1}))}
+function drawBg(){
+  bgCtx.clearRect(0,0,bgCv.width,bgCv.height);
+  for(const p of bgPts){
+    p.x=(p.x+p.vx+bgCv.width)%bgCv.width;
+    p.y=(p.y+p.vy+bgCv.height)%bgCv.height;
+    bgCtx.beginPath();bgCtx.arc(p.x,p.y,1.5,0,Math.PI*2);
+    bgCtx.fillStyle=`rgba(248,113,113,${p.a*.3})`;bgCtx.fill();
+  }
+  requestAnimationFrame(drawBg);
+}
+resizeBg();initBg();drawBg();
+window.addEventListener('resize',()=>{resizeBg();initBg()});
+
+// Pipeline canvas
+const cv=document.getElementById('pipeline-canvas');
+const ctx=cv.getContext('2d');
+let W,H,tick=0,particles=[],hovStage=null;
+
+const STAGES=[
+  {id:'agent',   label:'Agent',          sublabel:'LLM decides',   color:'#818cf8', x:.08,
+   info:'The LLM processes the conversation context and decides it needs more information or needs to take an action. It generates one or more tool call requests, each with a tool name and parameters.',
+   tags:['function-calling','parallel-calls','structured-output','JSON-params']},
+  {id:'policy',  label:'Policy Check',   sublabel:'allow / deny',  color:'#f87171', x:.25,
+   info:'The Tool Policy Engine checks if this session is allowed to call this tool. Three modes: full (all tools), allowlist (specific tools only), deny (no tools). Subagents inherit from parent with optional override. Blocked calls return error immediately.',
+   tags:['full','allowlist','deny','inherit','privilege-control','RBAC']},
+  {id:'sandbox', label:'Sandbox',        sublabel:'isolated exec',  color:'#fbbf24', x:.42,
+   info:'Approved tool calls enter the execution sandbox. Shell commands (exec) run in a controlled environment. File operations are path-validated. Network calls can be filtered. Time and resource limits applied. Elevated mode requires explicit policy.',
+   tags:['path-validation','timeout','resource-limits','exec-sandbox','elevated-flag']},
+  {id:'exec',    label:'Execute',        sublabel:'parallel OK',    color:'#34d399', x:.59,
+   info:'Tools execute - potentially in parallel for multiple concurrent calls. exec spawns shell processes. browser controls Chromium via CDP. web_fetch makes HTTP requests. read/write access the filesystem. Each runs asynchronously.',
+   tags:['async','parallel','CDP','HTTP','filesystem','subprocess','timeout']},
+  {id:'result',  label:'Result',         sublabel:'formatted',      color:'#60a5fa', x:.76,
+   info:'Tool results are captured and formatted: stdout/stderr for exec, markdown for web_fetch, DOM snapshots for browser, file contents for read. Results are truncated if too large (configurable limit). Error messages returned on failure.',
+   tags:['stdout','markdown','DOM-snapshot','file-content','truncation','error-handling']},
+  {id:'inject',  label:'Inject Context', sublabel:'back to LLM',    color:'#818cf8', x:.92,
+   info:'All tool results are appended to the conversation context as tool result messages. The LLM receives the complete results and continues. It may call more tools, or generate the final response if it has enough information.',
+   tags:['context-append','tool-result-msg','multi-round','final-response','streaming']},
+];
+
+function setup(){
+  const rect=cv.getBoundingClientRect();
+  W=cv.width=rect.width*devicePixelRatio;
+  H=cv.height;
+  ctx.scale(devicePixelRatio,1);
+  W=rect.width;
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  tick++;
+  const cy=H/2;
+  const r=28;
+
+  // Spawn particles
+  if(tick%15===0){
+    for(let i=0;i<STAGES.length-1;i++){
+      if(Math.random()<.5){
+        const s=STAGES[i], s2=STAGES[i+1];
+        particles.push({x:s.x*W,y:cy,tx:s2.x*W,ty:cy,t:0,speed:.012+Math.random()*.008,color:s.color});
+      }
+    }
+  }
+
+  // Draw connecting lines
+  for(let i=0;i<STAGES.length-1;i++){
+    const s=STAGES[i],s2=STAGES[i+1];
+    const x1=s.x*W+r, x2=s2.x*W-r;
+    ctx.save();
+    ctx.strokeStyle=s.color; ctx.lineWidth=1.5; ctx.globalAlpha=.3; ctx.setLineDash([5,4]);
+    ctx.beginPath();ctx.moveTo(x1,cy);ctx.lineTo(x2,cy);ctx.stroke();
+    ctx.setLineDash([]);
+    // Arrow
+    ctx.fillStyle=s.color;ctx.globalAlpha=.6;
+    const ax=x2-2;
+    ctx.beginPath();ctx.moveTo(ax,cy);ctx.lineTo(ax-8,cy-4);ctx.lineTo(ax-8,cy+4);ctx.closePath();ctx.fill();
+    ctx.restore();
+  }
+
+  // Particles
+  for(let i=particles.length-1;i>=0;i--){
+    const p=particles[i];
+    p.t=Math.min(1,p.t+p.speed);
+    const x=p.x+(p.tx-p.x)*p.t, y=p.y+(p.ty-p.y)*p.t;
+    ctx.save();ctx.beginPath();ctx.arc(x,y,3,0,Math.PI*2);
+    ctx.fillStyle=p.color;ctx.globalAlpha=Math.sin(p.t*Math.PI)*0.9;ctx.fill();ctx.restore();
+    if(p.t>=1)particles.splice(i,1);
+  }
+
+  // Draw stages
+  for(let i=0;i<STAGES.length;i++){
+    const s=STAGES[i];
+    const cx2=s.x*W;
+    const hov=i===hovStage;
+    const pulse=Math.sin(tick*.05+i*.8)*.5+.5;
+    ctx.save();
+    // Outer ring
+    ctx.beginPath();ctx.arc(cx2,cy,r+4+pulse*3,0,Math.PI*2);
+    ctx.strokeStyle=s.color;ctx.lineWidth=1;ctx.globalAlpha=pulse*.4*(hov?2:1);ctx.stroke();
+    // Fill
+    ctx.globalAlpha=1;
+    const grd=ctx.createRadialGradient(cx2,cy,0,cx2,cy,r);
+    grd.addColorStop(0,s.color+(hov?'40':'25'));
+    grd.addColorStop(1,s.color+(hov?'18':'08'));
+    ctx.fillStyle=grd;ctx.beginPath();ctx.arc(cx2,cy,r,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle=s.color+(hov?'':'88');ctx.lineWidth=hov?2:1.5;
+    ctx.beginPath();ctx.arc(cx2,cy,r,0,Math.PI*2);ctx.stroke();
+    // Label
+    ctx.fillStyle='#fff';ctx.textAlign='center';ctx.font=`600 9px Inter`;
+    ctx.fillText(s.label,cx2,cy+(s.sublabel?-5:3));
+    if(s.sublabel){
+      ctx.fillStyle='rgba(255,255,255,.4)';ctx.font=`7.5px Inter`;
+      ctx.fillText(s.sublabel,cx2,cy+7);
+    }
+    // Step number
+    ctx.fillStyle=s.color;ctx.font=`bold 8px Inter`;
+    ctx.fillText(i+1,cx2,cy+r-4);
+    ctx.restore();
+  }
+
+  requestAnimationFrame(draw);
+}
+
+window.addEventListener('load',()=>{setup();draw();});
+window.addEventListener('resize',setup);
+
+cv.addEventListener('mousemove',e=>{
+  const r=cv.getBoundingClientRect();
+  const mx=e.clientX-r.left, my=e.clientY-r.top;
+  const cy=H/2;
+  hovStage=null;
+  for(let i=0;i<STAGES.length;i++){
+    const s=STAGES[i];
+    if(Math.hypot(mx-s.x*W,my-cy*(H/r.height))<32){hovStage=i;cv.style.cursor='pointer';break;}
+  }
+  if(hovStage===null)cv.style.cursor='default';
+});
+
+cv.addEventListener('click',e=>{
+  const r=cv.getBoundingClientRect();
+  const mx=e.clientX-r.left, my=e.clientY-r.top;
+  const cy=H/2;
+  for(let i=0;i<STAGES.length;i++){
+    const s=STAGES[i];
+    if(Math.hypot(mx-s.x*W,my-cy*(H/r.height))<32){
+      const det=document.getElementById('detail');
+      det.className='detail active';
+      det.innerHTML=`<h3>Stage ${i+1}: ${s.label}</h3><p>${s.info}</p><div class="tag-row">${s.tags.map(t=>`<span>${t}</span>`).join('')}</div>`;
+      break;
+    }
+  }
+});
+
+// Tool category clicks
+document.querySelectorAll('.tool-cat').forEach(el=>{
+  el.addEventListener('click',()=>{
+    const title=el.dataset.title||'';
+    const info=el.dataset.info||'';
+    const tags=(el.dataset.tags||'').split(',').filter(Boolean);
+    document.getElementById('detail').className='detail active';
+    document.getElementById('detail').innerHTML=`<h3>${title}</h3><p>${info}</p><div class="tag-row">${tags.map(t=>`<span>${t.trim()}</span>`).join('')}</div>`;
+  });
+});
+</script>
+</body>
+</html>

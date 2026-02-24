@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills System — OpenClaw Architecture</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0f;--surface:rgba(255,255,255,0.05);--border:rgba(255,255,255,0.08);
+  --text:#e4e4e7;--dim:#71717a;--accent:#818cf8;--green:#34d399;--yellow:#fbbf24;
+  --blue:#60a5fa;--pink:#f472b6;--orange:#fb923c;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+canvas#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.wrap{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:32px 20px 80px}
+/* Nav */
+.nav{display:flex;align-items:center;gap:12px;margin-bottom:40px;flex-wrap:wrap}
+.nav a{color:var(--dim);text-decoration:none;font-size:.82rem;transition:.2s}
+.nav a:hover{color:var(--text)}
+.nav-sep{color:var(--border);font-size:.9rem}
+.nav-cur{color:var(--accent);font-size:.82rem}
+/* Header */
+.hdr{text-align:center;margin-bottom:52px}
+.hdr .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(129,140,248,.12);border:1px solid rgba(129,140,248,.25);border-radius:20px;padding:5px 14px;font-size:.75rem;color:var(--accent);margin-bottom:16px}
+.hdr h1{font-size:2.4rem;font-weight:200;letter-spacing:-1px;margin-bottom:10px;background:linear-gradient(135deg,#e4e4e7,#818cf8,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hdr p{color:var(--dim);font-size:1rem;max-width:560px;margin:0 auto;line-height:1.6}
+
+/* Flow diagram */
+.flow-section{margin-bottom:52px}
+.section-title{font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--dim);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.flow-diagram{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:32px;overflow:auto}
+svg.flow{width:100%;min-width:700px;display:block}
+
+/* Skills grid */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:52px}
+.skill-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;cursor:pointer;transition:.25s;position:relative;overflow:hidden}
+.skill-card:hover{border-color:var(--card-color, var(--accent));transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.skill-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--card-color, var(--accent));opacity:.7}
+.skill-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.skill-emoji{font-size:1.8rem;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.05);border-radius:12px}
+.skill-name{font-size:.95rem;font-weight:600}
+.skill-cat{font-size:.7rem;color:var(--dim);margin-top:2px}
+.skill-desc{font-size:.78rem;color:var(--dim);line-height:1.5;margin-bottom:12px}
+.skill-tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-size:.68rem;padding:2px 8px;border-radius:6px;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--dim)}
+
+/* Selection flow */
+.select-flow{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px;margin-bottom:52px}
+.steps{display:flex;gap:0;align-items:stretch;flex-wrap:wrap}
+.step{flex:1;min-width:140px;padding:16px;position:relative}
+.step:not(:last-child)::after{content:'→';position:absolute;right:-10px;top:50%;transform:translateY(-50%);color:var(--accent);font-size:1.2rem;z-index:1}
+.step-num{font-size:.65rem;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.step-title{font-size:.88rem;font-weight:600;margin-bottom:4px}
+.step-desc{font-size:.75rem;color:var(--dim);line-height:1.4}
+.step-icon{font-size:1.4rem;margin-bottom:8px}
+
+/* Detail panel */
+.detail-panel{position:fixed;top:0;right:-420px;width:400px;height:100%;background:#13131f;border-left:1px solid var(--border);z-index:50;padding:28px;overflow-y:auto;transition:.3s ease;display:flex;flex-direction:column;gap:16px}
+.detail-panel.open{right:0}
+.detail-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--dim);font-size:22px;cursor:pointer}
+.detail-close:hover{color:var(--text)}
+.detail-emoji{font-size:3rem;margin-bottom:4px}
+.detail-name{font-size:1.3rem;font-weight:600;margin-bottom:4px}
+.detail-cat{font-size:.78rem;color:var(--dim)}
+.detail-divider{height:1px;background:var(--border);margin:4px 0}
+.detail-section{font-size:.7rem;text-transform:uppercase;letter-spacing:.5px;color:var(--dim);margin-bottom:6px}
+.detail-desc{font-size:.85rem;color:var(--dim);line-height:1.6}
+.detail-model{display:inline-flex;align-items:center;gap:6px;background:rgba(129,140,248,.1);border:1px solid rgba(129,140,248,.2);border-radius:8px;padding:4px 12px;font-size:.78rem;color:var(--accent);margin-top:4px}
+.detail-triggers{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.trigger{font-size:.72rem;padding:3px 10px;border-radius:8px;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.skill-card{animation:fadeUp .4s forwards;opacity:0}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div class="wrap">
+
+  <div class="nav">
+    <a href="https://yehudamiz007.github.io/mindmap/hub.html">🏠 Hub</a>
+    <span class="nav-sep">/</span>
+    <a href="index.html">Architecture</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-cur">Skills System</span>
+  </div>
+
+  <div class="hdr">
+    <div class="badge">🧩 Diagram 7 of 7</div>
+    <h1>Skills System</h1>
+    <p>How OpenClaw selects, loads, and applies specialized skills to handle different types of requests.</p>
+  </div>
+
+  <!-- Selection flow -->
+  <div class="flow-section">
+    <div class="section-title">Skill Selection Pipeline</div>
+    <div class="select-flow">
+      <div class="steps">
+        <div class="step">
+          <div class="step-icon">💬</div>
+          <div class="step-num">Step 1</div>
+          <div class="step-title">Message Arrives</div>
+          <div class="step-desc">User sends a message via any channel — WhatsApp, Telegram, webchat, etc.</div>
+        </div>
+        <div class="step">
+          <div class="step-icon">🔍</div>
+          <div class="step-num">Step 2</div>
+          <div class="step-title">Scan Descriptions</div>
+          <div class="step-desc">Agent reads all &lt;description&gt; entries from available_skills — no file reads yet.</div>
+        </div>
+        <div class="step">
+          <div class="step-icon">🎯</div>
+          <div class="step-num">Step 3</div>
+          <div class="step-title">Select Best Match</div>
+          <div class="step-desc">If one skill clearly applies, it's selected. If multiple match, the most specific wins. If none match, no skill is loaded.</div>
+        </div>
+        <div class="step">
+          <div class="step-icon">📄</div>
+          <div class="step-num">Step 4</div>
+          <div class="step-title">Read SKILL.md</div>
+          <div class="step-desc">Only now the skill file is read — persona, tools, instructions, knowledge are loaded into context.</div>
+        </div>
+        <div class="step">
+          <div class="step-icon">⚡</div>
+          <div class="step-num">Step 5</div>
+          <div class="step-title">Execute</div>
+          <div class="step-desc">Agent follows skill instructions, uses skill-specific tools, adopts persona and tone defined in the skill.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Skills grid -->
+  <div class="flow-section">
+    <div class="section-title">Installed Skills (10)</div>
+    <div class="skills-grid" id="skillsGrid"></div>
+  </div>
+
+  <!-- SVG Flow -->
+  <div class="flow-section">
+    <div class="section-title">Decision Tree</div>
+    <div class="flow-diagram">
+      <svg class="flow" height="360" viewBox="0 0 800 360" id="flowSvg"></svg>
+    </div>
+  </div>
+
+</div>
+
+<!-- Detail panel -->
+<div class="detail-panel" id="detailPanel">
+  <button class="detail-close" onclick="closeDetail()">×</button>
+  <div id="detailContent"></div>
+</div>
+
+<script>
+// ── Background particles ──────────────────────────────────────────────────────
+const canvas = document.getElementById('bg');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+function resize(){ W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
+resize(); window.addEventListener('resize', resize);
+for(let i=0;i<60;i++) particles.push({x:Math.random()*2000-1000,y:Math.random()*1200,r:Math.random()*1.2+.3,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.15,b:Math.random()*Math.PI*2});
+function animBg(t){
+  ctx.clearRect(0,0,W,H);
+  particles.forEach(p=>{
+    p.x+=p.vx; p.y+=p.vy; p.b+=.008;
+    if(p.x<-100)p.x=W+100; if(p.x>W+100)p.x=-100;
+    if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(129,140,248,${.15+.1*Math.sin(p.b)})`; ctx.fill();
+  });
+  requestAnimationFrame(animBg);
+}
+animBg();
+
+// ── Skills data ───────────────────────────────────────────────────────────────
+const SKILLS = [
+  {
+    id:'ai-chief-architect', emoji:'🏛️', name:'AI Chief Architect', cat:'Technical',
+    color:'#818cf8',
+    desc:'System design, architecture decisions, ADRs, technology choices, microservices, cloud-native, LLM/Agentic AI.',
+    model:'claude-opus-4-6',
+    triggers:['design a system','architecture','microservices','ADR','tech stack','scalability','API design'],
+    tools:['web_search','web_fetch','canvas','write'],
+    file:'ai-chief-architect/SKILL.md'
+  },
+  {
+    id:'husband', emoji:'💍', name:'Husband Support', cat:'Personal',
+    color:'#f472b6',
+    desc:'Relationship support for Yehuda & Ilana. Available for Ilana on WhatsApp — tips, reminders, warm words.',
+    model:'claude-sonnet-4-6',
+    triggers:['Ilana messages','romantic gesture','date night','anniversary','gift idea','relationship'],
+    tools:['message','cron','memory_search'],
+    file:'husband/SKILL.md'
+  },
+  {
+    id:'parenting', emoji:'👨‍👩‍👧', name:'Parenting', cat:'Personal',
+    color:'#34d399',
+    desc:'Tailored to Avior (6), Nitai (4), Arbel (9mo). Age-appropriate activities, milestones, meal planning, bedtime routines.',
+    model:'claude-sonnet-4-6',
+    triggers:['kids','Avior','Nitai','Arbel','bedtime','preschool','baby','activity for children'],
+    tools:['memory_search','web_search','cron'],
+    file:'parenting/SKILL.md'
+  },
+  {
+    id:'hebrew', emoji:'🇮🇱', name:'Hebrew Language', cat:'Language',
+    color:'#60a5fa',
+    desc:'Modern Israeli Hebrew — reading, writing, responding. Activated when user writes in Hebrew or asks for translation.',
+    model:'claude-sonnet-4-6',
+    triggers:['message in Hebrew','שלום','מה שלומך','Hebrew translation','Israeli slang'],
+    tools:['message'],
+    file:'hebrew/SKILL.md'
+  },
+  {
+    id:'technical-analysis', emoji:'📈', name:'Technical Analysis', cat:'Finance',
+    color:'#fbbf24',
+    desc:'Advanced chart analysis — Elliott Wave, Wyckoff, ICT/Smart Money, Volume Profile, harmonic patterns. Analyzes chart screenshots.',
+    model:'claude-sonnet-4-6',
+    triggers:['chart','technical analysis','support level','resistance','Elliott Wave','candlestick pattern'],
+    tools:['image','web_fetch','canvas'],
+    file:'technical-analysis/SKILL.md'
+  },
+  {
+    id:'market-news-sentiment', emoji:'📰', name:'Market News Sentiment', cat:'Finance',
+    color:'#fb923c',
+    desc:'Real-time news sentiment for stocks and crypto. Buy/sell/hold signals based on news analysis across multiple sources.',
+    model:'xai/grok-4-0709',
+    triggers:['should I buy','news for ticker','sentiment on','what\'s happening with stock','crypto news'],
+    tools:['web_search','web_fetch'],
+    file:'market-news-sentiment/SKILL.md'
+  },
+  {
+    id:'analyst-price-targets', emoji:'🎯', name:'Analyst Price Targets', cat:'Finance',
+    color:'#a78bfa',
+    desc:'Wall Street consensus — analyst ratings, price targets, upside/downside potential for any ticker.',
+    model:'claude-sonnet-4-6',
+    triggers:['price target','analyst rating','consensus estimate','fair value','upside for stock'],
+    tools:['web_fetch','web_search'],
+    file:'analyst-price-targets/SKILL.md'
+  },
+  {
+    id:'secure-skill-downloader', emoji:'🔒', name:'Secure Skill Downloader', cat:'Security',
+    color:'#f87171',
+    desc:'MANDATORY security gatekeeper for all skill installations. Scans for malicious code, prompt injection, credential theft. No bypasses.',
+    model:'claude-sonnet-4-6',
+    triggers:['install skill','download skill','add skill from','ClawHub','npm skill','import skill'],
+    tools:['web_fetch','exec','read'],
+    file:'secure-skill-downloader/SKILL.md'
+  },
+  {
+    id:'fitness-nutrition', emoji:'💪', name:'Fitness & Nutrition', cat:'Health',
+    color:'#34d399',
+    desc:'Workout plans, strength training, hypertrophy, nutrition, macros, meal prep, supplements, recovery.',
+    model:'claude-sonnet-4-6',
+    triggers:['workout','gym','muscle','macro','meal plan','protein','bulk','cut','cardio'],
+    tools:['web_search','memory_search'],
+    file:'fitness-nutrition/SKILL.md'
+  },
+  {
+    id:'coffee-master', emoji:'☕', name:'Coffee Master', cat:'Lifestyle',
+    color:'#fb923c',
+    desc:'Specialized for La Marzocco Linea Micra. Espresso recipes, milk steaming, latte art, grinder settings, maintenance.',
+    model:'claude-sonnet-4-6',
+    triggers:['espresso','coffee','latte','cappuccino','grinder','La Marzocco','extraction','tamping'],
+    tools:['web_search','image'],
+    file:'coffee-master/SKILL.md'
+  }
+];
+
+// ── Render skills grid ────────────────────────────────────────────────────────
+const grid = document.getElementById('skillsGrid');
+SKILLS.forEach((s, i) => {
+  const card = document.createElement('div');
+  card.className = 'skill-card';
+  card.style.cssText = `--card-color:${s.color};animation-delay:${i*50}ms`;
+  card.innerHTML = `
+    <div class="skill-top">
+      <div class="skill-emoji">${s.emoji}</div>
+      <div>
+        <div class="skill-name">${s.name}</div>
+        <div class="skill-cat">${s.cat}</div>
+      </div>
+    </div>
+    <div class="skill-desc">${s.desc}</div>
+    <div class="skill-tags">
+      ${s.triggers.slice(0,3).map(t=>`<span class="tag">"${t}"</span>`).join('')}
+      ${s.triggers.length > 3 ? `<span class="tag">+${s.triggers.length-3} more</span>` : ''}
+    </div>`;
+  card.onclick = () => openDetail(s);
+  grid.appendChild(card);
+});
+
+// ── Detail panel ──────────────────────────────────────────────────────────────
+function openDetail(s) {
+  const modelLabel = s.model.replace('anthropic/','').replace('xai/','').replace('mistral/','');
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-emoji">${s.emoji}</div>
+    <div class="detail-name">${s.name}</div>
+    <div class="detail-cat">${s.cat}</div>
+    <div class="detail-divider"></div>
+    <div class="detail-section">Description</div>
+    <div class="detail-desc">${s.desc}</div>
+    <div class="detail-section" style="margin-top:14px">Model</div>
+    <div class="detail-model">🧠 ${modelLabel}</div>
+    <div class="detail-section" style="margin-top:14px">Activation Triggers</div>
+    <div class="detail-triggers">${s.triggers.map(t=>`<span class="trigger">${t}</span>`).join('')}</div>
+    <div class="detail-section" style="margin-top:14px">Tools Used</div>
+    <div class="detail-triggers">${s.tools.map(t=>`<span class="trigger" style="color:var(--accent)">${t}</span>`).join('')}</div>
+    <div class="detail-section" style="margin-top:14px">Skill File</div>
+    <div class="detail-desc" style="font-family:monospace;font-size:.75rem;color:var(--accent)">~/.openclaw/workspace/skills/${s.file}</div>
+  `;
+  document.getElementById('detailPanel').classList.add('open');
+}
+function closeDetail() { document.getElementById('detailPanel').classList.remove('open'); }
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeDetail(); });
+
+// ── Decision tree SVG ─────────────────────────────────────────────────────────
+const svg = document.getElementById('flowSvg');
+const nodes = [
+  {id:'msg', x:400, y:30, w:140, h:36, label:'💬 Message Arrives', color:'#818cf8'},
+  {id:'scan', x:400, y:100, w:160, h:36, label:'🔍 Scan skill descriptions', color:'#60a5fa'},
+  {id:'match', x:400, y:170, w:140, h:36, label:'Match found?', color:'#fbbf24', diamond:true},
+  {id:'one', x:220, y:240, w:130, h:36, label:'✓ One clear match', color:'#34d399'},
+  {id:'multi', x:400, y:240, w:130, h:36, label:'⚡ Multiple match', color:'#fb923c'},
+  {id:'none', x:580, y:240, w:130, h:36, label:'✗ No match', color:'#f87171'},
+  {id:'read', x:220, y:310, w:140, h:36, label:'📄 Read SKILL.md', color:'#34d399'},
+  {id:'specific', x:400, y:310, w:140, h:36, label:'Pick most specific', color:'#fb923c'},
+  {id:'default', x:580, y:310, w:140, h:36, label:'Use default behavior', color:'#71717a'},
+];
+const edges = [
+  {from:'msg',to:'scan'},{from:'scan',to:'match'},
+  {from:'match',to:'one',label:'1 match'},{from:'match',to:'multi',label:'N matches'},{from:'match',to:'none',label:'0 matches'},
+  {from:'one',to:'read'},{from:'multi',to:'specific'},{from:'none',to:'default'},
+  {from:'specific',to:'read'}
+];
+
+const byId = {};
+nodes.forEach(n => byId[n.id] = n);
+
+function nodeCenter(n){ return {x:n.x, y:n.y+n.h/2}; }
+
+let html = `<defs>
+  <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+    <path d="M0,0 L0,6 L8,3 z" fill="rgba(129,140,248,0.6)"/>
+  </marker>
+</defs>`;
+
+// Draw edges
+edges.forEach(e => {
+  const f = byId[e.from], t = byId[e.to];
+  const fx = f.x, fy = f.y + f.h;
+  const tx = t.x, ty = t.y;
+  html += `<line x1="${fx}" y1="${fy}" x2="${tx}" y2="${ty}" stroke="rgba(129,140,248,0.35)" stroke-width="1.5" marker-end="url(#arr)"/>`;
+  if(e.label){
+    const mx=(fx+tx)/2, my=(fy+ty)/2;
+    html += `<text x="${mx+4}" y="${my}" fill="rgba(113,113,122,0.8)" font-size="10" font-family="system-ui">${e.label}</text>`;
+  }
+});
+
+// Draw nodes
+nodes.forEach(n => {
+  const x = n.x - n.w/2, y = n.y;
+  html += `<rect x="${x}" y="${y}" width="${n.w}" height="${n.h}" rx="8"
+    fill="${n.color}18" stroke="${n.color}" stroke-opacity="0.5" stroke-width="1.5"/>
+    <text x="${n.x}" y="${n.y+n.h/2+4}" text-anchor="middle" fill="#e4e4e7" font-size="11" font-family="system-ui">${n.label}</text>`;
+});
+
+svg.innerHTML = html;
+</script>
+</body>
+</html>

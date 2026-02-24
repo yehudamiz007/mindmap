@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gateway Architecture - OpenClaw</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#0a0a0f;--surface:rgba(255,255,255,0.05);--border:rgba(255,255,255,0.1);--text:#e4e4e7;--muted:#71717a;--purple:#818cf8;--green:#34d399;--yellow:#fbbf24;--blue:#60a5fa;--pink:#f472b6;--red:#f87171}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
+  #bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+  .page{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:1.5rem 1.5rem 4rem}
+  .nav{display:flex;gap:.8rem;margin-bottom:2rem;flex-wrap:wrap}
+  .nav a{color:var(--muted);text-decoration:none;font-size:.82rem;padding:.35rem .75rem;border:1px solid var(--border);border-radius:6px;transition:all .2s}
+  .nav a:hover{color:var(--text);border-color:var(--blue)}
+  .header{text-align:center;margin-bottom:2.5rem}
+  .header .tag{display:inline-block;background:rgba(96,165,250,0.12);border:1px solid rgba(96,165,250,0.25);color:var(--blue);font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .8rem;border-radius:20px;margin-bottom:1rem}
+  .header h1{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:700;background:linear-gradient(135deg,#fff 0%,var(--blue) 60%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.5rem}
+  .header p{color:var(--muted);font-size:.92rem}
+
+  /* Layered architecture diagram */
+  .arch-diagram{border:1px solid var(--border);border-radius:14px;overflow:hidden;background:rgba(255,255,255,0.02)}
+
+  /* Layers */
+  .layer{padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);position:relative;cursor:default}
+  .layer:last-child{border-bottom:none}
+  .layer-label{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
+  .layer-label .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+  /* Channel grid */
+  .channel-grid{display:flex;flex-wrap:wrap;gap:.5rem}
+  .channel-chip{display:flex;align-items:center;gap:.4rem;padding:.3rem .7rem;border-radius:6px;border:1px solid;font-size:.8rem;cursor:pointer;transition:all .2s;user-select:none;position:relative}
+  .channel-chip:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.4)}
+  .channel-chip.active{box-shadow:0 0 12px 2px var(--glow)}
+
+  /* Core row */
+  .core-row{display:flex;flex-wrap:wrap;gap:.8rem}
+  .core-box{flex:1;min-width:140px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:.8rem 1rem;cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
+  .core-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent,#818cf8),transparent);opacity:0;transition:opacity .3s}
+  .core-box:hover{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.07)}
+  .core-box:hover::before{opacity:1}
+  .core-box.highlighted{border-color:var(--accent,#818cf8)!important;background:rgba(129,140,248,.08)!important}
+  .core-box .name{font-size:.87rem;font-weight:600;color:#fff;margin-bottom:.25rem}
+  .core-box .desc{font-size:.76rem;color:var(--muted);line-height:1.5}
+  .core-box .badge{position:absolute;top:.5rem;right:.6rem;font-size:.68rem;font-family:'JetBrains Mono',monospace;color:var(--accent,var(--purple));opacity:.7}
+
+  /* Detail */
+  .detail{margin-top:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.4rem;min-height:80px;transition:all .3s}
+  .detail.active{border-color:var(--blue)}
+  .detail h3{font-size:1rem;font-weight:600;color:#fff;margin-bottom:.5rem}
+  .detail p{font-size:.87rem;color:var(--muted);line-height:1.6}
+  .detail .tag-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.8rem}
+  .detail .tag-row span{background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.2);color:var(--blue);font-size:.72rem;padding:.2rem .5rem;border-radius:4px;font-family:'JetBrains Mono',monospace}
+
+  /* Animated signal bars */
+  .signal-bar{display:inline-block;width:3px;border-radius:2px;background:currentColor;animation:signal .8s ease-in-out infinite;transform-origin:bottom}
+  .signal-bar:nth-child(2){animation-delay:.15s;height:8px}
+  .signal-bar:nth-child(3){animation-delay:.3s;height:12px}
+  .signal-bars{display:inline-flex;align-items:flex-end;gap:2px;height:12px;margin-left:6px;opacity:.7;color:var(--green)}
+  .signal-bar:first-child{height:5px}
+  .signal-bar:nth-child(3){height:12px}
+  @keyframes signal{0%,100%{opacity:.3}50%{opacity:1}}
+
+  @media(max-width:600px){.core-row{flex-direction:column}}
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div class="page">
+  <nav class="nav">
+    <a href="index.html">← Architecture Hub</a>
+    <a href="https://yehudamiz007.github.io/mindmap/hub.html">🏠 Main Hub</a>
+  </nav>
+
+  <header class="header">
+    <div class="tag">🌐 Gateway</div>
+    <h1>Gateway Architecture</h1>
+    <p>The central hub connecting all channels to the agent engine</p>
+  </header>
+
+  <div class="arch-diagram">
+
+    <!-- Layer 1: Channels -->
+    <div class="layer" style="background:rgba(96,165,250,0.04)">
+      <div class="layer-label" style="color:var(--blue)">
+        <div class="dot" style="background:var(--blue)"></div>
+        Channel Extensions
+        <div class="signal-bars">
+          <div class="signal-bar"></div>
+          <div class="signal-bar"></div>
+          <div class="signal-bar"></div>
+        </div>
+      </div>
+      <div class="channel-grid" id="channels">
+        <div class="channel-chip" style="--glow:#25D366;color:#25D366;border-color:#25D36640;background:#25D36612" data-info="WhatsApp channel extension using the Baileys library. Connects via QR-code pairing to your WhatsApp account. Supports text, media, voice notes, reactions, and group messages. No Business API required." data-tags="Baileys,QR pairing,media,reactions,groups">📱 WhatsApp</div>
+        <div class="channel-chip" style="--glow:#2AABEE;color:#2AABEE;border-color:#2AABEE40;background:#2AABEE12" data-info="Telegram bot integration via the Bot API. Supports commands, inline keyboards, file sharing, groups, channels, and supergroups. Uses long-polling or webhooks." data-tags="Bot API,webhooks,inline-buttons,files,groups">✈️ Telegram</div>
+        <div class="channel-chip" style="--glow:#5865F2;color:#5865F2;border-color:#5865F240;background:#5865F212" data-info="Discord bot using discord.js. Supports slash commands, message components, embeds, voice channels, reactions, and server/DM contexts. Webhook delivery for embeds." data-tags="discord.js,slash-commands,embeds,voice,reactions">🎮 Discord</div>
+        <div class="channel-chip" style="--glow:#3A76F0;color:#3A76F0;border-color:#3A76F040;background:#3A76F012" data-info="Signal messenger integration. End-to-end encrypted messaging. Uses signal-cli or the Signal API bridge. Supports DMs and group chats." data-tags="signal-cli,E2E encryption,groups,DMs">🔒 Signal</div>
+        <div class="channel-chip" style="--glow:#4A154B;color:#c49ed4;border-color:#4A154B60;background:#4A154B20" data-info="Slack workspace bot. Uses the Slack Events API and Web API. Supports threads, mentions, app home, slash commands, and message actions." data-tags="Events API,Web API,threads,slash-commands,blocks">💼 Slack</div>
+        <div class="channel-chip" style="--glow:#34d399;color:var(--green);border-color:#34d39940;background:#34d39912" data-info="Built-in web chat interface accessible at http://localhost:18789. The primary interface for direct desktop interaction. Supports markdown, file uploads, and streaming responses." data-tags="WebSocket,markdown,streaming,file-upload">🖥️ Webchat</div>
+        <div class="channel-chip" style="--glow:#fbbf24;color:var(--yellow);border-color:#fbbf2440;background:#fbbf2412" data-info="Apple iMessage via the AppleScript bridge or BlueBubbles server. Supports text, reactions, tapbacks, and read receipts on macOS." data-tags="AppleScript,BlueBubbles,tapbacks,reactions">💬 iMessage</div>
+        <div class="channel-chip" style="--glow:#f472b6;color:var(--pink);border-color:#f472b640;background:#f472b612" data-info="Additional channel extensions: SMS via Twilio, Twitter/X DMs, LinkedIn, Email (IMAP/SMTP), Matrix, XMPP, IRC, and custom webhook integrations." data-tags="Twilio SMS,Twitter,Email,Matrix,webhooks">+7 more...</div>
+      </div>
+    </div>
+
+    <!-- Layer 2: Gateway Core -->
+    <div class="layer" style="background:rgba(129,140,248,0.04)">
+      <div class="layer-label" style="color:var(--purple)">
+        <div class="dot" style="background:var(--purple)"></div>
+        Gateway Core — ws://localhost:18789
+      </div>
+      <div class="core-row">
+        <div class="core-box" style="--accent:#818cf8" data-info="WebSocket server listening on port 18789. Handles bidirectional communication between channel extensions and agent sessions. Manages connection lifecycle, heartbeats, and reconnection." data-tags="ws://18789,heartbeats,reconnect,auth-tokens">
+          <div class="badge">:18789</div>
+          <div class="name">WebSocket Server</div>
+          <div class="desc">Bidirectional real-time communication hub</div>
+        </div>
+        <div class="core-box" style="--accent:#60a5fa" data-info="HTTP server handles REST endpoints: /health, /webhook (for Telegram/Discord), /upload, /files, and the webchat SPA. TLS optional with reverse proxy." data-tags="/health,/webhook,/upload,REST API,TLS">
+          <div class="badge">HTTP</div>
+          <div class="name">HTTP Server</div>
+          <div class="desc">REST endpoints, webhooks, file serving</div>
+        </div>
+        <div class="core-box" style="--accent:#34d399" data-info="The Event Bus decouples channel extensions from agent sessions. Events flow: channel_msg_in → route → session → response → channel_msg_out. Supports broadcast, targeted, and wildcard routing." data-tags="EventEmitter,pub/sub,routing,broadcast">
+          <div class="badge">bus</div>
+          <div class="name">Event Bus</div>
+          <div class="desc">Async event routing and decoupling</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Layer 3: Session & Policy -->
+    <div class="layer" style="background:rgba(251,191,36,0.03)">
+      <div class="layer-label" style="color:var(--yellow)">
+        <div class="dot" style="background:var(--yellow)"></div>
+        Session Management + Policy Engine
+      </div>
+      <div class="core-row">
+        <div class="core-box" style="--accent:#fbbf24" data-info="Session Manager creates and maintains isolated agent sessions per conversation. Each session has its own context window, memory state, and message history. Sessions can be main or sub-agent type." data-tags="session-per-channel,isolation,context,history,lifecycle">
+          <div class="badge">mgr</div>
+          <div class="name">Session Manager</div>
+          <div class="desc">Isolated context per conversation thread</div>
+        </div>
+        <div class="core-box" style="--accent:#f87171" data-info="The Tool Policy Engine enforces which tools each session can access. Policies: deny (blocked), allowlist (whitelist of specific tools), full (unrestricted). Subagents inherit parent policies. Prevents privilege escalation." data-tags="deny,allowlist,full,inherit,privilege-control">
+          <div class="badge">policy</div>
+          <div class="name">Tool Policy Engine</div>
+          <div class="desc">Sandboxed tool access per session type</div>
+        </div>
+        <div class="core-box" style="--accent:#a78bfa" data-info="The Skill Loader reads AGENTS.md skill declarations, loads SKILL.md files on demand, and injects skill context into the appropriate sessions. Skills are lazy-loaded to save tokens." data-tags="lazy-load,SKILL.md,injection,on-demand">
+          <div class="badge">skills</div>
+          <div class="name">Skill Loader</div>
+          <div class="desc">Dynamic skill injection on match</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Layer 4: Agent Engine -->
+    <div class="layer" style="background:rgba(52,211,153,0.03)">
+      <div class="layer-label" style="color:var(--green)">
+        <div class="dot" style="background:var(--green)"></div>
+        Agent Engine (LLM Core)
+      </div>
+      <div class="core-row">
+        <div class="core-box" style="--accent:#34d399" data-info="The Context Builder assembles the full prompt: system prompt (SOUL.md + USER.md + skills), conversation history, memory injections, tool results, and available tool schemas. Token budget managed automatically." data-tags="system-prompt,history,tools-schema,token-budget,truncation">
+          <div class="badge">ctx</div>
+          <div class="name">Context Builder</div>
+          <div class="desc">Assembles system + history + memory</div>
+        </div>
+        <div class="core-box" style="--accent:#34d399" data-info="Streaming LLM client supporting multiple providers: Anthropic Claude, OpenAI GPT-4, Google Gemini, Mistral, local Ollama. Handles streaming tokens, function call extraction, and retry logic." data-tags="Anthropic,OpenAI,Gemini,Ollama,streaming,retry">
+          <div class="badge">llm</div>
+          <div class="name">LLM Client</div>
+          <div class="desc">Multi-provider streaming inference</div>
+        </div>
+        <div class="core-box" style="--accent:#fbbf24" data-info="Tool Executor dispatches validated tool calls in parallel. Enforces policy, captures stdout/stderr, handles timeouts, and streams results back. Supports exec, browser, read/write, web, message, canvas." data-tags="parallel,timeout,stdout,stderr,tool-dispatch">
+          <div class="badge">exec</div>
+          <div class="name">Tool Executor</div>
+          <div class="desc">Parallel sandboxed tool execution</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end arch-diagram -->
+
+  <div class="detail" id="detail">
+    <h3>Gateway Architecture Overview</h3>
+    <p>The Gateway is the central nervous system of OpenClaw. It's a Node.js daemon running on your machine, listening on port 18789. Click any component above to learn how it works in detail.</p>
+    <div class="tag-row"><span>Node.js</span><span>WebSocket</span><span>:18789</span><span>always-on daemon</span></div>
+  </div>
+</div>
+
+<script>
+// Background
+const bgCv=document.getElementById('bg-canvas');
+const bgCtx=bgCv.getContext('2d');
+function resizeBg(){bgCv.width=innerWidth;bgCv.height=innerHeight}
+let bgPts=[];
+function initBg(){bgPts=Array.from({length:50},()=>({x:Math.random()*bgCv.width,y:Math.random()*bgCv.height,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2,a:Math.random()*.5+.1}))}
+function drawBg(){
+  bgCtx.clearRect(0,0,bgCv.width,bgCv.height);
+  for(const p of bgPts){
+    p.x=(p.x+p.vx+bgCv.width)%bgCv.width;
+    p.y=(p.y+p.vy+bgCv.height)%bgCv.height;
+    bgCtx.beginPath();bgCtx.arc(p.x,p.y,1.5,0,Math.PI*2);
+    bgCtx.fillStyle=`rgba(96,165,250,${p.a*.4})`;bgCtx.fill();
+  }
+  requestAnimationFrame(drawBg);
+}
+resizeBg();initBg();drawBg();
+window.addEventListener('resize',()=>{resizeBg();initBg()});
+
+// Interactivity
+const detail=document.getElementById('detail');
+
+document.querySelectorAll('.channel-chip, .core-box').forEach(el=>{
+  el.addEventListener('click',()=>{
+    document.querySelectorAll('.core-box').forEach(b=>b.classList.remove('highlighted'));
+    el.classList.add('highlighted');
+    el.classList.add('active');
+    const info=el.dataset.info||'Click a component to see details.';
+    const tags=(el.dataset.tags||'').split(',').filter(Boolean);
+    const name=el.querySelector('.name')?.textContent || el.textContent.trim();
+    detail.className='detail active';
+    detail.innerHTML=`<h3>${name}</h3><p>${info}</p><div class="tag-row">${tags.map(t=>`<span>${t.trim()}</span>`).join('')}</div>`;
+    setTimeout(()=>el.classList.remove('highlighted'),600);
+  });
+});
+
+// Channel chip active toggle
+document.querySelectorAll('.channel-chip').forEach(chip=>{
+  chip.addEventListener('click',()=>{
+    chip.classList.toggle('active');
+  });
+});
+
+// Pulse animation for signal bars
+let sigTick=0;
+setInterval(()=>{
+  sigTick++;
+  document.querySelectorAll('.signal-bars').forEach(sb=>{
+    sb.style.color=sigTick%2===0?'var(--green)':'rgba(52,211,153,.5)';
+  });
+},600);
+</script>
+</body>
+</html>
