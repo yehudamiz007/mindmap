@@ -1,0 +1,154 @@
+{
+  "lastUpdated": "2026-02-24T08:00:00.000Z",
+  "models": [
+    {
+      "id": "anthropic/claude-sonnet-4-6",
+      "name": "Claude Sonnet 4.6",
+      "provider": "Anthropic",
+      "alias": "sonnet",
+      "status": "active",
+      "isDefault": true,
+      "color": "#818cf8",
+      "icon": "🧠",
+      "contextWindow": 200000,
+      "maxTokens": 8192,
+      "reasoning": true,
+      "cost": { "input": 3, "output": 15, "cacheRead": 0.3, "cacheWrite": 3.75 },
+      "useCases": [
+        { "label": "Main Chat", "desc": "Primary assistant for all WhatsApp & UI conversations", "icon": "💬" },
+        { "label": "Code & Analysis", "desc": "Writing code, debugging, technical analysis", "icon": "💻" },
+        { "label": "Planning", "desc": "Complex multi-step tasks and orchestration", "icon": "🗺️" },
+        { "label": "Skills", "desc": "All skill-based interactions (hebrew, parenting, husband...)", "icon": "🎯" }
+      ],
+      "instructions": "Default model for all main session interactions. Handles WhatsApp messages, skill invocations, and general assistant tasks. Reasoning is set to 'off' by default (thinkingDefault=off in config).",
+      "cronJobs": []
+    },
+    {
+      "id": "xai/grok-3",
+      "name": "Grok 3",
+      "provider": "xAI",
+      "alias": "grok",
+      "status": "active",
+      "isDefault": false,
+      "color": "#34d399",
+      "icon": "⚡",
+      "contextWindow": 200000,
+      "maxTokens": 8192,
+      "reasoning": false,
+      "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+      "useCases": [
+        { "label": "Stock Trading", "desc": "Real-time market analysis, buy/sell decisions for the virtual portfolio", "icon": "📈" },
+        { "label": "Daily Stock Scan", "desc": "Daily scanner of 15 stocks/crypto with news, analyst, and technical scores", "icon": "🔍" },
+        { "label": "AI News Summary", "desc": "Daily Hebrew AI news digest sent to WhatsApp", "icon": "📰" },
+        { "label": "Iran Dashboard", "desc": "Geopolitical intelligence analysis and threat assessment", "icon": "🌍" }
+      ],
+      "instructions": "Used for all real-time data tasks. Has web access and real-time knowledge. Preferred for financial analysis, news, and geopolitical monitoring. Currently free tier (cost=$0).",
+      "cronJobs": ["Grok Virtual Trader", "Daily Stock Scanner", "Daily AI Summary", "Iran Dashboard Update"]
+    },
+    {
+      "id": "xai/grok-3-mini",
+      "name": "Grok 3 Mini",
+      "provider": "xAI",
+      "alias": "grok-mini",
+      "status": "available",
+      "isDefault": false,
+      "color": "#6ee7b7",
+      "icon": "⚡",
+      "contextWindow": 200000,
+      "maxTokens": 8192,
+      "reasoning": true,
+      "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+      "useCases": [
+        { "label": "Light Tasks", "desc": "Lightweight tasks that need web access but don't require full Grok 3 power", "icon": "🪶" }
+      ],
+      "instructions": "Smaller, faster version of Grok 3 with reasoning support. Available but not actively used in cron jobs. Good for quick real-time lookups.",
+      "cronJobs": []
+    },
+    {
+      "id": "anthropic/claude-opus-4-6",
+      "name": "Claude Opus 4.6",
+      "provider": "Anthropic",
+      "alias": "opus",
+      "status": "available",
+      "isDefault": false,
+      "color": "#a78bfa",
+      "icon": "🔮",
+      "contextWindow": 200000,
+      "maxTokens": 8192,
+      "reasoning": true,
+      "cost": { "input": 15, "output": 75, "cacheRead": 1.5, "cacheWrite": 18.75 },
+      "useCases": [
+        { "label": "Deep Research", "desc": "Complex research tasks requiring maximum reasoning depth", "icon": "🔬" },
+        { "label": "Architecture", "desc": "System design and architectural decisions via /model opus", "icon": "🏗️" },
+        { "label": "Long-form Writing", "desc": "High-quality essays, documents, and creative writing", "icon": "✍️" }
+      ],
+      "instructions": "Most powerful Anthropic model. Use sparingly due to high cost ($15/M input, $75/M output). Switch via '/model opus' in chat. Best for tasks where quality matters more than cost.",
+      "cronJobs": []
+    },
+    {
+      "id": "mistral/mistral-large-latest",
+      "name": "Mistral Large",
+      "provider": "Mistral AI",
+      "alias": "mistral",
+      "status": "available",
+      "isDefault": false,
+      "color": "#f97316",
+      "icon": "🌊",
+      "contextWindow": 128000,
+      "maxTokens": 8192,
+      "reasoning": false,
+      "cost": { "input": 2, "output": 6, "cacheRead": 0, "cacheWrite": 0 },
+      "useCases": [
+        { "label": "European Tasks", "desc": "Tasks requiring GDPR-compliant, EU-hosted processing", "icon": "🇪🇺" },
+        { "label": "Multilingual", "desc": "Strong multilingual support including French, German, Spanish", "icon": "🌐" },
+        { "label": "Fallback", "desc": "Alternative when Anthropic rate limits are hit", "icon": "🔄" }
+      ],
+      "instructions": "EU-based model, useful as fallback when Anthropic rate limits are reached. Good multilingual support. Switch via '/model mistral'.",
+      "cronJobs": []
+    },
+    {
+      "id": "mistral/mistral-small-latest",
+      "name": "Mistral Small",
+      "provider": "Mistral AI",
+      "alias": "mistral-small",
+      "status": "available",
+      "isDefault": false,
+      "color": "#fb923c",
+      "icon": "🌊",
+      "contextWindow": 128000,
+      "maxTokens": 8192,
+      "reasoning": false,
+      "cost": { "input": 0.1, "output": 0.3, "cacheRead": 0, "cacheWrite": 0 },
+      "useCases": [
+        { "label": "Cheap Tasks", "desc": "Very low cost tasks where quality is less critical", "icon": "💰" }
+      ],
+      "instructions": "Cheapest available model ($0.1/M input). Use for high-volume, low-stakes tasks. Not actively used in current setup.",
+      "cronJobs": []
+    },
+    {
+      "id": "google/gemini-2.0-flash",
+      "name": "Gemini 2.0 Flash",
+      "provider": "Google",
+      "alias": "gemini",
+      "status": "available",
+      "isDefault": false,
+      "color": "#4ade80",
+      "icon": "✨",
+      "contextWindow": 1000000,
+      "maxTokens": 8192,
+      "reasoning": false,
+      "cost": { "input": 0.075, "output": 0.3, "cacheRead": 0, "cacheWrite": 0 },
+      "useCases": [
+        { "label": "Memory Embeddings", "desc": "Used internally for semantic search in memory_search tool", "icon": "🧲" },
+        { "label": "Long Context", "desc": "1M token context window for very long documents", "icon": "📄" }
+      ],
+      "instructions": "Used primarily for memory embeddings (gemini-embedding-001). Also available for long-context tasks thanks to its 1M token window. Very cheap for high-volume use.",
+      "cronJobs": []
+    }
+  ],
+  "switchInstructions": {
+    "chat": "Type '/model <alias>' in any chat to switch models for that session",
+    "cron": "Set 'model' field in the cron job payload to override the default model",
+    "config": "Set 'agents.defaults.model.primary' in openclaw.json to change the permanent default"
+  }
+}

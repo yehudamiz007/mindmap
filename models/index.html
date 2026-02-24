@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multimodal Management</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#080810;--surface:rgba(255,255,255,0.04);--surface2:rgba(255,255,255,0.07);
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
+  --text:#e4e4e7;--dim:#71717a;--dim2:#52525b;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+canvas#bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.35}
+
+/* Layout */
+.shell{position:relative;z-index:1;display:flex;min-height:100vh}
+.sidebar{width:260px;flex-shrink:0;border-right:1px solid var(--border);padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto;background:rgba(8,8,16,.85);backdrop-filter:blur(20px)}
+.main{flex:1;padding:36px 40px 80px;max-width:900px}
+
+/* Sidebar */
+.sb-logo{padding:0 20px 24px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.sb-logo h1{font-size:1rem;font-weight:700;background:linear-gradient(135deg,#818cf8,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sb-logo p{font-size:.72rem;color:var(--dim);margin-top:3px}
+.sb-label{font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim2);padding:8px 20px 4px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 20px;cursor:pointer;transition:.15s;border-left:2px solid transparent;font-size:.88rem;color:var(--dim)}
+.sb-item:hover{background:var(--surface);color:var(--text)}
+.sb-item.active{background:var(--surface2);color:var(--text);border-left-color:#818cf8}
+.sb-item .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.sb-item .badge{margin-left:auto;font-size:.68rem;padding:2px 7px;border-radius:10px;background:rgba(129,140,248,.15);color:#818cf8}
+.sb-divider{height:1px;background:var(--border);margin:12px 0}
+
+/* Header */
+.page-header{margin-bottom:36px}
+.page-header h2{font-size:1.5rem;font-weight:300;color:var(--text)}
+.page-header p{font-size:.85rem;color:var(--dim);margin-top:6px}
+.updated{font-size:.75rem;color:var(--dim2);margin-top:4px}
+
+/* Stats row */
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:32px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 18px;flex:1;min-width:100px}
+.stat-card .sv{font-size:1.6rem;font-weight:200;color:var(--text)}
+.stat-card .sl{font-size:.72rem;color:var(--dim);text-transform:uppercase;letter-spacing:.8px;margin-top:2px}
+
+/* Model card */
+.model-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;margin-bottom:20px;overflow:hidden;transition:.2s;cursor:pointer}
+.model-card:hover{border-color:var(--border2);box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.model-card.expanded .mc-body{display:block}
+
+.mc-header{display:flex;align-items:center;gap:14px;padding:18px 22px}
+.mc-icon{font-size:1.8rem;flex-shrink:0}
+.mc-info{flex:1}
+.mc-name{font-size:1rem;font-weight:600;display:flex;align-items:center;gap:8px}
+.mc-provider{font-size:.75rem;color:var(--dim);margin-top:2px}
+.mc-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.mc-cost{font-size:.75rem;color:var(--dim);text-align:right}
+.mc-cost b{color:var(--text)}
+
+/* Status badges */
+.badge{font-size:.68rem;padding:3px 9px;border-radius:20px;font-weight:500;letter-spacing:.3px}
+.badge-default{background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.25)}
+.badge-active{background:rgba(129,140,248,.12);color:#818cf8;border:1px solid rgba(129,140,248,.2)}
+.badge-available{background:rgba(113,113,122,.12);color:#71717a;border:1px solid rgba(113,113,122,.2)}
+.badge-alias{font-family:monospace;background:rgba(251,191,36,.1);color:#fbbf24;border:1px solid rgba(251,191,36,.2)}
+
+/* Expanded body */
+.mc-body{display:none;border-top:1px solid var(--border);padding:20px 22px}
+.mc-section{margin-bottom:18px}
+.mc-section:last-child{margin-bottom:0}
+.mc-section-title{font-size:.72rem;text-transform:uppercase;letter-spacing:1.2px;color:var(--dim2);margin-bottom:10px}
+.use-cases{display:flex;flex-wrap:wrap;gap:8px}
+.uc-chip{display:flex;align-items:center;gap:6px;padding:7px 12px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px}
+.uc-chip .ui{font-size:1rem}
+.uc-chip .ut{font-size:.8rem;color:var(--text)}
+.uc-chip .ud{font-size:.72rem;color:var(--dim);margin-top:1px}
+.mc-instr{font-size:.82rem;color:var(--dim);line-height:1.65;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.cron-list{display:flex;flex-wrap:wrap;gap:6px}
+.cron-chip{font-size:.75rem;padding:4px 10px;background:rgba(167,139,250,.1);color:#a78bfa;border:1px solid rgba(167,139,250,.2);border-radius:8px}
+
+/* Context bar */
+.ctx-bar-wrap{height:5px;background:rgba(255,255,255,.06);border-radius:3px;margin-top:6px;overflow:hidden}
+.ctx-bar{height:100%;border-radius:3px}
+
+/* Specs grid */
+.specs{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-bottom:4px}
+.spec{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:8px;padding:8px 10px}
+.spec .sk{font-size:.68rem;color:var(--dim);text-transform:uppercase;letter-spacing:.5px}
+.spec .sv2{font-size:.9rem;color:var(--text);font-weight:500;margin-top:2px}
+
+/* Switch instructions */
+.switch-box{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-top:32px}
+.switch-box h3{font-size:.9rem;color:var(--text);margin-bottom:14px}
+.switch-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.switch-row:last-child{margin-bottom:0}
+.switch-method{font-size:.78rem;font-family:monospace;background:rgba(129,140,248,.1);color:#818cf8;padding:2px 8px;border-radius:5px;flex-shrink:0;margin-top:1px}
+.switch-desc{font-size:.8rem;color:var(--dim)}
+
+/* Filter bar */
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.f-btn{padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--dim);cursor:pointer;font-size:.8rem;transition:.15s}
+.f-btn:hover{color:var(--text);border-color:var(--border2)}
+.f-btn.active{background:rgba(129,140,248,.12);color:#818cf8;border-color:rgba(129,140,248,.25)}
+
+/* Chevron */
+.chevron{font-size:.8rem;color:var(--dim);transition:transform .2s}
+.model-card.expanded .chevron{transform:rotate(180deg)}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+
+<div class="shell">
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sb-logo">
+      <h1>🤖 Multimodal Mgmt</h1>
+      <p>OpenClaw Model Control</p>
+    </div>
+
+    <div class="sb-label">Navigation</div>
+    <div class="sb-item active" onclick="showSection('models')">
+      <span>🧠</span> Models
+      <span class="badge" id="sb-model-count">-</span>
+    </div>
+    <div class="sb-item" onclick="showSection('usecases')">
+      <span>🎯</span> Use Cases
+    </div>
+    <div class="sb-item" onclick="showSection('switch')">
+      <span>🔄</span> How to Switch
+    </div>
+
+    <div class="sb-divider"></div>
+    <div class="sb-label">Quick Links</div>
+    <div class="sb-item" onclick="window.open('https://yehudamiz007.github.io/mindmap/hub.html')">
+      <span>🏠</span> Hub
+    </div>
+    <div class="sb-item" onclick="window.open('https://yehudamiz007.github.io/mindmap/dashboard.html')">
+      <span>📊</span> Cost Dashboard
+    </div>
+    <div class="sb-item" onclick="window.open('https://console.anthropic.com')">
+      <span>🔑</span> Anthropic Console
+    </div>
+
+    <div class="sb-divider"></div>
+    <div class="sb-label">Models</div>
+    <div id="sb-models"></div>
+  </nav>
+
+  <!-- Main -->
+  <main class="main">
+    <!-- MODELS SECTION -->
+    <div id="section-models">
+      <div class="page-header">
+        <h2>Model Registry</h2>
+        <p>All configured models, their use cases, and routing instructions</p>
+        <div class="updated" id="updated-label"></div>
+      </div>
+
+      <div class="stats" id="stats-row"></div>
+
+      <div class="filter-bar">
+        <button class="f-btn active" onclick="setFilter('all',this)">All</button>
+        <button class="f-btn" onclick="setFilter('active',this)">Active</button>
+        <button class="f-btn" onclick="setFilter('available',this)">Available</button>
+        <button class="f-btn" onclick="setFilter('Anthropic',this)">Anthropic</button>
+        <button class="f-btn" onclick="setFilter('xAI',this)">xAI</button>
+        <button class="f-btn" onclick="setFilter('Mistral AI',this)">Mistral</button>
+        <button class="f-btn" onclick="setFilter('Google',this)">Google</button>
+      </div>
+
+      <div id="models-list"></div>
+
+      <div class="switch-box" id="switch-box"></div>
+    </div>
+
+    <!-- USE CASES SECTION -->
+    <div id="section-usecases" style="display:none">
+      <div class="page-header">
+        <h2>Use Case Map</h2>
+        <p>What each model is used for in the OpenClaw setup</p>
+      </div>
+      <div id="usecases-content"></div>
+    </div>
+
+    <!-- SWITCH SECTION -->
+    <div id="section-switch" style="display:none">
+      <div class="page-header">
+        <h2>How to Switch Models</h2>
+        <p>Different ways to change which model handles a task</p>
+      </div>
+      <div id="switch-content"></div>
+    </div>
+  </main>
+</div>
+
+<script>
+let data = null;
+let currentFilter = 'all';
+
+function showSection(name) {
+  ['models','usecases','switch'].forEach(s => {
+    document.getElementById('section-'+s).style.display = s===name ? '' : 'none';
+  });
+  document.querySelectorAll('.sb-item').forEach((el,i) => el.classList.toggle('active', i === ['models','usecases','switch'].indexOf(name)));
+}
+
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderModels();
+}
+
+function fmtCtx(n) {
+  if (n >= 1000000) return (n/1000000).toFixed(1)+'M';
+  return (n/1000)+'K';
+}
+
+function statusBadge(m) {
+  if (m.isDefault) return '<span class="badge badge-default">Default</span>';
+  if (m.status === 'active') return '<span class="badge badge-active">Active</span>';
+  return '<span class="badge badge-available">Available</span>';
+}
+
+function renderModels() {
+  if (!data) return;
+  const list = document.getElementById('models-list');
+  const models = data.models.filter(m => {
+    if (currentFilter === 'all') return true;
+    if (currentFilter === 'active') return m.status === 'active' || m.isDefault;
+    if (currentFilter === 'available') return m.status === 'available';
+    return m.provider === currentFilter;
+  });
+
+  list.innerHTML = models.map(m => {
+    const maxCtx = 1000000;
+    const ctxPct = Math.round(m.contextWindow / maxCtx * 100);
+    const cronHtml = m.cronJobs.length
+      ? m.cronJobs.map(j => `<span class="cron-chip">${j}</span>`).join('')
+      : '<span style="color:var(--dim);font-size:.8rem">No scheduled jobs</span>';
+
+    return `
+    <div class="model-card" id="mc-${m.id}" onclick="toggleCard('${m.id}')">
+      <div class="mc-header">
+        <div class="mc-icon">${m.icon}</div>
+        <div class="mc-info">
+          <div class="mc-name">
+            ${m.name}
+            ${statusBadge(m)}
+            <span class="badge badge-alias">/${m.alias}</span>
+          </div>
+          <div class="mc-provider">${m.provider} &bull; ${fmtCtx(m.contextWindow)} ctx &bull; ${m.reasoning ? '🔮 Reasoning' : 'No reasoning'}</div>
+        </div>
+        <div class="mc-right">
+          <div class="mc-cost">
+            <b>$${m.cost.input}</b><br>per 1M in
+          </div>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="mc-body">
+        <div class="mc-section">
+          <div class="mc-section-title">Specs</div>
+          <div class="specs">
+            <div class="spec"><div class="sk">Context</div><div class="sv2">${fmtCtx(m.contextWindow)}</div></div>
+            <div class="spec"><div class="sk">Max Output</div><div class="sv2">${fmtCtx(m.maxTokens)}</div></div>
+            <div class="spec"><div class="sk">Input $/M</div><div class="sv2">$${m.cost.input}</div></div>
+            <div class="spec"><div class="sk">Output $/M</div><div class="sv2">$${m.cost.output}</div></div>
+            <div class="spec"><div class="sk">Cache Read</div><div class="sv2">$${m.cost.cacheRead}</div></div>
+            <div class="spec"><div class="sk">Reasoning</div><div class="sv2">${m.reasoning ? 'Yes' : 'No'}</div></div>
+          </div>
+          <div class="ctx-bar-wrap">
+            <div class="ctx-bar" style="width:${ctxPct}%;background:${m.color};opacity:.7"></div>
+          </div>
+          <div style="font-size:.68rem;color:var(--dim2);margin-top:3px">Context window vs max (1M)</div>
+        </div>
+
+        <div class="mc-section">
+          <div class="mc-section-title">Use Cases</div>
+          <div class="use-cases">
+            ${m.useCases.map(u => `
+              <div class="uc-chip">
+                <span class="ui">${u.icon}</span>
+                <div><div class="ut">${u.label}</div><div class="ud">${u.desc}</div></div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="mc-section">
+          <div class="mc-section-title">Routing Instructions</div>
+          <div class="mc-instr">${m.instructions}</div>
+        </div>
+
+        <div class="mc-section">
+          <div class="mc-section-title">Scheduled Jobs Using This Model</div>
+          <div class="cron-list">${cronHtml}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleCard(id) {
+  const card = document.getElementById('mc-'+id);
+  card.classList.toggle('expanded');
+}
+
+function renderStats() {
+  if (!data) return;
+  const total = data.models.length;
+  const active = data.models.filter(m => m.status==='active'||m.isDefault).length;
+  const withCrons = data.models.filter(m => m.cronJobs.length > 0).length;
+  const providers = [...new Set(data.models.map(m => m.provider))].length;
+
+  document.getElementById('stats-row').innerHTML = [
+    ['Total Models', total, '#818cf8'],
+    ['Active', active, '#34d399'],
+    ['With Cron Jobs', withCrons, '#a78bfa'],
+    ['Providers', providers, '#fbbf24'],
+  ].map(([l,v,c]) => `<div class="stat-card"><div class="sv" style="color:${c}">${v}</div><div class="sl">${l}</div></div>`).join('');
+
+  document.getElementById('sb-model-count').textContent = total;
+  document.getElementById('updated-label').textContent = 'Last updated: ' + new Date(data.lastUpdated).toLocaleDateString('en-US', {year:'numeric',month:'short',day:'numeric'});
+}
+
+function renderSidebar() {
+  document.getElementById('sb-models').innerHTML = data.models.map(m => `
+    <div class="sb-item" onclick="scrollToModel('${m.id}')">
+      <span class="dot" style="background:${m.color}"></span>
+      ${m.name}
+    </div>
+  `).join('');
+}
+
+function scrollToModel(id) {
+  showSection('models');
+  setFilter('all', document.querySelector('.f-btn'));
+  setTimeout(() => {
+    const el = document.getElementById('mc-'+id);
+    if (el) { el.scrollIntoView({behavior:'smooth',block:'center'}); el.classList.add('expanded'); }
+  }, 100);
+}
+
+function renderUseCases() {
+  const all = [];
+  data.models.forEach(m => m.useCases.forEach(u => all.push({...u, model: m.name, color: m.color, icon2: m.icon})));
+  document.getElementById('usecases-content').innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px">
+      ${all.map(u => `
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px">
+          <div style="font-size:1.5rem;margin-bottom:8px">${u.icon}</div>
+          <div style="font-size:.9rem;font-weight:600;color:var(--text);margin-bottom:4px">${u.label}</div>
+          <div style="font-size:.8rem;color:var(--dim);margin-bottom:10px">${u.desc}</div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:${u.color}">
+            <span>${u.icon2}</span> ${u.model}
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+}
+
+function renderSwitchInstructions() {
+  const s = data.switchInstructions;
+  document.getElementById('switch-content').innerHTML = `
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;max-width:600px">
+      <div class="switch-row"><span class="switch-method">/model &lt;alias&gt;</span><span class="switch-desc">${s.chat}</span></div>
+      <div class="switch-row"><span class="switch-method">cron payload</span><span class="switch-desc">${s.cron}</span></div>
+      <div class="switch-row"><span class="switch-method">config.json</span><span class="switch-desc">${s.config}</span></div>
+    </div>
+    <div style="margin-top:24px">
+      <div style="font-size:.85rem;color:var(--dim);margin-bottom:16px">Available model aliases:</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        ${data.models.map(m => `<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 14px;display:flex;align-items:center;gap:8px">
+          <span>${m.icon}</span>
+          <div>
+            <div style="font-size:.85rem;color:var(--text)">${m.name}</div>
+            <div style="font-size:.75rem;font-family:monospace;color:#818cf8">/model ${m.alias}</div>
+          </div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+// Load data
+fetch('models-data.json?t='+Date.now()).then(r=>r.json()).then(d => {
+  data = d;
+  renderStats();
+  renderModels();
+  renderSidebar();
+  renderUseCases();
+  renderSwitchInstructions();
+}).catch(e => {
+  document.getElementById('models-list').innerHTML = '<div style="color:#f87171;padding:20px">Failed to load models-data.json</div>';
+});
+
+// Particle background
+const canvas = document.getElementById('bg');
+const ctx2 = canvas.getContext('2d');
+let W, H, pts = [];
+const resize = () => { W = canvas.width = innerWidth; H = canvas.height = innerHeight; };
+resize(); window.addEventListener('resize', resize);
+for (let i=0;i<50;i++) pts.push({x:Math.random()*2000,y:Math.random()*2000,r:Math.random()*1.2+.2,vx:(Math.random()-.5)*.15,vy:(Math.random()-.5)*.1,c:['#818cf8','#a78bfa','#34d399','#fbbf24'][Math.floor(Math.random()*4)],a:Math.random()*.4+.1});
+(function draw(){requestAnimationFrame(draw);ctx2.clearRect(0,0,W,H);pts.forEach(p=>{ctx2.beginPath();ctx2.arc(p.x%W,p.y%H,p.r,0,Math.PI*2);ctx2.fillStyle=p.c;ctx2.globalAlpha=p.a;ctx2.fill();p.x+=p.vx;p.y+=p.vy;});ctx2.globalAlpha=1;})();
+</script>
+</body>
+</html>
