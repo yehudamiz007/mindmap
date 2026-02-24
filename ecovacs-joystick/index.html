@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -22,46 +22,22 @@ body{
 h1{font-size:1.4rem;font-weight:300;letter-spacing:-0.5px;margin-bottom:3px;
    background:linear-gradient(135deg,#e4e4e7,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .subtitle{font-size:.78rem;color:var(--text-dim);margin-bottom:16px}
-
-/* Connection bar */
-.conn-row{
-  width:100%;max-width:440px;display:flex;align-items:center;gap:8px;
-  margin-bottom:12px;padding:8px 12px;background:var(--surface);
-  border-radius:11px;border:1px solid var(--border);justify-content:space-between;
-}
+.conn-row{width:100%;max-width:440px;display:flex;align-items:center;gap:8px;margin-bottom:12px;padding:8px 12px;background:var(--surface);border-radius:11px;border:1px solid var(--border);justify-content:space-between}
 .conn-left{display:flex;align-items:center;gap:6px}
 .conn-dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0}
 .conn-dot.ok{background:var(--green)}
 .conn-label{font-size:.75rem;color:var(--text-dim)}
 .conn-url{font-size:.65rem;color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:160px}
 .settings-btn{font-size:.75rem;color:var(--accent);cursor:pointer;padding:2px 6px;border-radius:6px;background:rgba(129,140,248,.1);border:none;font-family:inherit}
-
-/* Setup card */
-.setup-card{
-  width:100%;max-width:440px;background:rgba(251,191,36,.05);
-  border:1px solid rgba(251,191,36,.2);border-radius:14px;padding:14px 16px;margin-bottom:14px;
-}
+.setup-card{width:100%;max-width:440px;background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.2);border-radius:14px;padding:14px 16px;margin-bottom:14px}
 .setup-card h3{font-size:.84rem;color:var(--yellow);margin-bottom:6px}
 .setup-card p{font-size:.75rem;color:var(--text-dim);margin-bottom:9px;line-height:1.5}
 .url-row{display:flex;gap:7px}
-.url-input{
-  flex:1;padding:8px 11px;border-radius:9px;border:1px solid var(--border);
-  background:var(--surface);color:var(--text);font-size:.78rem;font-family:inherit;outline:none;
-}
+.url-input{flex:1;padding:8px 11px;border-radius:9px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:.78rem;font-family:inherit;outline:none}
 .url-input:focus{border-color:var(--accent)}
 .url-input::placeholder{color:var(--text-dim)}
-.connect-btn{
-  padding:8px 12px;border-radius:9px;background:rgba(129,140,248,.15);
-  border:1px solid rgba(129,140,248,.3);color:var(--accent);cursor:pointer;
-  font-size:.78rem;font-family:inherit;white-space:nowrap;
-}
-
-/* Status card */
-.status-card{
-  width:100%;max-width:440px;background:var(--surface);border:1px solid var(--border);
-  border-radius:16px;padding:14px 18px;margin-bottom:16px;
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-}
+.connect-btn{padding:8px 12px;border-radius:9px;background:rgba(129,140,248,.15);border:1px solid rgba(129,140,248,.3);color:var(--accent);cursor:pointer;font-size:.78rem;font-family:inherit;white-space:nowrap}
+.status-card{width:100%;max-width:440px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .status-left{display:flex;flex-direction:column;gap:4px;flex:1}
 .status-name{font-size:.72rem;color:var(--text-dim)}
 .status-state{font-size:.95rem;font-weight:500;display:flex;align-items:center;gap:6px}
@@ -76,97 +52,44 @@ h1{font-size:1.4rem;font-weight:300;letter-spacing:-0.5px;margin-bottom:3px;
 .status-right{display:flex;flex-direction:column;align-items:center;gap:2px;flex-shrink:0}
 .batt-icon{font-size:1.4rem;line-height:1}
 .batt-pct{font-size:.72rem;color:var(--text-dim)}
-
-/* Robot visual */
 .robot-visual{width:100%;max-width:440px;display:flex;justify-content:center;margin-bottom:14px}
-.robot-body{
-  width:88px;height:88px;border-radius:50%;
-  background:linear-gradient(135deg,rgba(129,140,248,0.1),rgba(52,211,153,0.07));
-  border:2px solid rgba(129,140,248,0.2);
-  display:flex;align-items:center;justify-content:center;font-size:2.6rem;
-  position:relative;transition:all .3s;
-}
+.robot-body{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,rgba(129,140,248,0.1),rgba(52,211,153,0.07));border:2px solid rgba(129,140,248,0.2);display:flex;align-items:center;justify-content:center;font-size:2.6rem;position:relative;transition:all .3s}
 .robot-body.spinning{animation:rspin 2s linear infinite}
 .robot-body.returning{animation:bounce .8s ease-in-out infinite}
 .robot-ring{position:absolute;inset:-9px;border-radius:50%;border:1.5px dashed rgba(129,140,248,0.12);animation:rspin 5s linear infinite}
 @keyframes rspin{to{transform:rotate(360deg)}}
 @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-
-/* Section */
 .section{width:100%;max-width:440px;margin-bottom:14px}
 .section-label{font-size:.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;padding-right:2px}
-
-/* Button grid */
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.btn{
-  padding:0;border-radius:13px;border:1px solid var(--border);background:var(--surface);
-  color:var(--text-dim);cursor:pointer;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:4px;transition:all .13s;font-family:inherit;font-size:.72rem;
-  height:64px;-webkit-user-select:none;user-select:none;
-}
+.btn{padding:0;border-radius:13px;border:1px solid var(--border);background:var(--surface);color:var(--text-dim);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:all .13s;font-family:inherit;font-size:.72rem;height:64px;-webkit-user-select:none;user-select:none}
 .btn .icon{font-size:1.4rem;line-height:1}
 .btn:active{transform:scale(0.92);background:var(--surface2)}
 .btn.wide{height:44px;flex-direction:row;gap:7px;font-size:.8rem}
 .btn.loading{opacity:.5;pointer-events:none}
 .btn.loading .icon{animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* Color variants */
 .g{border-color:rgba(52,211,153,.28);color:var(--green)}
 .r{border-color:rgba(248,113,113,.28);color:var(--red)}
 .b{border-color:rgba(129,140,248,.28);color:var(--accent)}
 .y{border-color:rgba(251,191,36,.28);color:var(--yellow)}
-.o{border-color:rgba(251,146,60,.28);color:var(--orange)}
 .p{border-color:rgba(167,139,250,.28);color:var(--purple)}
-
-/* Segment controls */
 .seg-wrap{display:flex;border-radius:11px;overflow:hidden;border:1px solid var(--border);background:var(--surface)}
-.seg{
-  flex:1;padding:9px 4px;border:none;background:transparent;color:var(--text-dim);
-  cursor:pointer;font-size:.7rem;font-family:inherit;transition:all .15s;text-align:center;
-  border-right:1px solid var(--border);
-}
+.seg{flex:1;padding:9px 4px;border:none;background:transparent;color:var(--text-dim);cursor:pointer;font-size:.7rem;font-family:inherit;transition:all .15s;text-align:center;border-right:1px solid var(--border)}
 .seg:last-child{border-right:none}
 .seg:active{background:var(--surface2)}
 .seg.active{background:rgba(129,140,248,.18);color:var(--accent)}
-.seg.active-g{background:rgba(52,211,153,.15);color:var(--green)}
-.seg.active-y{background:rgba(251,191,36,.15);color:var(--yellow)}
-.seg.active-o{background:rgba(251,146,60,.15);color:var(--orange)}
-.seg.active-r{background:rgba(248,113,113,.15);color:var(--red)}
-
-/* Volume slider */
-.vol-row{display:flex;align-items:center;gap:10px;padding:10px 14px;
-  background:var(--surface);border:1px solid var(--border);border-radius:13px}
+.vol-row{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:13px}
 .vol-label{font-size:.72rem;color:var(--text-dim);min-width:30px}
-input[type=range]{
-  flex:1;-webkit-appearance:none;height:4px;background:rgba(255,255,255,.1);
-  border-radius:2px;outline:none;
-}
-input[type=range]::-webkit-slider-thumb{
-  -webkit-appearance:none;width:18px;height:18px;border-radius:50%;
-  background:var(--accent);cursor:pointer;
-}
+input[type=range]{flex:1;-webkit-appearance:none;height:4px;background:rgba(255,255,255,.1);border-radius:2px;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer}
 .vol-val{font-size:.8rem;color:var(--accent);min-width:20px;text-align:center}
-
-/* Clean count */
-.count-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;
-  background:var(--surface);border:1px solid var(--border);border-radius:13px}
+.count-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:13px}
 .count-label{font-size:.78rem;color:var(--text-dim)}
 .count-btns{display:flex;gap:8px;align-items:center}
-.count-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);
-  background:var(--surface2);color:var(--text);cursor:pointer;font-size:1rem;
-  display:flex;align-items:center;justify-content:center;font-family:inherit}
-.count-btn:active{background:rgba(129,140,248,.2)}
+.count-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:inherit}
 .count-val{font-size:1rem;color:var(--accent);min-width:20px;text-align:center}
-
-/* Toast */
-.toast{
-  position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(120px);
-  background:rgba(15,15,25,0.96);border:1px solid var(--border);border-radius:11px;
-  padding:9px 18px;font-size:.82rem;color:var(--text);transition:transform .22s;
-  z-index:200;backdrop-filter:blur(12px);white-space:nowrap;max-width:90vw;text-align:center;
-}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(120px);background:rgba(15,15,25,0.96);border:1px solid var(--border);border-radius:11px;padding:9px 18px;font-size:.82rem;color:var(--text);transition:transform .22s;z-index:200;backdrop-filter:blur(12px);white-space:nowrap;max-width:90vw;text-align:center}
 .toast.show{transform:translateX(-50%) translateY(0)}
 .toast.ok{border-color:rgba(52,211,153,.35);color:var(--green)}
 .toast.err{border-color:rgba(248,113,113,.35);color:var(--red)}
@@ -177,104 +100,98 @@ input[type=range]::-webkit-slider-thumb{
 <h1>DEEBOT Controller</h1>
 <p class="subtitle">X8 PRO OMNI</p>
 
-<!-- Connection bar -->
 <div class="conn-row">
   <div class="conn-left">
     <div class="conn-dot" id="connDot"></div>
-    <span class="conn-label" id="connLabel">×œ× ×ž×—×•×‘×¨</span>
+    <span class="conn-label" id="connLabel">לא מחובר</span>
   </div>
   <span class="conn-url" id="connUrl"></span>
-  <button class="settings-btn" onclick="toggleSetup()">âš™ï¸</button>
+  <button class="settings-btn" onclick="toggleSetup()">&#9881;</button>
 </div>
 
-<!-- Setup -->
 <div class="setup-card" id="setupCard">
-  <h3>âš™ï¸ ×—×™×‘×•×¨ ×œ×©×¨×ª</h3>
-  <p>×”×¤×¢×œ <strong>start_deebot.bat</strong> ×‘×ž×—×©×‘.<br>×”×›× ×¡ ××ª ×›×ª×•×‘×ª ×”-Tunnel ×©×ž×•×¤×™×¢×”.</p>
+  <h3>&#9881; חיבור לשרת</h3>
+  <p>הפעל <strong>start_deebot.bat</strong> במחשב.<br>הכנס את כתובת ה-Tunnel שמופיעה.</p>
   <div class="url-row">
-    <input class="url-input" id="urlInput" type="url" placeholder="https://martial-cio-smile-caution.trycloudflare.com" autocomplete="off" spellcheck="false"/>
-    <button class="connect-btn" onclick="connect()">×—×‘×¨</button>
+    <input class="url-input" id="urlInput" type="url" placeholder="https://xxxx.trycloudflare.com" autocomplete="off" spellcheck="false"/>
+    <button class="connect-btn" onclick="connect()">חבר</button>
   </div>
 </div>
 
-<!-- Status -->
 <div class="status-card">
   <div class="status-left">
     <div class="status-name">DEEBOT X8 PRO OMNI</div>
-    <div class="status-state"><span class="sdot" id="sdot"></span><span id="sText">×ž×ž×ª×™×Ÿ...</span></div>
+    <div class="status-state"><span class="sdot" id="sdot"></span><span id="sText">ממתין...</span></div>
     <div class="last-cmd" id="lastCmd"></div>
   </div>
   <div class="status-right">
-    <div class="batt-icon" id="battIcon">ðŸ”‹</div>
+    <div class="batt-icon" id="battIcon">&#128267;</div>
     <div class="batt-pct" id="battPct">--%</div>
   </div>
 </div>
 
-<!-- Robot -->
-<div class="robot-visual"><div class="robot-body" id="robotBody"><div class="robot-ring"></div>ðŸ¤–</div></div>
+<div class="robot-visual">
+  <div class="robot-body" id="robotBody"><div class="robot-ring"></div>&#129302;</div>
+</div>
 
-<!-- Main controls -->
 <div class="section">
-  <div class="section-label">×¤×§×•×“×•×ª ×¨××©×™×•×ª</div>
+  <div class="section-label">פקודות ראשיות</div>
   <div class="grid3">
-    <button class="btn g" onclick="cmd('clean')"  id="btn-clean">  <span class="icon">ðŸ§¹</span>× ×§×”</button>
-    <button class="btn y" onclick="cmd('pause')"  id="btn-pause">  <span class="icon">â¸ï¸</span>×”×©×”×”</button>
-    <button class="btn g" onclick="cmd('resume')" id="btn-resume"> <span class="icon">â–¶ï¸</span>×”×ž×©×š</button>
-    <button class="btn r" onclick="cmd('stop')"   id="btn-stop">   <span class="icon">â¹ï¸</span>×¢×¦×•×¨</button>
-    <button class="btn b" onclick="cmd('charge')" id="btn-charge"> <span class="icon">ðŸ </span>×‘×¡×™×¡</button>
-    <button class="btn p" onclick="cmd('sound')"  id="btn-sound">  <span class="icon">ðŸ”Š</span>×¦×œ×™×œ</button>
+    <button class="btn g" onclick="cmd('clean')"  id="btn-clean">  <span class="icon">&#129529;</span>נקה</button>
+    <button class="btn y" onclick="cmd('pause')"  id="btn-pause">  <span class="icon">&#9208;</span>השהה</button>
+    <button class="btn g" onclick="cmd('resume')" id="btn-resume"> <span class="icon">&#9654;</span>המשך</button>
+    <button class="btn r" onclick="cmd('stop')"   id="btn-stop">   <span class="icon">&#9209;</span>עצור</button>
+    <button class="btn b" onclick="cmd('charge')" id="btn-charge"> <span class="icon">&#127968;</span>בסיס</button>
+    <button class="btn p" onclick="cmd('sound')"  id="btn-sound">  <span class="icon">&#128266;</span>צליל</button>
   </div>
 </div>
 
-<!-- Work mode -->
 <div class="section">
-  <div class="section-label">×ž×¦×‘ ×¢×‘×•×“×”</div>
+  <div class="section-label">מצב עבודה</div>
   <div class="seg-wrap" id="modeSegs">
-    <button class="seg" data-mode="vacuum_mop"      onclick="setMode(this)">×©××™×‘×”+× ×™×’×•×‘</button>
-    <button class="seg" data-mode="vacuum"           onclick="setMode(this)">×©××™×‘×”</button>
-    <button class="seg" data-mode="mop"              onclick="setMode(this)">× ×™×’×•×‘</button>
-    <button class="seg" data-mode="mop_after_vacuum" onclick="setMode(this)">× ×™×’×•×‘ ××—×¨×™</button>
+    <button class="seg" data-mode="vacuum_mop"      onclick="setMode(this)">שאיבה+ניגוב</button>
+    <button class="seg" data-mode="vacuum"           onclick="setMode(this)">שאיבה</button>
+    <button class="seg" data-mode="mop"              onclick="setMode(this)">ניגוב</button>
+    <button class="seg" data-mode="mop_after_vacuum" onclick="setMode(this)">ניגוב אחרי</button>
   </div>
 </div>
 
-<!-- Fan speed -->
 <div class="section">
-  <div class="section-label">×¢×•×¦×ž×ª ×©××™×‘×”</div>
+  <div class="section-label">עוצמת שאיבה</div>
   <div class="seg-wrap" id="fanSegs">
-    <button class="seg" data-fan="quiet"    onclick="setFan(this)">×©×§×˜</button>
-    <button class="seg" data-fan="normal"   onclick="setFan(this)">×¨×’×™×œ</button>
-    <button class="seg" data-fan="max"      onclick="setFan(this)">×ž×§×¡×™×ž×•×</button>
-    <button class="seg" data-fan="max_plus" onclick="setFan(this)">×˜×•×¨×‘×•</button>
+    <button class="seg" data-fan="quiet"    onclick="setFan(this)">שקט</button>
+    <button class="seg" data-fan="normal"   onclick="setFan(this)">רגיל</button>
+    <button class="seg" data-fan="max"      onclick="setFan(this)">מקסימום</button>
+    <button class="seg" data-fan="max_plus" onclick="setFan(this)">טורבו</button>
   </div>
 </div>
 
-<!-- Water level -->
 <div class="section">
-  <div class="section-label">×›×ž×•×ª ×ž×™× (× ×™×’×•×‘)</div>
+  <div class="section-label">כמות מים (ניגוב)</div>
   <div class="seg-wrap" id="waterSegs">
-    <button class="seg" data-water="low"       onclick="setWater(this)">× ×ž×•×š</button>
-    <button class="seg" data-water="medium"    onclick="setWater(this)">×‘×™× ×•× ×™</button>
-    <button class="seg" data-water="high"      onclick="setWater(this)">×’×‘×•×”</button>
-    <button class="seg" data-water="ultrahigh" onclick="setWater(this)">×ž×§×¡×™×ž×•×</button>
+    <button class="seg" data-water="low"       onclick="setWater(this)">נמוך</button>
+    <button class="seg" data-water="medium"    onclick="setWater(this)">בינוני</button>
+    <button class="seg" data-water="high"      onclick="setWater(this)">גבוה</button>
+    <button class="seg" data-water="ultrahigh" onclick="setWater(this)">מקסימום</button>
   </div>
 </div>
 
-<!-- Volume -->
 <div class="section">
-  <div class="section-label">×¢×•×¦×ž×ª ×§×•×œ</div>
+  <div class="section-label">עוצמת קול</div>
   <div class="vol-row">
-    <span class="vol-label">ðŸ”‡</span>
-    <input type="range" min="0" max="10" value="7" id="volSlider" oninput="document.getElementById('volVal').textContent=this.value" onchange="setVolume(this.value)"/>
+    <span class="vol-label">&#128263;</span>
+    <input type="range" min="0" max="10" value="7" id="volSlider"
+      oninput="document.getElementById('volVal').textContent=this.value"
+      onchange="setVolume(this.value)"/>
     <span class="vol-val" id="volVal">7</span>
-    <span style="font-size:.72rem;color:var(--text-dim)">ðŸ”Š</span>
+    <span style="font-size:.72rem;color:var(--text-dim)">&#128266;</span>
   </div>
 </div>
 
-<!-- Clean count -->
 <div class="section">
-  <div class="section-label">×ž×¡×¤×¨ ×¡×¨×™×§×•×ª</div>
+  <div class="section-label">מספר סריקות</div>
   <div class="count-row">
-    <span class="count-label">×›×ž×” ×¤×¢×ž×™× ×œ×¡×¨×•×§ ××ª ×”×—×“×¨?</span>
+    <span class="count-label">כמה פעמים לסרוק?</span>
     <div class="count-btns">
       <button class="count-btn" onclick="changeCount(-1)">-</button>
       <span class="count-val" id="countVal">1</span>
@@ -283,10 +200,9 @@ input[type=range]::-webkit-slider-thumb{
   </div>
 </div>
 
-<!-- Refresh -->
 <div class="section">
   <button class="btn wide b" style="width:100%" onclick="refresh()" id="btn-refresh">
-    <span class="icon">ðŸ”„</span> ×¨×¢× ×Ÿ ×¡×˜×˜×•×¡
+    <span class="icon">&#128260;</span> רענן סטטוס
   </button>
 </div>
 
@@ -298,189 +214,110 @@ let serverUrl = localStorage.getItem(SK) || 'https://martial-cio-smile-caution.t
 let busy = false;
 let currentCount = 1;
 
-// Init
 (function(){
   const saved = localStorage.getItem(SK) || serverUrl;
   document.getElementById('urlInput').value = saved;
   serverUrl = saved;
-  if (saved) {
-    document.getElementById('setupCard').style.display = 'none';
-    fetchStatus();
-  }
+  if (saved) { document.getElementById('setupCard').style.display = 'none'; fetchStatus(); }
 })();
 
-function toggleSetup() {
-  const c = document.getElementById('setupCard');
-  c.style.display = c.style.display === 'none' ? 'block' : 'none';
+function toggleSetup(){const c=document.getElementById('setupCard');c.style.display=c.style.display==='none'?'block':'none'}
+function connect(){
+  const v=document.getElementById('urlInput').value.trim().replace(/\/$/,'');
+  if(!v)return;serverUrl=v;localStorage.setItem(SK,v);
+  document.getElementById('setupCard').style.display='none';fetchStatus();
 }
-function connect() {
-  const v = document.getElementById('urlInput').value.trim().replace(/\/$/, '');
-  if (!v) return;
-  serverUrl = v;
-  localStorage.setItem(SK, v);
-  document.getElementById('setupCard').style.display = 'none';
-  fetchStatus();
+function sClass(s){
+  s=(s||'').toLowerCase();
+  if(s.includes('clean'))return'cleaning';
+  if(s.includes('return')||s.includes('dock'))return'returning';
+  if(s.includes('docked'))return'docked';
+  if(s.includes('paused'))return'paused';
+  if(s.includes('error'))return'error';
+  return'idle';
 }
-
-// State helpers
-function sClass(s) {
-  s = (s||'').toLowerCase();
-  if (s.includes('clean')) return 'cleaning';
-  if (s.includes('return')||s.includes('dock')) return 'returning';
-  if (s.includes('docked')) return 'docked';
-  if (s.includes('paused')) return 'paused';
-  if (s.includes('error')) return 'error';
-  return 'idle';
+function translateState(s){
+  return {'Cleaning':'מנקה...','Returning to dock':'חוזר לבסיס...','Docked':'בבסיס','Idle':'ממתין','Paused':'מושהה','Error':'שגיאה'}[s]||s||'לא ידוע';
 }
-
-function updateUI(d) {
-  if (!d) return;
-  document.getElementById('connDot').className = 'conn-dot ok';
-  document.getElementById('connLabel').textContent = '×ž×—×•×‘×¨';
-  document.getElementById('connUrl').textContent = serverUrl.replace('https://','').substring(0,30);
-
-  const cls = sClass(d.state);
-  document.getElementById('sdot').className = 'sdot ' + cls;
-  document.getElementById('sText').textContent = translateState(d.state);
-
-  const pct = parseInt((d.battery||'0'));
-  document.getElementById('battIcon').textContent = pct >= 50 ? 'ðŸ”‹' : 'ðŸª«';
-  document.getElementById('battPct').textContent = d.battery || '--%';
-
-  const rb = document.getElementById('robotBody');
-  rb.className = 'robot-body';
-  if (cls === 'cleaning') rb.classList.add('spinning');
-  if (cls === 'returning') rb.classList.add('returning');
-
-  // Update segments
-  if (d.fan_speed && d.fan_speed !== '?') setSegActive('fanSegs', 'fan', d.fan_speed.toLowerCase());
-  if (d.water && d.water !== '?') setSegActive('waterSegs', 'water', d.water.toLowerCase());
-  if (d.mode && d.mode !== '?') {
-    const modeKey = {'VACUUM_AND_MOP':'vacuum_mop','VACUUM':'vacuum','MOP':'mop','MOP_AFTER_VACUUM':'mop_after_vacuum'}[d.mode] || d.mode.toLowerCase();
-    setSegActive('modeSegs', 'mode', modeKey);
+function setSegActive(gid,attr,val){
+  document.querySelectorAll('#'+gid+' .seg').forEach(s=>s.className='seg'+(s.dataset[attr]===val?' active':''));
+}
+function updateUI(d){
+  if(!d)return;
+  document.getElementById('connDot').className='conn-dot ok';
+  document.getElementById('connLabel').textContent='מחובר';
+  document.getElementById('connUrl').textContent=serverUrl.replace('https://','').substring(0,30);
+  const cls=sClass(d.state);
+  document.getElementById('sdot').className='sdot '+cls;
+  document.getElementById('sText').textContent=translateState(d.state);
+  const pct=parseInt((d.battery||'0'));
+  document.getElementById('battIcon').textContent=pct>=50?'\u{1F50B}':'\u{1FAAB}';
+  document.getElementById('battPct').textContent=d.battery||'--%';
+  const rb=document.getElementById('robotBody');
+  rb.className='robot-body';
+  if(cls==='cleaning')rb.classList.add('spinning');
+  if(cls==='returning')rb.classList.add('returning');
+  if(d.fan_speed&&d.fan_speed!=='?')setSegActive('fanSegs','fan',d.fan_speed.toLowerCase());
+  if(d.water&&d.water!=='?')setSegActive('waterSegs','water',d.water.toLowerCase());
+  if(d.mode&&d.mode!=='?'){
+    const mk={'VACUUM_AND_MOP':'vacuum_mop','VACUUM':'vacuum','MOP':'mop','MOP_AFTER_VACUUM':'mop_after_vacuum'};
+    setSegActive('modeSegs','mode',mk[d.mode]||d.mode.toLowerCase());
   }
-  if (d.volume !== undefined && d.volume !== '?') {
-    document.getElementById('volSlider').value = d.volume;
-    document.getElementById('volVal').textContent = d.volume;
-  }
-  if (d.clean_count !== undefined && d.clean_count !== '?') {
-    currentCount = d.clean_count;
-    document.getElementById('countVal').textContent = d.clean_count;
-  }
-
-  if (d.action) {
-    document.getElementById('lastCmd').textContent = '×‘×•×¦×¢: ' + d.action;
-    setTimeout(() => document.getElementById('lastCmd').textContent = '', 4000);
-  }
+  if(d.volume!==undefined&&d.volume!=='?'){document.getElementById('volSlider').value=d.volume;document.getElementById('volVal').textContent=d.volume;}
+  if(d.clean_count!==undefined&&d.clean_count!=='?'){currentCount=d.clean_count;document.getElementById('countVal').textContent=d.clean_count;}
+  if(d.action){document.getElementById('lastCmd').textContent='בוצע: '+d.action;setTimeout(()=>document.getElementById('lastCmd').textContent='',4000);}
 }
-
-function translateState(s) {
-  const m = {'Cleaning':'×ž× ×§×”...','Returning to dock':'×—×•×–×¨ ×œ×‘×¡×™×¡...','Docked':'×‘×‘×¡×™×¡','Idle':'×ž×ž×ª×™×Ÿ','Paused':'×ž×•×©×”×”','Error':'×©×’×™××”'};
-  return m[s] || s || '×œ× ×™×“×•×¢';
+function setOffline(){
+  document.getElementById('connDot').className='conn-dot';
+  document.getElementById('connLabel').textContent='לא מחובר';
+  document.getElementById('sText').textContent='שרת לא זמין';
 }
-
-function setSegActive(groupId, attr, val) {
-  document.querySelectorAll(`#${groupId} .seg`).forEach(s => {
-    s.className = 'seg' + (s.dataset[attr] === val ? ' active' : '');
-  });
-}
-
-function setOffline() {
-  document.getElementById('connDot').className = 'conn-dot';
-  document.getElementById('connLabel').textContent = '×œ× ×ž×—×•×‘×¨';
-  document.getElementById('sText').textContent = '×©×¨×ª ×œ× ×–×ž×™×Ÿ';
-}
-
-// API
-async function apiFetch(path) {
-  if (!serverUrl) { toast('×”×›× ×¡ ×›×ª×•×‘×ª ×©×¨×ª', 'err'); return null; }
-  const res = await fetch(serverUrl + path, { signal: AbortSignal.timeout(35000) });
-  if (!res.ok) throw new Error('HTTP ' + res.status);
+async function apiFetch(path){
+  if(!serverUrl){toast('הכנס כתובת שרת','err');return null;}
+  const res=await fetch(serverUrl+path,{signal:AbortSignal.timeout(35000)});
+  if(!res.ok)throw new Error('HTTP '+res.status);
   return res.json();
 }
-
-async function fetchStatus() {
-  try { const d = await apiFetch('/api/status'); if (d) updateUI(d); }
-  catch { setOffline(); }
+async function fetchStatus(){try{const d=await apiFetch('/api/status');if(d)updateUI(d);}catch{setOffline();}}
+async function cmd(c){
+  if(busy)return;busy=true;
+  const b=document.getElementById('btn-'+c);const orig=b.querySelector('.icon').textContent;
+  b.classList.add('loading');b.querySelector('.icon').textContent='...';
+  toast('שולח...','');
+  try{
+    const d=await apiFetch('/api/'+c);if(d)updateUI(d);
+    toast({'clean':'נקה התחיל','stop':'עצר','pause':'מושהה','resume':'ממשיך','charge':'חוזר לבסיס','sound':'מנגן!'}[c]||'בוצע','ok');
+  }catch(e){toast('שגיאה: '+e.message,'err');setOffline();}
+  b.classList.remove('loading');b.querySelector('.icon').textContent=orig;busy=false;
 }
-
-async function cmd(c) {
-  if (busy) return; busy = true;
-  const b = document.getElementById('btn-' + c);
-  const orig = b.querySelector('.icon').textContent;
-  b.classList.add('loading'); b.querySelector('.icon').textContent = 'â³';
-  toast('×©×•×œ×—...', '');
-  try {
-    const d = await apiFetch('/api/' + c);
-    if (d) updateUI(d);
-    const msgs = {clean:'ðŸ§¹ ×ž×ª×—×™×œ ×œ× ×§×•×ª',stop:'â¹ï¸ ×¢×¦×¨',pause:'â¸ï¸ ×ž×•×©×”×”',resume:'â–¶ï¸ ×ž×ž×©×™×š',charge:'ðŸ  ×—×•×–×¨ ×œ×‘×¡×™×¡',sound:'ðŸ”Š ×¦×œ×™×œ!'};
-    toast(msgs[c] || '×‘×•×¦×¢', 'ok');
-  } catch(e) { toast('×©×’×™××”: '+e.message, 'err'); setOffline(); }
-  b.classList.remove('loading'); b.querySelector('.icon').textContent = orig;
-  busy = false;
+async function setMode(el){
+  const mode=el.dataset.mode;
+  document.querySelectorAll('#modeSegs .seg').forEach(s=>s.className='seg');el.className='seg active';
+  try{const d=await apiFetch('/api/mode/'+mode);if(d){updateUI(d);toast('מצב: '+el.textContent,'ok');}}catch{toast('שגיאה','err');}
 }
-
-async function setMode(el) {
-  const mode = el.dataset.mode;
-  document.querySelectorAll('#modeSegs .seg').forEach(s => s.className = 'seg');
-  el.className = 'seg active';
-  toast('×ž×—×œ×™×£ ×ž×¦×‘...', '');
-  try { const d = await apiFetch('/api/mode/' + mode); if (d) { updateUI(d); toast('×ž×¦×‘: '+el.textContent, 'ok'); } }
-  catch(e) { toast('×©×’×™××”', 'err'); }
+async function setFan(el){
+  const fan=el.dataset.fan;
+  document.querySelectorAll('#fanSegs .seg').forEach(s=>s.className='seg');el.className='seg active';
+  try{const d=await apiFetch('/api/fan_speed/'+fan);if(d){updateUI(d);toast('עוצמה: '+el.textContent,'ok');}}catch{toast('שגיאה','err');}
 }
-
-async function setFan(el) {
-  const fan = el.dataset.fan;
-  document.querySelectorAll('#fanSegs .seg').forEach(s => s.className = 'seg');
-  el.className = 'seg active';
-  toast('×ž×—×œ×™×£ ×¢×•×¦×ž×”...', '');
-  try { const d = await apiFetch('/api/fan_speed/' + fan); if (d) { updateUI(d); toast('×¢×•×¦×ž×”: '+el.textContent, 'ok'); } }
-  catch(e) { toast('×©×’×™××”', 'err'); }
+async function setWater(el){
+  const water=el.dataset.water;
+  document.querySelectorAll('#waterSegs .seg').forEach(s=>s.className='seg');el.className='seg active';
+  try{const d=await apiFetch('/api/water/'+water);if(d){updateUI(d);toast('מים: '+el.textContent,'ok');}}catch{toast('שגיאה','err');}
 }
-
-async function setWater(el) {
-  const water = el.dataset.water;
-  document.querySelectorAll('#waterSegs .seg').forEach(s => s.className = 'seg');
-  el.className = 'seg active';
-  toast('×ž×—×œ×™×£ ×ž×™×...', '');
-  try { const d = await apiFetch('/api/water/' + water); if (d) { updateUI(d); toast('×ž×™×: '+el.textContent, 'ok'); } }
-  catch(e) { toast('×©×’×™××”', 'err'); }
+async function setVolume(val){try{const d=await apiFetch('/api/volume/'+val);if(d){updateUI(d);toast('קול: '+val,'ok');}}catch{toast('שגיאה','err');}}
+async function changeCount(delta){
+  const nv=Math.max(1,Math.min(4,currentCount+delta));currentCount=nv;
+  document.getElementById('countVal').textContent=nv;
+  try{const d=await apiFetch('/api/count/'+nv);if(d){updateUI(d);toast('סריקות: '+nv,'ok');}}catch{toast('שגיאה','err');}
 }
-
-async function setVolume(val) {
-  try { const d = await apiFetch('/api/volume/' + val); if (d) { updateUI(d); toast('×¢×•×¦×ž×ª ×§×•×œ: '+val, 'ok'); } }
-  catch(e) { toast('×©×’×™××”', 'err'); }
+async function refresh(){
+  const b=document.getElementById('btn-refresh');b.classList.add('loading');b.querySelector('.icon').textContent='...';
+  await fetchStatus();b.classList.remove('loading');b.querySelector('.icon').textContent='\u{1F504}';toast('עודכן','ok');
 }
-
-async function changeCount(delta) {
-  const newVal = Math.max(1, Math.min(4, currentCount + delta));
-  currentCount = newVal;
-  document.getElementById('countVal').textContent = newVal;
-  try { const d = await apiFetch('/api/count/' + newVal); if (d) { updateUI(d); toast('×¡×¨×™×§×•×ª: '+newVal, 'ok'); } }
-  catch(e) { toast('×©×’×™××”', 'err'); }
-}
-
-async function refresh() {
-  const b = document.getElementById('btn-refresh');
-  b.classList.add('loading'); b.querySelector('.icon').textContent = 'â³';
-  await fetchStatus();
-  b.classList.remove('loading'); b.querySelector('.icon').textContent = 'ðŸ”„';
-  toast('×¢×•×“×›×Ÿ', 'ok');
-}
-
-// Toast
 let toastT;
-function toast(msg, type) {
-  clearTimeout(toastT);
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'toast show' + (type ? ' '+type : '');
-  toastT = setTimeout(() => el.className = 'toast', 2600);
-}
-
-// Auto-refresh
-setInterval(fetchStatus, 30000);
+function toast(msg,type){clearTimeout(toastT);const el=document.getElementById('toast');el.textContent=msg;el.className='toast show'+(type?' '+type:'');toastT=setTimeout(()=>el.className='toast',2600);}
+setInterval(fetchStatus,30000);
 </script>
 </body>
 </html>
-

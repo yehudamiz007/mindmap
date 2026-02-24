@@ -53,10 +53,16 @@ if (-not $tunnelUrl) {
 Log "Tunnel URL: $tunnelUrl"
 $tunnelUrl | Set-Content "$WORKSPACE\scripts\tunnel_url.txt"
 
-# Update HTML
-$html = Get-Content $HTML -Raw
-$updated = $html -replace 'https://[a-z0-9\-]+\.trycloudflare\.com', $tunnelUrl
-Set-Content $HTML $updated -Encoding UTF8
+# Update HTML via Python to preserve UTF-8 encoding
+$updateScript = @"
+import re, sys
+f = sys.argv[1]; url = sys.argv[2]
+txt = open(f, encoding='utf-8').read()
+txt = re.sub(r'https://[a-z0-9-]+\.trycloudflare\.com', url, txt)
+open(f, 'w', encoding='utf-8', newline='\n').write(txt)
+print('Updated')
+"@
+& $PYTHON -c $updateScript $HTML $tunnelUrl
 Log "Updated HTML"
 
 # Git push
