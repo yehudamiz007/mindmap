@@ -19,11 +19,13 @@ PORT   = 8765
 CLOUDFLARED = str(Path(__file__).parent / "cloudflared.exe")
 TUNNEL_URL_FILE = str(Path(__file__).parent / "tunnel_url.txt")
 
-def run_ecovacs(cmd):
+def run_ecovacs(cmd, arg=None):
     try:
+        args = [PYTHON, SCRIPT, cmd]
+        if arg: args.append(arg)
         result = subprocess.run(
-            [PYTHON, SCRIPT, cmd],
-            capture_output=True, text=True, timeout=30
+            args,
+            capture_output=True, text=True, timeout=35
         )
         out = result.stdout.strip()
         lines = out.split('\n')
@@ -61,12 +63,14 @@ class Handler(BaseHTTPRequestHandler):
                 pass
             self._json({'url': url})
         elif self.path.startswith('/api/'):
-            cmd = self.path[5:]
-            valid = ['status', 'clean', 'stop', 'pause', 'resume', 'charge', 'sound']
+            parts = self.path[5:].split('/', 1)
+            cmd = parts[0]
+            arg = parts[1] if len(parts) > 1 else None
+            valid = ['status','clean','stop','pause','resume','charge','sound','fan_speed','water','mode','volume','count']
             if cmd not in valid:
                 self._json({'error': f'Unknown: {cmd}'}, 400)
                 return
-            self._json(run_ecovacs(cmd))
+            self._json(run_ecovacs(cmd, arg))
         else:
             self.send_response(404)
             self.end_headers()

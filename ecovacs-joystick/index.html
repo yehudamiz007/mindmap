@@ -9,146 +9,191 @@
 :root{
   --bg:#07080f;--surface:rgba(255,255,255,0.05);--surface2:rgba(255,255,255,0.09);
   --border:rgba(255,255,255,0.08);--text:#e4e4e7;--text-dim:#71717a;
-  --accent:#818cf8;--green:#34d399;--yellow:#fbbf24;--red:#f87171;--orange:#fb923c;
+  --accent:#818cf8;--green:#34d399;--yellow:#fbbf24;--red:#f87171;--orange:#fb923c;--purple:#a78bfa;
 }
 body{
   font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   background:var(--bg);color:var(--text);min-height:100vh;
   display:flex;flex-direction:column;align-items:center;
-  padding:20px 16px 40px;
-  background-image:radial-gradient(ellipse at 30% 30%,rgba(129,140,248,0.06) 0%,transparent 60%),
-                   radial-gradient(ellipse at 70% 70%,rgba(52,211,153,0.04) 0%,transparent 60%);
+  padding:18px 14px 50px;
+  background-image:radial-gradient(ellipse at 25% 25%,rgba(129,140,248,0.07) 0%,transparent 55%),
+                   radial-gradient(ellipse at 75% 75%,rgba(52,211,153,0.04) 0%,transparent 55%);
 }
-h1{font-size:1.5rem;font-weight:300;letter-spacing:-0.5px;margin-bottom:4px;
+h1{font-size:1.4rem;font-weight:300;letter-spacing:-0.5px;margin-bottom:3px;
    background:linear-gradient(135deg,#e4e4e7,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.subtitle{font-size:.82rem;color:var(--text-dim);margin-bottom:20px}
+.subtitle{font-size:.78rem;color:var(--text-dim);margin-bottom:16px}
 
-/* Connection setup */
-.setup-card{
-  width:100%;max-width:420px;background:rgba(251,191,36,.06);
-  border:1px solid rgba(251,191,36,.25);border-radius:16px;padding:16px 18px;
-  margin-bottom:16px;
+/* Connection bar */
+.conn-row{
+  width:100%;max-width:440px;display:flex;align-items:center;gap:8px;
+  margin-bottom:12px;padding:8px 12px;background:var(--surface);
+  border-radius:11px;border:1px solid var(--border);justify-content:space-between;
 }
-.setup-card h3{font-size:.88rem;color:var(--yellow);margin-bottom:8px}
-.setup-card p{font-size:.78rem;color:var(--text-dim);margin-bottom:10px;line-height:1.5}
-.url-row{display:flex;gap:8px}
+.conn-left{display:flex;align-items:center;gap:6px}
+.conn-dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0}
+.conn-dot.ok{background:var(--green)}
+.conn-label{font-size:.75rem;color:var(--text-dim)}
+.conn-url{font-size:.65rem;color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:160px}
+.settings-btn{font-size:.75rem;color:var(--accent);cursor:pointer;padding:2px 6px;border-radius:6px;background:rgba(129,140,248,.1);border:none;font-family:inherit}
+
+/* Setup card */
+.setup-card{
+  width:100%;max-width:440px;background:rgba(251,191,36,.05);
+  border:1px solid rgba(251,191,36,.2);border-radius:14px;padding:14px 16px;margin-bottom:14px;
+}
+.setup-card h3{font-size:.84rem;color:var(--yellow);margin-bottom:6px}
+.setup-card p{font-size:.75rem;color:var(--text-dim);margin-bottom:9px;line-height:1.5}
+.url-row{display:flex;gap:7px}
 .url-input{
-  flex:1;padding:8px 12px;border-radius:10px;border:1px solid var(--border);
-  background:var(--surface);color:var(--text);font-size:.82rem;font-family:inherit;outline:none;
+  flex:1;padding:8px 11px;border-radius:9px;border:1px solid var(--border);
+  background:var(--surface);color:var(--text);font-size:.78rem;font-family:inherit;outline:none;
 }
 .url-input:focus{border-color:var(--accent)}
 .url-input::placeholder{color:var(--text-dim)}
 .connect-btn{
-  padding:8px 14px;border-radius:10px;background:rgba(129,140,248,.15);
+  padding:8px 12px;border-radius:9px;background:rgba(129,140,248,.15);
   border:1px solid rgba(129,140,248,.3);color:var(--accent);cursor:pointer;
-  font-size:.82rem;font-family:inherit;white-space:nowrap;
+  font-size:.78rem;font-family:inherit;white-space:nowrap;
 }
-.connect-btn:active{background:rgba(129,140,248,.25)}
 
 /* Status card */
 .status-card{
-  width:100%;max-width:420px;background:var(--surface);border:1px solid var(--border);
-  border-radius:18px;padding:16px 20px;margin-bottom:20px;
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  width:100%;max-width:440px;background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;padding:14px 18px;margin-bottom:16px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
 }
-.status-left{display:flex;flex-direction:column;gap:5px}
-.status-name{font-size:.75rem;color:var(--text-dim)}
-.status-state{font-size:1rem;font-weight:500;display:flex;align-items:center;gap:7px}
-.status-dot{width:7px;height:7px;border-radius:50%;background:var(--text-dim);flex-shrink:0}
-.status-dot.cleaning{background:var(--green);animation:pulse 1.5s infinite}
-.status-dot.returning{background:var(--yellow);animation:pulse 1.5s infinite}
-.status-dot.docked{background:var(--accent)}
-.status-dot.paused{background:var(--orange)}
-.status-dot.error{background:var(--red)}
+.status-left{display:flex;flex-direction:column;gap:4px;flex:1}
+.status-name{font-size:.72rem;color:var(--text-dim)}
+.status-state{font-size:.95rem;font-weight:500;display:flex;align-items:center;gap:6px}
+.sdot{width:6px;height:6px;border-radius:50%;background:var(--text-dim);flex-shrink:0}
+.sdot.cleaning{background:var(--green);animation:pulse 1.5s infinite}
+.sdot.returning{background:var(--yellow);animation:pulse 1.5s infinite}
+.sdot.docked{background:var(--accent)}
+.sdot.paused{background:var(--orange)}
+.sdot.error{background:var(--red)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.last-cmd{font-size:.7rem;color:var(--accent);min-height:13px}
-.battery-wrap{display:flex;flex-direction:column;align-items:center;gap:3px}
-.battery-icon{font-size:1.5rem;line-height:1}
-.battery-pct{font-size:.75rem;color:var(--text-dim)}
+.last-cmd{font-size:.68rem;color:var(--accent);min-height:12px}
+.status-right{display:flex;flex-direction:column;align-items:center;gap:2px;flex-shrink:0}
+.batt-icon{font-size:1.4rem;line-height:1}
+.batt-pct{font-size:.72rem;color:var(--text-dim)}
 
-/* Robot */
-.robot-visual{width:100%;max-width:420px;display:flex;justify-content:center;margin-bottom:18px}
+/* Robot visual */
+.robot-visual{width:100%;max-width:440px;display:flex;justify-content:center;margin-bottom:14px}
 .robot-body{
-  width:100px;height:100px;border-radius:50%;
-  background:linear-gradient(135deg,rgba(129,140,248,0.12),rgba(52,211,153,0.08));
-  border:2px solid rgba(129,140,248,0.25);
-  display:flex;align-items:center;justify-content:center;font-size:3rem;
+  width:88px;height:88px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(129,140,248,0.1),rgba(52,211,153,0.07));
+  border:2px solid rgba(129,140,248,0.2);
+  display:flex;align-items:center;justify-content:center;font-size:2.6rem;
   position:relative;transition:all .3s;
 }
-.robot-body.spinning{animation:robotSpin 2s linear infinite}
+.robot-body.spinning{animation:rspin 2s linear infinite}
 .robot-body.returning{animation:bounce .8s ease-in-out infinite}
-.robot-ring{position:absolute;inset:-10px;border-radius:50%;border:2px dashed rgba(129,140,248,0.15);animation:robotSpin 4s linear infinite}
-@keyframes robotSpin{to{transform:rotate(360deg)}}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.robot-ring{position:absolute;inset:-9px;border-radius:50%;border:1.5px dashed rgba(129,140,248,0.12);animation:rspin 5s linear infinite}
+@keyframes rspin{to{transform:rotate(360deg)}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
-/* Buttons */
-.controls-wrap{width:100%;max-width:420px}
-.section-label{font-size:.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:9px}
-.main-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:9px}
+/* Section */
+.section{width:100%;max-width:440px;margin-bottom:14px}
+.section-label{font-size:.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;padding-right:2px}
+
+/* Button grid */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 .btn{
-  padding:0;height:70px;border-radius:15px;border:1px solid var(--border);background:var(--surface);
+  padding:0;border-radius:13px;border:1px solid var(--border);background:var(--surface);
   color:var(--text-dim);cursor:pointer;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:4px;transition:all .15s;font-family:inherit;font-size:.74rem;
-  -webkit-user-select:none;user-select:none;
+  justify-content:center;gap:4px;transition:all .13s;font-family:inherit;font-size:.72rem;
+  height:64px;-webkit-user-select:none;user-select:none;
 }
-.btn .icon{font-size:1.5rem;line-height:1}
-.btn:active{transform:scale(0.93);background:var(--surface2)}
-.btn.clean{border-color:rgba(52,211,153,.3);color:var(--green)}
-.btn.stop{border-color:rgba(248,113,113,.3);color:var(--red)}
-.btn.charge{border-color:rgba(129,140,248,.3);color:var(--accent)}
-.btn.pause{border-color:rgba(251,191,36,.3);color:var(--yellow)}
-.btn.resume{border-color:rgba(52,211,153,.2);color:var(--green)}
-.btn.sound{border-color:rgba(167,139,250,.2);color:#a78bfa}
-.btn.wide{width:100%;height:46px;flex-direction:row;gap:7px;font-size:.82rem;
-  border-color:rgba(129,140,248,.2);color:var(--accent);margin-bottom:9px}
-.btn.loading{opacity:.55;pointer-events:none}
-.btn.loading .icon{animation:spin .8s linear infinite}
+.btn .icon{font-size:1.4rem;line-height:1}
+.btn:active{transform:scale(0.92);background:var(--surface2)}
+.btn.wide{height:44px;flex-direction:row;gap:7px;font-size:.8rem}
+.btn.loading{opacity:.5;pointer-events:none}
+.btn.loading .icon{animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+/* Color variants */
+.g{border-color:rgba(52,211,153,.28);color:var(--green)}
+.r{border-color:rgba(248,113,113,.28);color:var(--red)}
+.b{border-color:rgba(129,140,248,.28);color:var(--accent)}
+.y{border-color:rgba(251,191,36,.28);color:var(--yellow)}
+.o{border-color:rgba(251,146,60,.28);color:var(--orange)}
+.p{border-color:rgba(167,139,250,.28);color:var(--purple)}
+
+/* Segment controls */
+.seg-wrap{display:flex;border-radius:11px;overflow:hidden;border:1px solid var(--border);background:var(--surface)}
+.seg{
+  flex:1;padding:9px 4px;border:none;background:transparent;color:var(--text-dim);
+  cursor:pointer;font-size:.7rem;font-family:inherit;transition:all .15s;text-align:center;
+  border-right:1px solid var(--border);
+}
+.seg:last-child{border-right:none}
+.seg:active{background:var(--surface2)}
+.seg.active{background:rgba(129,140,248,.18);color:var(--accent)}
+.seg.active-g{background:rgba(52,211,153,.15);color:var(--green)}
+.seg.active-y{background:rgba(251,191,36,.15);color:var(--yellow)}
+.seg.active-o{background:rgba(251,146,60,.15);color:var(--orange)}
+.seg.active-r{background:rgba(248,113,113,.15);color:var(--red)}
+
+/* Volume slider */
+.vol-row{display:flex;align-items:center;gap:10px;padding:10px 14px;
+  background:var(--surface);border:1px solid var(--border);border-radius:13px}
+.vol-label{font-size:.72rem;color:var(--text-dim);min-width:30px}
+input[type=range]{
+  flex:1;-webkit-appearance:none;height:4px;background:rgba(255,255,255,.1);
+  border-radius:2px;outline:none;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+  background:var(--accent);cursor:pointer;
+}
+.vol-val{font-size:.8rem;color:var(--accent);min-width:20px;text-align:center}
+
+/* Clean count */
+.count-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;
+  background:var(--surface);border:1px solid var(--border);border-radius:13px}
+.count-label{font-size:.78rem;color:var(--text-dim)}
+.count-btns{display:flex;gap:8px;align-items:center}
+.count-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);
+  background:var(--surface2);color:var(--text);cursor:pointer;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;font-family:inherit}
+.count-btn:active{background:rgba(129,140,248,.2)}
+.count-val{font-size:1rem;color:var(--accent);min-width:20px;text-align:center}
 
 /* Toast */
 .toast{
-  position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(120px);
-  background:rgba(20,20,30,0.95);border:1px solid var(--border);border-radius:11px;
-  padding:9px 18px;font-size:.83rem;color:var(--text);transition:transform .25s;
-  z-index:100;backdrop-filter:blur(10px);white-space:nowrap;max-width:90vw;text-align:center;
+  position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(120px);
+  background:rgba(15,15,25,0.96);border:1px solid var(--border);border-radius:11px;
+  padding:9px 18px;font-size:.82rem;color:var(--text);transition:transform .22s;
+  z-index:200;backdrop-filter:blur(12px);white-space:nowrap;max-width:90vw;text-align:center;
 }
 .toast.show{transform:translateX(-50%) translateY(0)}
-.toast.success{border-color:rgba(52,211,153,.35);color:var(--green)}
-.toast.error{border-color:rgba(248,113,113,.35);color:var(--red)}
-
-/* Connection indicator */
-.conn-row{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--text-dim);
-  margin-bottom:14px;padding:7px 12px;background:var(--surface);border-radius:10px;
-  border:1px solid var(--border);width:100%;max-width:420px;justify-content:space-between}
-.conn-dot{width:6px;height:6px;border-radius:50%;background:var(--red)}
-.conn-dot.ok{background:var(--green)}
-.conn-url{font-size:.68rem;color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px}
+.toast.ok{border-color:rgba(52,211,153,.35);color:var(--green)}
+.toast.err{border-color:rgba(248,113,113,.35);color:var(--red)}
 </style>
 </head>
 <body>
 
 <h1>DEEBOT Controller</h1>
-<p class="subtitle">X8 PRO OMNI - שליטה מרחוק</p>
+<p class="subtitle">X8 PRO OMNI</p>
 
 <!-- Connection bar -->
 <div class="conn-row">
-  <div style="display:flex;align-items:center;gap:6px">
+  <div class="conn-left">
     <div class="conn-dot" id="connDot"></div>
-    <span id="connLabel">לא מחובר</span>
+    <span class="conn-label" id="connLabel">לא מחובר</span>
   </div>
   <span class="conn-url" id="connUrl"></span>
+  <button class="settings-btn" onclick="toggleSetup()">⚙️</button>
 </div>
 
-<!-- Setup card -->
+<!-- Setup -->
 <div class="setup-card" id="setupCard">
-  <h3>⚙️ הגדרת חיבור</h3>
-  <p>הפעל על המחשב: <strong>start_deebot.bat</strong><br>
-     לאחר מכן הכנס את כתובת ה-Tunnel שתופיע בחלון.</p>
+  <h3>⚙️ חיבור לשרת</h3>
+  <p>הפעל <strong>start_deebot.bat</strong> במחשב.<br>הכנס את כתובת ה-Tunnel שמופיעה.</p>
   <div class="url-row">
-    <input class="url-input" id="urlInput" type="url" 
-      placeholder="https://reached-optional-throughout-frankfurt.trycloudflare.com" 
-      value="" autocomplete="off" autocorrect="off" spellcheck="false"/>
-    <button class="connect-btn" onclick="saveAndConnect()">חבר</button>
+    <input class="url-input" id="urlInput" type="url" placeholder="https://xxxx.trycloudflare.com" autocomplete="off" spellcheck="false"/>
+    <button class="connect-btn" onclick="connect()">חבר</button>
   </div>
 </div>
 
@@ -156,168 +201,284 @@ h1{font-size:1.5rem;font-weight:300;letter-spacing:-0.5px;margin-bottom:4px;
 <div class="status-card">
   <div class="status-left">
     <div class="status-name">DEEBOT X8 PRO OMNI</div>
-    <div class="status-state">
-      <span class="status-dot" id="statusDot"></span>
-      <span id="statusText">ממתין לחיבור...</span>
-    </div>
+    <div class="status-state"><span class="sdot" id="sdot"></span><span id="sText">ממתין...</span></div>
     <div class="last-cmd" id="lastCmd"></div>
   </div>
-  <div class="battery-wrap">
-    <div class="battery-icon" id="batteryIcon">🔋</div>
-    <div class="battery-pct" id="batteryPct">--%</div>
+  <div class="status-right">
+    <div class="batt-icon" id="battIcon">🔋</div>
+    <div class="batt-pct" id="battPct">--%</div>
   </div>
 </div>
 
-<!-- Robot visual -->
-<div class="robot-visual">
-  <div class="robot-body" id="robotBody">
-    <div class="robot-ring"></div>
-    🤖
+<!-- Robot -->
+<div class="robot-visual"><div class="robot-body" id="robotBody"><div class="robot-ring"></div>🤖</div></div>
+
+<!-- Main controls -->
+<div class="section">
+  <div class="section-label">פקודות ראשיות</div>
+  <div class="grid3">
+    <button class="btn g" onclick="cmd('clean')"  id="btn-clean">  <span class="icon">🧹</span>נקה</button>
+    <button class="btn y" onclick="cmd('pause')"  id="btn-pause">  <span class="icon">⏸️</span>השהה</button>
+    <button class="btn g" onclick="cmd('resume')" id="btn-resume"> <span class="icon">▶️</span>המשך</button>
+    <button class="btn r" onclick="cmd('stop')"   id="btn-stop">   <span class="icon">⏹️</span>עצור</button>
+    <button class="btn b" onclick="cmd('charge')" id="btn-charge"> <span class="icon">🏠</span>בסיס</button>
+    <button class="btn p" onclick="cmd('sound')"  id="btn-sound">  <span class="icon">🔊</span>צליל</button>
   </div>
 </div>
 
-<!-- Controls -->
-<div class="controls-wrap">
-  <div class="section-label">פקודות</div>
-  <div class="main-grid">
-    <button class="btn clean"  onclick="cmd('clean')"  id="btn-clean">  <span class="icon">🧹</span><span>נקה</span></button>
-    <button class="btn pause"  onclick="cmd('pause')"  id="btn-pause">  <span class="icon">⏸️</span><span>השהה</span></button>
-    <button class="btn resume" onclick="cmd('resume')" id="btn-resume"> <span class="icon">▶️</span><span>המשך</span></button>
-    <button class="btn stop"   onclick="cmd('stop')"   id="btn-stop">   <span class="icon">⏹️</span><span>עצור</span></button>
-    <button class="btn charge" onclick="cmd('charge')" id="btn-charge"> <span class="icon">🏠</span><span>בסיס</span></button>
-    <button class="btn sound"  onclick="cmd('sound')"  id="btn-sound">  <span class="icon">🔊</span><span>צליל</span></button>
+<!-- Work mode -->
+<div class="section">
+  <div class="section-label">מצב עבודה</div>
+  <div class="seg-wrap" id="modeSegs">
+    <button class="seg" data-mode="vacuum_mop"      onclick="setMode(this)">שאיבה+ניגוב</button>
+    <button class="seg" data-mode="vacuum"           onclick="setMode(this)">שאיבה</button>
+    <button class="seg" data-mode="mop"              onclick="setMode(this)">ניגוב</button>
+    <button class="seg" data-mode="mop_after_vacuum" onclick="setMode(this)">ניגוב אחרי</button>
   </div>
-  <button class="btn wide" onclick="refresh()" id="btn-refresh">
-    <span class="icon">🔄</span><span>רענן סטטוס</span>
+</div>
+
+<!-- Fan speed -->
+<div class="section">
+  <div class="section-label">עוצמת שאיבה</div>
+  <div class="seg-wrap" id="fanSegs">
+    <button class="seg" data-fan="quiet"    onclick="setFan(this)">שקט</button>
+    <button class="seg" data-fan="normal"   onclick="setFan(this)">רגיל</button>
+    <button class="seg" data-fan="max"      onclick="setFan(this)">מקסימום</button>
+    <button class="seg" data-fan="max_plus" onclick="setFan(this)">טורבו</button>
+  </div>
+</div>
+
+<!-- Water level -->
+<div class="section">
+  <div class="section-label">כמות מים (ניגוב)</div>
+  <div class="seg-wrap" id="waterSegs">
+    <button class="seg" data-water="low"       onclick="setWater(this)">נמוך</button>
+    <button class="seg" data-water="medium"    onclick="setWater(this)">בינוני</button>
+    <button class="seg" data-water="high"      onclick="setWater(this)">גבוה</button>
+    <button class="seg" data-water="ultrahigh" onclick="setWater(this)">מקסימום</button>
+  </div>
+</div>
+
+<!-- Volume -->
+<div class="section">
+  <div class="section-label">עוצמת קול</div>
+  <div class="vol-row">
+    <span class="vol-label">🔇</span>
+    <input type="range" min="0" max="10" value="7" id="volSlider" oninput="document.getElementById('volVal').textContent=this.value" onchange="setVolume(this.value)"/>
+    <span class="vol-val" id="volVal">7</span>
+    <span style="font-size:.72rem;color:var(--text-dim)">🔊</span>
+  </div>
+</div>
+
+<!-- Clean count -->
+<div class="section">
+  <div class="section-label">מספר סריקות</div>
+  <div class="count-row">
+    <span class="count-label">כמה פעמים לסרוק את החדר?</span>
+    <div class="count-btns">
+      <button class="count-btn" onclick="changeCount(-1)">-</button>
+      <span class="count-val" id="countVal">1</span>
+      <button class="count-btn" onclick="changeCount(1)">+</button>
+    </div>
+  </div>
+</div>
+
+<!-- Refresh -->
+<div class="section">
+  <button class="btn wide b" style="width:100%" onclick="refresh()" id="btn-refresh">
+    <span class="icon">🔄</span> רענן סטטוס
   </button>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const STORAGE_KEY = 'deebot_server_url';
-let serverUrl = localStorage.getItem(STORAGE_KEY) || 'https://reached-optional-throughout-frankfurt.trycloudflare.com';
+const SK = 'deebot_url';
+let serverUrl = localStorage.getItem(SK) || 'https://reached-optional-throughout-frankfurt.trycloudflare.com';
 let busy = false;
+let currentCount = 1;
 
-// ── Init ──
-(function init() {
-  const saved = localStorage.getItem(STORAGE_KEY) || serverUrl;
+// Init
+(function(){
+  const saved = localStorage.getItem(SK) || serverUrl;
+  document.getElementById('urlInput').value = saved;
+  serverUrl = saved;
   if (saved) {
-    document.getElementById('urlInput').value = saved;
-    serverUrl = saved;
     document.getElementById('setupCard').style.display = 'none';
     fetchStatus();
   }
 })();
 
-function saveAndConnect() {
-  const val = document.getElementById('urlInput').value.trim().replace(/\/$/, '');
-  if (!val) return;
-  serverUrl = val;
-  localStorage.setItem(STORAGE_KEY, val);
+function toggleSetup() {
+  const c = document.getElementById('setupCard');
+  c.style.display = c.style.display === 'none' ? 'block' : 'none';
+}
+function connect() {
+  const v = document.getElementById('urlInput').value.trim().replace(/\/$/, '');
+  if (!v) return;
+  serverUrl = v;
+  localStorage.setItem(SK, v);
   document.getElementById('setupCard').style.display = 'none';
   fetchStatus();
 }
 
-// ── State helpers ──
-function stateClass(s) {
+// State helpers
+function sClass(s) {
   s = (s||'').toLowerCase();
   if (s.includes('clean')) return 'cleaning';
   if (s.includes('return')||s.includes('dock')) return 'returning';
-  if (s.includes('docked')||s.includes('charging')) return 'docked';
+  if (s.includes('docked')) return 'docked';
   if (s.includes('paused')) return 'paused';
   if (s.includes('error')) return 'error';
   return 'idle';
 }
 
-function updateUI(data) {
+function updateUI(d) {
+  if (!d) return;
   document.getElementById('connDot').className = 'conn-dot ok';
   document.getElementById('connLabel').textContent = 'מחובר';
-  document.getElementById('connUrl').textContent = serverUrl.replace('https://','');
+  document.getElementById('connUrl').textContent = serverUrl.replace('https://','').substring(0,30);
 
-  const cls = stateClass(data.state);
-  document.getElementById('statusDot').className = 'status-dot ' + cls;
-  document.getElementById('statusText').textContent = data.state || 'לא ידוע';
+  const cls = sClass(d.state);
+  document.getElementById('sdot').className = 'sdot ' + cls;
+  document.getElementById('sText').textContent = translateState(d.state);
 
-  const pct = parseInt((data.battery||'0').replace('%',''));
-  document.getElementById('batteryIcon').textContent = pct >= 50 ? '🔋' : '🪫';
-  document.getElementById('batteryPct').textContent = data.battery || '--%';
+  const pct = parseInt((d.battery||'0'));
+  document.getElementById('battIcon').textContent = pct >= 50 ? '🔋' : '🪫';
+  document.getElementById('battPct').textContent = d.battery || '--%';
 
   const rb = document.getElementById('robotBody');
   rb.className = 'robot-body';
   if (cls === 'cleaning') rb.classList.add('spinning');
   if (cls === 'returning') rb.classList.add('returning');
 
-  if (data.action) {
-    document.getElementById('lastCmd').textContent = '✓ ' + data.action;
+  // Update segments
+  if (d.fan_speed && d.fan_speed !== '?') setSegActive('fanSegs', 'fan', d.fan_speed.toLowerCase());
+  if (d.water && d.water !== '?') setSegActive('waterSegs', 'water', d.water.toLowerCase());
+  if (d.mode && d.mode !== '?') {
+    const modeKey = {'VACUUM_AND_MOP':'vacuum_mop','VACUUM':'vacuum','MOP':'mop','MOP_AFTER_VACUUM':'mop_after_vacuum'}[d.mode] || d.mode.toLowerCase();
+    setSegActive('modeSegs', 'mode', modeKey);
+  }
+  if (d.volume !== undefined && d.volume !== '?') {
+    document.getElementById('volSlider').value = d.volume;
+    document.getElementById('volVal').textContent = d.volume;
+  }
+  if (d.clean_count !== undefined && d.clean_count !== '?') {
+    currentCount = d.clean_count;
+    document.getElementById('countVal').textContent = d.clean_count;
+  }
+
+  if (d.action) {
+    document.getElementById('lastCmd').textContent = 'בוצע: ' + d.action;
     setTimeout(() => document.getElementById('lastCmd').textContent = '', 4000);
   }
+}
+
+function translateState(s) {
+  const m = {'Cleaning':'מנקה...','Returning to dock':'חוזר לבסיס...','Docked':'בבסיס','Idle':'ממתין','Paused':'מושהה','Error':'שגיאה'};
+  return m[s] || s || 'לא ידוע';
+}
+
+function setSegActive(groupId, attr, val) {
+  document.querySelectorAll(`#${groupId} .seg`).forEach(s => {
+    s.className = 'seg' + (s.dataset[attr] === val ? ' active' : '');
+  });
 }
 
 function setOffline() {
   document.getElementById('connDot').className = 'conn-dot';
   document.getElementById('connLabel').textContent = 'לא מחובר';
-  document.getElementById('statusText').textContent = 'שרת לא זמין';
+  document.getElementById('sText').textContent = 'שרת לא זמין';
 }
 
-// ── API ──
+// API
 async function apiFetch(path) {
-  if (!serverUrl) { toast('הכנס כתובת שרת', 'error'); return null; }
-  const res = await fetch(serverUrl + path, { signal: AbortSignal.timeout(30000) });
+  if (!serverUrl) { toast('הכנס כתובת שרת', 'err'); return null; }
+  const res = await fetch(serverUrl + path, { signal: AbortSignal.timeout(35000) });
   if (!res.ok) throw new Error('HTTP ' + res.status);
   return res.json();
 }
 
 async function fetchStatus() {
-  try {
-    const d = await apiFetch('/api/status');
-    if (d) updateUI(d);
-  } catch { setOffline(); }
+  try { const d = await apiFetch('/api/status'); if (d) updateUI(d); }
+  catch { setOffline(); }
 }
 
 async function cmd(c) {
-  if (busy) return;
-  busy = true;
+  if (busy) return; busy = true;
   const b = document.getElementById('btn-' + c);
-  const origIcon = b.querySelector('.icon').textContent;
-  b.classList.add('loading');
-  b.querySelector('.icon').textContent = '⏳';
+  const orig = b.querySelector('.icon').textContent;
+  b.classList.add('loading'); b.querySelector('.icon').textContent = '⏳';
   toast('שולח...', '');
   try {
     const d = await apiFetch('/api/' + c);
-    if (d) { updateUI(d); }
-    const msgs = {clean:'🧹 מתחיל לנקות!',stop:'⏹️ עצר',pause:'⏸️ מושהה',resume:'▶️ ממשיך',charge:'🏠 חוזר לבסיס',sound:'🔊 מנגן צליל!'};
-    toast(msgs[c] || 'בוצע', 'success');
-  } catch(e) {
-    toast('שגיאה: ' + e.message, 'error');
-    setOffline();
-  }
-  b.classList.remove('loading');
-  b.querySelector('.icon').textContent = origIcon;
+    if (d) updateUI(d);
+    const msgs = {clean:'🧹 מתחיל לנקות',stop:'⏹️ עצר',pause:'⏸️ מושהה',resume:'▶️ ממשיך',charge:'🏠 חוזר לבסיס',sound:'🔊 צליל!'};
+    toast(msgs[c] || 'בוצע', 'ok');
+  } catch(e) { toast('שגיאה: '+e.message, 'err'); setOffline(); }
+  b.classList.remove('loading'); b.querySelector('.icon').textContent = orig;
   busy = false;
+}
+
+async function setMode(el) {
+  const mode = el.dataset.mode;
+  document.querySelectorAll('#modeSegs .seg').forEach(s => s.className = 'seg');
+  el.className = 'seg active';
+  toast('מחליף מצב...', '');
+  try { const d = await apiFetch('/api/mode/' + mode); if (d) { updateUI(d); toast('מצב: '+el.textContent, 'ok'); } }
+  catch(e) { toast('שגיאה', 'err'); }
+}
+
+async function setFan(el) {
+  const fan = el.dataset.fan;
+  document.querySelectorAll('#fanSegs .seg').forEach(s => s.className = 'seg');
+  el.className = 'seg active';
+  toast('מחליף עוצמה...', '');
+  try { const d = await apiFetch('/api/fan_speed/' + fan); if (d) { updateUI(d); toast('עוצמה: '+el.textContent, 'ok'); } }
+  catch(e) { toast('שגיאה', 'err'); }
+}
+
+async function setWater(el) {
+  const water = el.dataset.water;
+  document.querySelectorAll('#waterSegs .seg').forEach(s => s.className = 'seg');
+  el.className = 'seg active';
+  toast('מחליף מים...', '');
+  try { const d = await apiFetch('/api/water/' + water); if (d) { updateUI(d); toast('מים: '+el.textContent, 'ok'); } }
+  catch(e) { toast('שגיאה', 'err'); }
+}
+
+async function setVolume(val) {
+  try { const d = await apiFetch('/api/volume/' + val); if (d) { updateUI(d); toast('עוצמת קול: '+val, 'ok'); } }
+  catch(e) { toast('שגיאה', 'err'); }
+}
+
+async function changeCount(delta) {
+  const newVal = Math.max(1, Math.min(4, currentCount + delta));
+  currentCount = newVal;
+  document.getElementById('countVal').textContent = newVal;
+  try { const d = await apiFetch('/api/count/' + newVal); if (d) { updateUI(d); toast('סריקות: '+newVal, 'ok'); } }
+  catch(e) { toast('שגיאה', 'err'); }
 }
 
 async function refresh() {
   const b = document.getElementById('btn-refresh');
-  b.classList.add('loading');
-  b.querySelector('.icon').textContent = '⏳';
+  b.classList.add('loading'); b.querySelector('.icon').textContent = '⏳';
   await fetchStatus();
-  b.classList.remove('loading');
-  b.querySelector('.icon').textContent = '🔄';
-  toast('עודכן', 'success');
+  b.classList.remove('loading'); b.querySelector('.icon').textContent = '🔄';
+  toast('עודכן', 'ok');
 }
 
-// ── Toast ──
+// Toast
 let toastT;
 function toast(msg, type) {
   clearTimeout(toastT);
   const el = document.getElementById('toast');
   el.textContent = msg;
-  el.className = 'toast show' + (type ? ' ' + type : '');
-  toastT = setTimeout(() => el.className = 'toast', 2800);
+  el.className = 'toast show' + (type ? ' '+type : '');
+  toastT = setTimeout(() => el.className = 'toast', 2600);
 }
 
-// Auto-refresh every 30s
+// Auto-refresh
 setInterval(fetchStatus, 30000);
 </script>
 </body>
