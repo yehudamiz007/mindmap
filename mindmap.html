@@ -104,8 +104,8 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%}
   <div id="panel-path"></div>
   <div id="panel-body">
     <div id="panel-desc"></div>
-    <div id="panel-children-title"></div>
-    <div id="panel-children-wrap"><div id="panel-children"></div></div>
+    <div id="panel-children-title" style="display:none"></div>
+    <div id="panel-children-wrap" style="display:none"><div id="panel-children"></div></div>
   </div>
 </div>
 <script>
@@ -706,8 +706,6 @@ function openPanel(id){
   document.getElementById("panel-children").innerHTML=kids.map(k=>
     `<div class="panel-child" onclick="openPanel('${k.id}')"><div class="panel-child-dot" style="background:${k.color}"></div><div class="panel-child-name">${k.label}</div></div>`
   ).join("");
-  const wrap=document.getElementById("panel-children-wrap");
-  if(wrap)wrap.style.display=kids.length?"flex":"none";
   panel.classList.add("open");
 }
 panelClose.addEventListener("click",()=>panel.classList.remove("open"));
