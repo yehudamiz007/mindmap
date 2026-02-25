@@ -77,6 +77,7 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%}
   <div class="leg-item"><div class="leg-dot" style="background:#ef4444"></div>Automation - Cron & heartbeat</div>
   <div class="leg-item"><div class="leg-dot" style="background:#a855f7"></div>Interfaces - Web, CLI, apps</div>
   <div class="leg-item"><div class="leg-dot" style="background:#64748b"></div>Security - Auth & sandboxing</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#14b8a6"></div>Smart Home - Connected devices</div>
 </div>
 
 <div id="sidebar">
@@ -130,7 +131,7 @@ const DESC = {
   "ws-ag": "AGENTS.md - workspace rules, conventions, and behavioral guidelines for the agent.",
   "ws-so": "SOUL.md - the agent's personality, values, tone, and identity definition.",
   "ws-mem": "MEMORY.md - curated long-term memory. Daily files in memory/ for journals.",
-  "ws-sk": "11 custom skills: Chief Architect, Husband, Parenting, Hebrew, Technical Analysis, Security Gate, Fitness & Nutrition, Coffee Master, Market News Sentiment, Analyst Price Targets, ECOVACS Vacuum.",
+  "ws-sk": "12 custom skills: Chief Architect, Husband, Parenting, Hebrew, Technical Analysis, Security Gate, Fitness & Nutrition, Coffee Master, Market News Sentiment, Analyst Price Targets, ECOVACS Vacuum, Weather.",
   "au-cr": "Cron scheduler - one-shot, recurring, or cron-expression jobs. Runs in main or isolated sessions.",
   "au-hb": "Heartbeat polling - periodic check-ins driven by HEARTBEAT.md. Batches multiple checks.",
   "au-wh": "Webhook endpoints for external triggers and integrations.",
@@ -140,7 +141,12 @@ const DESC = {
   "ui-ma": "Native macOS application with menu bar integration and system notifications.",
   "se-tk": "Token-based authentication for API access and session security.",
   "se-pr": "Device pairing flow with QR codes, approval/rejection for new nodes.",
-  "se-sb": "Sandboxed execution environments for safe tool operation."
+  "se-sb": "Sandboxed execution environments for safe tool operation.",
+  "sh": "Smart home devices connected and controlled via OpenClaw. Currently: DEEBOT X8 PRO OMNI robot vacuum with full remote control via mobile web app and Cloudflare tunnel.",
+  "sh-db": "DEEBOT X8 PRO OMNI - robot vacuum with mop. Controlled via ecovacs.py script and mobile web app at https://yehudamiz007.github.io/mindmap/ecovacs-joystick/",
+  "sh-cl": "Clean, Stop, Pause, Resume, Dock commands. Fan speed (Quiet/Normal/Max/Max+), Water level (Low/Medium/High/UltraHigh), Clean count.",
+  "sh-mo": "Work modes: Vacuum & Mop, Vacuum only, Mop only, Mop after Vacuum. Volume control. All configurable from mobile app.",
+  "sh-cf": "Cloudflare free tunnel (cloudflared.exe) exposes local server port 8765 to public URL. Auto-updates HTML and pushes to GitHub on restart."
 };
 
 // DATA: [id, parentId, level, emoji, label, color, description]
@@ -148,7 +154,7 @@ const DATA = [
   // Center
   ["center", null, 0, "🦞", "OpenClaw", "#64748b"],
   
-  // 10 Categories
+  // 11 Categories
   ["gw", "center", 1, "🌐", "Gateway", "#3b82f6"],
   ["ch", "center", 1, "💬", "Channels", "#8b5cf6"],
   ["ag", "center", 1, "🤖", "Agent", "#ec4899"],
@@ -159,6 +165,7 @@ const DATA = [
   ["au", "center", 1, "⚡", "Automation", "#ef4444"],
   ["ui", "center", 1, "🖥️", "Interfaces", "#a855f7"],
   ["se", "center", 1, "🔒", "Security", "#64748b"],
+  ["sh", "center", 1, "🏠", "Smart Home", "#14b8a6"],
 
   // Gateway subs
   ["gw-ws", "gw", 2, "", "WebSocket\nAPI", "#3b82f6"],
@@ -222,6 +229,12 @@ const DATA = [
   ["se-tk", "se", 2, "", "Token\nAuth", "#64748b"],
   ["se-pr", "se", 2, "", "Device\nPairing", "#64748b"],
   ["se-sb", "se", 2, "", "Sandbox", "#64748b"],
+
+  // Smart Home subs
+  ["sh-db", "sh", 2, "", "DEEBOT\nX8 PRO", "#14b8a6"],
+  ["sh-cl", "sh", 2, "", "Clean\nControl", "#14b8a6"],
+  ["sh-mo", "sh", 2, "", "Work\nModes", "#14b8a6"],
+  ["sh-cf", "sh", 2, "", "Cloudflare\nTunnel", "#14b8a6"],
 ];
 
 // Build lookup
