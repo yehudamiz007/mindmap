@@ -12,13 +12,17 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%}
 .node{position:absolute;pointer-events:auto;cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .4s,box-shadow .4s;user-select:none;opacity:0;transform:scale(0)}
 .node.visible{opacity:1;transform:scale(1)}
 .node:hover{transform:scale(1.12)!important;z-index:10}
-.center-node{width:90px;height:90px;padding:8px;background:radial-gradient(circle,#1e293b,#0f172a);border:3px solid #64748b;font-size:11px;font-weight:700;color:#e2e8f0;box-shadow:0 0 50px rgba(100,116,139,.5);z-index:5}
-.cat-node{width:72px;height:72px;padding:7px;font-size:8.5px;font-weight:600;color:#fff;z-index:4}
-.sub-node{width:52px;height:52px;padding:5px;font-size:7px;font-weight:500;color:#fff;z-index:3}
-.node-label{display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.15;padding:2px}
-.node-emoji{font-size:1.2em}
-.cat-node .node-emoji{font-size:1.3em}
-.center-node .node-emoji{font-size:1.5em}
+.center-node{width:60px;height:60px;padding:6px;background:radial-gradient(circle,#1e293b,#0f172a);border:3px solid #64748b;font-size:0px;font-weight:700;color:#e2e8f0;box-shadow:0 0 50px rgba(100,116,139,.5);z-index:5}
+.cat-node{width:44px;height:44px;padding:4px;font-size:0px;font-weight:600;color:#fff;z-index:4}
+.sub-node{width:32px;height:32px;padding:3px;font-size:0px;font-weight:500;color:#fff;z-index:3}
+.node-label{display:flex;flex-direction:column;align-items:center;gap:0;line-height:1.2;padding:0;position:absolute;top:100%;left:50%;transform:translateX(-50%);width:70px;pointer-events:none}
+.node-label span{font-size:8px;color:#e2e8f0;text-align:center;white-space:pre-line;margin-top:3px;line-height:1.25;text-shadow:0 1px 4px #000a}
+.center-node .node-label span{font-size:9px;font-weight:700;width:80px}
+.cat-node .node-label span{font-size:8px;font-weight:600}
+.sub-node .node-label span{font-size:7px;width:60px}
+.node-emoji{font-size:1.3em;line-height:1}
+.cat-node .node-emoji{font-size:1.5em}
+.center-node .node-emoji{font-size:1.8em}
 @keyframes glow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.25)}}
 .cat-node{animation:glow 3s ease-in-out infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 50px rgba(100,116,139,.5)}50%{box-shadow:0 0 70px rgba(100,116,139,.7)}}
@@ -281,15 +285,15 @@ function layout() {
   const catCount = cats.length;
   cats.forEach((cat, i) => {
     const a = (2 * Math.PI * i / catCount) - Math.PI / 2;
-    cat.wx = Math.cos(a) * 220;
-    cat.wy = Math.sin(a) * 220;
+    cat.wx = Math.cos(a) * 170;
+    cat.wy = Math.sin(a) * 170;
     const subs = children[cat.id] || [];
     const catAngle = a;
-    const subSpread = Math.min(Math.PI * 0.7, Math.PI * 0.3 + subs.length * 0.15);
+    const subSpread = Math.min(Math.PI * 0.75, Math.PI * 0.3 + subs.length * 0.15);
     subs.forEach((sub, j) => {
       const sa = catAngle - subSpread / 2 + subSpread * (subs.length === 1 ? 0.5 : j / (subs.length - 1));
-      sub.wx = cat.wx + Math.cos(sa) * 120;
-      sub.wy = cat.wy + Math.sin(sa) * 120;
+      sub.wx = cat.wx + Math.cos(sa) * 95;
+      sub.wy = cat.wy + Math.sin(sa) * 95;
     });
   });
 }
@@ -381,7 +385,7 @@ function updatePositions() {
   DATA.forEach(d => {
     const o = byId[d[0]];
     const el = nodeEls[o.id];
-    const size = o.level === 0 ? 90 : o.level === 1 ? 72 : 52;
+    const size = o.level === 0 ? 60 : o.level === 1 ? 44 : 32;
     const sx = cx + (o.wx - camX) * zoom - size / 2;
     const sy = cy + (o.wy - camY) * zoom - size / 2;
     el.style.left = sx + "px";
