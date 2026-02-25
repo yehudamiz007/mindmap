@@ -428,8 +428,9 @@ function updatePositions() {
     el.style.top = sy + "px";
     const textEl = el.querySelector(".node-text");
     if (textEl) {
-      const compensate = zoom < 0.3 ? 1.8 : zoom < 0.45 ? 1.4 : zoom < 0.6 ? 1.15 : 1;
-      textEl.style.transform = `scale(${compensate})`;
+      // Scale text WITH zoom - small when zoomed out, normal when zoomed in
+      const scale = Math.min(1, zoom / 0.6);
+      textEl.style.transform = `scale(${scale})`;
     }
   });
 }
