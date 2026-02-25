@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "24.02.2026 10:00 IST",
+  "lastUpdated": "25.02.2026 15:00 IST",
   "stocks": [
-    {
-      "ticker": "NVDA",
-      "name": "NVIDIA Corp",
-      "price": "$191.55",
-      "news": 8.0,
-      "analyst": 8.0,
-      "technical": 7.5,
-      "total": 7.8,
-      "notes": "בחרתי ב-NVDA בגלל הביקוש החזק לשבבי AI והעלאות דירוג אנליסטים לשנת 2026."
-    },
-    {
-      "ticker": "AAPL",
-      "name": "Apple Inc.",
-      "price": "$266.18",
-      "news": 7.5,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.3,
-      "notes": "AAPL נבחרה בשל מערכת אקולוגית חזקה ושמועות על מוצר AR/VR חדש."
-    },
-    {
-      "ticker": "GOOGL",
-      "name": "Alphabet Inc.",
-      "price": "$311.49",
-      "news": 7.5,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.3,
-      "notes": "GOOGL נבחרה בשל התאוששות בהכנסות מפרסום והתרחבות ב-AI."
-    },
     {
       "ticker": "AMD",
       "name": "Advanced Micro Devices",
-      "price": "$196.60",
-      "news": 7.0,
-      "analyst": 7.5,
-      "technical": 6.5,
-      "total": 7.0,
-      "notes": "AMD נבחרה בשל יתרון תחרותי בשבבי AI ומרכזי נתונים."
+      "price": "$211.94",
+      "news": 9.0,
+      "analyst": 8.5,
+      "technical": 8.0,
+      "total": 8.475,
+      "notes": "עסקת שותפות AI עם Meta מחזקת את המומנטום"
     },
     {
-      "ticker": "CRM",
-      "name": "Salesforce, Inc.",
-      "price": "$178.16",
-      "news": 7.5,
-      "analyst": 7.0,
-      "technical": 5.5,
-      "total": 6.6,
-      "notes": "CRM נבחרה בשל הרחבת יכולות AI ותוצאות רבעוניות חזקות צפויות."
-    },
-    {
-      "ticker": "MSFT",
-      "name": "Microsoft Corp",
-      "price": "$384.47",
-      "news": 6.0,
-      "analyst": 7.0,
-      "technical": 6.5,
-      "total": 6.5,
-      "notes": "MSFT נבחרה בשל צמיחה עקבית בשירותי ענן ו-AI."
-    },
-    {
-      "ticker": "ORCL",
-      "name": "Oracle Corp",
-      "price": "$141.31",
-      "news": 6.5,
-      "analyst": 6.5,
-      "technical": 6.0,
-      "total": 6.3,
-      "notes": "ORCL נבחרה בשל צמיחה בתשתית ענן ופריצה טכנית לאחרונה."
+      "ticker": "NVDA",
+      "name": "NVIDIA Corp",
+      "price": "$195.87",
+      "news": 8.5,
+      "analyst": 9.0,
+      "technical": 7.8,
+      "total": 8.43,
+      "notes": "ציפיות גבוהות לרווחים עם ביקוש גבוה לשבבי AI"
     },
     {
       "ticker": "BTC-USD",
       "name": "Bitcoin",
-      "price": "$63,098.85",
-      "news": 6.5,
-      "analyst": 6.5,
-      "technical": 6.0,
-      "total": 6.3,
-      "notes": "BTC נבחר בשל בהירות רגולטורית אפשרית שמגבירה את הסנטימנט."
-    },
-    {
-      "ticker": "ETH-USD",
-      "name": "Ethereum",
-      "price": "N/A",
-      "news": 6.0,
-      "analyst": 6.0,
-      "technical": 6.0,
-      "total": 6.0,
-      "notes": "ETH נבחר בשל שדרוגי רשת מתקרבים, אך נתוני מחיר חסרים."
-    },
-    {
-      "ticker": "SOL-USD",
-      "name": "Solana",
-      "price": "N/A",
-      "news": 6.0,
-      "analyst": 6.0,
-      "technical": 6.0,
-      "total": 6.0,
-      "notes": "SOL נבחר בשל מהירות עסקה גבוהה ואימוץ DeFi, אך נתוני מחיר חסרים."
-    },
-    {
-      "ticker": "TSLA",
-      "name": "Tesla, Inc.",
-      "price": "$399.83",
-      "news": 5.0,
-      "analyst": 5.5,
-      "technical": 7.0,
-      "total": 5.9,
-      "notes": "TSLA נבחרה בשל חדשות על טכנולוגיית סוללות EV חדשה, אך יש חששות לגבי FSD."
-    },
-    {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings",
-      "price": "$350.33",
-      "news": 5.0,
-      "analyst": 6.0,
-      "technical": 6.0,
-      "total": 5.7,
-      "notes": "CRWD נבחרה בשל תנופה במגזר הסייבר, אך יש ירידות מחירים לאחרונה."
-    },
-    {
-      "ticker": "SMCI",
-      "name": "Super Micro Computer",
-      "price": "$30.71",
-      "news": 5.0,
-      "analyst": 5.0,
-      "technical": 5.5,
-      "total": 5.2,
-      "notes": "SMCI נבחרה כמשחק שרתים AI מוערך בחסר, אך יש חדשות שליליות."
-    },
-    {
-      "ticker": "ADA-USD",
-      "name": "Cardano",
-      "price": "$0.2566",
-      "news": 5.0,
-      "analyst": 5.0,
-      "technical": 5.5,
-      "total": 5.2,
-      "notes": "ADA נבחרה בשל טכנולוגיית בלוקצ'יין בר-קיימא, אך יש חדשות שליליות."
+      "price": "$66,909.93",
+      "news": 8.5,
+      "analyst": 8.0,
+      "technical": 8.2,
+      "total": 8.22,
+      "notes": "קנייה מוסדית ותמיכה פוליטית מחזקים את המחיר"
     },
     {
       "ticker": "PLTR",
       "name": "Palantir Technologies",
-      "price": "N/A",
-      "news": 5.0,
-      "analyst": 5.0,
+      "price": "$133.05",
+      "news": 7.0,
+      "analyst": 7.5,
+      "technical": 8.0,
+      "total": 7.525,
+      "notes": "חוזים ממשלתיים תומכים בצמיחה למרות חששות משקיעים"
+    },
+    {
+      "ticker": "ADA-USD",
+      "name": "Cardano",
+      "price": "$0.2866",
+      "news": 8.0,
+      "analyst": 7.5,
+      "technical": 7.0,
+      "total": 7.475,
+      "notes": "קניית לווייתנים וקיצור דרך של SEC ל-ETF"
+    },
+    {
+      "ticker": "TSLA",
+      "name": "Tesla, Inc.",
+      "price": "$415.56",
+      "news": 7.5,
+      "analyst": 7.0,
+      "technical": 7.8,
+      "total": 7.43,
+      "notes": "חדשות מעורבות עם התקדמות משפטית וחששות FSD"
+    },
+    {
+      "ticker": "CRM",
+      "name": "Salesforce, Inc.",
+      "price": "$189.65",
+      "news": 7.8,
+      "analyst": 7.5,
+      "technical": 6.5,
+      "total": 7.24,
+      "notes": "עסקאות מומנטום והתרחבות AI תומכים בצמיחה"
+    },
+    {
+      "ticker": "ETH-USD",
+      "name": "Ethereum",
+      "price": "$1,993.91",
+      "news": 7.0,
+      "analyst": 7.5,
+      "technical": 7.0,
+      "total": 7.175,
+      "notes": "מכירה של ויטאליק יוצרת זהירות למרות ספקולציות שדרוג"
+    },
+    {
+      "ticker": "LULU",
+      "name": "Lululemon Athletica",
+      "price": "$181.09",
+      "news": 6.8,
+      "analyst": 7.0,
+      "technical": 7.5,
+      "total": 7.115,
+      "notes": "נתוני מכירות חגים חזקים תומכים בפריצה טכנית"
+    },
+    {
+      "ticker": "SOL-USD",
+      "name": "Solana",
+      "price": "$85.5349",
+      "news": 6.5,
+      "analyst": 7.0,
+      "technical": 7.5,
+      "total": 7.025,
+      "notes": "חדשות מעורבות עם סגירת פלטפורמות ופרויקטים חדשים"
+    },
+    {
+      "ticker": "OKTA",
+      "name": "Okta, Inc.",
+      "price": "$72.50",
+      "news": 6.8,
+      "analyst": 7.0,
+      "technical": 6.5,
+      "total": 6.765,
+      "notes": "ציפיות לרווחים עם צמיחה בניהול זהויות"
+    },
+    {
+      "ticker": "DOT-USD",
+      "name": "Polkadot",
+      "price": "$1.4994",
+      "news": 6.5,
+      "analyst": 6.8,
+      "technical": 6.5,
+      "total": 6.605,
+      "notes": "מיקוד באינטרופרביליות תומך בצמיחה מתונה"
+    },
+    {
+      "ticker": "ZS",
+      "name": "Zscaler, Inc.",
+      "price": "$153.59",
+      "news": 6.5,
+      "analyst": 7.0,
+      "technical": 6.0,
+      "total": 6.50,
+      "notes": "מגמות אבטחה חיוביות אך ירידות מחירים מעכבות"
+    },
+    {
+      "ticker": "PANW",
+      "name": "Palo Alto Networks",
+      "price": "$143.94",
+      "news": 6.0,
+      "analyst": 6.5,
+      "technical": 5.5,
+      "total": 6.00,
+      "notes": "חששות משקיעים מורידים את המחיר לשפל שנתי"
+    },
+    {
+      "ticker": "SMCI",
+      "name": "Super Micro Computer",
+      "price": "$32.31",
+      "news": 5.5,
+      "analyst": 6.0,
       "technical": 5.0,
-      "total": 5.0,
-      "notes": "PLTR נבחרה בשל חוזים ממשלתיים, אך נתוני מחיר חסרים."
+      "total": 5.50,
+      "notes": "סנטימנט שלילי עם ירידות במחיר המניה"
     }
   ]
 }
