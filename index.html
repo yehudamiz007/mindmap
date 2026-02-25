@@ -78,6 +78,7 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%}
   <div class="leg-item"><div class="leg-dot" style="background:#a855f7"></div>Interfaces - Web, CLI, apps</div>
   <div class="leg-item"><div class="leg-dot" style="background:#64748b"></div>Security - Auth & sandboxing</div>
   <div class="leg-item"><div class="leg-dot" style="background:#14b8a6"></div>Smart Home - Connected devices</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#e11d48"></div>Dashboards & Apps - GitHub Pages</div>
 </div>
 
 <div id="sidebar">
@@ -131,7 +132,8 @@ const DESC = {
   "ws-ag": "AGENTS.md - workspace rules, conventions, and behavioral guidelines for the agent.",
   "ws-so": "SOUL.md - the agent's personality, values, tone, and identity definition.",
   "ws-mem": "MEMORY.md - curated long-term memory. Daily files in memory/ for journals.",
-  "ws-sk": "12 custom skills: Chief Architect, Husband, Parenting, Hebrew, Technical Analysis, Security Gate, Fitness & Nutrition, Coffee Master, Market News Sentiment, Analyst Price Targets, ECOVACS Vacuum, Weather.",
+  "ws-sk": "12 custom skills: ai-chief-architect, husband, parenting, hebrew, technical-analysis, secure-skill-downloader, fitness-nutrition, coffee-master, market-news-sentiment (Grok 4), analyst-price-targets, ecovacs (DEEBOT), weather.",
+  "ws-sc": "Python and PowerShell scripts: ecovacs.py (robot control), ecovacs_server.py (HTTP server port 8765), deebot_autostart.py (tunnel + git push), update-costs.js, backup_hub.ps1.",
   "au-cr": "Cron scheduler - one-shot, recurring, or cron-expression jobs. Runs in main or isolated sessions.",
   "au-hb": "Heartbeat polling - periodic check-ins driven by HEARTBEAT.md. Batches multiple checks.",
   "au-wh": "Webhook endpoints for external triggers and integrations.",
@@ -146,7 +148,18 @@ const DESC = {
   "sh-db": "DEEBOT X8 PRO OMNI - robot vacuum with mop. Controlled via ecovacs.py script and mobile web app at https://yehudamiz007.github.io/mindmap/ecovacs-joystick/",
   "sh-cl": "Clean, Stop, Pause, Resume, Dock commands. Fan speed (Quiet/Normal/Max/Max+), Water level (Low/Medium/High/UltraHigh), Clean count.",
   "sh-mo": "Work modes: Vacuum & Mop, Vacuum only, Mop only, Mop after Vacuum. Volume control. All configurable from mobile app.",
-  "sh-cf": "Cloudflare free tunnel (cloudflared.exe) exposes local server port 8765 to public URL. Auto-updates HTML and pushes to GitHub on restart."
+  "sh-cf": "Cloudflare free tunnel (cloudflared.exe) exposes local server port 8765 to public URL. Auto-updates HTML and pushes to GitHub on restart.",
+  "da": "All GitHub Pages dashboards and web apps built for Yehuda. Hosted at yehudamiz007.github.io/mindmap/",
+  "da-hub": "Command Center hub with all links, cron jobs, and skills overview. https://yehudamiz007.github.io/mindmap/hub.html",
+  "da-mm": "Interactive brain map of the entire OpenClaw system. https://yehudamiz007.github.io/mindmap/",
+  "da-stocks": "Daily automated stock and crypto scanner - Grok picks + 3-pillar analysis. https://yehudamiz007.github.io/mindmap/dashboard/",
+  "da-trader": "Grok Virtual Trader - $1000 virtual portfolio managed hourly by AI. https://yehudamiz007.github.io/mindmap/dashboard/trading.html",
+  "da-iran": "Iran conflict intelligence dashboard - threat level, news, timeline, forces map. https://yehudamiz007.github.io/mindmap/iran-dashboard/",
+  "da-costs": "OpenClaw cost monitoring and analytics dashboard. https://yehudamiz007.github.io/mindmap/dashboard.html",
+  "da-agents": "Sub-agents cost tracking sorted high-to-low, with live status. https://yehudamiz007.github.io/mindmap/subagents-dashboard/",
+  "da-deebot": "Mobile web app to remotely control DEEBOT X8 PRO OMNI via Cloudflare tunnel. https://yehudamiz007.github.io/mindmap/ecovacs-joystick/",
+  "da-arch": "7 interactive technical diagrams explaining OpenClaw architecture. https://yehudamiz007.github.io/mindmap/architecture/",
+  "da-family": "Mizrahi family tree interactive visualization. https://yehudamiz007.github.io/mindmap/family-tree/"
 };
 
 // DATA: [id, parentId, level, emoji, label, color, description]
@@ -154,7 +167,7 @@ const DATA = [
   // Center
   ["center", null, 0, "🦞", "OpenClaw", "#64748b"],
   
-  // 11 Categories
+  // 12 Categories
   ["gw", "center", 1, "🌐", "Gateway", "#3b82f6"],
   ["ch", "center", 1, "💬", "Channels", "#8b5cf6"],
   ["ag", "center", 1, "🤖", "Agent", "#ec4899"],
@@ -166,6 +179,7 @@ const DATA = [
   ["ui", "center", 1, "🖥️", "Interfaces", "#a855f7"],
   ["se", "center", 1, "🔒", "Security", "#64748b"],
   ["sh", "center", 1, "🏠", "Smart Home", "#14b8a6"],
+  ["da", "center", 1, "📊", "Dashboards\n& Apps", "#e11d48"],
 
   // Gateway subs
   ["gw-ws", "gw", 2, "", "WebSocket\nAPI", "#3b82f6"],
@@ -212,7 +226,8 @@ const DATA = [
   ["ws-ag", "ws", 2, "", "AGENTS\n.md", "#f97316"],
   ["ws-so", "ws", 2, "", "SOUL\n.md", "#f97316"],
   ["ws-mem", "ws", 2, "", "MEMORY\n.md", "#f97316"],
-  ["ws-sk", "ws", 2, "", "11 Custom\nSkills", "#f97316"],
+  ["ws-sk", "ws", 2, "", "12 Custom\nSkills", "#f97316"],
+  ["ws-sc", "ws", 2, "", "Scripts", "#f97316"],
 
   // Automation subs
   ["au-cr", "au", 2, "", "Cron\nJobs", "#ef4444"],
@@ -235,6 +250,18 @@ const DATA = [
   ["sh-cl", "sh", 2, "", "Clean\nControl", "#14b8a6"],
   ["sh-mo", "sh", 2, "", "Work\nModes", "#14b8a6"],
   ["sh-cf", "sh", 2, "", "Cloudflare\nTunnel", "#14b8a6"],
+
+  // Dashboards & Apps subs
+  ["da-hub", "da", 2, "", "Hub", "#e11d48"],
+  ["da-mm", "da", 2, "", "Mindmap", "#e11d48"],
+  ["da-stocks", "da", 2, "", "Stock\nScanner", "#e11d48"],
+  ["da-trader", "da", 2, "", "Virtual\nTrader", "#e11d48"],
+  ["da-iran", "da", 2, "", "Iran\nDashboard", "#e11d48"],
+  ["da-costs", "da", 2, "", "Cost\nDashboard", "#e11d48"],
+  ["da-agents", "da", 2, "", "Subagents\nDashboard", "#e11d48"],
+  ["da-deebot", "da", 2, "", "DEEBOT\nController", "#e11d48"],
+  ["da-arch", "da", 2, "", "Architecture\nDiagrams", "#e11d48"],
+  ["da-family", "da", 2, "", "Family\nTree", "#e11d48"],
 ];
 
 // Build lookup
