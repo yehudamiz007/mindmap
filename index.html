@@ -35,26 +35,24 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%}
 .cat-node .node-circle{animation:glow 3s ease-in-out infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 30px rgba(100,116,139,.4)}50%{box-shadow:0 0 50px rgba(100,116,139,.7)}}
 .center-node .node-circle{animation:pulse 4s ease-in-out infinite}
-#panel{position:fixed;top:0;right:-340px;width:340px;height:100%;background:rgba(15,23,42,.95);border-left:1px solid #334155;backdrop-filter:blur(12px);z-index:50;transition:right .3s ease;overflow-y:auto;pointer-events:auto}
-#panel.open{right:0}
-#panel-close{position:absolute;top:12px;right:12px;background:none;border:none;color:#94a3b8;font-size:20px;cursor:pointer;padding:4px 8px;border-radius:4px}
-#panel-close:hover{color:#e2e8f0;background:rgba(255,255,255,.1)}
-#panel-header{padding:24px 20px 16px;border-bottom:1px solid #1e293b}
-#panel-emoji{font-size:36px;margin-bottom:8px}
-#panel-title{font-size:18px;font-weight:700;color:#e2e8f0;margin-bottom:4px}
-#panel-level{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:1px}
-#panel-body{padding:16px 20px}
-#panel-desc{color:#cbd5e1;font-size:13px;line-height:1.6;margin-bottom:16px}
-#panel-children-title{color:#94a3b8;font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.panel-child{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;margin-bottom:4px;cursor:pointer;transition:background .2s}
-.panel-child:hover{background:rgba(255,255,255,.06)}
-.panel-child-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.panel-child-name{color:#e2e8f0;font-size:13px}
-#panel-path{padding:0 20px 16px}
-#panel-path span{color:#64748b;font-size:11px}
-#panel-path a{color:#94a3b8;font-size:11px;cursor:pointer;text-decoration:none}
-#panel-path a:hover{color:#e2e8f0}
-.panel-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:middle}
+#panel{position:fixed;bottom:-200px;left:50%;transform:translateX(-50%);width:min(560px,96vw);max-height:180px;background:rgba(10,14,30,.96);border:1px solid #334155;border-radius:14px 14px 0 0;backdrop-filter:blur(16px);z-index:50;transition:bottom .28s cubic-bezier(.4,0,.2,1);overflow:hidden;pointer-events:auto;box-shadow:0 -8px 40px rgba(0,0,0,.5)}
+#panel.open{bottom:0}
+#panel-close{position:absolute;top:10px;right:12px;background:none;border:none;color:#64748b;font-size:18px;cursor:pointer;padding:2px 6px;border-radius:4px;line-height:1;z-index:2}
+#panel-close:hover{color:#e2e8f0;background:rgba(255,255,255,.08)}
+#panel-header{padding:12px 36px 8px 14px;border-bottom:1px solid #1e293b;display:flex;align-items:center;gap:10px}
+#panel-emoji{font-size:22px;flex-shrink:0}
+#panel-title{font-size:15px;font-weight:700;color:#e2e8f0}
+#panel-level{font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-left:6px}
+#panel-body{padding:8px 14px 10px;display:flex;gap:16px;align-items:flex-start}
+#panel-desc{color:#94a3b8;font-size:12px;line-height:1.5;flex:1;min-width:0}
+#panel-children-title{display:none}
+.panel-child{display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border-radius:20px;cursor:pointer;transition:background .15s;margin:2px;background:rgba(255,255,255,.04);border:1px solid #1e293b}
+.panel-child:hover{background:rgba(255,255,255,.1)}
+.panel-child-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.panel-child-name{color:#cbd5e1;font-size:11px}
+#panel-path{display:none}
+#panel-children-wrap{flex-shrink:0;max-width:220px;display:flex;flex-wrap:wrap;align-content:flex-start}
+.panel-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle}
 #title{position:fixed;top:20px;left:20px;pointer-events:none;z-index:20}
 #title h1{color:#e2e8f0;font-size:18px;font-weight:700;letter-spacing:-.5px}
 #title p{color:#64748b;font-size:12px;margin-top:4px}
@@ -107,7 +105,7 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%}
   <div id="panel-body">
     <div id="panel-desc"></div>
     <div id="panel-children-title"></div>
-    <div id="panel-children"></div>
+    <div id="panel-children-wrap"><div id="panel-children"></div></div>
   </div>
 </div>
 <script>
@@ -708,6 +706,8 @@ function openPanel(id){
   document.getElementById("panel-children").innerHTML=kids.map(k=>
     `<div class="panel-child" onclick="openPanel('${k.id}')"><div class="panel-child-dot" style="background:${k.color}"></div><div class="panel-child-name">${k.label}</div></div>`
   ).join("");
+  const wrap=document.getElementById("panel-children-wrap");
+  if(wrap)wrap.style.display=kids.length?"flex":"none";
   panel.classList.add("open");
 }
 panelClose.addEventListener("click",()=>panel.classList.remove("open"));
