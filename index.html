@@ -9,52 +9,60 @@
 html,body{width:100%;height:100%;overflow:hidden;background:#0a0a1a;font-family:'Segoe UI',system-ui,sans-serif;touch-action:none}
 canvas{position:fixed;top:0;left:0;width:100%;height:100%}
 #ui{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none}
-/* Node = just the circle, overflow visible so label shows outside */
-.node{position:absolute;pointer-events:auto;cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:visible;transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .4s,box-shadow .4s;user-select:none;opacity:0;transform:scale(0)}
-.node.visible{opacity:1;transform:scale(1)}
-.node:hover{transform:scale(1.15)!important;z-index:10}
-/* Circle sizes - just big enough for the emoji */
-.center-node{width:46px;height:46px;background:radial-gradient(circle,#1e293b,#0f172a);border:2px solid #64748b;box-shadow:0 0 30px rgba(100,116,139,.5);z-index:5}
-.cat-node{width:36px;height:36px;z-index:4}
-.sub-node{width:26px;height:26px;z-index:3}
-/* Emoji inside the circle */
-.node-emoji{font-size:16px;line-height:1;display:block}
-.cat-node .node-emoji{font-size:18px}
-.center-node .node-emoji{font-size:22px}
-/* Label sits below the circle, outside it */
-.node-label{position:absolute;top:calc(100% + 3px);left:50%;transform:translateX(-50%);pointer-events:none;display:flex;flex-direction:column;align-items:center}
-.node-label span{font-size:7px;color:#e2e8f0;text-align:center;white-space:pre-line;line-height:1.25;text-shadow:0 1px 3px #000c;width:64px}
-.center-node .node-label span{font-size:8px;font-weight:700;width:72px}
-.cat-node .node-label span{font-size:7.5px;font-weight:600;width:60px}
-.sub-node .node-label span{font-size:6.5px;width:54px}
-@keyframes glow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.25)}}
-.cat-node{animation:glow 3s ease-in-out infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 50px rgba(100,116,139,.5)}50%{box-shadow:0 0 70px rgba(100,116,139,.7)}}
-.center-node{animation:pulse 4s ease-in-out infinite}
-#legend{position:fixed;bottom:20px;left:20px;pointer-events:auto;background:rgba(15,23,42,.85);border:1px solid #334155;border-radius:12px;padding:16px 20px;color:#94a3b8;font-size:12px;backdrop-filter:blur(8px);z-index:20;max-width:280px}
-#legend h3{color:#e2e8f0;font-size:14px;margin-bottom:8px}
-#legend .leg-item{display:flex;align-items:center;gap:8px;margin:4px 0}
-#legend .leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.node{position:absolute;pointer-events:auto;cursor:pointer;display:flex;flex-direction:column;align-items:center;text-align:center;transition:transform .3s,opacity .3s;user-select:none;transform:translate(-50%,-50%)}
+.node.hidden{opacity:0;transform:translate(-50%,-50%) scale(0)!important;pointer-events:none}
+.node.visible{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.node:hover{transform:translate(-50%,-50%) scale(1.1)!important;z-index:10}
+.node-circle{border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
+.node-text{margin-top:4px;white-space:nowrap;max-width:120px;overflow:visible;text-overflow:clip;line-height:1.2;text-shadow:0 0 6px rgba(0,0,0,.9),0 0 12px rgba(0,0,0,.7);transform-origin:center top}
+.center-node .node-circle{width:70px;height:70px;background:radial-gradient(circle,#1e293b,#0f172a);border:3px solid #64748b;box-shadow:0 0 30px rgba(100,116,139,.4)}
+.center-node .node-text{font-size:12px;font-weight:700;color:#e2e8f0;white-space:normal;max-width:140px}
+.center-node{z-index:5}
+.cat-node .node-circle{width:40px;height:40px}
+.cat-node .node-text{font-size:13px;font-weight:600;color:#fff}
+.cat-node{z-index:4}
+.sub-node .node-circle{width:28px;height:28px}
+.sub-node .node-text{font-size:11px;font-weight:600;color:#fff}
+.sub-node{z-index:3}
+.node-emoji{font-size:1.2em}
+.cat-node .node-emoji{font-size:1em}
+.sub-node .node-emoji{font-size:0.7em}
+.collapse-badge{position:absolute;bottom:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:#475569;color:#e2e8f0;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 0 6px rgba(0,0,0,.5);pointer-events:none}
+@keyframes glow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.2)}}
+.cat-node .node-circle{animation:glow 3s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 30px rgba(100,116,139,.4)}50%{box-shadow:0 0 50px rgba(100,116,139,.7)}}
+.center-node .node-circle{animation:pulse 4s ease-in-out infinite}
+#panel{position:fixed;top:0;right:-340px;width:340px;height:100%;background:rgba(15,23,42,.95);border-left:1px solid #334155;backdrop-filter:blur(12px);z-index:50;transition:right .3s ease;overflow-y:auto;pointer-events:auto}
+#panel.open{right:0}
+#panel-close{position:absolute;top:12px;right:12px;background:none;border:none;color:#94a3b8;font-size:20px;cursor:pointer;padding:4px 8px;border-radius:4px}
+#panel-close:hover{color:#e2e8f0;background:rgba(255,255,255,.1)}
+#panel-header{padding:24px 20px 16px;border-bottom:1px solid #1e293b}
+#panel-emoji{font-size:36px;margin-bottom:8px}
+#panel-title{font-size:18px;font-weight:700;color:#e2e8f0;margin-bottom:4px}
+#panel-level{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:1px}
+#panel-body{padding:16px 20px}
+#panel-desc{color:#cbd5e1;font-size:13px;line-height:1.6;margin-bottom:16px}
+#panel-children-title{color:#94a3b8;font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.panel-child{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;margin-bottom:4px;cursor:pointer;transition:background .2s}
+.panel-child:hover{background:rgba(255,255,255,.06)}
+.panel-child-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.panel-child-name{color:#e2e8f0;font-size:13px}
+#panel-path{padding:0 20px 16px}
+#panel-path span{color:#64748b;font-size:11px}
+#panel-path a{color:#94a3b8;font-size:11px;cursor:pointer;text-decoration:none}
+#panel-path a:hover{color:#e2e8f0}
+.panel-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:middle}
+#title{position:fixed;top:20px;left:20px;pointer-events:none;z-index:20}
+#title h1{color:#e2e8f0;font-size:18px;font-weight:700;letter-spacing:-.5px}
+#title p{color:#64748b;font-size:12px;margin-top:4px}
 #nav{position:fixed;top:20px;right:20px;pointer-events:auto;display:flex;flex-direction:column;gap:8px;z-index:20}
 #nav a{background:rgba(15,23,42,.85);border:1px solid #334155;border-radius:8px;padding:8px 14px;color:#94a3b8;font-size:11px;text-decoration:none;text-align:center;backdrop-filter:blur(8px);transition:all .2s}
 #nav a:hover{color:#e2e8f0;border-color:#64748b}
 #nav a.active{color:#e2e8f0;border-color:#3b82f6}
-#sidebar{position:fixed;top:0;right:-380px;width:360px;height:100%;background:rgba(15,23,42,.95);border-left:1px solid #334155;backdrop-filter:blur(12px);z-index:30;transition:right .3s ease;overflow-y:auto;pointer-events:auto;padding:24px}
-#sidebar.open{right:0}
-#sidebar .close-btn{position:absolute;top:12px;right:14px;background:none;border:none;color:#94a3b8;font-size:22px;cursor:pointer}
-#sidebar .close-btn:hover{color:#e2e8f0}
-#sidebar .sb-emoji{font-size:48px;text-align:center;margin:8px 0 12px}
-#sidebar .sb-title{color:#e2e8f0;font-size:20px;font-weight:700;text-align:center;margin-bottom:6px}
-#sidebar .sb-desc{color:#94a3b8;font-size:13px;line-height:1.6;margin-bottom:16px}
-#sidebar .sb-tag{display:inline-block;background:rgba(59,130,246,.15);color:#93c5fd;border-radius:6px;padding:3px 10px;font-size:11px;margin:2px 4px 2px 0}
-#sidebar .sb-section{color:#64748b;font-size:11px;text-transform:uppercase;letter-spacing:1px;margin:16px 0 8px;font-weight:600}
-#sidebar .sb-children{display:flex;flex-wrap:wrap;gap:6px}
-#sidebar .sb-child{background:rgba(255,255,255,.06);border:1px solid #334155;border-radius:8px;padding:6px 12px;color:#cbd5e1;font-size:12px;cursor:pointer;transition:all .2s}
-#sidebar .sb-child:hover{background:rgba(255,255,255,.12);border-color:#64748b}
-.node.selected{transform:scale(1.18)!important;z-index:11;filter:brightness(1.3)}
-#title{position:fixed;top:20px;left:20px;pointer-events:none;z-index:20}
-#title h1{color:#e2e8f0;font-size:20px;font-weight:700;letter-spacing:-.5px}
-#title p{color:#64748b;font-size:12px;margin-top:4px}
+#legend{position:fixed;bottom:20px;left:20px;pointer-events:auto;background:rgba(15,23,42,.85);border:1px solid #334155;border-radius:12px;padding:14px 18px;color:#94a3b8;font-size:11px;backdrop-filter:blur(8px);z-index:20;max-width:260px}
+#legend h3{color:#e2e8f0;font-size:13px;margin-bottom:8px}
+#legend .leg-item{display:flex;align-items:center;gap:8px;margin:3px 0}
+#legend .leg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -63,7 +71,7 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%}
 <div id="ui"></div>
 
 <div id="title">
-  <h1>🦞 OpenClaw Architecture</h1>
+  <h1>&#128395; OpenClaw Architecture</h1>
   <p>High-Level System Overview</p>
 </div>
 
@@ -75,204 +83,138 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%}
 
 <div id="legend">
   <h3>Components</h3>
-  <div class="leg-item"><div class="leg-dot" style="background:#3b82f6"></div>Gateway - WebSocket daemon</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#8b5cf6"></div>Channels - 15+ messaging platforms</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#ec4899"></div>Agent - Sessions & memory</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#f59e0b"></div>Models - Multi-provider LLMs</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#10b981"></div>Tools - exec, browser, skills</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#06b6d4"></div>Nodes - Mobile & desktop devices</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#f97316"></div>Workspace - Agent files & config</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#ef4444"></div>Automation - Cron & heartbeat</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#a855f7"></div>Interfaces - Web, CLI, apps</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#64748b"></div>Security - Auth & sandboxing</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#14b8a6"></div>Smart Home - Connected devices</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#e11d48"></div>Dashboards & Apps - GitHub Pages</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#3b82f6"></div>Gateway</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#8b5cf6"></div>Channels</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#ec4899"></div>Agent</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#f59e0b"></div>Models</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#10b981"></div>Tools</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#06b6d4"></div>Nodes</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#f97316"></div>Workspace</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#ef4444"></div>Automation</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#a855f7"></div>Interfaces</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#64748b"></div>Security</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#14b8a6"></div>Smart Home</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#e11d48"></div>Dashboards &amp; Apps</div>
 </div>
 
-<div id="sidebar">
-  <button class="close-btn" onclick="closeSidebar()">&times;</button>
-  <div id="sb-content"></div>
+<div id="panel">
+  <button id="panel-close">&times;</button>
+  <div id="panel-header">
+    <div id="panel-emoji"></div>
+    <div id="panel-title"></div>
+    <div id="panel-level"></div>
+  </div>
+  <div id="panel-path"></div>
+  <div id="panel-body">
+    <div id="panel-desc"></div>
+    <div id="panel-children-title"></div>
+    <div id="panel-children"></div>
+  </div>
 </div>
 
 <script>
-// Descriptions for sidebar
-const DESC = {
-  "center": "OpenClaw is an open-source AI agent gateway that connects LLMs to messaging platforms, devices, and tools. It runs as a daemon on your machine and orchestrates everything.",
-  "gw": "The Gateway is the core daemon process. It manages WebSocket connections, HTTP endpoints, sessions, and routes messages between channels and the agent.",
-  "ch": "15+ messaging platform integrations - from WhatsApp and Telegram to Discord, Signal, Slack, iMessage, and more. Each runs as an extension plugin.",
-  "ag": "The Agent loop handles conversation sessions, memory management, tool calls, and multi-turn reasoning. Supports main sessions and isolated sub-agents.",
-  "mo": "Multi-provider model support - Anthropic, OpenAI, Google, xAI (Grok), Ollama (local), and OpenRouter. Hot-swap between models per session.",
-  "to": "Built-in tools: shell exec, browser automation, web search/fetch, 50+ skill plugins, and custom extensions. Tools are policy-controlled.",
-  "no": "Paired devices (iOS, Android, macOS) that extend the agent's reach - camera access, screen capture, location, notifications, and canvas rendering.",
-  "ws": "The agent's file workspace - AGENTS.md, SOUL.md, MEMORY.md, custom skills, and all persistent files. This is the agent's home directory.",
-  "au": "Cron jobs for scheduled tasks, heartbeat polling for periodic checks, and webhook triggers. Powers reminders, daily routines, and background automation.",
-  "ui": "Web-based interfaces: WebChat for browser conversations, Control UI for management, CLI for terminal access, and native macOS app.",
-  "se": "Token-based auth, device pairing with approval flow, sandboxed execution, allowlists for DMs/groups, and tool policy controls.",
-  "gw-ws": "WebSocket API on port 18789 for real-time bidirectional communication between the gateway and connected clients.",
-  "gw-d": "Long-running daemon process that starts on boot and manages all gateway services and extension lifecycle.",
-  "gw-h": "HTTP server for REST API endpoints, health checks, webhook receivers, and static file serving.",
-  "ch-wa": "WhatsApp integration via Baileys (unofficial API). Supports DMs, groups, reactions, media, voice messages, and QR code pairing.",
-  "ch-tg": "Telegram bot integration via grammY framework. Supports commands, inline queries, media, groups, and webhook/polling modes.",
-  "ch-dc": "Discord bot with full guild support - channels, threads, reactions, components (buttons/selects), voice, and slash commands.",
-  "ch-sg": "Signal messenger integration for private, encrypted conversations.",
-  "ch-sl": "Slack workspace integration with channel management, threads, and app home.",
-  "ch-im": "iMessage integration for Apple ecosystem messaging (macOS only).",
-  "ch-more": "IRC, Google Chat, Microsoft Teams, Matrix, Webchat, SMS/Twilio, Email, and more.",
-  "ag-s": "Session management - main session, isolated sub-agents, session history, spawn/steer/kill controls.",
-  "ag-l": "The core agent reasoning loop - processes messages, decides tool calls, manages conversation flow and model interactions.",
-  "ag-m": "Memory system - MEMORY.md for long-term, daily files for journals, memory search with semantic retrieval.",
-  "mo-an": "Anthropic Claude models - Opus, Sonnet, Haiku. Primary provider for advanced reasoning.",
-  "mo-oa": "OpenAI GPT models - GPT-4o, o1, o3. Strong for code and structured output.",
-  "mo-gk": "xAI Grok models - Grok-3. Good for real-time knowledge and web-aware tasks.",
-  "mo-go": "Google Gemini models - Pro, Flash, Ultra. Multimodal with long context windows.",
-  "mo-ol": "Ollama for running local models - Llama, Mistral, CodeLlama. No API key needed.",
-  "mo-or": "OpenRouter aggregator - access 100+ models through a single API endpoint.",
-  "to-ex": "Shell command execution with PTY support, background processes, timeouts, and session management.",
-  "to-br": "Browser automation via Playwright - navigate, click, type, screenshot, snapshot DOM for AI interaction.",
-  "to-web": "Web search (Brave API) and URL fetching with markdown extraction for research tasks.",
-  "to-sk": "50+ built-in skills (GitHub, Spotify, 1Password, weather...) plus custom workspace skills.",
-  "to-pl": "Extension plugin system - channels, memory backends, voice, and custom integrations.",
-  "no-ios": "iOS companion app for camera, notifications, location, and screen access on iPhone/iPad.",
-  "no-and": "Android companion for camera, notifications, location on Android devices.",
-  "no-mac": "macOS native app with system integration, menu bar, and screen recording.",
-  "no-cam": "Remote camera access - snap photos, record clips, front/back switching.",
-  "no-can": "Canvas rendering - present HTML/JS UIs on paired devices, interactive dashboards.",
-  "ws-ag": "AGENTS.md - workspace rules, conventions, and behavioral guidelines for the agent.",
-  "ws-so": "SOUL.md - the agent's personality, values, tone, and identity definition.",
-  "ws-mem": "MEMORY.md - curated long-term memory. Daily files in memory/ for journals.",
-  "ws-sk": "12 custom skills: ai-chief-architect, husband, parenting, hebrew, technical-analysis, secure-skill-downloader, fitness-nutrition, coffee-master, market-news-sentiment (Grok 4), analyst-price-targets, ecovacs (DEEBOT), weather.",
-  "ws-sc": "Python and PowerShell scripts: ecovacs.py (robot control), ecovacs_server.py (HTTP server port 8765), deebot_autostart.py (tunnel + git push), update-costs.js, backup_hub.ps1.",
-  "au-cr": "Cron scheduler - one-shot, recurring, or cron-expression jobs. Runs in main or isolated sessions.",
-  "au-hb": "Heartbeat polling - periodic check-ins driven by HEARTBEAT.md. Batches multiple checks.",
-  "au-wh": "Webhook endpoints for external triggers and integrations.",
-  "ui-wc": "Browser-based chat interface at localhost - conversation UI with markdown rendering.",
-  "ui-cu": "Control panel for managing config, extensions, sessions, and monitoring.",
-  "ui-cl": "Command-line interface - `openclaw` command for all management operations.",
-  "ui-ma": "Native macOS application with menu bar integration and system notifications.",
-  "se-tk": "Token-based authentication for API access and session security.",
-  "se-pr": "Device pairing flow with QR codes, approval/rejection for new nodes.",
-  "se-sb": "Sandboxed execution environments for safe tool operation.",
-  "sh": "Smart home devices connected and controlled via OpenClaw. Currently: DEEBOT X8 PRO OMNI robot vacuum with full remote control via mobile web app and Cloudflare tunnel.",
-  "sh-db": "DEEBOT X8 PRO OMNI - robot vacuum with mop. Controlled via ecovacs.py script and mobile web app at https://yehudamiz007.github.io/mindmap/ecovacs-joystick/",
-  "sh-cl": "Clean, Stop, Pause, Resume, Dock commands. Fan speed (Quiet/Normal/Max/Max+), Water level (Low/Medium/High/UltraHigh), Clean count.",
-  "sh-mo": "Work modes: Vacuum & Mop, Vacuum only, Mop only, Mop after Vacuum. Volume control. All configurable from mobile app.",
-  "sh-cf": "Cloudflare free tunnel (cloudflared.exe) exposes local server port 8765 to public URL. Auto-updates HTML and pushes to GitHub on restart.",
-  "da": "All GitHub Pages dashboards and web apps built for Yehuda. Hosted at yehudamiz007.github.io/mindmap/",
-  "da-hub": "Command Center hub with all links, cron jobs, and skills overview. https://yehudamiz007.github.io/mindmap/hub.html",
-  "da-mm": "Interactive brain map of the entire OpenClaw system. https://yehudamiz007.github.io/mindmap/",
-  "da-stocks": "Daily automated stock and crypto scanner - Grok picks + 3-pillar analysis. https://yehudamiz007.github.io/mindmap/dashboard/",
-  "da-trader": "Grok Virtual Trader - $1000 virtual portfolio managed hourly by AI. https://yehudamiz007.github.io/mindmap/dashboard/trading.html",
-  "da-iran": "Iran conflict intelligence dashboard - threat level, news, timeline, forces map. https://yehudamiz007.github.io/mindmap/iran-dashboard/",
-  "da-costs": "OpenClaw cost monitoring and analytics dashboard. https://yehudamiz007.github.io/mindmap/dashboard.html",
-  "da-agents": "Sub-agents cost tracking sorted high-to-low, with live status. https://yehudamiz007.github.io/mindmap/subagents-dashboard/",
-  "da-deebot": "Mobile web app to remotely control DEEBOT X8 PRO OMNI via Cloudflare tunnel. https://yehudamiz007.github.io/mindmap/ecovacs-joystick/",
-  "da-arch": "7 interactive technical diagrams explaining OpenClaw architecture. https://yehudamiz007.github.io/mindmap/architecture/",
-  "da-family": "Mizrahi family tree interactive visualization. https://yehudamiz007.github.io/mindmap/family-tree/"
-};
-
-// DATA: [id, parentId, level, emoji, label, color, description]
+// DATA: [id, parentId, level, emoji, label, color]
 const DATA = [
   // Center
-  ["center", null, 0, "🦞", "OpenClaw", "#64748b"],
-  
+  ["center", null, 0, "&#128395;", "OpenClaw", "#64748b"],
+
   // 12 Categories
-  ["gw", "center", 1, "🌐", "Gateway", "#3b82f6"],
-  ["ch", "center", 1, "💬", "Channels", "#8b5cf6"],
-  ["ag", "center", 1, "🤖", "Agent", "#ec4899"],
-  ["mo", "center", 1, "🧠", "Models", "#f59e0b"],
-  ["to", "center", 1, "🔧", "Tools", "#10b981"],
-  ["no", "center", 1, "📱", "Nodes", "#06b6d4"],
-  ["ws", "center", 1, "📂", "Workspace", "#f97316"],
-  ["au", "center", 1, "⚡", "Automation", "#ef4444"],
-  ["ui", "center", 1, "🖥️", "Interfaces", "#a855f7"],
-  ["se", "center", 1, "🔒", "Security", "#64748b"],
-  ["sh", "center", 1, "🏠", "Smart Home", "#14b8a6"],
-  ["da", "center", 1, "📊", "Dashboards\n& Apps", "#e11d48"],
+  ["gw",  "center", 1, "&#127760;", "Gateway",         "#3b82f6"],
+  ["ch",  "center", 1, "&#128172;", "Channels",        "#8b5cf6"],
+  ["ag",  "center", 1, "&#129302;", "Agent",           "#ec4899"],
+  ["mo",  "center", 1, "&#129504;", "Models",          "#f59e0b"],
+  ["to",  "center", 1, "&#128295;", "Tools",           "#10b981"],
+  ["no",  "center", 1, "&#128241;", "Nodes",           "#06b6d4"],
+  ["ws",  "center", 1, "&#128194;", "Workspace",       "#f97316"],
+  ["au",  "center", 1, "&#9889;",   "Automation",      "#ef4444"],
+  ["ui",  "center", 1, "&#128421;", "Interfaces",      "#a855f7"],
+  ["se",  "center", 1, "&#128274;", "Security",        "#64748b"],
+  ["sh",  "center", 1, "&#127968;", "Smart Home",      "#14b8a6"],
+  ["da",  "center", 1, "&#128202;", "Dashboards",      "#e11d48"],
 
-  // Gateway subs
-  ["gw-ws", "gw", 2, "", "WebSocket\nAPI", "#3b82f6"],
-  ["gw-d", "gw", 2, "", "Daemon\n:18789", "#3b82f6"],
-  ["gw-h", "gw", 2, "", "HTTP\nServer", "#3b82f6"],
+  // Gateway
+  ["gw-ws", "gw", 2, "", "WebSocket API",  "#3b82f6"],
+  ["gw-d",  "gw", 2, "", "Daemon :18789",  "#3b82f6"],
+  ["gw-h",  "gw", 2, "", "HTTP Server",    "#3b82f6"],
 
-  // Channels subs
-  ["ch-wa", "ch", 2, "", "WhatsApp\n(Baileys)", "#8b5cf6"],
-  ["ch-tg", "ch", 2, "", "Telegram\n(grammY)", "#8b5cf6"],
-  ["ch-dc", "ch", 2, "", "Discord", "#8b5cf6"],
-  ["ch-sg", "ch", 2, "", "Signal", "#8b5cf6"],
-  ["ch-sl", "ch", 2, "", "Slack", "#8b5cf6"],
-  ["ch-im", "ch", 2, "", "iMessage", "#8b5cf6"],
-  ["ch-more", "ch", 2, "", "+9 more", "#8b5cf6"],
+  // Channels
+  ["ch-wa",   "ch", 2, "", "WhatsApp",   "#8b5cf6"],
+  ["ch-tg",   "ch", 2, "", "Telegram",   "#8b5cf6"],
+  ["ch-dc",   "ch", 2, "", "Discord",    "#8b5cf6"],
+  ["ch-sg",   "ch", 2, "", "Signal",     "#8b5cf6"],
+  ["ch-sl",   "ch", 2, "", "Slack",      "#8b5cf6"],
+  ["ch-im",   "ch", 2, "", "iMessage",   "#8b5cf6"],
+  ["ch-more", "ch", 2, "", "+9 more",    "#8b5cf6"],
 
-  // Agent subs
-  ["ag-s", "ag", 2, "", "Sessions", "#ec4899"],
-  ["ag-l", "ag", 2, "", "Agent\nLoop", "#ec4899"],
-  ["ag-m", "ag", 2, "", "Memory", "#ec4899"],
+  // Agent
+  ["ag-s",  "ag", 2, "", "Sessions",   "#ec4899"],
+  ["ag-al", "ag", 2, "", "Agent Loop", "#ec4899"],
+  ["ag-m",  "ag", 2, "", "Memory",     "#ec4899"],
 
-  // Models subs
-  ["mo-an", "mo", 2, "", "Anthropic", "#f59e0b"],
-  ["mo-oa", "mo", 2, "", "OpenAI", "#f59e0b"],
-  ["mo-gk", "mo", 2, "", "Grok", "#f59e0b"],
-  ["mo-go", "mo", 2, "", "Google", "#f59e0b"],
-  ["mo-ol", "mo", 2, "", "Ollama", "#f59e0b"],
+  // Models
+  ["mo-an", "mo", 2, "", "Anthropic",  "#f59e0b"],
+  ["mo-oa", "mo", 2, "", "OpenAI",     "#f59e0b"],
+  ["mo-gk", "mo", 2, "", "Grok",       "#f59e0b"],
+  ["mo-go", "mo", 2, "", "Google",     "#f59e0b"],
+  ["mo-ol", "mo", 2, "", "Ollama",     "#f59e0b"],
   ["mo-or", "mo", 2, "", "OpenRouter", "#f59e0b"],
 
-  // Tools subs
-  ["to-ex", "to", 2, "", "exec", "#10b981"],
-  ["to-br", "to", 2, "", "browser", "#10b981"],
-  ["to-web", "to", 2, "", "web", "#10b981"],
-  ["to-sk", "to", 2, "", "Skills", "#10b981"],
-  ["to-pl", "to", 2, "", "Plugins", "#10b981"],
+  // Tools
+  ["to-ex",  "to", 2, "", "exec",    "#10b981"],
+  ["to-br",  "to", 2, "", "browser", "#10b981"],
+  ["to-web", "to", 2, "", "web",     "#10b981"],
+  ["to-sk",  "to", 2, "", "Skills",  "#10b981"],
+  ["to-pl",  "to", 2, "", "Plugins", "#10b981"],
 
-  // Nodes subs
-  ["no-ios", "no", 2, "", "iOS", "#06b6d4"],
+  // Nodes
+  ["no-ios", "no", 2, "", "iOS",     "#06b6d4"],
   ["no-and", "no", 2, "", "Android", "#06b6d4"],
-  ["no-mac", "no", 2, "", "macOS", "#06b6d4"],
-  ["no-cam", "no", 2, "", "Camera", "#06b6d4"],
-  ["no-can", "no", 2, "", "Canvas", "#06b6d4"],
+  ["no-mac", "no", 2, "", "macOS",   "#06b6d4"],
+  ["no-cam", "no", 2, "", "Camera",  "#06b6d4"],
+  ["no-can", "no", 2, "", "Canvas",  "#06b6d4"],
 
-  // Workspace subs
-  ["ws-ag", "ws", 2, "", "AGENTS\n.md", "#f97316"],
-  ["ws-so", "ws", 2, "", "SOUL\n.md", "#f97316"],
-  ["ws-mem", "ws", 2, "", "MEMORY\n.md", "#f97316"],
-  ["ws-sk", "ws", 2, "", "12 Custom\nSkills", "#f97316"],
-  ["ws-sc", "ws", 2, "", "Scripts", "#f97316"],
+  // Workspace
+  ["ws-ag",  "ws", 2, "", "AGENTS.md",     "#f97316"],
+  ["ws-so",  "ws", 2, "", "SOUL.md",       "#f97316"],
+  ["ws-mem", "ws", 2, "", "MEMORY.md",     "#f97316"],
+  ["ws-sk",  "ws", 2, "", "12 Skills",     "#f97316"],
+  ["ws-sc",  "ws", 2, "", "Scripts",       "#f97316"],
 
-  // Automation subs
-  ["au-cr", "au", 2, "", "Cron\nJobs", "#ef4444"],
-  ["au-hb", "au", 2, "", "Heartbeat", "#ef4444"],
-  ["au-wh", "au", 2, "", "Webhooks", "#ef4444"],
+  // Automation
+  ["au-cr", "au", 2, "", "Cron Jobs",  "#ef4444"],
+  ["au-hb", "au", 2, "", "Heartbeat",  "#ef4444"],
+  ["au-wh", "au", 2, "", "Webhooks",   "#ef4444"],
 
-  // Interfaces subs
-  ["ui-wc", "ui", 2, "", "WebChat", "#a855f7"],
-  ["ui-cu", "ui", 2, "", "Control\nUI", "#a855f7"],
-  ["ui-cl", "ui", 2, "", "CLI", "#a855f7"],
-  ["ui-ma", "ui", 2, "", "macOS\nApp", "#a855f7"],
+  // Interfaces
+  ["ui-wc", "ui", 2, "", "WebChat",    "#a855f7"],
+  ["ui-cu", "ui", 2, "", "Control UI", "#a855f7"],
+  ["ui-cl", "ui", 2, "", "CLI",        "#a855f7"],
+  ["ui-ma", "ui", 2, "", "macOS App",  "#a855f7"],
 
-  // Security subs
-  ["se-tk", "se", 2, "", "Token\nAuth", "#64748b"],
-  ["se-pr", "se", 2, "", "Device\nPairing", "#64748b"],
-  ["se-sb", "se", 2, "", "Sandbox", "#64748b"],
+  // Security
+  ["se-tk", "se", 2, "", "Token Auth",    "#64748b"],
+  ["se-pr", "se", 2, "", "Dev Pairing",   "#64748b"],
+  ["se-sb", "se", 2, "", "Sandbox",       "#64748b"],
 
-  // Smart Home subs
-  ["sh-db", "sh", 2, "", "DEEBOT\nX8 PRO", "#14b8a6"],
-  ["sh-cl", "sh", 2, "", "Clean\nControl", "#14b8a6"],
-  ["sh-mo", "sh", 2, "", "Work\nModes", "#14b8a6"],
-  ["sh-cf", "sh", 2, "", "Cloudflare\nTunnel", "#14b8a6"],
+  // Smart Home
+  ["sh-db", "sh", 2, "", "DEEBOT X8 PRO", "#14b8a6"],
+  ["sh-cl", "sh", 2, "", "Clean Control", "#14b8a6"],
+  ["sh-mo", "sh", 2, "", "Work Modes",    "#14b8a6"],
+  ["sh-cf", "sh", 2, "", "CF Tunnel",     "#14b8a6"],
 
-  // Dashboards & Apps subs
-  ["da-hub", "da", 2, "", "Hub", "#e11d48"],
-  ["da-mm", "da", 2, "", "Mindmap", "#e11d48"],
-  ["da-stocks", "da", 2, "", "Stock\nScanner", "#e11d48"],
-  ["da-trader", "da", 2, "", "Virtual\nTrader", "#e11d48"],
-  ["da-iran", "da", 2, "", "Iran\nDashboard", "#e11d48"],
-  ["da-costs", "da", 2, "", "Cost\nDashboard", "#e11d48"],
-  ["da-agents", "da", 2, "", "Subagents\nDashboard", "#e11d48"],
-  ["da-deebot", "da", 2, "", "DEEBOT\nController", "#e11d48"],
-  ["da-arch", "da", 2, "", "Architecture\nDiagrams", "#e11d48"],
-  ["da-family", "da", 2, "", "Family\nTree", "#e11d48"],
+  // Dashboards & Apps
+  ["da-hub",    "da", 2, "", "Hub",            "#e11d48"],
+  ["da-mm",     "da", 2, "", "Mindmap",        "#e11d48"],
+  ["da-stocks", "da", 2, "", "Stock Scanner",  "#e11d48"],
+  ["da-trader", "da", 2, "", "Virtual Trader", "#e11d48"],
+  ["da-iran",   "da", 2, "", "Iran Dashboard", "#e11d48"],
+  ["da-costs",  "da", 2, "", "Cost Dashboard", "#e11d48"],
+  ["da-agents", "da", 2, "", "Subagents",      "#e11d48"],
+  ["da-deebot", "da", 2, "", "DEEBOT App",     "#e11d48"],
+  ["da-arch",   "da", 2, "", "Architecture",   "#e11d48"],
+  ["da-family", "da", 2, "", "Family Tree",    "#e11d48"],
 ];
 
-// Build lookup
 const byId = {};
 const children = {};
 DATA.forEach(d => {
@@ -281,7 +223,17 @@ DATA.forEach(d => {
   if (o.parent) { (children[o.parent] = children[o.parent] || []).push(o); }
 });
 
-// Layout
+const collapsed = new Set();
+function hasChildren(id) { return children[id] && children[id].length > 0; }
+function isVisible(id) {
+  let cur = byId[id];
+  while (cur.parent) {
+    if (collapsed.has(cur.parent)) return false;
+    cur = byId[cur.parent];
+  }
+  return true;
+}
+
 function layout() {
   const center = byId["center"];
   center.wx = 0; center.wy = 0;
@@ -289,23 +241,46 @@ function layout() {
   const catCount = cats.length;
   cats.forEach((cat, i) => {
     const a = (2 * Math.PI * i / catCount) - Math.PI / 2;
-    cat.wx = Math.cos(a) * 170;
-    cat.wy = Math.sin(a) * 170;
+    cat.wx = Math.cos(a) * 320;
+    cat.wy = Math.sin(a) * 320;
     const subs = children[cat.id] || [];
     const catAngle = a;
-    const subSpread = Math.min(Math.PI * 0.75, Math.PI * 0.3 + subs.length * 0.15);
+    const minGap = 0.28;
+    const subSpread = Math.max(subs.length * minGap, Math.PI * 0.45);
+    const subRadius = 180 + subs.length * 12;
     subs.forEach((sub, j) => {
-      const sa = catAngle - subSpread / 2 + subSpread * (subs.length === 1 ? 0.5 : j / (subs.length - 1));
-      sub.wx = cat.wx + Math.cos(sa) * 95;
-      sub.wy = cat.wy + Math.sin(sa) * 95;
+      const sa = catAngle - subSpread/2 + subSpread * (subs.length === 1 ? 0.5 : j/(subs.length-1));
+      sub.wx = cat.wx + Math.cos(sa) * subRadius;
+      sub.wy = cat.wy + Math.sin(sa) * subRadius;
     });
   });
+  // Repulsion
+  const allNodes = DATA.map(d => byId[d[0]]);
+  for (let iter = 0; iter < 60; iter++) {
+    let moved = false;
+    for (let i = 0; i < allNodes.length; i++) {
+      for (let j = i+1; j < allNodes.length; j++) {
+        const a = allNodes[i], b = allNodes[j];
+        const dx = b.wx - a.wx, dy = b.wy - a.wy;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        const minDist = [55, 45, 36];
+        const req = (minDist[Math.min(a.level,2)] || 30) + (minDist[Math.min(b.level,2)] || 30);
+        if (dist < req && dist > 0) {
+          const push = (req - dist) / 2 * 0.5;
+          const nx = dx/dist, ny = dy/dist;
+          if (a.id !== "center") { a.wx -= nx*push; a.wy -= ny*push; }
+          if (b.id !== "center") { b.wx += nx*push; b.wy += ny*push; }
+          moved = true;
+        }
+      }
+    }
+    if (!moved) break;
+  }
 }
 layout();
 
-// Camera
-let camX = 0, camY = 0, zoom = 0.55;
-const uiEl = document.getElementById("ui");
+let camX = 0, camY = 0, zoom = 0.42;
+const ui = document.getElementById("ui");
 const bgC = document.getElementById("bg");
 const lnC = document.getElementById("lines");
 const bgCtx = bgC.getContext("2d");
@@ -319,192 +294,305 @@ function resize() {
 window.addEventListener("resize", resize);
 resize();
 
-// Stars
-const stars = Array.from({length: 250}, () => ({
-  x: Math.random() * 5000 - 2500, y: Math.random() * 5000 - 2500,
-  r: Math.random() * 1.8 + 0.3, b: Math.random()
-}));
-
+var TILE = 2000;
+var starTile = Array.from({length:80}, function() {
+  return {x:Math.random()*TILE, y:Math.random()*TILE, r:Math.random()*0.6+0.2, b:Math.random()};
+});
 function drawStars(t) {
-  bgCtx.clearRect(0, 0, bgC.width, bgC.height);
-  const cx = bgC.width / 2, cy = bgC.height / 2;
-  stars.forEach(s => {
-    const sx = cx + (s.x - camX) * zoom * 0.25;
-    const sy = cy + (s.y - camY) * zoom * 0.25;
-    if (sx < -5 || sx > bgC.width + 5 || sy < -5 || sy > bgC.height + 5) return;
-    const a = 0.3 + 0.7 * Math.sin(t * 0.0008 + s.b * 6.28);
-    bgCtx.beginPath(); bgCtx.arc(sx, sy, s.r, 0, 6.28);
-    bgCtx.fillStyle = `rgba(255,255,255,${a})`; bgCtx.fill();
-  });
+  bgCtx.clearRect(0,0,bgC.width,bgC.height);
+  var cx=bgC.width/2, cy=bgC.height/2;
+  var parallax=0.3;
+  var offX=camX*parallax, offY=camY*parallax;
+  var left=-cx/(zoom*parallax)+offX, right=cx/(zoom*parallax)+offX;
+  var top2=-cy/(zoom*parallax)+offY, bottom=cy/(zoom*parallax)+offY;
+  var tXmin=Math.floor(left/TILE), tXmax=Math.floor(right/TILE);
+  var tYmin=Math.floor(top2/TILE), tYmax=Math.floor(bottom/TILE);
+  for (var tx=tXmin; tx<=tXmax; tx++) {
+    for (var ty=tYmin; ty<=tYmax; ty++) {
+      for (var i=0; i<starTile.length; i++) {
+        var s=starTile[i];
+        var wx=s.x+tx*TILE, wy=s.y+ty*TILE;
+        var sx=cx+(wx-offX)*zoom*parallax;
+        var sy=cy+(wy-offY)*zoom*parallax;
+        if (sx<-5||sx>bgC.width+5||sy<-5||sy>bgC.height+5) continue;
+        var a=0.4+0.6*Math.sin(t*0.001+s.b*6.28);
+        bgCtx.beginPath(); bgCtx.arc(sx,sy,s.r,0,6.28);
+        bgCtx.fillStyle="rgba(255,255,255,"+a+")"; bgCtx.fill();
+      }
+    }
+  }
 }
 
-// Create DOM nodes
+// Create nodes
 const nodeEls = {};
+const badgeEls = {};
 DATA.forEach((d, i) => {
   const o = byId[d[0]];
   const el = document.createElement("div");
-  const cls = o.level === 0 ? "center-node" : o.level === 1 ? "cat-node" : "sub-node";
+  const cls = ["center-node","cat-node","sub-node"][Math.min(o.level,2)];
   el.className = "node " + cls;
-  if (o.level === 1) {
-    el.style.background = `radial-gradient(circle, ${o.color}dd, ${o.color}88)`;
-    el.style.border = `2px solid ${o.color}`;
-    el.style.boxShadow = `0 0 25px ${o.color}66`;
-  } else if (o.level === 2) {
-    el.style.background = `radial-gradient(circle, ${o.color}77, ${o.color}44)`;
-    el.style.border = `1px solid ${o.color}66`;
-    el.style.boxShadow = `0 0 10px ${o.color}33`;
+
+  const circle = document.createElement("div");
+  circle.className = "node-circle";
+  if (o.level === 0) {
+    // center already styled in CSS
+  } else if (o.level === 1) {
+    circle.style.background = `radial-gradient(circle,${o.color}dd,${o.color}88)`;
+    circle.style.border = `2px solid ${o.color}`;
+    circle.style.boxShadow = `0 0 20px ${o.color}66`;
+  } else {
+    circle.style.background = `radial-gradient(circle,${o.color}99,${o.color}55)`;
+    circle.style.border = `2px solid ${o.color}88`;
+    circle.style.boxShadow = `0 0 12px ${o.color}44`;
   }
-  const labelHtml = o.label.replace(/\n/g, '<br>');
-  el.innerHTML = `<div class="node-label">${o.emoji ? `<span class="node-emoji">${o.emoji}</span>` : ""}<span>${labelHtml}</span></div>`;
-  uiEl.appendChild(el);
+
+  if (o.emoji) {
+    const sp = document.createElement("span");
+    sp.className = "node-emoji";
+    sp.innerHTML = o.emoji;
+    circle.appendChild(sp);
+  }
+
+  if (hasChildren(o.id)) {
+    const badge = document.createElement("div");
+    badge.className = "collapse-badge";
+    badge.textContent = "+";
+    badge.style.display = "none";
+    circle.appendChild(badge);
+    badgeEls[o.id] = badge;
+  }
+
+  el.appendChild(circle);
+
+  const text = document.createElement("div");
+  text.className = "node-text";
+  text.textContent = o.label;
+  el.appendChild(text);
+
+  el.addEventListener("click", e => {
+    e.stopPropagation();
+    if (dragMoved) return;
+    if (hasChildren(o.id)) {
+      if (collapsed.has(o.id)) collapsed.delete(o.id);
+      else collapsed.add(o.id);
+      updateBadges();
+    }
+    openPanel(o.id);
+  });
+
+  ui.appendChild(el);
   nodeEls[o.id] = el;
-  setTimeout(() => el.classList.add("visible"), 150 + i * 30);
+  setTimeout(() => el.classList.add("visible"), 80 + i * 20);
 });
 
-// Draw lines
+function updateBadges() {
+  for (const id in badgeEls) {
+    badgeEls[id].style.display = collapsed.has(id) ? "flex" : "none";
+  }
+}
+
 function drawLines() {
-  const cx = lnC.width / 2, cy = lnC.height / 2;
+  const cx = lnC.width/2, cy = lnC.height/2;
   lnCtx.clearRect(0, 0, lnC.width, lnC.height);
   DATA.forEach(d => {
     const o = byId[d[0]];
     if (!o.parent) return;
+    if (!isVisible(o.id)) return;
     const p = byId[o.parent];
-    const x1 = cx + (p.wx - camX) * zoom;
-    const y1 = cy + (p.wy - camY) * zoom;
-    const x2 = cx + (o.wx - camX) * zoom;
-    const y2 = cy + (o.wy - camY) * zoom;
-    const grad = lnCtx.createLinearGradient(x1, y1, x2, y2);
-    grad.addColorStop(0, (p.level === 0 ? o.color : p.color) + "99");
+    const x1 = cx + (p.wx - camX)*zoom;
+    const y1 = cy + (p.wy - camY)*zoom;
+    const x2 = cx + (o.wx - camX)*zoom;
+    const y2 = cy + (o.wy - camY)*zoom;
+    const grad = lnCtx.createLinearGradient(x1,y1,x2,y2);
+    grad.addColorStop(0, p.color + "88");
     grad.addColorStop(1, o.color + "44");
-    lnCtx.beginPath(); lnCtx.moveTo(x1, y1); lnCtx.lineTo(x2, y2);
+    lnCtx.beginPath(); lnCtx.moveTo(x1,y1); lnCtx.lineTo(x2,y2);
     lnCtx.strokeStyle = grad;
-    lnCtx.lineWidth = o.level === 1 ? 2.5 : 1.5;
+    lnCtx.lineWidth = o.level === 1 ? 2 : 1.5;
     lnCtx.stroke();
   });
 }
 
-// Position nodes
 function updatePositions() {
-  const cx = lnC.width / 2, cy = lnC.height / 2;
+  const cx = lnC.width/2, cy = lnC.height/2;
   DATA.forEach(d => {
     const o = byId[d[0]];
     const el = nodeEls[o.id];
-    const size = o.level === 0 ? 46 : o.level === 1 ? 36 : 26;
-    const sx = cx + (o.wx - camX) * zoom - size / 2;
-    const sy = cy + (o.wy - camY) * zoom - size / 2;
+    const vis = isVisible(o.id);
+    if (!vis) { el.classList.add("hidden"); el.classList.remove("visible"); return; }
+    el.classList.remove("hidden");
+    if (!el.classList.contains("visible")) el.classList.add("visible");
+    const sx = cx + (o.wx - camX)*zoom;
+    const sy = cy + (o.wy - camY)*zoom;
     el.style.left = sx + "px";
     el.style.top = sy + "px";
+    const textEl = el.querySelector(".node-text");
+    if (textEl) {
+      const compensate = zoom < 0.3 ? 1.8 : zoom < 0.45 ? 1.4 : zoom < 0.6 ? 1.15 : 1;
+      textEl.style.transform = `scale(${compensate})`;
+    }
   });
 }
 
-// Interaction
-let dragging = false, dragged = false, lastX, lastY;
-document.addEventListener("pointerdown", e => {
-  if (e.target.closest('#legend,#nav,#title,#sidebar')) return;
-  dragging = true; dragged = false; lastX = e.clientX; lastY = e.clientY;
-});
+let dragging = false, lastX, lastY, dragMoved = false;
+document.addEventListener("pointerdown", e => { dragging = true; dragMoved = false; lastX = e.clientX; lastY = e.clientY; });
 document.addEventListener("pointermove", e => {
   if (!dragging) return;
   const dx = e.clientX - lastX, dy = e.clientY - lastY;
-  if (Math.abs(dx) > 3 || Math.abs(dy) > 3) dragged = true;
-  camX -= dx / zoom;
-  camY -= dy / zoom;
+  if (Math.abs(dx) > 3 || Math.abs(dy) > 3) dragMoved = true;
+  camX -= dx/zoom; camY -= dy/zoom;
   lastX = e.clientX; lastY = e.clientY;
 });
-document.addEventListener("pointerup", () => { dragging = false; });
+document.addEventListener("pointerup", e => {
+  dragging = false;
+  if (!dragMoved && !e.target.closest(".node,.panel-child,#panel")) {
+    document.getElementById("panel").classList.remove("open");
+  }
+});
 document.addEventListener("wheel", e => {
   e.preventDefault();
-  const f = e.deltaY > 0 ? 0.92 : 1.08;
-  zoom = Math.max(0.15, Math.min(3, zoom * f));
+  const f = e.deltaY > 0 ? 0.9 : 1.1;
+  zoom = Math.max(0.1, Math.min(3, zoom * f));
 }, {passive: false});
 
-// Touch zoom
+// Touch pinch
 let lastDist = 0;
 document.addEventListener("touchstart", e => {
   if (e.touches.length === 2) {
     const dx = e.touches[0].clientX - e.touches[1].clientX;
     const dy = e.touches[0].clientY - e.touches[1].clientY;
-    lastDist = Math.sqrt(dx * dx + dy * dy);
+    lastDist = Math.sqrt(dx*dx + dy*dy);
   }
 });
 document.addEventListener("touchmove", e => {
   if (e.touches.length === 2) {
     const dx = e.touches[0].clientX - e.touches[1].clientX;
     const dy = e.touches[0].clientY - e.touches[1].clientY;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    if (lastDist > 0) {
-      const f = dist / lastDist;
-      zoom = Math.max(0.15, Math.min(3, zoom * f));
-    }
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    if (lastDist > 0) zoom = Math.max(0.1, Math.min(3, zoom * dist/lastDist));
     lastDist = dist;
     e.preventDefault();
   }
 }, {passive: false});
 
-// Sidebar
-let selectedNode = null;
-const sidebar = document.getElementById("sidebar");
-const sbContent = document.getElementById("sb-content");
+// DESC
+const DESC = {
+  "center": "OpenClaw - AI agent gateway connecting LLMs to messaging platforms, tools, and devices. Running on DESKTOP-P5I7EIM for Yehuda Mizrahi.",
+  "gw": "The Gateway core daemon. Manages all WebSocket connections, HTTP endpoints, sessions, and routes messages. Runs on port 18789.",
+  "gw-ws": "WebSocket API for all client communication. JSON frames with typed request/response.",
+  "gw-d": "Long-running daemon process on port 18789. Maintains all provider connections and emits events.",
+  "gw-h": "HTTP server for REST API, health checks, canvas hosting, and webhook receivers.",
+  "ch": "15+ messaging channel integrations. Each channel is a plugin.",
+  "ch-wa": "WhatsApp via Baileys. Supports DMs, groups, reactions, media, voice. Allowlist: Yehuda (+972502446410), Ilana (+972542049822).",
+  "ch-tg": "Telegram bot via grammY framework. Commands, inline queries, media.",
+  "ch-dc": "Discord bot with channels, threads, reactions, and slash commands.",
+  "ch-sg": "Signal messenger - encrypted conversations.",
+  "ch-sl": "Slack workspace integration.",
+  "ch-im": "iMessage (macOS only).",
+  "ch-more": "IRC, Google Chat, Matrix, MS Teams, Line, Nostr, Webchat, SMS, Email.",
+  "ag": "The AI agent system. Manages sessions, reasoning loop, and memory.",
+  "ag-s": "Session management. Main session for owner DMs; isolated sessions per group or sub-agent.",
+  "ag-al": "Core loop: receive → build prompt → call LLM → execute tools → respond.",
+  "ag-m": "File-based memory. MEMORY.md for long-term, daily files for raw logs, memory_search for retrieval.",
+  "mo": "Multi-provider model support with failover and aliases.",
+  "mo-an": "Anthropic - Claude Sonnet (default), Opus. Primary provider.",
+  "mo-oa": "OpenAI - GPT-4o, o1, o3.",
+  "mo-gk": "xAI - Grok 4. Used in market-news-sentiment and trader jobs.",
+  "mo-go": "Google - Gemini Pro/Flash. Long context windows.",
+  "mo-ol": "Ollama - local models, no API key needed.",
+  "mo-or": "OpenRouter - 100+ models via single endpoint.",
+  "to": "Built-in tools, custom skills, and extension plugins.",
+  "to-ex": "exec - shell commands with PTY, background, timeouts.",
+  "to-br": "browser - Playwright automation: navigate, click, screenshot.",
+  "to-web": "web_search (Brave) + web_fetch (URL to markdown).",
+  "to-sk": "12 custom skills in workspace/skills/. Plus ClawHub community skills.",
+  "to-pl": "Extension plugins - new channels, memory backends, voice integrations.",
+  "no": "Mobile/desktop nodes paired to the Gateway.",
+  "no-ios": "iOS app - camera, canvas, location, notifications.",
+  "no-and": "Android app - full capabilities.",
+  "no-mac": "macOS app - menu bar, voice overlay, screen capture.",
+  "no-cam": "Camera capture - photos and video clips.",
+  "no-can": "Canvas - agent-controlled HTML surface on device.",
+  "ws": "The agent workspace at C:\\Users\\YEHUDA\\.openclaw\\workspace.",
+  "ws-ag": "AGENTS.md - workspace rules, safety, memory conventions, heartbeat guidance.",
+  "ws-so": "SOUL.md - personality, tone, formatting rules (no em dash, no filler).",
+  "ws-mem": "MEMORY.md - curated long-term memory (family, skills, smart home, decisions).",
+  "ws-sk": "12 custom skills: ai-chief-architect, husband, parenting, hebrew, technical-analysis, secure-skill-downloader, fitness-nutrition, coffee-master, market-news-sentiment (Grok 4), analyst-price-targets, ecovacs, weather.",
+  "ws-sc": "Python/PS scripts: ecovacs.py, ecovacs_server.py (port 8765), deebot_autostart.py, update-costs.js, backup_hub.ps1.",
+  "au": "Automation: cron jobs, heartbeat polling, webhooks.",
+  "au-cr": "Cron scheduler - birthday reminders, daily AI news, stock scanner, trader, backups, Iran dashboard.",
+  "au-hb": "Heartbeat - periodic checks from HEARTBEAT.md (mindmap freshness, git push).",
+  "au-wh": "Webhook endpoints for external triggers.",
+  "ui": "Interfaces for interacting with OpenClaw.",
+  "ui-wc": "WebChat - browser-based chat at localhost.",
+  "ui-cu": "Control UI - admin dashboard.",
+  "ui-cl": "CLI - 'openclaw' command for all management.",
+  "ui-ma": "macOS native app with menu bar.",
+  "se": "Security: token auth, device pairing, sandboxed execution.",
+  "se-tk": "Gateway token - shared secret for WebSocket auth.",
+  "se-pr": "Device pairing with QR code approval flow.",
+  "se-sb": "Sandboxed exec, tool policies, elevated mode.",
+  "sh": "Smart home devices connected via OpenClaw. DEEBOT X8 PRO OMNI controlled remotely.",
+  "sh-db": "DEEBOT X8 PRO OMNI robot vacuum with mop. Account: yehudamiz007@gmail.com. Country: IL.",
+  "sh-cl": "Clean, Stop, Pause, Resume, Dock, Sound. Fan speed: Quiet/Normal/Max/Max+. Water: Low/Med/High/UltraHigh.",
+  "sh-mo": "Work modes: Vacuum+Mop, Vacuum only, Mop only, Mop after Vacuum. Volume control. Clean count.",
+  "sh-cf": "Cloudflare free tunnel (cloudflared.exe) → localhost:8765. URL auto-updates HTML and pushes to GitHub.",
+  "da": "All GitHub Pages dashboards and apps. Base: https://yehudamiz007.github.io/mindmap/",
+  "da-hub": "Command Center - all links, cron jobs, skills overview. /hub.html",
+  "da-mm": "This interactive brain map. /",
+  "da-stocks": "Daily stock & crypto scanner - Grok picks + 3-pillar analysis. /dashboard/",
+  "da-trader": "Grok Virtual Trader - $1000 virtual portfolio managed hourly. /dashboard/trading.html",
+  "da-iran": "Iran conflict intelligence dashboard - threat level, news, forces. /iran-dashboard/",
+  "da-costs": "OpenClaw cost monitoring. /dashboard.html",
+  "da-agents": "Sub-agents cost tracking sorted high-to-low. /subagents-dashboard/",
+  "da-deebot": "Mobile app to control DEEBOT remotely via Cloudflare tunnel. /ecovacs-joystick/",
+  "da-arch": "7 interactive architecture diagrams. /architecture/",
+  "da-family": "Mizrahi family tree. /family-tree/",
+};
 
-function closeSidebar() {
-  sidebar.classList.remove("open");
-  if (selectedNode) { nodeEls[selectedNode].classList.remove("selected"); selectedNode = null; }
-}
+const LEVELS = ["Core", "Category", "Component", "Detail"];
+const panel = document.getElementById("panel");
+const panelClose = document.getElementById("panel-close");
+const panelEmoji = document.getElementById("panel-emoji");
+const panelTitle = document.getElementById("panel-title");
+const panelLevel = document.getElementById("panel-level");
+const panelPath = document.getElementById("panel-path");
+const panelDesc = document.getElementById("panel-desc");
+const panelChildrenTitle = document.getElementById("panel-children-title");
+const panelChildrenEl = document.getElementById("panel-children");
 
-function openSidebar(id) {
+function openPanel(id) {
   const o = byId[id];
   if (!o) return;
-  if (selectedNode) nodeEls[selectedNode].classList.remove("selected");
-  selectedNode = id;
-  nodeEls[id].classList.add("selected");
-  
+  panelEmoji.innerHTML = o.emoji || "";
+  panelTitle.textContent = o.label;
+  panelLevel.innerHTML = `<span class="panel-dot" style="background:${o.color}"></span>${LEVELS[Math.min(o.level,3)]}`;
+  const path = [];
+  let cur = o;
+  while (cur) { path.unshift(cur); cur = cur.parent ? byId[cur.parent] : null; }
+  panelPath.innerHTML = path.map((p, i) =>
+    i < path.length-1
+      ? `<a onclick="openPanel('${p.id}')">${p.label}</a>`
+      : `<span>${p.label}</span>`
+  ).join(' <span style="color:#475569"> › </span> ');
+  panelDesc.textContent = DESC[id] || "No description available.";
   const kids = children[id] || [];
-  const parent = o.parent ? byId[o.parent] : null;
-  const desc = DESC[id] || "";
-  const label = o.label.replace(/\n/g, " ");
-  
-  let html = "";
-  if (o.emoji) html += `<div class="sb-emoji">${o.emoji}</div>`;
-  html += `<div class="sb-title">${label}</div>`;
-  if (desc) html += `<div class="sb-desc">${desc}</div>`;
-  
-  // Tags
-  html += `<div style="text-align:center;margin-bottom:12px">`;
-  html += `<span class="sb-tag">Level ${o.level}</span>`;
-  if (parent) html += `<span class="sb-tag" style="cursor:pointer" onclick="openSidebar('${parent.id}')">${parent.emoji || ""} ${parent.label.replace(/\n/g," ")}</span>`;
-  html += `</div>`;
-  
-  if (kids.length) {
-    html += `<div class="sb-section">Sub-components (${kids.length})</div>`;
-    html += `<div class="sb-children">`;
-    kids.forEach(k => {
-      const kLabel = k.label.replace(/\n/g, " ");
-      html += `<div class="sb-child" onclick="openSidebar('${k.id}')">${k.emoji ? k.emoji + " " : ""}${kLabel}</div>`;
-    });
-    html += `</div>`;
+  if (kids.length > 0) {
+    panelChildrenTitle.textContent = o.level === 0 ? "Categories" : "Components";
+    panelChildrenEl.innerHTML = kids.map(k =>
+      `<div class="panel-child" onclick="openPanel('${k.id}')">
+        <div class="panel-child-dot" style="background:${k.color}"></div>
+        <div class="panel-child-name">${k.label}</div>
+      </div>`
+    ).join("");
+  } else {
+    panelChildrenTitle.textContent = "";
+    panelChildrenEl.innerHTML = "";
   }
-  
-  sbContent.innerHTML = html;
-  sidebar.classList.add("open");
+  panel.classList.add("open");
 }
+panelClose.addEventListener("click", () => panel.classList.remove("open"));
 
-// Click detection on nodes
-Object.keys(nodeEls).forEach(id => {
-  nodeEls[id].addEventListener("click", e => {
-    if (dragged) return;
-    e.stopPropagation();
-    openSidebar(id);
-  });
-});
-
-// Click outside closes sidebar
-document.addEventListener("pointerup", e => {
-  if (!dragging && !e.target.closest("#sidebar") && !e.target.closest(".node")) {
-    closeSidebar();
-  }
-});
-
-// Render loop
 function frame(t) {
   drawStars(t);
   drawLines();
