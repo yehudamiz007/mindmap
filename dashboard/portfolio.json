@@ -1,5 +1,5 @@
 {
-  "cash": 0.13,
+  "cash": 0.01,
   "startingBalance": 1000,
   "startDate": "2026-02-21T01:30:00+02:00",
   "positions": [
@@ -8,13 +8,13 @@
       "name": "Alphabet Inc Class A",
       "shares": 0.571,
       "avgCost": 314.98,
-      "currentPrice": 312.96,
-      "unrealizedPL": -1.15,
-      "unrealizedPLPct": -0.36,
+      "currentPrice": 306.48,
+      "unrealizedPL": -4.60,
+      "unrealizedPLPct": -2.56,
       "newsScore": 8.0,
       "analystScore": 8.0,
-      "technicalScore": 7.0,
-      "combinedScore": 7.65,
+      "technicalScore": 6.5,
+      "combinedScore": 7.475,
       "buyDate": "2026-02-21T01:28:00+02:00"
     },
     {
@@ -22,13 +22,13 @@
       "name": "NVIDIA Corp",
       "shares": 1.313,
       "avgCost": 189.82,
-      "currentPrice": 195.63,
-      "unrealizedPL": 7.63,
-      "unrealizedPLPct": 3.06,
+      "currentPrice": 189.51,
+      "unrealizedPL": -0.41,
+      "unrealizedPLPct": -0.17,
       "newsScore": 9.5,
-      "analystScore": 8.5,
-      "technicalScore": 8.5,
-      "combinedScore": 8.80,
+      "analystScore": 9.0,
+      "technicalScore": 8.0,
+      "combinedScore": 8.8,
       "buyDate": "2026-02-21T01:28:00+02:00"
     },
     {
@@ -36,41 +36,27 @@
       "name": "Micron Technology Inc",
       "shares": 0.28,
       "avgCost": 428.17,
-      "currentPrice": 429.00,
-      "unrealizedPL": 0.23,
-      "unrealizedPLPct": 0.19,
+      "currentPrice": 415.68,
+      "unrealizedPL": -3.51,
+      "unrealizedPLPct": -2.93,
       "newsScore": 9.0,
       "analystScore": 8.5,
       "technicalScore": 8.0,
-      "combinedScore": 8.48,
+      "combinedScore": 8.475,
       "buyDate": "2026-02-20T16:00:00-08:00"
-    },
-    {
-      "ticker": "AVGO",
-      "name": "Broadcom Inc",
-      "shares": 0.3008,
-      "avgCost": 332.65,
-      "currentPrice": 332.31,
-      "unrealizedPL": -0.10,
-      "unrealizedPLPct": -0.10,
-      "newsScore": 8.5,
-      "analystScore": 8.2,
-      "technicalScore": 7.5,
-      "combinedScore": 8.05,
-      "buyDate": "2026-02-20T18:00:00-08:00"
     },
     {
       "ticker": "META",
       "name": "Meta Platforms Inc",
       "shares": 0.235,
       "avgCost": 641.75,
-      "currentPrice": 653.69,
-      "unrealizedPL": 2.81,
-      "unrealizedPLPct": 1.86,
+      "currentPrice": 658.40,
+      "unrealizedPL": 3.89,
+      "unrealizedPLPct": 2.52,
       "newsScore": 9.0,
-      "analystScore": 8.0,
-      "technicalScore": 8.0,
-      "combinedScore": 8.30,
+      "analystScore": 8.5,
+      "technicalScore": 8.5,
+      "combinedScore": 8.65,
       "buyDate": "2026-02-23T09:00:00-08:00"
     },
     {
@@ -78,12 +64,12 @@
       "name": "Apple Inc",
       "shares": 0.555,
       "avgCost": 266.26,
-      "currentPrice": 274.23,
-      "unrealizedPL": 4.42,
-      "unrealizedPLPct": 2.99,
+      "currentPrice": 273.92,
+      "unrealizedPL": 4.26,
+      "unrealizedPLPct": 2.80,
       "newsScore": 8.0,
-      "analystScore": 7.0,
-      "technicalScore": 8.0,
+      "analystScore": 7.5,
+      "technicalScore": 7.5,
       "combinedScore": 7.65,
       "buyDate": "2026-02-23T13:00:00-08:00"
     },
@@ -92,14 +78,28 @@
       "name": "Advanced Micro Devices Inc",
       "shares": 0.239,
       "avgCost": 210.86,
-      "currentPrice": 210.86,
+      "currentPrice": 205.89,
+      "unrealizedPL": -1.19,
+      "unrealizedPLPct": -2.36,
+      "newsScore": 9.0,
+      "analystScore": 8.8,
+      "technicalScore": 7.8,
+      "combinedScore": 8.51,
+      "buyDate": "2026-02-25T13:00:00-08:00"
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon.com Inc",
+      "shares": 0.453,
+      "avgCost": 209.53,
+      "currentPrice": 209.53,
       "unrealizedPL": 0.00,
       "unrealizedPLPct": 0.00,
-      "newsScore": 9.0,
-      "analystScore": 8.5,
-      "technicalScore": 8.0,
-      "combinedScore": 8.48,
-      "buyDate": "2026-02-25T13:00:00-08:00"
+      "newsScore": 8.5,
+      "analystScore": 8.2,
+      "technicalScore": 7.5,
+      "combinedScore": 8.035,
+      "buyDate": "2026-02-26T07:00:00-08:00"
     }
   ],
   "closedTrades": [
@@ -258,6 +258,18 @@
       "realizedPL": 3.49,
       "realizedPLPct": 7.43,
       "sellReason": "Profit > 4%, rotating capital"
+    },
+    {
+      "ticker": "AVGO",
+      "name": "Broadcom Inc",
+      "shares": 0.3008,
+      "buyPrice": 332.65,
+      "sellPrice": 315.31,
+      "buyDate": "2026-02-20T18:00:00-08:00",
+      "sellDate": "2026-02-26T07:00:00-08:00",
+      "realizedPL": -5.24,
+      "realizedPLPct": -5.24,
+      "sellReason": "Rotated to AMZN (score 8.035 vs 7.255, cut -5.24% loss)"
     }
   ],
   "portfolioHistory": [
@@ -297,6 +309,7 @@
     {"timestamp": "25.02.2026 11:00 PST", "value": 1011.53},
     {"timestamp": "25.02.2026 12:00 PST", "value": 1011.11},
     {"timestamp": "25.02.2026 13:00 PST", "value": 1011.85},
-    {"timestamp": "26.02.2026 06:00 PST", "value": 1011.94}
+    {"timestamp": "26.02.2026 06:00 PST", "value": 1011.94},
+    {"timestamp": "26.02.2026 07:00 PST", "value": 1006.69}
   ]
 }
