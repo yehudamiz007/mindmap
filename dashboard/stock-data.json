@@ -1,19 +1,20 @@
 {
   "lastUpdated": "26.02.2026 07:00 IST",
   "stocks": [
-    {"ticker": "NVDA", "name": "NVIDIA Corp", "price": "$195.63", "news": 8.5, "analyst": 8.2, "technical": 7.8, "total": 8.15, "notes": "ביקוש חזק לשבבי AI עם דוחות רווחים חיוביים"},
-    {"ticker": "BTC-USD", "name": "Bitcoin", "price": "$68,234.87", "news": 8.2, "analyst": 7.8, "technical": 8.0, "total": 8.01, "notes": "סנטימנט חיובי בשוק וזרימת כספים ל-ETF"},
-    {"ticker": "ASML", "name": "ASML Holding N.V.", "price": "$1,526.51", "news": 8.0, "analyst": 8.2, "technical": 7.8, "total": 7.99, "notes": "מנהיגות בליתוגרפיה של EUV ותנופה במגזר"},
-    {"ticker": "AMD", "name": "Advanced Micro Devices", "price": "$210.86", "news": 7.8, "analyst": 8.0, "technical": 7.5, "total": 7.78, "notes": "זוכה בנתח שוק ב-CPU ו-GPU, שדרוגי אנליסטים"},
-    {"ticker": "ARM", "name": "Arm Holdings plc", "price": "$131.74", "news": 7.5, "analyst": 7.8, "technical": 7.2, "total": 7.49, "notes": "חדשנות בשבבים לנייד וקניות פנימיות אחרונות"},
-    {"ticker": "XRP-USD", "name": "Ripple", "price": "$1.4465", "news": 7.8, "analyst": 7.5, "technical": 7.2, "total": 7.49, "notes": "התפתחויות משפטיות חיוביות בתיק SEC"},
-    {"ticker": "ETH-USD", "name": "Ethereum", "price": "$2,063.28", "news": 7.5, "analyst": 7.2, "technical": 7.4, "total": 7.37, "notes": "שדרוגי רשת קרובים וצמיחה ב-DeFi"},
-    {"ticker": "LRCX", "name": "Lam Research Corporation", "price": "$249.48", "news": 7.2, "analyst": 7.5, "technical": 7.3, "total": 7.33, "notes": "עלייה בביקוש לציוד מוליכים למחצה"},
-    {"ticker": "META", "name": "Meta Platforms, Inc.", "price": "$653.69", "news": 7.2, "analyst": 7.5, "technical": 7.0, "total": 7.22, "notes": "חדשות חיוביות על השקעות ב-VR/AR וצמיחה בהכנסות מפרסום"},
-    {"ticker": "QCOM", "name": "Qualcomm Incorporated", "price": "$145.84", "news": 7.0, "analyst": 7.3, "technical": 6.9, "total": 7.07, "notes": "התרחבות 5G והפתעת רווחים חזקה"},
-    {"ticker": "GOOGL", "name": "Alphabet Inc.", "price": "$312.96", "news": 7.0, "analyst": 7.2, "technical": 6.8, "total": 7.00, "notes": "צמיחה במגזר הענן ושילוב AI בחיפוש"},
-    {"ticker": "TSLA", "name": "Tesla, Inc.", "price": "$417.33", "news": 6.5, "analyst": 7.0, "technical": 6.8, "total": 6.78, "notes": "שמועות על דגם חדש ותנופה חזקה במגזר EV"},
-    {"ticker": "SMCI", "name": "Super Micro Computer, Inc.", "price": "$33.60", "news": 6.8, "analyst": 6.5, "technical": 7.0, "total": 6.78, "notes": "ביקוש עולה לשרתי AI, גרף פריצה"},
-    {"ticker": "ADA-USD", "name": "Cardano", "price": "$0.2942", "news": 6.8, "analyst": 6.5, "technical": 6.7, "total": 6.67, "notes": "תגמולי staking והרחבת מערכת אקולוגית"}
+    {"ticker": "NVDA", "name": "NVIDIA Corp", "price": "$189.51", "news": 0, "analyst": 0, "technical": 0, "total": 0, "notes": "חסר ניתוח מלא עקב מפתח API חסר"},
+    {"ticker": "AMD", "name": "Advanced Micro Devices", "price": "$205.89", "news": 0, "analyst": 0, "technical": 0, "total": 0, "notes": "חסר ניתוח מלא עקב מפתח API חסר"},
+    {"ticker": "TSLA", "name": "Tesla, Inc.", "price": "$413.29", "news": 0, "analyst": 0, "technical": 0, "total": 0, "notes": "חסר ניתוח מלא עקב מפתח API חסר"},
+    {"ticker": "AAPL", "name": "Apple Inc.", "price": "$273.92", "news": 0, "analyst": 0, "technical": 0, "total": 0, "notes": "חסר ניתוח מלא עקב מפתח API חסר"},
+    {"ticker": "MSFT", "name": "Microsoft Corp", "price": "$406.05", "news": 0, "analyst": 0, "technical": 0, "total": 0, "notes": "חסר ניתוח מלא עקב מפתח API חסר"},
+    {"ticker": "GOOGL", "name": "Alphabet Inc.", "price": "$306.48", "news": 0, "analyst": 0, "technical": 0, "total": 0, "notes": "חסר ניתוח מלא עקב מפתח API חסר"},
+    {"ticker": "META", "name": "Meta Platforms Inc.", "price": "$658.40", "news": 0, "analyst": 0, "technical": 0, "total": 0, "notes": "חסר ניתוח מלא עקב מפתח API חסר"},
+    {"ticker": "AMZN", "name": "Amazon.com Inc.", "price": "$209.53", "news": 0, "analyst": 0, "technical": 0, "total": 0, "notes": "חסר ניתוח מלא עקב מפתח API חסר"},
+    {"ticker": "SMCI", "name": "Super Micro Computer", "price": "$32.30", "news": 0, "analyst": 0, "technical": 0, "total": 0, "notes": "חסר ניתוח מלא עקב מפתח API חסר"},
+    {"ticker": "CRWD", "name": "CrowdStrike Holdings", "price": "$381.03", "news": 0, "analyst": 0, "technical": 0, "total": 0, "notes": "חסר ניתוח מלא עקב מפתח API חסר"},
+    {"ticker": "BTC-USD", "name": "Bitcoin", "price": "$67,674.28", "news": 0, "analyst": 0, "technical": 0, "total": 0, "notes": "חסר ניתוח מלא עקב מפתח API חסר"},
+    {"ticker": "ETH-USD", "name": "Ethereum", "price": "$2,050.52", "news": 0, "analyst": 0, "technical": 0, "total": 0, "notes": "חסר ניתוח מלא עקב מפתח API חסר"},
+    {"ticker": "SOL-USD", "name": "Solana", "price": "$87.03", "news": 0, "analyst": 0, "technical": 0, "total": 0, "notes": "חסר ניתוח מלא עקב מפתח API חסר"},
+    {"ticker": "XRP-USD", "name": "Ripple", "price": "$1.44", "news": 0, "analyst": 0, "technical": 0, "total": 0, "notes": "חסר ניתוח מלא עקב מפתח API חסר"},
+    {"ticker": "ADA-USD", "name": "Cardano", "price": "$0.29", "news": 0, "analyst": 0, "technical": 0, "total": 0, "notes": "חסר ניתוח מלא עקב מפתח API חסר"}
   ]
 }
