@@ -253,7 +253,7 @@ html,body{width:100%;min-height:100%;background:var(--bg);color:var(--text);font
 const TUNNEL_FILE_HINT = "lgtv";
 let serverUrl = localStorage.getItem("lgtv_server") || "";
 const ipInput = document.getElementById("tvIp");
-const storedIp = localStorage.getItem("lgtv_ip") || "";
+const storedIp = localStorage.getItem("lgtv_ip") || "192.168.68.111";
 if(storedIp) ipInput.value = storedIp;
 
 // Try to find server URL from tunnel_url.txt or use localhost
