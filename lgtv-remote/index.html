@@ -33,10 +33,7 @@ html,body{width:100%;min-height:100%;background:var(--bg);color:var(--text);font
 .status-dot.error{background:#ef4444}
 
 /* IP Config */
-.ip-bar{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 14px;display:flex;gap:8px;align-items:center}
-.ip-bar input{flex:1;background:none;border:none;color:var(--text);font-size:13px;outline:none;direction:ltr}
-.ip-bar input::placeholder{color:var(--muted)}
-.ip-bar button{background:var(--accent);border:none;color:#fff;font-size:12px;font-weight:600;padding:6px 12px;border-radius:8px;cursor:pointer;white-space:nowrap}
+
 
 /* Cards */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;flex-direction:column;gap:10px}
@@ -104,12 +101,6 @@ html,body{width:100%;min-height:100%;background:var(--bg);color:var(--text);font
       </div>
     </div>
     <div id="statusDot" class="status-dot"></div>
-  </div>
-
-  <!-- IP Config -->
-  <div class="ip-bar">
-    <input id="tvIp" type="text" inputmode="decimal" placeholder="192.168.68.111 (IP של הטלוויזיה)" dir="ltr">
-    <button onclick="saveIp()">שמור</button>
   </div>
 
   <!-- Power -->
@@ -250,20 +241,14 @@ html,body{width:100%;min-height:100%;background:var(--bg);color:var(--text);font
 <div id="toast"></div>
 
 <script>
-const TUNNEL_FILE_HINT = "lgtv";
-let serverUrl = localStorage.getItem("lgtv_server") || "";
-const ipInput = document.getElementById("tvIp");
-const storedIp = localStorage.getItem("lgtv_ip") || "192.168.68.111";
-if(storedIp) ipInput.value = storedIp;
+const TV_IP = "192.168.68.111";
+let serverUrl = "http://localhost:8766";
 
-// Try to find server URL from tunnel_url.txt or use localhost
 async function detectServer() {
-  // Try localhost first
   const candidates = [
     "http://localhost:8766",
     "http://127.0.0.1:8766",
   ];
-  // Also try stored
   const stored = localStorage.getItem("lgtv_server");
   if (stored) candidates.unshift(stored);
 
@@ -274,6 +259,12 @@ async function detectServer() {
         serverUrl = url;
         localStorage.setItem("lgtv_server", url);
         setStatus("connected");
+        // Always ensure server targets the right IP
+        fetch(serverUrl + "/api/set_ip", {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify({ip: TV_IP})
+        }).catch(()=>{});
         return;
       }
     } catch {}
@@ -284,21 +275,6 @@ async function detectServer() {
 function setStatus(s) {
   const dot = document.getElementById("statusDot");
   dot.className = "status-dot " + s;
-}
-
-function saveIp() {
-  const ip = ipInput.value.trim();
-  if (!ip) return;
-  localStorage.setItem("lgtv_ip", ip);
-  // Tell server to update target IP
-  fetch((serverUrl||"http://localhost:8766") + "/api/set_ip", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({ip})
-  }).then(r => r.json()).then(d => {
-    if(d.ok) toast("IP עודכן: " + ip);
-    else toast("שגיאה: " + d.error, true);
-  }).catch(() => toast("שרת לא זמין", true));
 }
 
 async function cmd(command, arg) {
