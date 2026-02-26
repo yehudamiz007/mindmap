@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>LG TV Remote</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0d0d0f;
+  --surface:#1a1a20;
+  --surface2:#22222a;
+  --border:#2e2e3a;
+  --accent:#c8102e;
+  --accent2:#ff1744;
+  --text:#f0f0f5;
+  --muted:#6b7280;
+  --btn:#1e1e28;
+  --btn-hover:#28283a;
+  --radius:14px;
+}
+html,body{width:100%;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;overscroll-behavior:none}
+.app{max-width:400px;margin:0 auto;padding:16px;display:flex;flex-direction:column;gap:14px;padding-bottom:40px}
+
+/* Header */
+.header{display:flex;align-items:center;justify-content:space-between;padding:8px 0}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-icon{width:36px;height:36px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.logo-text{font-size:18px;font-weight:700;letter-spacing:-.3px}
+.logo-sub{font-size:11px;color:var(--muted);margin-top:1px}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#374151;transition:background .3s}
+.status-dot.connected{background:#10b981;box-shadow:0 0 8px #10b981}
+.status-dot.error{background:#ef4444}
+
+/* IP Config */
+.ip-bar{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 14px;display:flex;gap:8px;align-items:center}
+.ip-bar input{flex:1;background:none;border:none;color:var(--text);font-size:13px;outline:none;direction:ltr}
+.ip-bar input::placeholder{color:var(--muted)}
+.ip-bar button{background:var(--accent);border:none;color:#fff;font-size:12px;font-weight:600;padding:6px 12px;border-radius:8px;cursor:pointer;white-space:nowrap}
+
+/* Cards */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;flex-direction:column;gap:10px}
+.card-title{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px}
+
+/* Buttons */
+.btn{background:var(--btn);border:1px solid var(--border);border-radius:12px;color:var(--text);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;transition:all .12s;active-scale:.93;user-select:none;touch-action:manipulation;-webkit-user-select:none}
+.btn:active{transform:scale(.93);background:var(--btn-hover);border-color:#3e3e50}
+.btn .icon{font-size:20px;line-height:1}
+.btn .label{font-size:10px;color:var(--muted);font-weight:500}
+.btn.accent{background:var(--accent);border-color:var(--accent2)}
+.btn.accent:active{background:#a00d26}
+.btn.accent .label{color:rgba(255,255,255,.7)}
+.btn.large{height:64px;font-size:22px;border-radius:14px}
+.btn.medium{height:52px;font-size:18px}
+.btn.small{height:44px;font-size:15px}
+.btn.num{height:44px;font-size:17px;font-weight:600}
+
+/* Power row */
+.power-row{display:flex;gap:10px}
+.power-row .btn{flex:1;height:58px}
+
+/* Nav grid */
+.nav-wrap{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr 1fr;gap:8px;aspect-ratio:1}
+.nav-wrap .btn.center{background:var(--surface2);border-color:#3e3e50;font-size:16px}
+
+/* Volume/Channel */
+.vc-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.vc-col{display:flex;flex-direction:column;gap:8px}
+.vc-label{font-size:11px;color:var(--muted);font-weight:600;text-align:center;text-transform:uppercase;letter-spacing:.6px}
+.vc-btns{display:flex;flex-direction:column;gap:6px}
+.vc-btns .btn{height:48px}
+
+/* Media row */
+.media-row{display:flex;gap:7px}
+.media-row .btn{flex:1;height:48px}
+
+/* Num pad */
+.numpad{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
+.numpad .btn{height:46px}
+
+/* Apps */
+.apps-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.app-btn{height:54px;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:12px;border:1px solid var(--border);background:var(--btn);cursor:pointer;transition:all .12s;user-select:none;touch-action:manipulation}
+.app-btn:active{transform:scale(.95);background:var(--btn-hover)}
+.app-btn img{width:24px;height:24px;object-fit:contain;border-radius:5px}
+.app-btn span{font-size:13px;font-weight:600;color:var(--text)}
+
+/* Toast */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:rgba(20,20,30,.95);border:1px solid var(--border);border-radius:10px;padding:9px 18px;font-size:13px;color:var(--text);transition:transform .25s;z-index:100;white-space:nowrap;pointer-events:none;backdrop-filter:blur(8px)}
+#toast.show{transform:translateX(-50%) translateY(0)}
+#toast.error{border-color:#ef4444;color:#fca5a5}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <div class="logo-icon">📺</div>
+      <div>
+        <div class="logo-text">LG Remote</div>
+        <div class="logo-sub">WebOS Controller</div>
+      </div>
+    </div>
+    <div id="statusDot" class="status-dot"></div>
+  </div>
+
+  <!-- IP Config -->
+  <div class="ip-bar">
+    <input id="tvIp" type="text" inputmode="decimal" placeholder="192.168.68.111 (IP של הטלוויזיה)" dir="ltr">
+    <button onclick="saveIp()">שמור</button>
+  </div>
+
+  <!-- Power -->
+  <div class="card">
+    <div class="card-title">הפעלה</div>
+    <div class="power-row">
+      <button class="btn accent large" onclick="cmd('power_off')">
+        <span class="icon">⏻</span>
+        <span class="label">כיבוי</span>
+      </button>
+      <button class="btn large" onclick="cmd('home')">
+        <span class="icon">⌂</span>
+        <span class="label">בית</span>
+      </button>
+      <button class="btn large" onclick="cmd('back')">
+        <span class="icon">↩</span>
+        <span class="label">חזרה</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <div class="card">
+    <div class="card-title">ניווט</div>
+    <div class="nav-wrap">
+      <button class="btn medium" style="grid-column:2" onclick="cmd('up')">
+        <span class="icon">▲</span>
+      </button>
+      <button class="btn medium" onclick="cmd('left')">
+        <span class="icon">◀</span>
+      </button>
+      <button class="btn center medium" onclick="cmd('ok')">
+        <span style="font-size:14px;font-weight:700">OK</span>
+      </button>
+      <button class="btn medium" onclick="cmd('right')">
+        <span class="icon">▶</span>
+      </button>
+      <button class="btn medium" style="grid-column:2" onclick="cmd('down')">
+        <span class="icon">▼</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Volume + Channel -->
+  <div class="card">
+    <div class="vc-row">
+      <div class="vc-col">
+        <div class="vc-label">🔊 עוצמה</div>
+        <div class="vc-btns">
+          <button class="btn" onclick="cmd('volume_up')">
+            <span class="icon">+</span>
+            <span class="label">הגבר</span>
+          </button>
+          <button class="btn" onclick="cmd('mute')">
+            <span class="icon">🔇</span>
+            <span class="label">השתק</span>
+          </button>
+          <button class="btn" onclick="cmd('volume_down')">
+            <span class="icon">−</span>
+            <span class="label">הנמך</span>
+          </button>
+        </div>
+      </div>
+      <div class="vc-col">
+        <div class="vc-label">📡 ערוץ</div>
+        <div class="vc-btns">
+          <button class="btn" onclick="cmd('channel_up')">
+            <span class="icon">+</span>
+            <span class="label">הבא</span>
+          </button>
+          <button class="btn" onclick="cmd('status')">
+            <span class="icon">ℹ</span>
+            <span class="label">סטטוס</span>
+          </button>
+          <button class="btn" onclick="cmd('channel_down')">
+            <span class="icon">−</span>
+            <span class="label">הקודם</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Media Controls -->
+  <div class="card">
+    <div class="card-title">מדיה</div>
+    <div class="media-row">
+      <button class="btn medium" onclick="cmd('rewind')"><span class="icon">⏮</span><span class="label">אחורה</span></button>
+      <button class="btn medium" onclick="cmd('play')"><span class="icon">▶</span><span class="label">נגן</span></button>
+      <button class="btn medium" onclick="cmd('pause')"><span class="icon">⏸</span><span class="label">השהה</span></button>
+      <button class="btn medium" onclick="cmd('stop')"><span class="icon">⏹</span><span class="label">עצור</span></button>
+      <button class="btn medium" onclick="cmd('fast_forward')"><span class="icon">⏭</span><span class="label">קדימה</span></button>
+    </div>
+  </div>
+
+  <!-- Apps -->
+  <div class="card">
+    <div class="card-title">אפליקציות</div>
+    <div class="apps-grid">
+      <button class="app-btn" onclick="cmd('netflix')">
+        <span style="color:#e50914;font-size:20px;font-weight:900;font-family:serif">N</span>
+        <span>Netflix</span>
+      </button>
+      <button class="app-btn" onclick="cmd('youtube')">
+        <span style="background:#ff0000;border-radius:6px;padding:3px 6px;color:#fff;font-size:11px;font-weight:700">▶ YT</span>
+        <span>YouTube</span>
+      </button>
+      <button class="app-btn" onclick="cmd('disney')">
+        <span style="font-size:18px">🏰</span>
+        <span>Disney+</span>
+      </button>
+      <button class="app-btn" onclick="cmd('prime')">
+        <span style="font-size:18px">📦</span>
+        <span>Prime Video</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Number Pad -->
+  <div class="card">
+    <div class="card-title">ספרות</div>
+    <div class="numpad">
+      <button class="btn num" onclick="num(1)">1</button>
+      <button class="btn num" onclick="num(2)">2</button>
+      <button class="btn num" onclick="num(3)">3</button>
+      <button class="btn num" onclick="num(4)">4</button>
+      <button class="btn num" onclick="num(5)">5</button>
+      <button class="btn num" onclick="num(6)">6</button>
+      <button class="btn num" onclick="num(7)">7</button>
+      <button class="btn num" onclick="num(8)">8</button>
+      <button class="btn num" onclick="num(9)">9</button>
+      <button class="btn num" style="grid-column:2" onclick="num(0)">0</button>
+    </div>
+  </div>
+
+</div>
+
+<div id="toast"></div>
+
+<script>
+const TUNNEL_FILE_HINT = "lgtv";
+let serverUrl = localStorage.getItem("lgtv_server") || "";
+const ipInput = document.getElementById("tvIp");
+const storedIp = localStorage.getItem("lgtv_ip") || "";
+if(storedIp) ipInput.value = storedIp;
+
+// Try to find server URL from tunnel_url.txt or use localhost
+async function detectServer() {
+  // Try localhost first
+  const candidates = [
+    "http://localhost:8766",
+    "http://127.0.0.1:8766",
+  ];
+  // Also try stored
+  const stored = localStorage.getItem("lgtv_server");
+  if (stored) candidates.unshift(stored);
+
+  for (const url of candidates) {
+    try {
+      const r = await fetch(url + "/health", {method:"GET", signal: AbortSignal.timeout(2000)});
+      if (r.ok) {
+        serverUrl = url;
+        localStorage.setItem("lgtv_server", url);
+        setStatus("connected");
+        return;
+      }
+    } catch {}
+  }
+  setStatus("error");
+}
+
+function setStatus(s) {
+  const dot = document.getElementById("statusDot");
+  dot.className = "status-dot " + s;
+}
+
+function saveIp() {
+  const ip = ipInput.value.trim();
+  if (!ip) return;
+  localStorage.setItem("lgtv_ip", ip);
+  // Tell server to update target IP
+  fetch((serverUrl||"http://localhost:8766") + "/api/set_ip", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ip})
+  }).then(r => r.json()).then(d => {
+    if(d.ok) toast("IP עודכן: " + ip);
+    else toast("שגיאה: " + d.error, true);
+  }).catch(() => toast("שרת לא זמין", true));
+}
+
+async function cmd(command, arg) {
+  const url = serverUrl || "http://localhost:8766";
+  try {
+    const r = await fetch(url + "/api/cmd", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({cmd: command, arg: arg || null}),
+      signal: AbortSignal.timeout(8000)
+    });
+    const d = await r.json();
+    if (d.ok) {
+      const labels = {
+        power_off:"📺 מכבה...", volume_up:"🔊+", volume_down:"🔊-",
+        mute:"🔇 השתקה", unmute:"🔊 ביטול השתקה", channel_up:"📡 ▲",
+        channel_down:"📡 ▼", home:"⌂ בית", back:"↩ חזרה", ok:"✓ OK",
+        up:"▲", down:"▼", left:"◀", right:"▶",
+        netflix:"▶ Netflix", youtube:"▶ YouTube", disney:"🏰 Disney+", prime:"📦 Prime",
+        play:"▶ ניגון", pause:"⏸ השהייה", stop:"⏹ עצור", rewind:"⏮", fast_forward:"⏭",
+        status: `📺 ${d.app || ""} | 🔊 ${d.volume || ""}`
+      };
+      toast(labels[command] || "✓ " + command);
+      setStatus("connected");
+    } else {
+      toast("❌ " + (d.error || "שגיאה"), true);
+      if (d.error && d.error.includes("Connect")) setStatus("error");
+    }
+  } catch(e) {
+    toast("⚠️ שרת לא זמין", true);
+    setStatus("error");
+  }
+}
+
+function num(n) { cmd("num", String(n)); }
+
+let toastTimer;
+function toast(msg, isError) {
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.className = "toast show" + (isError ? " error" : "");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.className = "toast", isError ? 3000 : 1800);
+}
+
+// Init
+detectServer();
+</script>
+</body>
+</html>
