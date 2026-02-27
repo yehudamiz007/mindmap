@@ -1,20 +1,18 @@
 {
-  "lastUpdated": "27.02.2026 07:00 IST",
+  "lastUpdated": "27.02.2026 15:00 IST",
   "stocks": [
-    {"ticker": "BTC-USD", "name": "Bitcoin", "price": "$67,717.02", "news": 8.8, "analyst": 9.0, "technical": 8.5, "total": 8.78, "notes": "מטבע עם תמיכה מוסדית חזקה ופריצת מחירים."},
-    {"ticker": "CRWD", "name": "CrowdStrike", "price": "$381.10", "news": 8.5, "analyst": 9.0, "technical": 8.2, "total": 8.59, "notes": "ביקוש גבוה לאבטחת סייבר."},
-    {"ticker": "NVDA", "name": "NVIDIA Corp", "price": "$184.89", "news": 8.5, "analyst": 9.0, "technical": 8.0, "total": 8.53, "notes": "ביקוש חזק לשבבי AI."},
-    {"ticker": "XRP-USD", "name": "Ripple", "price": "$1.4130", "news": 8.5, "analyst": 8.8, "technical": 8.0, "total": 8.42, "notes": "התפתחויות משפטיות חיוביות."},
-    {"ticker": "ETH-USD", "name": "Ethereum", "price": "$2,036.44", "news": 8.2, "analyst": 8.5, "technical": 8.0, "total": 8.24, "notes": "שדרוגי רשת ותנופת DeFi."},
-    {"ticker": "SNOW", "name": "Snowflake", "price": "$173.06", "news": 8.0, "analyst": 8.5, "technical": 7.8, "total": 8.14, "notes": "אימוץ נרחב של פלטפורמת נתונים בענן."},
-    {"ticker": "SMCI", "name": "Super Micro Computer", "price": "$32.28", "news": 8.0, "analyst": 8.5, "technical": 7.5, "total": 8.03, "notes": "עלייה בביקוש לשרתים עבור AI."},
-    {"ticker": "ARM", "name": "Arm Holdings", "price": "$129.26", "news": 7.8, "analyst": 8.2, "technical": 7.6, "total": 7.87, "notes": "זכיות בעיצוב שבבים לנייד."},
-    {"ticker": "AMD", "name": "Advanced Micro Devices", "price": "$203.68", "news": 7.5, "analyst": 8.0, "technical": 7.8, "total": 7.81, "notes": "צמיחה בנתח שוק CPU ו-GPU."},
-    {"ticker": "SOL-USD", "name": "Solana", "price": "N/A", "news": 7.8, "analyst": 8.0, "technical": 7.5, "total": 7.78, "notes": "אימוץ מהיר ב-NFT ו-dApps."},
-    {"ticker": "PLTR", "name": "Palantir Technologies", "price": "N/A", "news": 7.5, "analyst": 8.0, "technical": 7.5, "total": 7.70, "notes": "חוזים ממשלתיים מתרחבים."},
-    {"ticker": "ZS", "name": "Zscaler", "price": "$167.36", "news": 7.5, "analyst": 7.8, "technical": 7.2, "total": 7.50, "notes": "ביקוש לפתרונות אבטחה של אפס אמון."},
-    {"ticker": "ADA-USD", "name": "Cardano", "price": "$0.2925", "news": 7.5, "analyst": 7.8, "technical": 7.2, "total": 7.50, "notes": "עדכון פרוטוקול מעודד עניין מפתחים."},
-    {"ticker": "QCOM", "name": "Qualcomm", "price": "$145.59", "news": 7.2, "analyst": 7.8, "technical": 7.0, "total": 7.34, "notes": "תנופת 5G והנחיות רבעוניות חזקות."},
-    {"ticker": "TSLA", "name": "Tesla, Inc.", "price": "$408.58", "news": 7.0, "analyst": 7.5, "technical": 7.2, "total": 7.24, "notes": "אירוע יום הסוללה הקרוב."}
+    {"ticker": "AMD", "name": "Advanced Micro Devices", "price": "$200.00", "news": 8.8, "analyst": 8.5, "technical": 8.0, "total": 8.415, "notes": "שותפויות AI ותוצאות רבעוניות חזקות"},
+    {"ticker": "NVDA", "name": "NVIDIA Corp", "price": "$179.74", "news": 8.5, "analyst": 9.0, "technical": 7.5, "total": 8.325, "notes": "ביקוש חזק לשבבי AI ודוחות חיוביים"},
+    {"ticker": "BTC-USD", "name": "Bitcoin", "price": "$65,862.60", "news": 8.5, "analyst": 8.0, "technical": 7.8, "total": 8.075, "notes": "זרימות חזקות ל-ETF וסנטימנט חיובי"},
+    {"ticker": "ARM", "name": "Arm Holdings", "price": "$127.01", "news": 7.8, "analyst": 8.0, "technical": 7.5, "total": 7.765, "notes": "חדשות חיוביות על AI ושבבים"},
+    {"ticker": "SOL-USD", "name": "Solana", "price": "$82.3853", "news": 8.0, "analyst": 7.5, "technical": 7.2, "total": 7.545, "notes": "פיתוחים חיוביים עם פורטלים ו-ETF"},
+    {"ticker": "TSLA", "name": "Tesla, Inc.", "price": "$403.29", "news": 7.0, "analyst": 7.5, "technical": 7.8, "total": 7.455, "notes": "תכונות חדשות ב-Cybertruck אבל חששות"},
+    {"ticker": "ETH-USD", "name": "Ethereum", "price": "$1,943.70", "news": 7.5, "analyst": 7.8, "technical": 7.0, "total": 7.435, "notes": "תחזיות מעורבות אבל פוטנציאל עליה"},
+    {"ticker": "QCOM", "name": "Qualcomm", "price": "$141.79", "news": 7.5, "analyst": 7.8, "technical": 7.0, "total": 7.435, "notes": "עסקאות רכב ושדרוגים חיוביים"},
+    {"ticker": "CRWD", "name": "CrowdStrike Holdings", "price": "$364.90", "news": 8.0, "analyst": 7.5, "technical": 6.8, "total": 7.405, "notes": "המלצות חזקות אבל תיקון אפשרי"},
+    {"ticker": "RBLX", "name": "Roblox Corporation", "price": "$70.17", "news": 7.2, "analyst": 7.0, "technical": 6.5, "total": 6.885, "notes": "חדשות מעורבות על בטיחות ילדים"},
+    {"ticker": "ADA-USD", "name": "Cardano", "price": "$0.2815", "news": 7.0, "analyst": 6.8, "technical": 6.5, "total": 6.755, "notes": "תגובות מעורבות אבל חדשות ETF"},
+    {"ticker": "DKNG", "name": "DraftKings Inc.", "price": "$22.45", "news": 6.8, "analyst": 6.5, "technical": 5.8, "total": 6.345, "notes": "חששות מפיטורים אבל פוטנציאל צמיחה"},
+    {"ticker": "SMCI", "name": "Super Micro Computer", "price": "$32.62", "news": 6.5, "analyst": 6.0, "technical": 5.5, "total": 5.975, "notes": "חששות ממבחן לחץ אבל תחזיות עליה"}
   ]
 }
