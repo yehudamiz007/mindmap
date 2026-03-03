@@ -627,25 +627,34 @@ function buildDaily(alerts) {
 }
 
 // Score a window of `durMins` minutes starting at hour `h`
-// Returns 0-100 (100 = perfectly safe)
+// Returns -1 if ANY alert occurred in the window (BLOCKED)
+// Returns 0-100 if clean (100 = surrounding hours also quiet)
 function windowScore(h, durMins, hourly) {
   const slots = Math.ceil(durMins / 60);
-  const maxPossible = Math.max(...hourly, 1) * slots;
-  let total = 0;
-  for (let i = 0; i < slots; i++) total += hourly[(h + i) % 24] || 0;
-  const danger = total / maxPossible;
-  return Math.max(0, Math.round((1 - danger) * 100));
+  // Check every hour in the window - if any alert → blocked
+  for (let i = 0; i < slots; i++) {
+    if ((hourly[(h + i) % 24] || 0) > 0) return -1; // BLOCKED
+  }
+  // Window is clean - score by how quiet the surrounding hours are
+  // (bonus for being far from danger hours)
+  const surrounding = 2; // look 2 hours before and after
+  let neighborAlerts = 0;
+  for (let i = -surrounding; i < slots + surrounding; i++) {
+    neighborAlerts += hourly[(h + i + 24) % 24] || 0;
+  }
+  const maxNeighbor = Math.max(...hourly, 1) * (slots + surrounding * 2);
+  return Math.max(1, Math.round((1 - neighborAlerts / maxNeighbor) * 100));
 }
 
 // minHour/maxHour = allowed start-hour range (inclusive)
-// maxHour means the activity must START by maxHour so it finishes within reason
-function bestWindows(durMins, hourly, n = 5, minHour = 0, maxHour = 23) {
+function bestWindows(durMins, hourly, n = 99, minHour = 0, maxHour = 23) {
   const candidates = [];
   for (let h = minHour; h <= maxHour; h++) {
-    // Make sure the window doesn't run past midnight for outdoor activities
+    // Ensure window doesn't run past maxHour for outdoor activities
     const endHour = h + Math.ceil(durMins / 60) - 1;
     if (maxHour < 23 && endHour > maxHour) continue;
-    candidates.push({ hour: h, score: windowScore(h, durMins, hourly) });
+    const score = windowScore(h, durMins, hourly);
+    if (score >= 0) candidates.push({ hour: h, score }); // skip BLOCKED (-1)
   }
   return candidates.sort((a, b) => b.score - a.score).slice(0, n);
 }
@@ -863,23 +872,35 @@ function showResults(query) {
       return e > 23 ? `${fmtHour(h)}-00:00` : `${fmtHour(h)}-${fmtHour(e)}`;
     };
 
-    const windowRows = wins.map((w, i) => {
-      const wCls = scoreClass(w.score);
-      const icon = w.score >= 70 ? '&#x2705;' : w.score >= 40 ? '&#x26A0;&#xFE0F;' : '&#x1F534;';
-      const bg = i === 0 ? 'background:#0d2a12;border:1px solid #1a4d1a;' : '';
-      return `
-        <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;margin-bottom:4px;${bg}">
-          <div style="width:20px;text-align:center;font-size:0.9em;">${icon}</div>
-          <div style="width:110px;font-size:${i===0?'1.1em':'0.9em'};font-weight:${i===0?700:400};color:${i===0?'#e0e6ff':'#8899bb'};">${endHour(w.hour)}</div>
-          <div style="flex:1;background:#1a2030;border-radius:4px;height:8px;overflow:hidden;">
-            <div style="height:100%;width:${w.score}%;background:${w.score>=70?'#22c55e':w.score>=40?'#f59e0b':'#ef4444'};border-radius:4px;"></div>
-          </div>
-          <div style="width:42px;text-align:left;font-size:0.8em;color:${w.score>=70?'#22c55e':w.score>=40?'#f59e0b':'#ef4444'};font-weight:600;">${w.score}%</div>
-        </div>`;
-    }).join('');
+    const windowRows = wins.length === 0
+      ? `<div style="text-align:center;padding:20px;color:#ef4444;font-size:0.9em;">
+           &#x1F6AB; אין חלון זמן בטוח היום<br>
+           <span style="font-size:0.8em;color:#556688;">היו אזעקות בכל שעה פעילה</span>
+         </div>`
+      : wins.map((w, i) => {
+          const icon = '&#x2705;';
+          const bg = i === 0 ? 'background:#0d2a12;border:1px solid #1a4d1a;' : '';
+          const textColor = i === 0 ? '#e0e6ff' : '#8899bb';
+          const fontSize = i === 0 ? '1.05em' : '0.88em';
+          const fontWeight = i === 0 ? 700 : 400;
+          // Safety color based on neighbor score
+          const safeColor = w.score >= 70 ? '#22c55e' : w.score >= 40 ? '#f59e0b' : '#86efac';
+          return `
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;margin-bottom:4px;${bg}">
+              <div style="width:20px;text-align:center;font-size:0.9em;">${icon}</div>
+              <div style="width:120px;font-size:${fontSize};font-weight:${fontWeight};color:${textColor};">${endHour(w.hour)}</div>
+              <div style="flex:1;background:#1a2030;border-radius:4px;height:7px;overflow:hidden;">
+                <div style="height:100%;width:${w.score}%;background:${safeColor};border-radius:4px;"></div>
+              </div>
+              <div style="width:42px;text-align:left;font-size:0.78em;color:${safeColor};font-weight:600;">${w.score}%</div>
+            </div>`;
+        }).join('');
+
+    // border color: green if any safe windows, red if none
+    const cardBorder = wins.length === 0 ? 'risky' : 'safe';
 
     return `
-      <div class="act-card ${cls}">
+      <div class="act-card ${cardBorder}">
         <div class="act-header">
           <div class="act-icon">${act.icon}</div>
           <div>
@@ -888,7 +909,7 @@ function showResults(query) {
           </div>
         </div>
         <div style="font-size:0.72em;color:#556688;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #1e2d4d;">
-          כל חלונות הזמן &mdash; מהבטוח לפחות בטוח
+          ${wins.length > 0 ? `${wins.length} חלונות בטוחים &mdash; מהטוב לפחות טוב` : 'אין חלונות בטוחים'}
         </div>
         ${windowRows}
       </div>`;
