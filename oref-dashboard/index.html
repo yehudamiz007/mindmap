@@ -497,18 +497,46 @@ function getDateRange() {
 // ════════════════════════════════════
 //  SEARCH / MATCH
 // ════════════════════════════════════
+// Normalize Hebrew text for fuzzy matching
+function normalize(s) {
+  return s
+    .replace(/[,\-\/\s]+/g, ' ')  // unify separators
+    .replace(/[״׳"']/g, '')       // remove quotes
+    .trim();
+}
+
+// Check if any word in `a` starts with any word in `b` (or vice versa)
+function wordsOverlap(a, b) {
+  const wa = normalize(a).split(/\s+/).filter(w => w.length > 1);
+  const wb = normalize(b).split(/\s+/).filter(w => w.length > 1);
+  return wa.some(w1 => wb.some(w2 =>
+    w1.startsWith(w2) || w2.startsWith(w1) || w1.includes(w2) || w2.includes(w1)
+  ));
+}
+
 function searchLocs(query) {
   if (!query) return [];
   const q = query.trim();
-  // Split location names by , and - to allow partial match
+  const qNorm = normalize(q);
+
   return locList.filter(loc => {
-    const parts = loc.split(/[,\-\/]/).map(p => p.trim());
-    return parts.some(p => p.includes(q)) || loc.includes(q);
+    const locNorm = normalize(loc);
+    // Direct include
+    if (locNorm.includes(qNorm) || qNorm.includes(locNorm)) return true;
+    // Word-level overlap
+    return wordsOverlap(loc, q);
   }).sort((a, b) => {
-    // Exact part match first, then by alert count desc
-    const exact = s => s.split(/[,\-\/]/).map(p => p.trim()).some(p => p === query.trim());
-    if (exact(a) && !exact(b)) return -1;
-    if (exact(b) && !exact(a)) return 1;
+    const aNorm = normalize(a);
+    const bNorm = normalize(b);
+    // Exact normalized match first
+    const ae = aNorm === qNorm, be = bNorm === qNorm;
+    if (ae && !be) return -1;
+    if (be && !ae) return 1;
+    // Starts-with second
+    const as = aNorm.startsWith(qNorm), bs = bNorm.startsWith(qNorm);
+    if (as && !bs) return -1;
+    if (bs && !as) return 1;
+    // Most alerts last tiebreak
     return (locMap[b]?.length || 0) - (locMap[a]?.length || 0);
   });
 }
@@ -629,19 +657,62 @@ async function useGPS() {
   setStatus('load', 'מאתר מיקום...');
   navigator.geolocation.getCurrentPosition(async pos => {
     try {
-      const r = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json&accept-language=he`
-      );
-      const d = await r.json();
-      const city = d.address?.city || d.address?.town || d.address?.village || '';
+      // Try Hebrew first, then English as fallback
+      const tryLangs = ['he', 'en'];
+      let city = '';
+      let allCandidates = [];
+
+      for (const lang of tryLangs) {
+        const r = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json&accept-language=${lang}`
+        );
+        const d = await r.json();
+        const addr = d.address || {};
+        const candidates = [
+          addr.city, addr.town, addr.village, addr.suburb,
+          addr.municipality, addr.county
+        ].filter(Boolean);
+        allCandidates.push(...candidates);
+        if (!city && candidates.length) city = candidates[0];
+      }
+
       if (!city) { setStatus('warn', 'לא ניתן לזהות עיר'); return; }
-      document.getElementById('cityInput').value = city;
-      const { locs } = getAlertsFor(city);
-      if (!locs.length) {
-        setStatus('warn', `${city} - אין נתונים (ייתכן שלא היו אזעקות)`);
-      } else {
-        showResults(city);
+
+      // Try all candidates until we find a match
+      let matched = '';
+      for (const candidate of allCandidates) {
+        const { locs } = getAlertsFor(candidate);
+        if (locs.length) { matched = candidate; break; }
+      }
+
+      if (matched) {
+        document.getElementById('cityInput').value = matched;
+        document.getElementById('dropdown').style.display = 'none';
+        showResults(matched);
         updateStatusBar();
+      } else {
+        // Show what GPS returned + open dropdown with closest matches
+        document.getElementById('cityInput').value = city;
+        setStatus('warn', `GPS: "${city}" — לא נמצא בדיוק, בחר מהרשימה:`);
+        // Try broader search - take first word of each candidate
+        const words = [...new Set(allCandidates.flatMap(c =>
+          normalize(c).split(/\s+/).filter(w => w.length > 1)
+        ))];
+        let suggestions = [];
+        for (const w of words) {
+          suggestions.push(...searchLocs(w));
+        }
+        suggestions = [...new Set(suggestions)].slice(0, 15);
+        const dd = document.getElementById('dropdown');
+        if (suggestions.length) {
+          dd.innerHTML = suggestions.map(loc =>
+            `<div class="drop-item" onclick="selectLoc('${loc.replace(/'/g,"\\'")}')">
+              <span class="drop-name">&#x1F4CD; ${loc}</span>
+              <span class="drop-count">${(locMap[loc]?.length||0).toLocaleString()} אזעקות</span>
+            </div>`
+          ).join('');
+          dd.style.display = 'block';
+        }
       }
     } catch(e) { setStatus('warn', 'שגיאה בזיהוי מיקום'); }
   }, () => setStatus('warn', 'לא אושרה גישה ל-GPS'), { timeout: 10000 });
