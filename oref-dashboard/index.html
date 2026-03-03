@@ -573,12 +573,6 @@ function matchScore(loc, query) {
   );
   if (allMatch && qWords.length > 0) return 60;
 
-  // At least one significant word matches
-  const anyMatch = qWords.filter(qw => qw.length > 2).some(qw =>
-    lWords.some(lw => lw.startsWith(qw) || qw.startsWith(lw))
-  );
-  if (anyMatch) return 30;
-
   return 0;
 }
 
