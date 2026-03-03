@@ -17,7 +17,7 @@ header {
 }
 header h1 { font-size: 1.4em; color: #7eb3ff; }
 header .sub { font-size: 0.78em; color: #8899bb; margin-top: 2px; }
-#syncStatus { font-size: 0.72em; padding: 4px 10px; border-radius: 6px; background: #1a2540; color: #7eb3ff; }
+#syncStatus { font-size: 0.72em; padding: 4px 10px; border-radius: 6px; background: #1a2540; color: #7eb3ff; cursor:default; }
 
 .location-bar {
   background: #111827; border-bottom: 1px solid #1e2d4d;
@@ -31,17 +31,16 @@ header .sub { font-size: 0.78em; color: #8899bb; margin-top: 2px; }
 }
 #suggestions {
   position: absolute; top: 100%; right: 0; background: #1a2540; border: 1px solid #2a3f6e;
-  border-radius: 8px; max-height: 200px; overflow-y: auto; z-index: 200; min-width: 200px; display: none;
+  border-radius: 8px; max-height: 200px; overflow-y: auto; z-index: 200; min-width: 220px; display: none;
 }
 #suggestions div { padding: 7px 12px; cursor: pointer; font-size: 0.84em; }
 #suggestions div:hover { background: #2a3f6e; }
 .btn { background: #1e4ba8; border: none; border-radius: 8px; color: white; padding: 7px 14px; cursor: pointer; font-size: 0.82em; white-space: nowrap; }
 .btn:hover { background: #2560cc; }
-.btn.green { background: #1a5c1a; }
-.btn.green:hover { background: #22771a; }
+.btn.orange { background: #7a3a00; }
+.btn.orange:hover { background: #a04a00; }
 #locStatus { font-size: 0.76em; color: #556688; }
 
-/* Progress bar */
 #progressWrap {
   background: #111827; border-bottom: 1px solid #1e2d4d;
   padding: 8px 20px; display: none; align-items: center; gap: 12px;
@@ -49,6 +48,23 @@ header .sub { font-size: 0.78em; color: #8899bb; margin-top: 2px; }
 #progressBar { flex: 1; height: 6px; background: #1a2540; border-radius: 3px; overflow: hidden; }
 #progressFill { height: 100%; background: linear-gradient(90deg, #1e4ba8, #7eb3ff); border-radius: 3px; transition: width 0.3s; width: 0%; }
 #progressText { font-size: 0.74em; color: #7eb3ff; white-space: nowrap; }
+
+/* Setup instructions banner */
+#setupBanner {
+  background: linear-gradient(135deg, #1a2a00, #2a3a00);
+  border-bottom: 2px solid #3a5a00;
+  padding: 16px 20px;
+  display: none;
+}
+#setupBanner h3 { color: #a3e635; font-size: 0.95em; margin-bottom: 10px; }
+.setup-steps { display: flex; flex-direction: column; gap: 8px; }
+.setup-step { display: flex; align-items: flex-start; gap: 10px; font-size: 0.84em; color: #c0d890; }
+.step-num { background: #3a5a00; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.8em; font-weight: bold; color: #a3e635; flex-shrink: 0; margin-top: 1px; }
+.bookmarklet-link {
+  display: inline-block; background: #2a4a00; border: 1px solid #4a7a00; border-radius: 6px;
+  padding: 6px 12px; color: #a3e635; text-decoration: none; font-size: 0.85em; cursor: grab; margin-top: 4px;
+}
+.bookmarklet-link:hover { background: #3a6a00; }
 
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; padding: 16px; max-width: 1400px; margin: 0 auto; }
 .card { background: #111827; border: 1px solid #1e2d4d; border-radius: 14px; padding: 18px; }
@@ -92,19 +108,13 @@ header .sub { font-size: 0.78em; color: #8899bb; margin-top: 2px; }
 .danger-count { width: 36px; font-size: 0.74em; color: #ff6b6b; text-align: left; }
 
 .chart-wrap { position: relative; height: 200px; }
-
-.empty-state { text-align: center; padding: 40px 20px; color: #556688; }
+.empty-state { text-align: center; padding: 50px 20px; color: #556688; }
 .empty-state .big { font-size: 3em; margin-bottom: 12px; }
-.spinner { border: 3px solid #1a2540; border-top: 3px solid #7eb3ff; border-radius: 50%; width: 28px; height: 28px; animation: spin 0.9s linear infinite; display: inline-block; vertical-align: middle; margin-left: 8px; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
 .tooltip-box { position: fixed; background: #1a2540; border: 1px solid #2a3f6e; border-radius: 8px; padding: 8px 12px; font-size: 0.8em; pointer-events: none; z-index: 1000; display: none; }
-
 footer { text-align: center; padding: 20px; color: #334466; font-size: 0.72em; }
 
 @media (max-width: 600px) {
   .hour-cell { height: 26px; } .hour-label { font-size: 0.46em; }
-  header h1 { font-size: 1.1em; }
 }
 </style>
 </head>
@@ -115,7 +125,7 @@ footer { text-align: center; padding: 20px; color: #334466; font-size: 0.72em; }
     <h1>🛡️ מתי בטוח לצאת?</h1>
     <div class="sub">ניתוח אזעקות פיקוד העורף | 28.02.2026 - היום</div>
   </div>
-  <div id="syncStatus">טוען...</div>
+  <span id="syncStatus">טוען...</span>
 </header>
 
 <div class="location-bar">
@@ -127,466 +137,236 @@ footer { text-align: center; padding: 20px; color: #334466; font-size: 0.72em; }
   <button class="btn" onclick="applyLoc()">עדכן</button>
   <button class="btn" onclick="useGPS()">📡 GPS</button>
   <button class="btn" style="background:#1a3a1a;" onclick="resetLoc()">🌍 כל הארץ</button>
-  <button class="btn green" onclick="syncData()">🔄 סנכרן נתונים</button>
+  <button class="btn orange" onclick="toggleSetup()">📥 טען היסטוריה</button>
+  <button class="btn" onclick="syncLatest()">🔄 עדכן עכשיו</button>
   <span id="locStatus">כל הארץ</span>
+</div>
+
+<!-- Setup Instructions -->
+<div id="setupBanner">
+  <h3>📥 איך לטעון היסטוריית אזעקות מלאה (28.02 עד היום)</h3>
+  <div class="setup-steps">
+    <div class="setup-step">
+      <div class="step-num">1</div>
+      <div>גרור את הכפתור הכתום לסרגל הסימניות של הדפדפן שלך:<br>
+        <a class="bookmarklet-link" id="bookmarkletBtn" href="">📡 טען אזעקות לדשבורד</a>
+      </div>
+    </div>
+    <div class="setup-step">
+      <div class="step-num">2</div>
+      <div>פתח טאב חדש ועבור לאתר פיקוד העורף:<br>
+        <a href="https://www.oref.org.il/12481-he/Pakar.aspx" target="_blank" style="color:#7eb3ff;">https://www.oref.org.il/12481-he/Pakar.aspx</a>
+      </div>
+    </div>
+    <div class="setup-step">
+      <div class="step-num">3</div>
+      <div>לחץ על הסימנייה "📡 טען אזעקות לדשבורד" - הנתונים יעברו אוטומטית לכאן</div>
+    </div>
+    <div class="setup-step">
+      <div class="step-num">4</div>
+      <div style="color:#a3e635;">חזור לדשבורד הזה וראה את הנתונים המלאים! ✅</div>
+    </div>
+  </div>
 </div>
 
 <div id="progressWrap">
   <div id="progressBar"><div id="progressFill"></div></div>
-  <div id="progressText">מוריד נתונים...</div>
+  <div id="progressText">מעבד נתונים...</div>
 </div>
 
 <div id="app"></div>
 <div class="tooltip-box" id="tooltipBox"></div>
 
 <script>
-// ===== CONSTANTS =====
-const STORAGE_KEY = 'oref_alerts_v3';
-const META_KEY = 'oref_meta_v3';
+const STORAGE_KEY = 'oref_v4';
 const START_DATE = '2026-02-28';
 const API_BASE = 'https://alerts-history.oref.org.il/Shared/Ajax/GetAlarmsHistory.aspx';
+const DASHBOARD_ORIGIN = location.origin;
 
 const ACTIVITIES = [
-  { id: 'shower',   name: 'מקלחת',      icon: '🚿', duration: 15, desc: '~15 דקות' },
-  { id: 'shopping', name: 'קניות סופר',  icon: '🛒', duration: 60, desc: '~60 דקות' },
-  { id: 'running',  name: 'ריצה בחוץ',   icon: '🏃', duration: 45, desc: '~45 דקות' },
+  { id: 'shower',   name: 'מקלחת',     icon: '🚿', duration: 15, desc: '~15 דקות' },
+  { id: 'shopping', name: 'קניות סופר', icon: '🛒', duration: 60, desc: '~60 דקות' },
+  { id: 'running',  name: 'ריצה בחוץ',  icon: '🏃', duration: 45, desc: '~45 דקות' },
 ];
 
-// ===== STATE =====
-let alerts = {};        // { 'YYYY-MM-DD': [...records] }
+let allAlerts = [];   // flat array of all alert records
 let allLocations = [];
 let currentLoc = 'כל הארץ';
 let charts = {};
 let isSyncing = false;
 
 // ===== STORAGE =====
-function loadFromStorage() {
+function load() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) alerts = JSON.parse(raw);
-    const meta = localStorage.getItem(META_KEY);
-    if (meta) return JSON.parse(meta);
+    if (raw) { allAlerts = JSON.parse(raw); return true; }
   } catch {}
-  return null;
+  return false;
 }
 
-function saveToStorage() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(alerts));
-    const meta = { lastSync: new Date().toISOString(), days: Object.keys(alerts).length };
-    localStorage.setItem(META_KEY, JSON.stringify(meta));
-    return meta;
-  } catch(e) {
-    console.warn('Storage full:', e);
-    return null;
+function save() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(allAlerts)); } catch(e) {
+    // If storage full, keep only last 30k
+    allAlerts = allAlerts.slice(-30000);
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(allAlerts)); } catch {}
   }
 }
 
-// ===== DATE UTILS =====
-function pad(n) { return String(n).padStart(2,'0'); }
-function fmt(h) { return `${pad(h)}:00`; }
-
-function dateRange(from, to) {
-  const dates = [];
-  const d = new Date(from);
-  const end = new Date(to);
-  while (d <= end) {
-    dates.push(d.toISOString().split('T')[0]);
-    d.setDate(d.getDate() + 1);
-  }
-  return dates;
-}
-
-function isoToOref(iso) {
-  const [y,m,d] = iso.split('-');
-  return `${d}.${m}.${y}`;
-}
-
-function orefToIso(oref) {
-  if (!oref) return null;
-  const [d,m,y] = oref.split('.');
-  return `${y}-${pad(m)}-${pad(d)}`;
-}
-
-function todayISO() { return new Date().toISOString().split('T')[0]; }
-
-// ===== DATA FETCHING =====
-// Strategy: fetch AlertsHistory.json from oref directly (works from browser, blocked from server)
-// Falls back to the paginated API for latest alerts
-
-async function fetchFullHistory() {
-  // This works from the browser because oref.org.il sends the right headers/cookies
-  const r = await fetch('https://www.oref.org.il/WarningMessages/History/AlertsHistory.json', {
-    headers: {
-      'Referer': 'https://www.oref.org.il/12481-he/Pakar.aspx',
-      'X-Requested-With': 'XMLHttpRequest',
-    },
-    credentials: 'include',
-  });
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
-  return r.json();
-}
-
-async function fetchLatest() {
-  const url = `${API_BASE}?lang=he&fromDate=28.02.2026&toDate=${isoToOref(todayISO())}&mode=1`;
-  const r = await fetch(url);
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
-  return r.json();
-}
-
+// ===== MERGE =====
 function mergeAlerts(newData) {
-  // Merge by rid deduplication, keyed by date
-  for (const rec of newData) {
-    const isoDate = orefToIso(rec.date) || todayISO();
-    if (!alerts[isoDate]) alerts[isoDate] = [];
-    // Dedup by rid
-    if (!alerts[isoDate].find(r => r.rid === rec.rid)) {
-      alerts[isoDate].push(rec);
-    }
-  }
+  if (!Array.isArray(newData) || newData.length === 0) return 0;
+  const existingRids = new Set(allAlerts.map(a => a.rid));
+  // Filter to only records from START_DATE onwards
+  const startMs = new Date(START_DATE).getTime();
+  const toAdd = newData.filter(a => {
+    if (existingRids.has(a.rid)) return false;
+    if (!a.date) return true;
+    const [d,m,y] = a.date.split('.');
+    const ms = new Date(`${y}-${m}-${d}`).getTime();
+    return ms >= startMs;
+  });
+  allAlerts = [...allAlerts, ...toAdd];
+  // Sort by alertDate desc
+  allAlerts.sort((a,b) => (b.alertDate||'').localeCompare(a.alertDate||''));
+  return toAdd.length;
 }
 
-async function syncData() {
+// ===== BOOKMARKLET =====
+function buildBookmarklet() {
+  const dashUrl = location.href.split('?')[0];
+  const code = `
+(async function(){
+  try {
+    const r = await fetch('https://www.oref.org.il/WarningMessages/History/AlertsHistory.json',{
+      headers:{'Referer':'https://www.oref.org.il/','X-Requested-With':'XMLHttpRequest'},
+      credentials:'include'
+    });
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const data = await r.json();
+    const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+    const chunks = [];
+    for(let i=0;i<b64.length;i+=50000) chunks.push(b64.slice(i,i+50000));
+    localStorage.setItem('oref_transfer_total', chunks.length);
+    chunks.forEach((c,i) => localStorage.setItem('oref_transfer_'+i, c));
+    localStorage.setItem('oref_transfer_ready','1');
+    alert('✅ '+data.length+' אזעקות נטענו! חזור לדשבורד ולחץ "🔄 עדכן עכשיו"');
+    window.open('${dashUrl}','_blank');
+  } catch(e) {
+    alert('שגיאה: '+e.message);
+  }
+})();`.replace(/\s+/g,' ').trim();
+  document.getElementById('bookmarkletBtn').href = 'javascript:' + encodeURIComponent(code);
+}
+
+function toggleSetup() {
+  const b = document.getElementById('setupBanner');
+  b.style.display = b.style.display === 'block' ? 'none' : 'block';
+}
+
+// ===== CHECK FOR TRANSFERRED DATA =====
+function checkTransfer() {
+  if (localStorage.getItem('oref_transfer_ready') !== '1') return false;
+  try {
+    const total = parseInt(localStorage.getItem('oref_transfer_total') || '1');
+    let b64 = '';
+    for (let i = 0; i < total; i++) b64 += localStorage.getItem('oref_transfer_' + i) || '';
+    const json = decodeURIComponent(escape(atob(b64)));
+    const data = JSON.parse(json);
+    const added = mergeAlerts(data);
+    // Cleanup transfer keys
+    localStorage.removeItem('oref_transfer_ready');
+    localStorage.removeItem('oref_transfer_total');
+    for (let i = 0; i < total; i++) localStorage.removeItem('oref_transfer_' + i);
+    if (added > 0) {
+      save();
+      buildLocationIndex();
+      setSyncStatus(`✅ היסטוריה מלאה! ${allAlerts.length.toLocaleString()} אזעקות`);
+      return true;
+    }
+  } catch(e) { console.warn('Transfer error:', e); }
+  return false;
+}
+
+// ===== FETCH LATEST =====
+async function syncLatest() {
   if (isSyncing) return;
   isSyncing = true;
-
   document.getElementById('progressWrap').style.display = 'flex';
-  setProgress(0, 2, 'מוריד היסטוריית אזעקות מפיקוד העורף...');
+  setProgress(0, 1, 'מוריד נתונים עדכניים...');
 
-  let totalNew = 0;
+  // First check if there's transferred history data
+  const hadTransfer = checkTransfer();
 
-  // Try full history first
   try {
-    setProgress(0, 2, '📥 מוריד היסטוריה מלאה...');
-    const data = await fetchFullHistory();
-    // Filter from START_DATE
-    const startMs = new Date(START_DATE).getTime();
-    const filtered = data.filter(r => {
-      const d = orefToIso(r.date);
-      return d && new Date(d).getTime() >= startMs;
-    });
-    mergeAlerts(filtered);
-    totalNew = filtered.length;
-    setProgress(1, 2, `✅ היסטוריה מלאה: ${filtered.length} רשומות`);
+    const url = `${API_BASE}?lang=he&fromDate=28.02.2026&toDate=${isoToOref(todayISO())}&mode=1`;
+    const r = await fetch(url);
+    const data = await r.json();
+    const added = mergeAlerts(data);
+    setProgress(1, 1, `נוספו ${added} אזעקות חדשות`);
+    save();
+    buildLocationIndex();
+    renderAll();
   } catch(e) {
-    console.warn('Full history failed, falling back:', e);
-    setProgress(0, 2, '⚠️ היסטוריה מלאה חסומה, מוריד נתונים אחרונים...');
+    console.warn('Sync failed:', e);
   }
-
-  // Always also fetch latest (real-time)
-  try {
-    setProgress(1, 2, '📡 מוריד נתונים עדכניים...');
-    const latest = await fetchLatest();
-    mergeAlerts(latest);
-    setProgress(2, 2, 'שומר...');
-  } catch(e) {
-    console.warn('Latest fetch failed:', e);
-  }
-
-  saveToStorage();
-  buildLocationIndex();
-  renderAll();
 
   document.getElementById('progressWrap').style.display = 'none';
-  const total = getAllAlerts().length;
-  const days = Object.keys(alerts).filter(d => alerts[d].length > 0).length;
-  setSyncStatus(`✅ ${total.toLocaleString()} אזעקות | ${days} ימים`);
+  setSyncStatus(`✅ ${allAlerts.length.toLocaleString()} אזעקות | עודכן ${new Date().toLocaleTimeString('he-IL')}`);
+  if (hadTransfer || allAlerts.length > 3000) renderAll();
   isSyncing = false;
 }
 
-function setProgress(done, total, text) {
-  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressText').textContent = `${text} (${done}/${total})`;
+// ===== UTILS =====
+function pad(n) { return String(n).padStart(2,'0'); }
+function fmt(h) { return `${pad(h)}:00`; }
+function todayISO() { return new Date().toISOString().split('T')[0]; }
+function isoToOref(iso) { const [y,m,d]=iso.split('-'); return `${d}.${m}.${y}`; }
+function setProgress(d,t,txt) {
+  document.getElementById('progressFill').style.width = (t>0?Math.round(d/t*100):0)+'%';
+  document.getElementById('progressText').textContent = txt;
 }
-
-function setSyncStatus(text) {
-  document.getElementById('syncStatus').textContent = text;
-}
-
-// ===== DATA PROCESSING =====
-function getAllAlerts() {
-  return Object.values(alerts).flat();
-}
-
-function getAlertsForLoc(loc) {
-  if (!loc || loc === 'כל הארץ') return getAllAlerts();
-  const l = loc.trim();
-  return getAllAlerts().filter(a => {
-    if (!a.data) return false;
-    const d = a.data;
-    // Exact match
-    if (d === l) return true;
-    // "שדרות, איבים" contains "שדרות"
-    if (d.includes(l)) return true;
-    // "שדרות" matches start of "שדרות, איבים"
-    if (d.startsWith(l)) return true;
-    // comma-separated: "שדרות, איבים" -> ["שדרות", "איבים"]
-    const parts = d.split(/[,،\-–\/]/).map(p => p.trim());
-    if (parts.some(p => p === l || p.startsWith(l) || l.startsWith(p))) return true;
-    return false;
-  });
-}
-
-function buildLocationIndex() {
-  const all = getAllAlerts();
-  allLocations = [...new Set(all.map(a => a.data).filter(Boolean))].sort();
-}
-
-function computeHourly(alertList) {
-  const h = new Array(24).fill(0);
-  for (const a of alertList) {
-    if (a.time) {
-      const hr = parseInt(a.time.split(':')[0]);
-      if (hr >= 0 && hr < 24) h[hr]++;
-    }
-  }
-  return h;
-}
-
-function computeDaily(alertList) {
-  const d = {};
-  for (const a of alertList) {
-    const dt = orefToIso(a.date) || a.date;
-    if (dt) d[dt] = (d[dt] || 0) + 1;
-  }
-  return d;
-}
-
-function safetyScore(startH, durMin, hourly) {
-  const n = Math.ceil(durMin / 60);
-  let tot = 0;
-  for (let i = 0; i < n; i++) tot += hourly[(startH + i) % 24] || 0;
-  const mx = Math.max(...hourly, 1) * n;
-  return Math.max(0, Math.round(100 - (tot / mx) * 100));
-}
-
-function bestWindows(hourly, durMin, n = 5) {
-  return Array.from({length: 24}, (_, h) => ({ hour: h, score: safetyScore(h, durMin, hourly) }))
-    .sort((a, b) => b.score - a.score).slice(0, n);
-}
-
-function cellColor(c, max) {
-  if (c === 0) return '#0d3d1a';
-  const r = c / max;
-  if (r < 0.15) return '#1a5c1a';
-  if (r < 0.30) return '#5c5c00';
-  if (r < 0.50) return '#7a4000';
-  if (r < 0.70) return '#993000';
-  return '#cc1a00';
-}
-
-function scoreClass(s) { return s >= 70 ? 'c-safe' : s >= 40 ? 'c-mod' : 'c-risky'; }
-function scoreBg(s) { return s >= 70 ? 'bg-safe' : s >= 40 ? 'bg-mod' : 'bg-risky'; }
-
-// ===== RENDER =====
-function renderAll() {
-  const locAlerts = getAlertsForLoc(currentLoc);
-  const allA = getAllAlerts();
-
-  if (allA.length === 0) {
-    document.getElementById('app').innerHTML = `
-      <div class="empty-state">
-        <div class="big">📡</div>
-        <div style="font-size:1.1em;color:#7eb3ff;margin-bottom:8px;">אין נתונים עדיין</div>
-        <div style="margin-bottom:16px;">לחץ על <strong>🔄 סנכרן נתונים</strong> להורדת היסטוריית האזעקות</div>
-        <button class="btn" onclick="syncData()" style="font-size:1em;padding:10px 24px;">🔄 סנכרן עכשיו</button>
-      </div>`;
-    return;
-  }
-
-  const hourly = computeHourly(locAlerts);
-  const hourlyAll = computeHourly(allA);
-  const daily = computeDaily(allA);
-  const dailyLoc = computeDaily(locAlerts);
-  const max = Math.max(...hourly, 1);
-  const total = locAlerts.length;
-  const totalAll = allA.length;
-  const days = Object.keys(alerts).length;
-  const quietest = hourly.indexOf(Math.min(...hourly));
-  const busiest = hourly.indexOf(Math.max(...hourly));
-
-  document.getElementById('app').innerHTML = `
-  <div class="grid">
-
-    <!-- Stats -->
-    <div class="card wide">
-      <h2>📊 סטטיסטיקות${currentLoc !== 'כל הארץ' ? ' - ' + currentLoc : ''}</h2>
-      <div class="stats-row">
-        <div class="stat-box">
-          <div class="stat-num">${totalAll.toLocaleString()}</div>
-          <div class="stat-label">סה"כ אזעקות בכל הארץ</div>
-        </div>
-        ${currentLoc !== 'כל הארץ' ? `
-        <div class="stat-box">
-          <div class="stat-num">${total.toLocaleString()}</div>
-          <div class="stat-label">אזעקות ב${currentLoc}</div>
-        </div>` : ''}
-        <div class="stat-box">
-          <div class="stat-num">${days}</div>
-          <div class="stat-label">ימים (28.02 - היום)</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-num">${Math.round(total / Math.max(days,1)).toLocaleString()}</div>
-          <div class="stat-label">ממוצע ליום</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-num c-safe">${fmt(quietest)}</div>
-          <div class="stat-label">🟢 הכי שקט</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-num c-risky">${fmt(busiest)}</div>
-          <div class="stat-label">🔴 הכי עמוס</div>
-        </div>
-      </div>
-
-      <!-- Heatmap -->
-      <div style="font-size:0.76em;color:#556688;margin-bottom:6px;">🌡️ מפת חום - אזעקות לפי שעה${currentLoc !== 'כל הארץ' ? ' (' + currentLoc + ')' : ''}</div>
-      <div class="hour-labels">${Array.from({length:24},(_,i)=>`<div class="hour-label">${pad(i)}</div>`).join('')}</div>
-      <div class="hour-grid">
-        ${hourly.map((c,h) => `<div class="hour-cell" style="background:${cellColor(c,max)}"
-          onmouseenter="showTip(event,${h},${c})" onmouseleave="hideTip()"></div>`).join('')}
-      </div>
-      <div style="display:flex;gap:14px;font-size:0.68em;color:#556688;flex-wrap:wrap;margin-top:4px;">
-        <span>🟢 0 אזעקות</span><span>🟡 בינוני</span><span>🔴 גבוה</span>
-      </div>
-    </div>
-
-    <!-- Activities -->
-    <div class="card wide">
-      <h2>🎯 השעה הכי טובה לכל פעילות${currentLoc !== 'כל הארץ' ? ' - ' + currentLoc : ''}</h2>
-      <div class="activities">
-        ${ACTIVITIES.map(act => {
-          const wins = bestWindows(hourly, act.duration, 4);
-          const best = wins[0];
-          const sc = scoreClass(best.score);
-          const sb = scoreBg(best.score);
-          return `<div class="act-card">
-            <div class="act-icon">${act.icon}</div>
-            <div class="act-name">${act.name}</div>
-            <div class="act-best ${sc}">${fmt(best.hour)}</div>
-            <div class="act-dur">${act.desc}</div>
-            <div class="act-score-bar"><div class="act-score-fill ${sb}" style="width:${best.score}%"></div></div>
-            <div style="font-size:0.68em;color:#556688;">ניקוד בטיחות: ${best.score}/100</div>
-            <div class="act-alts">${wins.slice(1).map(w=>`<div class="alt-chip">${fmt(w.hour)}</div>`).join('')}</div>
-          </div>`;
-        }).join('')}
-      </div>
-    </div>
-
-    <!-- Chart hourly -->
-    <div class="card">
-      <h2>📈 אזעקות לפי שעה${currentLoc !== 'כל הארץ' ? ' - ' + currentLoc : ''}</h2>
-      <div class="chart-wrap"><canvas id="chartH"></canvas></div>
-    </div>
-
-    <!-- Chart daily -->
-    <div class="card">
-      <h2>📅 אזעקות לפי יום - כל הארץ</h2>
-      <div class="chart-wrap"><canvas id="chartD"></canvas></div>
-    </div>
-
-    <!-- Safe windows -->
-    <div class="card">
-      <h2>✅ חלונות זמן מומלצים</h2>
-      ${ACTIVITIES.map(act => {
-        const wins = bestWindows(hourly, act.duration, 5);
-        return `<div class="best-win">
-          <h3>${act.icon} ${act.name} (${act.desc}):</h3>
-          <div class="win-chips">
-            ${wins.map(w=>`<div class="win-chip">${fmt(w.hour)} <span style="color:#4ade80">${w.score}%</span></div>`).join('')}
-          </div>
-        </div>`;
-      }).join('')}
-    </div>
-
-    <!-- Danger hours -->
-    <div class="card">
-      <h2>⚠️ שעות סכנה - הימנע</h2>
-      ${[...hourly.map((c,h)=>({h,c}))].sort((a,b)=>b.c-a.c).slice(0,8).map(({h,c})=>`
-        <div class="danger-row">
-          <div class="danger-hour">${fmt(h)}</div>
-          <div class="danger-bar-wrap"><div class="danger-bar-fill" style="width:${Math.round(c/max*100)}%"></div></div>
-          <div class="danger-count">${c}</div>
-        </div>`).join('')}
-    </div>
-
-  </div>
-  <footer>נתונים: פיקוד העורף | 28.02.2026 - ${todayISO()} | ${allLocations.length} יישובים | ${totalAll.toLocaleString()} אזעקות</footer>`;
-
-  renderCharts(hourly, daily);
-}
-
-function renderCharts(hourly, daily) {
-  Object.values(charts).forEach(c => { try { c.destroy(); } catch {} });
-  charts = {};
-
-  const opts = {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: {
-      x: { ticks: { color: '#556688', font: { size: 9 } }, grid: { color: '#1a2540' } },
-      y: { ticks: { color: '#556688' }, grid: { color: '#1a2540' } }
-    }
-  };
-
-  const maxH = Math.max(...hourly, 1);
-  const hCtx = document.getElementById('chartH');
-  if (hCtx) {
-    charts.h = new Chart(hCtx.getContext('2d'), {
-      type: 'bar',
-      data: {
-        labels: Array.from({length:24},(_,i)=>`${pad(i)}:00`),
-        datasets: [{ data: hourly, backgroundColor: hourly.map(c => {
-          const r = c/maxH;
-          return r < 0.2 ? '#22c55e88' : r < 0.5 ? '#f59e0b88' : '#ef444488';
-        }), borderRadius: 4 }]
-      },
-      options: { ...opts }
-    });
-  }
-
-  const dCtx = document.getElementById('chartD');
-  if (dCtx && daily) {
-    const sortedDates = Object.keys(daily).sort();
-    charts.d = new Chart(dCtx.getContext('2d'), {
-      type: 'line',
-      data: {
-        labels: sortedDates.map(d => d.slice(5)), // MM-DD
-        datasets: [{ data: sortedDates.map(d => daily[d] || 0),
-          borderColor: '#7eb3ff', backgroundColor: '#7eb3ff22',
-          fill: true, tension: 0.3, pointBackgroundColor: '#7eb3ff', pointRadius: 4 }]
-      },
-      options: { ...opts }
-    });
-  }
-}
+function setSyncStatus(t) { document.getElementById('syncStatus').textContent = t; }
 
 // ===== LOCATION =====
-function setLoc(loc) {
-  const locAlerts = getAlertsForLoc(loc);
-  if (loc !== 'כל הארץ' && locAlerts.length === 0) {
-    document.getElementById('locStatus').textContent = `⚠️ "${loc}" - לא נמצא, מציג כל הארץ`;
-    currentLoc = 'כל הארץ';
-  } else {
-    currentLoc = loc || 'כל הארץ';
-    const cnt = locAlerts.length;
-    document.getElementById('locStatus').textContent =
-      currentLoc === 'כל הארץ' ? '🌍 כל הארץ' : `📍 ${currentLoc} (${cnt} אזעקות)`;
-  }
-  renderAll();
+function buildLocationIndex() {
+  allLocations = [...new Set(allAlerts.map(a=>a.data).filter(Boolean))].sort();
+}
+
+function getLocAlerts(loc) {
+  if (!loc || loc === 'כל הארץ') return allAlerts;
+  const l = loc.trim();
+  return allAlerts.filter(a => {
+    if (!a.data) return false;
+    const d = a.data;
+    if (d === l) return true;
+    if (d.startsWith(l + ',') || d.startsWith(l + ' ')) return true;
+    if (d.includes(l)) return true;
+    // Split by comma: "שדרות, איבים"
+    const parts = d.split(/[,،]/).map(p => p.trim());
+    return parts.some(p => p === l || p.startsWith(l));
+  });
 }
 
 function applyLoc() {
   const val = document.getElementById('locationInput').value.trim();
   document.getElementById('suggestions').style.display = 'none';
-  setLoc(val || 'כל הארץ');
+  if (!val) return resetLoc();
+  const locAlerts = getLocAlerts(val);
+  if (locAlerts.length === 0) {
+    document.getElementById('locStatus').textContent = `⚠️ "${val}" לא נמצא בנתונים (${allAlerts.length.toLocaleString()} רשומות)`;
+    currentLoc = 'כל הארץ';
+  } else {
+    currentLoc = val;
+    document.getElementById('locStatus').textContent = `📍 ${val} (${locAlerts.length.toLocaleString()} אזעקות)`;
+  }
+  renderAll();
 }
 
 function resetLoc() {
+  currentLoc = 'כל הארץ';
   document.getElementById('locationInput').value = '';
-  document.getElementById('suggestions').style.display = 'none';
-  setLoc('כל הארץ');
+  document.getElementById('locStatus').textContent = '🌍 כל הארץ';
+  renderAll();
 }
 
 function onLocInput() {
@@ -603,7 +383,10 @@ function pickSug(el) {
   const loc = el.getAttribute('data-loc');
   document.getElementById('locationInput').value = loc;
   document.getElementById('suggestions').style.display = 'none';
-  setLoc(loc);
+  currentLoc = loc;
+  const cnt = getLocAlerts(loc).length;
+  document.getElementById('locStatus').textContent = `📍 ${loc} (${cnt.toLocaleString()} אזעקות)`;
+  renderAll();
 }
 
 async function useGPS() {
@@ -614,61 +397,199 @@ async function useGPS() {
       const r = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json&accept-language=he`);
       const d = await r.json();
       const city = d.address?.city || d.address?.town || d.address?.village || '';
-      if (city) {
-        document.getElementById('locationInput').value = city;
-        setLoc(city);
-      } else { document.getElementById('locStatus').textContent = 'לא ניתן לזהות עיר'; }
+      if (city) { document.getElementById('locationInput').value = city; applyLoc(); }
+      else document.getElementById('locStatus').textContent = 'לא ניתן לזהות עיר';
     } catch { document.getElementById('locStatus').textContent = 'שגיאת GPS'; }
   }, () => { document.getElementById('locStatus').textContent = 'GPS לא אושר'; });
 }
 
-// ===== TOOLTIP =====
-function showTip(e, h, c) {
-  const t = document.getElementById('tooltipBox');
-  t.style.display = 'block';
-  t.style.left = (e.clientX + 14) + 'px';
-  t.style.top = (e.clientY - 38) + 'px';
-  t.innerHTML = `<b>${pad(h)}:00 - ${pad((h+1)%24)}:00</b><br>${c} אזעקות`;
+// ===== CALCULATIONS =====
+function computeHourly(list) {
+  const h = new Array(24).fill(0);
+  for (const a of list) { if (a.time) { const hr = parseInt(a.time); if (hr>=0&&hr<24) h[hr]++; } }
+  return h;
 }
-function hideTip() { document.getElementById('tooltipBox').style.display = 'none'; }
+function computeDaily(list) {
+  const d = {};
+  for (const a of list) {
+    const dt = a.date ? a.date : '';
+    if (dt) d[dt] = (d[dt]||0) + 1;
+  }
+  return d;
+}
+function safetyScore(h, dur, hourly) {
+  const n = Math.ceil(dur/60); let tot=0;
+  for(let i=0;i<n;i++) tot+=hourly[(h+i)%24]||0;
+  const mx=Math.max(...hourly,1)*n;
+  return Math.max(0,Math.round(100-(tot/mx)*100));
+}
+function bestWindows(hourly, dur, n=5) {
+  return Array.from({length:24},(_,h)=>({hour:h,score:safetyScore(h,dur,hourly)})).sort((a,b)=>b.score-a.score).slice(0,n);
+}
+function cellColor(c,max) {
+  if(c===0) return '#0d3d1a';
+  const r=c/max;
+  if(r<0.15) return '#1a5c1a'; if(r<0.30) return '#5c5c00';
+  if(r<0.50) return '#7a4000'; if(r<0.70) return '#993000'; return '#cc1a00';
+}
+function sc(s){return s>=70?'c-safe':s>=40?'c-mod':'c-risky';}
+function sb(s){return s>=70?'bg-safe':s>=40?'bg-mod':'bg-risky';}
 
-// ===== INIT =====
-document.addEventListener('click', e => {
-  if (!e.target.closest('.loc-wrap')) document.getElementById('suggestions').style.display = 'none';
-});
+// ===== RENDER =====
+function renderAll() {
+  const locList = getLocAlerts(currentLoc);
+  const total = allAlerts.length;
 
-async function init() {
-  const meta = loadFromStorage();
-  buildLocationIndex();
-
-  const allA = getAllAlerts();
-  const days = Object.keys(alerts).length;
-
-  if (allA.length > 0) {
-    setSyncStatus(`✅ ${allA.toLocaleString ? allA.length.toLocaleString() : allA.length} אזעקות | ${days} ימים`);
-    renderAll();
-    // Auto-sync in background
-    setTimeout(syncData, 1500);
-  } else {
-    setSyncStatus('לחץ סנכרן');
-    renderAll(); // shows empty state
-    syncData();  // auto-start
+  if (total === 0) {
+    document.getElementById('app').innerHTML = `
+      <div class="empty-state">
+        <div class="big">📡</div>
+        <div style="font-size:1.1em;color:#7eb3ff;margin-bottom:12px;">אין נתונים עדיין</div>
+        <div style="margin-bottom:8px;font-size:0.9em;">לקבלת היסטוריה מלאה (28.02 - היום):</div>
+        <button class="btn orange" onclick="toggleSetup()" style="margin-left:8px;">📥 טען היסטוריה מפיקוד העורף</button>
+        <button class="btn" onclick="syncLatest()" style="margin-top:8px;">🔄 טען נתונים עדכניים בלבד</button>
+      </div>`;
+    return;
   }
 
-  // Auto-GPS
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(async pos => {
-      try {
-        const r = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json&accept-language=he`);
-        const d = await r.json();
-        const city = d.address?.city || d.address?.town || d.address?.village || '';
-        if (city && currentLoc === 'כל הארץ') {
-          document.getElementById('locationInput').value = city;
-          // Wait for sync to finish before filtering
-          setTimeout(() => setLoc(city), 3000);
-        }
-      } catch {}
-    }, () => {});
+  const hourly = computeHourly(locList);
+  const daily = computeDaily(locList);
+  const dailyAll = computeDaily(allAlerts);
+  const max = Math.max(...hourly, 1);
+  const quietest = hourly.indexOf(Math.min(...hourly));
+  const busiest = hourly.indexOf(Math.max(...hourly));
+  const days = Object.keys(dailyAll).length;
+  const locName = currentLoc !== 'כל הארץ' ? currentLoc : 'כל הארץ';
+
+  document.getElementById('app').innerHTML = `
+  <div class="grid">
+    <div class="card wide">
+      <h2>📊 סטטיסטיקות - ${locName}</h2>
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-num">${total.toLocaleString()}</div><div class="stat-label">סה"כ אזעקות בכל הארץ</div></div>
+        ${currentLoc!=='כל הארץ'?`<div class="stat-box"><div class="stat-num">${locList.length.toLocaleString()}</div><div class="stat-label">אזעקות ב${currentLoc}</div></div>`:''}
+        <div class="stat-box"><div class="stat-num">${days}</div><div class="stat-label">ימים (28.02-היום)</div></div>
+        <div class="stat-box"><div class="stat-num">${Math.round(locList.length/Math.max(days,1)).toLocaleString()}</div><div class="stat-label">ממוצע ליום</div></div>
+        <div class="stat-box"><div class="stat-num c-safe">${fmt(quietest)}</div><div class="stat-label">🟢 הכי שקט</div></div>
+        <div class="stat-box"><div class="stat-num c-risky">${fmt(busiest)}</div><div class="stat-label">🔴 הכי עמוס</div></div>
+      </div>
+      <div style="font-size:0.76em;color:#556688;margin-bottom:6px;">🌡️ מפת חום לפי שעה${currentLoc!=='כל הארץ'?' - '+currentLoc:''}</div>
+      <div class="hour-labels">${Array.from({length:24},(_,i)=>`<div class="hour-label">${pad(i)}</div>`).join('')}</div>
+      <div class="hour-grid">${hourly.map((c,h)=>`<div class="hour-cell" style="background:${cellColor(c,max)}" onmouseenter="showTip(event,${h},${c})" onmouseleave="hideTip()"></div>`).join('')}</div>
+      <div style="display:flex;gap:14px;font-size:0.68em;color:#556688;flex-wrap:wrap;margin-top:4px;">
+        <span>🟢 שקט</span><span>🟡 בינוני</span><span>🔴 פעיל</span>
+      </div>
+    </div>
+
+    <div class="card wide">
+      <h2>🎯 השעה הטובה ביותר${currentLoc!=='כל הארץ'?' - '+currentLoc:''}</h2>
+      <div class="activities">
+        ${ACTIVITIES.map(act=>{
+          const wins=bestWindows(hourly,act.duration,4);
+          const best=wins[0];
+          return `<div class="act-card">
+            <div class="act-icon">${act.icon}</div>
+            <div class="act-name">${act.name}</div>
+            <div class="act-best ${sc(best.score)}">${fmt(best.hour)}</div>
+            <div class="act-dur">${act.desc}</div>
+            <div class="act-score-bar"><div class="act-score-fill ${sb(best.score)}" style="width:${best.score}%"></div></div>
+            <div style="font-size:0.68em;color:#556688;">ניקוד: ${best.score}/100</div>
+            <div class="act-alts">${wins.slice(1).map(w=>`<div class="alt-chip">${fmt(w.hour)}</div>`).join('')}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📈 אזעקות לפי שעה${currentLoc!=='כל הארץ'?' - '+currentLoc:''}</h2>
+      <div class="chart-wrap"><canvas id="chartH"></canvas></div>
+    </div>
+
+    <div class="card">
+      <h2>📅 אזעקות לפי יום - כל הארץ</h2>
+      <div class="chart-wrap"><canvas id="chartD"></canvas></div>
+    </div>
+
+    <div class="card">
+      <h2>✅ חלונות זמן מומלצים</h2>
+      ${ACTIVITIES.map(act=>{
+        const wins=bestWindows(hourly,act.duration,5);
+        return `<div class="best-win">
+          <h3>${act.icon} ${act.name} (${act.desc}):</h3>
+          <div class="win-chips">${wins.map(w=>`<div class="win-chip">${fmt(w.hour)} <span style="color:#4ade80">${w.score}%</span></div>`).join('')}</div>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <div class="card">
+      <h2>⚠️ שעות סכנה</h2>
+      ${[...hourly.map((c,h)=>({h,c}))].sort((a,b)=>b.c-a.c).slice(0,8).map(({h,c})=>`
+        <div class="danger-row">
+          <div class="danger-hour">${fmt(h)}</div>
+          <div class="danger-bar-wrap"><div class="danger-bar-fill" style="width:${Math.round(c/max*100)}%"></div></div>
+          <div class="danger-count">${c}</div>
+        </div>`).join('')}
+    </div>
+  </div>
+  <footer>נתונים: פיקוד העורף | 28.02.2026 - היום | ${allLocations.length} יישובים | ${total.toLocaleString()} אזעקות</footer>`;
+
+  renderCharts(hourly, dailyAll);
+}
+
+function renderCharts(hourly, daily) {
+  Object.values(charts).forEach(c=>{try{c.destroy();}catch{}});
+  charts={};
+  const opts={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    scales:{x:{ticks:{color:'#556688',font:{size:9}},grid:{color:'#1a2540'}},
+            y:{ticks:{color:'#556688'},grid:{color:'#1a2540'}}}};
+  const maxH=Math.max(...hourly,1);
+  const hEl=document.getElementById('chartH');
+  if(hEl) charts.h=new Chart(hEl.getContext('2d'),{type:'bar',data:{
+    labels:Array.from({length:24},(_,i)=>`${pad(i)}:00`),
+    datasets:[{data:hourly,backgroundColor:hourly.map(c=>{const r=c/maxH;return r<0.2?'#22c55e88':r<0.5?'#f59e0b88':'#ef444488';}),borderRadius:4}]
+  },options:{...opts}});
+  const dEl=document.getElementById('chartD');
+  if(dEl&&daily){
+    const dates=Object.keys(daily).sort();
+    charts.d=new Chart(dEl.getContext('2d'),{type:'line',data:{
+      labels:dates.map(d=>d.slice(5)),
+      datasets:[{data:dates.map(d=>daily[d]||0),borderColor:'#7eb3ff',backgroundColor:'#7eb3ff22',fill:true,tension:0.3,pointBackgroundColor:'#7eb3ff',pointRadius:3}]
+    },options:{...opts}});
+  }
+}
+
+function showTip(e,h,c){const t=document.getElementById('tooltipBox');t.style.display='block';t.style.left=(e.clientX+14)+'px';t.style.top=(e.clientY-38)+'px';t.innerHTML=`<b>${pad(h)}:00-${pad((h+1)%24)}:00</b><br>${c} אזעקות`;}
+function hideTip(){document.getElementById('tooltipBox').style.display='none';}
+
+document.addEventListener('click',e=>{if(!e.target.closest('.loc-wrap'))document.getElementById('suggestions').style.display='none';});
+
+// ===== INIT =====
+async function init() {
+  buildBookmarklet();
+  load();
+  checkTransfer();
+  buildLocationIndex();
+
+  if (allAlerts.length > 0) {
+    setSyncStatus(`✅ ${allAlerts.length.toLocaleString()} אזעקות`);
+    renderAll();
+    // Auto GPS
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async pos => {
+        try {
+          const r = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json&accept-language=he`);
+          const d = await r.json();
+          const city = d.address?.city || d.address?.town || d.address?.village || '';
+          if (city && currentLoc === 'כל הארץ') { document.getElementById('locationInput').value = city; applyLoc(); }
+        } catch {}
+      }, ()=>{});
+    }
+    // Sync latest in background
+    setTimeout(syncLatest, 1000);
+  } else {
+    setSyncStatus('לחץ לסנכרון');
+    renderAll();
+    syncLatest();
   }
 }
 
