@@ -3,594 +3,619 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🛡️ מתי בטוח לצאת? | פיקוד העורף</title>
+<title>🛡️ מתי בטוח לצאת?</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Segoe UI', Arial, sans-serif; background: #0a0f1e; color: #e0e6ff; min-height: 100vh; }
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #0a0f1e;
+  color: #e0e6ff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-header {
-  background: linear-gradient(135deg, #1a1f35, #0d1528);
-  border-bottom: 2px solid #2a3a6e;
+/* ===== HERO / SEARCH SCREEN ===== */
+#heroScreen {
+  width: 100%;
+  max-width: 520px;
+  padding: 60px 24px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.hero-icon { font-size: 3.5em; margin-bottom: 10px; }
+.hero-title { font-size: 1.7em; color: #7eb3ff; font-weight: 700; text-align: center; }
+.hero-sub { font-size: 0.88em; color: #556688; margin-top: 6px; margin-bottom: 36px; text-align: center; }
+
+/* GPS Button */
+#gpsBtn {
+  width: 100%;
+  background: linear-gradient(135deg, #1e4ba8, #2560cc);
+  border: none; border-radius: 14px;
+  color: white; font-size: 1.05em; font-weight: 600;
+  padding: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: opacity 0.2s, transform 0.1s;
+  margin-bottom: 16px;
+}
+#gpsBtn:hover { opacity: 0.9; }
+#gpsBtn:active { transform: scale(0.98); }
+#gpsBtn.loading { opacity: 0.7; pointer-events: none; }
+
+.divider {
+  width: 100%; display: flex; align-items: center; gap: 12px;
+  color: #334466; font-size: 0.82em; margin-bottom: 16px;
+}
+.divider::before, .divider::after {
+  content: ''; flex: 1; height: 1px; background: #1e2d4d;
+}
+
+/* Search field */
+.search-wrap { position: relative; width: 100%; margin-bottom: 8px; }
+#searchInput {
+  width: 100%;
+  background: #111827; border: 2px solid #1e2d4d; border-radius: 14px;
+  color: #e0e6ff; font-size: 1em;
+  padding: 14px 16px 14px 48px;
+  outline: none; transition: border-color 0.2s;
+  text-align: right;
+}
+#searchInput:focus { border-color: #2a3f6e; }
+#searchInput::placeholder { color: #334466; }
+.search-icon {
+  position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+  font-size: 1.2em; pointer-events: none;
+}
+#searchBtn {
+  width: 100%;
+  background: #111827; border: 2px solid #1e2d4d; border-radius: 14px;
+  color: #7eb3ff; font-size: 0.95em; font-weight: 600;
+  padding: 13px;
+  cursor: pointer; transition: border-color 0.2s;
+  margin-top: 8px;
+}
+#searchBtn:hover { border-color: #2a3f6e; }
+
+/* Dropdown */
+#dropdown {
+  position: absolute; top: calc(100% + 6px); right: 0; left: 0;
+  background: #111827; border: 2px solid #1e2d4d; border-radius: 14px;
+  max-height: 260px; overflow-y: auto;
+  z-index: 100; display: none;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+#dropdown .drop-item {
+  padding: 13px 16px;
+  cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid #1a2540;
+  transition: background 0.1s;
+}
+#dropdown .drop-item:last-child { border-bottom: none; }
+#dropdown .drop-item:hover { background: #1a2540; }
+#dropdown .drop-name { font-size: 0.92em; }
+#dropdown .drop-count {
+  font-size: 0.8em; color: #556688;
+  background: #1a2540; border-radius: 6px; padding: 2px 8px;
+}
+#dropdown .drop-item:hover .drop-count { background: #2a3a5e; }
+
+#statusMsg {
+  font-size: 0.82em; color: #556688; text-align: center; min-height: 20px; margin-top: 4px;
+}
+
+/* ===== RESULTS SCREEN ===== */
+#resultsScreen { width: 100%; max-width: 900px; padding: 0 16px 40px; display: none; }
+
+.results-header {
+  background: #111827; border-bottom: 1px solid #1e2d4d;
   padding: 14px 20px;
-  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  position: sticky; top: 0; z-index: 50;
+  flex-wrap: wrap;
 }
-header h1 { font-size: 1.4em; color: #7eb3ff; }
-header .sub { font-size: 0.78em; color: #8899bb; margin-top: 2px; }
-#syncStatus { font-size: 0.72em; padding: 4px 10px; border-radius: 6px; background: #1a2540; color: #7eb3ff; cursor:default; }
+.results-title { font-size: 1.1em; color: #7eb3ff; font-weight: 700; }
+.results-sub { font-size: 0.76em; color: #556688; margin-top: 2px; }
+#backBtn {
+  background: #1a2540; border: 1px solid #2a3f6e; border-radius: 10px;
+  color: #7eb3ff; font-size: 0.84em; padding: 7px 14px; cursor: pointer;
+  white-space: nowrap;
+}
+#backBtn:hover { background: #2a3a5e; }
 
-.location-bar {
-  background: #111827; border-bottom: 1px solid #1e2d4d;
-  padding: 10px 20px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+.big-count-card {
+  background: linear-gradient(135deg, #111827, #0d1528);
+  border: 1px solid #1e2d4d; border-radius: 18px;
+  padding: 32px 20px; text-align: center; margin: 20px 0;
 }
-.location-bar label { font-size: 0.85em; color: #7eb3ff; white-space: nowrap; }
-.loc-wrap { position: relative; }
-#locationInput {
-  background: #1a2540; border: 1px solid #2a3f6e; border-radius: 8px;
-  color: #e0e6ff; padding: 7px 12px; font-size: 0.88em; width: 200px;
-}
-#suggestions {
-  position: absolute; top: 100%; right: 0; background: #1a2540; border: 1px solid #2a3f6e;
-  border-radius: 8px; max-height: 200px; overflow-y: auto; z-index: 200; min-width: 220px; display: none;
-}
-#suggestions div { padding: 7px 12px; cursor: pointer; font-size: 0.84em; }
-#suggestions div:hover { background: #2a3f6e; }
-.btn { background: #1e4ba8; border: none; border-radius: 8px; color: white; padding: 7px 14px; cursor: pointer; font-size: 0.82em; white-space: nowrap; }
-.btn:hover { background: #2560cc; }
-.btn.orange { background: #7a3a00; }
-.btn.orange:hover { background: #a04a00; }
-#locStatus { font-size: 0.76em; color: #556688; }
+.big-count-label { font-size: 0.88em; color: #556688; margin-bottom: 8px; }
+.big-count-num { font-size: 4em; font-weight: 800; color: #7eb3ff; line-height: 1; }
+.big-count-period { font-size: 0.8em; color: #334466; margin-top: 8px; }
+.big-count-avg { font-size: 0.92em; color: #8899bb; margin-top: 12px; }
 
-#progressWrap {
-  background: #111827; border-bottom: 1px solid #1e2d4d;
-  padding: 8px 20px; display: none; align-items: center; gap: 12px;
-}
-#progressBar { flex: 1; height: 6px; background: #1a2540; border-radius: 3px; overflow: hidden; }
-#progressFill { height: 100%; background: linear-gradient(90deg, #1e4ba8, #7eb3ff); border-radius: 3px; transition: width 0.3s; width: 0%; }
-#progressText { font-size: 0.74em; color: #7eb3ff; white-space: nowrap; }
-
-/* Setup instructions banner */
-#setupBanner {
-  background: linear-gradient(135deg, #1a2a00, #2a3a00);
-  border-bottom: 2px solid #3a5a00;
-  padding: 16px 20px;
-  display: none;
-}
-#setupBanner h3 { color: #a3e635; font-size: 0.95em; margin-bottom: 10px; }
-.setup-steps { display: flex; flex-direction: column; gap: 8px; }
-.setup-step { display: flex; align-items: flex-start; gap: 10px; font-size: 0.84em; color: #c0d890; }
-.step-num { background: #3a5a00; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.8em; font-weight: bold; color: #a3e635; flex-shrink: 0; margin-top: 1px; }
-.bookmarklet-link {
-  display: inline-block; background: #2a4a00; border: 1px solid #4a7a00; border-radius: 6px;
-  padding: 6px 12px; color: #a3e635; text-decoration: none; font-size: 0.85em; cursor: grab; margin-top: 4px;
-}
-.bookmarklet-link:hover { background: #3a6a00; }
-
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; padding: 16px; max-width: 1400px; margin: 0 auto; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
 .card { background: #111827; border: 1px solid #1e2d4d; border-radius: 14px; padding: 18px; }
 .card.wide { grid-column: 1 / -1; }
-.card h2 { font-size: 0.98em; color: #7eb3ff; margin-bottom: 14px; }
+.card h2 { font-size: 0.95em; color: #7eb3ff; margin-bottom: 14px; }
 
-.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin-bottom: 16px; }
-.stat-box { background: #0d1528; border-radius: 10px; padding: 12px; text-align: center; border: 1px solid #1e2d4d; }
-.stat-num { font-size: 1.5em; font-weight: bold; color: #7eb3ff; }
-.stat-label { font-size: 0.68em; color: #556688; margin-top: 3px; }
-
-.hour-labels { display: grid; grid-template-columns: repeat(24, 1fr); gap: 2px; margin-bottom: 4px; }
-.hour-label { font-size: 0.56em; color: #556688; text-align: center; }
-.hour-grid { display: grid; grid-template-columns: repeat(24, 1fr); gap: 2px; margin-bottom: 6px; }
-.hour-cell { height: 38px; border-radius: 4px; cursor: pointer; transition: opacity 0.15s; }
-.hour-cell:hover { opacity: 0.75; }
-
-.activities { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 12px; }
-.act-card { background: #0d1528; border-radius: 12px; padding: 16px; border: 1px solid #1e2d4d; text-align: center; }
-.act-icon { font-size: 2.2em; margin-bottom: 6px; }
-.act-name { font-size: 0.82em; color: #8899bb; }
-.act-best { font-size: 1.45em; font-weight: bold; margin: 6px 0 2px; }
+/* Activities */
+.activities { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.act-card { background: #0d1528; border-radius: 12px; padding: 16px; text-align: center; border: 1px solid #1e2d4d; }
+.act-icon { font-size: 2em; margin-bottom: 6px; }
+.act-name { font-size: 0.8em; color: #8899bb; }
+.act-best { font-size: 1.4em; font-weight: bold; margin: 6px 0 2px; }
 .act-dur { font-size: 0.7em; color: #556688; }
-.act-score-bar { height: 6px; background: #1a2540; border-radius: 3px; margin: 8px 0 4px; overflow: hidden; }
-.act-score-fill { height: 100%; border-radius: 3px; }
+.act-bar { height: 5px; background: #1a2540; border-radius: 3px; margin: 8px 0 4px; overflow: hidden; }
+.act-fill { height: 100%; border-radius: 3px; }
 .act-alts { display: flex; gap: 5px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
-.alt-chip { background: #1a2540; border-radius: 5px; padding: 2px 8px; font-size: 0.73em; color: #7eb3ff; }
+.alt-chip { background: #1a2540; border-radius: 5px; padding: 2px 7px; font-size: 0.72em; color: #7eb3ff; }
 
 .c-safe { color: #22c55e; } .c-mod { color: #f59e0b; } .c-risky { color: #ef4444; }
 .bg-safe { background: #22c55e; } .bg-mod { background: #f59e0b; } .bg-risky { background: #ef4444; }
 
-.best-win { background: #0d2a0d; border: 1px solid #1a4d1a; border-radius: 10px; padding: 12px; margin-bottom: 10px; }
-.best-win h3 { color: #22c55e; font-size: 0.86em; margin-bottom: 8px; }
-.win-chips { display: flex; flex-wrap: wrap; gap: 7px; }
-.win-chip { background: #1a3d1a; border-radius: 6px; padding: 4px 10px; font-size: 0.79em; color: #86efac; }
+/* Heatmap */
+.hour-labels { display: grid; grid-template-columns: repeat(24, 1fr); gap: 2px; margin-bottom: 4px; }
+.hour-label { font-size: 0.54em; color: #556688; text-align: center; }
+.hour-grid { display: grid; grid-template-columns: repeat(24, 1fr); gap: 2px; }
+.hour-cell { height: 36px; border-radius: 4px; cursor: pointer; }
+.hour-cell:hover { opacity: 0.75; }
 
-.danger-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-.danger-hour { width: 50px; font-size: 0.82em; color: #ff6b6b; }
-.danger-bar-wrap { flex: 1; background: #1a2540; border-radius: 4px; height: 14px; overflow: hidden; }
-.danger-bar-fill { height: 100%; background: linear-gradient(90deg, #cc2200, #ff4400); }
-.danger-count { width: 36px; font-size: 0.74em; color: #ff6b6b; text-align: left; }
+/* Best windows */
+.bw { background: #0d2a0d; border: 1px solid #1a4d1a; border-radius: 10px; padding: 12px; margin-bottom: 10px; }
+.bw h3 { color: #22c55e; font-size: 0.86em; margin-bottom: 8px; }
+.bw-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.bw-chip { background: #1a3d1a; border-radius: 6px; padding: 4px 10px; font-size: 0.78em; color: #86efac; }
 
-.chart-wrap { position: relative; height: 200px; }
-.empty-state { text-align: center; padding: 50px 20px; color: #556688; }
-.empty-state .big { font-size: 3em; margin-bottom: 12px; }
+/* Danger */
+.dr { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.dr-h { width: 48px; font-size: 0.8em; color: #ff6b6b; }
+.dr-bar { flex: 1; background: #1a2540; border-radius: 4px; height: 13px; overflow: hidden; }
+.dr-fill { height: 100%; background: linear-gradient(90deg, #cc2200, #ff4400); }
+.dr-cnt { width: 34px; font-size: 0.74em; color: #ff6b6b; text-align: left; }
+
+.chart-wrap { height: 200px; position: relative; }
+
 .tooltip-box { position: fixed; background: #1a2540; border: 1px solid #2a3f6e; border-radius: 8px; padding: 8px 12px; font-size: 0.8em; pointer-events: none; z-index: 1000; display: none; }
-footer { text-align: center; padding: 20px; color: #334466; font-size: 0.72em; }
 
-@media (max-width: 600px) {
-  .hour-cell { height: 26px; } .hour-label { font-size: 0.46em; }
+/* Loading spinner */
+.spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+footer { color: #2a3a5e; font-size: 0.7em; padding: 20px; text-align: center; }
+
+@media (max-width: 500px) {
+  .hero-title { font-size: 1.4em; }
+  .big-count-num { font-size: 3em; }
+  .hour-cell { height: 26px; }
+  .hour-label { font-size: 0.44em; }
 }
 </style>
 </head>
 <body>
 
-<header>
-  <div>
-    <h1>🛡️ מתי בטוח לצאת?</h1>
-    <div class="sub">ניתוח אזעקות פיקוד העורף | 28.02.2026 - היום</div>
-  </div>
-  <span id="syncStatus">טוען...</span>
-</header>
+<!-- ===== HERO SCREEN ===== -->
+<div id="heroScreen">
+  <div class="hero-icon">🛡️</div>
+  <div class="hero-title">מתי בטוח לצאת?</div>
+  <div class="hero-sub">ניתוח אזעקות פיקוד העורף | 28.02.2026 - היום</div>
 
-<div class="location-bar">
-  <label>📍 מיקום:</label>
-  <div class="loc-wrap">
-    <input type="text" id="locationInput" placeholder="הקלד עיר / ישוב..." oninput="onLocInput()" onkeydown="if(event.key==='Enter')applyLoc()" />
-    <div id="suggestions"></div>
+  <button id="gpsBtn" onclick="useGPS()">
+    <span>📡</span>
+    <span>השתמש במיקום שלי (GPS)</span>
+  </button>
+
+  <div class="divider">או</div>
+
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="הקלד שם ישוב..." oninput="onType()" onkeydown="onKey(event)" autocomplete="off" />
+    <div id="dropdown"></div>
   </div>
-  <button class="btn" onclick="applyLoc()">עדכן</button>
-  <button class="btn" onclick="useGPS()">📡 GPS</button>
-  <button class="btn" style="background:#1a3a1a;" onclick="resetLoc()">🌍 כל הארץ</button>
-  <button class="btn orange" onclick="toggleSetup()">📥 טען היסטוריה</button>
-  <button class="btn" onclick="syncLatest()">🔄 עדכן עכשיו</button>
-  <span id="locStatus">כל הארץ</span>
+  <button id="searchBtn" onclick="doSearch()">חפש מיקום</button>
+
+  <div id="statusMsg">טוען נתונים...</div>
 </div>
 
-<!-- Setup Instructions -->
-<div id="setupBanner">
-  <h3>📥 איך לטעון היסטוריית אזעקות מלאה (28.02 עד היום)</h3>
-  <div class="setup-steps">
-    <div class="setup-step">
-      <div class="step-num">1</div>
-      <div>גרור את הכפתור הכתום לסרגל הסימניות של הדפדפן שלך:<br>
-        <a class="bookmarklet-link" id="bookmarkletBtn" href="">📡 טען אזעקות לדשבורד</a>
-      </div>
+<!-- ===== RESULTS SCREEN ===== -->
+<div id="resultsScreen">
+  <div class="results-header">
+    <div>
+      <div class="results-title" id="resultsTitle">📍 </div>
+      <div class="results-sub" id="resultsSub"></div>
     </div>
-    <div class="setup-step">
-      <div class="step-num">2</div>
-      <div>פתח טאב חדש ועבור לאתר פיקוד העורף:<br>
-        <a href="https://www.oref.org.il/12481-he/Pakar.aspx" target="_blank" style="color:#7eb3ff;">https://www.oref.org.il/12481-he/Pakar.aspx</a>
-      </div>
-    </div>
-    <div class="setup-step">
-      <div class="step-num">3</div>
-      <div>לחץ על הסימנייה "📡 טען אזעקות לדשבורד" - הנתונים יעברו אוטומטית לכאן</div>
-    </div>
-    <div class="setup-step">
-      <div class="step-num">4</div>
-      <div style="color:#a3e635;">חזור לדשבורד הזה וראה את הנתונים המלאים! ✅</div>
-    </div>
+    <button id="backBtn" onclick="goBack()">← חזור לחיפוש</button>
   </div>
+
+  <div id="resultsContent"></div>
 </div>
 
-<div id="progressWrap">
-  <div id="progressBar"><div id="progressFill"></div></div>
-  <div id="progressText">מעבד נתונים...</div>
-</div>
-
-<div id="app"></div>
-<div class="tooltip-box" id="tooltipBox"></div>
+<div class="tooltip-box" id="tip"></div>
 
 <script>
-const STORAGE_KEY = 'oref_v4';
-const START_DATE = '2026-02-28';
-const API_BASE = 'https://alerts-history.oref.org.il/Shared/Ajax/GetAlarmsHistory.aspx';
-const DASHBOARD_ORIGIN = location.origin;
-
+// ===== CONSTANTS =====
+const STORAGE_KEY = 'oref_v5';
+const API = 'https://alerts-history.oref.org.il/Shared/Ajax/GetAlarmsHistory.aspx';
+const START = '28.02.2026';
 const ACTIVITIES = [
-  { id: 'shower',   name: 'מקלחת',     icon: '🚿', duration: 15, desc: '~15 דקות' },
-  { id: 'shopping', name: 'קניות סופר', icon: '🛒', duration: 60, desc: '~60 דקות' },
-  { id: 'running',  name: 'ריצה בחוץ',  icon: '🏃', duration: 45, desc: '~45 דקות' },
+  { name: 'מקלחת',     icon: '🚿', dur: 15, desc: '~15 דקות' },
+  { name: 'קניות סופר', icon: '🛒', dur: 60, desc: '~60 דקות' },
+  { name: 'ריצה בחוץ',  icon: '🏃', dur: 45, desc: '~45 דקות' },
 ];
 
-let allAlerts = [];   // flat array of all alert records
-let allLocations = [];
-let currentLoc = 'כל הארץ';
+// ===== STATE =====
+let allAlerts = [];
+let locIndex = {};   // { "שדרות, איבים": [...], ... }
+let locCounts = {};  // { "שדרות, איבים": 42, ... }
+let sortedLocs = []; // sorted by name
 let charts = {};
-let isSyncing = false;
+let dataReady = false;
 
 // ===== STORAGE =====
-function load() {
+function loadStorage() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) { allAlerts = JSON.parse(raw); return true; }
   } catch {}
   return false;
 }
-
-function save() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(allAlerts)); } catch(e) {
-    // If storage full, keep only last 30k
-    allAlerts = allAlerts.slice(-30000);
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(allAlerts)); } catch {}
-  }
+function saveStorage() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(allAlerts)); } catch {}
 }
 
-// ===== MERGE =====
-function mergeAlerts(newData) {
-  if (!Array.isArray(newData) || newData.length === 0) return 0;
-  const existingRids = new Set(allAlerts.map(a => a.rid));
-  // Filter to only records from START_DATE onwards
-  const startMs = new Date(START_DATE).getTime();
-  const toAdd = newData.filter(a => {
-    if (existingRids.has(a.rid)) return false;
-    if (!a.date) return true;
-    const [d,m,y] = a.date.split('.');
-    const ms = new Date(`${y}-${m}-${d}`).getTime();
-    return ms >= startMs;
-  });
-  allAlerts = [...allAlerts, ...toAdd];
-  // Sort by alertDate desc
-  allAlerts.sort((a,b) => (b.alertDate||'').localeCompare(a.alertDate||''));
-  return toAdd.length;
+// ===== FETCH =====
+async function fetchAlerts() {
+  const today = todayOref();
+  const url = `${API}?lang=he&fromDate=${START}&toDate=${today}&mode=1`;
+  const r = await fetch(url);
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  return r.json();
 }
 
-// ===== BOOKMARKLET =====
-function buildBookmarklet() {
-  const dashUrl = location.href.split('?')[0];
-  const code = `
-(async function(){
-  try {
-    const r = await fetch('https://www.oref.org.il/WarningMessages/History/AlertsHistory.json',{
-      headers:{'Referer':'https://www.oref.org.il/','X-Requested-With':'XMLHttpRequest'},
-      credentials:'include'
-    });
-    if(!r.ok) throw new Error('HTTP '+r.status);
-    const data = await r.json();
-    const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
-    const chunks = [];
-    for(let i=0;i<b64.length;i+=50000) chunks.push(b64.slice(i,i+50000));
-    localStorage.setItem('oref_transfer_total', chunks.length);
-    chunks.forEach((c,i) => localStorage.setItem('oref_transfer_'+i, c));
-    localStorage.setItem('oref_transfer_ready','1');
-    alert('✅ '+data.length+' אזעקות נטענו! חזור לדשבורד ולחץ "🔄 עדכן עכשיו"');
-    window.open('${dashUrl}','_blank');
-  } catch(e) {
-    alert('שגיאה: '+e.message);
-  }
-})();`.replace(/\s+/g,' ').trim();
-  document.getElementById('bookmarkletBtn').href = 'javascript:' + encodeURIComponent(code);
+function todayOref() {
+  const d = new Date();
+  return `${pad(d.getDate())}.${pad(d.getMonth()+1)}.${d.getFullYear()}`;
 }
-
-function toggleSetup() {
-  const b = document.getElementById('setupBanner');
-  b.style.display = b.style.display === 'block' ? 'none' : 'block';
-}
-
-// ===== CHECK FOR TRANSFERRED DATA =====
-function checkTransfer() {
-  if (localStorage.getItem('oref_transfer_ready') !== '1') return false;
-  try {
-    const total = parseInt(localStorage.getItem('oref_transfer_total') || '1');
-    let b64 = '';
-    for (let i = 0; i < total; i++) b64 += localStorage.getItem('oref_transfer_' + i) || '';
-    const json = decodeURIComponent(escape(atob(b64)));
-    const data = JSON.parse(json);
-    const added = mergeAlerts(data);
-    // Cleanup transfer keys
-    localStorage.removeItem('oref_transfer_ready');
-    localStorage.removeItem('oref_transfer_total');
-    for (let i = 0; i < total; i++) localStorage.removeItem('oref_transfer_' + i);
-    if (added > 0) {
-      save();
-      buildLocationIndex();
-      setSyncStatus(`✅ היסטוריה מלאה! ${allAlerts.length.toLocaleString()} אזעקות`);
-      return true;
-    }
-  } catch(e) { console.warn('Transfer error:', e); }
-  return false;
-}
-
-// ===== FETCH LATEST =====
-async function syncLatest() {
-  if (isSyncing) return;
-  isSyncing = true;
-  document.getElementById('progressWrap').style.display = 'flex';
-  setProgress(0, 1, 'מוריד נתונים עדכניים...');
-
-  // First check if there's transferred history data
-  const hadTransfer = checkTransfer();
-
-  try {
-    const url = `${API_BASE}?lang=he&fromDate=28.02.2026&toDate=${isoToOref(todayISO())}&mode=1`;
-    const r = await fetch(url);
-    const data = await r.json();
-    const added = mergeAlerts(data);
-    setProgress(1, 1, `נוספו ${added} אזעקות חדשות`);
-    save();
-    buildLocationIndex();
-    renderAll();
-  } catch(e) {
-    console.warn('Sync failed:', e);
-  }
-
-  document.getElementById('progressWrap').style.display = 'none';
-  setSyncStatus(`✅ ${allAlerts.length.toLocaleString()} אזעקות | עודכן ${new Date().toLocaleTimeString('he-IL')}`);
-  if (hadTransfer || allAlerts.length > 3000) renderAll();
-  isSyncing = false;
-}
-
-// ===== UTILS =====
 function pad(n) { return String(n).padStart(2,'0'); }
 function fmt(h) { return `${pad(h)}:00`; }
-function todayISO() { return new Date().toISOString().split('T')[0]; }
-function isoToOref(iso) { const [y,m,d]=iso.split('-'); return `${d}.${m}.${y}`; }
-function setProgress(d,t,txt) {
-  document.getElementById('progressFill').style.width = (t>0?Math.round(d/t*100):0)+'%';
-  document.getElementById('progressText').textContent = txt;
-}
-function setSyncStatus(t) { document.getElementById('syncStatus').textContent = t; }
 
-// ===== LOCATION =====
-function buildLocationIndex() {
-  allLocations = [...new Set(allAlerts.map(a=>a.data).filter(Boolean))].sort();
+function mergeAlerts(data) {
+  const rids = new Set(allAlerts.map(a => a.rid));
+  let added = 0;
+  for (const a of data) {
+    if (!rids.has(a.rid)) { allAlerts.push(a); rids.add(a.rid); added++; }
+  }
+  return added;
 }
 
-function getLocAlerts(loc) {
-  if (!loc || loc === 'כל הארץ') return allAlerts;
-  const l = loc.trim();
-  return allAlerts.filter(a => {
-    if (!a.data) return false;
-    const d = a.data;
-    if (d === l) return true;
-    if (d.startsWith(l + ',') || d.startsWith(l + ' ')) return true;
-    if (d.includes(l)) return true;
-    // Split by comma: "שדרות, איבים"
-    const parts = d.split(/[,،]/).map(p => p.trim());
-    return parts.some(p => p === l || p.startsWith(l));
+function buildIndex() {
+  locIndex = {};
+  locCounts = {};
+  for (const a of allAlerts) {
+    const loc = a.data || '';
+    if (!loc) continue;
+    if (!locIndex[loc]) locIndex[loc] = [];
+    locIndex[loc].push(a);
+  }
+  for (const [k, v] of Object.entries(locIndex)) locCounts[k] = v.length;
+  sortedLocs = Object.keys(locIndex).sort();
+}
+
+// ===== SEARCH / FILTER =====
+// Given user text, find matching locations (handles "שדרות" → "שדרות, איבים")
+function matchLocs(query) {
+  if (!query) return [];
+  const q = query.trim();
+  return sortedLocs.filter(l => l.includes(q)).sort((a,b) => {
+    // Exact match first, then startsWith, then contains
+    const ae = a === q, be = b === q;
+    if (ae && !be) return -1; if (be && !ae) return 1;
+    const as = a.startsWith(q), bs = b.startsWith(q);
+    if (as && !bs) return -1; if (bs && !as) return 1;
+    return (locCounts[b]||0) - (locCounts[a]||0); // most alerts first
   });
 }
 
-function applyLoc() {
-  const val = document.getElementById('locationInput').value.trim();
-  document.getElementById('suggestions').style.display = 'none';
-  if (!val) return resetLoc();
-  const locAlerts = getLocAlerts(val);
-  if (locAlerts.length === 0) {
-    document.getElementById('locStatus').textContent = `⚠️ "${val}" לא נמצא בנתונים (${allAlerts.length.toLocaleString()} רשומות)`;
-    currentLoc = 'כל הארץ';
-  } else {
-    currentLoc = val;
-    document.getElementById('locStatus').textContent = `📍 ${val} (${locAlerts.length.toLocaleString()} אזעקות)`;
+function getAlertsForQuery(query) {
+  const matches = matchLocs(query);
+  if (matches.length === 0) return { alerts: [], matchedLocs: [] };
+  const combined = matches.flatMap(l => locIndex[l] || []);
+  return { alerts: combined, matchedLocs: matches };
+}
+
+// ===== UI: DROPDOWN =====
+function onType() {
+  const q = document.getElementById('searchInput').value.trim();
+  const dd = document.getElementById('dropdown');
+  if (q.length < 1) { dd.style.display = 'none'; return; }
+
+  const matches = matchLocs(q).slice(0, 20);
+  if (!matches.length) {
+    dd.innerHTML = '<div class="drop-item"><span class="drop-name" style="color:#556688">לא נמצאו תוצאות</span></div>';
+    dd.style.display = 'block';
+    return;
   }
-  renderAll();
+
+  dd.innerHTML = matches.map(loc => `
+    <div class="drop-item" onclick="selectLoc('${loc.replace(/'/g,"\\'")}')">
+      <span class="drop-name">📍 ${loc}</span>
+      <span class="drop-count">${(locCounts[loc]||0).toLocaleString()} אזעקות</span>
+    </div>`).join('');
+  dd.style.display = 'block';
 }
 
-function resetLoc() {
-  currentLoc = 'כל הארץ';
-  document.getElementById('locationInput').value = '';
-  document.getElementById('locStatus').textContent = '🌍 כל הארץ';
-  renderAll();
+function onKey(e) {
+  if (e.key === 'Enter') doSearch();
+  if (e.key === 'Escape') document.getElementById('dropdown').style.display = 'none';
 }
 
-function onLocInput() {
-  const val = document.getElementById('locationInput').value.trim();
-  const sug = document.getElementById('suggestions');
-  if (val.length < 2) { sug.style.display = 'none'; return; }
-  const hits = allLocations.filter(l => l.includes(val)).slice(0, 14);
-  if (!hits.length) { sug.style.display = 'none'; return; }
-  sug.innerHTML = hits.map(l => `<div onclick="pickSug(this)" data-loc="${l.replace(/"/g,'&quot;')}">📍 ${l}</div>`).join('');
-  sug.style.display = 'block';
+function selectLoc(loc) {
+  document.getElementById('searchInput').value = loc;
+  document.getElementById('dropdown').style.display = 'none';
+  showResults(loc);
 }
 
-function pickSug(el) {
-  const loc = el.getAttribute('data-loc');
-  document.getElementById('locationInput').value = loc;
-  document.getElementById('suggestions').style.display = 'none';
-  currentLoc = loc;
-  const cnt = getLocAlerts(loc).length;
-  document.getElementById('locStatus').textContent = `📍 ${loc} (${cnt.toLocaleString()} אזעקות)`;
-  renderAll();
+function doSearch() {
+  const q = document.getElementById('searchInput').value.trim();
+  document.getElementById('dropdown').style.display = 'none';
+  if (!q) return;
+  const { matchedLocs } = getAlertsForQuery(q);
+  if (matchedLocs.length === 0) {
+    setStatus(`⚠️ "${q}" לא נמצא. נסה שם אחר.`);
+    return;
+  }
+  showResults(q);
 }
 
+// ===== GPS =====
 async function useGPS() {
-  document.getElementById('locStatus').textContent = '📡 מאתר...';
-  if (!navigator.geolocation) { document.getElementById('locStatus').textContent = 'GPS לא זמין'; return; }
+  const btn = document.getElementById('gpsBtn');
+  btn.classList.add('loading');
+  btn.innerHTML = '<div class="spinner"></div><span>מאתר מיקום...</span>';
+  setStatus('');
+
+  if (!navigator.geolocation) {
+    setStatus('GPS לא זמין בדפדפן זה');
+    resetGPS(); return;
+  }
+
   navigator.geolocation.getCurrentPosition(async pos => {
     try {
-      const r = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json&accept-language=he`);
+      setStatus('מזהה עיר...');
+      const r = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json&accept-language=he`
+      );
       const d = await r.json();
-      const city = d.address?.city || d.address?.town || d.address?.village || '';
-      if (city) { document.getElementById('locationInput').value = city; applyLoc(); }
-      else document.getElementById('locStatus').textContent = 'לא ניתן לזהות עיר';
-    } catch { document.getElementById('locStatus').textContent = 'שגיאת GPS'; }
-  }, () => { document.getElementById('locStatus').textContent = 'GPS לא אושר'; });
+      const city = d.address?.city || d.address?.town || d.address?.village || d.address?.suburb || '';
+      resetGPS();
+      if (!city) { setStatus('לא ניתן לזהות עיר מה-GPS'); return; }
+      document.getElementById('searchInput').value = city;
+      const { matchedLocs } = getAlertsForQuery(city);
+      if (matchedLocs.length === 0) {
+        setStatus(`📍 ${city} - לא נמצאו אזעקות (ייתכן שהעיר לא הופיעה בדיווחים)`);
+      } else {
+        showResults(city);
+      }
+    } catch(e) {
+      setStatus('שגיאה בזיהוי מיקום'); resetGPS();
+    }
+  }, err => {
+    setStatus(err.code === 1 ? 'לא אושר גישה ל-GPS' : 'שגיאת GPS');
+    resetGPS();
+  }, { timeout: 10000 });
+}
+
+function resetGPS() {
+  const btn = document.getElementById('gpsBtn');
+  btn.classList.remove('loading');
+  btn.innerHTML = '<span>📡</span><span>השתמש במיקום שלי (GPS)</span>';
+}
+
+function setStatus(msg) { document.getElementById('statusMsg').textContent = msg; }
+
+// ===== RESULTS =====
+function goBack() {
+  document.getElementById('heroScreen').style.display = 'flex';
+  document.getElementById('resultsScreen').style.display = 'none';
+  Object.values(charts).forEach(c => { try { c.destroy(); } catch {} });
+  charts = {};
+}
+
+function showResults(query) {
+  const { alerts: locAlerts, matchedLocs } = getAlertsForQuery(query);
+  if (locAlerts.length === 0) { setStatus(`"${query}" - לא נמצאו אזעקות`); return; }
+
+  // Switch screens
+  document.getElementById('heroScreen').style.display = 'none';
+  document.getElementById('resultsScreen').style.display = 'block';
+
+  const locLabel = matchedLocs.length === 1 ? matchedLocs[0] : query;
+  document.getElementById('resultsTitle').textContent = '📍 ' + locLabel;
+  document.getElementById('resultsSub').textContent =
+    `${locAlerts.length.toLocaleString()} אזעקות | 28.02.2026 - היום | ${allAlerts.length.toLocaleString()} סה"כ בכל הארץ`;
+
+  // Destroy old charts
+  Object.values(charts).forEach(c => { try { c.destroy(); } catch {} });
+  charts = {};
+
+  const hourly = computeHourly(locAlerts);
+  const hourlyAll = computeHourly(allAlerts);
+  const daily = computeDaily(locAlerts);
+  const allDates = Object.keys(computeDaily(allAlerts)).sort();
+  const max = Math.max(...hourly, 1);
+  const days = Math.max(Object.keys(daily).length, 1);
+  const quietest = hourly.indexOf(Math.min(...hourly));
+  const busiest = hourly.indexOf(Math.max(...hourly));
+
+  document.getElementById('resultsContent').innerHTML = `
+
+    <!-- Big number -->
+    <div class="big-count-card">
+      <div class="big-count-label">מספר האזעקות ב${locLabel}</div>
+      <div class="big-count-num">${locAlerts.length.toLocaleString()}</div>
+      <div class="big-count-period">מה-28.02.2026 ועד היום</div>
+      <div class="big-count-avg">ממוצע: ${(locAlerts.length/days).toFixed(1)} אזעקות ליום | הכי שקט: ${fmt(quietest)} | הכי עמוס: ${fmt(busiest)}</div>
+    </div>
+
+    <div class="grid">
+
+      <!-- Heatmap -->
+      <div class="card wide">
+        <h2>🌡️ מפת חום - אזעקות לפי שעה</h2>
+        <div class="hour-labels">${Array.from({length:24},(_,i)=>`<div class="hour-label">${pad(i)}</div>`).join('')}</div>
+        <div class="hour-grid">${hourly.map((c,h)=>`
+          <div class="hour-cell" style="background:${cellColor(c,max)}"
+            onmouseenter="showTip(event,${h},${c})" onmouseleave="hideTip()"></div>`).join('')}
+        </div>
+        <div style="display:flex;gap:14px;font-size:0.68em;color:#556688;flex-wrap:wrap;margin-top:8px;">
+          <span>🟢 שקט</span><span>🟡 בינוני</span><span>🔴 פעיל</span>
+        </div>
+      </div>
+
+      <!-- Activities -->
+      <div class="card wide">
+        <h2>🎯 השעה הכי טובה לכל פעילות</h2>
+        <div class="activities">
+          ${ACTIVITIES.map(act => {
+            const wins = bestWindows(hourly, act.dur, 4);
+            const best = wins[0];
+            return `<div class="act-card">
+              <div class="act-icon">${act.icon}</div>
+              <div class="act-name">${act.name}</div>
+              <div class="act-best ${sc(best.score)}">${fmt(best.hour)}</div>
+              <div class="act-dur">${act.desc}</div>
+              <div class="act-bar"><div class="act-fill ${sb(best.score)}" style="width:${best.score}%"></div></div>
+              <div style="font-size:0.68em;color:#556688;">ניקוד: ${best.score}/100</div>
+              <div class="act-alts">${wins.slice(1).map(w=>`<div class="alt-chip">${fmt(w.hour)}</div>`).join('')}</div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+
+      <!-- Chart hourly -->
+      <div class="card">
+        <h2>📈 אזעקות לפי שעה</h2>
+        <div class="chart-wrap"><canvas id="chartH"></canvas></div>
+      </div>
+
+      <!-- Chart daily -->
+      <div class="card">
+        <h2>📅 אזעקות לפי יום</h2>
+        <div class="chart-wrap"><canvas id="chartD"></canvas></div>
+      </div>
+
+      <!-- Best windows -->
+      <div class="card">
+        <h2>✅ חלונות זמן מומלצים</h2>
+        ${ACTIVITIES.map(act => {
+          const wins = bestWindows(hourly, act.dur, 5);
+          return `<div class="bw">
+            <h3>${act.icon} ${act.name} (${act.desc}):</h3>
+            <div class="bw-chips">${wins.map(w=>`<div class="bw-chip">${fmt(w.hour)} <span style="color:#4ade80">${w.score}%</span></div>`).join('')}</div>
+          </div>`;
+        }).join('')}
+      </div>
+
+      <!-- Danger hours -->
+      <div class="card">
+        <h2>⚠️ שעות סכנה</h2>
+        ${[...hourly.map((c,h)=>({h,c}))].sort((a,b)=>b.c-a.c).slice(0,8).map(({h,c})=>`
+          <div class="dr">
+            <div class="dr-h">${fmt(h)}</div>
+            <div class="dr-bar"><div class="dr-fill" style="width:${Math.round(c/max*100)}%"></div></div>
+            <div class="dr-cnt">${c}</div>
+          </div>`).join('')}
+      </div>
+
+    </div>
+    <footer>נתונים: פיקוד העורף | ${locAlerts.length.toLocaleString()} אזעקות ב${locLabel} | ${allAlerts.length.toLocaleString()} סה"כ בכל הארץ</footer>
+  `;
+
+  // Charts
+  const cOpts = { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+    scales:{ x:{ticks:{color:'#556688',font:{size:9}},grid:{color:'#1a2540'}}, y:{ticks:{color:'#556688'},grid:{color:'#1a2540'}} }};
+  const maxH = Math.max(...hourly,1);
+  const hEl = document.getElementById('chartH');
+  if (hEl) charts.h = new Chart(hEl.getContext('2d'), { type:'bar', data:{
+    labels: Array.from({length:24},(_,i)=>`${pad(i)}:00`),
+    datasets:[{data:hourly, backgroundColor:hourly.map(c=>{const r=c/maxH;return r<0.2?'#22c55e88':r<0.5?'#f59e0b88':'#ef444488';}), borderRadius:4}]
+  }, options:{...cOpts}});
+
+  const dEl = document.getElementById('chartD');
+  if (dEl) {
+    const sortedDates = allDates;
+    charts.d = new Chart(dEl.getContext('2d'), { type:'line', data:{
+      labels: sortedDates.map(d=>d.slice(5)),
+      datasets:[{
+        data: sortedDates.map(d => {
+          const oref = `${d.slice(8)}.${d.slice(5,7)}.${d.slice(0,4)}`;
+          return daily[oref] || 0;
+        }),
+        borderColor:'#7eb3ff', backgroundColor:'#7eb3ff22',
+        fill:true, tension:0.3, pointBackgroundColor:'#7eb3ff', pointRadius:4
+      }]
+    }, options:{...cOpts}});
+  }
+
+  window.scrollTo(0,0);
 }
 
 // ===== CALCULATIONS =====
 function computeHourly(list) {
   const h = new Array(24).fill(0);
-  for (const a of list) { if (a.time) { const hr = parseInt(a.time); if (hr>=0&&hr<24) h[hr]++; } }
+  for (const a of list) if (a.time) { const hr=parseInt(a.time); if(hr>=0&&hr<24) h[hr]++; }
   return h;
 }
 function computeDaily(list) {
   const d = {};
-  for (const a of list) {
-    const dt = a.date ? a.date : '';
-    if (dt) d[dt] = (d[dt]||0) + 1;
-  }
+  for (const a of list) if (a.date) d[a.date] = (d[a.date]||0)+1;
   return d;
 }
-function safetyScore(h, dur, hourly) {
-  const n = Math.ceil(dur/60); let tot=0;
+function safetyScore(h,dur,hourly) {
+  const n=Math.ceil(dur/60); let tot=0;
   for(let i=0;i<n;i++) tot+=hourly[(h+i)%24]||0;
-  const mx=Math.max(...hourly,1)*n;
-  return Math.max(0,Math.round(100-(tot/mx)*100));
+  return Math.max(0,Math.round(100-(tot/(Math.max(...hourly,1)*n))*100));
 }
-function bestWindows(hourly, dur, n=5) {
+function bestWindows(hourly,dur,n=5) {
   return Array.from({length:24},(_,h)=>({hour:h,score:safetyScore(h,dur,hourly)})).sort((a,b)=>b.score-a.score).slice(0,n);
 }
 function cellColor(c,max) {
   if(c===0) return '#0d3d1a';
   const r=c/max;
-  if(r<0.15) return '#1a5c1a'; if(r<0.30) return '#5c5c00';
-  if(r<0.50) return '#7a4000'; if(r<0.70) return '#993000'; return '#cc1a00';
+  return r<0.15?'#1a5c1a':r<0.30?'#5c5c00':r<0.50?'#7a4000':r<0.70?'#993000':'#cc1a00';
 }
 function sc(s){return s>=70?'c-safe':s>=40?'c-mod':'c-risky';}
 function sb(s){return s>=70?'bg-safe':s>=40?'bg-mod':'bg-risky';}
 
-// ===== RENDER =====
-function renderAll() {
-  const locList = getLocAlerts(currentLoc);
-  const total = allAlerts.length;
-
-  if (total === 0) {
-    document.getElementById('app').innerHTML = `
-      <div class="empty-state">
-        <div class="big">📡</div>
-        <div style="font-size:1.1em;color:#7eb3ff;margin-bottom:12px;">אין נתונים עדיין</div>
-        <div style="margin-bottom:8px;font-size:0.9em;">לקבלת היסטוריה מלאה (28.02 - היום):</div>
-        <button class="btn orange" onclick="toggleSetup()" style="margin-left:8px;">📥 טען היסטוריה מפיקוד העורף</button>
-        <button class="btn" onclick="syncLatest()" style="margin-top:8px;">🔄 טען נתונים עדכניים בלבד</button>
-      </div>`;
-    return;
-  }
-
-  const hourly = computeHourly(locList);
-  const daily = computeDaily(locList);
-  const dailyAll = computeDaily(allAlerts);
-  const max = Math.max(...hourly, 1);
-  const quietest = hourly.indexOf(Math.min(...hourly));
-  const busiest = hourly.indexOf(Math.max(...hourly));
-  const days = Object.keys(dailyAll).length;
-  const locName = currentLoc !== 'כל הארץ' ? currentLoc : 'כל הארץ';
-
-  document.getElementById('app').innerHTML = `
-  <div class="grid">
-    <div class="card wide">
-      <h2>📊 סטטיסטיקות - ${locName}</h2>
-      <div class="stats-row">
-        <div class="stat-box"><div class="stat-num">${total.toLocaleString()}</div><div class="stat-label">סה"כ אזעקות בכל הארץ</div></div>
-        ${currentLoc!=='כל הארץ'?`<div class="stat-box"><div class="stat-num">${locList.length.toLocaleString()}</div><div class="stat-label">אזעקות ב${currentLoc}</div></div>`:''}
-        <div class="stat-box"><div class="stat-num">${days}</div><div class="stat-label">ימים (28.02-היום)</div></div>
-        <div class="stat-box"><div class="stat-num">${Math.round(locList.length/Math.max(days,1)).toLocaleString()}</div><div class="stat-label">ממוצע ליום</div></div>
-        <div class="stat-box"><div class="stat-num c-safe">${fmt(quietest)}</div><div class="stat-label">🟢 הכי שקט</div></div>
-        <div class="stat-box"><div class="stat-num c-risky">${fmt(busiest)}</div><div class="stat-label">🔴 הכי עמוס</div></div>
-      </div>
-      <div style="font-size:0.76em;color:#556688;margin-bottom:6px;">🌡️ מפת חום לפי שעה${currentLoc!=='כל הארץ'?' - '+currentLoc:''}</div>
-      <div class="hour-labels">${Array.from({length:24},(_,i)=>`<div class="hour-label">${pad(i)}</div>`).join('')}</div>
-      <div class="hour-grid">${hourly.map((c,h)=>`<div class="hour-cell" style="background:${cellColor(c,max)}" onmouseenter="showTip(event,${h},${c})" onmouseleave="hideTip()"></div>`).join('')}</div>
-      <div style="display:flex;gap:14px;font-size:0.68em;color:#556688;flex-wrap:wrap;margin-top:4px;">
-        <span>🟢 שקט</span><span>🟡 בינוני</span><span>🔴 פעיל</span>
-      </div>
-    </div>
-
-    <div class="card wide">
-      <h2>🎯 השעה הטובה ביותר${currentLoc!=='כל הארץ'?' - '+currentLoc:''}</h2>
-      <div class="activities">
-        ${ACTIVITIES.map(act=>{
-          const wins=bestWindows(hourly,act.duration,4);
-          const best=wins[0];
-          return `<div class="act-card">
-            <div class="act-icon">${act.icon}</div>
-            <div class="act-name">${act.name}</div>
-            <div class="act-best ${sc(best.score)}">${fmt(best.hour)}</div>
-            <div class="act-dur">${act.desc}</div>
-            <div class="act-score-bar"><div class="act-score-fill ${sb(best.score)}" style="width:${best.score}%"></div></div>
-            <div style="font-size:0.68em;color:#556688;">ניקוד: ${best.score}/100</div>
-            <div class="act-alts">${wins.slice(1).map(w=>`<div class="alt-chip">${fmt(w.hour)}</div>`).join('')}</div>
-          </div>`;
-        }).join('')}
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>📈 אזעקות לפי שעה${currentLoc!=='כל הארץ'?' - '+currentLoc:''}</h2>
-      <div class="chart-wrap"><canvas id="chartH"></canvas></div>
-    </div>
-
-    <div class="card">
-      <h2>📅 אזעקות לפי יום - כל הארץ</h2>
-      <div class="chart-wrap"><canvas id="chartD"></canvas></div>
-    </div>
-
-    <div class="card">
-      <h2>✅ חלונות זמן מומלצים</h2>
-      ${ACTIVITIES.map(act=>{
-        const wins=bestWindows(hourly,act.duration,5);
-        return `<div class="best-win">
-          <h3>${act.icon} ${act.name} (${act.desc}):</h3>
-          <div class="win-chips">${wins.map(w=>`<div class="win-chip">${fmt(w.hour)} <span style="color:#4ade80">${w.score}%</span></div>`).join('')}</div>
-        </div>`;
-      }).join('')}
-    </div>
-
-    <div class="card">
-      <h2>⚠️ שעות סכנה</h2>
-      ${[...hourly.map((c,h)=>({h,c}))].sort((a,b)=>b.c-a.c).slice(0,8).map(({h,c})=>`
-        <div class="danger-row">
-          <div class="danger-hour">${fmt(h)}</div>
-          <div class="danger-bar-wrap"><div class="danger-bar-fill" style="width:${Math.round(c/max*100)}%"></div></div>
-          <div class="danger-count">${c}</div>
-        </div>`).join('')}
-    </div>
-  </div>
-  <footer>נתונים: פיקוד העורף | 28.02.2026 - היום | ${allLocations.length} יישובים | ${total.toLocaleString()} אזעקות</footer>`;
-
-  renderCharts(hourly, dailyAll);
+// ===== TOOLTIP =====
+function showTip(e,h,c){
+  const t=document.getElementById('tip');
+  t.style.display='block'; t.style.left=(e.clientX+14)+'px'; t.style.top=(e.clientY-38)+'px';
+  t.innerHTML=`<b>${pad(h)}:00 - ${pad((h+1)%24)}:00</b><br>${c} אזעקות`;
 }
+function hideTip(){document.getElementById('tip').style.display='none';}
 
-function renderCharts(hourly, daily) {
-  Object.values(charts).forEach(c=>{try{c.destroy();}catch{}});
-  charts={};
-  const opts={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
-    scales:{x:{ticks:{color:'#556688',font:{size:9}},grid:{color:'#1a2540'}},
-            y:{ticks:{color:'#556688'},grid:{color:'#1a2540'}}}};
-  const maxH=Math.max(...hourly,1);
-  const hEl=document.getElementById('chartH');
-  if(hEl) charts.h=new Chart(hEl.getContext('2d'),{type:'bar',data:{
-    labels:Array.from({length:24},(_,i)=>`${pad(i)}:00`),
-    datasets:[{data:hourly,backgroundColor:hourly.map(c=>{const r=c/maxH;return r<0.2?'#22c55e88':r<0.5?'#f59e0b88':'#ef444488';}),borderRadius:4}]
-  },options:{...opts}});
-  const dEl=document.getElementById('chartD');
-  if(dEl&&daily){
-    const dates=Object.keys(daily).sort();
-    charts.d=new Chart(dEl.getContext('2d'),{type:'line',data:{
-      labels:dates.map(d=>d.slice(5)),
-      datasets:[{data:dates.map(d=>daily[d]||0),borderColor:'#7eb3ff',backgroundColor:'#7eb3ff22',fill:true,tension:0.3,pointBackgroundColor:'#7eb3ff',pointRadius:3}]
-    },options:{...opts}});
-  }
-}
-
-function showTip(e,h,c){const t=document.getElementById('tooltipBox');t.style.display='block';t.style.left=(e.clientX+14)+'px';t.style.top=(e.clientY-38)+'px';t.innerHTML=`<b>${pad(h)}:00-${pad((h+1)%24)}:00</b><br>${c} אזעקות`;}
-function hideTip(){document.getElementById('tooltipBox').style.display='none';}
-
-document.addEventListener('click',e=>{if(!e.target.closest('.loc-wrap'))document.getElementById('suggestions').style.display='none';});
+document.addEventListener('click', e=>{
+  if (!e.target.closest('.search-wrap')) document.getElementById('dropdown').style.display='none';
+});
 
 // ===== INIT =====
 async function init() {
-  buildBookmarklet();
-  load();
-  checkTransfer();
-  buildLocationIndex();
-
-  if (allAlerts.length > 0) {
-    setSyncStatus(`✅ ${allAlerts.length.toLocaleString()} אזעקות`);
-    renderAll();
-    // Auto GPS
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(async pos => {
-        try {
-          const r = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json&accept-language=he`);
-          const d = await r.json();
-          const city = d.address?.city || d.address?.town || d.address?.village || '';
-          if (city && currentLoc === 'כל הארץ') { document.getElementById('locationInput').value = city; applyLoc(); }
-        } catch {}
-      }, ()=>{});
-    }
-    // Sync latest in background
-    setTimeout(syncLatest, 1000);
-  } else {
-    setSyncStatus('לחץ לסנכרון');
-    renderAll();
-    syncLatest();
-  }
+  loadStorage();
+  try {
+    const fresh = await fetchAlerts();
+    const added = mergeAlerts(fresh);
+    if (added > 0) saveStorage();
+  } catch(e) { console.warn('Fetch failed:', e); }
+  buildIndex();
+  dataReady = true;
+  const total = allAlerts.length;
+  setStatus(total > 0 ? `✅ ${total.toLocaleString()} אזעקות נטענו | ${sortedLocs.length.toLocaleString()} יישובים` : '⚠️ לא ניתן לטעון נתונים');
 }
 
 init();
