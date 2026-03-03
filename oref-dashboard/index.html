@@ -410,9 +410,9 @@ const API_URL = 'https://alerts-history.oref.org.il/Shared/Ajax/GetAlarmsHistory
 const FROM_DATE = '28.02.2026';
 
 const ACTIVITIES = [
-  { id: 'shower',   icon: '&#x1F6BF;', name: 'מקלחת',      dur: 20, desc: '20 דקות' },
-  { id: 'run',      icon: '&#x1F3C3;', name: 'ריצה בחוץ',   dur: 45, desc: '45 דקות' },
-  { id: 'grocery',  icon: '&#x1F6D2;', name: 'קניות בסופר', dur: 60, desc: '60 דקות' },
+  { id: 'shower',   icon: '&#x1F6BF;', name: 'מקלחת',      dur: 20, desc: '20 דקות', minHour: 0,  maxHour: 23, hoursNote: 'כל שעה' },
+  { id: 'run',      icon: '&#x1F3C3;', name: 'ריצה בחוץ',   dur: 45, desc: '45 דקות', minHour: 6,  maxHour: 19, hoursNote: '06:00-20:00' },
+  { id: 'grocery',  icon: '&#x1F6D2;', name: 'קניות בסופר', dur: 60, desc: '60 דקות', minHour: 6,  maxHour: 20, hoursNote: '06:00-21:00' },
 ];
 
 // ════════════════════════════════════
@@ -606,11 +606,17 @@ function windowScore(h, durMins, hourly) {
   return Math.max(0, Math.round((1 - danger) * 100));
 }
 
-function bestWindows(durMins, hourly, n = 5) {
-  return Array.from({ length: 24 }, (_, h) => ({
-    hour: h,
-    score: windowScore(h, durMins, hourly)
-  })).sort((a, b) => b.score - a.score).slice(0, n);
+// minHour/maxHour = allowed start-hour range (inclusive)
+// maxHour means the activity must START by maxHour so it finishes within reason
+function bestWindows(durMins, hourly, n = 5, minHour = 0, maxHour = 23) {
+  const candidates = [];
+  for (let h = minHour; h <= maxHour; h++) {
+    // Make sure the window doesn't run past midnight for outdoor activities
+    const endHour = h + Math.ceil(durMins / 60) - 1;
+    if (maxHour < 23 && endHour > maxHour) continue;
+    candidates.push({ hour: h, score: windowScore(h, durMins, hourly) });
+  }
+  return candidates.sort((a, b) => b.score - a.score).slice(0, n);
 }
 
 function scoreClass(s) { return s >= 70 ? 'safe' : s >= 40 ? 'mod' : 'risky'; }
@@ -818,7 +824,7 @@ function showResults(query) {
 
   // Build activities HTML
   const activitiesHTML = ACTIVITIES.map(act => {
-    const wins = bestWindows(act.dur, hourly, 5);
+    const wins = bestWindows(act.dur, hourly, 5, act.minHour, act.maxHour);
     const best = wins[0];
     const cls = scoreClass(best.score);
     return `
@@ -827,7 +833,7 @@ function showResults(query) {
           <div class="act-icon">${act.icon}</div>
           <div>
             <div class="act-name">${act.name}</div>
-            <div class="act-dur">${act.desc}</div>
+            <div class="act-dur">${act.desc} &bull; ${act.hoursNote}</div>
           </div>
         </div>
         <div class="best-time ${cls}">${fmtHour(best.hour)}</div>
