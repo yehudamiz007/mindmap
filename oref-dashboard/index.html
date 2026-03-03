@@ -220,6 +220,12 @@ footer { color: #2a3a5e; font-size: 0.7em; padding: 20px; text-align: center; }
   <button id="searchBtn" onclick="doSearch()">חפש מיקום</button>
 
   <div id="statusMsg">טוען נתונים...</div>
+
+  <div style="display:flex;gap:8px;margin-top:12px;width:100%;">
+    <button id="syncBtn" onclick="syncNow()" style="flex:1;background:#1a2540;border:1px solid #2a3f6e;border-radius:10px;color:#7eb3ff;font-size:0.85em;padding:9px;cursor:pointer;">🔄 סנכרן</button>
+    <button onclick="clearCache()" style="background:#1a1020;border:1px solid #3d1a2a;border-radius:10px;color:#ff6b6b;font-size:0.85em;padding:9px 14px;cursor:pointer;">🗑️</button>
+  </div>
+  <div style="font-size:0.72em;color:#334466;text-align:center;margin-top:6px;">נתונים נצברים מדי יום באופן אוטומטי</div>
 </div>
 
 <!-- ===== RESULTS SCREEN ===== -->
@@ -436,8 +442,10 @@ function showResults(query) {
 
   const locLabel = matchedLocs.length === 1 ? matchedLocs[0] : query;
   document.getElementById('resultsTitle').textContent = '📍 ' + locLabel;
+  const range = getDataDateRange();
+  const rangeStr = range ? `${range.from} - ${range.to}` : '28.02.2026 - היום';
   document.getElementById('resultsSub').textContent =
-    `${locAlerts.length.toLocaleString()} אזעקות | 28.02.2026 - היום | ${allAlerts.length.toLocaleString()} סה"כ בכל הארץ`;
+    `${locAlerts.length.toLocaleString()} אזעקות | ${rangeStr} | ${allAlerts.length.toLocaleString()} סה"כ בכל הארץ`;
 
   // Destroy old charts
   Object.values(charts).forEach(c => { try { c.destroy(); } catch {} });
@@ -458,8 +466,9 @@ function showResults(query) {
     <div class="big-count-card">
       <div class="big-count-label">מספר האזעקות ב${locLabel}</div>
       <div class="big-count-num">${locAlerts.length.toLocaleString()}</div>
-      <div class="big-count-period">מה-28.02.2026 ועד היום</div>
+      <div class="big-count-period" id="bigCountPeriod">טוען...</div>
       <div class="big-count-avg">ממוצע: ${(locAlerts.length/days).toFixed(1)} אזעקות ליום | הכי שקט: ${fmt(quietest)} | הכי עמוס: ${fmt(busiest)}</div>
+      <div style="font-size:0.72em;color:#334466;margin-top:6px;" id="bigCountPeriodDetail">טווח נתונים: ${rangeStr} (${countUniqueDates()} ימים)</div>
     </div>
 
     <div class="grid">
@@ -604,18 +613,85 @@ document.addEventListener('click', e=>{
   if (!e.target.closest('.search-wrap')) document.getElementById('dropdown').style.display='none';
 });
 
+// ===== DATE RANGE HELPERS =====
+function getDataDateRange() {
+  if (allAlerts.length === 0) return null;
+  const dates = allAlerts.map(a => a.date).filter(Boolean);
+  if (!dates.length) return null;
+  // dates are in DD.MM.YYYY format - sort by converting
+  const toSortable = d => { const p = d.split('.'); return p[2]+p[1]+p[0]; };
+  const sorted = [...dates].sort((a,b) => toSortable(a).localeCompare(toSortable(b)));
+  return { from: sorted[0], to: sorted[sorted.length-1] };
+}
+function countUniqueDates() {
+  return new Set(allAlerts.map(a=>a.date).filter(Boolean)).size;
+}
+
 // ===== INIT =====
 async function init() {
-  loadStorage();
+  const hadData = loadStorage();
+  setStatus(hadData ? `⏳ טוען עדכונים... (${allAlerts.length.toLocaleString()} שמורים)` : '⏳ טוען נתונים...');
+
   try {
     const fresh = await fetchAlerts();
     const added = mergeAlerts(fresh);
-    if (added > 0) saveStorage();
-  } catch(e) { console.warn('Fetch failed:', e); }
+    if (added > 0) {
+      saveStorage();
+      console.log(`✅ נוספו ${added} רשומות חדשות`);
+    }
+  } catch(e) {
+    console.warn('Fetch failed:', e);
+    if (allAlerts.length === 0) {
+      setStatus('⚠️ לא ניתן לטעון נתונים. בדוק חיבור לאינטרנט.');
+      return;
+    }
+  }
+
   buildIndex();
   dataReady = true;
+
   const total = allAlerts.length;
-  setStatus(total > 0 ? `✅ ${total.toLocaleString()} אזעקות נטענו | ${sortedLocs.length.toLocaleString()} יישובים` : '⚠️ לא ניתן לטעון נתונים');
+  const days = countUniqueDates();
+  const range = getDataDateRange();
+  const rangeStr = range ? `${range.from} - ${range.to}` : '';
+
+  if (total > 0) {
+    setStatus(`✅ ${total.toLocaleString()} אזעקות | ${days} ימים (${rangeStr}) | ${sortedLocs.length.toLocaleString()} יישובים`);
+    // Update hero subtitle to show real date range
+    const sub = document.querySelector('.hero-sub');
+    if (sub && range) sub.textContent = `ניתוח אזעקות פיקוד העורף | ${range.from} - ${range.to}`;
+  } else {
+    setStatus('⚠️ אין נתונים זמינים');
+  }
+}
+
+// ===== SYNC BUTTON =====
+async function syncNow() {
+  const btn = document.getElementById('syncBtn');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ מסנכרן...'; }
+  try {
+    const fresh = await fetchAlerts();
+    const before = allAlerts.length;
+    const added = mergeAlerts(fresh);
+    if (added > 0) saveStorage();
+    buildIndex();
+    const range = getDataDateRange();
+    const days = countUniqueDates();
+    const rangeStr = range ? `${range.from} - ${range.to}` : '';
+    setStatus(`✅ ${added > 0 ? `+${added} חדשות | ` : 'עדכני | '}${allAlerts.length.toLocaleString()} סה"כ | ${days} ימים (${rangeStr})`);
+  } catch(e) {
+    setStatus('⚠️ סנכרון נכשל - עובד עם נתונים שמורים');
+  }
+  if (btn) { btn.disabled = false; btn.textContent = '🔄 סנכרן'; }
+}
+
+// ===== CLEAR CACHE =====
+function clearCache() {
+  if (!confirm('למחוק את כל הנתונים השמורים?')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  allAlerts = [];
+  buildIndex();
+  setStatus('🗑️ נתונים נמחקו. רענן דף לטעינה מחדש.');
 }
 
 init();
