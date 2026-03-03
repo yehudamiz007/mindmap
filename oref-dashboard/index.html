@@ -211,75 +211,86 @@ function orefToIso(oref) {
 function todayISO() { return new Date().toISOString().split('T')[0]; }
 
 // ===== DATA FETCHING =====
-async function fetchDay(isoDate) {
-  const oref = isoToOref(isoDate);
-  const url = `${API_BASE}?lang=he&fromDate=${oref}&toDate=${oref}&mode=1`;
+// Strategy: fetch AlertsHistory.json from oref directly (works from browser, blocked from server)
+// Falls back to the paginated API for latest alerts
+
+async function fetchFullHistory() {
+  // This works from the browser because oref.org.il sends the right headers/cookies
+  const r = await fetch('https://www.oref.org.il/WarningMessages/History/AlertsHistory.json', {
+    headers: {
+      'Referer': 'https://www.oref.org.il/12481-he/Pakar.aspx',
+      'X-Requested-With': 'XMLHttpRequest',
+    },
+    credentials: 'include',
+  });
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  return r.json();
+}
+
+async function fetchLatest() {
+  const url = `${API_BASE}?lang=he&fromDate=28.02.2026&toDate=${isoToOref(todayISO())}&mode=1`;
   const r = await fetch(url);
   if (!r.ok) throw new Error(`HTTP ${r.status}`);
   return r.json();
+}
+
+function mergeAlerts(newData) {
+  // Merge by rid deduplication, keyed by date
+  for (const rec of newData) {
+    const isoDate = orefToIso(rec.date) || todayISO();
+    if (!alerts[isoDate]) alerts[isoDate] = [];
+    // Dedup by rid
+    if (!alerts[isoDate].find(r => r.rid === rec.rid)) {
+      alerts[isoDate].push(rec);
+    }
+  }
 }
 
 async function syncData() {
   if (isSyncing) return;
   isSyncing = true;
 
-  const today = todayISO();
-  const allDates = dateRange(START_DATE, today);
-
-  // Find which dates we already have
-  const missing = allDates.filter(d => !alerts[d]);
-  // Also re-fetch today (might have new alerts)
-  if (!missing.includes(today)) missing.push(today);
-
-  if (missing.length === 0) {
-    setSyncStatus(`✅ מעודכן | ${Object.keys(alerts).length} ימים`);
-    isSyncing = false;
-    return;
-  }
-
-  // Show progress
   document.getElementById('progressWrap').style.display = 'flex';
-  let done = 0;
+  setProgress(0, 2, 'מוריד היסטוריית אזעקות מפיקוד העורף...');
 
-  for (const date of missing) {
-    try {
-      setProgress(done, missing.length, `מוריד ${isoToOref(date)}...`);
-      const data = await fetchDay(date);
+  let totalNew = 0;
 
-      // Filter to only records from this date
-      const filtered = data.filter(r => {
-        const d = orefToIso(r.date);
-        return d === date;
-      });
-
-      if (filtered.length > 0) {
-        alerts[date] = filtered;
-      } else if (data.length > 0) {
-        // API returned different date - store under correct key
-        alerts[date] = data.filter(r => {
-          const d = orefToIso(r.date);
-          return !d || d === date;
-        });
-      } else {
-        alerts[date] = [];
-      }
-
-      done++;
-      await new Promise(r => setTimeout(r, 100)); // rate limit
-    } catch(e) {
-      console.warn(`Failed ${date}:`, e);
-      done++;
-    }
+  // Try full history first
+  try {
+    setProgress(0, 2, '📥 מוריד היסטוריה מלאה...');
+    const data = await fetchFullHistory();
+    // Filter from START_DATE
+    const startMs = new Date(START_DATE).getTime();
+    const filtered = data.filter(r => {
+      const d = orefToIso(r.date);
+      return d && new Date(d).getTime() >= startMs;
+    });
+    mergeAlerts(filtered);
+    totalNew = filtered.length;
+    setProgress(1, 2, `✅ היסטוריה מלאה: ${filtered.length} רשומות`);
+  } catch(e) {
+    console.warn('Full history failed, falling back:', e);
+    setProgress(0, 2, '⚠️ היסטוריה מלאה חסומה, מוריד נתונים אחרונים...');
   }
 
-  setProgress(missing.length, missing.length, 'שומר...');
-  const meta = saveToStorage();
+  // Always also fetch latest (real-time)
+  try {
+    setProgress(1, 2, '📡 מוריד נתונים עדכניים...');
+    const latest = await fetchLatest();
+    mergeAlerts(latest);
+    setProgress(2, 2, 'שומר...');
+  } catch(e) {
+    console.warn('Latest fetch failed:', e);
+  }
+
+  saveToStorage();
   buildLocationIndex();
   renderAll();
 
   document.getElementById('progressWrap').style.display = 'none';
   const total = getAllAlerts().length;
-  setSyncStatus(`✅ ${total.toLocaleString()} אזעקות | ${Object.keys(alerts).length} ימים`);
+  const days = Object.keys(alerts).filter(d => alerts[d].length > 0).length;
+  setSyncStatus(`✅ ${total.toLocaleString()} אזעקות | ${days} ימים`);
   isSyncing = false;
 }
 
@@ -301,11 +312,20 @@ function getAllAlerts() {
 function getAlertsForLoc(loc) {
   if (!loc || loc === 'כל הארץ') return getAllAlerts();
   const l = loc.trim();
-  return getAllAlerts().filter(a => a.data && (
-    a.data === l ||
-    a.data.includes(l) ||
-    l.includes(a.data.split(' ')[0])
-  ));
+  return getAllAlerts().filter(a => {
+    if (!a.data) return false;
+    const d = a.data;
+    // Exact match
+    if (d === l) return true;
+    // "שדרות, איבים" contains "שדרות"
+    if (d.includes(l)) return true;
+    // "שדרות" matches start of "שדרות, איבים"
+    if (d.startsWith(l)) return true;
+    // comma-separated: "שדרות, איבים" -> ["שדרות", "איבים"]
+    const parts = d.split(/[,،\-–\/]/).map(p => p.trim());
+    if (parts.some(p => p === l || p.startsWith(l) || l.startsWith(p))) return true;
+    return false;
+  });
 }
 
 function buildLocationIndex() {
