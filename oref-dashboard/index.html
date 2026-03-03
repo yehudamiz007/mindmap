@@ -498,47 +498,64 @@ function getDateRange() {
 //  SEARCH / MATCH
 // ════════════════════════════════════
 // Normalize Hebrew text for fuzzy matching
+// Strips separators (comma, dash, slash) and extra whitespace
 function normalize(s) {
   return s
-    .replace(/[,\-\/\s]+/g, ' ')  // unify separators
-    .replace(/[״׳"']/g, '')       // remove quotes
+    .replace(/[,،\-–—\/]+/g, ' ')  // replace all separators with space
+    .replace(/[״׳"'«»]+/g, '')      // remove quotes
+    .replace(/\s+/g, ' ')           // collapse whitespace
     .trim();
 }
 
-// Check if any word in `a` starts with any word in `b` (or vice versa)
-function wordsOverlap(a, b) {
-  const wa = normalize(a).split(/\s+/).filter(w => w.length > 1);
-  const wb = normalize(b).split(/\s+/).filter(w => w.length > 1);
-  return wa.some(w1 => wb.some(w2 =>
-    w1.startsWith(w2) || w2.startsWith(w1) || w1.includes(w2) || w2.includes(w1)
-  ));
+// Extract all meaningful words (length > 1) from a string
+function words(s) {
+  return normalize(s).split(' ').filter(w => w.length > 1);
+}
+
+// Score how well query matches a location (higher = better match)
+function matchScore(loc, query) {
+  const locN = normalize(loc);
+  const qN   = normalize(query);
+
+  // Exact normalized match
+  if (locN === qN) return 100;
+  // Location starts with query (e.g. "תל אביב" matches "תל אביב - מרכז")
+  if (locN.startsWith(qN)) return 90;
+  // Query starts with location
+  if (qN.startsWith(locN)) return 85;
+  // Location contains full query string
+  if (locN.includes(qN)) return 80;
+  // Query contained in location
+  if (qN.includes(locN)) return 75;
+
+  // Word-level: every query word appears (or starts) in location
+  const qWords = words(query);
+  const lWords = words(loc);
+  const allMatch = qWords.every(qw =>
+    lWords.some(lw => lw.startsWith(qw) || qw.startsWith(lw))
+  );
+  if (allMatch && qWords.length > 0) return 60;
+
+  // At least one significant word matches
+  const anyMatch = qWords.filter(qw => qw.length > 2).some(qw =>
+    lWords.some(lw => lw.startsWith(qw) || qw.startsWith(lw))
+  );
+  if (anyMatch) return 30;
+
+  return 0;
 }
 
 function searchLocs(query) {
   if (!query) return [];
   const q = query.trim();
-  const qNorm = normalize(q);
+  if (q.length < 1) return [];
 
-  return locList.filter(loc => {
-    const locNorm = normalize(loc);
-    // Direct include
-    if (locNorm.includes(qNorm) || qNorm.includes(locNorm)) return true;
-    // Word-level overlap
-    return wordsOverlap(loc, q);
-  }).sort((a, b) => {
-    const aNorm = normalize(a);
-    const bNorm = normalize(b);
-    // Exact normalized match first
-    const ae = aNorm === qNorm, be = bNorm === qNorm;
-    if (ae && !be) return -1;
-    if (be && !ae) return 1;
-    // Starts-with second
-    const as = aNorm.startsWith(qNorm), bs = bNorm.startsWith(qNorm);
-    if (as && !bs) return -1;
-    if (bs && !as) return 1;
-    // Most alerts last tiebreak
-    return (locMap[b]?.length || 0) - (locMap[a]?.length || 0);
-  });
+  const scored = locList
+    .map(loc => ({ loc, score: matchScore(loc, q) }))
+    .filter(x => x.score > 0)
+    .sort((a, b) => b.score - a.score || (locMap[b.loc]?.length||0) - (locMap[a.loc]?.length||0));
+
+  return scored.map(x => x.loc);
 }
 
 function getAlertsFor(query) {
@@ -668,10 +685,18 @@ async function useGPS() {
         );
         const d = await r.json();
         const addr = d.address || {};
-        const candidates = [
+        const raw = [
           addr.city, addr.town, addr.village, addr.suburb,
           addr.municipality, addr.county
         ].filter(Boolean);
+        // Also add first-word variants (e.g. "תל אביב - יפו" → "תל אביב")
+        const candidates = [];
+        for (const c of raw) {
+          candidates.push(c);
+          // Strip everything after dash/comma
+          const stripped = c.split(/[\-,–]/)[0].trim();
+          if (stripped && stripped !== c) candidates.push(stripped);
+        }
         allCandidates.push(...candidates);
         if (!city && candidates.length) city = candidates[0];
       }
