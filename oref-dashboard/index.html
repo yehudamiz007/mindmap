@@ -630,14 +630,14 @@ function windowScore(h, durMins, hourly) {
     if ((hourly[(h + i) % 24] || 0) > 0) return -1; // BLOCKED
   }
   // Window is clean - score by how quiet the surrounding hours are
-  // (bonus for being far from danger hours)
-  const surrounding = 2; // look 2 hours before and after
+  const surrounding = 2;
   let neighborAlerts = 0;
   for (let i = -surrounding; i < slots + surrounding; i++) {
     neighborAlerts += hourly[(h + i + 24) % 24] || 0;
   }
   const maxNeighbor = Math.max(...hourly, 1) * (slots + surrounding * 2);
-  return Math.max(1, Math.round((1 - neighborAlerts / maxNeighbor) * 100));
+  const raw = (1 - neighborAlerts / maxNeighbor) * 90; // cap at 90%
+  return Math.max(1, Math.round(raw));
 }
 
 // minHour/maxHour = allowed start-hour range (inclusive)
