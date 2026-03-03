@@ -405,9 +405,9 @@ body {
 // ════════════════════════════════════
 //  CONFIG
 // ════════════════════════════════════
-const STORAGE_KEY = 'oref_alerts_v1';
-const API_URL = 'https://alerts-history.oref.org.il/Shared/Ajax/GetAlarmsHistory.aspx';
-const FROM_DATE = '28.02.2026';
+const STORAGE_KEY = 'oref_alerts_v2';
+const API_URL = 'https://api.tzevaadom.co.il/alerts-history/';
+const FROM_TS = new Date('2026-02-28T00:00:00Z').getTime() / 1000;
 
 const ACTIVITIES = [
   { id: 'shower',   icon: '&#x1F6BF;', name: 'מקלחת',      dur: 20, desc: '20 דקות', minHour: 0,  maxHour: 23, hoursNote: 'כל שעה' },
@@ -418,9 +418,11 @@ const ACTIVITIES = [
 // ════════════════════════════════════
 //  STATE
 // ════════════════════════════════════
-let allAlerts = [];     // all accumulated alerts
-let locMap = {};        // { "שדרות, איבים": [alerts] }
-let locList = [];       // sorted location names
+// allAlerts: flat array of { city, time, threat }
+// time = unix timestamp (seconds)
+let allAlerts = [];
+let locMap = {};        // { "שדרות": [alerts] }
+let locList = [];       // sorted city names
 let activeChart1 = null, activeChart2 = null;
 
 // ════════════════════════════════════
@@ -442,29 +444,50 @@ function saveToStorage() {
 //  FETCH & MERGE
 // ════════════════════════════════════
 
-// 1. Try same-origin seed file (no CORS issues)
+// Convert tzevaadom group format to flat alert records
+function flattenGroups(groups) {
+  const flat = [];
+  for (const group of groups) {
+    for (const alert of (group.alerts || [])) {
+      if (alert.isDrill) continue;
+      if (alert.time < FROM_TS) continue;
+      for (const city of (alert.cities || [])) {
+        flat.push({ city, time: alert.time, threat: alert.threat || 1 });
+      }
+    }
+  }
+  return flat;
+}
+
+// Load seed file (same-origin, no CORS)
 async function fetchSeed() {
   const res = await fetch('./alerts_seed.json');
   if (!res.ok) throw new Error('seed ' + res.status);
-  return res.json();
+  const data = await res.json();
+  // Seed may be flat already or group format
+  if (Array.isArray(data) && data[0] && data[0].city) return data; // flat
+  return flattenGroups(data); // group format
 }
 
-// 2. Try oref API directly (works only if browser allows CORS)
+// Fetch latest from tzevaadom API
 async function fetchLatest() {
-  const today = fmtDate(new Date());
-  const url = `${API_URL}?lang=he&fromDate=${FROM_DATE}&toDate=${today}&mode=1`;
-  const res = await fetch(url, { mode: 'cors' });
+  const res = await fetch(API_URL, {
+    headers: { 'Referer': 'https://www.tzevaadom.co.il/' }
+  });
   if (!res.ok) throw new Error('HTTP ' + res.status);
-  return res.json();
+  const groups = await res.json();
+  return flattenGroups(groups);
 }
 
+// Merge by city+time (dedup)
 function mergeNew(incoming) {
-  const existingRids = new Set(allAlerts.map(a => a.rid));
+  const keys = new Set(allAlerts.map(a => `${a.city}|${a.time}`));
   let added = 0;
   for (const a of incoming) {
-    if (!existingRids.has(a.rid)) {
+    const k = `${a.city}|${a.time}`;
+    if (!keys.has(k)) {
       allAlerts.push(a);
-      existingRids.add(a.rid);
+      keys.add(k);
       added++;
     }
   }
@@ -474,7 +497,7 @@ function mergeNew(incoming) {
 function buildLocMap() {
   locMap = {};
   for (const a of allAlerts) {
-    const loc = (a.data || '').trim();
+    const loc = (a.city || '').trim();
     if (!loc) continue;
     if (!locMap[loc]) locMap[loc] = [];
     locMap[loc].push(a);
@@ -485,20 +508,27 @@ function buildLocMap() {
 // ════════════════════════════════════
 //  DATE HELPERS
 // ════════════════════════════════════
-function fmtDate(d) {
-  return `${pad(d.getDate())}.${pad(d.getMonth()+1)}.${d.getFullYear()}`;
-}
 function pad(n) { return String(n).padStart(2, '0'); }
 function fmtHour(h) { return `${pad(h)}:00`; }
+function tsToDate(ts) {
+  const d = new Date(ts * 1000);
+  return `${pad(d.getDate())}.${pad(d.getMonth()+1)}.${d.getFullYear()}`;
+}
+function tsToHour(ts) {
+  return new Date(ts * 1000).getHours();
+}
+function tsToDateKey(ts) {
+  const d = new Date(ts * 1000);
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+}
 
 function getDateRange() {
   if (!allAlerts.length) return null;
-  // dates are DD.MM.YYYY - sort by converting
-  const sorted = [...new Set(allAlerts.map(a => a.date).filter(Boolean))].sort((a, b) => {
-    const toNum = s => { const [d,m,y] = s.split('.'); return Number(y)*10000 + Number(m)*100 + Number(d); };
-    return toNum(a) - toNum(b);
-  });
-  return { from: sorted[0], to: sorted[sorted.length-1], days: sorted.length };
+  const times = allAlerts.map(a => a.time).filter(Boolean);
+  const minTs = Math.min(...times);
+  const maxTs = Math.max(...times);
+  const days = new Set(allAlerts.map(a => tsToDateKey(a.time))).size;
+  return { from: tsToDate(minTs), to: tsToDate(maxTs), days };
 }
 
 // ════════════════════════════════════
@@ -581,8 +611,7 @@ function buildHourly(alerts) {
   const h = new Array(24).fill(0);
   for (const a of alerts) {
     if (!a.time) continue;
-    const hr = parseInt(a.time); // "15:43:22" → 15
-    if (hr >= 0 && hr < 24) h[hr]++;
+    h[tsToHour(a.time)]++;
   }
   return h;
 }
@@ -590,7 +619,9 @@ function buildHourly(alerts) {
 function buildDaily(alerts) {
   const d = {};
   for (const a of alerts) {
-    if (a.date) d[a.date] = (d[a.date] || 0) + 1;
+    if (!a.time) continue;
+    const key = tsToDateKey(a.time);
+    d[key] = (d[key] || 0) + 1;
   }
   return d;
 }
@@ -811,11 +842,10 @@ function showResults(query) {
   const maxH   = Math.max(...hourly, 1);
   const range  = getDateRange();
   const locRange = (() => {
-    const dates = [...new Set(alerts.map(a=>a.date).filter(Boolean))].sort((a,b)=>{
-      const toNum = s=>{const[d,m,y]=s.split('.');return Number(y)*10000+Number(m)*100+Number(d);};
-      return toNum(a)-toNum(b);
-    });
-    return dates.length ? { from: dates[0], to: dates[dates.length-1], days: dates.length } : null;
+    const times = alerts.map(a => a.time).filter(Boolean);
+    if (!times.length) return null;
+    const days = new Set(alerts.map(a => tsToDateKey(a.time))).size;
+    return { from: tsToDate(Math.min(...times)), to: tsToDate(Math.max(...times)), days };
   })();
 
   // Destroy old charts
@@ -973,14 +1003,11 @@ function showResults(query) {
   // Chart: daily
   const ctxD = document.getElementById('chartDay')?.getContext('2d');
   if (ctxD) {
-    const sortedDates = Object.keys(daily).sort((a,b) => {
-      const toNum = s=>{const[d,m,y]=s.split('.');return Number(y)*10000+Number(m)*100+Number(d);};
-      return toNum(a)-toNum(b);
-    });
+    const sortedDates = Object.keys(daily).sort();
     activeChart2 = new Chart(ctxD, {
       type: 'line',
       data: {
-        labels: sortedDates.map(d => d.slice(0,5)),
+        labels: sortedDates.map(d => d.slice(5)), // MM-DD
         datasets: [{
           data: sortedDates.map(d => daily[d]),
           borderColor: '#7eb3ff',
