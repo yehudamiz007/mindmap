@@ -3,710 +3,929 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>≡ƒ¢í∩╕Å ╫₧╫¬╫Ö ╫æ╫ÿ╫ò╫ù ╫£╫ª╫É╫¬? | ╫ñ╫Ö╫º╫ò╫ô ╫ö╫ó╫ò╫¿╫ú</title>
+<title>&#x1F6E1;&#xFE0F; מתי בטוח לצאת?</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #0a0f1e;
-    color: #e0e6ff;
-    min-height: 100vh;
-  }
-  header {
-    background: linear-gradient(135deg, #1a1f35, #0d1528);
-    border-bottom: 2px solid #2a3a6e;
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  header h1 { font-size: 1.4em; color: #7eb3ff; }
-  header .subtitle { font-size: 0.85em; color: #8899bb; }
-  .last-update { font-size: 0.75em; color: #556688; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-  .location-bar {
-    background: #111827;
-    border-bottom: 1px solid #1e2d4d;
-    padding: 12px 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .location-bar label { font-size: 0.85em; color: #7eb3ff; white-space: nowrap; }
-  .location-bar input {
-    background: #1a2540;
-    border: 1px solid #2a3f6e;
-    border-radius: 8px;
-    color: #e0e6ff;
-    padding: 6px 12px;
-    font-size: 0.9em;
-    width: 220px;
-  }
-  .location-bar button {
-    background: #1e4ba8;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    padding: 6px 14px;
-    cursor: pointer;
-    font-size: 0.85em;
-  }
-  .location-bar button:hover { background: #2560cc; }
-  #locationStatus { font-size: 0.8em; color: #556688; }
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #0b0f1a;
+  color: #dde6ff;
+  min-height: 100vh;
+}
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 16px;
-    padding: 16px;
-    max-width: 1400px;
-    margin: 0 auto;
-  }
+/* ── HEADER ── */
+.header {
+  background: #111827;
+  border-bottom: 1px solid #1e2d4d;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.header-icon { font-size: 2em; }
+.header-title { font-size: 1.4em; font-weight: 700; color: #7eb3ff; }
+.header-sub { font-size: 0.8em; color: #556688; margin-top: 2px; }
 
-  .card {
-    background: #111827;
-    border: 1px solid #1e2d4d;
-    border-radius: 14px;
-    padding: 18px;
-    position: relative;
-    overflow: hidden;
-  }
-  .card.wide { grid-column: 1 / -1; }
-  .card h2 { font-size: 1em; color: #7eb3ff; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+/* ── SEARCH BAR ── */
+.search-section {
+  background: #111827;
+  border-bottom: 1px solid #1e2d4d;
+  padding: 14px 24px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.search-wrap { position: relative; flex: 1; min-width: 200px; }
+#cityInput {
+  width: 100%;
+  background: #0b0f1a;
+  border: 2px solid #1e2d4d;
+  border-radius: 10px;
+  color: #dde6ff;
+  font-size: 1em;
+  padding: 11px 16px;
+  outline: none;
+  transition: border-color 0.2s;
+  text-align: right;
+}
+#cityInput:focus { border-color: #3a5fa8; }
+#cityInput::placeholder { color: #334466; }
 
-  /* Activity Cards */
-  .activities {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 12px;
-  }
-  .activity-card {
-    background: #0d1528;
-    border-radius: 12px;
-    padding: 16px;
-    border: 1px solid #1e2d4d;
-    text-align: center;
-  }
-  .activity-icon { font-size: 2em; margin-bottom: 6px; }
-  .activity-name { font-size: 0.85em; color: #8899bb; margin-bottom: 4px; }
-  .activity-time { font-size: 1.3em; font-weight: bold; }
-  .activity-duration { font-size: 0.75em; color: #556688; margin-top: 4px; }
-  .score-bar {
-    height: 6px;
-    border-radius: 3px;
-    margin-top: 8px;
-    background: #1a2540;
-    overflow: hidden;
-  }
-  .score-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
+#dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0; left: 0;
+  background: #111827;
+  border: 1.5px solid #1e2d4d;
+  border-radius: 10px;
+  max-height: 240px;
+  overflow-y: auto;
+  z-index: 200;
+  display: none;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+.drop-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #1a2540;
+  transition: background 0.1s;
+}
+.drop-item:last-child { border-bottom: none; }
+.drop-item:hover { background: #1a2d50; }
+.drop-name { font-size: 0.9em; }
+.drop-count { font-size: 0.75em; color: #7eb3ff; background: #1a2540; border-radius: 5px; padding: 2px 8px; }
 
-  /* Score colors */
-  .safe { color: #22c55e; }
-  .moderate { color: #f59e0b; }
-  .risky { color: #ef4444; }
-  .fill-safe { background: #22c55e; }
-  .fill-moderate { background: #f59e0b; }
-  .fill-risky { background: #ef4444; }
+.btn {
+  background: #1e3a7a;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 0.95em;
+  font-weight: 600;
+  padding: 11px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+.btn:hover { background: #2a4f9f; }
+.btn.secondary {
+  background: #1a2540;
+  border: 1.5px solid #2a3f6e;
+  color: #7eb3ff;
+}
+.btn.secondary:hover { background: #1e2d50; }
 
-  /* Hour grid */
-  .hour-grid {
-    display: grid;
-    grid-template-columns: repeat(24, 1fr);
-    gap: 2px;
-    margin-bottom: 8px;
-  }
-  .hour-cell {
-    height: 36px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.6em;
-    cursor: pointer;
-    transition: transform 0.1s;
-    position: relative;
-  }
-  .hour-cell:hover { transform: scaleY(1.1); z-index: 1; }
-  .hour-labels {
-    display: grid;
-    grid-template-columns: repeat(24, 1fr);
-    gap: 2px;
-    margin-bottom: 4px;
-  }
-  .hour-label { font-size: 0.6em; color: #556688; text-align: center; }
+/* ── STATUS BAR ── */
+#statusBar {
+  background: #0d1220;
+  border-bottom: 1px solid #1a2030;
+  padding: 8px 24px;
+  font-size: 0.8em;
+  color: #556688;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+#statusBar .dot { width: 7px; height: 7px; border-radius: 50%; background: #556688; flex-shrink: 0; }
+#statusBar .dot.green { background: #22c55e; }
+#statusBar .dot.yellow { background: #f59e0b; }
+#syncBtn {
+  margin-right: auto;
+  background: none;
+  border: 1px solid #1e2d4d;
+  border-radius: 6px;
+  color: #556688;
+  font-size: 0.8em;
+  padding: 3px 10px;
+  cursor: pointer;
+}
+#syncBtn:hover { color: #7eb3ff; border-color: #3a5fa8; }
 
-  /* Stats row */
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 10px;
-    margin-bottom: 16px;
-  }
-  .stat-box {
-    background: #0d1528;
-    border-radius: 10px;
-    padding: 12px;
-    text-align: center;
-    border: 1px solid #1e2d4d;
-  }
-  .stat-num { font-size: 1.6em; font-weight: bold; color: #7eb3ff; }
-  .stat-label { font-size: 0.72em; color: #556688; margin-top: 2px; }
+/* ── MAIN CONTENT ── */
+#mainContent {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
 
-  /* Best window */
-  .best-window {
-    background: linear-gradient(135deg, #0d2a0d, #0f1f0f);
-    border: 1px solid #1a4d1a;
-    border-radius: 10px;
-    padding: 14px;
-    margin-bottom: 12px;
-  }
-  .best-window h3 { color: #22c55e; font-size: 0.9em; margin-bottom: 8px; }
-  .window-list { display: flex; flex-wrap: wrap; gap: 8px; }
-  .window-chip {
-    background: #1a3d1a;
-    border-radius: 6px;
-    padding: 4px 10px;
-    font-size: 0.82em;
-    color: #86efac;
-  }
+/* ── EMPTY STATE ── */
+#emptyState {
+  text-align: center;
+  padding: 80px 20px;
+}
+.empty-icon { font-size: 4em; margin-bottom: 16px; }
+.empty-title { font-size: 1.3em; color: #7eb3ff; margin-bottom: 8px; }
+.empty-sub { font-size: 0.88em; color: #556688; }
 
-  /* Tooltip */
-  .tooltip {
-    position: fixed;
-    background: #1a2540;
-    border: 1px solid #2a3f6e;
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 0.8em;
-    pointer-events: none;
-    z-index: 1000;
-    display: none;
-  }
+/* ── CITY HERO ── */
+.city-hero {
+  background: linear-gradient(135deg, #111827, #0d1528);
+  border: 1px solid #1e2d4d;
+  border-radius: 16px;
+  padding: 28px 24px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.city-name { font-size: 1.8em; font-weight: 800; color: #7eb3ff; }
+.city-meta { font-size: 0.82em; color: #556688; margin-top: 4px; }
+.stat-chips { display: flex; gap: 12px; flex-wrap: wrap; }
+.stat-chip {
+  background: #1a2540;
+  border: 1px solid #2a3f6e;
+  border-radius: 10px;
+  padding: 10px 18px;
+  text-align: center;
+}
+.stat-chip .num { font-size: 1.6em; font-weight: 800; color: #7eb3ff; }
+.stat-chip .lbl { font-size: 0.7em; color: #556688; margin-top: 2px; }
 
-  /* Loading */
-  .loading {
-    text-align: center;
-    padding: 40px;
-    color: #556688;
-    font-size: 0.9em;
-  }
-  .spinner {
-    border: 3px solid #1a2540;
-    border-top: 3px solid #7eb3ff;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    animation: spin 1s linear infinite;
-    margin: 10px auto;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
+/* ── ACTIVITIES ── */
+.section-title {
+  font-size: 1em;
+  font-weight: 700;
+  color: #8899bb;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #1e2d4d;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-  canvas { max-height: 260px; }
-  .chart-wrap { position: relative; height: 220px; }
+.activities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
 
-  footer {
-    text-align: center;
-    padding: 20px;
-    color: #334466;
-    font-size: 0.75em;
-  }
+.act-card {
+  background: #111827;
+  border: 1px solid #1e2d4d;
+  border-radius: 14px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.act-card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 4px;
+  height: 100%;
+  border-radius: 0 14px 14px 0;
+}
+.act-card.safe::before { background: #22c55e; }
+.act-card.mod::before { background: #f59e0b; }
+.act-card.risky::before { background: #ef4444; }
 
-  @media (max-width: 600px) {
-    .hour-cell { height: 28px; font-size: 0; }
-    .hour-label { font-size: 0.5em; }
-    header h1 { font-size: 1.1em; }
-  }
+.act-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.act-icon { font-size: 1.8em; }
+.act-name { font-size: 1em; font-weight: 700; }
+.act-dur { font-size: 0.75em; color: #556688; }
+
+.best-time {
+  font-size: 2.6em;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.best-time.safe { color: #22c55e; }
+.best-time.mod { color: #f59e0b; }
+.best-time.risky { color: #ef4444; }
+
+.score-bar {
+  height: 6px;
+  background: #1a2540;
+  border-radius: 3px;
+  margin: 10px 0 12px;
+  overflow: hidden;
+}
+.score-fill { height: 100%; border-radius: 3px; transition: width 0.6s; }
+.score-fill.safe { background: linear-gradient(90deg, #16a34a, #22c55e); }
+.score-fill.mod { background: linear-gradient(90deg, #d97706, #f59e0b); }
+.score-fill.risky { background: linear-gradient(90deg, #dc2626, #ef4444); }
+
+.score-label { font-size: 0.72em; color: #556688; margin-bottom: 12px; }
+
+.alt-windows { display: flex; flex-wrap: wrap; gap: 6px; }
+.alt-chip {
+  background: #1a2540;
+  border: 1px solid #2a3f6e;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.75em;
+  color: #8899bb;
+}
+.alt-chip span { color: #4ade80; font-size: 0.85em; margin-right: 3px; }
+
+/* ── HEATMAP ── */
+.heatmap-card {
+  background: #111827;
+  border: 1px solid #1e2d4d;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 28px;
+}
+.hour-row {
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  gap: 3px;
+  margin-bottom: 3px;
+}
+.hour-lbl { font-size: 0.5em; color: #556688; text-align: center; }
+.hour-cell {
+  height: 40px;
+  border-radius: 5px;
+  cursor: default;
+  position: relative;
+  transition: opacity 0.15s;
+}
+.hour-cell:hover { opacity: 0.75; }
+
+.heatmap-legend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72em;
+  color: #556688;
+  margin-top: 10px;
+}
+.legend-bar {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #0d3d1a, #1a5c1a, #5c5c00, #7a4000, #cc1a00);
+}
+
+/* ── CHARTS ── */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.chart-card {
+  background: #111827;
+  border: 1px solid #1e2d4d;
+  border-radius: 14px;
+  padding: 20px;
+}
+.chart-card h3 { font-size: 0.88em; color: #8899bb; margin-bottom: 14px; }
+.chart-wrap { height: 180px; position: relative; }
+
+/* ── DANGER TABLE ── */
+.danger-card {
+  background: #111827;
+  border: 1px solid #1e2d4d;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 28px;
+}
+.danger-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.danger-hour { width: 52px; font-size: 0.82em; color: #ff6b6b; font-weight: 600; }
+.danger-bar-wrap { flex: 1; background: #1a2030; border-radius: 4px; height: 14px; overflow: hidden; }
+.danger-bar-fill { height: 100%; background: linear-gradient(90deg, #7f1d1d, #ef4444); border-radius: 4px; }
+.danger-count { width: 38px; font-size: 0.78em; color: #ff6b6b; text-align: left; }
+
+/* ── TOOLTIP ── */
+#tooltip {
+  position: fixed;
+  background: #1a2540;
+  border: 1px solid #3a5fa8;
+  border-radius: 8px;
+  padding: 8px 13px;
+  font-size: 0.8em;
+  pointer-events: none;
+  z-index: 999;
+  display: none;
+  white-space: nowrap;
+}
+
+/* ── SPINNER ── */
+.spinner {
+  display: inline-block;
+  width: 14px; height: 14px;
+  border: 2px solid rgba(126,179,255,0.3);
+  border-top-color: #7eb3ff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .header-title { font-size: 1.15em; }
+  .best-time { font-size: 2em; }
+  .hour-cell { height: 28px; }
+  .hour-lbl { font-size: 0.4em; }
+  .city-name { font-size: 1.4em; }
+}
 </style>
 </head>
 <body>
 
-<header>
+<!-- HEADER -->
+<div class="header">
+  <div class="header-icon">&#x1F6E1;&#xFE0F;</div>
   <div>
-    <h1>≡ƒ¢í∩╕Å ╫₧╫¬╫Ö ╫æ╫ÿ╫ò╫ù ╫£╫ª╫É╫¬?</h1>
-    <div class="subtitle">╫á╫Ö╫¬╫ò╫ù ╫É╫û╫ó╫º╫ò╫¬ ╫ñ╫Ö╫º╫ò╫ô ╫ö╫ó╫ò╫¿╫ú | 28.02.2026 - ╫ö╫Ö╫ò╫¥</div>
+    <div class="header-title">מתי בטוח לצאת?</div>
+    <div class="header-sub">ניתוח אזעקות פיקוד העורף לפי מיקום</div>
   </div>
-  <div class="last-update" id="lastUpdate">╫ÿ╫ò╫ó╫ƒ...</div>
-</header>
-
-<div class="location-bar">
-  <label>≡ƒôì ╫₧╫Ö╫º╫ò╫¥:</label>
-  <input type="text" id="locationInput" placeholder="╫ó╫Ö╫¿ / ╫É╫û╫ò╫¿ (╫£╫₧╫⌐╫£: ╫¬╫£ ╫É╫æ╫Ö╫æ)" />
-  <button onclick="updateLocation()">╫ó╫ô╫¢╫ƒ</button>
-  <button onclick="useGPS()">≡ƒôí GPS</button>
-  <span id="locationStatus">╫₧╫₧╫¬╫Ö╫ƒ ╫£╫₧╫Ö╫º╫ò╫¥...</span>
 </div>
 
-<div id="mainContent" class="loading">
-  <div class="spinner"></div>
-  <div>╫ÿ╫ò╫ó╫ƒ ╫á╫¬╫ò╫á╫Ö ╫É╫û╫ó╫º╫ò╫¬...</div>
+<!-- SEARCH -->
+<div class="search-section">
+  <div class="search-wrap">
+    <input type="text" id="cityInput" placeholder="&#x1F50D; חפש ישוב..." autocomplete="off"
+      oninput="onType()" onkeydown="onKey(event)" />
+    <div id="dropdown"></div>
+  </div>
+  <button class="btn secondary" onclick="useGPS()">&#x1F4E1; GPS</button>
+  <button class="btn" onclick="doSearch()">חפש</button>
 </div>
 
-<div class="tooltip" id="tooltip"></div>
+<!-- STATUS -->
+<div id="statusBar">
+  <div class="dot" id="statusDot"></div>
+  <span id="statusText">טוען נתונים...</span>
+  <button id="syncBtn" onclick="syncNow()">&#x1F504; סנכרן</button>
+</div>
+
+<!-- CONTENT -->
+<div id="mainContent">
+  <div id="emptyState">
+    <div class="empty-icon">&#x1F4CD;</div>
+    <div class="empty-title">בחר ישוב לניתוח</div>
+    <div class="empty-sub">חפש ישוב בשורת החיפוש או השתמש ב-GPS</div>
+  </div>
+  <div id="results" style="display:none"></div>
+</div>
+
+<div id="tooltip"></div>
 
 <script>
-// ========== DATA FETCHING ==========
-const OREF_BASE = 'https://alerts-history.oref.org.il/Shared/Ajax/GetAlarmsHistory.aspx';
-const START_DATE = '28.02.2026';
+// ════════════════════════════════════
+//  CONFIG
+// ════════════════════════════════════
+const STORAGE_KEY = 'oref_alerts_v1';
+const API_URL = 'https://alerts-history.oref.org.il/Shared/Ajax/GetAlarmsHistory.aspx';
+const FROM_DATE = '28.02.2026';
 
-// Activity definitions
 const ACTIVITIES = [
-  { id: 'shower',   name: '╫₧╫º╫£╫ù╫¬',   icon: '≡ƒÜ┐', duration: 15, desc: '~15 ╫ô╫º╫ò╫¬' },
-  { id: 'shopping', name: '╫º╫á╫Ö╫ò╫¬ ╫æ╫í╫ò╫ñ╫¿', icon: '≡ƒ¢Æ', duration: 60, desc: '~60 ╫ô╫º╫ò╫¬' },
-  { id: 'running',  name: '╫¿╫Ö╫ª╫ö ╫æ╫ù╫ò╫Ñ', icon: '≡ƒÅâ', duration: 45, desc: '~45 ╫ô╫º╫ò╫¬' },
+  { id: 'shower',   icon: '&#x1F6BF;', name: 'מקלחת',      dur: 20, desc: '20 דקות' },
+  { id: 'run',      icon: '&#x1F3C3;', name: 'ריצה בחוץ',   dur: 45, desc: '45 דקות' },
+  { id: 'grocery',  icon: '&#x1F6D2;', name: 'קניות בסופר', dur: 60, desc: '60 דקות' },
 ];
 
-let allAlerts = [];
-let hourlyData = new Array(24).fill(0); // alerts per hour (all days combined)
-let currentLocation = '╫¢╫£ ╫ö╫É╫¿╫Ñ';
-let filteredAlerts = [];
+// ════════════════════════════════════
+//  STATE
+// ════════════════════════════════════
+let allAlerts = [];     // all accumulated alerts
+let locMap = {};        // { "שדרות, איבים": [alerts] }
+let locList = [];       // sorted location names
+let activeChart1 = null, activeChart2 = null;
 
-function pad(n) { return String(n).padStart(2, '0'); }
+// ════════════════════════════════════
+//  STORAGE
+// ════════════════════════════════════
+function loadFromStorage() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) { allAlerts = JSON.parse(raw); return true; }
+  } catch(e) {}
+  return false;
+}
 
-function getTodayStr() {
-  const d = new Date();
+function saveToStorage() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(allAlerts)); } catch(e) {}
+}
+
+// ════════════════════════════════════
+//  FETCH & MERGE
+// ════════════════════════════════════
+async function fetchLatest() {
+  const today = fmtDate(new Date());
+  const url = `${API_URL}?lang=he&fromDate=${FROM_DATE}&toDate=${today}&mode=1`;
+  const res = await fetch(url, {
+    headers: { 'Referer': 'https://www.oref.org.il/' }
+  });
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  return res.json();
+}
+
+function mergeNew(incoming) {
+  const existingRids = new Set(allAlerts.map(a => a.rid));
+  let added = 0;
+  for (const a of incoming) {
+    if (!existingRids.has(a.rid)) {
+      allAlerts.push(a);
+      existingRids.add(a.rid);
+      added++;
+    }
+  }
+  return added;
+}
+
+function buildLocMap() {
+  locMap = {};
+  for (const a of allAlerts) {
+    const loc = (a.data || '').trim();
+    if (!loc) continue;
+    if (!locMap[loc]) locMap[loc] = [];
+    locMap[loc].push(a);
+  }
+  locList = Object.keys(locMap).sort();
+}
+
+// ════════════════════════════════════
+//  DATE HELPERS
+// ════════════════════════════════════
+function fmtDate(d) {
   return `${pad(d.getDate())}.${pad(d.getMonth()+1)}.${d.getFullYear()}`;
 }
+function pad(n) { return String(n).padStart(2, '0'); }
+function fmtHour(h) { return `${pad(h)}:00`; }
 
-function dateRange(from, to) {
-  const dates = [];
-  const d = parseDate(from);
-  const end = parseDate(to);
-  while (d <= end) {
-    dates.push(`${pad(d.getDate())}.${pad(d.getMonth()+1)}.${d.getFullYear()}`);
-    d.setDate(d.getDate() + 1);
-  }
-  return dates;
+function getDateRange() {
+  if (!allAlerts.length) return null;
+  // dates are DD.MM.YYYY - sort by converting
+  const sorted = [...new Set(allAlerts.map(a => a.date).filter(Boolean))].sort((a, b) => {
+    const toNum = s => { const [d,m,y] = s.split('.'); return Number(y)*10000 + Number(m)*100 + Number(d); };
+    return toNum(a) - toNum(b);
+  });
+  return { from: sorted[0], to: sorted[sorted.length-1], days: sorted.length };
 }
 
-function parseDate(str) {
-  const [dd, mm, yyyy] = str.split('.');
-  return new Date(+yyyy, +mm-1, +dd);
+// ════════════════════════════════════
+//  SEARCH / MATCH
+// ════════════════════════════════════
+function searchLocs(query) {
+  if (!query) return [];
+  const q = query.trim();
+  // Split location names by , and - to allow partial match
+  return locList.filter(loc => {
+    const parts = loc.split(/[,\-\/]/).map(p => p.trim());
+    return parts.some(p => p.includes(q)) || loc.includes(q);
+  }).sort((a, b) => {
+    // Exact part match first, then by alert count desc
+    const exact = s => s.split(/[,\-\/]/).map(p => p.trim()).some(p => p === query.trim());
+    if (exact(a) && !exact(b)) return -1;
+    if (exact(b) && !exact(a)) return 1;
+    return (locMap[b]?.length || 0) - (locMap[a]?.length || 0);
+  });
 }
 
-async function fetchDay(dateStr) {
-  const url = `${OREF_BASE}?lang=he&fromDate=${dateStr}&toDate=${dateStr}&mode=1`;
-  try {
-    const r = await fetch(url);
-    if (!r.ok) return [];
-    const json = await r.json();
-    return Array.isArray(json) ? json : [];
-  } catch { return []; }
+function getAlertsFor(query) {
+  const matches = searchLocs(query);
+  if (!matches.length) return { alerts: [], locs: [] };
+  return {
+    alerts: matches.flatMap(l => locMap[l] || []),
+    locs: matches
+  };
 }
 
-async function loadAllAlerts() {
-  const today = getTodayStr();
-  const dates = dateRange(START_DATE, today);
-  const results = await Promise.all(dates.map(fetchDay));
-  allAlerts = results.flat();
-  document.getElementById('lastUpdate').textContent = `╫ó╫ò╫ô╫¢╫ƒ: ${new Date().toLocaleTimeString('he-IL')}`;
-  return allAlerts;
-}
-
-// ========== PROCESSING ==========
-function computeHourly(alerts) {
-  const counts = new Array(24).fill(0);
+// ════════════════════════════════════
+//  ANALYSIS
+// ════════════════════════════════════
+function buildHourly(alerts) {
+  const h = new Array(24).fill(0);
   for (const a of alerts) {
     if (!a.time) continue;
-    const h = parseInt(a.time.split(':')[0]);
-    if (h >= 0 && h < 24) counts[h]++;
+    const hr = parseInt(a.time); // "15:43:22" → 15
+    if (hr >= 0 && hr < 24) h[hr]++;
   }
-  return counts;
+  return h;
 }
 
-function safetyScore(hour, durationMin, hourly) {
-  // Check alerts in window [hour, hour+duration/60)
-  const hours = Math.ceil(durationMin / 60);
+function buildDaily(alerts) {
+  const d = {};
+  for (const a of alerts) {
+    if (a.date) d[a.date] = (d[a.date] || 0) + 1;
+  }
+  return d;
+}
+
+// Score a window of `durMins` minutes starting at hour `h`
+// Returns 0-100 (100 = perfectly safe)
+function windowScore(h, durMins, hourly) {
+  const slots = Math.ceil(durMins / 60);
+  const maxPossible = Math.max(...hourly, 1) * slots;
   let total = 0;
-  for (let i = 0; i < hours; i++) {
-    total += (hourly[(hour + i) % 24] || 0);
+  for (let i = 0; i < slots; i++) total += hourly[(h + i) % 24] || 0;
+  const danger = total / maxPossible;
+  return Math.max(0, Math.round((1 - danger) * 100));
+}
+
+function bestWindows(durMins, hourly, n = 5) {
+  return Array.from({ length: 24 }, (_, h) => ({
+    hour: h,
+    score: windowScore(h, durMins, hourly)
+  })).sort((a, b) => b.score - a.score).slice(0, n);
+}
+
+function scoreClass(s) { return s >= 70 ? 'safe' : s >= 40 ? 'mod' : 'risky'; }
+
+function cellColor(c, max) {
+  if (c === 0) return '#0d2a12';
+  const r = c / max;
+  if (r < 0.15) return '#1a5c20';
+  if (r < 0.30) return '#5c6000';
+  if (r < 0.50) return '#7a4000';
+  if (r < 0.70) return '#993000';
+  return '#cc1a00';
+}
+
+// ════════════════════════════════════
+//  UI - DROPDOWN
+// ════════════════════════════════════
+function onType() {
+  const q = document.getElementById('cityInput').value;
+  const dd = document.getElementById('dropdown');
+  if (q.length < 1) { dd.style.display = 'none'; return; }
+
+  const matches = searchLocs(q).slice(0, 25);
+  if (!matches.length) {
+    dd.innerHTML = '<div class="drop-item"><span class="drop-name" style="color:#556688">לא נמצאו תוצאות</span></div>';
+  } else {
+    dd.innerHTML = matches.map(loc =>
+      `<div class="drop-item" onclick="selectLoc('${loc.replace(/'/g, "\\'")}')">
+        <span class="drop-name">&#x1F4CD; ${loc}</span>
+        <span class="drop-count">${(locMap[loc]?.length || 0).toLocaleString()} אזעקות</span>
+      </div>`
+    ).join('');
   }
-  const max = Math.max(...hourly, 1);
-  // Score 0-100, lower alerts = higher score
-  return Math.max(0, Math.round(100 - (total / (max * hours)) * 100));
+  dd.style.display = 'block';
 }
 
-function getScoreClass(score) {
-  if (score >= 70) return 'safe';
-  if (score >= 40) return 'moderate';
-  return 'risky';
+function onKey(e) {
+  if (e.key === 'Enter') { document.getElementById('dropdown').style.display = 'none'; doSearch(); }
+  if (e.key === 'Escape') document.getElementById('dropdown').style.display = 'none';
 }
 
-function getFillClass(score) {
-  if (score >= 70) return 'fill-safe';
-  if (score >= 40) return 'fill-moderate';
-  return 'fill-risky';
+function selectLoc(loc) {
+  document.getElementById('cityInput').value = loc;
+  document.getElementById('dropdown').style.display = 'none';
+  showResults(loc);
 }
 
-function bestWindows(hourly, durationMin, n = 3) {
-  const scores = [];
-  for (let h = 0; h < 24; h++) {
-    scores.push({ hour: h, score: safetyScore(h, durationMin, hourly) });
+document.addEventListener('click', e => {
+  if (!e.target.closest('.search-wrap')) document.getElementById('dropdown').style.display = 'none';
+});
+
+// ════════════════════════════════════
+//  UI - SEARCH & GPS
+// ════════════════════════════════════
+function doSearch() {
+  const q = document.getElementById('cityInput').value.trim();
+  if (!q) return;
+  const { locs } = getAlertsFor(q);
+  if (!locs.length) {
+    setStatus('warn', `"${q}" לא נמצא בנתונים`);
+    return;
   }
-  scores.sort((a, b) => b.score - a.score);
-  return scores.slice(0, n);
+  showResults(q);
 }
 
-function formatHour(h) {
-  return `${pad(h)}:00`;
+async function useGPS() {
+  if (!navigator.geolocation) { setStatus('warn', 'GPS לא זמין'); return; }
+  setStatus('load', 'מאתר מיקום...');
+  navigator.geolocation.getCurrentPosition(async pos => {
+    try {
+      const r = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json&accept-language=he`
+      );
+      const d = await r.json();
+      const city = d.address?.city || d.address?.town || d.address?.village || '';
+      if (!city) { setStatus('warn', 'לא ניתן לזהות עיר'); return; }
+      document.getElementById('cityInput').value = city;
+      const { locs } = getAlertsFor(city);
+      if (!locs.length) {
+        setStatus('warn', `${city} - אין נתונים (ייתכן שלא היו אזעקות)`);
+      } else {
+        showResults(city);
+        updateStatusBar();
+      }
+    } catch(e) { setStatus('warn', 'שגיאה בזיהוי מיקום'); }
+  }, () => setStatus('warn', 'לא אושרה גישה ל-GPS'), { timeout: 10000 });
 }
 
-// ========== RENDER ==========
-function colorFromCount(count, max) {
-  if (max === 0) return '#1a2540';
-  const ratio = count / max;
-  if (ratio === 0) return '#0d3d1a';
-  if (ratio < 0.2) return '#1a5c1a';
-  if (ratio < 0.4) return '#7a5c00';
-  if (ratio < 0.6) return '#9a4000';
-  if (ratio < 0.8) return '#b32000';
-  return '#cc0000';
+// ════════════════════════════════════
+//  STATUS BAR
+// ════════════════════════════════════
+function setStatus(type, text) {
+  const dot = document.getElementById('statusDot');
+  const txt = document.getElementById('statusText');
+  dot.className = 'dot ' + (type === 'ok' ? 'green' : type === 'warn' ? 'yellow' : '');
+  txt.innerHTML = type === 'load' ? `<span class="spinner"></span> ${text}` : text;
 }
 
-function renderDashboard() {
-  const hourly = computeHourly(filteredAlerts);
-  const total = filteredAlerts.length;
-  const max = Math.max(...hourly, 1);
-  const days = dateRange(START_DATE, getTodayStr()).length;
-  const avgPerDay = Math.round(total / days);
+function updateStatusBar() {
+  const range = getDateRange();
+  if (range) {
+    const count = allAlerts.length.toLocaleString();
+    const locs = locList.length.toLocaleString();
+    setStatus('ok', `${count} אזעקות | ${range.days} ימים (${range.from} &#x2013; ${range.to}) | ${locs} ישובים`);
+  }
+}
 
-  // Best and worst hours
-  const quietestHour = hourly.indexOf(Math.min(...hourly));
-  const busiestHour = hourly.indexOf(Math.max(...hourly));
+// ════════════════════════════════════
+//  SYNC
+// ════════════════════════════════════
+async function syncNow() {
+  setStatus('load', 'מסנכרן...');
+  try {
+    const fresh = await fetchLatest();
+    const added = mergeNew(fresh);
+    if (added > 0) saveToStorage();
+    buildLocMap();
+    updateStatusBar();
+    if (added > 0) setStatus('ok', `נוספו ${added} רשומות חדשות | ${allAlerts.length.toLocaleString()} סה"כ`);
+  } catch(e) {
+    setStatus('warn', 'סנכרון נכשל (בודק חיבור...)');
+  }
+}
 
-  const html = `
-  <div class="grid">
+// ════════════════════════════════════
+//  RESULTS RENDERER
+// ════════════════════════════════════
+function showResults(query) {
+  const { alerts, locs } = getAlertsFor(query);
+  if (!alerts.length) { setStatus('warn', `"${query}" - לא נמצאו אזעקות`); return; }
 
-    <!-- Stats -->
-    <div class="card wide">
-      <h2>≡ƒôè ╫í╫Ö╫¢╫ò╫¥ ${currentLocation}</h2>
-      <div class="stats-row">
-        <div class="stat-box">
-          <div class="stat-num">${total.toLocaleString()}</div>
-          <div class="stat-label">╫É╫û╫ó╫º╫ò╫¬ ╫í╫ö"╫¢</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-num">${days}</div>
-          <div class="stat-label">╫Ö╫₧╫Ö╫¥ ╫á╫æ╫ô╫º╫ò</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-num">${avgPerDay.toLocaleString()}</div>
-          <div class="stat-label">╫₧╫₧╫ò╫ª╫ó ╫£╫Ö╫ò╫¥</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-num safe">${formatHour(quietestHour)}</div>
-          <div class="stat-label">╫ö╫⌐╫ó╫ö ╫ö╫¢╫Ö ╫⌐╫º╫ÿ╫ö</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-num risky">${formatHour(busiestHour)}</div>
-          <div class="stat-label">╫ö╫⌐╫ó╫ö ╫ö╫¢╫Ö ╫ó╫₧╫ò╫í╫ö</div>
-        </div>
-      </div>
+  const label = locs.length === 1 ? locs[0] : query;
+  const hourly = buildHourly(alerts);
+  const daily  = buildDaily(alerts);
+  const maxH   = Math.max(...hourly, 1);
+  const range  = getDateRange();
+  const locRange = (() => {
+    const dates = [...new Set(alerts.map(a=>a.date).filter(Boolean))].sort((a,b)=>{
+      const toNum = s=>{const[d,m,y]=s.split('.');return Number(y)*10000+Number(m)*100+Number(d);};
+      return toNum(a)-toNum(b);
+    });
+    return dates.length ? { from: dates[0], to: dates[dates.length-1], days: dates.length } : null;
+  })();
 
-      <!-- Hour heatmap -->
-      <div style="margin-bottom:6px; font-size:0.8em; color:#556688;">╫ó╫ò╫ª╫₧╫¬ ╫É╫û╫ó╫º╫ò╫¬ ╫£╫ñ╫Ö ╫⌐╫ó╫ö (24 ╫⌐╫ó╫ò╫¬) - ╫£╫ù╫Ñ ╫£╫ñ╫¿╫ÿ╫Ö╫¥</div>
-      <div class="hour-labels">
-        ${Array.from({length:24},(_,i)=>`<div class="hour-label">${pad(i)}</div>`).join('')}
-      </div>
-      <div class="hour-grid" id="heatmap">
-        ${hourly.map((c,h) => `
-          <div class="hour-cell"
-            style="background:${colorFromCount(c,max)}"
-            data-hour="${h}" data-count="${c}"
-            onmouseenter="showTooltip(event,${h},${c})"
-            onmouseleave="hideTooltip()">
+  // Destroy old charts
+  if (activeChart1) { activeChart1.destroy(); activeChart1 = null; }
+  if (activeChart2) { activeChart2.destroy(); activeChart2 = null; }
+
+  // Build activities HTML
+  const activitiesHTML = ACTIVITIES.map(act => {
+    const wins = bestWindows(act.dur, hourly, 5);
+    const best = wins[0];
+    const cls = scoreClass(best.score);
+    return `
+      <div class="act-card ${cls}">
+        <div class="act-header">
+          <div class="act-icon">${act.icon}</div>
+          <div>
+            <div class="act-name">${act.name}</div>
+            <div class="act-dur">${act.desc}</div>
           </div>
-        `).join('')}
+        </div>
+        <div class="best-time ${cls}">${fmtHour(best.hour)}</div>
+        <div style="font-size:0.75em;color:#556688;margin-top:2px;">
+          ${best.score >= 70 ? '&#x2705; בטוח' : best.score >= 40 ? '&#x26A0;&#xFE0F; זהירות' : '&#x1F534; מסוכן'} &mdash; ניקוד ${best.score}/100
+        </div>
+        <div class="score-bar"><div class="score-fill ${cls}" style="width:${best.score}%"></div></div>
+        <div style="font-size:0.72em;color:#7eb3ff;margin-bottom:8px;">חלונות נוספים:</div>
+        <div class="alt-windows">
+          ${wins.slice(1).map(w =>
+            `<div class="alt-chip">${fmtHour(w.hour)}<span>${w.score}%</span></div>`
+          ).join('')}
+        </div>
+      </div>`;
+  }).join('');
+
+  // Heatmap
+  const heatmapHTML = `
+    <div class="hour-row">
+      ${Array.from({length:24},(_,i)=>`<div class="hour-lbl">${pad(i)}</div>`).join('')}
+    </div>
+    <div class="hour-row">
+      ${hourly.map((c,h) => `
+        <div class="hour-cell"
+          style="background:${cellColor(c,maxH)}"
+          onmouseenter="showTip(event,${h},${c})"
+          onmouseleave="document.getElementById('tooltip').style.display='none'">
+        </div>`).join('')}
+    </div>`;
+
+  // Danger top hours
+  const dangerHTML = [...hourly.map((c,h)=>({h,c}))]
+    .sort((a,b)=>b.c-a.c)
+    .slice(0,8)
+    .map(({h,c}) => `
+      <div class="danger-row">
+        <div class="danger-hour">${fmtHour(h)}</div>
+        <div class="danger-bar-wrap"><div class="danger-bar-fill" style="width:${Math.round(c/maxH*100)}%"></div></div>
+        <div class="danger-count">${c}</div>
+      </div>`).join('');
+
+  // Stat chips
+  const quietHour = hourly.indexOf(Math.min(...hourly));
+  const dangerHour = hourly.indexOf(Math.max(...hourly));
+  const locDays = locRange?.days || 1;
+
+  document.getElementById('emptyState').style.display = 'none';
+  const results = document.getElementById('results');
+  results.style.display = 'block';
+  results.innerHTML = `
+    <!-- City Hero -->
+    <div class="city-hero">
+      <div>
+        <div class="city-name">&#x1F4CD; ${label}</div>
+        <div class="city-meta">
+          ${locRange ? `${locRange.from} &mdash; ${locRange.to} | ${locRange.days} ימים` : ''}
+          ${locs.length > 1 ? ` | ${locs.length} אזורים` : ''}
+        </div>
       </div>
-      <div style="display:flex; gap:16px; margin-top:6px; font-size:0.72em; color:#556688; flex-wrap:wrap;">
-        <span>≡ƒƒó ╫⌐╫º╫ÿ ╫₧╫ò╫ù╫£╫ÿ</span>
-        <span>≡ƒƒí ╫ñ╫ó╫Ö╫£╫ò╫¬ ╫₧╫¬╫ò╫á╫ö</span>
-        <span>≡ƒö┤ ╫ñ╫ó╫Ö╫£╫ò╫¬ ╫Æ╫æ╫ò╫ö╫ö</span>
+      <div class="stat-chips">
+        <div class="stat-chip">
+          <div class="num" style="color:#ef4444">${alerts.length.toLocaleString()}</div>
+          <div class="lbl">אזעקות</div>
+        </div>
+        <div class="stat-chip">
+          <div class="num">${(alerts.length/locDays).toFixed(1)}</div>
+          <div class="lbl">ליום בממוצע</div>
+        </div>
+        <div class="stat-chip">
+          <div class="num" style="color:#22c55e">${fmtHour(quietHour)}</div>
+          <div class="lbl">הכי שקט</div>
+        </div>
+        <div class="stat-chip">
+          <div class="num" style="color:#ef4444">${fmtHour(dangerHour)}</div>
+          <div class="lbl">הכי מסוכן</div>
+        </div>
       </div>
     </div>
 
     <!-- Activities -->
-    <div class="card wide">
-      <h2>≡ƒÄ» ╫ö╫₧╫£╫ª╫ò╫¬ ╫£╫ñ╫ó╫Ö╫£╫ò╫Ö╫ò╫¬ - ${currentLocation}</h2>
-      <div class="activities">
-        ${ACTIVITIES.map(act => {
-          const windows = bestWindows(hourly, act.duration, 3);
-          const bestScore = windows[0].score;
-          const sc = getScoreClass(bestScore);
-          const fc = getFillClass(bestScore);
-          return `
-          <div class="activity-card">
-            <div class="activity-icon">${act.icon}</div>
-            <div class="activity-name">${act.name}</div>
-            <div class="activity-time ${sc}">${formatHour(windows[0].hour)}</div>
-            <div class="activity-duration">${act.desc}</div>
-            <div class="score-bar">
-              <div class="score-fill ${fc}" style="width:${bestScore}%"></div>
-            </div>
-            <div style="font-size:0.72em; color:#556688; margin-top:4px;">╫á╫Ö╫º╫ò╫ô: ${bestScore}/100</div>
-            <div style="font-size:0.72em; color:#446688; margin-top:8px;">╫É╫ñ╫⌐╫¿╫ò╫Ö╫ò╫¬ ╫á╫ò╫í╫ñ╫ò╫¬:</div>
-            <div style="display:flex; gap:6px; justify-content:center; margin-top:4px; flex-wrap:wrap;">
-              ${windows.slice(1).map(w => `
-                <span style="background:#1a2540; border-radius:5px; padding:2px 7px; font-size:0.75em; color:#7eb3ff;">${formatHour(w.hour)}</span>
-              `).join('')}
-            </div>
-          </div>
-          `;
-        }).join('')}
+    <div class="section-title">&#x1F3AF; המלצות לפעילויות</div>
+    <div class="activities-grid">${activitiesHTML}</div>
+
+    <!-- Heatmap -->
+    <div class="section-title">&#x1F321;&#xFE0F; מפת חום - אזעקות לפי שעה</div>
+    <div class="heatmap-card">
+      ${heatmapHTML}
+      <div class="heatmap-legend">
+        <span>&#x1F7E2; שקט</span>
+        <div class="legend-bar"></div>
+        <span>&#x1F534; פעיל</span>
       </div>
     </div>
 
-    <!-- Chart: alerts by hour -->
-    <div class="card">
-      <h2>≡ƒôê ╫É╫û╫ó╫º╫ò╫¬ ╫£╫ñ╫Ö ╫⌐╫ó╫ö</h2>
-      <div class="chart-wrap">
-        <canvas id="chartHours"></canvas>
+    <!-- Charts -->
+    <div class="section-title">&#x1F4CA; גרפים</div>
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h3>אזעקות לפי שעה</h3>
+        <div class="chart-wrap"><canvas id="chartHour"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>אזעקות לפי יום</h3>
+        <div class="chart-wrap"><canvas id="chartDay"></canvas></div>
       </div>
     </div>
 
-    <!-- Chart: alerts by day -->
-    <div class="card">
-      <h2>≡ƒôà ╫É╫û╫ó╫º╫ò╫¬ ╫£╫ñ╫Ö ╫Ö╫ò╫¥</h2>
-      <div class="chart-wrap">
-        <canvas id="chartDays"></canvas>
-      </div>
-    </div>
+    <!-- Danger hours -->
+    <div class="section-title">&#x26A0;&#xFE0F; שעות המסוכנות ביותר</div>
+    <div class="danger-card">${dangerHTML}</div>
 
-    <!-- Safe windows table -->
-    <div class="card">
-      <h2>Γ£à ╫ù╫£╫ò╫á╫ò╫¬ ╫û╫₧╫ƒ ╫æ╫ÿ╫ò╫ù╫Ö╫¥</h2>
-      <div class="best-window">
-        <h3>≡ƒÜ┐ ╫₧╫º╫£╫ù╫¬ (15 ╫ô╫º') - ╫ö╫¢╫Ö ╫₧╫ò╫₧╫£╫Ñ:</h3>
-        <div class="window-list">
-          ${bestWindows(hourly, 15, 5).map(w => `
-            <div class="window-chip">${formatHour(w.hour)} <span style="color:#4ade80">${w.score}%</span></div>
-          `).join('')}
-        </div>
-      </div>
-      <div class="best-window">
-        <h3>≡ƒ¢Æ ╫º╫á╫Ö╫ò╫¬ (60 ╫ô╫º') - ╫ö╫¢╫Ö ╫₧╫ò╫₧╫£╫Ñ:</h3>
-        <div class="window-list">
-          ${bestWindows(hourly, 60, 5).map(w => `
-            <div class="window-chip">${formatHour(w.hour)} <span style="color:#4ade80">${w.score}%</span></div>
-          `).join('')}
-        </div>
-      </div>
-      <div class="best-window">
-        <h3>≡ƒÅâ ╫¿╫Ö╫ª╫ö (45 ╫ô╫º') - ╫ö╫¢╫Ö ╫₧╫ò╫₧╫£╫Ñ:</h3>
-        <div class="window-list">
-          ${bestWindows(hourly, 45, 5).map(w => `
-            <div class="window-chip">${formatHour(w.hour)} <span style="color:#4ade80">${w.score}%</span></div>
-          `).join('')}
-        </div>
-      </div>
+    <div style="text-align:center;font-size:0.72em;color:#334466;padding:10px 0 20px;">
+      נתונים: פיקוד העורף | ${allAlerts.length.toLocaleString()} אזעקות בכל הארץ
     </div>
-
-    <!-- Danger zones -->
-    <div class="card">
-      <h2>ΓÜá∩╕Å ╫⌐╫ó╫ò╫¬ ╫í╫¢╫á╫ö - ╫ö╫Ö╫₧╫á╫ó</h2>
-      ${(() => {
-        const sorted = hourly.map((c,h)=>({h,c})).sort((a,b)=>b.c-a.c).slice(0,8);
-        return sorted.map(({h,c}) => `
-          <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-            <div style="width:50px; font-size:0.85em; color:#ff6b6b;">${formatHour(h)}</div>
-            <div style="flex:1; background:#1a2540; border-radius:4px; height:16px; overflow:hidden;">
-              <div style="width:${Math.round(c/max*100)}%; height:100%; background: linear-gradient(90deg, #cc2200, #ff4400);"></div>
-            </div>
-            <div style="width:40px; text-align:left; font-size:0.78em; color:#ff6b6b;">${c}</div>
-          </div>
-        `).join('');
-      })()}
-    </div>
-
-  </div>
-  <footer>╫á╫¬╫ò╫á╫Ö╫¥: ╫ñ╫Ö╫º╫ò╫ô ╫ö╫ó╫ò╫¿╫ú ╫Ö╫⌐╫¿╫É╫£ | ╫₧-28.02.2026 ╫ó╫ô ╫ö╫Ö╫ò╫¥ | ╫₧╫¬╫¿╫ó╫á╫ƒ ╫¢╫£ 10 ╫ô╫º╫ò╫¬</footer>
   `;
 
-  document.getElementById('mainContent').className = '';
-  document.getElementById('mainContent').innerHTML = html;
-
-  // Render charts
-  renderHourChart(hourly);
-  renderDayChart();
-}
-
-function renderHourChart(hourly) {
-  const ctx = document.getElementById('chartHours').getContext('2d');
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: Array.from({length:24}, (_,i) => `${pad(i)}:00`),
-      datasets: [{
-        label: '╫É╫û╫ó╫º╫ò╫¬',
-        data: hourly,
-        backgroundColor: hourly.map(c => {
-          const max = Math.max(...hourly, 1);
-          const r = c / max;
-          if (r < 0.2) return '#22c55e88';
-          if (r < 0.5) return '#f59e0b88';
-          return '#ef444488';
-        }),
-        borderRadius: 4,
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { ticks: { color: '#556688', font: { size: 9 } }, grid: { color: '#1a2540' } },
-        y: { ticks: { color: '#556688' }, grid: { color: '#1a2540' } }
-      }
-    }
-  });
-}
-
-function renderDayChart() {
-  const today = getTodayStr();
-  const dates = dateRange(START_DATE, today);
-  const dayCounts = {};
-  for (const d of dates) dayCounts[d] = 0;
-  for (const a of filteredAlerts) {
-    if (a.date && dayCounts[a.date] !== undefined) dayCounts[a.date]++;
+  // Chart: hourly
+  const ctxH = document.getElementById('chartHour')?.getContext('2d');
+  if (ctxH) {
+    activeChart1 = new Chart(ctxH, {
+      type: 'bar',
+      data: {
+        labels: Array.from({length:24}, (_,i) => `${pad(i)}:00`),
+        datasets: [{
+          data: hourly,
+          backgroundColor: hourly.map(c => {
+            const r = c / maxH;
+            return r < 0.2 ? '#22c55e99' : r < 0.5 ? '#f59e0b99' : '#ef444499';
+          }),
+          borderRadius: 4,
+        }]
+      },
+      options: chartOpts()
+    });
   }
 
-  const ctx = document.getElementById('chartDays').getContext('2d');
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: dates,
-      datasets: [{
-        label: '╫É╫û╫ó╫º╫ò╫¬ ╫£╫Ö╫ò╫¥',
-        data: dates.map(d => dayCounts[d]),
-        borderColor: '#7eb3ff',
-        backgroundColor: '#7eb3ff22',
-        fill: true,
-        tension: 0.3,
-        pointBackgroundColor: '#7eb3ff',
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { ticks: { color: '#556688', font: { size: 9 }, maxRotation: 45 }, grid: { color: '#1a2540' } },
-        y: { ticks: { color: '#556688' }, grid: { color: '#1a2540' } }
-      }
-    }
-  });
-}
-
-// ========== LOCATION ==========
-function filterByLocation(loc) {
-  if (!loc || loc === '╫¢╫£ ╫ö╫É╫¿╫Ñ') return allAlerts;
-  const l = loc.trim().toLowerCase();
-  return allAlerts.filter(a => a.data && a.data.includes(l));
-}
-
-function updateLocation() {
-  const val = document.getElementById('locationInput').value.trim();
-  currentLocation = val || '╫¢╫£ ╫ö╫É╫¿╫Ñ';
-  document.getElementById('locationStatus').textContent = `╫₧╫Ö╫º╫ò╫¥: ${currentLocation}`;
-  filteredAlerts = filterByLocation(currentLocation);
-  if (filteredAlerts.length === 0 && val) {
-    document.getElementById('locationStatus').textContent = `ΓÜá∩╕Å ╫£╫É ╫á╫₧╫ª╫É╫ò ╫É╫û╫ó╫º╫ò╫¬ ╫£"${val}" - ╫₧╫ª╫Ö╫Æ ╫¢╫£ ╫ö╫É╫¿╫Ñ`;
-    filteredAlerts = allAlerts;
-    currentLocation = '╫¢╫£ ╫ö╫É╫¿╫Ñ';
+  // Chart: daily
+  const ctxD = document.getElementById('chartDay')?.getContext('2d');
+  if (ctxD) {
+    const sortedDates = Object.keys(daily).sort((a,b) => {
+      const toNum = s=>{const[d,m,y]=s.split('.');return Number(y)*10000+Number(m)*100+Number(d);};
+      return toNum(a)-toNum(b);
+    });
+    activeChart2 = new Chart(ctxD, {
+      type: 'line',
+      data: {
+        labels: sortedDates.map(d => d.slice(0,5)),
+        datasets: [{
+          data: sortedDates.map(d => daily[d]),
+          borderColor: '#7eb3ff',
+          backgroundColor: '#7eb3ff18',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 3,
+          pointBackgroundColor: '#7eb3ff',
+        }]
+      },
+      options: chartOpts()
+    });
   }
-  renderDashboard();
+
+  window.scrollTo(0, 0);
 }
 
-function useGPS() {
-  document.getElementById('locationStatus').textContent = '≡ƒôí ╫₧╫É╫¬╫¿...';
-  if (!navigator.geolocation) {
-    document.getElementById('locationStatus').textContent = 'GPS ╫£╫É ╫û╫₧╫Ö╫ƒ';
-    return;
-  }
-  navigator.geolocation.getCurrentPosition(async pos => {
-    const { latitude: lat, longitude: lon } = pos.coords;
-    try {
-      const r = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=he`);
-      const d = await r.json();
-      const city = d.address?.city || d.address?.town || d.address?.village || d.address?.suburb || '';
-      if (city) {
-        document.getElementById('locationInput').value = city;
-        document.getElementById('locationStatus').textContent = `≡ƒôì ${city}`;
-        currentLocation = city;
-        filteredAlerts = filterByLocation(city);
-        if (filteredAlerts.length === 0) {
-          filteredAlerts = allAlerts;
-          currentLocation = '╫¢╫£ ╫ö╫É╫¿╫Ñ';
-          document.getElementById('locationStatus').textContent = `≡ƒôì ${city} (╫₧╫ª╫Ö╫Æ ╫¢╫£ ╫ö╫É╫¿╫Ñ)`;
-        }
-        renderDashboard();
-      }
-    } catch {
-      document.getElementById('locationStatus').textContent = '╫⌐╫Æ╫Ö╫É╫ö ╫æ╫û╫Ö╫ö╫ò╫Ö ╫₧╫Ö╫º╫ò╫¥';
+function chartOpts() {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { color: '#556688', font: { size: 9 } }, grid: { color: '#1a2030' } },
+      y: { ticks: { color: '#556688' }, grid: { color: '#1a2030' } }
     }
-  }, () => {
-    document.getElementById('locationStatus').textContent = '╫£╫É ╫É╫ò╫⌐╫¿ GPS';
-  });
+  };
 }
 
-// ========== TOOLTIP ==========
-function showTooltip(e, h, count) {
-  const t = document.getElementById('tooltip');
-  t.style.display = 'block';
-  t.style.left = (e.clientX + 12) + 'px';
-  t.style.top = (e.clientY - 30) + 'px';
-  t.innerHTML = `<strong>${pad(h)}:00 - ${pad(h+1 < 24 ? h+1 : 0)}:00</strong><br>${count} ╫É╫û╫ó╫º╫ò╫¬`;
-}
-function hideTooltip() {
-  document.getElementById('tooltip').style.display = 'none';
+// ════════════════════════════════════
+//  TOOLTIP
+// ════════════════════════════════════
+function showTip(e, h, c) {
+  const tip = document.getElementById('tooltip');
+  tip.style.display = 'block';
+  tip.style.left = (e.clientX + 16) + 'px';
+  tip.style.top  = (e.clientY - 42) + 'px';
+  tip.innerHTML = `<b>${pad(h)}:00 &ndash; ${pad((h+1)%24)}:00</b><br>${c} אזעקות`;
 }
 
-// ========== INIT ==========
+// ════════════════════════════════════
+//  INIT
+// ════════════════════════════════════
 async function init() {
-  document.getElementById('mainContent').innerHTML = `
-    <div class="loading">
-      <div class="spinner"></div>
-      <div>╫ÿ╫ò╫ó╫ƒ ╫á╫¬╫ò╫á╫Ö ╫É╫û╫ó╫º╫ò╫¬ ╫₧╫ñ╫Ö╫º╫ò╫ô ╫ö╫ó╫ò╫¿╫ú...</div>
-    </div>`;
+  setStatus('load', 'טוען נתונים...');
+  const hadStored = loadFromStorage();
 
-  await loadAllAlerts();
-  filteredAlerts = allAlerts;
-
-  // Auto-GPS on load
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(async pos => {
-      try {
-        const { latitude: lat, longitude: lon } = pos.coords;
-        const r = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=he`);
-        const d = await r.json();
-        const city = d.address?.city || d.address?.town || d.address?.village || '';
-        if (city) {
-          document.getElementById('locationInput').value = city;
-          document.getElementById('locationStatus').textContent = `≡ƒôì ${city}`;
-          currentLocation = city;
-          const filtered = filterByLocation(city);
-          if (filtered.length > 0) {
-            filteredAlerts = filtered;
-            currentLocation = city;
-          }
-        }
-      } catch {}
-      renderDashboard();
-    }, () => { renderDashboard(); });
-  } else {
-    renderDashboard();
+  try {
+    const fresh = await fetchLatest();
+    const added = mergeNew(fresh);
+    if (added > 0 || !hadStored) saveToStorage();
+  } catch(e) {
+    if (!hadStored) {
+      setStatus('warn', 'לא ניתן לטעון נתונים. בדוק חיבור לאינטרנט.');
+      return;
+    }
   }
 
-  // Auto-refresh every 10 min
-  setInterval(async () => {
-    await loadAllAlerts();
-    filteredAlerts = filterByLocation(currentLocation);
-    if (filteredAlerts.length === 0) filteredAlerts = allAlerts;
-    renderDashboard();
-  }, 10 * 60 * 1000);
+  buildLocMap();
+  updateStatusBar();
 }
 
 init();
