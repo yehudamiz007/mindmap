@@ -5,220 +5,96 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🛡️ מתי בטוח לצאת? | פיקוד העורף</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="alerts_data.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #0a0f1e;
-    color: #e0e6ff;
-    min-height: 100vh;
-  }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #0a0f1e; color: #e0e6ff; min-height: 100vh; }
+
   header {
     background: linear-gradient(135deg, #1a1f35, #0d1528);
     border-bottom: 2px solid #2a3a6e;
     padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 10px;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
   }
   header h1 { font-size: 1.4em; color: #7eb3ff; }
-  header .subtitle { font-size: 0.85em; color: #8899bb; }
-  .last-update { font-size: 0.75em; color: #556688; }
+  header .subtitle { font-size: 0.82em; color: #8899bb; margin-top: 3px; }
 
   .location-bar {
-    background: #111827;
-    border-bottom: 1px solid #1e2d4d;
-    padding: 12px 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
+    background: #111827; border-bottom: 1px solid #1e2d4d;
+    padding: 12px 20px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
   }
   .location-bar label { font-size: 0.85em; color: #7eb3ff; white-space: nowrap; }
-  .location-bar input {
-    background: #1a2540;
-    border: 1px solid #2a3f6e;
-    border-radius: 8px;
-    color: #e0e6ff;
-    padding: 6px 12px;
-    font-size: 0.9em;
-    width: 220px;
+  #locationInput {
+    background: #1a2540; border: 1px solid #2a3f6e; border-radius: 8px;
+    color: #e0e6ff; padding: 7px 12px; font-size: 0.9em; width: 200px;
   }
-  .location-bar button {
-    background: #1e4ba8;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    padding: 6px 14px;
-    cursor: pointer;
-    font-size: 0.85em;
+  #suggestions {
+    position: absolute; background: #1a2540; border: 1px solid #2a3f6e; border-radius: 8px;
+    max-height: 200px; overflow-y: auto; z-index: 100; min-width: 200px; display: none;
   }
-  .location-bar button:hover { background: #2560cc; }
-  #locationStatus { font-size: 0.8em; color: #556688; }
+  #suggestions div { padding: 7px 12px; cursor: pointer; font-size: 0.85em; }
+  #suggestions div:hover { background: #2a3f6e; }
+  .loc-wrap { position: relative; }
+  .btn { background: #1e4ba8; border: none; border-radius: 8px; color: white; padding: 7px 14px; cursor: pointer; font-size: 0.85em; }
+  .btn:hover { background: #2560cc; }
+  #locationStatus { font-size: 0.78em; color: #556688; }
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 16px;
-    padding: 16px;
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-
-  .card {
-    background: #111827;
-    border: 1px solid #1e2d4d;
-    border-radius: 14px;
-    padding: 18px;
-    position: relative;
-    overflow: hidden;
-  }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; padding: 16px; max-width: 1400px; margin: 0 auto; }
+  .card { background: #111827; border: 1px solid #1e2d4d; border-radius: 14px; padding: 18px; }
   .card.wide { grid-column: 1 / -1; }
-  .card h2 { font-size: 1em; color: #7eb3ff; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .card h2 { font-size: 1em; color: #7eb3ff; margin-bottom: 14px; }
 
-  /* Activity Cards */
-  .activities {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 12px;
-  }
-  .activity-card {
-    background: #0d1528;
-    border-radius: 12px;
-    padding: 16px;
-    border: 1px solid #1e2d4d;
-    text-align: center;
-  }
-  .activity-icon { font-size: 2em; margin-bottom: 6px; }
-  .activity-name { font-size: 0.85em; color: #8899bb; margin-bottom: 4px; }
-  .activity-time { font-size: 1.3em; font-weight: bold; }
-  .activity-duration { font-size: 0.75em; color: #556688; margin-top: 4px; }
-  .score-bar {
-    height: 6px;
-    border-radius: 3px;
-    margin-top: 8px;
-    background: #1a2540;
-    overflow: hidden;
-  }
-  .score-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
+  /* Stats */
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin-bottom: 16px; }
+  .stat-box { background: #0d1528; border-radius: 10px; padding: 12px; text-align: center; border: 1px solid #1e2d4d; }
+  .stat-num { font-size: 1.5em; font-weight: bold; color: #7eb3ff; }
+  .stat-label { font-size: 0.7em; color: #556688; margin-top: 3px; }
 
-  /* Score colors */
-  .safe { color: #22c55e; }
-  .moderate { color: #f59e0b; }
-  .risky { color: #ef4444; }
-  .fill-safe { background: #22c55e; }
-  .fill-moderate { background: #f59e0b; }
-  .fill-risky { background: #ef4444; }
+  /* Heatmap */
+  .hour-labels { display: grid; grid-template-columns: repeat(24, 1fr); gap: 2px; margin-bottom: 4px; }
+  .hour-label { font-size: 0.58em; color: #556688; text-align: center; }
+  .hour-grid { display: grid; grid-template-columns: repeat(24, 1fr); gap: 2px; margin-bottom: 6px; }
+  .hour-cell { height: 38px; border-radius: 4px; cursor: pointer; transition: opacity 0.1s; position: relative; }
+  .hour-cell:hover { opacity: 0.8; }
 
-  /* Hour grid */
-  .hour-grid {
-    display: grid;
-    grid-template-columns: repeat(24, 1fr);
-    gap: 2px;
-    margin-bottom: 8px;
-  }
-  .hour-cell {
-    height: 36px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.6em;
-    cursor: pointer;
-    transition: transform 0.1s;
-    position: relative;
-  }
-  .hour-cell:hover { transform: scaleY(1.1); z-index: 1; }
-  .hour-labels {
-    display: grid;
-    grid-template-columns: repeat(24, 1fr);
-    gap: 2px;
-    margin-bottom: 4px;
-  }
-  .hour-label { font-size: 0.6em; color: #556688; text-align: center; }
+  /* Activities */
+  .activities { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 12px; }
+  .act-card { background: #0d1528; border-radius: 12px; padding: 16px; border: 1px solid #1e2d4d; text-align: center; }
+  .act-icon { font-size: 2.2em; margin-bottom: 6px; }
+  .act-name { font-size: 0.82em; color: #8899bb; }
+  .act-best { font-size: 1.4em; font-weight: bold; margin: 6px 0 2px; }
+  .act-dur { font-size: 0.72em; color: #556688; }
+  .act-score-bar { height: 6px; background: #1a2540; border-radius: 3px; margin: 8px 0 4px; overflow: hidden; }
+  .act-score-fill { height: 100%; border-radius: 3px; }
+  .act-alts { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
+  .alt-chip { background: #1a2540; border-radius: 5px; padding: 2px 8px; font-size: 0.75em; color: #7eb3ff; }
 
-  /* Stats row */
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 10px;
-    margin-bottom: 16px;
-  }
-  .stat-box {
-    background: #0d1528;
-    border-radius: 10px;
-    padding: 12px;
-    text-align: center;
-    border: 1px solid #1e2d4d;
-  }
-  .stat-num { font-size: 1.6em; font-weight: bold; color: #7eb3ff; }
-  .stat-label { font-size: 0.72em; color: #556688; margin-top: 2px; }
+  /* Color classes */
+  .c-safe { color: #22c55e; } .c-mod { color: #f59e0b; } .c-risky { color: #ef4444; }
+  .bg-safe { background: #22c55e; } .bg-mod { background: #f59e0b; } .bg-risky { background: #ef4444; }
 
-  /* Best window */
-  .best-window {
-    background: linear-gradient(135deg, #0d2a0d, #0f1f0f);
-    border: 1px solid #1a4d1a;
-    border-radius: 10px;
-    padding: 14px;
-    margin-bottom: 12px;
-  }
-  .best-window h3 { color: #22c55e; font-size: 0.9em; margin-bottom: 8px; }
-  .window-list { display: flex; flex-wrap: wrap; gap: 8px; }
-  .window-chip {
-    background: #1a3d1a;
-    border-radius: 6px;
-    padding: 4px 10px;
-    font-size: 0.82em;
-    color: #86efac;
-  }
+  /* Best windows */
+  .best-win { background: #0d2a0d; border: 1px solid #1a4d1a; border-radius: 10px; padding: 12px; margin-bottom: 10px; }
+  .best-win h3 { color: #22c55e; font-size: 0.88em; margin-bottom: 8px; }
+  .win-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .win-chip { background: #1a3d1a; border-radius: 6px; padding: 4px 10px; font-size: 0.8em; color: #86efac; }
+
+  /* Danger bars */
+  .danger-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .danger-hour { width: 50px; font-size: 0.82em; color: #ff6b6b; }
+  .danger-bar-wrap { flex: 1; background: #1a2540; border-radius: 4px; height: 14px; overflow: hidden; }
+  .danger-bar-fill { height: 100%; background: linear-gradient(90deg, #cc2200, #ff4400); }
+  .danger-count { width: 36px; font-size: 0.75em; color: #ff6b6b; text-align: left; }
+
+  .chart-wrap { position: relative; height: 200px; }
 
   /* Tooltip */
-  .tooltip {
-    position: fixed;
-    background: #1a2540;
-    border: 1px solid #2a3f6e;
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 0.8em;
-    pointer-events: none;
-    z-index: 1000;
-    display: none;
-  }
+  .tooltip { position: fixed; background: #1a2540; border: 1px solid #2a3f6e; border-radius: 8px; padding: 8px 12px; font-size: 0.8em; pointer-events: none; z-index: 1000; display: none; }
 
-  /* Loading */
-  .loading {
-    text-align: center;
-    padding: 40px;
-    color: #556688;
-    font-size: 0.9em;
-  }
-  .spinner {
-    border: 3px solid #1a2540;
-    border-top: 3px solid #7eb3ff;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    animation: spin 1s linear infinite;
-    margin: 10px auto;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  canvas { max-height: 260px; }
-  .chart-wrap { position: relative; height: 220px; }
-
-  footer {
-    text-align: center;
-    padding: 20px;
-    color: #334466;
-    font-size: 0.75em;
-  }
+  footer { text-align: center; padding: 20px; color: #334466; font-size: 0.73em; }
 
   @media (max-width: 600px) {
-    .hour-cell { height: 28px; font-size: 0; }
-    .hour-label { font-size: 0.5em; }
-    header h1 { font-size: 1.1em; }
+    .hour-cell { height: 26px; } .hour-label { font-size: 0.48em; }
   }
 </style>
 </head>
@@ -227,487 +103,332 @@
 <header>
   <div>
     <h1>🛡️ מתי בטוח לצאת?</h1>
-    <div class="subtitle">ניתוח אזעקות פיקוד העורף | 28.02.2026 - היום</div>
+    <div class="subtitle">ניתוח אזעקות פיקוד העורף | 28.02.2026 - 03.03.2026</div>
   </div>
-  <div class="last-update" id="lastUpdate">טוען...</div>
+  <div style="font-size:0.72em; color:#556688;" id="dataInfo">טוען...</div>
 </header>
 
 <div class="location-bar">
   <label>📍 מיקום:</label>
-  <input type="text" id="locationInput" placeholder="עיר / אזור (למשל: תל אביב)" />
-  <button onclick="updateLocation()">עדכן</button>
-  <button onclick="useGPS()">📡 GPS</button>
-  <span id="locationStatus">ממתין למיקום...</span>
+  <div class="loc-wrap">
+    <input type="text" id="locationInput" placeholder="הקלד עיר / ישוב..." oninput="onLocationInput()" />
+    <div id="suggestions"></div>
+  </div>
+  <button class="btn" onclick="applyLocation()">עדכן</button>
+  <button class="btn" onclick="useGPS()">📡 GPS</button>
+  <button class="btn" style="background:#1a3a1a;" onclick="resetLocation()">🌍 כל הארץ</button>
+  <span id="locationStatus">כל הארץ</span>
 </div>
 
-<div id="mainContent" class="loading">
-  <div class="spinner"></div>
-  <div>טוען נתוני אזעקות...</div>
-</div>
-
+<div id="app"></div>
 <div class="tooltip" id="tooltip"></div>
 
 <script>
-// ========== DATA FETCHING ==========
-const OREF_BASE = 'https://alerts-history.oref.org.il/Shared/Ajax/GetAlarmsHistory.aspx';
-const START_DATE = '28.02.2026';
+// ===================== STATE =====================
+let currentLocation = 'כל הארץ';
+let currentHourly = [];
+let charts = {};
 
-// Activity definitions
 const ACTIVITIES = [
-  { id: 'shower',   name: 'מקלחת',   icon: '🚿', duration: 15, desc: '~15 דקות' },
-  { id: 'shopping', name: 'קניות בסופר', icon: '🛒', duration: 60, desc: '~60 דקות' },
-  { id: 'running',  name: 'ריצה בחוץ', icon: '🏃', duration: 45, desc: '~45 דקות' },
+  { id: 'shower',   name: 'מקלחת',      icon: '🚿', duration: 15, desc: '~15 דקות' },
+  { id: 'shopping', name: 'קניות סופר',  icon: '🛒', duration: 60, desc: '~60 דקות' },
+  { id: 'running',  name: 'ריצה בחוץ',   icon: '🏃', duration: 45, desc: '~45 דקות' },
 ];
 
-let allAlerts = [];
-let hourlyData = new Array(24).fill(0); // alerts per hour (all days combined)
-let currentLocation = 'כל הארץ';
-let filteredAlerts = [];
+// ===================== INIT =====================
+function init() {
+  document.getElementById('dataInfo').textContent =
+    `נתונים: ${ALERTS_DATA.total.toLocaleString()} אזעקות | ${ALERTS_DATA.unique_locations.length} יישובים`;
+  currentHourly = ALERTS_DATA.hourly_all;
+  render();
 
-function pad(n) { return String(n).padStart(2, '0'); }
-
-function getTodayStr() {
-  const d = new Date();
-  return `${pad(d.getDate())}.${pad(d.getMonth()+1)}.${d.getFullYear()}`;
-}
-
-function dateRange(from, to) {
-  const dates = [];
-  const d = parseDate(from);
-  const end = parseDate(to);
-  while (d <= end) {
-    dates.push(`${pad(d.getDate())}.${pad(d.getMonth()+1)}.${d.getFullYear()}`);
-    d.setDate(d.getDate() + 1);
+  // Auto-GPS
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(async pos => {
+      try {
+        const r = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json&accept-language=he`);
+        const d = await r.json();
+        const city = d.address?.city || d.address?.town || d.address?.village || '';
+        if (city) setLocation(city);
+      } catch {}
+    }, () => {});
   }
-  return dates;
 }
 
-function parseDate(str) {
-  const [dd, mm, yyyy] = str.split('.');
-  return new Date(+yyyy, +mm-1, +dd);
-}
-
-async function fetchDay(dateStr) {
-  const url = `${OREF_BASE}?lang=he&fromDate=${dateStr}&toDate=${dateStr}&mode=1`;
-  try {
-    const r = await fetch(url);
-    if (!r.ok) return [];
-    const json = await r.json();
-    return Array.isArray(json) ? json : [];
-  } catch { return []; }
-}
-
-async function loadAllAlerts() {
-  const today = getTodayStr();
-  const dates = dateRange(START_DATE, today);
-  const results = await Promise.all(dates.map(fetchDay));
-  allAlerts = results.flat();
-  document.getElementById('lastUpdate').textContent = `עודכן: ${new Date().toLocaleTimeString('he-IL')}`;
-  return allAlerts;
-}
-
-// ========== PROCESSING ==========
-function computeHourly(alerts) {
-  const counts = new Array(24).fill(0);
-  for (const a of alerts) {
-    if (!a.time) continue;
-    const h = parseInt(a.time.split(':')[0]);
-    if (h >= 0 && h < 24) counts[h]++;
+// ===================== LOCATION =====================
+function getHourlyForLocation(loc) {
+  if (!loc || loc === 'כל הארץ') return ALERTS_DATA.hourly_all;
+  // Exact match first
+  if (ALERTS_DATA.locations[loc]) return ALERTS_DATA.locations[loc];
+  // Partial match - find best
+  const l = loc.trim();
+  const matches = ALERTS_DATA.unique_locations.filter(u => u.includes(l) || l.includes(u.split(' ')[0]));
+  if (matches.length === 0) return null;
+  // Merge all matching locations
+  const merged = new Array(24).fill(0);
+  for (const m of matches) {
+    const h = ALERTS_DATA.locations[m];
+    if (h) h.forEach((v,i) => merged[i] += v);
   }
-  return counts;
+  return merged;
 }
 
-function safetyScore(hour, durationMin, hourly) {
-  // Check alerts in window [hour, hour+duration/60)
-  const hours = Math.ceil(durationMin / 60);
+function setLocation(loc) {
+  const hourly = getHourlyForLocation(loc);
+  if (!hourly || hourly.every(v => v === 0)) {
+    document.getElementById('locationStatus').textContent = `⚠️ "${loc}" - לא נמצאו אזעקות, מציג כל הארץ`;
+    currentLocation = 'כל הארץ';
+    currentHourly = ALERTS_DATA.hourly_all;
+  } else {
+    const total = hourly.reduce((a,b)=>a+b,0);
+    currentLocation = loc;
+    currentHourly = hourly;
+    document.getElementById('locationStatus').textContent = `📍 ${loc} (${total} אזעקות)`;
+    document.getElementById('locationInput').value = loc;
+  }
+  render();
+}
+
+function applyLocation() {
+  const val = document.getElementById('locationInput').value.trim();
+  if (!val) return resetLocation();
+  setLocation(val);
+  document.getElementById('suggestions').style.display = 'none';
+}
+
+function resetLocation() {
+  currentLocation = 'כל הארץ';
+  currentHourly = ALERTS_DATA.hourly_all;
+  document.getElementById('locationStatus').textContent = '🌍 כל הארץ';
+  document.getElementById('locationInput').value = '';
+  render();
+}
+
+function onLocationInput() {
+  const val = document.getElementById('locationInput').value.trim();
+  const sug = document.getElementById('suggestions');
+  if (val.length < 2) { sug.style.display = 'none'; return; }
+  const matches = ALERTS_DATA.unique_locations.filter(u => u.includes(val)).slice(0, 12);
+  if (matches.length === 0) { sug.style.display = 'none'; return; }
+  sug.innerHTML = matches.map(m => `<div onclick="selectSuggestion('${m.replace(/'/g,"\\'")}')">📍 ${m}</div>`).join('');
+  sug.style.display = 'block';
+}
+
+function selectSuggestion(loc) {
+  document.getElementById('locationInput').value = loc;
+  document.getElementById('suggestions').style.display = 'none';
+  setLocation(loc);
+}
+
+async function useGPS() {
+  document.getElementById('locationStatus').textContent = '📡 מאתר מיקום...';
+  if (!navigator.geolocation) { document.getElementById('locationStatus').textContent = 'GPS לא זמין'; return; }
+  navigator.geolocation.getCurrentPosition(async pos => {
+    try {
+      const r = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json&accept-language=he`);
+      const d = await r.json();
+      const city = d.address?.city || d.address?.town || d.address?.village || '';
+      if (city) setLocation(city);
+      else document.getElementById('locationStatus').textContent = 'לא ניתן לזהות עיר';
+    } catch { document.getElementById('locationStatus').textContent = 'שגיאה'; }
+  }, () => { document.getElementById('locationStatus').textContent = 'GPS לא אושר'; });
+}
+
+// ===================== CALCULATIONS =====================
+function safetyScore(startHour, durationMin, hourly) {
+  const numHours = Math.ceil(durationMin / 60);
   let total = 0;
-  for (let i = 0; i < hours; i++) {
-    total += (hourly[(hour + i) % 24] || 0);
-  }
+  for (let i = 0; i < numHours; i++) total += (hourly[(startHour + i) % 24] || 0);
+  const max = Math.max(...hourly, 1) * numHours;
+  return Math.max(0, Math.round(100 - (total / max) * 100));
+}
+
+function bestWindows(hourly, durationMin, n = 5) {
+  return Array.from({length:24}, (_,h) => ({ hour: h, score: safetyScore(h, durationMin, hourly) }))
+    .sort((a,b) => b.score - a.score).slice(0, n);
+}
+
+function scoreClass(s) { return s >= 70 ? 'c-safe' : s >= 40 ? 'c-mod' : 'c-risky'; }
+function scoreBg(s) { return s >= 70 ? 'bg-safe' : s >= 40 ? 'bg-mod' : 'bg-risky'; }
+
+function cellColor(count, max) {
+  if (count === 0) return '#0d3d1a';
+  const r = count / max;
+  if (r < 0.15) return '#1a5c1a';
+  if (r < 0.3)  return '#5c5c00';
+  if (r < 0.5)  return '#7a4000';
+  if (r < 0.7)  return '#993000';
+  return '#cc1a00';
+}
+
+function pad(n) { return String(n).padStart(2,'0'); }
+function fmt(h) { return `${pad(h)}:00`; }
+
+// ===================== RENDER =====================
+function render() {
+  const hourly = currentHourly;
   const max = Math.max(...hourly, 1);
-  // Score 0-100, lower alerts = higher score
-  return Math.max(0, Math.round(100 - (total / (max * hours)) * 100));
-}
-
-function getScoreClass(score) {
-  if (score >= 70) return 'safe';
-  if (score >= 40) return 'moderate';
-  return 'risky';
-}
-
-function getFillClass(score) {
-  if (score >= 70) return 'fill-safe';
-  if (score >= 40) return 'fill-moderate';
-  return 'fill-risky';
-}
-
-function bestWindows(hourly, durationMin, n = 3) {
-  const scores = [];
-  for (let h = 0; h < 24; h++) {
-    scores.push({ hour: h, score: safetyScore(h, durationMin, hourly) });
-  }
-  scores.sort((a, b) => b.score - a.score);
-  return scores.slice(0, n);
-}
-
-function formatHour(h) {
-  return `${pad(h)}:00`;
-}
-
-// ========== RENDER ==========
-function colorFromCount(count, max) {
-  if (max === 0) return '#1a2540';
-  const ratio = count / max;
-  if (ratio === 0) return '#0d3d1a';
-  if (ratio < 0.2) return '#1a5c1a';
-  if (ratio < 0.4) return '#7a5c00';
-  if (ratio < 0.6) return '#9a4000';
-  if (ratio < 0.8) return '#b32000';
-  return '#cc0000';
-}
-
-function renderDashboard() {
-  const hourly = computeHourly(filteredAlerts);
-  const total = filteredAlerts.length;
-  const max = Math.max(...hourly, 1);
-  const days = dateRange(START_DATE, getTodayStr()).length;
-  const avgPerDay = Math.round(total / days);
-
-  // Best and worst hours
-  const quietestHour = hourly.indexOf(Math.min(...hourly));
-  const busiestHour = hourly.indexOf(Math.max(...hourly));
+  const total = hourly.reduce((a,b)=>a+b,0);
+  const quietest = hourly.indexOf(Math.min(...hourly));
+  const busiest  = hourly.indexOf(Math.max(...hourly));
+  const days = Object.keys(ALERTS_DATA.daily).length;
 
   const html = `
   <div class="grid">
 
     <!-- Stats -->
     <div class="card wide">
-      <h2>📊 סיכום ${currentLocation}</h2>
+      <h2>📊 סטטיסטיקות - ${currentLocation}</h2>
       <div class="stats-row">
-        <div class="stat-box">
-          <div class="stat-num">${total.toLocaleString()}</div>
-          <div class="stat-label">אזעקות סה"כ</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-num">${days}</div>
-          <div class="stat-label">ימים נבדקו</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-num">${avgPerDay.toLocaleString()}</div>
-          <div class="stat-label">ממוצע ליום</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-num safe">${formatHour(quietestHour)}</div>
-          <div class="stat-label">השעה הכי שקטה</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-num risky">${formatHour(busiestHour)}</div>
-          <div class="stat-label">השעה הכי עמוסה</div>
-        </div>
+        <div class="stat-box"><div class="stat-num">${total.toLocaleString()}</div><div class="stat-label">אזעקות (${currentLocation})</div></div>
+        <div class="stat-box"><div class="stat-num">${days}</div><div class="stat-label">ימים נבדקו</div></div>
+        <div class="stat-box"><div class="stat-num">${Math.round(total/days).toLocaleString()}</div><div class="stat-label">ממוצע ליום</div></div>
+        <div class="stat-box"><div class="stat-num c-safe">${fmt(quietest)}</div><div class="stat-label">🟢 הכי שקט</div></div>
+        <div class="stat-box"><div class="stat-num c-risky">${fmt(busiest)}</div><div class="stat-label">🔴 הכי עמוס</div></div>
       </div>
 
-      <!-- Hour heatmap -->
-      <div style="margin-bottom:6px; font-size:0.8em; color:#556688;">עוצמת אזעקות לפי שעה (24 שעות) - לחץ לפרטים</div>
-      <div class="hour-labels">
-        ${Array.from({length:24},(_,i)=>`<div class="hour-label">${pad(i)}</div>`).join('')}
+      <div style="font-size:0.78em; color:#556688; margin-bottom:6px;">🌡️ מפת חום - אזעקות לפי שעה (העבר עכבר לפרטים)</div>
+      <div class="hour-labels">${Array.from({length:24},(_,i)=>`<div class="hour-label">${pad(i)}</div>`).join('')}</div>
+      <div class="hour-grid">
+        ${hourly.map((c,h) => `<div class="hour-cell" style="background:${cellColor(c,max)}"
+          onmouseenter="tip(event,${h},${c})" onmouseleave="hideTip()"></div>`).join('')}
       </div>
-      <div class="hour-grid" id="heatmap">
-        ${hourly.map((c,h) => `
-          <div class="hour-cell"
-            style="background:${colorFromCount(c,max)}"
-            data-hour="${h}" data-count="${c}"
-            onmouseenter="showTooltip(event,${h},${c})"
-            onmouseleave="hideTooltip()">
-          </div>
-        `).join('')}
-      </div>
-      <div style="display:flex; gap:16px; margin-top:6px; font-size:0.72em; color:#556688; flex-wrap:wrap;">
-        <span>🟢 שקט מוחלט</span>
-        <span>🟡 פעילות מתונה</span>
-        <span>🔴 פעילות גבוהה</span>
+      <div style="display:flex;gap:16px;font-size:0.7em;color:#556688;flex-wrap:wrap;">
+        <span>🟢 0 אזעקות</span><span>🟡 אזעקות בינוניות</span><span>🔴 אזעקות רבות</span>
       </div>
     </div>
 
     <!-- Activities -->
     <div class="card wide">
-      <h2>🎯 המלצות לפעילויות - ${currentLocation}</h2>
+      <h2>🎯 השעה הכי טובה לכל פעילות - ${currentLocation}</h2>
       <div class="activities">
         ${ACTIVITIES.map(act => {
-          const windows = bestWindows(hourly, act.duration, 3);
-          const bestScore = windows[0].score;
-          const sc = getScoreClass(bestScore);
-          const fc = getFillClass(bestScore);
-          return `
-          <div class="activity-card">
-            <div class="activity-icon">${act.icon}</div>
-            <div class="activity-name">${act.name}</div>
-            <div class="activity-time ${sc}">${formatHour(windows[0].hour)}</div>
-            <div class="activity-duration">${act.desc}</div>
-            <div class="score-bar">
-              <div class="score-fill ${fc}" style="width:${bestScore}%"></div>
+          const wins = bestWindows(hourly, act.duration, 4);
+          const best = wins[0];
+          const sc = scoreClass(best.score);
+          const sb = scoreBg(best.score);
+          return `<div class="act-card">
+            <div class="act-icon">${act.icon}</div>
+            <div class="act-name">${act.name}</div>
+            <div class="act-best ${sc}">${fmt(best.hour)}</div>
+            <div class="act-dur">${act.desc}</div>
+            <div class="act-score-bar"><div class="act-score-fill ${sb}" style="width:${best.score}%"></div></div>
+            <div style="font-size:0.7em;color:#556688;">ניקוד: ${best.score}/100</div>
+            <div class="act-alts">
+              ${wins.slice(1).map(w=>`<div class="alt-chip">${fmt(w.hour)}</div>`).join('')}
             </div>
-            <div style="font-size:0.72em; color:#556688; margin-top:4px;">ניקוד: ${bestScore}/100</div>
-            <div style="font-size:0.72em; color:#446688; margin-top:8px;">אפשרויות נוספות:</div>
-            <div style="display:flex; gap:6px; justify-content:center; margin-top:4px; flex-wrap:wrap;">
-              ${windows.slice(1).map(w => `
-                <span style="background:#1a2540; border-radius:5px; padding:2px 7px; font-size:0.75em; color:#7eb3ff;">${formatHour(w.hour)}</span>
-              `).join('')}
-            </div>
-          </div>
-          `;
+          </div>`;
         }).join('')}
       </div>
     </div>
 
-    <!-- Chart: alerts by hour -->
+    <!-- Chart hours -->
     <div class="card">
-      <h2>📈 אזעקות לפי שעה</h2>
-      <div class="chart-wrap">
-        <canvas id="chartHours"></canvas>
-      </div>
+      <h2>📈 אזעקות לפי שעה - ${currentLocation}</h2>
+      <div class="chart-wrap"><canvas id="chartH"></canvas></div>
     </div>
 
-    <!-- Chart: alerts by day -->
+    <!-- Chart days -->
     <div class="card">
-      <h2>📅 אזעקות לפי יום</h2>
-      <div class="chart-wrap">
-        <canvas id="chartDays"></canvas>
-      </div>
+      <h2>📅 אזעקות לפי יום - כל הארץ</h2>
+      <div class="chart-wrap"><canvas id="chartD"></canvas></div>
     </div>
 
-    <!-- Safe windows table -->
+    <!-- Safe windows -->
     <div class="card">
-      <h2>✅ חלונות זמן בטוחים</h2>
-      <div class="best-window">
-        <h3>🚿 מקלחת (15 דק') - הכי מומלץ:</h3>
-        <div class="window-list">
-          ${bestWindows(hourly, 15, 5).map(w => `
-            <div class="window-chip">${formatHour(w.hour)} <span style="color:#4ade80">${w.score}%</span></div>
-          `).join('')}
-        </div>
-      </div>
-      <div class="best-window">
-        <h3>🛒 קניות (60 דק') - הכי מומלץ:</h3>
-        <div class="window-list">
-          ${bestWindows(hourly, 60, 5).map(w => `
-            <div class="window-chip">${formatHour(w.hour)} <span style="color:#4ade80">${w.score}%</span></div>
-          `).join('')}
-        </div>
-      </div>
-      <div class="best-window">
-        <h3>🏃 ריצה (45 דק') - הכי מומלץ:</h3>
-        <div class="window-list">
-          ${bestWindows(hourly, 45, 5).map(w => `
-            <div class="window-chip">${formatHour(w.hour)} <span style="color:#4ade80">${w.score}%</span></div>
-          `).join('')}
-        </div>
-      </div>
+      <h2>✅ חלונות זמן מומלצים</h2>
+      ${ACTIVITIES.map(act => {
+        const wins = bestWindows(hourly, act.duration, 5);
+        return `<div class="best-win">
+          <h3>${act.icon} ${act.name} (${act.desc}):</h3>
+          <div class="win-chips">
+            ${wins.map(w=>`<div class="win-chip">${fmt(w.hour)} <span style="color:#4ade80">${w.score}%</span></div>`).join('')}
+          </div>
+        </div>`;
+      }).join('')}
     </div>
 
-    <!-- Danger zones -->
+    <!-- Danger hours -->
     <div class="card">
       <h2>⚠️ שעות סכנה - הימנע</h2>
-      ${(() => {
-        const sorted = hourly.map((c,h)=>({h,c})).sort((a,b)=>b.c-a.c).slice(0,8);
-        return sorted.map(({h,c}) => `
-          <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-            <div style="width:50px; font-size:0.85em; color:#ff6b6b;">${formatHour(h)}</div>
-            <div style="flex:1; background:#1a2540; border-radius:4px; height:16px; overflow:hidden;">
-              <div style="width:${Math.round(c/max*100)}%; height:100%; background: linear-gradient(90deg, #cc2200, #ff4400);"></div>
-            </div>
-            <div style="width:40px; text-align:left; font-size:0.78em; color:#ff6b6b;">${c}</div>
-          </div>
-        `).join('');
-      })()}
+      ${[...hourly.map((c,h)=>({h,c}))].sort((a,b)=>b.c-a.c).slice(0,8).map(({h,c})=>`
+        <div class="danger-row">
+          <div class="danger-hour">${fmt(h)}</div>
+          <div class="danger-bar-wrap"><div class="danger-bar-fill" style="width:${Math.round(c/max*100)}%"></div></div>
+          <div class="danger-count">${c}</div>
+        </div>`).join('')}
     </div>
 
   </div>
-  <footer>נתונים: פיקוד העורף ישראל | מ-28.02.2026 עד היום | מתרענן כל 10 דקות</footer>
+  <footer>נתונים: פיקוד העורף | 28.02.2026 - 03.03.2026 | ${ALERTS_DATA.unique_locations.length} יישובים | ${ALERTS_DATA.total.toLocaleString()} אזעקות</footer>
   `;
 
-  document.getElementById('mainContent').className = '';
-  document.getElementById('mainContent').innerHTML = html;
-
-  // Render charts
-  renderHourChart(hourly);
-  renderDayChart();
+  document.getElementById('app').innerHTML = html;
+  renderCharts(hourly);
 }
 
-function renderHourChart(hourly) {
-  const ctx = document.getElementById('chartHours').getContext('2d');
-  new Chart(ctx, {
+function renderCharts(hourly) {
+  // Destroy old charts
+  Object.values(charts).forEach(c => c.destroy());
+  charts = {};
+
+  const defaults = {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { color: '#556688', font: { size: 9 } }, grid: { color: '#1a2540' } },
+      y: { ticks: { color: '#556688' }, grid: { color: '#1a2540' } }
+    }
+  };
+
+  // Hourly bar
+  const max = Math.max(...hourly, 1);
+  charts.h = new Chart(document.getElementById('chartH').getContext('2d'), {
     type: 'bar',
     data: {
       labels: Array.from({length:24}, (_,i) => `${pad(i)}:00`),
       datasets: [{
-        label: 'אזעקות',
         data: hourly,
         backgroundColor: hourly.map(c => {
-          const max = Math.max(...hourly, 1);
-          const r = c / max;
-          if (r < 0.2) return '#22c55e88';
-          if (r < 0.5) return '#f59e0b88';
-          return '#ef444488';
+          const r = c/max;
+          return r < 0.2 ? '#22c55e88' : r < 0.5 ? '#f59e0b88' : '#ef444488';
         }),
-        borderRadius: 4,
+        borderRadius: 4
       }]
     },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { ticks: { color: '#556688', font: { size: 9 } }, grid: { color: '#1a2540' } },
-        y: { ticks: { color: '#556688' }, grid: { color: '#1a2540' } }
-      }
-    }
+    options: { ...defaults }
   });
-}
 
-function renderDayChart() {
-  const today = getTodayStr();
-  const dates = dateRange(START_DATE, today);
-  const dayCounts = {};
-  for (const d of dates) dayCounts[d] = 0;
-  for (const a of filteredAlerts) {
-    if (a.date && dayCounts[a.date] !== undefined) dayCounts[a.date]++;
-  }
-
-  const ctx = document.getElementById('chartDays').getContext('2d');
-  new Chart(ctx, {
+  // Daily line
+  const dailyDates = Object.keys(ALERTS_DATA.daily).sort();
+  charts.d = new Chart(document.getElementById('chartD').getContext('2d'), {
     type: 'line',
     data: {
-      labels: dates,
+      labels: dailyDates,
       datasets: [{
-        label: 'אזעקות ליום',
-        data: dates.map(d => dayCounts[d]),
-        borderColor: '#7eb3ff',
-        backgroundColor: '#7eb3ff22',
-        fill: true,
-        tension: 0.3,
-        pointBackgroundColor: '#7eb3ff',
+        data: dailyDates.map(d => ALERTS_DATA.daily[d]),
+        borderColor: '#7eb3ff', backgroundColor: '#7eb3ff22',
+        fill: true, tension: 0.3, pointBackgroundColor: '#7eb3ff'
       }]
     },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { ticks: { color: '#556688', font: { size: 9 }, maxRotation: 45 }, grid: { color: '#1a2540' } },
-        y: { ticks: { color: '#556688' }, grid: { color: '#1a2540' } }
-      }
-    }
+    options: { ...defaults }
   });
 }
 
-// ========== LOCATION ==========
-function filterByLocation(loc) {
-  if (!loc || loc === 'כל הארץ') return allAlerts;
-  const l = loc.trim().toLowerCase();
-  return allAlerts.filter(a => a.data && a.data.includes(l));
-}
-
-function updateLocation() {
-  const val = document.getElementById('locationInput').value.trim();
-  currentLocation = val || 'כל הארץ';
-  document.getElementById('locationStatus').textContent = `מיקום: ${currentLocation}`;
-  filteredAlerts = filterByLocation(currentLocation);
-  if (filteredAlerts.length === 0 && val) {
-    document.getElementById('locationStatus').textContent = `⚠️ לא נמצאו אזעקות ל"${val}" - מציג כל הארץ`;
-    filteredAlerts = allAlerts;
-    currentLocation = 'כל הארץ';
-  }
-  renderDashboard();
-}
-
-function useGPS() {
-  document.getElementById('locationStatus').textContent = '📡 מאתר...';
-  if (!navigator.geolocation) {
-    document.getElementById('locationStatus').textContent = 'GPS לא זמין';
-    return;
-  }
-  navigator.geolocation.getCurrentPosition(async pos => {
-    const { latitude: lat, longitude: lon } = pos.coords;
-    try {
-      const r = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=he`);
-      const d = await r.json();
-      const city = d.address?.city || d.address?.town || d.address?.village || d.address?.suburb || '';
-      if (city) {
-        document.getElementById('locationInput').value = city;
-        document.getElementById('locationStatus').textContent = `📍 ${city}`;
-        currentLocation = city;
-        filteredAlerts = filterByLocation(city);
-        if (filteredAlerts.length === 0) {
-          filteredAlerts = allAlerts;
-          currentLocation = 'כל הארץ';
-          document.getElementById('locationStatus').textContent = `📍 ${city} (מציג כל הארץ)`;
-        }
-        renderDashboard();
-      }
-    } catch {
-      document.getElementById('locationStatus').textContent = 'שגיאה בזיהוי מיקום';
-    }
-  }, () => {
-    document.getElementById('locationStatus').textContent = 'לא אושר GPS';
-  });
-}
-
-// ========== TOOLTIP ==========
-function showTooltip(e, h, count) {
+// ===================== TOOLTIP =====================
+function tip(e, h, c) {
   const t = document.getElementById('tooltip');
   t.style.display = 'block';
   t.style.left = (e.clientX + 12) + 'px';
-  t.style.top = (e.clientY - 30) + 'px';
-  t.innerHTML = `<strong>${pad(h)}:00 - ${pad(h+1 < 24 ? h+1 : 0)}:00</strong><br>${count} אזעקות`;
+  t.style.top = (e.clientY - 35) + 'px';
+  t.innerHTML = `<b>${pad(h)}:00–${pad((h+1)%24)}:00</b><br>${c} אזעקות`;
 }
-function hideTooltip() {
-  document.getElementById('tooltip').style.display = 'none';
-}
+function hideTip() { document.getElementById('tooltip').style.display = 'none'; }
 
-// ========== INIT ==========
-async function init() {
-  document.getElementById('mainContent').innerHTML = `
-    <div class="loading">
-      <div class="spinner"></div>
-      <div>טוען נתוני אזעקות מפיקוד העורף...</div>
-    </div>`;
-
-  await loadAllAlerts();
-  filteredAlerts = allAlerts;
-
-  // Auto-GPS on load
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(async pos => {
-      try {
-        const { latitude: lat, longitude: lon } = pos.coords;
-        const r = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=he`);
-        const d = await r.json();
-        const city = d.address?.city || d.address?.town || d.address?.village || '';
-        if (city) {
-          document.getElementById('locationInput').value = city;
-          document.getElementById('locationStatus').textContent = `📍 ${city}`;
-          currentLocation = city;
-          const filtered = filterByLocation(city);
-          if (filtered.length > 0) {
-            filteredAlerts = filtered;
-            currentLocation = city;
-          }
-        }
-      } catch {}
-      renderDashboard();
-    }, () => { renderDashboard(); });
-  } else {
-    renderDashboard();
-  }
-
-  // Auto-refresh every 10 min
-  setInterval(async () => {
-    await loadAllAlerts();
-    filteredAlerts = filterByLocation(currentLocation);
-    if (filteredAlerts.length === 0) filteredAlerts = allAlerts;
-    renderDashboard();
-  }, 10 * 60 * 1000);
-}
+// Close suggestions on outside click
+document.addEventListener('click', e => {
+  if (!e.target.closest('.loc-wrap')) document.getElementById('suggestions').style.display = 'none';
+});
 
 init();
 </script>
