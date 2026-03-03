@@ -185,7 +185,7 @@ body {
 
 .activities-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 16px;
   margin-bottom: 28px;
 }
@@ -852,11 +852,32 @@ function showResults(query) {
   if (activeChart1) { activeChart1.destroy(); activeChart1 = null; }
   if (activeChart2) { activeChart2.destroy(); activeChart2 = null; }
 
-  // Build activities HTML
+  // Build activities HTML - all windows in descending order
   const activitiesHTML = ACTIVITIES.map(act => {
-    const wins = bestWindows(act.dur, hourly, 5, act.minHour, act.maxHour);
+    const wins = bestWindows(act.dur, hourly, 99, act.minHour, act.maxHour); // all valid hours
     const best = wins[0];
     const cls = scoreClass(best.score);
+
+    const endHour = (h) => {
+      const e = h + Math.ceil(act.dur / 60);
+      return e > 23 ? `${fmtHour(h)}-00:00` : `${fmtHour(h)}-${fmtHour(e)}`;
+    };
+
+    const windowRows = wins.map((w, i) => {
+      const wCls = scoreClass(w.score);
+      const icon = w.score >= 70 ? '&#x2705;' : w.score >= 40 ? '&#x26A0;&#xFE0F;' : '&#x1F534;';
+      const bg = i === 0 ? 'background:#0d2a12;border:1px solid #1a4d1a;' : '';
+      return `
+        <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;margin-bottom:4px;${bg}">
+          <div style="width:20px;text-align:center;font-size:0.9em;">${icon}</div>
+          <div style="width:110px;font-size:${i===0?'1.1em':'0.9em'};font-weight:${i===0?700:400};color:${i===0?'#e0e6ff':'#8899bb'};">${endHour(w.hour)}</div>
+          <div style="flex:1;background:#1a2030;border-radius:4px;height:8px;overflow:hidden;">
+            <div style="height:100%;width:${w.score}%;background:${w.score>=70?'#22c55e':w.score>=40?'#f59e0b':'#ef4444'};border-radius:4px;"></div>
+          </div>
+          <div style="width:42px;text-align:left;font-size:0.8em;color:${w.score>=70?'#22c55e':w.score>=40?'#f59e0b':'#ef4444'};font-weight:600;">${w.score}%</div>
+        </div>`;
+    }).join('');
+
     return `
       <div class="act-card ${cls}">
         <div class="act-header">
@@ -866,17 +887,10 @@ function showResults(query) {
             <div class="act-dur">${act.desc} &bull; ${act.hoursNote}</div>
           </div>
         </div>
-        <div class="best-time ${cls}">${fmtHour(best.hour)}</div>
-        <div style="font-size:0.75em;color:#556688;margin-top:2px;">
-          ${best.score >= 70 ? '&#x2705; בטוח' : best.score >= 40 ? '&#x26A0;&#xFE0F; זהירות' : '&#x1F534; מסוכן'} &mdash; ניקוד ${best.score}/100
+        <div style="font-size:0.72em;color:#556688;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #1e2d4d;">
+          כל חלונות הזמן &mdash; מהבטוח לפחות בטוח
         </div>
-        <div class="score-bar"><div class="score-fill ${cls}" style="width:${best.score}%"></div></div>
-        <div style="font-size:0.72em;color:#7eb3ff;margin-bottom:8px;">חלונות נוספים:</div>
-        <div class="alt-windows">
-          ${wins.slice(1).map(w =>
-            `<div class="alt-chip">${fmtHour(w.hour)}<span>${w.score}%</span></div>`
-          ).join('')}
-        </div>
+        ${windowRows}
       </div>`;
   }).join('');
 
