@@ -441,12 +441,19 @@ function saveToStorage() {
 // ════════════════════════════════════
 //  FETCH & MERGE
 // ════════════════════════════════════
+
+// 1. Try same-origin seed file (no CORS issues)
+async function fetchSeed() {
+  const res = await fetch('./alerts_seed.json');
+  if (!res.ok) throw new Error('seed ' + res.status);
+  return res.json();
+}
+
+// 2. Try oref API directly (works only if browser allows CORS)
 async function fetchLatest() {
   const today = fmtDate(new Date());
   const url = `${API_URL}?lang=he&fromDate=${FROM_DATE}&toDate=${today}&mode=1`;
-  const res = await fetch(url, {
-    headers: { 'Referer': 'https://www.oref.org.il/' }
-  });
+  const res = await fetch(url, { mode: 'cors' });
   if (!res.ok) throw new Error('HTTP ' + res.status);
   return res.json();
 }
@@ -767,16 +774,22 @@ function updateStatusBar() {
 // ════════════════════════════════════
 async function syncNow() {
   setStatus('load', 'מסנכרן...');
+  let added = 0;
+  // Try seed first
+  try {
+    const seed = await fetchSeed();
+    added += mergeNew(seed);
+  } catch(e) {}
+  // Try live API
   try {
     const fresh = await fetchLatest();
-    const added = mergeNew(fresh);
-    if (added > 0) saveToStorage();
-    buildLocMap();
-    updateStatusBar();
-    if (added > 0) setStatus('ok', `נוספו ${added} רשומות חדשות | ${allAlerts.length.toLocaleString()} סה"כ`);
-  } catch(e) {
-    setStatus('warn', 'סנכרון נכשל (בודק חיבור...)');
-  }
+    added += mergeNew(fresh);
+  } catch(e) {}
+
+  if (added > 0) saveToStorage();
+  buildLocMap();
+  updateStatusBar();
+  setStatus('ok', added > 0 ? `נוספו ${added} רשומות | ${allAlerts.length.toLocaleString()} סה"כ` : `עדכני | ${allAlerts.length.toLocaleString()} רשומות`);
 }
 
 // ════════════════════════════════════
@@ -1009,15 +1022,29 @@ async function init() {
   setStatus('load', 'טוען נתונים...');
   const hadStored = loadFromStorage();
 
+  // Step 1: load seed file (same-origin, no CORS)
+  if (!hadStored) {
+    try {
+      const seed = await fetchSeed();
+      const added = mergeNew(seed);
+      if (added > 0) { saveToStorage(); console.log('seed loaded:', added); }
+    } catch(e) {
+      console.warn('seed load failed:', e);
+    }
+  }
+
+  // Step 2: try live API for newer records
   try {
     const fresh = await fetchLatest();
     const added = mergeNew(fresh);
-    if (added > 0 || !hadStored) saveToStorage();
+    if (added > 0) saveToStorage();
   } catch(e) {
-    if (!hadStored) {
-      setStatus('warn', 'לא ניתן לטעון נתונים. בדוק חיבור לאינטרנט.');
-      return;
-    }
+    console.warn('live API failed (CORS likely):', e.message);
+  }
+
+  if (allAlerts.length === 0) {
+    setStatus('warn', 'לא ניתן לטעון נתונים.');
+    return;
   }
 
   buildLocMap();
