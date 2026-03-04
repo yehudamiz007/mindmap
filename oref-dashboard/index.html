@@ -410,7 +410,7 @@ body {
 // ════════════════════════════════════
 //  CONFIG
 // ════════════════════════════════════
-const STORAGE_KEY = 'oref_alerts_v3';
+const STORAGE_KEY = 'oref_alerts_v4';
 const API_URL = 'https://api.tzevaadom.co.il/alerts-history/';
 const FROM_TS = new Date('2026-02-28T00:00:00Z').getTime() / 1000;
 
@@ -466,7 +466,7 @@ function flattenGroups(groups) {
 
 // Load seed file (same-origin, no CORS)
 async function fetchSeed() {
-  const res = await fetch('./alerts_seed.json?v=' + SEED_VERSION + '&t=' + Date.now());
+  const res = await fetch('./alerts_seed.json?t=' + Date.now());
   if (!res.ok) throw new Error('seed ' + res.status);
   const data = await res.json();
   // Seed may be flat already or group format
@@ -1087,37 +1087,50 @@ function showTip(e, h, c) {
 // ════════════════════════════════════
 //  INIT
 // ════════════════════════════════════
-// Seed version tag — bump this whenever the seed file gets a major update
-// so users auto-reload even if they have localStorage cached data
-const SEED_VERSION = '20260304-v5';
-const SEED_VERSION_KEY = 'oref_seed_version';
+// Auto-detect seed updates via Last-Modified header.
+// No need to bump SEED_VERSION manually - the GitHub Actions cron handles it.
+const SEED_VERSION_KEY = 'oref_seed_lastmod';
+const SEED_URL = './alerts_seed.json';
+
+async function getSeedLastModified() {
+  try {
+    const res = await fetch(SEED_URL + '?t=' + Date.now(), { method: 'HEAD' });
+    return res.headers.get('Last-Modified') || res.headers.get('ETag') || null;
+  } catch(e) { return null; }
+}
 
 async function init() {
   setStatus('load', 'טוען נתונים...');
 
-  const cachedSeedVer = localStorage.getItem(SEED_VERSION_KEY);
-  const seedUpToDate = (cachedSeedVer === SEED_VERSION);
+  // Check if seed has been updated since last load
+  const cachedMod = localStorage.getItem(SEED_VERSION_KEY);
+  const serverMod = await getSeedLastModified();
+  const seedStale = !cachedMod || (serverMod && serverMod !== cachedMod);
 
-  if (!seedUpToDate) {
-    // New seed version — wipe everything and load fresh
+  if (seedStale) {
+    // Seed changed (or never loaded) — wipe localStorage and reload fresh
     localStorage.removeItem(STORAGE_KEY);
-    localStorage.removeItem(SEED_VERSION_KEY);
     allAlerts = [];
     setStatus('load', 'טוען נתוני seed מעודכנים...');
     try {
-      const seed = await fetchSeed();
-      mergeNew(seed);
+      const seed = await fetch(SEED_URL + '?t=' + Date.now());
+      if (!seed.ok) throw new Error('seed ' + seed.status);
+      const data = await seed.json();
+      const flat = (Array.isArray(data) && data[0] && data[0].city) ? data : flattenGroups(data);
+      mergeNew(flat);
       saveToStorage();
-      localStorage.setItem(SEED_VERSION_KEY, SEED_VERSION);
+      if (serverMod) localStorage.setItem(SEED_VERSION_KEY, serverMod);
     } catch(e) {
       console.warn('seed load failed:', e);
+      // Fallback: try loading from storage if available
+      loadFromStorage();
     }
   } else {
-    // Seed already cached — just load from storage
+    // Seed unchanged — load from localStorage cache
     loadFromStorage();
   }
 
-  // Always fetch live API for the very latest records
+  // Always fetch live API for the very latest records (last ~5 days)
   try {
     const fresh = await fetchLatest();
     const added = mergeNew(fresh);
