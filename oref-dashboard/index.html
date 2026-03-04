@@ -1090,46 +1090,43 @@ function showTip(e, h, c) {
 // ════════════════════════════════════
 //  INIT
 // ════════════════════════════════════
-// Auto-detect seed updates via Last-Modified header.
-// No need to bump SEED_VERSION manually - the GitHub Actions cron handles it.
-const SEED_VERSION_KEY = 'oref_seed_lastmod';
+// Seed count key - store how many records were in the last seed load.
+// If the fresh seed has more records, reload from server (no CORS headers needed).
+const SEED_COUNT_KEY = 'oref_seed_count';
 const SEED_URL = './alerts_seed.json';
-
-async function getSeedLastModified() {
-  try {
-    const res = await fetch(SEED_URL + '?t=' + Date.now(), { method: 'HEAD' });
-    return res.headers.get('Last-Modified') || res.headers.get('ETag') || null;
-  } catch(e) { return null; }
-}
 
 async function init() {
   setStatus('load', 'טוען נתונים...');
 
-  // Check if seed has been updated since last load
-  const cachedMod = localStorage.getItem(SEED_VERSION_KEY);
-  const serverMod = await getSeedLastModified();
-  const seedStale = !cachedMod || (serverMod && serverMod !== cachedMod);
+  // Always fetch the seed fresh from server (cache-busted).
+  // GitHub Pages max-age=600 means at most 10 min stale - acceptable.
+  // We compare record count to detect meaningful updates.
+  let seedData = null;
+  try {
+    const res = await fetch(SEED_URL + '?t=' + Date.now());
+    if (!res.ok) throw new Error('seed ' + res.status);
+    const raw = await res.json();
+    seedData = (Array.isArray(raw) && raw[0] && raw[0].city) ? raw : flattenGroups(raw);
+  } catch(e) {
+    console.warn('seed fetch failed:', e);
+  }
 
-  if (seedStale) {
-    // Seed changed (or never loaded) — wipe localStorage and reload fresh
-    localStorage.removeItem(STORAGE_KEY);
-    allAlerts = [];
-    setStatus('load', 'טוען נתוני seed מעודכנים...');
-    try {
-      const seed = await fetch(SEED_URL + '?t=' + Date.now());
-      if (!seed.ok) throw new Error('seed ' + seed.status);
-      const data = await seed.json();
-      const flat = (Array.isArray(data) && data[0] && data[0].city) ? data : flattenGroups(data);
-      mergeNew(flat);
-      saveToStorage();
-      if (serverMod) localStorage.setItem(SEED_VERSION_KEY, serverMod);
-    } catch(e) {
-      console.warn('seed load failed:', e);
-      // Fallback: try loading from storage if available
+  if (seedData && seedData.length > 0) {
+    // Fresh seed loaded - use it directly, merge into any cached data
+    const cachedCount = parseInt(localStorage.getItem(SEED_COUNT_KEY) || '0', 10);
+    if (seedData.length !== cachedCount) {
+      // Seed changed - wipe old cache and start fresh
+      localStorage.removeItem(STORAGE_KEY);
+      allAlerts = [];
+    } else {
+      // Same count - load cache for speed (live API will add latest)
       loadFromStorage();
     }
+    mergeNew(seedData);
+    saveToStorage();
+    localStorage.setItem(SEED_COUNT_KEY, String(allAlerts.length));
   } else {
-    // Seed unchanged — load from localStorage cache
+    // Seed fetch failed - fall back to localStorage
     loadFromStorage();
   }
 
@@ -1137,7 +1134,10 @@ async function init() {
   try {
     const fresh = await fetchLatest();
     const added = mergeNew(fresh);
-    if (added > 0) saveToStorage();
+    if (added > 0) {
+      saveToStorage();
+      localStorage.setItem(SEED_COUNT_KEY, String(allAlerts.length));
+    }
   } catch(e) {
     console.warn('live API failed (CORS likely):', e.message);
   }
