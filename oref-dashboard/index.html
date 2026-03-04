@@ -183,6 +183,60 @@ body {
   gap: 8px;
 }
 
+/* Desktop tabs */
+.act-tabs {
+  display: none;
+}
+@media (min-width: 700px) {
+  .act-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 0;
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+    border: 1px solid #1e2d4d;
+    border-bottom: none;
+  }
+  .act-tab-btn {
+    flex: 1;
+    background: #0d1220;
+    border: none;
+    border-left: 1px solid #1e2d4d;
+    color: #8899bb;
+    font-size: 0.95em;
+    font-weight: 600;
+    padding: 14px 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background 0.15s, color 0.15s;
+    font-family: inherit;
+  }
+  .act-tab-btn:last-child { border-left: none; }
+  .act-tab-btn:hover { background: #111827; color: #dde6ff; }
+  .act-tab-btn.active {
+    background: #111827;
+    color: #7eb3ff;
+    border-bottom: 2px solid #3a5fa8;
+    font-weight: 700;
+  }
+  .act-tab-btn.active.safe { border-bottom-color: #22c55e; }
+  .act-tab-btn.active.mod  { border-bottom-color: #f59e0b; }
+  .act-tab-btn.active.risky{ border-bottom-color: #ef4444; }
+  .act-tab-content {
+    border: 1px solid #1e2d4d;
+    border-radius: 0 0 14px 14px;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+  .act-tab-panel { display: none; }
+  .act-tab-panel.active { display: block; }
+  /* hide the mobile grid on desktop */
+  .activities-grid { display: none !important; }
+}
+
 .activities-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -855,11 +909,9 @@ function showResults(query) {
   if (activeChart1) { activeChart1.destroy(); activeChart1 = null; }
   if (activeChart2) { activeChart2.destroy(); activeChart2 = null; }
 
-  // Build activities HTML - all windows in descending order
-  const activitiesHTML = ACTIVITIES.map(act => {
-    const wins = bestWindows(act.dur, hourly, 99, act.minHour, act.maxHour); // all valid hours
-    const best = wins[0];
-    const cls = scoreClass(best.score);
+  // Build a single activity card HTML (shared between grid + tabs)
+  function buildActCard(act) {
+    const wins = bestWindows(act.dur, hourly, 99, act.minHour, act.maxHour);
 
     const endHour = (h) => {
       const e = h + Math.ceil(act.dur / 60);
@@ -872,16 +924,14 @@ function showResults(query) {
            <span style="font-size:0.8em;color:#556688;">היו אזעקות בכל שעה פעילה</span>
          </div>`
       : wins.map((w, i) => {
-          const icon = '&#x2705;';
           const bg = i === 0 ? 'background:#0d2a12;border:1px solid #1a4d1a;' : '';
           const textColor = i === 0 ? '#e0e6ff' : '#8899bb';
           const fontSize = i === 0 ? '1.05em' : '0.88em';
           const fontWeight = i === 0 ? 700 : 400;
-          // Safety color based on neighbor score
           const safeColor = w.score >= 70 ? '#22c55e' : w.score >= 40 ? '#f59e0b' : '#86efac';
           return `
             <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;margin-bottom:4px;${bg}">
-              <div style="width:20px;text-align:center;font-size:0.9em;">${icon}</div>
+              <div style="width:20px;text-align:center;font-size:0.9em;">&#x2705;</div>
               <div style="width:120px;font-size:${fontSize};font-weight:${fontWeight};color:${textColor};">${endHour(w.hour)}</div>
               <div style="flex:1;background:#1a2030;border-radius:4px;height:7px;overflow:hidden;">
                 <div style="height:100%;width:${w.score}%;background:${safeColor};border-radius:4px;"></div>
@@ -890,9 +940,7 @@ function showResults(query) {
             </div>`;
         }).join('');
 
-    // border color: green if any safe windows, red if none
     const cardBorder = wins.length === 0 ? 'risky' : 'safe';
-
     return `
       <div class="act-card ${cardBorder}">
         <div class="act-header">
@@ -907,7 +955,34 @@ function showResults(query) {
         </div>
         ${windowRows}
       </div>`;
-  }).join('');
+  }
+
+  // Pre-build all activity cards
+  const actCards = ACTIVITIES.map(act => buildActCard(act));
+
+  // Mobile: simple grid
+  const activitiesHTML = actCards.join('');
+
+  // Desktop tabs
+  const tabBestClass = (act) => {
+    const wins = bestWindows(act.dur, hourly, 1, act.minHour, act.maxHour);
+    if (!wins.length) return 'risky';
+    return scoreClass(wins[0].score);
+  };
+  const tabsHTML = `
+    <div class="act-tabs" id="actTabs">
+      ${ACTIVITIES.map((act, i) => `
+        <button class="act-tab-btn ${i===0?'active':''} ${tabBestClass(act)}"
+          onclick="switchActTab(${i})" id="actTabBtn${i}">
+          ${act.icon} ${act.name}
+        </button>`).join('')}
+    </div>
+    <div class="act-tab-content">
+      ${actCards.map((html, i) => `
+        <div class="act-tab-panel ${i===0?'active':''}" id="actTabPanel${i}" style="padding:20px;">
+          ${html}
+        </div>`).join('')}
+    </div>`;
 
   // Heatmap
   const heatmapHTML = `
@@ -985,6 +1060,7 @@ function showResults(query) {
 
     <!-- Activities -->
     <div class="section-title">&#x1F3AF; המלצות לפעילויות</div>
+    ${tabsHTML}
     <div class="activities-grid">${activitiesHTML}</div>
 
     <!-- Charts -->
@@ -1111,6 +1187,17 @@ async function init() {
 
   buildLocMap();
   updateStatusBar();
+}
+
+// ════════════════════════════════════
+//  ACTIVITY TABS (desktop)
+// ════════════════════════════════════
+function switchActTab(idx) {
+  const n = document.querySelectorAll('.act-tab-btn').length;
+  for (let i = 0; i < n; i++) {
+    document.getElementById('actTabBtn' + i)?.classList.toggle('active', i === idx);
+    document.getElementById('actTabPanel' + i)?.classList.toggle('active', i === idx);
+  }
 }
 
 init();
