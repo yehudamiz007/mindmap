@@ -1,0 +1,43 @@
+name: Oref Alerts Accumulator
+
+on:
+  schedule:
+    # Every 10 minutes (GitHub Actions minimum is 5min)
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  accumulate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run accumulator
+        run: python scripts/oref_accumulate.py
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name "oref-bot"
+          git config user.email "oref-bot@users.noreply.github.com"
+          git add oref-dashboard/alerts_seed.json
+          if git diff --staged --quiet; then
+            echo "No changes - nothing to commit"
+          else
+            ADDED=$(git diff --staged --stat | grep -oP '\d+ insertion' | grep -oP '\d+' || echo "?")
+            git commit -m "oref: accumulate alerts [$(date -u '+%d.%m %H:%M UTC')]"
+            git push
+            echo "Pushed successfully"
+          fi
