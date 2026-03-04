@@ -466,7 +466,7 @@ function flattenGroups(groups) {
 
 // Load seed file (same-origin, no CORS)
 async function fetchSeed() {
-  const res = await fetch('./alerts_seed.json');
+  const res = await fetch('./alerts_seed.json?v=' + SEED_VERSION + '&t=' + Date.now());
   if (!res.ok) throw new Error('seed ' + res.status);
   const data = await res.json();
   // Seed may be flat already or group format
@@ -1089,39 +1089,35 @@ function showTip(e, h, c) {
 // ════════════════════════════════════
 // Seed version tag — bump this whenever the seed file gets a major update
 // so users auto-reload even if they have localStorage cached data
-const SEED_VERSION = '20260304-v4';
+const SEED_VERSION = '20260304-v5';
 const SEED_VERSION_KEY = 'oref_seed_version';
 
 async function init() {
   setStatus('load', 'טוען נתונים...');
 
-  // Load whatever is cached
-  loadFromStorage();
-
-  // Step 1: always load seed — it may have newer data than localStorage
-  // (only skip if seed version matches what we already loaded)
   const cachedSeedVer = localStorage.getItem(SEED_VERSION_KEY);
-  if (cachedSeedVer !== SEED_VERSION) {
+  const seedUpToDate = (cachedSeedVer === SEED_VERSION);
+
+  if (!seedUpToDate) {
+    // New seed version — wipe everything and load fresh
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(SEED_VERSION_KEY);
+    allAlerts = [];
+    setStatus('load', 'טוען נתוני seed מעודכנים...');
     try {
-      setStatus('load', 'טוען נתוני seed...');
-      // Clear stale cache and reload fresh
-      allAlerts = [];
-      localStorage.removeItem(STORAGE_KEY);
       const seed = await fetchSeed();
-      const added = mergeNew(seed);
-      if (added > 0) {
-        saveToStorage();
-        localStorage.setItem(SEED_VERSION_KEY, SEED_VERSION);
-        console.log('seed loaded:', added);
-      }
+      mergeNew(seed);
+      saveToStorage();
+      localStorage.setItem(SEED_VERSION_KEY, SEED_VERSION);
     } catch(e) {
       console.warn('seed load failed:', e);
-      // Fall back to cached data if available
-      loadFromStorage();
     }
+  } else {
+    // Seed already cached — just load from storage
+    loadFromStorage();
   }
 
-  // Step 2: always try live API for newest records (last ~5 days from tzevaadom)
+  // Always fetch live API for the very latest records
   try {
     const fresh = await fetchLatest();
     const added = mergeNew(fresh);
