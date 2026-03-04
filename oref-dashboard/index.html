@@ -183,65 +183,16 @@ body {
   gap: 8px;
 }
 
-/* Desktop tabs */
-.act-tabs {
-  display: none;
-}
-@media (min-width: 700px) {
-  .act-tabs {
-    display: flex;
-    gap: 0;
-    margin-bottom: 0;
-    border-radius: 12px 12px 0 0;
-    overflow: hidden;
-    border: 1px solid #1e2d4d;
-    border-bottom: none;
-  }
-  .act-tab-btn {
-    flex: 1;
-    background: #0d1220;
-    border: none;
-    border-left: 1px solid #1e2d4d;
-    color: #8899bb;
-    font-size: 0.95em;
-    font-weight: 600;
-    padding: 14px 10px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: background 0.15s, color 0.15s;
-    font-family: inherit;
-  }
-  .act-tab-btn:last-child { border-left: none; }
-  .act-tab-btn:hover { background: #111827; color: #dde6ff; }
-  .act-tab-btn.active {
-    background: #111827;
-    color: #7eb3ff;
-    border-bottom: 2px solid #3a5fa8;
-    font-weight: 700;
-  }
-  .act-tab-btn.active.safe { border-bottom-color: #22c55e; }
-  .act-tab-btn.active.mod  { border-bottom-color: #f59e0b; }
-  .act-tab-btn.active.risky{ border-bottom-color: #ef4444; }
-  .act-tab-content {
-    border: 1px solid #1e2d4d;
-    border-radius: 0 0 14px 14px;
-    overflow: hidden;
-    margin-bottom: 28px;
-  }
-  .act-tab-panel { display: none; }
-  .act-tab-panel.active { display: block; }
-  /* hide the mobile grid on desktop */
-  .activities-grid { display: none !important; }
-}
-
 .activities-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 16px;
   margin-bottom: 28px;
+}
+@media (min-width: 900px) {
+  .activities-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .act-card {
@@ -963,26 +914,7 @@ function showResults(query) {
   // Mobile: simple grid
   const activitiesHTML = actCards.join('');
 
-  // Desktop tabs
-  const tabBestClass = (act) => {
-    const wins = bestWindows(act.dur, hourly, 1, act.minHour, act.maxHour);
-    if (!wins.length) return 'risky';
-    return scoreClass(wins[0].score);
-  };
-  const tabsHTML = `
-    <div class="act-tabs" id="actTabs">
-      ${ACTIVITIES.map((act, i) => `
-        <button class="act-tab-btn ${i===0?'active':''} ${tabBestClass(act)}"
-          onclick="switchActTab(${i})" id="actTabBtn${i}">
-          ${act.icon} ${act.name}
-        </button>`).join('')}
-    </div>
-    <div class="act-tab-content">
-      ${actCards.map((html, i) => `
-        <div class="act-tab-panel ${i===0?'active':''}" id="actTabPanel${i}" style="padding:20px;">
-          ${html}
-        </div>`).join('')}
-    </div>`;
+
 
   // Heatmap
   const heatmapHTML = `
@@ -1060,7 +992,6 @@ function showResults(query) {
 
     <!-- Activities -->
     <div class="section-title">&#x1F3AF; המלצות לפעילויות</div>
-    ${tabsHTML}
     <div class="activities-grid">${activitiesHTML}</div>
 
     <!-- Charts -->
@@ -1189,16 +1120,6 @@ async function init() {
   updateStatusBar();
 }
 
-// ════════════════════════════════════
-//  ACTIVITY TABS (desktop)
-// ════════════════════════════════════
-function switchActTab(idx) {
-  const n = document.querySelectorAll('.act-tab-btn').length;
-  for (let i = 0; i < n; i++) {
-    document.getElementById('actTabBtn' + i)?.classList.toggle('active', i === idx);
-    document.getElementById('actTabPanel' + i)?.classList.toggle('active', i === idx);
-  }
-}
 
 init();
 </script>
