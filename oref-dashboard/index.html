@@ -955,8 +955,11 @@ function showResults(query) {
       <div>
         <div class="city-name">&#x1F4CD; ${label}</div>
         <div class="city-meta">
-          ${locRange ? `${locRange.from} &mdash; ${locRange.to} | ${locRange.days} ימים` : ''}
+          ${locRange ? `${locRange.from} &mdash; ${locRange.to} | ${locRange.days} ימים עם אזעקות` : ''}
           ${locs.length > 1 ? ` | ${locs.length} אזורים` : ''}
+          ${range && locRange && (locRange.from !== range.from || locRange.to !== range.to)
+            ? `<span style="color:#4a6080;font-size:0.88em;"> &nbsp;(נתונים זמינים: ${range.from} &mdash; ${range.to})</span>`
+            : ''}
         </div>
       </div>
       <div class="stat-chips">
