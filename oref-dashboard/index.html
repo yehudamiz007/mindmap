@@ -513,18 +513,24 @@ function buildLocMap() {
 // ════════════════════════════════════
 //  DATE HELPERS
 // ════════════════════════════════════
+// All times displayed in Israel time (UTC+2) regardless of browser timezone
+const IL_OFFSET_MS = 2 * 60 * 60 * 1000;
+function ilDate(ts) {
+  // Returns a Date object shifted to Israel time (so getUTC* methods give IL time)
+  return new Date(ts * 1000 + IL_OFFSET_MS);
+}
 function pad(n) { return String(n).padStart(2, '0'); }
 function fmtHour(h) { return `${pad(h)}:00`; }
 function tsToDate(ts) {
-  const d = new Date(ts * 1000);
-  return `${pad(d.getDate())}.${pad(d.getMonth()+1)}.${d.getFullYear()}`;
+  const d = ilDate(ts);
+  return `${pad(d.getUTCDate())}.${pad(d.getUTCMonth()+1)}.${d.getUTCFullYear()}`;
 }
 function tsToHour(ts) {
-  return new Date(ts * 1000).getHours();
+  return ilDate(ts).getUTCHours();
 }
 function tsToDateKey(ts) {
-  const d = new Date(ts * 1000);
-  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  const d = ilDate(ts);
+  return `${d.getUTCFullYear()}-${pad(d.getUTCMonth()+1)}-${pad(d.getUTCDate())}`;
 }
 
 function getDateRange() {
