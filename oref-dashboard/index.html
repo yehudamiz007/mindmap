@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>&#x1F6E1;&#xFE0F; מתי בטוח לצאת?</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<!-- GoatCounter analytics -->
+<script data-goatcounter="https://yehudamiz007.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -292,6 +294,64 @@ body {
   height: 6px;
   border-radius: 3px;
   background: linear-gradient(90deg, #0d3d1a, #1a5c1a, #5c5c00, #7a4000, #cc1a00);
+}
+
+/* ── VISITORS ── */
+.visitors-section {
+  background: #111827;
+  border: 1px solid #1e2d4d;
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-bottom: 28px;
+}
+.visitors-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.visitors-title {
+  font-size: 1em;
+  font-weight: 700;
+  color: #7eb3ff;
+}
+.visitors-chips {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.vis-chip {
+  background: #0b0f1a;
+  border: 1px solid #1e2d4d;
+  border-radius: 10px;
+  padding: 8px 16px;
+  text-align: center;
+}
+.vis-chip .num {
+  font-size: 1.6em;
+  font-weight: 900;
+  color: #7eb3ff;
+  line-height: 1.1;
+}
+.vis-chip .lbl {
+  font-size: 0.7em;
+  color: #556688;
+  margin-top: 2px;
+}
+.visitors-graph {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  background: #0b0f1a;
+  display: block;
+}
+.visitors-note {
+  font-size: 0.68em;
+  color: #334466;
+  margin-top: 10px;
+  text-align: center;
 }
 
 /* ── CHARTS ── */
@@ -1017,6 +1077,36 @@ function showResults(query) {
     <div class="section-title">&#x26A0;&#xFE0F; שעות המסוכנות ביותר</div>
     <div class="danger-card">${dangerHTML}</div>
 
+    <!-- Visitors Stats -->
+    <div class="section-title">&#x1F465; סטטיסטיקות משתמשים</div>
+    <div class="visitors-section">
+      <div class="visitors-header">
+        <span class="visitors-title">👁️ ביקורים באתר</span>
+        <div class="visitors-chips">
+          <div class="vis-chip">
+            <div class="num" id="vis-today">-</div>
+            <div class="lbl">היום</div>
+          </div>
+          <div class="vis-chip">
+            <div class="num" id="vis-week">-</div>
+            <div class="lbl">השבוע</div>
+          </div>
+          <div class="vis-chip">
+            <div class="num" id="vis-total">-</div>
+            <div class="lbl">סך הכל</div>
+          </div>
+        </div>
+      </div>
+      <iframe
+        class="visitors-graph"
+        src="https://yehudamiz007.goatcounter.com/counter/TOTAL.svg?style=line&color=7eb3ff&bg=111827"
+        height="80"
+        loading="lazy"
+        title="גרף ביקורים"
+      ></iframe>
+      <div class="visitors-note">⚡ נתונים בזמן אמת מ-GoatCounter · מתעדכן אוטומטית</div>
+    </div>
+
     <div style="text-align:center;font-size:0.72em;color:#334466;padding:10px 0 20px;">
       נתונים: פיקוד העורף | ${allAlerts.length.toLocaleString()} אזעקות בכל הארץ
     </div>
@@ -1065,6 +1155,48 @@ function showResults(query) {
   }
 
   window.scrollTo(0, 0);
+}
+
+// ════════════════════════════════════
+//  VISITORS (GoatCounter public API)
+// ════════════════════════════════════
+async function loadVisitors() {
+  const base = 'https://yehudamiz007.goatcounter.com';
+  const fmt = n => n >= 1000 ? (n/1000).toFixed(1) + 'K' : String(n);
+
+  // Today
+  try {
+    const today = new Date().toISOString().slice(0,10);
+    const r = await fetch(`${base}/counter/TOTAL.json?start=${today}&end=${today}`);
+    if (r.ok) {
+      const d = await r.json();
+      const el = document.getElementById('vis-today');
+      if (el) el.textContent = fmt(d.count || 0);
+    }
+  } catch(e) {}
+
+  // This week
+  try {
+    const now = new Date();
+    const weekAgo = new Date(now - 7*24*60*60*1000).toISOString().slice(0,10);
+    const today = now.toISOString().slice(0,10);
+    const r = await fetch(`${base}/counter/TOTAL.json?start=${weekAgo}&end=${today}`);
+    if (r.ok) {
+      const d = await r.json();
+      const el = document.getElementById('vis-week');
+      if (el) el.textContent = fmt(d.count || 0);
+    }
+  } catch(e) {}
+
+  // All time
+  try {
+    const r = await fetch(`${base}/counter/TOTAL.json`);
+    if (r.ok) {
+      const d = await r.json();
+      const el = document.getElementById('vis-total');
+      if (el) el.textContent = fmt(d.count || 0);
+    }
+  } catch(e) {}
 }
 
 function chartOpts() {
@@ -1165,6 +1297,7 @@ async function init() {
 
   buildLocMap();
   updateStatusBar();
+  loadVisitors();
 }
 
 
