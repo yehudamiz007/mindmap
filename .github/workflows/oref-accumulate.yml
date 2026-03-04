@@ -32,7 +32,7 @@ jobs:
         run: |
           git config user.name "oref-bot"
           git config user.email "oref-bot@users.noreply.github.com"
-          git add oref-dashboard/alerts_seed.json
+          git add oref-dashboard/alerts_seed.json oref-dashboard/alerts_raw.jsonl
           if git diff --staged --quiet; then
             echo "No changes - nothing to commit"
           else

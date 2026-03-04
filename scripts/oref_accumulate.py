@@ -1,6 +1,7 @@
 """
 oref_accumulate.py - GitHub Actions accumulator for oref alerts seed.
 Runs every 10 minutes in CI. Merges tzevaadom + oref into alerts_seed.json.
+Also maintains alerts_raw.jsonl - append-only raw log, never loses data.
 Does NOT push - the workflow handles git.
 """
 import urllib.request, json, sys, os
@@ -10,6 +11,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 # Paths are relative to repo root (GitHub Actions checks out to workspace root)
 SEED_PATH = 'oref-dashboard/alerts_seed.json'
+RAW_PATH  = 'oref-dashboard/alerts_raw.jsonl'   # append-only, one record per line
 IL = timedelta(hours=2)
 
 OREF_URL      = 'https://alerts-history.oref.org.il/Shared/Ajax/GetAlarmsHistory.aspx'
@@ -145,10 +147,38 @@ if added == 0:
 # Sort by time ascending
 existing.sort(key=lambda r: r.get('time', 0))
 
-# Save
+# Save seed (rolling 30-day window)
 with open(SEED_PATH, 'w', encoding='utf-8') as f:
     json.dump(existing, f, ensure_ascii=False, separators=(',', ':'))
 
 size_kb = os.path.getsize(SEED_PATH) / 1024
 print(f"  Saved: {SEED_PATH} ({size_kb:.0f} KB)")
+
+# Append new records to raw log (append-only, never loses data)
+# Load existing raw keys to avoid duplicates
+raw_seen = set()
+if os.path.exists(RAW_PATH):
+    with open(RAW_PATH, encoding='utf-8') as f:
+        for line in f:
+            try:
+                rec = json.loads(line.strip())
+                raw_seen.add(f"{rec['city']}|{rec['time']}")
+            except:
+                pass
+
+new_raw = []
+for r in tz_flat + oref_flat:
+    k = f"{r['city']}|{r['time']}"
+    if k not in raw_seen:
+        new_raw.append(r)
+        raw_seen.add(k)
+
+if new_raw:
+    new_raw.sort(key=lambda r: r.get('time', 0))
+    with open(RAW_PATH, 'a', encoding='utf-8') as f:
+        for rec in new_raw:
+            f.write(json.dumps(rec, ensure_ascii=False) + '\n')
+    raw_kb = os.path.getsize(RAW_PATH) / 1024
+    print(f"  Raw log: +{len(new_raw)} records → {RAW_PATH} ({raw_kb:.0f} KB total)")
+
 print(f"  Done. Added {added} records.")

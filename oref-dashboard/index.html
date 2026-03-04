@@ -1099,14 +1099,22 @@ function showTip(e, h, c) {
 // Seed count key - store how many records were in the last seed load.
 // If the fresh seed has more records, reload from server (no CORS headers needed).
 const SEED_COUNT_KEY = 'oref_seed_count';
-const SEED_URL = './alerts_seed.json';
+const SEED_URL     = './alerts_seed.json';
+const RAW_LOG_URL  = './alerts_raw.jsonl';
+
+// Parse JSONL (one JSON record per line)
+function parseJsonl(text) {
+  return text.split('\n')
+    .map(l => l.trim())
+    .filter(Boolean)
+    .map(l => { try { return JSON.parse(l); } catch(e) { return null; } })
+    .filter(Boolean);
+}
 
 async function init() {
   setStatus('load', 'טוען נתונים...');
 
-  // Always fetch the seed fresh from server (cache-busted).
-  // GitHub Pages max-age=600 means at most 10 min stale - acceptable.
-  // We compare record count to detect meaningful updates.
+  // 1. Always fetch the seed fresh from server (cache-busted).
   let seedData = null;
   try {
     const res = await fetch(SEED_URL + '?t=' + Date.now());
@@ -1118,26 +1126,40 @@ async function init() {
   }
 
   if (seedData && seedData.length > 0) {
-    // Fresh seed loaded - use it directly, merge into any cached data
     const cachedCount = parseInt(localStorage.getItem(SEED_COUNT_KEY) || '0', 10);
     if (seedData.length !== cachedCount) {
-      // Seed changed - wipe old cache and start fresh
       localStorage.removeItem(STORAGE_KEY);
       allAlerts = [];
     } else {
-      // Same count - load cache for speed (live API will add latest)
       loadFromStorage();
     }
     mergeNew(seedData);
     saveToStorage();
     localStorage.setItem(SEED_COUNT_KEY, String(allAlerts.length));
   } else {
-    // Seed fetch failed - fall back to localStorage
     loadFromStorage();
   }
 
+  // 2. Also load raw log (append-only, has ALL records ever collected including
+  //    those that fell out of the 3000-record API window)
+  try {
+    const res = await fetch(RAW_LOG_URL + '?t=' + Date.now());
+    if (res.ok) {
+      const text = await res.text();
+      const rawRecords = parseJsonl(text);
+      const added = mergeNew(rawRecords);
+      if (added > 0) {
+        saveToStorage();
+        localStorage.setItem(SEED_COUNT_KEY, String(allAlerts.length));
+        console.log('raw log added ' + added + ' extra records');
+      }
+    }
+  } catch(e) {
+    console.warn('raw log fetch failed:', e.message);
+  }
+
   // Note: tzevaadom live API blocked by CORS from GitHub Pages.
-  // Data is kept fresh via GitHub Actions cron (every 10 min) → alerts_seed.json.
+  // Data is kept fresh via GitHub Actions cron (every 10 min) → alerts_seed.json + alerts_raw.jsonl.
 
   if (allAlerts.length === 0) {
     setStatus('warn', 'לא ניתן לטעון נתונים.');
