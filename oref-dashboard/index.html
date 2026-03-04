@@ -1130,17 +1130,8 @@ async function init() {
     loadFromStorage();
   }
 
-  // Always fetch live API for the very latest records (last ~5 days)
-  try {
-    const fresh = await fetchLatest();
-    const added = mergeNew(fresh);
-    if (added > 0) {
-      saveToStorage();
-      localStorage.setItem(SEED_COUNT_KEY, String(allAlerts.length));
-    }
-  } catch(e) {
-    console.warn('live API failed (CORS likely):', e.message);
-  }
+  // Note: tzevaadom live API blocked by CORS from GitHub Pages.
+  // Data is kept fresh via GitHub Actions cron (every 10 min) → alerts_seed.json.
 
   if (allAlerts.length === 0) {
     setStatus('warn', 'לא ניתן לטעון נתונים.');
