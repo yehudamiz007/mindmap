@@ -1,19 +1,19 @@
 {
-  "lastUpdated": "03.03.2026 07:20 IST",
+  "lastUpdated": "04.03.2026 07:02 IST",
   "stocks": [
-    {"ticker": "ASML", "name": "ASML Holding", "price": "$1,344.11", "news": 8.5, "analyst": 9.0, "technical": 8.2, "total": 8.56, "notes": "חברה מובילה בטכנולוגיית EUV עם דרישה גבוהה לשבבי AI"},
-    {"ticker": "CRWD", "name": "CrowdStrike", "price": "$377.72", "news": 8.0, "analyst": 8.5, "technical": 7.8, "total": 8.095, "notes": "צמיחה חזקה באבטחת סייבר עם אימוץ Falcon Flex"},
-    {"ticker": "AMD", "name": "Advanced Micro Devices", "price": "$189.34", "news": 7.8, "analyst": 8.2, "technical": 8.0, "total": 8.01, "notes": "עסקת Meta וצמיחה ב-AI מחזקים את המומנטום"},
-    {"ticker": "NVDA", "name": "NVIDIA Corp", "price": "$178.78", "news": 8.5, "analyst": 8.0, "technical": 7.5, "total": 7.975, "notes": "השקעה של 4 מיליארד דולר בפוטוניקה וצמיחת AI"},
-    {"ticker": "TSM", "name": "Taiwan Semiconductor", "price": "$347.07", "news": 7.0, "analyst": 8.5, "technical": 8.0, "total": 7.975, "notes": "ספקית מרכזית לשבבי AI עם פוטנציאל גבוה"},
-    {"ticker": "LRCX", "name": "Lam Research", "price": "$219.18", "news": 7.5, "analyst": 8.0, "technical": 7.8, "total": 7.785, "notes": "ביקוש גבוה לציוד מוליכים למחצה"},
-    {"ticker": "QCOM", "name": "Qualcomm", "price": "$137.11", "news": 8.0, "analyst": 7.5, "technical": 6.8, "total": 7.415, "notes": "צמיחה ב-5G ורובוטיקה עם שוק AI מבטיח"},
-    {"ticker": "ARM", "name": "Arm Holdings", "price": "$117.94", "news": 7.2, "analyst": 7.8, "technical": 7.0, "total": 7.34, "notes": "אימוץ גובר במובייל ו-AI עם פוטנציאל פריצה"},
-    {"ticker": "BTC-USD", "name": "Bitcoin", "price": "$66,773.07", "news": 6.8, "analyst": 7.5, "technical": 7.2, "total": 7.195, "notes": "תנודתיות גבוהה עם פוטנציאל פריצה מעל התנגדות"},
-    {"ticker": "SOL-USD", "name": "Solana", "price": "$83.5374", "news": 6.5, "analyst": 7.0, "technical": 6.8, "total": 6.78, "notes": "בלוקצ'יין מהיר עם צמיחה ב-NFT ו-DeFi"},
-    {"ticker": "ZS", "name": "Zscaler", "price": "$144.92", "news": 6.5, "analyst": 6.8, "technical": 5.5, "total": 6.255, "notes": "מגמה שלילית עם תחזיות מעורבות"},
-    {"ticker": "ETH-USD", "name": "Ethereum", "price": "$1,942.40", "news": 5.8, "analyst": 6.5, "technical": 5.5, "total": 5.945, "notes": "דחיית מחיר ברמות מפתח למרות שדרוגי רשת"},
-    {"ticker": "SMCI", "name": "Super Micro Computer", "price": "$30.22", "news": 5.5, "analyst": 6.0, "technical": 5.0, "total": 5.5, "notes": "ירידה במחיר עם דירוגי Hold מעורבים"},
-    {"ticker": "ADA-USD", "name": "Cardano", "price": "$0.2629", "news": 5.0, "analyst": 6.0, "technical": 5.2, "total": 5.42, "notes": "מכירות של לווייתנים ורגש שלילי"}
+    {"ticker": "NVDA", "name": "NVIDIA Corp", "price": "$180.05", "news": 8.5, "analyst": 9.0, "technical": 7.5, "total": 8.325, "notes": "ביקוש חזק לשבבי AI ודוח רווחים חיובי"},
+    {"ticker": "CRWD", "name": "CrowdStrike Holdings", "price": "$391.42", "news": 8.0, "analyst": 8.8, "technical": 7.8, "total": 8.21, "notes": "תוצאות רבעון חזקות וביקוש גבוה לאבטחת סייבר"},
+    {"ticker": "ASML", "name": "ASML Holding", "price": "$1,360.94", "news": 8.2, "analyst": 8.5, "technical": 7.0, "total": 7.885, "notes": "מנהיגות בטכנולוגיית EUV וביקוש גבוה"},
+    {"ticker": "AMD", "name": "Advanced Micro Devices", "price": "$190.95", "news": 7.8, "analyst": 8.5, "technical": 7.0, "total": 7.76, "notes": "צמיחה ב-AI ומרכזי נתונים עם שדרוגי אנליסטים"},
+    {"ticker": "LRCX", "name": "Lam Research", "price": "$217.27", "news": 7.8, "analyst": 8.2, "technical": 6.8, "total": 7.59, "notes": "ביקוש לציוד מוליכים למחצה"},
+    {"ticker": "ARM", "name": "Arm Holdings", "price": "$121.72", "news": 7.5, "analyst": 8.0, "technical": 6.5, "total": 7.325, "notes": "צמיחה בשבבי מובייל ו-AI"},
+    {"ticker": "BTC-USD", "name": "Bitcoin", "price": "$68,496.36", "news": 6.8, "analyst": 7.0, "technical": 7.5, "total": 7.13, "notes": "עניין מוסדי ופריצת התנגדות"},
+    {"ticker": "SOL-USD", "name": "Solana", "price": "$85.5281", "news": 7.0, "analyst": 7.2, "technical": 6.8, "total": 6.99, "notes": "משיכה ב-NFT ומשחקים"},
+    {"ticker": "QCOM", "name": "Qualcomm", "price": "$138.13", "news": 7.0, "analyst": 7.5, "technical": 6.0, "total": 6.825, "notes": "פוטנציאל בשוק AI ורובוטיקה"},
+    {"ticker": "TSLA", "name": "Tesla, Inc.", "price": "$392.43", "news": 6.5, "analyst": 7.0, "technical": 6.8, "total": 6.78, "notes": "חדשות מעורבות עם פוטנציאל ברובוטקסי"},
+    {"ticker": "SMCI", "name": "Super Micro Computer", "price": "$30.68", "news": 7.2, "analyst": 6.5, "technical": 5.5, "total": 6.36, "notes": "קניות פנימיות וביקוש לחומרת AI"},
+    {"ticker": "ETH-USD", "name": "Ethereum", "price": "$1,979.57", "news": 6.5, "analyst": 6.8, "technical": 5.5, "total": 6.26, "notes": "שדרוגי רשת אך דחיית מחירים"},
+    {"ticker": "DOT-USD", "name": "Polkadot", "price": "$1.5241", "news": 6.0, "analyst": 6.2, "technical": 5.5, "total": 5.895, "notes": "חדשות נייטרליות עם השקות פרצ'יין"},
+    {"ticker": "ADA-USD", "name": "Cardano", "price": "$0.2612", "news": 5.5, "analyst": 5.8, "technical": 5.0, "total": 5.43, "notes": "לחץ מכירה מוויילים"}
   ]
 }
