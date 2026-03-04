@@ -1,5 +1,5 @@
 {
-  "cash": 13.89,
+  "cash": 0.28,
   "startingBalance": 1000,
   "startDate": "2026-02-21T01:30:00+02:00",
   "positions": [
@@ -8,13 +8,13 @@
       "name": "Meta Platforms Inc",
       "shares": 0.235,
       "avgCost": 641.75,
-      "currentPrice": 656.48,
-      "unrealizedPL": 3.48,
-      "unrealizedPLPct": 2.31,
+      "currentPrice": 655.08,
+      "unrealizedPL": 3.13,
+      "unrealizedPLPct": 2.07,
       "newsScore": 8.0,
       "analystScore": 8.8,
       "technicalScore": 7.5,
-      "combinedScore": 8.16,
+      "combinedScore": 8.105,
       "buyDate": "2026-02-23T09:00:00-08:00"
     },
     {
@@ -22,41 +22,27 @@
       "name": "Apple Inc",
       "shares": 0.555,
       "avgCost": 266.26,
-      "currentPrice": 263.29,
-      "unrealizedPL": -1.62,
-      "unrealizedPLPct": -1.10,
+      "currentPrice": 263.75,
+      "unrealizedPL": -1.39,
+      "unrealizedPLPct": -0.94,
       "newsScore": 7.5,
       "analystScore": 7.5,
       "technicalScore": 6.8,
-      "combinedScore": 7.26,
+      "combinedScore": 7.255,
       "buyDate": "2026-02-23T13:00:00-08:00"
-    },
-    {
-      "ticker": "AMZN",
-      "name": "Amazon.com Inc",
-      "shares": 0.453,
-      "avgCost": 209.53,
-      "currentPrice": 208.56,
-      "unrealizedPL": -0.44,
-      "unrealizedPLPct": -0.46,
-      "newsScore": 6.0,
-      "analystScore": 7.0,
-      "technicalScore": 6.5,
-      "combinedScore": 6.55,
-      "buyDate": "2026-02-26T07:00:00-08:00"
     },
     {
       "ticker": "MSFT",
       "name": "Microsoft Corp",
       "shares": 0.602,
       "avgCost": 396.1,
-      "currentPrice": 404.25,
-      "unrealizedPL": 4.91,
-      "unrealizedPLPct": 2.06,
+      "currentPrice": 403.93,
+      "unrealizedPL": 4.71,
+      "unrealizedPLPct": 1.98,
       "newsScore": 7.8,
       "analystScore": 8.5,
       "technicalScore": 7.0,
-      "combinedScore": 7.76,
+      "combinedScore": 7.765,
       "buyDate": "2026-02-27T08:00:00-08:00"
     },
     {
@@ -64,13 +50,13 @@
       "name": "NVIDIA Corp",
       "shares": 0.477,
       "avgCost": 179.62,
-      "currentPrice": 180.06,
+      "currentPrice": 180.05,
       "unrealizedPL": 0.21,
-      "unrealizedPLPct": 0.25,
+      "unrealizedPLPct": 0.24,
       "newsScore": 8.5,
       "analystScore": 9.0,
       "technicalScore": 7.5,
-      "combinedScore": 8.33,
+      "combinedScore": 8.325,
       "buyDate": "2026-03-03T10:00:00-08:00"
     },
     {
@@ -78,13 +64,13 @@
       "name": "Broadcom Inc",
       "shares": 0.274,
       "avgCost": 313.39,
-      "currentPrice": 314.00,
-      "unrealizedPL": 0.16,
-      "unrealizedPLPct": 0.19,
+      "currentPrice": 313.84,
+      "unrealizedPL": 0.12,
+      "unrealizedPLPct": 0.14,
       "newsScore": 7.5,
       "analystScore": 8.0,
       "technicalScore": 7.0,
-      "combinedScore": 7.55,
+      "combinedScore": 7.5,
       "buyDate": "2026-03-03T10:00:00-08:00"
     },
     {
@@ -92,14 +78,28 @@
       "name": "Qualcomm Inc",
       "shares": 1,
       "avgCost": 138.61,
-      "currentPrice": 138.61,
-      "unrealizedPL": 0.00,
-      "unrealizedPLPct": 0.00,
+      "currentPrice": 138.13,
+      "unrealizedPL": -0.48,
+      "unrealizedPLPct": -0.35,
       "newsScore": 8.0,
       "analystScore": 7.8,
       "technicalScore": 6.5,
-      "combinedScore": 7.41,
+      "combinedScore": 7.405,
       "buyDate": "2026-03-03T12:00:00-08:00"
+    },
+    {
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices Inc",
+      "shares": 0.568,
+      "avgCost": 190.95,
+      "currentPrice": 190.95,
+      "unrealizedPL": 0.00,
+      "unrealizedPLPct": 0.00,
+      "newsScore": 7.5,
+      "analystScore": 7.8,
+      "technicalScore": 6.8,
+      "combinedScore": 7.36,
+      "buyDate": "2026-03-04T06:00:00-08:00"
     }
   ],
   "closedTrades": [
@@ -318,6 +318,18 @@
       "realizedPL": -4.60,
       "realizedPLPct": -9.13,
       "sellReason": "Loss >2.5% and score <6.0, better candidate QCOM at 7.41 vs 5.70"
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon.com Inc",
+      "shares": 0.453,
+      "buyPrice": 209.53,
+      "sellPrice": 208.73,
+      "buyDate": "2026-02-26T07:00:00-08:00",
+      "sellDate": "2026-03-04T06:00:00-08:00",
+      "realizedPL": -0.36,
+      "realizedPLPct": -0.38,
+      "sellReason": "Rotated to AMD (score 7.36 vs 6.525)"
     }
   ],
   "portfolioHistory": [
@@ -371,6 +383,7 @@
     {"timestamp": "27.02.2026 10:00 PST", "value": 969.79},
     {"timestamp": "03.03.2026 10:00 PST", "value": 956.49},
     {"timestamp": "03.03.2026 11:00 PST", "value": 964.95},
-    {"timestamp": "03.03.2026 12:00 PST", "value": 962.67}
+    {"timestamp": "03.03.2026 12:00 PST", "value": 962.67},
+    {"timestamp": "04.03.2026 06:00 PST", "value": 962.31}
   ]
 }
