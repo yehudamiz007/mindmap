@@ -98,7 +98,7 @@
       "newsScore": 8.0,
       "analystScore": 8.5,
       "technicalScore": 7.8,
-      "combinedScore": 8.10,
+      "combinedScore": 8.105,
       "buyDate": "2026-03-07T10:00:00-08:00"
     }
   ],
@@ -479,6 +479,7 @@
     {"timestamp": "07.03.2026 06:00 PST", "value": 962.98},
     {"timestamp": "07.03.2026 07:00 PST", "value": 962.00},
     {"timestamp": "07.03.2026 09:00 PST", "value": 961.99},
-    {"timestamp": "07.03.2026 10:00 PST", "value": 961.99}
+    {"timestamp": "07.03.2026 10:00 PST", "value": 961.99},
+    {"timestamp": "07.03.2026 11:00 PST", "value": 961.98}
   ]
 }
