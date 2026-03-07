@@ -1,16 +1,6 @@
 {
-  "lastUpdated": "07.03.2026 07:00 IST",
+  "lastUpdated": "07.03.2026 17:00 IST",
   "stocks": [
-    {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings",
-      "price": "$428.99",
-      "news": 9.0,
-      "analyst": 9.0,
-      "technical": 8.0,
-      "total": 8.65,
-      "notes": "ביקוש חזק לאבטחת סייבר עם עסקת ענן ריבונית באיחוד האירופי"
-    },
     {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
@@ -19,47 +9,37 @@
       "analyst": 9.0,
       "technical": 7.5,
       "total": 8.325,
-      "notes": "ביקוש חזק לשבבי AI ופוטנציאל עלייה של 67%"
+      "notes": "מומנטום חזק בתחום ה-AI עם פריצת דרך טכנולוגית אחרונה"
+    },
+    {
+      "ticker": "MSFT",
+      "name": "Microsoft Corp",
+      "price": "$408.96",
+      "news": 8.2,
+      "analyst": 8.5,
+      "technical": 7.8,
+      "total": 8.165,
+      "notes": "התפתחויות חיוביות באימות תוכן AI"
+    },
+    {
+      "ticker": "XRP-USD",
+      "name": "Ripple",
+      "price": "$1.3646",
+      "news": 8.0,
+      "analyst": 8.5,
+      "technical": 7.8,
+      "total": 8.095,
+      "notes": "התפתחויות משפטיות חיוביות ותחזיות מחיר גבוהות"
     },
     {
       "ticker": "AAPL",
       "name": "Apple Inc.",
       "price": "$257.46",
       "news": 8.0,
-      "analyst": 8.5,
+      "analyst": 7.8,
       "technical": 7.5,
-      "total": 8.0,
-      "notes": "השפעה גוברת בשוק עם רענון תיק מוצרים"
-    },
-    {
-      "ticker": "AMZN",
-      "name": "Amazon.com Inc.",
-      "price": "$213.12",
-      "news": 8.0,
-      "analyst": 8.5,
-      "technical": 7.5,
-      "total": 8.0,
-      "notes": "צמיחה חזקה לקראת עונת החגים"
-    },
-    {
-      "ticker": "MSFT",
-      "name": "Microsoft Corp",
-      "price": "$408.96",
-      "news": 8.0,
-      "analyst": 8.5,
-      "technical": 7.0,
-      "total": 7.825,
-      "notes": "התפתחויות חיוביות בענן וב-AI"
-    },
-    {
-      "ticker": "XRP-USD",
-      "name": "Ripple",
-      "price": "$1.36",
-      "news": 8.0,
-      "analyst": 8.5,
-      "technical": 7.0,
-      "total": 7.825,
-      "notes": "תחזיות חיוביות לעלייה משמעותית עד 2026"
+      "total": 7.755,
+      "notes": "חדשות חיוביות על השפעה בשוק ורענון מוצרים"
     },
     {
       "ticker": "AMD",
@@ -69,87 +49,107 @@
       "analyst": 8.5,
       "technical": 7.0,
       "total": 7.525,
-      "notes": "פוטנציאל צמיחה לטווח ארוך עם יעד של $330"
+      "notes": "תחזיות ארוכות טווח חיוביות למרות נסיגה אחרונה"
     },
     {
-      "ticker": "GOOGL",
-      "name": "Alphabet Inc.",
-      "price": "$298.48",
+      "ticker": "ORCL",
+      "name": "Oracle Corp",
+      "price": "$152.96",
       "news": 7.5,
-      "analyst": 8.0,
+      "analyst": 7.2,
+      "technical": 7.8,
+      "total": 7.495,
+      "notes": "חדשות חיוביות על כלי AI לבטיחות בבנייה"
+    },
+    {
+      "ticker": "CRM",
+      "name": "Salesforce, Inc.",
+      "price": "$202.11",
+      "news": 6.8,
+      "analyst": 7.5,
       "technical": 7.0,
-      "total": 7.5,
-      "notes": "תחזית חיובית להכנסות מפרסום"
+      "total": 7.12,
+      "notes": "דירוגי קנייה חזקים למרות מחלוקת תרבותית"
     },
     {
       "ticker": "ADA-USD",
       "name": "Cardano",
-      "price": "$0.26",
+      "price": "$0.2557",
       "news": 7.5,
       "analyst": 7.0,
-      "technical": 6.5,
-      "total": 6.975,
-      "notes": "אימוץ קמעונאי חיובי בשווייץ"
+      "technical": 6.8,
+      "total": 7.08,
+      "notes": "חדשות חיוביות על נזילות ותחזיות התאוששות מחירים"
     },
     {
-      "ticker": "META",
-      "name": "Meta Platforms Inc.",
-      "price": "$644.86",
+      "ticker": "SOL-USD",
+      "name": "Solana",
+      "price": "$84.2586",
       "news": 6.5,
       "analyst": 7.5,
-      "technical": 6.5,
-      "total": 6.85,
-      "notes": "ירידה לאחרונה אך פוטנציאל להתאוששות"
+      "technical": 7.0,
+      "total": 7.03,
+      "notes": "תחזיות ארוכות טווח שוריות ופעילות חזקה ברשת"
     },
     {
       "ticker": "TSLA",
       "name": "Tesla, Inc.",
       "price": "$396.73",
       "news": 6.5,
-      "analyst": 7.5,
-      "technical": 6.0,
-      "total": 6.675,
-      "notes": "סנטימנט שלילי לטווח קצר למרות שאיפות סוללה"
+      "analyst": 7.0,
+      "technical": 6.8,
+      "total": 6.78,
+      "notes": "חדשות מעורבות על טכנולוגיית סוללות חדשה"
     },
     {
-      "ticker": "SOL-USD",
-      "name": "Solana",
-      "price": "$84.04",
+      "ticker": "ADBE",
+      "name": "Adobe Inc.",
+      "price": "$283.62",
       "news": 6.5,
       "analyst": 7.0,
-      "technical": 6.0,
-      "total": 6.5,
-      "notes": "צמיחה באימוץ קמעונאי אך זרימות שליליות מ-ETF"
+      "technical": 6.8,
+      "total": 6.78,
+      "notes": "חששות מ-GenAI אך פעילות אופציות גבוהה"
+    },
+    {
+      "ticker": "QCOM",
+      "name": "Qualcomm Inc.",
+      "price": "$135.66",
+      "news": 6.2,
+      "analyst": 7.0,
+      "technical": 6.5,
+      "total": 6.585,
+      "notes": "ביקוש ל-5G ממשיך לתמוך בצמיחה"
     },
     {
       "ticker": "SMCI",
-      "name": "Super Micro Computer Inc.",
+      "name": "Super Micro Computer",
       "price": "$31.31",
       "news": 6.0,
-      "analyst": 6.5,
-      "technical": 5.5,
-      "total": 6.0,
-      "notes": "מגמה חלשה עם סיכון לירידה נוספת"
-    },
-    {
-      "ticker": "ETH-USD",
-      "name": "Ethereum",
-      "price": "$1,972.79",
-      "news": 5.0,
-      "analyst": 6.0,
-      "technical": 5.5,
-      "total": 5.525,
-      "notes": "סנטימנט שלילי עם אזהרות על ספירלת מוות"
+      "analyst": 7.0,
+      "technical": 6.5,
+      "total": 6.525,
+      "notes": "ביקוש לשרתי AI ממשיך לתמוך"
     },
     {
       "ticker": "BTC-USD",
       "name": "Bitcoin",
-      "price": "$67,749.47",
+      "price": "$68,031.22",
       "news": 5.5,
       "analyst": 6.0,
-      "technical": 5.0,
-      "total": 5.5,
-      "notes": "אזהרות על ירידה פוטנציאלית של 30%"
+      "technical": 6.2,
+      "total": 5.92,
+      "notes": "חדשות דוביות עם תחזיות לירידה נוספת"
+    },
+    {
+      "ticker": "ETH-USD",
+      "name": "Ethereum",
+      "price": "$1,987.47",
+      "news": 5.0,
+      "analyst": 6.0,
+      "technical": 5.8,
+      "total": 5.63,
+      "notes": "חדשות דוביות עם סיכוני איום קוונטי"
     }
   ]
 }
