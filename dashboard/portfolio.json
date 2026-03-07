@@ -28,7 +28,7 @@
       "newsScore": 8.0,
       "analystScore": 8.5,
       "technicalScore": 7.0,
-      "combinedScore": 7.93,
+      "combinedScore": 7.825,
       "buyDate": "2026-03-03T10:00:00-08:00"
     },
     {
@@ -56,7 +56,7 @@
       "newsScore": 6.5,
       "analystScore": 7.8,
       "technicalScore": 7.2,
-      "combinedScore": 7.18,
+      "combinedScore": 7.2,
       "buyDate": "2026-03-04T08:00:00-08:00"
     },
     {
@@ -70,7 +70,7 @@
       "newsScore": 7.0,
       "analystScore": 8.2,
       "technicalScore": 6.8,
-      "combinedScore": 7.34,
+      "combinedScore": 7.35,
       "buyDate": "2026-03-05T07:34:00-08:00"
     },
     {
@@ -84,7 +84,7 @@
       "newsScore": 7.5,
       "analystScore": 8.0,
       "technicalScore": 7.3,
-      "combinedScore": 7.61,
+      "combinedScore": 7.605,
       "buyDate": "2026-03-05T08:00:00-08:00"
     },
     {
@@ -465,6 +465,7 @@
     {"timestamp": "06.03.2026 12:00 PST", "value": 970.29},
     {"timestamp": "06.03.2026 13:00 PST", "value": 962.05},
     {"timestamp": "07.03.2026 06:00 PST", "value": 962.98},
-    {"timestamp": "07.03.2026 07:00 PST", "value": 962.00}
+    {"timestamp": "07.03.2026 07:00 PST", "value": 962.00},
+    {"timestamp": "07.03.2026 09:00 PST", "value": 961.99}
   ]
 }
