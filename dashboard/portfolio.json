@@ -1,5 +1,5 @@
 {
-  "cash": 0.00,
+  "cash": 0.13,
   "startingBalance": 1000,
   "startDate": "2026-02-21T01:30:00+02:00",
   "positions": [
@@ -23,8 +23,8 @@
       "shares": 0.477,
       "avgCost": 179.62,
       "currentPrice": 177.89,
-      "unrealizedPL": -0.84,
-      "unrealizedPLPct": -0.98,
+      "unrealizedPL": -0.83,
+      "unrealizedPLPct": -0.97,
       "newsScore": 8.0,
       "analystScore": 8.5,
       "technicalScore": 7.0,
@@ -60,20 +60,6 @@
       "buyDate": "2026-03-04T08:00:00-08:00"
     },
     {
-      "ticker": "AMD",
-      "name": "Advanced Micro Devices Inc",
-      "shares": 0.716,
-      "avgCost": 200.18,
-      "currentPrice": 192.44,
-      "unrealizedPL": -5.53,
-      "unrealizedPLPct": -3.86,
-      "newsScore": 7.0,
-      "analystScore": 8.2,
-      "technicalScore": 6.8,
-      "combinedScore": 7.35,
-      "buyDate": "2026-03-05T07:34:00-08:00"
-    },
-    {
       "ticker": "META",
       "name": "Meta Platforms Inc",
       "shares": 0.138,
@@ -93,13 +79,27 @@
       "shares": 0.3455,
       "avgCost": 334.49,
       "currentPrice": 330.45,
-      "unrealizedPL": -1.39,
-      "unrealizedPLPct": -1.20,
+      "unrealizedPL": -1.40,
+      "unrealizedPLPct": -1.21,
       "newsScore": 8.5,
       "analystScore": 9.0,
       "technicalScore": 7.8,
       "combinedScore": 8.43,
       "buyDate": "2026-03-05T09:00:00-08:00"
+    },
+    {
+      "ticker": "ORCL",
+      "name": "Oracle Corp",
+      "shares": 0.900,
+      "avgCost": 152.96,
+      "currentPrice": 152.96,
+      "unrealizedPL": 0.00,
+      "unrealizedPLPct": 0.00,
+      "newsScore": 8.0,
+      "analystScore": 8.5,
+      "technicalScore": 7.8,
+      "combinedScore": 8.10,
+      "buyDate": "2026-03-07T10:00:00-08:00"
     }
   ],
   "closedTrades": [
@@ -390,6 +390,18 @@
       "realizedPL": 0.51,
       "realizedPLPct": 0.44,
       "sellReason": "Rotated to AVGO (score 8.66 vs 7.22)"
+    },
+    {
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices Inc",
+      "shares": 0.716,
+      "buyPrice": 200.18,
+      "sellPrice": 192.44,
+      "buyDate": "2026-03-05T07:34:00-08:00",
+      "sellDate": "2026-03-07T10:00:00-08:00",
+      "realizedPL": -5.54,
+      "realizedPLPct": -3.86,
+      "sellReason": "Loss > 2.5% and better candidates available (AVGO 8.43, ORCL 8.10 vs AMD 7.35)"
     }
   ],
   "portfolioHistory": [
@@ -466,6 +478,7 @@
     {"timestamp": "06.03.2026 13:00 PST", "value": 962.05},
     {"timestamp": "07.03.2026 06:00 PST", "value": 962.98},
     {"timestamp": "07.03.2026 07:00 PST", "value": 962.00},
-    {"timestamp": "07.03.2026 09:00 PST", "value": 961.99}
+    {"timestamp": "07.03.2026 09:00 PST", "value": 961.99},
+    {"timestamp": "07.03.2026 10:00 PST", "value": 961.99}
   ]
 }
