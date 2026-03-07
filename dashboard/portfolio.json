@@ -464,6 +464,7 @@
     {"timestamp": "06.03.2026 11:00 PST", "value": 971.56},
     {"timestamp": "06.03.2026 12:00 PST", "value": 970.29},
     {"timestamp": "06.03.2026 13:00 PST", "value": 962.05},
-    {"timestamp": "07.03.2026 06:00 PST", "value": 962.98}
+    {"timestamp": "07.03.2026 06:00 PST", "value": 962.98},
+    {"timestamp": "07.03.2026 07:00 PST", "value": 962.00}
   ]
 }
