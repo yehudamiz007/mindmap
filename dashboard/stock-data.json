@@ -1,19 +1,20 @@
 {
-  "lastUpdated": "08.03.2026 11:01 PM IST",
+  "lastUpdated": "08.03.2026 18:00 IST",
   "stocks": [
-    {"ticker": "NVDA", "name": "NVIDIA Corp", "price": "$177.89", "news": 8.5, "analyst": 9.0, "technical": 7.5, "total": 8.325, "notes": "ביקוש חזק לשבבי AI עם דוח רווחים חיובי לאחרונה"},
-    {"ticker": "MSFT", "name": "Microsoft Corporation", "price": "$408.96", "news": 8.2, "analyst": 8.8, "technical": 7.9, "total": 8.305, "notes": "צמיחת ענן וחדשות חיוביות על שילוב AI"},
-    {"ticker": "CRWD", "name": "CrowdStrike Holdings", "price": "$428.99", "news": 8.0, "analyst": 8.5, "technical": 8.2, "total": 8.245, "notes": "מומנטום מתמשך באבטחת נקודות קצה עם רווחים צפויים מרשימים"},
-    {"ticker": "AAPL", "name": "Apple Inc.", "price": "$257.46", "news": 8.0, "analyst": 8.2, "technical": 7.8, "total": 8.0, "notes": "התרגשות סביב השקת משקפי AR/VR חדשים"},
-    {"ticker": "SOL-USD", "name": "Solana", "price": "$82.46", "news": 7.8, "analyst": 8.2, "technical": 7.9, "total": 7.975, "notes": "מהירות עסקה גבוהה וצמיחת מערכת NFT"},
-    {"ticker": "AMD", "name": "Advanced Micro Devices", "price": "$192.44", "news": 7.8, "analyst": 8.5, "technical": 7.2, "total": 7.835, "notes": "זכייה בנתח שוק במרכזי נתונים עם השקות חדשות"},
-    {"ticker": "BTC-USD", "name": "Bitcoin", "price": "$67,182.14", "news": 7.5, "analyst": 8.0, "technical": 7.8, "total": 7.78, "notes": "תמיכה ממגמות מאקרו ורכישות מוסדיות"},
-    {"ticker": "ETH-USD", "name": "Ethereum", "price": "$1,948.23", "news": 7.2, "analyst": 7.7, "technical": 7.5, "total": 7.48, "notes": "שדרוגי רשת ותשואת staking מושכת"},
-    {"ticker": "TSLA", "name": "Tesla, Inc.", "price": "$396.73", "news": 7.5, "analyst": 7.8, "technical": 7.0, "total": 7.43, "notes": "אירוע חשיפת מוצר קרוב מעורר עניין ספקולטיבי"},
-    {"ticker": "DELL", "name": "Dell Technologies", "price": "$146.48", "news": 7.2, "analyst": 7.5, "technical": 7.0, "total": 7.235, "notes": "תוצאות רבעוניות חזקות מראות התאוששות בהוצאות IT"},
-    {"ticker": "ZS", "name": "Zscaler, Inc.", "price": "$164.06", "news": 7.0, "analyst": 7.3, "technical": 6.8, "total": 7.035, "notes": "פתרונות אבטחת zero-trust צוברים תאוצה"},
-    {"ticker": "PANW", "name": "Palo Alto Networks", "price": "$165.05", "news": 6.8, "analyst": 7.2, "technical": 6.5, "total": 6.835, "notes": "חום במגזר הסייבר עם דרישה גוברת לאבטחה"},
-    {"ticker": "SMCI", "name": "Super Micro Computer", "price": "$31.31", "news": 6.5, "analyst": 6.8, "technical": 6.2, "total": 6.5, "notes": "עלייה בדרישה לשרתים הקשורה ל-AI"},
-    {"ticker": "ADA-USD", "name": "Cardano", "price": "$0.2515", "news": 6.5, "analyst": 6.8, "technical": 6.3, "total": 6.535, "notes": "שדרוגי פרוטוקול ואימוץ DeFi מתקדם"}
+    {"ticker": "NVDA", "name": "NVIDIA Corp", "price": "$177.89", "news": 8.5, "analyst": 9.0, "technical": 7.8, "total": 8.43, "notes": "תנופת AI ודוחות רווחים חזקים דוחפים צמיחה."},
+    {"ticker": "MSFT", "name": "Microsoft Corporation", "price": "$408.96", "news": 8.0, "analyst": 8.5, "technical": 7.8, "total": 8.105, "notes": "צמיחה בענן ובינה מלאכותית תומכת בתחזיות חיוביות."},
+    {"ticker": "AMZN", "name": "Amazon.com, Inc.", "price": "$213.12", "news": 8.2, "analyst": 8.5, "technical": 7.5, "total": 8.06, "notes": "התרחבות AWS ומסחר אלקטרוני חזק."},
+    {"ticker": "TSLA", "name": "Tesla, Inc.", "price": "$396.73", "news": 8.0, "analyst": 8.2, "technical": 7.5, "total": 7.895, "notes": "התרגשות מדגמים חדשים ודירוג קנייה מבנק אוף אמריקה."},
+    {"ticker": "META", "name": "Meta Platforms, Inc.", "price": "$644.86", "news": 7.8, "analyst": 8.3, "technical": 7.5, "total": 7.87, "notes": "הכנסות מפרסום ופיתוח VR/AR חיוביים."},
+    {"ticker": "GOOGL", "name": "Alphabet Inc.", "price": "$298.48", "news": 7.5, "analyst": 8.0, "technical": 7.2, "total": 7.57, "notes": "שילוב AI בחיפוש ופרסום מניע צמיחה."},
+    {"ticker": "V", "name": "Visa Inc.", "price": "$317.36", "news": 7.5, "analyst": 7.8, "technical": 7.0, "total": 7.43, "notes": "מגמות הוצאות צרכנים ורכישות תומכות."},
+    {"ticker": "JPM", "name": "JPMorgan Chase & Co.", "price": "$289.48", "news": 7.0, "analyst": 7.5, "technical": 7.0, "total": 7.175, "notes": "יציבות במגזר הבנקאות עם תמיכה מוסדית."},
+    {"ticker": "AAPL", "name": "Apple Inc.", "price": "$257.46", "news": 6.5, "analyst": 7.8, "technical": 7.0, "total": 7.13, "notes": "ציפייה להשקת מוצר אך חששות צמיחה."},
+    {"ticker": "AMD", "name": "Advanced Micro Devices", "price": "$192.44", "news": 7.0, "analyst": 7.5, "technical": 6.5, "total": 7.0, "notes": "ירידה לאחר רווחים אך פוטנציאל לטווח ארוך."},
+    {"ticker": "SOL-USD", "name": "Solana", "price": "$82.31", "news": 7.0, "analyst": 7.2, "technical": 6.5, "total": 6.895, "notes": "יסודות חיוביים ב-DeFi אך שוק דובי."},
+    {"ticker": "ETH-USD", "name": "Ethereum", "price": "$1,944.76", "news": 6.5, "analyst": 7.0, "technical": 6.2, "total": 6.57, "notes": "שדרוגי רשת אך אזהרות על ספירלה דובית."},
+    {"ticker": "ADA-USD", "name": "Cardano", "price": "$0.25", "news": 6.8, "analyst": 6.5, "technical": 5.8, "total": 6.345, "notes": "הזרמת נזילות חיובית אך מחיר יציב."},
+    {"ticker": "BTC-USD", "name": "Bitcoin", "price": "$67,289.41", "news": 6.0, "analyst": 6.5, "technical": 6.0, "total": 6.175, "notes": "ירידות מחירים ופחד קיצוני בשוק."},
+    {"ticker": "DOT-USD", "name": "Polkadot", "price": "$1.46", "news": 6.2, "analyst": 6.0, "technical": 5.5, "total": 5.885, "notes": "תנופה חלשה ללא זרזים משמעותיים."}
   ]
 }
