@@ -12,23 +12,11 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background:#1a1a2e; color:#ee
 
 header {
   background: linear-gradient(135deg,#16213e,#0f3460);
-  padding:14px 24px;
-  text-align:center;
+  padding:14px 24px; text-align:center;
   border-bottom:2px solid #e94560;
-  position:relative;
 }
 header h1 { font-size:1.5em; color:#fff; margin-bottom:3px; }
 header p  { font-size:0.82em; color:#a0aec0; }
-
-#loading-bar {
-  position:fixed; top:0; left:0; width:100%; height:4px;
-  background:linear-gradient(90deg,#e94560,#f97316,#e94560);
-  background-size:200% 100%;
-  animation:shimmer 1.5s infinite;
-  z-index:9999;
-  display:none;
-}
-@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
 #app { display:flex; height:calc(100vh - 74px); }
 
@@ -36,17 +24,16 @@ header p  { font-size:0.82em; color:#a0aec0; }
   width:270px; background:#16213e; padding:14px;
   overflow-y:auto; border-left:1px solid #0f3460; flex-shrink:0;
 }
-
-#map { flex:1; }
+#map { flex:1; position:relative; }
 
 #loading-overlay {
   position:absolute; inset:0;
-  background:rgba(22,33,62,0.85);
+  background:rgba(22,33,62,0.9);
   display:flex; flex-direction:column;
   align-items:center; justify-content:center;
   z-index:1000; gap:12px;
 }
-#loading-overlay .spinner {
+.spinner {
   width:48px; height:48px; border:4px solid #0f3460;
   border-top-color:#e94560; border-radius:50%;
   animation:spin 0.8s linear infinite;
@@ -54,60 +41,36 @@ header p  { font-size:0.82em; color:#a0aec0; }
 @keyframes spin { to{transform:rotate(360deg)} }
 #loading-overlay p { color:#a0aec0; font-size:0.9em; }
 
-.stats-box {
-  background:#0f3460; border-radius:8px; padding:11px; margin-bottom:12px;
-}
-.stats-box .stat {
-  display:flex; justify-content:space-between;
-  margin-bottom:4px; font-size:0.83em;
-}
+.stats-box { background:#0f3460; border-radius:8px; padding:11px; margin-bottom:12px; }
+.stats-box .stat { display:flex; justify-content:space-between; margin-bottom:4px; font-size:0.83em; }
 .stats-box .stat span:last-child { color:#e94560; font-weight:bold; }
 
-.sidebar-title {
-  font-size:0.95em; font-weight:bold; color:#e94560;
-  margin-bottom:10px; padding-bottom:7px;
-  border-bottom:1px solid #0f3460;
-}
+.sidebar-title { font-size:0.95em; font-weight:bold; color:#e94560; margin-bottom:10px; padding-bottom:7px; border-bottom:1px solid #0f3460; }
 
-.dist-card {
-  background:#0f3460; border-radius:7px; padding:9px 11px;
-  margin-bottom:7px; cursor:pointer;
-  transition:transform .15s; border-right:4px solid transparent;
-}
+.dist-card { background:#0f3460; border-radius:7px; padding:9px 11px; margin-bottom:7px; cursor:pointer; transition:transform .15s; border-right:4px solid transparent; }
 .dist-card:hover { transform:translateX(-2px); }
 .dist-name  { font-size:0.95em; font-weight:bold; margin-bottom:3px; }
 .dist-count { font-size:0.8em; color:#a0aec0; }
 .dist-bar-wrap { background:#1a1a2e; border-radius:4px; height:5px; margin-top:6px; overflow:hidden; }
 .dist-bar { height:100%; border-radius:4px; }
 
-.legend {
-  margin-top:16px; background:#0f3460; border-radius:8px; padding:11px;
-}
+.legend { margin-top:16px; background:#0f3460; border-radius:8px; padding:11px; }
 .legend-title { font-size:0.82em; font-weight:bold; margin-bottom:8px; color:#a0aec0; }
 .legend-item  { display:flex; align-items:center; gap:8px; margin-bottom:5px; font-size:0.78em; }
 .legend-swatch { width:14px; height:14px; border-radius:3px; flex-shrink:0; }
 
-.leaflet-popup-content { direction:rtl; text-align:right; min-width:150px; }
-.popup-city  { font-weight:bold; font-size:1em; margin-bottom:4px; }
-.popup-count { color:#e94560; font-size:1.3em; font-weight:bold; }
+.leaflet-popup-content { direction:rtl; text-align:right; min-width:160px; }
+.popup-city  { font-weight:bold; font-size:1.05em; margin-bottom:4px; }
+.popup-count { color:#e94560; font-size:1.4em; font-weight:bold; }
 .popup-sub   { font-size:0.78em; color:#666; }
-
-#error-msg {
-  display:none; background:#7f1d1d; color:#fca5a5;
-  padding:10px 16px; font-size:0.85em; text-align:center;
-}
 </style>
 </head>
 <body>
 
-<div id="loading-bar"></div>
-
 <header>
   <h1>🚨 מפת התרעות פיקוד העורף</h1>
-  <p id="header-sub">טוען גבולות ערים מ-OpenStreetMap...</p>
+  <p id="header-sub">טוען גבולות עיריות...</p>
 </header>
-
-<div id="error-msg"></div>
 
 <div id="app">
   <div id="sidebar">
@@ -127,29 +90,29 @@ header p  { font-size:0.82em; color:#a0aec0; }
       <div class="legend-item"><div class="legend-swatch" style="background:#FFD700"></div>צהוב - בינונית</div>
       <div class="legend-item"><div class="legend-swatch" style="background:#90EE90"></div>ירוק בהיר - נמוכה</div>
       <div class="legend-item"><div class="legend-swatch" style="background:#228B22"></div>ירוק כהה - נמוכה ביותר</div>
-      <div class="legend-item"><div class="legend-swatch" style="background:#2d3748"></div>אפור - אין מידע</div>
     </div>
   </div>
 
-  <div id="map" style="position:relative;">
+  <div id="map">
     <div id="loading-overlay">
       <div class="spinner"></div>
-      <p>טוען גבולות ערים...</p>
+      <p id="loading-msg">טוען גבולות עיריות...</p>
     </div>
   </div>
 </div>
 
 <script>
 // ============================================================
-// ALERT DATA - top 120 cities by alert count
+// ALERT DATA - city name (Hebrew) -> alert count
 // ============================================================
 const alertData = {
-"תל אביב - מזרח":95,"גבעת שמואל":95,"רמת גן - מערב":95,"תל אביב - דרום העיר ויפו":94,
-"תל אביב - מרכז העיר":94,"גבעתיים":94,"מעש":94,"סביון":94,"פתח תקווה":94,
-"קריית אונו":94,"גני תקווה":94,"מגשימים":94,"מזור":94,"נחלים":94,"חולון":94,
+"תל אביב - מזרח":95,"גבעת שמואל":95,"רמת גן - מערב":95,
+"תל אביב - דרום העיר ויפו":94,"תל אביב - מרכז העיר":94,"גבעתיים":94,
+"מעש":94,"סביון":94,"פתח תקווה":94,"קריית אונו":94,"גני תקווה":94,
+"מגשימים":94,"מזור":94,"נחלים":94,"חולון":94,
 "תל אביב - צפון":93,"תל אביב - נווה שאנן - שפירא":93,"בת ים":93,
 "ראשון לציון - מזרח":93,"ראשון לציון - מערב":93,"אור יהודה":92,
-"יהוד - מונוסון":92,"רמת גן - מזרח":92,"בני ברק":92,"גבעת שמואל":91,
+"יהוד - מונוסון":92,"רמת גן - מזרח":92,"בני ברק":92,
 "הרצליה - מזרח":90,"הרצליה - מערב":90,"רעננה":89,"כפר סבא":88,
 "אלעד":87,"הוד השרון":86,"נתניה - מזרח":85,"נתניה - מערב":85,
 "ראש העין":84,"פתח תקווה - דרום":83,"אבן יהודה":80,"תל מונד":79,
@@ -158,24 +121,26 @@ const alertData = {
 "לוד":70,"רמלה":69,"מודיעין":68,"בית אריה":67,"אשדוד":65,
 "אשקלון":62,"קריית מלאכי":60,"ירושלים":58,"בית שמש":55,
 "מבשרת ציון":53,"מעלה אדומים":50,"ביתר עילית":48,
-"חיפה - מרכז הכרמל":55,"חיפה - כרמל צרפתי":54,"חיפה - נווה שאנן":53,
-"חיפה - רמת שאול":52,"קריית אתא":50,"קריית ביאליק":49,
+"חיפה":52,"קריית אתא":50,"קריית ביאליק":49,
 "קריית מוצקין":48,"קריית ים":47,"נשר":46,"טירת כרמל":44,
-"זכרון יעקב":42,"פרדס חנה - כרכור":40,"בנימינה - גבעת עדה":38,
+"זכרון יעקב":42,"פרדס חנה-כרכור":40,"בנימינה-גבעת עדה":38,
 "עכו":37,"נהריה":36,"כרמיאל":34,"מעלות-תרשיחא":32,
-"שלומי":30,"נצרת":28,"נוף הגליל":27,"אפולה":26,
+"שלומי":30,"נצרת":28,"נוף הגליל":27,"עפולה":26,
 "מגדל העמק":25,"קריית שמונה":24,"צפת":23,"טבריה":22,
 "ראש פינה":20,"חצור הגלילית":18,"יסוד המעלה":16,
 "שדרות":28,"נתיבות":25,"אופקים":23,"קריית גת":22,
-"באר שבע - צפון":20,"באר שבע - דרום":19,"נבטים":15,
-"להבים":14,"עומר":13,"ערד":12,"דימונה":11,"ירוחם":10,
+"באר שבע":20,"נבטים":15,"להבים":14,"עומר":13,
+"ערד":12,"דימונה":11,"ירוחם":10,"כסייפה":9,
+"רהט":8,"תל שבע":7,"לקיה":6,
 "כפר עזה":18,"ניר עם":17,"בארי":16,"רעים":15,
 "ניר עוז":14,"נחל עוז":13,"כיסופים":12,"זיקים":11,
 "יד מרדכי":10,"אורים":9,"ברור חיל":8,"מפלסים":7,
+"נתיבות":25,"אופקים":23,"גבעת ברנר":20,"יבנה":18,
+"קרית מלאכי":15,"בית גוברין":12,
 };
 
 // ============================================================
-// DISTRICT SUMMARY
+// DISTRICT DATA
 // ============================================================
 const districtData = [
   { name:'מרכז',     alerts:2617, lat:32.09, lng:34.90, cities:37 },
@@ -188,14 +153,11 @@ const districtData = [
   { name:'עוטף עזה', alerts:570,  lat:31.40, lng:34.55, cities:28 },
 ];
 
-const maxAlerts = 95;
-
 // ============================================================
 // COLOR
 // ============================================================
 function getColor(count) {
-  if (count === null || count === undefined) return '#1a3a2a';
-  if (count === 0) return '#1a3a2a';
+  if (count === null || count === undefined) return '#1a3a1a';
   if (count >= 80) return '#722F37';
   if (count >= 60) return '#DC143C';
   if (count >= 40) return '#FF6600';
@@ -205,211 +167,140 @@ function getColor(count) {
   return '#228B22';
 }
 
-function getDistrictColor(alerts) {
-  const pct = alerts / 2617 * 100;
-  if (pct >= 85) return '#722F37';
-  if (pct >= 65) return '#DC143C';
-  if (pct >= 50) return '#FF6600';
-  if (pct >= 35) return '#FFA500';
-  if (pct >= 20) return '#FFD700';
-  if (pct >= 10) return '#90EE90';
-  return '#228B22';
+// Normalize Hebrew for matching
+function norm(s) {
+  return (s||'').replace(/['"״׳]/g,'').replace(/[\-–—]/g,' ').replace(/\s+/g,' ').trim();
+}
+
+// Build normalized lookup
+const alertLookup = {};
+for (const [city, cnt] of Object.entries(alertData)) {
+  alertLookup[norm(city)] = cnt;
+}
+
+function getAlertCount(nameHe, nameEn) {
+  const names = [nameHe, nameEn].filter(Boolean).map(norm);
+  
+  for (const n of names) {
+    // Exact
+    if (alertLookup[n] !== undefined) return alertLookup[n];
+    
+    // Municipality name matches start of alert key (e.g. "תל אביב" -> sum all "תל אביב - *")
+    let total = 0;
+    for (const [key, cnt] of Object.entries(alertLookup)) {
+      if (key === n) return cnt;
+      if (key.startsWith(n + ' ') || key.startsWith(n + '-')) total += cnt;
+    }
+    if (total > 0) return total;
+
+    // Alert key starts with municipality name
+    for (const [key, cnt] of Object.entries(alertLookup)) {
+      if (n.startsWith(key + ' ') || n.startsWith(key + '-')) return cnt;
+    }
+
+    // Substring
+    for (const [key, cnt] of Object.entries(alertLookup)) {
+      if (key.length > 3 && n.includes(key)) return cnt;
+      if (n.length > 3 && key.includes(n)) return cnt;
+    }
+  }
+  return null;
 }
 
 // ============================================================
-// MAP INIT
+// MAP
 // ============================================================
 const map = L.map('map', { center:[31.5,35.0], zoom:8 });
-
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
   attribution:'&copy; OpenStreetMap &copy; CartoDB',
   subdomains:'abcd', maxZoom:19
 }).addTo(map);
 
 // ============================================================
-// OVERPASS QUERY - fetch municipality boundaries
+// LOAD LOCAL GEOJSON
 // ============================================================
-function showLoading(msg) {
-  document.getElementById('loading-bar').style.display = 'block';
-  const ov = document.getElementById('loading-overlay');
-  if (ov) ov.querySelector('p').textContent = msg;
-}
-function hideLoading() {
-  document.getElementById('loading-bar').style.display = 'none';
-  const ov = document.getElementById('loading-overlay');
-  if (ov) ov.remove();
-}
-
-// Normalize Hebrew city name for matching
-function normalize(s) {
-  return (s||'').replace(/['"״׳\-–—]/g,'').replace(/\s+/g,' ').trim();
-}
-
-// Pre-build normalized alert data for fast lookup
-const normalizedAlertData = {};
-for (const [city, cnt] of Object.entries(alertData)) {
-  normalizedAlertData[normalize(city)] = { original: city, count: cnt };
-}
-
-// Try to find alert count for an OSM feature name
-function findAlertCount(props) {
-  const candidates = [
-    props['name:he'], props.name, props['name:en'],
-    props.alt_name, props.official_name, props.loc_name
-  ].filter(Boolean);
-
-  for (const raw of candidates) {
-    const norm = normalize(raw);
-
-    // 1. Exact match
-    if (normalizedAlertData[norm] !== undefined) return normalizedAlertData[norm].count;
-
-    // 2. Alert data key contains OSM name OR OSM name contains alert key
-    for (const [normCity, info] of Object.entries(normalizedAlertData)) {
-      if (norm === normCity) return info.count;
-      // OSM name is part of alert city name (e.g. "תל אביב" matches "תל אביב - מזרח")
-      if (normCity.startsWith(norm + ' ') || normCity.startsWith(norm + '-')) return info.count;
-      // Alert city name starts with OSM name
-      if (norm.startsWith(normCity + ' ') || norm.startsWith(normCity + '-')) return info.count;
-    }
-
-    // 3. Substring match (looser)
-    for (const [normCity, info] of Object.entries(normalizedAlertData)) {
-      if (norm.length > 3 && normCity.includes(norm)) return info.count;
-      if (normCity.length > 3 && norm.includes(normCity)) return info.count;
-    }
-  }
-  return null;
-}
-
-// Aggregate: sum all alert counts matching this OSM feature
-function findTotalAlerts(props) {
-  const candidates = [
-    props['name:he'], props.name, props['name:en'],
-    props.alt_name, props.official_name, props.loc_name
-  ].filter(Boolean);
-
-  let total = 0;
-  const matched = new Set();
-
-  for (const raw of candidates) {
-    const norm = normalize(raw);
-    for (const [normCity, info] of Object.entries(normalizedAlertData)) {
-      if (matched.has(normCity)) continue;
-      if (normCity === norm ||
-          normCity.startsWith(norm + ' ') ||
-          normCity.startsWith(norm + '-') ||
-          norm.startsWith(normCity + ' ') ||
-          norm.startsWith(normCity + '-') ||
-          (norm.length > 4 && normCity.includes(norm)) ||
-          (normCity.length > 4 && norm.includes(normCity))) {
-        total += info.count;
-        matched.add(normCity);
-      }
-    }
-  }
-  return total > 0 ? total : null;
-}
-
-async function loadMunicipalities() {
-  showLoading('מבקש גבולות ישובים מ-OpenStreetMap...');
-
-  // Overpass query: all Israeli admin boundaries levels 6-10 (municipalities + neighborhoods)
-  const query = `
-[out:json][timeout:90];
-area["name:en"="Israel"]["admin_level"="2"]->.il;
-(
-  relation["admin_level"~"^(6|7|8|9|10)$"]["boundary"="administrative"](area.il);
-);
-out geom;
-`;
-
+async function loadMap() {
+  document.getElementById('loading-msg').textContent = 'טוען גבולות עיריות...';
+  
   try {
-    const res = await fetch('https://overpass-api.de/api/interpreter', {
-      method:'POST',
-      body: 'data=' + encodeURIComponent(query),
-      headers:{'Content-Type':'application/x-www-form-urlencoded'}
-    });
-
-    if (!res.ok) throw new Error('Overpass returned ' + res.status);
-
-    showLoading('מעבד גבולות...');
-    const json = await res.json();
-    renderOSMBoundaries(json.elements);
-
+    const res = await fetch('./muni_il.geojson');
+    if (!res.ok) throw new Error('Failed to load GeoJSON');
+    
+    document.getElementById('loading-msg').textContent = 'מעבד נתונים...';
+    const geojson = await res.json();
+    
+    let matched = 0, total = 0;
+    
+    L.geoJSON(geojson, {
+      style: function(feature) {
+        const p = feature.properties;
+        const count = getAlertCount(p.name, p.name_en);
+        total++;
+        if (count !== null) matched++;
+        return {
+          color: '#0a0a1a',
+          weight: 0.8,
+          fillColor: getColor(count),
+          fillOpacity: 0.78,
+        };
+      },
+      onEachFeature: function(feature, layer) {
+        const p = feature.properties;
+        const count = getAlertCount(p.name, p.name_en);
+        const name = p.name || p.name_en || 'לא ידוע';
+        
+        layer.bindPopup(
+          count !== null
+            ? `<div class="popup-city">${name}</div>
+               <div class="popup-count">${count}</div>
+               <div class="popup-sub">התרעות ב-8 ימים אחרונים</div>`
+            : `<div class="popup-city">${name}</div>
+               <div class="popup-sub">אין נתוני התרעות</div>`,
+          { direction: 'rtl' }
+        );
+        
+        layer.on('mouseover', function(e) {
+          layer.setStyle({ weight:2, fillOpacity:0.95 });
+          layer.bringToFront();
+        });
+        layer.on('mouseout', function(e) {
+          layer.setStyle({ weight:0.8, fillOpacity:0.78 });
+        });
+      }
+    }).addTo(map);
+    
+    // Remove loading overlay
+    const ov = document.getElementById('loading-overlay');
+    if (ov) ov.remove();
+    
+    document.getElementById('header-sub').textContent =
+      `נתונים: 1-8 מרץ 2026 | 61,392 התרעות | ${matched}/${total} עיריות עם נתונים`;
+      
   } catch(err) {
-    console.error('Overpass failed:', err);
-    // Fallback to district circles
-    fallbackDistrictCircles();
+    console.error(err);
+    document.getElementById('loading-msg').textContent = 'שגיאה בטעינה - נסה לרענן';
   }
 }
 
-function renderOSMBoundaries(elements) {
-  let rendered = 0;
-
-  elements.forEach(el => {
-    if (el.type !== 'relation' || !el.members) return;
-
-    // Build polygon rings from outer members
-    const outerWays = el.members.filter(m => m.type === 'way' && m.role === 'outer');
-    if (outerWays.length === 0) return;
-
-    const count = findTotalAlerts(el.tags || {});
-    const color = getColor(count);
-    const name  = (el.tags && (el.tags['name:he'] || el.tags.name)) || 'לא ידוע';
-
-    // Convert each way to latlng array
-    const rings = outerWays.map(w =>
-      (w.geometry || []).map(pt => [pt.lat, pt.lon])
-    ).filter(r => r.length > 2);
-
-    if (rings.length === 0) return;
-
-    try {
-      const poly = L.polygon(rings, {
-        color: '#0a0a1a',
-        weight: 0.5,
-        fillColor: color,
-        fillOpacity: 0.72,
-      }).addTo(map);
-
-      const popupContent = count !== null
-        ? `<div class="popup-city">${name}</div>
-           <div class="popup-count">${count}</div>
-           <div class="popup-sub">התרעות ב-8 ימים אחרונים</div>`
-        : `<div class="popup-city">${name}</div>
-           <div class="popup-sub">אין מידע</div>`;
-
-      poly.bindPopup(popupContent, { direction:'rtl' });
-      poly.on('mouseover', function(){ this.setStyle({ weight:2, fillOpacity:0.95 }); });
-      poly.on('mouseout',  function(){ this.setStyle({ weight:0.5, fillOpacity:0.72 }); });
-
-      rendered++;
-    } catch(e) { /* skip malformed geometries */ }
-  });
-
-  hideLoading();
-  document.getElementById('header-sub').textContent =
-    `נתונים: 1-8 מרץ 2026 | 61,392 התרעות | ${rendered} ערים מוצגות`;
-}
-
-// Fallback: just show error message, no circles
-function fallbackDistrictCircles() {
-  console.warn('Overpass failed, no fallback circles');
-  hideLoading();
-  document.getElementById('header-sub').textContent = 'שגיאה בטעינת גבולות ערים';
-  document.getElementById('error-msg').style.display = 'block';
-  document.getElementById('error-msg').textContent =
-    '⚠️ לא ניתן לטעון גבולות ערים מ-OpenStreetMap. נסה לרענן את הדף.';
-}
-
 // ============================================================
-// SIDEBAR - District Cards
+// SIDEBAR
 // ============================================================
 const sorted = [...districtData].sort((a,b) => b.alerts - a.alerts);
 const listEl = document.getElementById('dist-list');
+
+function getDistColor(alerts) {
+  const p = alerts / 2617 * 100;
+  if (p >= 85) return '#722F37';
+  if (p >= 65) return '#DC143C';
+  if (p >= 50) return '#FF6600';
+  if (p >= 35) return '#FFA500';
+  if (p >= 20) return '#FFD700';
+  if (p >= 10) return '#90EE90';
+  return '#228B22';
+}
+
 sorted.forEach((d, i) => {
-  const color = getDistrictColor(d.alerts);
+  const color = getDistColor(d.alerts);
   const pct   = Math.round(d.alerts / 2617 * 100);
   const card  = document.createElement('div');
   card.className = 'dist-card';
@@ -427,7 +318,7 @@ sorted.forEach((d, i) => {
 // ============================================================
 // START
 // ============================================================
-loadMunicipalities();
+loadMap();
 </script>
 </body>
 </html>
