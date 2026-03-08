@@ -1,155 +1,19 @@
 {
-  "lastUpdated": "07.03.2026 17:00 IST",
+  "lastUpdated": "08.03.2026 11:01 PM IST",
   "stocks": [
-    {
-      "ticker": "NVDA",
-      "name": "NVIDIA Corp",
-      "price": "$177.89",
-      "news": 8.5,
-      "analyst": 9.0,
-      "technical": 7.5,
-      "total": 8.325,
-      "notes": "מומנטום חזק בתחום ה-AI עם פריצת דרך טכנולוגית אחרונה"
-    },
-    {
-      "ticker": "MSFT",
-      "name": "Microsoft Corp",
-      "price": "$408.96",
-      "news": 8.2,
-      "analyst": 8.5,
-      "technical": 7.8,
-      "total": 8.165,
-      "notes": "התפתחויות חיוביות באימות תוכן AI"
-    },
-    {
-      "ticker": "XRP-USD",
-      "name": "Ripple",
-      "price": "$1.3646",
-      "news": 8.0,
-      "analyst": 8.5,
-      "technical": 7.8,
-      "total": 8.095,
-      "notes": "התפתחויות משפטיות חיוביות ותחזיות מחיר גבוהות"
-    },
-    {
-      "ticker": "AAPL",
-      "name": "Apple Inc.",
-      "price": "$257.46",
-      "news": 8.0,
-      "analyst": 7.8,
-      "technical": 7.5,
-      "total": 7.755,
-      "notes": "חדשות חיוביות על השפעה בשוק ורענון מוצרים"
-    },
-    {
-      "ticker": "AMD",
-      "name": "Advanced Micro Devices",
-      "price": "$192.44",
-      "news": 7.0,
-      "analyst": 8.5,
-      "technical": 7.0,
-      "total": 7.525,
-      "notes": "תחזיות ארוכות טווח חיוביות למרות נסיגה אחרונה"
-    },
-    {
-      "ticker": "ORCL",
-      "name": "Oracle Corp",
-      "price": "$152.96",
-      "news": 7.5,
-      "analyst": 7.2,
-      "technical": 7.8,
-      "total": 7.495,
-      "notes": "חדשות חיוביות על כלי AI לבטיחות בבנייה"
-    },
-    {
-      "ticker": "CRM",
-      "name": "Salesforce, Inc.",
-      "price": "$202.11",
-      "news": 6.8,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.12,
-      "notes": "דירוגי קנייה חזקים למרות מחלוקת תרבותית"
-    },
-    {
-      "ticker": "ADA-USD",
-      "name": "Cardano",
-      "price": "$0.2557",
-      "news": 7.5,
-      "analyst": 7.0,
-      "technical": 6.8,
-      "total": 7.08,
-      "notes": "חדשות חיוביות על נזילות ותחזיות התאוששות מחירים"
-    },
-    {
-      "ticker": "SOL-USD",
-      "name": "Solana",
-      "price": "$84.2586",
-      "news": 6.5,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.03,
-      "notes": "תחזיות ארוכות טווח שוריות ופעילות חזקה ברשת"
-    },
-    {
-      "ticker": "TSLA",
-      "name": "Tesla, Inc.",
-      "price": "$396.73",
-      "news": 6.5,
-      "analyst": 7.0,
-      "technical": 6.8,
-      "total": 6.78,
-      "notes": "חדשות מעורבות על טכנולוגיית סוללות חדשה"
-    },
-    {
-      "ticker": "ADBE",
-      "name": "Adobe Inc.",
-      "price": "$283.62",
-      "news": 6.5,
-      "analyst": 7.0,
-      "technical": 6.8,
-      "total": 6.78,
-      "notes": "חששות מ-GenAI אך פעילות אופציות גבוהה"
-    },
-    {
-      "ticker": "QCOM",
-      "name": "Qualcomm Inc.",
-      "price": "$135.66",
-      "news": 6.2,
-      "analyst": 7.0,
-      "technical": 6.5,
-      "total": 6.585,
-      "notes": "ביקוש ל-5G ממשיך לתמוך בצמיחה"
-    },
-    {
-      "ticker": "SMCI",
-      "name": "Super Micro Computer",
-      "price": "$31.31",
-      "news": 6.0,
-      "analyst": 7.0,
-      "technical": 6.5,
-      "total": 6.525,
-      "notes": "ביקוש לשרתי AI ממשיך לתמוך"
-    },
-    {
-      "ticker": "BTC-USD",
-      "name": "Bitcoin",
-      "price": "$68,031.22",
-      "news": 5.5,
-      "analyst": 6.0,
-      "technical": 6.2,
-      "total": 5.92,
-      "notes": "חדשות דוביות עם תחזיות לירידה נוספת"
-    },
-    {
-      "ticker": "ETH-USD",
-      "name": "Ethereum",
-      "price": "$1,987.47",
-      "news": 5.0,
-      "analyst": 6.0,
-      "technical": 5.8,
-      "total": 5.63,
-      "notes": "חדשות דוביות עם סיכוני איום קוונטי"
-    }
+    {"ticker": "NVDA", "name": "NVIDIA Corp", "price": "$177.89", "news": 8.5, "analyst": 9.0, "technical": 7.5, "total": 8.325, "notes": "ביקוש חזק לשבבי AI עם דוח רווחים חיובי לאחרונה"},
+    {"ticker": "MSFT", "name": "Microsoft Corporation", "price": "$408.96", "news": 8.2, "analyst": 8.8, "technical": 7.9, "total": 8.305, "notes": "צמיחת ענן וחדשות חיוביות על שילוב AI"},
+    {"ticker": "CRWD", "name": "CrowdStrike Holdings", "price": "$428.99", "news": 8.0, "analyst": 8.5, "technical": 8.2, "total": 8.245, "notes": "מומנטום מתמשך באבטחת נקודות קצה עם רווחים צפויים מרשימים"},
+    {"ticker": "AAPL", "name": "Apple Inc.", "price": "$257.46", "news": 8.0, "analyst": 8.2, "technical": 7.8, "total": 8.0, "notes": "התרגשות סביב השקת משקפי AR/VR חדשים"},
+    {"ticker": "SOL-USD", "name": "Solana", "price": "$82.46", "news": 7.8, "analyst": 8.2, "technical": 7.9, "total": 7.975, "notes": "מהירות עסקה גבוהה וצמיחת מערכת NFT"},
+    {"ticker": "AMD", "name": "Advanced Micro Devices", "price": "$192.44", "news": 7.8, "analyst": 8.5, "technical": 7.2, "total": 7.835, "notes": "זכייה בנתח שוק במרכזי נתונים עם השקות חדשות"},
+    {"ticker": "BTC-USD", "name": "Bitcoin", "price": "$67,182.14", "news": 7.5, "analyst": 8.0, "technical": 7.8, "total": 7.78, "notes": "תמיכה ממגמות מאקרו ורכישות מוסדיות"},
+    {"ticker": "ETH-USD", "name": "Ethereum", "price": "$1,948.23", "news": 7.2, "analyst": 7.7, "technical": 7.5, "total": 7.48, "notes": "שדרוגי רשת ותשואת staking מושכת"},
+    {"ticker": "TSLA", "name": "Tesla, Inc.", "price": "$396.73", "news": 7.5, "analyst": 7.8, "technical": 7.0, "total": 7.43, "notes": "אירוע חשיפת מוצר קרוב מעורר עניין ספקולטיבי"},
+    {"ticker": "DELL", "name": "Dell Technologies", "price": "$146.48", "news": 7.2, "analyst": 7.5, "technical": 7.0, "total": 7.235, "notes": "תוצאות רבעוניות חזקות מראות התאוששות בהוצאות IT"},
+    {"ticker": "ZS", "name": "Zscaler, Inc.", "price": "$164.06", "news": 7.0, "analyst": 7.3, "technical": 6.8, "total": 7.035, "notes": "פתרונות אבטחת zero-trust צוברים תאוצה"},
+    {"ticker": "PANW", "name": "Palo Alto Networks", "price": "$165.05", "news": 6.8, "analyst": 7.2, "technical": 6.5, "total": 6.835, "notes": "חום במגזר הסייבר עם דרישה גוברת לאבטחה"},
+    {"ticker": "SMCI", "name": "Super Micro Computer", "price": "$31.31", "news": 6.5, "analyst": 6.8, "technical": 6.2, "total": 6.5, "notes": "עלייה בדרישה לשרתים הקשורה ל-AI"},
+    {"ticker": "ADA-USD", "name": "Cardano", "price": "$0.2515", "news": 6.5, "analyst": 6.8, "technical": 6.3, "total": 6.535, "notes": "שדרוגי פרוטוקול ואימוץ DeFi מתקדם"}
   ]
 }
