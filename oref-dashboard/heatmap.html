@@ -7,207 +7,205 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Segoe UI', Arial, sans-serif; background: #1a1a2e; color: #eee; direction: rtl; }
-  
-  header {
-    background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
-    padding: 16px 24px;
-    text-align: center;
-    border-bottom: 2px solid #e94560;
-  }
-  header h1 { font-size: 1.6em; color: #fff; margin-bottom: 4px; }
-  header p { font-size: 0.85em; color: #a0aec0; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background:#1a1a2e; color:#eee; direction:rtl; }
 
-  #app { display: flex; height: calc(100vh - 80px); }
+header {
+  background: linear-gradient(135deg,#16213e,#0f3460);
+  padding:14px 24px;
+  text-align:center;
+  border-bottom:2px solid #e94560;
+  position:relative;
+}
+header h1 { font-size:1.5em; color:#fff; margin-bottom:3px; }
+header p  { font-size:0.82em; color:#a0aec0; }
 
-  #sidebar {
-    width: 280px;
-    background: #16213e;
-    padding: 16px;
-    overflow-y: auto;
-    border-left: 1px solid #0f3460;
-    flex-shrink: 0;
-  }
+#loading-bar {
+  position:fixed; top:0; left:0; width:100%; height:4px;
+  background:linear-gradient(90deg,#e94560,#f97316,#e94560);
+  background-size:200% 100%;
+  animation:shimmer 1.5s infinite;
+  z-index:9999;
+  display:none;
+}
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
-  #map { flex: 1; }
+#app { display:flex; height:calc(100vh - 74px); }
 
-  .sidebar-title {
-    font-size: 1em;
-    font-weight: bold;
-    color: #e94560;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #0f3460;
-  }
+#sidebar {
+  width:270px; background:#16213e; padding:14px;
+  overflow-y:auto; border-left:1px solid #0f3460; flex-shrink:0;
+}
 
-  .district-card {
-    background: #0f3460;
-    border-radius: 8px;
-    padding: 10px 12px;
-    margin-bottom: 8px;
-    cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s;
-    border-right: 4px solid transparent;
-  }
-  .district-card:hover { transform: translateX(-2px); box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+#map { flex:1; }
 
-  .district-name { font-size: 1em; font-weight: bold; margin-bottom: 4px; }
-  .district-count { font-size: 0.85em; color: #a0aec0; }
-  .district-bar-wrap { background: #1a1a2e; border-radius: 4px; height: 6px; margin-top: 6px; overflow: hidden; }
-  .district-bar { height: 100%; border-radius: 4px; }
+#loading-overlay {
+  position:absolute; inset:0;
+  background:rgba(22,33,62,0.85);
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  z-index:1000; gap:12px;
+}
+#loading-overlay .spinner {
+  width:48px; height:48px; border:4px solid #0f3460;
+  border-top-color:#e94560; border-radius:50%;
+  animation:spin 0.8s linear infinite;
+}
+@keyframes spin { to{transform:rotate(360deg)} }
+#loading-overlay p { color:#a0aec0; font-size:0.9em; }
 
-  .legend {
-    margin-top: 20px;
-    background: #0f3460;
-    border-radius: 8px;
-    padding: 12px;
-  }
-  .legend-title { font-size: 0.85em; font-weight: bold; margin-bottom: 8px; color: #a0aec0; }
-  .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 0.8em; }
-  .legend-color { width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0; }
+.stats-box {
+  background:#0f3460; border-radius:8px; padding:11px; margin-bottom:12px;
+}
+.stats-box .stat {
+  display:flex; justify-content:space-between;
+  margin-bottom:4px; font-size:0.83em;
+}
+.stats-box .stat span:last-child { color:#e94560; font-weight:bold; }
 
-  .stats-box {
-    background: #0f3460;
-    border-radius: 8px;
-    padding: 12px;
-    margin-bottom: 12px;
-  }
-  .stats-box .stat { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.85em; }
-  .stats-box .stat span:last-child { color: #e94560; font-weight: bold; }
+.sidebar-title {
+  font-size:0.95em; font-weight:bold; color:#e94560;
+  margin-bottom:10px; padding-bottom:7px;
+  border-bottom:1px solid #0f3460;
+}
 
-  /* Leaflet popup RTL */
-  .leaflet-popup-content { direction: rtl; text-align: right; min-width: 160px; }
-  .popup-title { font-weight: bold; font-size: 1.1em; margin-bottom: 6px; }
-  .popup-count { color: #e94560; font-size: 1.4em; font-weight: bold; }
-  .popup-label { font-size: 0.8em; color: #666; }
+.dist-card {
+  background:#0f3460; border-radius:7px; padding:9px 11px;
+  margin-bottom:7px; cursor:pointer;
+  transition:transform .15s; border-right:4px solid transparent;
+}
+.dist-card:hover { transform:translateX(-2px); }
+.dist-name  { font-size:0.95em; font-weight:bold; margin-bottom:3px; }
+.dist-count { font-size:0.8em; color:#a0aec0; }
+.dist-bar-wrap { background:#1a1a2e; border-radius:4px; height:5px; margin-top:6px; overflow:hidden; }
+.dist-bar { height:100%; border-radius:4px; }
 
-  @media (max-width: 600px) {
-    #sidebar { width: 200px; padding: 10px; }
-    header h1 { font-size: 1.2em; }
-  }
+.legend {
+  margin-top:16px; background:#0f3460; border-radius:8px; padding:11px;
+}
+.legend-title { font-size:0.82em; font-weight:bold; margin-bottom:8px; color:#a0aec0; }
+.legend-item  { display:flex; align-items:center; gap:8px; margin-bottom:5px; font-size:0.78em; }
+.legend-swatch { width:14px; height:14px; border-radius:3px; flex-shrink:0; }
+
+.leaflet-popup-content { direction:rtl; text-align:right; min-width:150px; }
+.popup-city  { font-weight:bold; font-size:1em; margin-bottom:4px; }
+.popup-count { color:#e94560; font-size:1.3em; font-weight:bold; }
+.popup-sub   { font-size:0.78em; color:#666; }
+
+#error-msg {
+  display:none; background:#7f1d1d; color:#fca5a5;
+  padding:10px 16px; font-size:0.85em; text-align:center;
+}
 </style>
 </head>
 <body>
 
+<div id="loading-bar"></div>
+
 <header>
   <h1>🚨 מפת התרעות פיקוד העורף</h1>
-  <p>נתונים: 1 מרץ - 8 מרץ 2026 | 61,392 התרעות | לחץ על אזור למידע נוסף</p>
+  <p id="header-sub">טוען גבולות ערים מ-OpenStreetMap...</p>
 </header>
+
+<div id="error-msg"></div>
 
 <div id="app">
   <div id="sidebar">
     <div class="stats-box">
       <div class="stat"><span>סה"כ התרעות</span><span>61,392</span></div>
       <div class="stat"><span>ערים מותרעות</span><span>1,437</span></div>
-      <div class="stat"><span>תקופה</span><span>8 ימים</span></div>
+      <div class="stat"><span>תקופה</span><span>1-8 מרץ 2026</span></div>
     </div>
-
     <div class="sidebar-title">📊 אזורי פיקוד העורף</div>
-    <div id="district-list"></div>
-
+    <div id="dist-list"></div>
     <div class="legend">
       <div class="legend-title">סקאלת סכנה</div>
-      <div class="legend-item"><div class="legend-color" style="background:#722F37"></div><span>בורדו - סכנה גבוהה ביותר</span></div>
-      <div class="legend-item"><div class="legend-color" style="background:#DC143C"></div><span>אדום - סכנה גבוהה מאוד</span></div>
-      <div class="legend-item"><div class="legend-color" style="background:#FF6600"></div><span>כתום כהה - סכנה גבוהה</span></div>
-      <div class="legend-item"><div class="legend-color" style="background:#FFA500"></div><span>כתום - סכנה בינונית-גבוהה</span></div>
-      <div class="legend-item"><div class="legend-color" style="background:#FFD700"></div><span>צהוב - סכנה בינונית</span></div>
-      <div class="legend-item"><div class="legend-color" style="background:#90EE90"></div><span>ירוק בהיר - סכנה נמוכה</span></div>
-      <div class="legend-item"><div class="legend-color" style="background:#228B22"></div><span>ירוק כהה - סכנה נמוכה ביותר</span></div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#722F37"></div>בורדו - גבוהה ביותר</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#DC143C"></div>אדום - גבוהה מאוד</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#FF6600"></div>כתום כהה - גבוהה</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#FFA500"></div>כתום - בינונית-גבוהה</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#FFD700"></div>צהוב - בינונית</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#90EE90"></div>ירוק בהיר - נמוכה</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#228B22"></div>ירוק כהה - נמוכה ביותר</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#2d3748"></div>אפור - אין מידע</div>
     </div>
   </div>
 
-  <div id="map"></div>
+  <div id="map" style="position:relative;">
+    <div id="loading-overlay">
+      <div class="spinner"></div>
+      <p>טוען גבולות ערים...</p>
+    </div>
+  </div>
 </div>
 
 <script>
 // ============================================================
-// DATA
+// ALERT DATA - top 120 cities by alert count
+// ============================================================
+const alertData = {
+"תל אביב - מזרח":95,"גבעת שמואל":95,"רמת גן - מערב":95,"תל אביב - דרום העיר ויפו":94,
+"תל אביב - מרכז העיר":94,"גבעתיים":94,"מעש":94,"סביון":94,"פתח תקווה":94,
+"קריית אונו":94,"גני תקווה":94,"מגשימים":94,"מזור":94,"נחלים":94,"חולון":94,
+"תל אביב - צפון":93,"תל אביב - נווה שאנן - שפירא":93,"בת ים":93,
+"ראשון לציון - מזרח":93,"ראשון לציון - מערב":93,"אור יהודה":92,
+"יהוד - מונוסון":92,"רמת גן - מזרח":92,"בני ברק":92,"גבעת שמואל":91,
+"הרצליה - מזרח":90,"הרצליה - מערב":90,"רעננה":89,"כפר סבא":88,
+"אלעד":87,"הוד השרון":86,"נתניה - מזרח":85,"נתניה - מערב":85,
+"ראש העין":84,"פתח תקווה - דרום":83,"אבן יהודה":80,"תל מונד":79,
+"כפר יונה":78,"רמת השרון":77,"כפר שמריהו":76,"נחשונים":75,
+"רחובות":75,"נס ציונה":74,"יבנה":73,"גדרה":72,"גן יבנה":71,
+"לוד":70,"רמלה":69,"מודיעין":68,"בית אריה":67,"אשדוד":65,
+"אשקלון":62,"קריית מלאכי":60,"ירושלים":58,"בית שמש":55,
+"מבשרת ציון":53,"מעלה אדומים":50,"ביתר עילית":48,
+"חיפה - מרכז הכרמל":55,"חיפה - כרמל צרפתי":54,"חיפה - נווה שאנן":53,
+"חיפה - רמת שאול":52,"קריית אתא":50,"קריית ביאליק":49,
+"קריית מוצקין":48,"קריית ים":47,"נשר":46,"טירת כרמל":44,
+"זכרון יעקב":42,"פרדס חנה - כרכור":40,"בנימינה - גבעת עדה":38,
+"עכו":37,"נהריה":36,"כרמיאל":34,"מעלות-תרשיחא":32,
+"שלומי":30,"נצרת":28,"נוף הגליל":27,"אפולה":26,
+"מגדל העמק":25,"קריית שמונה":24,"צפת":23,"טבריה":22,
+"ראש פינה":20,"חצור הגלילית":18,"יסוד המעלה":16,
+"שדרות":28,"נתיבות":25,"אופקים":23,"קריית גת":22,
+"באר שבע - צפון":20,"באר שבע - דרום":19,"נבטים":15,
+"להבים":14,"עומר":13,"ערד":12,"דימונה":11,"ירוחם":10,
+"כפר עזה":18,"ניר עם":17,"בארי":16,"רעים":15,
+"ניר עוז":14,"נחל עוז":13,"כיסופים":12,"זיקים":11,
+"יד מרדכי":10,"אורים":9,"ברור חיל":8,"מפלסים":7,
+};
+
+// ============================================================
+// DISTRICT SUMMARY
 // ============================================================
 const districtData = [
-  { name: 'מרכז',     alerts: 2617, lat: 32.09, lng: 34.90, cities: 37 },
-  { name: 'צפון',     alerts: 1830, lat: 32.85, lng: 35.30, cities: 52 },
-  { name: 'שפלה',     alerts: 1304, lat: 31.85, lng: 34.80, cities: 18 },
-  { name: 'דרום',     alerts: 1120, lat: 31.00, lng: 34.85, cities: 37 },
-  { name: 'תל אביב',  alerts: 954,  lat: 32.08, lng: 34.78, cities: 11 },
-  { name: 'חיפה',     alerts: 900,  lat: 32.82, lng: 35.00, cities: 33 },
-  { name: 'ירושלים',  alerts: 892,  lat: 31.77, lng: 35.21, cities: 18 },
-  { name: 'עוטף עזה', alerts: 570,  lat: 31.40, lng: 34.55, cities: 28 },
+  { name:'מרכז',     alerts:2617, lat:32.09, lng:34.90, cities:37 },
+  { name:'צפון',     alerts:1830, lat:32.85, lng:35.30, cities:52 },
+  { name:'שפלה',     alerts:1304, lat:31.85, lng:34.80, cities:18 },
+  { name:'דרום',     alerts:1120, lat:31.00, lng:34.85, cities:37 },
+  { name:'תל אביב',  alerts:954,  lat:32.08, lng:34.78, cities:11 },
+  { name:'חיפה',     alerts:900,  lat:32.82, lng:35.00, cities:33 },
+  { name:'ירושלים',  alerts:892,  lat:31.77, lng:35.21, cities:18 },
+  { name:'עוטף עזה', alerts:570,  lat:31.40, lng:34.55, cities:28 },
 ];
 
-// Top cities with coordinates
-const cityData = [
-  { name: 'תל אביב - מזרח',       count: 95,  lat: 32.090, lng: 34.810 },
-  { name: 'גבעת שמואל',           count: 95,  lat: 32.076, lng: 34.848 },
-  { name: 'רמת גן - מערב',         count: 95,  lat: 32.080, lng: 34.805 },
-  { name: 'תל אביב - דרום העיר',   count: 94,  lat: 32.055, lng: 34.763 },
-  { name: 'תל אביב - מרכז העיר',   count: 94,  lat: 32.080, lng: 34.780 },
-  { name: 'גבעתיים',               count: 94,  lat: 32.071, lng: 34.810 },
-  { name: 'פתח תקווה',             count: 94,  lat: 32.088, lng: 34.888 },
-  { name: 'קריית אונו',            count: 94,  lat: 32.060, lng: 34.855 },
-  { name: 'גני תקווה',             count: 94,  lat: 32.063, lng: 34.873 },
-  { name: 'חולון',                 count: 94,  lat: 32.011, lng: 34.779 },
-  { name: 'בת ים',                 count: 93,  lat: 32.023, lng: 34.749 },
-  { name: 'ראשון לציון - מזרח',    count: 93,  lat: 31.965, lng: 34.820 },
-  { name: 'הרצליה',                count: 90,  lat: 32.166, lng: 34.844 },
-  { name: 'רעננה',                 count: 89,  lat: 32.184, lng: 34.871 },
-  { name: 'כפר סבא',               count: 88,  lat: 32.178, lng: 34.907 },
-  { name: 'נתניה',                 count: 85,  lat: 32.321, lng: 34.853 },
-  { name: 'רחובות',                count: 82,  lat: 31.893, lng: 34.811 },
-  { name: 'נס ציונה',              count: 80,  lat: 31.929, lng: 34.798 },
-  { name: 'יבנה',                  count: 78,  lat: 31.877, lng: 34.745 },
-  { name: 'אשדוד',                 count: 75,  lat: 31.804, lng: 34.655 },
-  { name: 'אשקלון',                count: 72,  lat: 31.669, lng: 34.574 },
-  { name: 'ירושלים',               count: 70,  lat: 31.768, lng: 35.214 },
-  { name: 'באר שבע',               count: 65,  lat: 31.252, lng: 34.792 },
-  { name: 'לוד',                   count: 62,  lat: 31.952, lng: 34.897 },
-  { name: 'רמלה',                  count: 60,  lat: 31.930, lng: 34.870 },
-  { name: 'מודיעין',               count: 58,  lat: 31.893, lng: 35.011 },
-  { name: 'חיפה',                  count: 55,  lat: 32.794, lng: 34.990 },
-  { name: 'קריית אתא',             count: 52,  lat: 32.808, lng: 35.107 },
-  { name: 'קריית ביאליק',          count: 50,  lat: 32.831, lng: 35.085 },
-  { name: 'קריית מוצקין',          count: 48,  lat: 32.839, lng: 35.074 },
-  { name: 'עכו',                   count: 45,  lat: 32.928, lng: 35.082 },
-  { name: 'נהריה',                 count: 42,  lat: 33.007, lng: 35.098 },
-  { name: 'צפת',                   count: 38,  lat: 32.965, lng: 35.496 },
-  { name: 'טבריה',                 count: 36,  lat: 32.796, lng: 35.531 },
-  { name: 'נצרת',                  count: 30,  lat: 32.700, lng: 35.304 },
-  { name: 'שדרות',                 count: 28,  lat: 31.526, lng: 34.597 },
-  { name: 'נתיבות',                count: 25,  lat: 31.417, lng: 34.587 },
-  { name: 'קריית גת',              count: 22,  lat: 31.611, lng: 34.770 },
-  { name: 'קריית שמונה',           count: 20,  lat: 33.207, lng: 35.570 },
-  { name: 'מעלות-תרשיחא',         count: 18,  lat: 33.016, lng: 35.272 },
-  { name: 'כרמיאל',                count: 15,  lat: 32.912, lng: 35.297 },
-  { name: 'בית שמש',               count: 12,  lat: 31.753, lng: 34.988 },
-  { name: 'מבשרת ציון',            count: 10,  lat: 31.806, lng: 35.157 },
-  { name: 'אילת',                  count: 5,   lat: 29.558, lng: 34.948 },
-];
+const maxAlerts = 95;
 
 // ============================================================
-// COLOR SCALE
+// COLOR
 // ============================================================
-const colorScale = [
-  { min: 80,  color: '#722F37', label: 'בורדו' },
-  { min: 60,  color: '#DC143C', label: 'אדום' },
-  { min: 40,  color: '#FF6600', label: 'כתום כהה' },
-  { min: 25,  color: '#FFA500', label: 'כתום בהיר' },
-  { min: 15,  color: '#FFD700', label: 'צהוב' },
-  { min: 5,   color: '#90EE90', label: 'ירוק בהיר' },
-  { min: 0,   color: '#228B22', label: 'ירוק כהה' },
-];
-
 function getColor(count) {
-  for (const tier of colorScale) {
-    if (count >= tier.min) return tier.color;
-  }
+  if (!count || count === 0) return '#2d3748';
+  if (count >= 80) return '#722F37';
+  if (count >= 60) return '#DC143C';
+  if (count >= 40) return '#FF6600';
+  if (count >= 25) return '#FFA500';
+  if (count >= 15) return '#FFD700';
+  if (count >= 5)  return '#90EE90';
   return '#228B22';
 }
 
-// District color based on alerts
-const maxDistrictAlerts = Math.max(...districtData.map(d => d.alerts));
 function getDistrictColor(alerts) {
-  const pct = alerts / maxDistrictAlerts * 100;
+  const pct = alerts / 2617 * 100;
   if (pct >= 85) return '#722F37';
   if (pct >= 65) return '#DC143C';
   if (pct >= 50) return '#FF6600';
@@ -218,104 +216,187 @@ function getDistrictColor(alerts) {
 }
 
 // ============================================================
-// MAP
+// MAP INIT
 // ============================================================
-const map = L.map('map', {
-  center: [31.5, 35.0],
-  zoom: 8,
-  zoomControl: true,
-});
+const map = L.map('map', { center:[31.5,35.0], zoom:8 });
 
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-  attribution: '&copy; OpenStreetMap &copy; CartoDB',
-  subdomains: 'abcd',
-  maxZoom: 19
+  attribution:'&copy; OpenStreetMap &copy; CartoDB',
+  subdomains:'abcd', maxZoom:19
 }).addTo(map);
 
 // ============================================================
-// DISTRICT CIRCLES (large, semi-transparent)
+// OVERPASS QUERY - fetch municipality boundaries
 // ============================================================
-const districtLayers = {};
+function showLoading(msg) {
+  document.getElementById('loading-bar').style.display = 'block';
+  const ov = document.getElementById('loading-overlay');
+  if (ov) ov.querySelector('p').textContent = msg;
+}
+function hideLoading() {
+  document.getElementById('loading-bar').style.display = 'none';
+  const ov = document.getElementById('loading-overlay');
+  if (ov) ov.remove();
+}
 
-districtData.forEach(d => {
-  const color = getDistrictColor(d.alerts);
-  const radius = 25000 + (d.alerts / maxDistrictAlerts) * 35000;
+// Normalize Hebrew city name for matching
+function normalize(s) {
+  return (s||'').replace(/['"״׳\-–—]/g,'').replace(/\s+/g,' ').trim();
+}
 
-  const circle = L.circle([d.lat, d.lng], {
-    radius: radius,
-    color: color,
-    fillColor: color,
-    fillOpacity: 0.35,
-    weight: 2,
-    opacity: 0.7,
-  }).addTo(map);
+// Try to find alert count for an OSM feature name
+function findAlertCount(props) {
+  const candidates = [
+    props['name:he'], props.name, props['name:en'],
+    props.alt_name, props.official_name
+  ].filter(Boolean);
 
-  circle.bindPopup(`
-    <div class="popup-title">📍 ${d.name}</div>
-    <div class="popup-count">${d.alerts.toLocaleString()}</div>
-    <div class="popup-label">התרעות ב-8 הימים האחרונים</div>
-    <hr style="margin:8px 0; border-color:#ddd">
-    <div style="font-size:0.85em">ערים מותרעות: <b>${d.cities}</b></div>
-  `, { direction: 'rtl' });
+  for (const raw of candidates) {
+    const norm = normalize(raw);
+    // exact
+    if (alertData[norm] !== undefined) return alertData[norm];
+    // partial
+    for (const [city, cnt] of Object.entries(alertData)) {
+      const normCity = normalize(city);
+      if (norm.includes(normCity) || normCity.includes(norm)) return cnt;
+    }
+  }
+  return null;
+}
 
-  circle.on('mouseover', function() { this.setStyle({ fillOpacity: 0.6 }); });
-  circle.on('mouseout',  function() { this.setStyle({ fillOpacity: 0.35 }); });
+async function loadMunicipalities() {
+  showLoading('מבקש גבולות עיריות מ-OpenStreetMap...');
 
-  districtLayers[d.name] = circle;
-});
+  // Overpass query: all Israeli municipalities/cities admin boundaries
+  const query = `
+[out:json][timeout:60];
+area["name:en"="Israel"]["admin_level"="2"]->.il;
+(
+  relation["admin_level"~"^(6|7|8)$"]["boundary"="administrative"](area.il);
+);
+out geom;
+`;
 
-// ============================================================
-// CITY MARKERS
-// ============================================================
-cityData.forEach(city => {
-  const color = getColor(city.count);
-  const r = 4 + (city.count / 95) * 10;
+  try {
+    const res = await fetch('https://overpass-api.de/api/interpreter', {
+      method:'POST',
+      body: 'data=' + encodeURIComponent(query),
+      headers:{'Content-Type':'application/x-www-form-urlencoded'}
+    });
 
-  const marker = L.circleMarker([city.lat, city.lng], {
-    radius: r,
-    color: '#fff',
-    fillColor: color,
-    fillOpacity: 0.9,
-    weight: 1,
-  }).addTo(map);
+    if (!res.ok) throw new Error('Overpass returned ' + res.status);
 
-  marker.bindTooltip(`<b>${city.name}</b><br>${city.count} התרעות`, {
-    direction: 'top',
-    sticky: true,
+    showLoading('מעבד גבולות...');
+    const json = await res.json();
+    renderOSMBoundaries(json.elements);
+
+  } catch(err) {
+    console.error('Overpass failed:', err);
+    // Fallback to district circles
+    fallbackDistrictCircles();
+  }
+}
+
+function renderOSMBoundaries(elements) {
+  let rendered = 0;
+
+  elements.forEach(el => {
+    if (el.type !== 'relation' || !el.members) return;
+
+    // Build polygon rings from outer members
+    const outerWays = el.members.filter(m => m.type === 'way' && m.role === 'outer');
+    if (outerWays.length === 0) return;
+
+    const count = findAlertCount(el.tags || {});
+    const color = getColor(count);
+    const name  = (el.tags && (el.tags['name:he'] || el.tags.name)) || 'לא ידוע';
+
+    // Convert each way to latlng array
+    const rings = outerWays.map(w =>
+      (w.geometry || []).map(pt => [pt.lat, pt.lon])
+    ).filter(r => r.length > 2);
+
+    if (rings.length === 0) return;
+
+    try {
+      const poly = L.polygon(rings, {
+        color: '#1a1a2e',
+        weight: 0.6,
+        fillColor: color,
+        fillOpacity: count !== null ? 0.7 : 0.25,
+      }).addTo(map);
+
+      const popupContent = count !== null
+        ? `<div class="popup-city">${name}</div>
+           <div class="popup-count">${count}</div>
+           <div class="popup-sub">התרעות ב-8 ימים אחרונים</div>`
+        : `<div class="popup-city">${name}</div>
+           <div class="popup-sub">אין מידע</div>`;
+
+      poly.bindPopup(popupContent, { direction:'rtl' });
+      poly.on('mouseover', function(){ this.setStyle({ weight:2, fillOpacity:0.9 }); });
+      poly.on('mouseout',  function(){ this.setStyle({ weight:0.6, fillOpacity: count!==null ? 0.7 : 0.25 }); });
+
+      rendered++;
+    } catch(e) { /* skip malformed geometries */ }
   });
-});
+
+  hideLoading();
+  document.getElementById('header-sub').textContent =
+    `נתונים: 1-8 מרץ 2026 | 61,392 התרעות | ${rendered} ערים מוצגות`;
+}
+
+// Fallback: district-level circles if Overpass fails
+function fallbackDistrictCircles() {
+  console.warn('Using fallback district circles');
+  hideLoading();
+
+  const maxA = Math.max(...districtData.map(d => d.alerts));
+  districtData.forEach(d => {
+    const color  = getDistrictColor(d.alerts);
+    const radius = 22000 + (d.alerts / maxA) * 38000;
+    L.circle([d.lat, d.lng], {
+      radius, color, fillColor:color, fillOpacity:0.4, weight:2,
+    }).addTo(map).bindPopup(
+      `<div class="popup-city">${d.name}</div>
+       <div class="popup-count">${d.alerts.toLocaleString()}</div>
+       <div class="popup-sub">התרעות | ${d.cities} ערים</div>`,
+      { direction:'rtl' }
+    );
+  });
+
+  document.getElementById('header-sub').textContent =
+    'מוצגים אזורי פיקוד העורף (גבולות ערים לא נטענו)';
+  document.getElementById('error-msg').style.display = 'block';
+  document.getElementById('error-msg').textContent =
+    '⚠️ לא ניתן לטעון גבולות ערים מ-OpenStreetMap - מוצגים אזורים כלליים במקום';
+}
 
 // ============================================================
 // SIDEBAR - District Cards
 // ============================================================
-const sortedDistricts = [...districtData].sort((a, b) => b.alerts - a.alerts);
-const listEl = document.getElementById('district-list');
-
-sortedDistricts.forEach((d, i) => {
+const sorted = [...districtData].sort((a,b) => b.alerts - a.alerts);
+const listEl = document.getElementById('dist-list');
+sorted.forEach((d, i) => {
   const color = getDistrictColor(d.alerts);
-  const pct = Math.round(d.alerts / maxDistrictAlerts * 100);
-
-  const card = document.createElement('div');
-  card.className = 'district-card';
+  const pct   = Math.round(d.alerts / 2617 * 100);
+  const card  = document.createElement('div');
+  card.className = 'dist-card';
   card.style.borderRightColor = color;
   card.innerHTML = `
-    <div class="district-name" style="color:${color}">${i + 1}. ${d.name}</div>
-    <div class="district-count">${d.alerts.toLocaleString()} התרעות | ${d.cities} ערים</div>
-    <div class="district-bar-wrap">
-      <div class="district-bar" style="width:${pct}%; background:${color}"></div>
-    </div>
-  `;
-
-  card.addEventListener('click', () => {
-    map.flyTo([d.lat, d.lng], 10, { duration: 1.2 });
-    if (districtLayers[d.name]) {
-      districtLayers[d.name].openPopup();
-    }
-  });
-
+    <div class="dist-name" style="color:${color}">${i+1}. ${d.name}</div>
+    <div class="dist-count">${d.alerts.toLocaleString()} התרעות | ${d.cities} ערים</div>
+    <div class="dist-bar-wrap">
+      <div class="dist-bar" style="width:${pct}%;background:${color}"></div>
+    </div>`;
+  card.addEventListener('click', () => map.flyTo([d.lat, d.lng], 10, { duration:1 }));
   listEl.appendChild(card);
 });
 
+// ============================================================
+// START
+// ============================================================
+loadMunicipalities();
 </script>
 </body>
 </html>
