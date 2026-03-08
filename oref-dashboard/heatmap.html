@@ -346,30 +346,14 @@ function renderOSMBoundaries(elements) {
     `נתונים: 1-8 מרץ 2026 | 61,392 התרעות | ${rendered} ערים מוצגות`;
 }
 
-// Fallback: district-level circles if Overpass fails
+// Fallback: just show error message, no circles
 function fallbackDistrictCircles() {
-  console.warn('Using fallback district circles');
+  console.warn('Overpass failed, no fallback circles');
   hideLoading();
-
-  const maxA = Math.max(...districtData.map(d => d.alerts));
-  districtData.forEach(d => {
-    const color  = getDistrictColor(d.alerts);
-    const radius = 22000 + (d.alerts / maxA) * 38000;
-    L.circle([d.lat, d.lng], {
-      radius, color, fillColor:color, fillOpacity:0.4, weight:2,
-    }).addTo(map).bindPopup(
-      `<div class="popup-city">${d.name}</div>
-       <div class="popup-count">${d.alerts.toLocaleString()}</div>
-       <div class="popup-sub">התרעות | ${d.cities} ערים</div>`,
-      { direction:'rtl' }
-    );
-  });
-
-  document.getElementById('header-sub').textContent =
-    'מוצגים אזורי פיקוד העורף (גבולות ערים לא נטענו)';
+  document.getElementById('header-sub').textContent = 'שגיאה בטעינת גבולות ערים';
   document.getElementById('error-msg').style.display = 'block';
   document.getElementById('error-msg').textContent =
-    '⚠️ לא ניתן לטעון גבולות ערים מ-OpenStreetMap - מוצגים אזורים כלליים במקום';
+    '⚠️ לא ניתן לטעון גבולות ערים מ-OpenStreetMap. נסה לרענן את הדף.';
 }
 
 // ============================================================
