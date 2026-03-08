@@ -180,28 +180,35 @@ for (const [city, cnt] of Object.entries(alertData)) {
 
 function getAlertCount(nameHe, nameEn) {
   const names = [nameHe, nameEn].filter(Boolean).map(norm);
-  
+
   for (const n of names) {
-    // Exact
+    if (!n || n.length < 2) continue;
+
+    // 1. Exact match
     if (alertLookup[n] !== undefined) return alertLookup[n];
-    
-    // Municipality name matches start of alert key (e.g. "תל אביב" -> sum all "תל אביב - *")
+
+    // 2. Sum all alert keys that START with this city name (handles "תל אביב - מזרח" etc.)
     let total = 0;
     for (const [key, cnt] of Object.entries(alertLookup)) {
       if (key === n) return cnt;
-      if (key.startsWith(n + ' ') || key.startsWith(n + '-')) total += cnt;
+      // "תל אביב" matches "תל אביב - מזרח", "תל אביב - צפון"
+      if (key.startsWith(n + ' ') || key.startsWith(n + '-') ||
+          key.startsWith(n + '  ')) {
+        total += cnt;
+      }
     }
     if (total > 0) return total;
 
-    // Alert key starts with municipality name
+    // 3. This key starts with an alert city name
     for (const [key, cnt] of Object.entries(alertLookup)) {
       if (n.startsWith(key + ' ') || n.startsWith(key + '-')) return cnt;
     }
 
-    // Substring
+    // 4. Loose substring - city name appears inside alert key or vice versa
     for (const [key, cnt] of Object.entries(alertLookup)) {
-      if (key.length > 3 && n.includes(key)) return cnt;
-      if (n.length > 3 && key.includes(n)) return cnt;
+      if (n.length >= 3 && key.length >= 3) {
+        if (key.includes(n) || n.includes(key)) return cnt;
+      }
     }
   }
   return null;
