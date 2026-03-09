@@ -8,13 +8,13 @@
       "name": "Microsoft Corp",
       "shares": 0.602,
       "avgCost": 396.1,
-      "currentPrice": 407.19,
-      "unrealizedPL": 6.68,
-      "unrealizedPLPct": 2.80,
-      "newsScore": 7.5,
+      "currentPrice": 404.92,
+      "unrealizedPL": 5.31,
+      "unrealizedPLPct": 2.23,
+      "newsScore": 7.0,
       "analystScore": 7.5,
-      "technicalScore": 6.5,
-      "combinedScore": 7.05,
+      "technicalScore": 7.0,
+      "combinedScore": 7.17,
       "buyDate": "2026-02-27T08:00:00-08:00"
     },
     {
@@ -22,9 +22,9 @@
       "name": "Amazon.com Inc",
       "shares": 0.844,
       "avgCost": 207.42,
-      "currentPrice": 210.38,
-      "unrealizedPL": 2.50,
-      "unrealizedPLPct": 1.43,
+      "currentPrice": 209.41,
+      "unrealizedPL": 1.68,
+      "unrealizedPLPct": 0.96,
       "newsScore": 8.0,
       "analystScore": 8.5,
       "technicalScore": 7.5,
@@ -32,27 +32,13 @@
       "buyDate": "2026-03-09T07:00:00-08:00"
     },
     {
-      "ticker": "NFLX",
-      "name": "Netflix Inc",
-      "shares": 1.563,
-      "avgCost": 97.92,
-      "currentPrice": 98.08,
-      "unrealizedPL": 0.25,
-      "unrealizedPLPct": 0.16,
-      "newsScore": 7.5,
-      "analystScore": 7.5,
-      "technicalScore": 7.5,
-      "combinedScore": 7.50,
-      "buyDate": "2026-03-09T07:00:00-08:00"
-    },
-    {
       "ticker": "META",
       "name": "Meta Platforms Inc",
       "shares": 0.1351,
       "avgCost": 634.85,
-      "currentPrice": 635.93,
-      "unrealizedPL": 0.15,
-      "unrealizedPLPct": 0.17,
+      "currentPrice": 635.20,
+      "unrealizedPL": 0.05,
+      "unrealizedPLPct": 0.06,
       "newsScore": 8.0,
       "analystScore": 8.5,
       "technicalScore": 7.5,
@@ -64,14 +50,28 @@
       "name": "Salesforce Inc",
       "shares": 1.5209,
       "avgCost": 198.75,
-      "currentPrice": 198.75,
+      "currentPrice": 196.75,
+      "unrealizedPL": -3.04,
+      "unrealizedPLPct": -1.01,
+      "newsScore": 7.0,
+      "analystScore": 7.0,
+      "technicalScore": 7.0,
+      "combinedScore": 7.00,
+      "buyDate": "2026-03-09T10:00:00-08:00"
+    },
+    {
+      "ticker": "AVGO",
+      "name": "Broadcom Inc",
+      "shares": 0.4436,
+      "avgCost": 343.03,
+      "currentPrice": 343.03,
       "unrealizedPL": 0.00,
       "unrealizedPLPct": 0.00,
       "newsScore": 7.5,
-      "analystScore": 7.5,
-      "technicalScore": 7.5,
-      "combinedScore": 7.50,
-      "buyDate": "2026-03-09T10:00:00-08:00"
+      "analystScore": 8.0,
+      "technicalScore": 8.0,
+      "combinedScore": 7.83,
+      "buyDate": "2026-03-09T11:00:00-08:00"
     }
   ],
   "closedTrades": [
@@ -446,6 +446,18 @@
       "realizedPL": 11.67,
       "realizedPLPct": 4.01,
       "sellReason": "Profit > 4% (4.01%) - RBC cut PT to $340 from $370, rotating capital to CRM (score 7.5)"
+    },
+    {
+      "ticker": "NFLX",
+      "name": "Netflix Inc",
+      "shares": 1.563,
+      "buyPrice": 97.92,
+      "sellPrice": 97.37,
+      "buyDate": "2026-03-09T07:00:00-08:00",
+      "sellDate": "2026-03-09T11:00:00-08:00",
+      "realizedPL": -0.86,
+      "realizedPLPct": -0.56,
+      "sellReason": "Analyst downgrade today (IBTimes), score dropped to 6.5 - rotating to AVGO (score 7.83 vs 6.50)"
     }
   ],
   "portfolioHistory": [
@@ -530,6 +542,7 @@
     {"timestamp": "09.03.2026 07:00 PST", "value": 946.74},
     {"timestamp": "09.03.2026 08:03 PST", "value": 956.52},
     {"timestamp": "09.03.2026 09:00 PST", "value": 961.27},
-    {"timestamp": "09.03.2026 10:00 PST", "value": 964.19}
+    {"timestamp": "09.03.2026 10:00 PST", "value": 964.19},
+    {"timestamp": "09.03.2026 11:00 PST", "value": 957.99}
   ]
 }
