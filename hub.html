@@ -185,7 +185,8 @@ const DEFAULT_APPS=[
   {id:'models',icon:'🤖',name:'Multimodal Management',desc:'Model registry, use cases & routing instructions',url:'https://yehudamiz007.github.io/mindmap/models/',cat:'Dashboards'},
   {id:'subagents',icon:'🤖',name:'Sub-Agents Dashboard',desc:'מעקב עלויות וסטטוס סאב-אגנטים בזמן אמת - ממוין לפי עלות',url:'https://yehudamiz007.github.io/mindmap/subagents-dashboard/',cat:'Dashboards'},
   {id:'architecture',icon:'🏗️',name:'Architecture Diagrams',desc:'7 interactive technical diagrams explaining how OpenClaw works',url:'https://yehudamiz007.github.io/mindmap/architecture/',cat:'Dashboards'},
-  {id:'deebot',icon:'🤖',name:'DEEBOT Controller',desc:'שליטה מרחוק על שואב האבק - נקה, עצור, הגדרות שאיבה ושטיפה',url:'https://yehudamiz007.github.io/mindmap/ecovacs-joystick/',cat:'Apps'}
+  {id:'deebot',icon:'🤖',name:'DEEBOT Controller',desc:'שליטה מרחוק על שואב האבק - נקה, עצור, הגדרות שאיבה ושטיפה',url:'https://yehudamiz007.github.io/mindmap/ecovacs-joystick/',cat:'Apps'},
+  {id:'any1',icon:'🏛️',name:'Any1 App',desc:'The Human Market - פלטפורמה חברתית שבה לכל אדם יש שווי נסחר. React/Vite on Vercel.',url:'https://any1.vercel.app',cat:'Apps'}
 ];
 let customApps=JSON.parse(localStorage.getItem('hub_custom')||'[]');
 let favorites=JSON.parse(localStorage.getItem('hub_favs')||'[]');
@@ -440,7 +441,8 @@ const SKILLS=[
   {icon:'🔒',name:'Secure Skill Downloader',desc:'Security gatekeeper for all skill installations. Scans for malicious code, prompt injection, credential theft',cat:'Security',model:'claude-opus-4-6'},
   {icon:'🛠️',name:'Skill Creator',desc:'Design, structure, and package new AgentSkills with scripts, references, and assets',cat:'Technical',model:'claude-opus-4-6'},
   {icon:'🌤️',name:'Weather',desc:'Current weather and forecasts, no API key required',cat:'Utility',model:'claude-opus-4-6'},
-  {icon:'🔐',name:'Healthcheck',desc:'Host security hardening, firewall/SSH audits, risk-tolerance configuration for OpenClaw deployments',cat:'Security',model:'claude-opus-4-6'}
+  {icon:'🔐',name:'Healthcheck',desc:'Host security hardening, firewall/SSH audits, risk-tolerance configuration for OpenClaw deployments',cat:'Security',model:'claude-opus-4-6'},
+  {icon:'🏛️',name:'Any1',desc:'The Human Market - פיתוח אפליקציית מסחר בבני אדם. Skill לפיתוח React/Vite, GitHub ו-Vercel',cat:'Technical',model:'claude-sonnet-4-6'}
 ];
 
 const SKILL_CAT_COLORS={'Trading':'badge-trading','Technical':'badge-maintenance','Personal':'badge-reminders','Language':'badge-news','Lifestyle':'badge-grok','Security':'badge-claude','Utility':'badge-system'};
