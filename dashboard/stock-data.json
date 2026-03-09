@@ -1,20 +1,155 @@
 {
-  "lastUpdated": "08.03.2026 18:00 IST",
+  "lastUpdated": "09.03.2026 17:00 IST",
   "stocks": [
-    {"ticker": "NVDA", "name": "NVIDIA Corp", "price": "$177.89", "news": 8.5, "analyst": 9.0, "technical": 7.8, "total": 8.43, "notes": "תנופת AI ודוחות רווחים חזקים דוחפים צמיחה."},
-    {"ticker": "MSFT", "name": "Microsoft Corporation", "price": "$408.96", "news": 8.0, "analyst": 8.5, "technical": 7.8, "total": 8.105, "notes": "צמיחה בענן ובינה מלאכותית תומכת בתחזיות חיוביות."},
-    {"ticker": "AMZN", "name": "Amazon.com, Inc.", "price": "$213.12", "news": 8.2, "analyst": 8.5, "technical": 7.5, "total": 8.06, "notes": "התרחבות AWS ומסחר אלקטרוני חזק."},
-    {"ticker": "TSLA", "name": "Tesla, Inc.", "price": "$396.73", "news": 8.0, "analyst": 8.2, "technical": 7.5, "total": 7.895, "notes": "התרגשות מדגמים חדשים ודירוג קנייה מבנק אוף אמריקה."},
-    {"ticker": "META", "name": "Meta Platforms, Inc.", "price": "$644.86", "news": 7.8, "analyst": 8.3, "technical": 7.5, "total": 7.87, "notes": "הכנסות מפרסום ופיתוח VR/AR חיוביים."},
-    {"ticker": "GOOGL", "name": "Alphabet Inc.", "price": "$298.48", "news": 7.5, "analyst": 8.0, "technical": 7.2, "total": 7.57, "notes": "שילוב AI בחיפוש ופרסום מניע צמיחה."},
-    {"ticker": "V", "name": "Visa Inc.", "price": "$317.36", "news": 7.5, "analyst": 7.8, "technical": 7.0, "total": 7.43, "notes": "מגמות הוצאות צרכנים ורכישות תומכות."},
-    {"ticker": "JPM", "name": "JPMorgan Chase & Co.", "price": "$289.48", "news": 7.0, "analyst": 7.5, "technical": 7.0, "total": 7.175, "notes": "יציבות במגזר הבנקאות עם תמיכה מוסדית."},
-    {"ticker": "AAPL", "name": "Apple Inc.", "price": "$257.46", "news": 6.5, "analyst": 7.8, "technical": 7.0, "total": 7.13, "notes": "ציפייה להשקת מוצר אך חששות צמיחה."},
-    {"ticker": "AMD", "name": "Advanced Micro Devices", "price": "$192.44", "news": 7.0, "analyst": 7.5, "technical": 6.5, "total": 7.0, "notes": "ירידה לאחר רווחים אך פוטנציאל לטווח ארוך."},
-    {"ticker": "SOL-USD", "name": "Solana", "price": "$82.31", "news": 7.0, "analyst": 7.2, "technical": 6.5, "total": 6.895, "notes": "יסודות חיוביים ב-DeFi אך שוק דובי."},
-    {"ticker": "ETH-USD", "name": "Ethereum", "price": "$1,944.76", "news": 6.5, "analyst": 7.0, "technical": 6.2, "total": 6.57, "notes": "שדרוגי רשת אך אזהרות על ספירלה דובית."},
-    {"ticker": "ADA-USD", "name": "Cardano", "price": "$0.25", "news": 6.8, "analyst": 6.5, "technical": 5.8, "total": 6.345, "notes": "הזרמת נזילות חיובית אך מחיר יציב."},
-    {"ticker": "BTC-USD", "name": "Bitcoin", "price": "$67,289.41", "news": 6.0, "analyst": 6.5, "technical": 6.0, "total": 6.175, "notes": "ירידות מחירים ופחד קיצוני בשוק."},
-    {"ticker": "DOT-USD", "name": "Polkadot", "price": "$1.46", "news": 6.2, "analyst": 6.0, "technical": 5.5, "total": 5.885, "notes": "תנופה חלשה ללא זרזים משמעותיים."}
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies Inc",
+      "price": "$154.79",
+      "news": 8.5,
+      "analyst": 7.5,
+      "technical": 8.5,
+      "total": 8.15,
+      "notes": "עולה בזמן שהטק נופל - חוזה ממשלתי AI ממשיך לתדלק. כוח יחסי חזק ביותר היום"
+    },
+    {
+      "ticker": "BTC",
+      "name": "Bitcoin",
+      "price": "$69,165.32",
+      "news": 8.5,
+      "analyst": 8.0,
+      "technical": 8.0,
+      "total": 8.15,
+      "notes": "עולה 4.8% בזמן שהמניות נופלות - תנאי מקרו של מזרח תיכון מדרבנים ביקוש מקלט בטוח. Strategy קנתה 1.3B$ השבוע"
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings Inc",
+      "price": "$435.26",
+      "news": 8.0,
+      "analyst": 8.5,
+      "technical": 7.5,
+      "total": 8.00,
+      "notes": "דוח Q4 FY2026 הוצג אתמול - FCF עלה 94.6%, הכנסות +23.3%. קטליסט אמיתי לאחר הדיווח"
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms Inc",
+      "price": "$634.85",
+      "news": 7.5,
+      "analyst": 8.5,
+      "technical": 7.0,
+      "total": 7.68,
+      "notes": "Bill Ackman מסתכל על META כהזדמנות - P/E נמוך של 21.94 לחברה עם צמיחה של 23.8%"
+    },
+    {
+      "ticker": "HOOD",
+      "name": "Robinhood Markets Inc",
+      "price": "$77.21",
+      "news": 7.5,
+      "analyst": 8.0,
+      "technical": 7.0,
+      "total": 7.50,
+      "notes": "Wall Street חזק ביותר. הכנסות +26.5%, רחוק מהשיא השנתי $153. עדיין פוטנציאל אפסייד עצום"
+    },
+    {
+      "ticker": "SOL",
+      "name": "Solana",
+      "price": "$85.46",
+      "news": 8.0,
+      "analyst": 7.5,
+      "technical": 7.0,
+      "total": 7.48,
+      "notes": "עקף את אית'ריום בנפחי סטייבלקוין - שיא של $650B בפברואר. פאנדמנטלס חזקים בשוק ירוד"
+    },
+    {
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices Inc",
+      "price": "$193.72",
+      "news": 6.5,
+      "analyst": 8.0,
+      "technical": 7.5,
+      "total": 7.38,
+      "notes": "ירד 16% מאז הדוח - אך מניתוח טכני: oversold עם צמיחה 34% ו-FCF עלה 91%. ריבאונד צפוי"
+    },
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA Corp",
+      "price": "$178.90",
+      "news": 6.0,
+      "analyst": 8.5,
+      "technical": 6.5,
+      "total": 7.05,
+      "notes": "טיפר מכר, חששות שרשרת האספקה ממזרח התיכון. אבל הכנסות Q4 של $68B יצרו בסיס חזק"
+    },
+    {
+      "ticker": "ETH",
+      "name": "Ethereum",
+      "price": "$2,026.04",
+      "news": 6.0,
+      "analyst": 6.5,
+      "technical": 6.0,
+      "total": 6.18,
+      "notes": "תמיכה קריטית ב-$2,000. שורט-סלר ב-Culper פרסם 'death spiral risk' - לחץ לטווח קצר"
+    },
+    {
+      "ticker": "SMCI",
+      "name": "Super Micro Computer Inc",
+      "price": "$30.56",
+      "news": 6.5,
+      "analyst": 6.0,
+      "technical": 6.0,
+      "total": 6.15,
+      "notes": "הכנסות +123% יו-אן-יו מדהים אך המניה קרובה לשפל שנתי. American Century קנתה 416K מניות"
+    },
+    {
+      "ticker": "IONQ",
+      "name": "IonQ Inc",
+      "price": "$34.30",
+      "news": 7.0,
+      "analyst": 6.5,
+      "technical": 5.5,
+      "total": 6.30,
+      "notes": "הכנסות +428% אך ירד מ-$84. מחשוב קוונטי ספקולטיבי - גופים מוסדיים מתחילים לקנות"
+    },
+    {
+      "ticker": "TSLA",
+      "name": "Tesla Inc",
+      "price": "$386.01",
+      "news": 6.5,
+      "analyst": 6.5,
+      "technical": 6.0,
+      "total": 6.33,
+      "notes": "BofA שדרגה ל-Buy אבל הכנסות ירדו 3.1% ורווח נטו -60.5%. רובוטקסי צריך להוכיח עצמו"
+    },
+    {
+      "ticker": "MSTR",
+      "name": "Strategy Inc (MicroStrategy)",
+      "price": "$138.59",
+      "news": 7.0,
+      "analyst": 7.0,
+      "technical": 5.5,
+      "total": 6.48,
+      "notes": "קנתה 17,994 BTC ($1.3B) השבוע. ירדה מ-$457 - מינוף על ביטקוין. תלויה בגורל BTC"
+    },
+    {
+      "ticker": "SNOW",
+      "name": "Snowflake Inc",
+      "price": "$179.53",
+      "news": 5.5,
+      "analyst": 6.5,
+      "technical": 5.5,
+      "total": 5.85,
+      "notes": "תביעות משפטיות מעיבות על סיפור הצמיחה. הכנסות +30% אבל FCF שלילי. סיכון רגולטורי"
+    },
+    {
+      "ticker": "RXRX",
+      "name": "Recursion Pharmaceuticals Inc",
+      "price": "$3.38",
+      "news": 4.0,
+      "analyst": 4.0,
+      "technical": 3.5,
+      "total": 3.83,
+      "notes": "BofA הורידה יעד מחיר ושמרה על Hold. שורף מזומן, ב-$3.38 לעומת שיא $7.18. הכי פחות מומלץ"
+    }
   ]
 }
