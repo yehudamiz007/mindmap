@@ -138,7 +138,7 @@ canvas#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
     <div class="cron-filters" id="skillsFilters"></div>
     <div class="cron-table-wrap">
       <table class="cron-table">
-        <thead><tr><th>Icon</th><th>Name</th><th>Description</th><th>Category</th><th>Model</th></tr></thead>
+        <thead><tr><th>Icon</th><th>Name</th><th>Description</th><th>Category</th><th>Model</th><th>Last Used</th></tr></thead>
         <tbody id="skillsBody"></tbody>
       </table>
     </div>
@@ -150,7 +150,7 @@ canvas#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
     <div class="cron-filters" id="cronFilters"></div>
     <div class="cron-table-wrap">
       <table class="cron-table">
-        <thead><tr><th>Status</th><th>Name</th><th>Description</th><th>Schedule</th><th>Model</th><th>Category</th><th>Enabled</th></tr></thead>
+        <thead><tr><th>Status</th><th>Name</th><th>Description</th><th>Schedule</th><th>Model</th><th>Category</th><th>Last Used</th><th>Enabled</th></tr></thead>
         <tbody id="cronBody"></tbody>
       </table>
     </div>
@@ -341,16 +341,33 @@ allApps().forEach(a=>checkStatus(a.url,a.id||a.name));
 // Close modal on overlay click
 document.getElementById('modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal()});
 
+// === USAGE DATA (hub-usage.json) ===
+let USAGE={cron:{},skills:{}};
+fetch('hub-usage.json?_='+Date.now()).then(r=>r.json()).then(d=>{USAGE=d;renderCron();renderSkills();}).catch(()=>{});
+
+function fmtLastRun(ms){
+  if(!ms)return'<span style="color:var(--text-dim);font-size:.75rem">-</span>';
+  const diff=Date.now()-ms;
+  const m=Math.floor(diff/60000),h=Math.floor(diff/3600000),d=Math.floor(diff/86400000);
+  let s,col;
+  if(m<2){s='עכשיו';col='var(--green)'}
+  else if(m<60){s=`לפני ${m}ד'`;col='var(--green)'}
+  else if(h<24){s=`לפני ${h}ש'`;col='var(--accent)'}
+  else if(d<7){s=`לפני ${d}י'`;col='var(--text)'}
+  else{const dt=new Date(ms);s=`${dt.getDate()}.${dt.getMonth()+1}.${dt.getFullYear()}`;col='var(--text-dim)'}
+  return`<span style="color:${col};font-size:.78rem;white-space:nowrap">${s}</span>`;
+}
+
 // === CRON JOBS ===
 const CRON_JOBS=[
-  {id:'74a0a646-b83d-441b-bbdc-8a8613dbcdfd',name:'Backup MEMORY.md',description:'Backs up MEMORY.md to memory/backups/ every hour. Keeps only last 48 backups.',schedule:'0 * * * *',scheduleHuman:'Every hour',tz:'Asia/Jerusalem',enabled:true,model:'claude-opus-4-6',category:'Maintenance',lastStatus:'ok'},
-  {id:'8e0d2072-d8aa-4c0d-bf8e-099a7d19e88b',name:'Hourly Hub HTML Backup',description:'Backs up hub.html to backups/hub/ every hour.',schedule:'0 * * * *',scheduleHuman:'Every hour',tz:'Asia/Jerusalem',enabled:true,model:'claude-opus-4-6',category:'Maintenance',lastStatus:'ok'},
-  {id:'a7f3c9a1-9418-4a82-a5a5-61e2adf624c3',name:'Daily yehudaclaw Backup',description:'Backs up entire workspace, config, cron & devices folders to GitHub (yehudaclaw repo) daily at 3:00 AM.',schedule:'0 3 * * *',scheduleHuman:'Daily 3:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'claude-opus-4-6',category:'Maintenance',lastStatus:'ok'},
-  {id:'b0fce25-bfb3-4a89-80bf-cdac1b3f08f5',name:'Oref Seed Update',description:'Runs update_oref_seed.py every 10 minutes to fetch latest alerts and push to GitHub.',schedule:'*/10 * * * *',scheduleHuman:'Every 10 minutes',tz:'Asia/Jerusalem',enabled:true,model:'claude-opus-4-6',category:'Maintenance',lastStatus:'ok'},
+  {id:'74a0a646-b83d-441b-bbdc-8a8613dbcdfd',name:'Backup MEMORY.md',description:'Backs up MEMORY.md to memory/backups/ every hour. Keeps only last 48 backups.',schedule:'0 * * * *',scheduleHuman:'Every hour',tz:'Asia/Jerusalem',enabled:true,model:'claude-sonnet-4-6',category:'Maintenance',lastStatus:'ok'},
+  {id:'8e0d2072-d8aa-4c0d-bf8e-099a7d19e88b',name:'Hourly Hub HTML Backup',description:'Backs up hub.html to backups/hub/ every hour.',schedule:'0 * * * *',scheduleHuman:'Every hour',tz:'Asia/Jerusalem',enabled:true,model:'claude-sonnet-4-6',category:'Maintenance',lastStatus:'ok'},
+  {id:'a7f3c9a1-9418-4a82-a5a5-61e2adf624c3',name:'Daily yehudaclaw Backup',description:'Backs up entire workspace, config, cron & devices folders to GitHub (yehudaclaw repo) daily at 3:00 AM.',schedule:'0 3 * * *',scheduleHuman:'Daily 3:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'claude-sonnet-4-6',category:'Maintenance',lastStatus:'ok'},
+  {id:'b40fce25-bfb3-4a89-80bf-cdac1b3f08f5',name:'Oref Seed Update',description:'Runs update_oref_seed.py every 10 minutes to fetch latest alerts and push to GitHub.',schedule:'*/10 * * * *',scheduleHuman:'Every 10 minutes',tz:'Asia/Jerusalem',enabled:true,model:'claude-sonnet-4-6',category:'Maintenance',lastStatus:'ok'},
   {id:'df402cec-2d90-4241-88a0-03e0f451cef9',name:'Daily AI News Summary',description:'Fetches AI news from TechCrunch, VentureBeat, The Verge. Picks top 5 stories from last 24h, writes Hebrew summary, sends to WhatsApp.',schedule:'0 9 * * 0-5',scheduleHuman:'Daily 9:00 AM (Sun-Fri)',tz:'Asia/Jerusalem',enabled:true,model:'grok-3',category:'News',lastStatus:'ok'},
   {id:'22bbae55-0d84-413d-a05a-915e52652398',name:'LinkedIn Daily AI Post',description:'Writes a Hebrew LinkedIn post about the most interesting AI story of the day. Sends draft to WhatsApp.',schedule:'0 10 * * 0-5',scheduleHuman:'Daily 10:00 AM (Sun-Fri)',tz:'Asia/Jerusalem',enabled:true,model:'claude-sonnet-4-6',category:'News',lastStatus:'ok'},
   {id:'b496cdfe-7a7c-4462-b172-7d3fe8dbb758',name:'Daily Stock Scanner',description:'Grok picks 15 best stocks/crypto to buy. Analyzes news sentiment (30%), analyst targets (35%), technical analysis (35%).',schedule:'0 9,17 * * *',scheduleHuman:'Daily 9:00 AM & 5:00 PM',tz:'Asia/Jerusalem',enabled:true,model:'grok-3',category:'Trading',lastStatus:'ok'},
-  {id:'aa64c5a7-930c-454b-9fc2-db1d1a54beee',name:'Cost Dashboard Update',description:'Runs update-costs.js to calculate OpenClaw API costs, pushes costs.json to GitHub.',schedule:'0 9,21 * * *',scheduleHuman:'Daily 9:00 AM & 9:00 PM',tz:'Asia/Jerusalem',enabled:true,model:'claude-opus-4-6',category:'Maintenance',lastStatus:'ok'},
+  {id:'aa64c5a7-930c-454b-9fc2-db1d1a54beee',name:'Cost Dashboard Update',description:'Runs update-costs.js to calculate OpenClaw API costs, pushes costs.json to GitHub.',schedule:'0 9,21 * * *',scheduleHuman:'Daily 9:00 AM & 9:00 PM',tz:'Asia/Jerusalem',enabled:true,model:'claude-sonnet-4-6',category:'Maintenance',lastStatus:'ok'},
   {id:'e1eb3b60-b369-41e4-be2e-fbf5f0844f79',name:'Grok Virtual Trader',description:'Manages a virtual $1,000 stock portfolio. Fetches real prices, runs 3-pillar analysis, rotates positions.',schedule:'0 16-23 * * 1-6',scheduleHuman:'Hourly 4-11 PM (Mon-Sat)',tz:'Asia/Jerusalem',enabled:true,model:'grok-3',category:'Trading',lastStatus:'ok'},
   {id:'9ec71945-81ab-4389-b61f-d3637dfbed80',name:'Iran Dashboard Update',description:'Searches for latest US-Iran tension news, updates iran-data.json threat level, timeline events, and forces data.',schedule:'0 12 * * *',scheduleHuman:'Daily 12:00 PM',tz:'Asia/Jerusalem',enabled:true,model:'grok-3',category:'News',lastStatus:'ok'},
   {id:'968e059d-dc07-4651-8577-05b3f3c9fb3e',name:'Arbel Birthday Reminder',description:'Reminds 1 week before Arbel birthday (April 8).',schedule:'0 8 1 4 *',scheduleHuman:'April 1, 8:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'system-event',category:'Reminders',lastStatus:'pending'},
@@ -405,6 +422,7 @@ function renderCronTable(){
       </td>
       <td><span class="badge ${MODEL_BADGE[j.model]||''}">${j.model}</span></td>
       <td><span class="badge ${CAT_BADGE[j.category]||''}">${j.category}</span></td>
+      <td>${fmtLastRun((USAGE.cron[j.id]||{}).lastRun)}</td>
       <td><label class="toggle"><input type="checkbox" ${en?'checked':''} onchange="toggleCron('${j.id}',this.checked)"><span class="slider"></span></label></td>
     </tr>`}).join('');
 }
@@ -434,20 +452,20 @@ renderCron();
 
 // === SKILLS ===
 const SKILLS=[
-  {icon:'🏛️',name:'AI Chief Architect',desc:'System design, architecture decisions, ADRs, technology choices, microservices, cloud-native, LLM/Agentic AI',cat:'Technical',model:'claude-opus-4-6'},
-  {icon:'💕',name:'Husband',desc:'Relationship support for Yehuda & Ilana. Available for Ilana on WhatsApp - tips, reminders, warm words',cat:'Personal',model:'claude-opus-4-6'},
-  {icon:'👶',name:'Parenting',desc:'Tailored parenting for Avior (6), Nitai (4), Arbel (9mo). Activities, milestones, meals, behavior tips',cat:'Personal',model:'claude-opus-4-6'},
-  {icon:'🇮🇱',name:'Hebrew',desc:'Bilingual Hebrew/English communication, cultural context, modern Israeli Hebrew & slang',cat:'Language',model:'claude-opus-4-6'},
-  {icon:'📈',name:'Technical Analysis',desc:'Advanced chart analysis - Elliott Wave, Wyckoff, ICT/Smart Money, harmonic patterns, order flow',cat:'Trading',model:'claude-opus-4-6'},
+  {icon:'🏛️',name:'AI Chief Architect',desc:'System design, architecture decisions, ADRs, technology choices, microservices, cloud-native, LLM/Agentic AI',cat:'Technical',model:'claude-sonnet-4-6'},
+  {icon:'💕',name:'Husband',desc:'Relationship support for Yehuda & Ilana. Available for Ilana on WhatsApp - tips, reminders, warm words',cat:'Personal',model:'claude-sonnet-4-6'},
+  {icon:'👶',name:'Parenting',desc:'Tailored parenting for Avior (6), Nitai (4), Arbel (9mo). Activities, milestones, meals, behavior tips',cat:'Personal',model:'claude-sonnet-4-6'},
+  {icon:'🇮🇱',name:'Hebrew',desc:'Bilingual Hebrew/English communication, cultural context, modern Israeli Hebrew & slang',cat:'Language',model:'claude-sonnet-4-6'},
+  {icon:'📈',name:'Technical Analysis',desc:'Advanced chart analysis - Elliott Wave, Wyckoff, ICT/Smart Money, harmonic patterns, order flow',cat:'Trading',model:'claude-sonnet-4-6'},
   {icon:'📰',name:'Market News Sentiment',desc:'News sentiment analysis for stocks & crypto. Fetches real-time news, analyzes sentiment, actionable signals',cat:'Trading',model:'grok-3'},
-  {icon:'🎯',name:'Analyst Price Targets',desc:'Aggregates analyst ratings, consensus estimates, fair value calculations with upside/downside potential',cat:'Trading',model:'claude-opus-4-6'},
-  {icon:'☕',name:'Coffee Master',desc:'Espresso recipes, milk steaming, latte art, grinder settings for La Marzocco Linea Micra',cat:'Lifestyle',model:'claude-opus-4-6'},
-  {icon:'💪',name:'Fitness & Nutrition',desc:'Workout plans, strength training, body recomposition, macros, meal prep, supplements, recovery',cat:'Lifestyle',model:'claude-opus-4-6'},
-  {icon:'🔒',name:'Secure Skill Downloader',desc:'Security gatekeeper for all skill installations. Scans for malicious code, prompt injection, credential theft',cat:'Security',model:'claude-opus-4-6'},
-  {icon:'🛠️',name:'Skill Creator',desc:'Design, structure, and package new AgentSkills with scripts, references, and assets',cat:'Technical',model:'claude-opus-4-6'},
-  {icon:'🌤️',name:'Weather',desc:'Current weather and forecasts, no API key required',cat:'Utility',model:'claude-opus-4-6'},
-  {icon:'🔐',name:'Healthcheck',desc:'Host security hardening, firewall/SSH audits, risk-tolerance configuration for OpenClaw deployments',cat:'Security',model:'claude-opus-4-6'},
-  {icon:'🤖',name:'Ecovacs',desc:'שליטה ב-DEEBOT X8 PRO OMNI - ניקוי, עצירה, השהיה, חזרה לעגינה, סטטוס וצליל',cat:'Lifestyle',model:'claude-opus-4-6'},
+  {icon:'🎯',name:'Analyst Price Targets',desc:'Aggregates analyst ratings, consensus estimates, fair value calculations with upside/downside potential',cat:'Trading',model:'claude-sonnet-4-6'},
+  {icon:'☕',name:'Coffee Master',desc:'Espresso recipes, milk steaming, latte art, grinder settings for La Marzocco Linea Micra',cat:'Lifestyle',model:'claude-sonnet-4-6'},
+  {icon:'💪',name:'Fitness & Nutrition',desc:'Workout plans, strength training, body recomposition, macros, meal prep, supplements, recovery',cat:'Lifestyle',model:'claude-sonnet-4-6'},
+  {icon:'🔒',name:'Secure Skill Downloader',desc:'Security gatekeeper for all skill installations. Scans for malicious code, prompt injection, credential theft',cat:'Security',model:'claude-sonnet-4-6'},
+  {icon:'🛠️',name:'Skill Creator',desc:'Design, structure, and package new AgentSkills with scripts, references, and assets',cat:'Technical',model:'claude-sonnet-4-6'},
+  {icon:'🌤️',name:'Weather',desc:'Current weather and forecasts, no API key required',cat:'Utility',model:'claude-sonnet-4-6'},
+  {icon:'🔐',name:'Healthcheck',desc:'Host security hardening, firewall/SSH audits, risk-tolerance configuration for OpenClaw deployments',cat:'Security',model:'claude-sonnet-4-6'},
+  {icon:'🤖',name:'Ecovacs',desc:'שליטה ב-DEEBOT X8 PRO OMNI - ניקוי, עצירה, השהיה, חזרה לעגינה, סטטוס וצליל',cat:'Lifestyle',model:'claude-sonnet-4-6'},
   {icon:'🏛️',name:'Any1',desc:'The Human Market - פיתוח אפליקציית מסחר בבני אדם. Skill לפיתוח React/Vite, GitHub ו-Vercel',cat:'Technical',model:'claude-sonnet-4-6'}
 ];
 
@@ -474,6 +492,7 @@ function renderSkillsTable(){
     <td><div class="cron-desc">${s.desc}</div></td>
     <td><span class="badge ${SKILL_CAT_COLORS[s.cat]||''}">${s.cat}</span></td>
     <td><span class="badge ${MODEL_BADGE[s.model]||''}">${s.model}</span></td>
+    <td>${fmtLastRun((USAGE.skills[s.name]||{}).lastRun)}</td>
   </tr>`).join('');
 }
 
