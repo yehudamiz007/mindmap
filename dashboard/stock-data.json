@@ -1,155 +1,145 @@
 {
-  "lastUpdated": "10.03.2026 09:01 IST",
+  "lastUpdated": "10.03.2026 17:00 IST",
   "stocks": [
     {
-      "ticker": "NVDA",
-      "name": "NVIDIA Corp",
-      "price": "$182.65",
-      "news": 8.5,
-      "analyst": 8.5,
-      "technical": 8.0,
-      "total": 8.33,
-      "notes": "השקעה של $2B ב-Lumentum ו-Coherent, הכנסות Q4 של $68B (+73%), ביקוש ל-Blackwell Ultra מוצף"
-    },
-    {
-      "ticker": "TSM",
-      "name": "Taiwan Semiconductor",
-      "price": "$348.70",
+      "ticker": "MSTR",
+      "name": "Strategy Inc (MicroStrategy)",
+      "price": "$140.29",
       "news": 8.0,
-      "analyst": 8.5,
-      "technical": 8.5,
-      "total": 8.33,
-      "notes": "פריצה לשיא של 12 חודשים, ביקוש לשבבי AI בשיאו, צמיחת רווח נקי 35%, יעדי מחיר $380-420"
-    },
-    {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings",
-      "price": "$434.13",
-      "news": 8.0,
-      "analyst": 8.0,
+      "analyst": 9.5,
       "technical": 7.5,
-      "total": 7.87,
-      "notes": "דוחות Q4 FY2026 עם גידול הכנסות 23%, FCF של $497M (+94%), ביטחון סייבר ממשיך לצמוח"
+      "total": 8.35,
+      "notes": "פרוקסי ביטקוין עם קניה מאסיבית - B. Riley מוסיף Strong Buy היום, פוטנציאל של 153% למעלה לפי קונסנזוס אנליסטים"
     },
     {
-      "ticker": "ANET",
-      "name": "Arista Networks",
-      "price": "$137.17",
-      "news": 7.5,
-      "analyst": 8.5,
-      "technical": 7.5,
-      "total": 7.87,
-      "notes": "יעד AI של $3.25B, 53% פוטנציאל עלייה לפי אנליסטים, אפס חוב, גידול הכנסות 29%"
-    },
-    {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies",
-      "price": "$156.43",
+      "ticker": "IONQ",
+      "name": "IonQ Inc",
+      "price": "$36.76",
       "news": 8.5,
-      "analyst": 7.0,
-      "technical": 7.5,
-      "total": 7.70,
-      "notes": "עולה בזמן שטק הגדול יורד, חוזים ממשלתיים/NATO מאיצים, צמיחה 70% בהכנסות"
-    },
-    {
-      "ticker": "ORCL",
-      "name": "Oracle Corp",
-      "price": "$151.56",
-      "news": 7.5,
-      "analyst": 8.5,
+      "analyst": 9.0,
       "technical": 7.0,
-      "total": 7.70,
-      "notes": "דוחות Q3 השבוע כקטליזטור, Scotiabank מוריד ל-$215 (42% upside), ענן AI ממשיך לגדול"
+      "total": 8.20,
+      "notes": "מחשוב קוונטי מוביל עם עסקת SkyWater שמאיצה ייצור, הכנסות הוכפלו פי 3 ו-Strong Buy קונסנזוס עם יעד $67"
+    },
+    {
+      "ticker": "CELH",
+      "name": "Celsius Holdings Inc",
+      "price": "$45.35",
+      "news": 8.0,
+      "analyst": 9.0,
+      "technical": 7.5,
+      "total": 8.18,
+      "notes": "ירידה של 20% יצרה הזדמנות קניה - הרחבה לאירופה עם Suntory, קונסנזוס Strong Buy עם יעד $66.5 (+47%)"
+    },
+    {
+      "ticker": "HOOD",
+      "name": "Robinhood Markets Inc",
+      "price": "$79.80",
+      "news": 7.5,
+      "analyst": 9.0,
+      "technical": 7.5,
+      "total": 8.03,
+      "notes": "סופר-אפ פיננסי עם צמיחה של 20%+, Goldman ו-Goldman Sachs Strong Buy, פוטנציאל עלייה של 41% ליעד $112"
     },
     {
       "ticker": "BTC",
       "name": "Bitcoin",
-      "price": "$69,906.55",
-      "news": 7.0,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.17,
-      "notes": "סיילור קנה 17,994 BTC ב-$1.28B, סימני שיפור זהירים, חזרה מעל $70K"
-    },
-    {
-      "ticker": "HOOD",
-      "name": "Robinhood Markets",
-      "price": "$79.35",
+      "price": "$71,453.23",
       "news": 7.5,
-      "analyst": 7.0,
-      "technical": 7.0,
-      "total": 7.17,
-      "notes": "השקת קרן Ventures חדשה, אסטרטגיית 'סופר-אפ פיננסי', צמיחה 20%+ צפויה"
+      "analyst": 8.0,
+      "technical": 8.5,
+      "total": 8.00,
+      "notes": "התאוששות מחדש לאחר פאניקת מלחמה - Strategy קנתה 1,420 BTC היום, זרמי ETF מתחדשים, מומנטום טכני חיובי"
     },
     {
-      "ticker": "XRP",
-      "name": "XRP",
-      "price": "$1.38",
-      "news": 7.0,
-      "analyst": 7.0,
+      "ticker": "META",
+      "name": "Meta Platforms Inc",
+      "price": "$659.14",
+      "news": 8.0,
+      "analyst": 9.0,
+      "technical": 7.0,
+      "total": 7.95,
+      "notes": "רכישת Moltbook ב-AI agents היום, Strong Buy קונסנזוס עם יעד $835 (+27%), צמיחת הכנסות 27% QoQ"
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings Inc",
+      "price": "$433.89",
+      "news": 8.5,
+      "analyst": 8.0,
+      "technical": 7.5,
+      "total": 7.95,
+      "notes": "שדרוג Morgan Stanley ל-Overweight היום עם יעד $510, קונסנזוס Buy חזק בסייבר-סקיוריטי"
+    },
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA Corp",
+      "price": "$185.47",
+      "news": 8.5,
+      "analyst": 9.0,
       "technical": 6.5,
-      "total": 6.72,
-      "notes": "אנליסטים מדברים על גל 5 אליוט, AI חוזה שXRP יעקוף BTC ב-2026, ניצחון משפטי"
+      "total": 7.93,
+      "notes": "השקעה של $2B ב-Lumentum ו-Coherent + השקעה בסטארטאפ AI של מורטי, Strong Buy עם יעד $263 (+42%)"
     },
     {
-      "ticker": "RDDT",
-      "name": "Reddit Inc",
-      "price": "$138.86",
-      "news": 6.5,
-      "analyst": 6.5,
-      "technical": 7.0,
-      "total": 6.67,
-      "notes": "צמיחת הכנסות 69%, Bernstein עם המלצת Hold, ירידה חדה מ-$282, מונטיזציה משתפרת"
+      "ticker": "PLTR",
+      "name": "Palantir Technologies Inc",
+      "price": "$151.81",
+      "news": 8.0,
+      "analyst": 7.5,
+      "technical": 7.5,
+      "total": 7.68,
+      "notes": "עולה כשה-Big Tech יורד - הכנסות +70% YoY, אנליסטים שדרגו ל-Buy, מומנטום ביטחוני ממשיך"
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$86.32",
-      "news": 6.5,
-      "analyst": 7.0,
-      "technical": 6.0,
-      "total": 6.42,
-      "notes": "שיא בסטייבלקוינים, קצר RWA, אנליסטים מצפים לירידה קצרת טווח, מטרה $2K לטווח ארוך"
+      "price": "$87.77",
+      "news": 7.0,
+      "analyst": 7.5,
+      "technical": 8.0,
+      "total": 7.53,
+      "notes": "נפח סטייבלקוין שיא של $650B בפברואר, Grayscale מדגיש ביקוש תשלומים, תמיכה טכנית חזקה ב-$85"
     },
     {
       "ticker": "ETH",
       "name": "Ethereum",
-      "price": "$2,043.07",
-      "news": 5.5,
-      "analyst": 6.5,
-      "technical": 6.0,
-      "total": 6.02,
-      "notes": "מחזיק $2K בקושי, אזהרת short seller על 'death spiral', מתח המזרח התיכון לוחץ"
+      "price": "$2,077.50",
+      "news": 6.5,
+      "analyst": 7.0,
+      "technical": 8.0,
+      "total": 7.23,
+      "notes": "התאוששות לקראת $2,100-$2,200 לפי ניתוח טכני, סיכון short sellers על tokenomics - שדרוג Pectra מתקרב"
     },
     {
-      "ticker": "MSTR",
-      "name": "Strategy Inc (MicroStrategy)",
-      "price": "$138.95",
-      "news": 6.0,
-      "analyst": 6.0,
-      "technical": 6.5,
-      "total": 6.17,
-      "notes": "רכישת $1.28B BTC אך מחיר ממוצע מעל מחיר שוק, מכירות מוסדיות, מינוף גבוה"
-    },
-    {
-      "ticker": "RXRX",
-      "name": "Recursion Pharmaceuticals",
-      "price": "$3.51",
+      "ticker": "SHOP",
+      "name": "Shopify Inc",
+      "price": "$130.31",
       "news": 7.0,
-      "analyst": 6.0,
-      "technical": 5.5,
-      "total": 6.17,
-      "notes": "צמיחת הכנסות 681% YoY, ספקולטיבי - עדיין בהפסד, AI לגילוי תרופות בשלב מוקדם"
+      "analyst": 7.5,
+      "technical": 6.5,
+      "total": 7.00,
+      "notes": "צמיחת הכנסות 30% YoY, קונסנזוס Buy עם יעד $163 (+26%), נפח אופציות גבוה מצביע על תנועה"
     },
     {
-      "ticker": "SOUN",
-      "name": "SoundHound AI",
-      "price": "$8.22",
+      "ticker": "SMCI",
+      "name": "Super Micro Computer Inc",
+      "price": "$32.25",
       "news": 6.0,
-      "analyst": 5.5,
-      "technical": 5.5,
-      "total": 5.67,
-      "notes": "צמיחת הכנסות 59%, ירידה חדה מ-$22 ATH, מאבק להתייצב, מניה ספקולטיבית בלבד"
+      "analyst": 6.5,
+      "technical": 7.0,
+      "total": 6.53,
+      "notes": "הכנסות +123% YoY אך קונסנזוס Hold עם Strong Sell מסוימים, ציפיות לאחר ביקורת עדיין מדכאות"
+    },
+    {
+      "ticker": "TSLA",
+      "name": "Tesla Inc",
+      "price": "$405.28",
+      "news": 5.0,
+      "analyst": 4.5,
+      "technical": 6.5,
+      "total": 5.43,
+      "notes": "מכירות UK ירדו 37%, קונסנזוס Hold עם יעד ממוצע $396 מתחת למחיר הנוכחי, תחרות סינית מכבידה"
     }
   ]
 }
