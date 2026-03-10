@@ -8,9 +8,9 @@
       "name": "Microsoft Corp",
       "shares": 0.602,
       "avgCost": 396.1,
-      "currentPrice": 405.03,
-      "unrealizedPL": 5.37,
-      "unrealizedPLPct": 2.25,
+      "currentPrice": 404.88,
+      "unrealizedPL": 5.29,
+      "unrealizedPLPct": 2.22,
       "newsScore": 7.0,
       "analystScore": 7.5,
       "technicalScore": 7.0,
@@ -22,13 +22,13 @@
       "name": "Amazon.com Inc",
       "shares": 0.844,
       "avgCost": 207.42,
-      "currentPrice": 209.34,
-      "unrealizedPL": 1.62,
-      "unrealizedPLPct": 0.92,
-      "newsScore": 8.0,
+      "currentPrice": 213.56,
+      "unrealizedPL": 5.18,
+      "unrealizedPLPct": 2.96,
+      "newsScore": 8.5,
       "analystScore": 8.5,
       "technicalScore": 7.5,
-      "combinedScore": 8.05,
+      "combinedScore": 8.17,
       "buyDate": "2026-03-09T07:00:00-08:00"
     },
     {
@@ -36,42 +36,42 @@
       "name": "Meta Platforms Inc",
       "shares": 0.1351,
       "avgCost": 634.85,
-      "currentPrice": 635.10,
-      "unrealizedPL": 0.03,
-      "unrealizedPLPct": 0.04,
+      "currentPrice": 653.30,
+      "unrealizedPL": 2.49,
+      "unrealizedPLPct": 2.91,
       "newsScore": 8.5,
       "analystScore": 8.5,
-      "technicalScore": 7.5,
-      "combinedScore": 8.18,
+      "technicalScore": 8.0,
+      "combinedScore": 8.35,
       "buyDate": "2026-03-09T08:03:00-08:00"
-    },
-    {
-      "ticker": "CRM",
-      "name": "Salesforce Inc",
-      "shares": 1.5209,
-      "avgCost": 198.75,
-      "currentPrice": 197.24,
-      "unrealizedPL": -2.30,
-      "unrealizedPLPct": -0.76,
-      "newsScore": 7.0,
-      "analystScore": 7.0,
-      "technicalScore": 7.0,
-      "combinedScore": 7.00,
-      "buyDate": "2026-03-09T10:00:00-08:00"
     },
     {
       "ticker": "AVGO",
       "name": "Broadcom Inc",
       "shares": 0.4436,
       "avgCost": 343.03,
-      "currentPrice": 341.70,
-      "unrealizedPL": -0.59,
-      "unrealizedPLPct": -0.39,
+      "currentPrice": 350.59,
+      "unrealizedPL": 3.35,
+      "unrealizedPLPct": 2.20,
       "newsScore": 7.5,
-      "analystScore": 8.0,
-      "technicalScore": 8.0,
-      "combinedScore": 7.83,
+      "analystScore": 7.5,
+      "technicalScore": 7.5,
+      "combinedScore": 7.50,
       "buyDate": "2026-03-09T11:00:00-08:00"
+    },
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA Corp",
+      "shares": 1.6063,
+      "avgCost": 182.75,
+      "currentPrice": 182.75,
+      "unrealizedPL": 0.00,
+      "unrealizedPLPct": 0.00,
+      "newsScore": 8.5,
+      "analystScore": 8.0,
+      "technicalScore": 7.5,
+      "combinedScore": 8.00,
+      "buyDate": "2026-03-10T07:00:00-08:00"
     }
   ],
   "closedTrades": [
@@ -458,6 +458,18 @@
       "realizedPL": -0.86,
       "realizedPLPct": -0.56,
       "sellReason": "Analyst downgrade today (IBTimes), score dropped to 6.5 - rotating to AVGO (score 7.83 vs 6.50)"
+    },
+    {
+      "ticker": "CRM",
+      "name": "Salesforce Inc",
+      "shares": 1.5209,
+      "buyPrice": 198.75,
+      "sellPrice": 193.01,
+      "buyDate": "2026-03-09T10:00:00-08:00",
+      "sellDate": "2026-03-10T07:00:00-08:00",
+      "realizedPL": -8.73,
+      "realizedPLPct": -2.89,
+      "sellReason": "Loss -2.89% > 2.5% threshold + DA Davidson lowered PT today. Score 5.8 - rotating to NVDA (score 8.00)"
     }
   ],
   "portfolioHistory": [
@@ -544,6 +556,7 @@
     {"timestamp": "09.03.2026 09:00 PST", "value": 961.27},
     {"timestamp": "09.03.2026 10:00 PST", "value": 964.19},
     {"timestamp": "09.03.2026 11:00 PST", "value": 957.99},
-    {"timestamp": "09.03.2026 12:00 PST", "value": 957.90}
+    {"timestamp": "09.03.2026 12:00 PST", "value": 957.90},
+    {"timestamp": "10.03.2026 07:00 PST", "value": 961.32}
   ]
 }
