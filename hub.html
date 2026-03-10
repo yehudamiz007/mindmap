@@ -344,10 +344,15 @@ document.getElementById('modal').addEventListener('click',e=>{if(e.target===e.cu
 // === CRON JOBS ===
 const CRON_JOBS=[
   {id:'74a0a646-b83d-441b-bbdc-8a8613dbcdfd',name:'Backup MEMORY.md',description:'Backs up MEMORY.md to memory/backups/ every hour. Keeps only last 48 backups.',schedule:'0 * * * *',scheduleHuman:'Every hour',tz:'Asia/Jerusalem',enabled:true,model:'claude-opus-4-6',category:'Maintenance',lastStatus:'ok'},
-  {id:'df402cec-2d90-4241-88a0-03e0f451cef9',name:'Daily AI News Summary',description:'Fetches AI news from TechCrunch, VentureBeat, The Verge, Ars Technica. Picks top 5-6 stories from last 24h, writes Hebrew summary, sends to WhatsApp.',schedule:'0 9 * * 0-5',scheduleHuman:'Daily 9:00 AM (Sun-Fri)',tz:'Asia/Jerusalem',enabled:true,model:'grok-3',category:'News',lastStatus:'ok'},
+  {id:'8e0d2072-d8aa-4c0d-bf8e-099a7d19e88b',name:'Hourly Hub HTML Backup',description:'Backs up hub.html to backups/hub/ every hour.',schedule:'0 * * * *',scheduleHuman:'Every hour',tz:'Asia/Jerusalem',enabled:true,model:'claude-opus-4-6',category:'Maintenance',lastStatus:'ok'},
+  {id:'a7f3c9a1-9418-4a82-a5a5-61e2adf624c3',name:'Daily yehudaclaw Backup',description:'Backs up entire workspace, config, cron & devices folders to GitHub (yehudaclaw repo) daily at 3:00 AM.',schedule:'0 3 * * *',scheduleHuman:'Daily 3:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'claude-opus-4-6',category:'Maintenance',lastStatus:'ok'},
+  {id:'b0fce25-bfb3-4a89-80bf-cdac1b3f08f5',name:'Oref Seed Update',description:'Runs update_oref_seed.py every 10 minutes to fetch latest alerts and push to GitHub.',schedule:'*/10 * * * *',scheduleHuman:'Every 10 minutes',tz:'Asia/Jerusalem',enabled:true,model:'claude-opus-4-6',category:'Maintenance',lastStatus:'ok'},
+  {id:'df402cec-2d90-4241-88a0-03e0f451cef9',name:'Daily AI News Summary',description:'Fetches AI news from TechCrunch, VentureBeat, The Verge. Picks top 5 stories from last 24h, writes Hebrew summary, sends to WhatsApp.',schedule:'0 9 * * 0-5',scheduleHuman:'Daily 9:00 AM (Sun-Fri)',tz:'Asia/Jerusalem',enabled:true,model:'grok-3',category:'News',lastStatus:'ok'},
+  {id:'22bbae55-0d84-413d-a05a-915e52652398',name:'LinkedIn Daily AI Post',description:'Writes a Hebrew LinkedIn post about the most interesting AI story of the day. Sends draft to WhatsApp.',schedule:'0 10 * * 0-5',scheduleHuman:'Daily 10:00 AM (Sun-Fri)',tz:'Asia/Jerusalem',enabled:true,model:'claude-sonnet-4-6',category:'News',lastStatus:'ok'},
   {id:'b496cdfe-7a7c-4462-b172-7d3fe8dbb758',name:'Daily Stock Scanner',description:'Grok picks 15 best stocks/crypto to buy. Analyzes news sentiment (30%), analyst targets (35%), technical analysis (35%).',schedule:'0 9,17 * * *',scheduleHuman:'Daily 9:00 AM & 5:00 PM',tz:'Asia/Jerusalem',enabled:true,model:'grok-3',category:'Trading',lastStatus:'ok'},
   {id:'aa64c5a7-930c-454b-9fc2-db1d1a54beee',name:'Cost Dashboard Update',description:'Runs update-costs.js to calculate OpenClaw API costs, pushes costs.json to GitHub.',schedule:'0 9,21 * * *',scheduleHuman:'Daily 9:00 AM & 9:00 PM',tz:'Asia/Jerusalem',enabled:true,model:'claude-opus-4-6',category:'Maintenance',lastStatus:'ok'},
   {id:'e1eb3b60-b369-41e4-be2e-fbf5f0844f79',name:'Grok Virtual Trader',description:'Manages a virtual $1,000 stock portfolio. Fetches real prices, runs 3-pillar analysis, rotates positions.',schedule:'0 16-23 * * 1-6',scheduleHuman:'Hourly 4-11 PM (Mon-Sat)',tz:'Asia/Jerusalem',enabled:true,model:'grok-3',category:'Trading',lastStatus:'ok'},
+  {id:'9ec71945-81ab-4389-b61f-d3637dfbed80',name:'Iran Dashboard Update',description:'Searches for latest US-Iran tension news, updates iran-data.json threat level, timeline events, and forces data.',schedule:'0 12 * * *',scheduleHuman:'Daily 12:00 PM',tz:'Asia/Jerusalem',enabled:true,model:'grok-3',category:'News',lastStatus:'ok'},
   {id:'968e059d-dc07-4651-8577-05b3f3c9fb3e',name:'Arbel Birthday Reminder',description:'Reminds 1 week before Arbel birthday (April 8).',schedule:'0 8 1 4 *',scheduleHuman:'April 1, 8:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'system-event',category:'Reminders',lastStatus:'pending'},
   {id:'b59cde1a-e3d0-4cbc-a564-d03579e3e6b2',name:'Ilana Birthday Reminder',description:'Reminds 1 week before Ilana birthday (April 11).',schedule:'0 8 4 4 *',scheduleHuman:'April 4, 8:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'system-event',category:'Reminders',lastStatus:'pending'},
   {id:'b208a785-8b36-40fc-b989-dd217237636b',name:'Avior Birthday Reminder',description:'Reminds 1 week before Avior birthday (April 19).',schedule:'0 8 12 4 *',scheduleHuman:'April 12, 8:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'system-event',category:'Reminders',lastStatus:'pending'},
@@ -359,8 +364,8 @@ const cronOverrides=JSON.parse(localStorage.getItem('hub_cron_overrides')||'{}')
 const cronToggles=JSON.parse(localStorage.getItem('hub_cron_toggles')||'{}');
 let cronFilter='All';
 
-const CAT_BADGE={'Trading':'badge-trading','Maintenance':'badge-maintenance','News':'badge-news','Reminders':'badge-reminders'};
-const MODEL_BADGE={'grok-3':'badge-grok','claude-opus-4-6':'badge-claude','system-event':'badge-system'};
+const CAT_BADGE={'Trading':'badge-trading','Maintenance':'badge-maintenance','News':'badge-news','Reminders':'badge-reminders','Security':'badge-claude','Technical':'badge-maintenance','Personal':'badge-reminders','Language':'badge-news','Lifestyle':'badge-grok','Utility':'badge-system'};
+const MODEL_BADGE={'grok-3':'badge-grok','claude-opus-4-6':'badge-claude','claude-sonnet-4-6':'badge-claude','system-event':'badge-system','xai/grok-3':'badge-grok','anthropic/claude-sonnet-4-6':'badge-claude'};
 
 function getCronEnabled(job){return cronToggles[job.id]!==undefined?cronToggles[job.id]:job.enabled}
 function getCronSchedule(job){return cronOverrides[job.id]||job.schedule}
@@ -442,6 +447,7 @@ const SKILLS=[
   {icon:'🛠️',name:'Skill Creator',desc:'Design, structure, and package new AgentSkills with scripts, references, and assets',cat:'Technical',model:'claude-opus-4-6'},
   {icon:'🌤️',name:'Weather',desc:'Current weather and forecasts, no API key required',cat:'Utility',model:'claude-opus-4-6'},
   {icon:'🔐',name:'Healthcheck',desc:'Host security hardening, firewall/SSH audits, risk-tolerance configuration for OpenClaw deployments',cat:'Security',model:'claude-opus-4-6'},
+  {icon:'🤖',name:'Ecovacs',desc:'שליטה ב-DEEBOT X8 PRO OMNI - ניקוי, עצירה, השהיה, חזרה לעגינה, סטטוס וצליל',cat:'Lifestyle',model:'claude-opus-4-6'},
   {icon:'🏛️',name:'Any1',desc:'The Human Market - פיתוח אפליקציית מסחר בבני אדם. Skill לפיתוח React/Vite, GitHub ו-Vercel',cat:'Technical',model:'claude-sonnet-4-6'}
 ];
 
