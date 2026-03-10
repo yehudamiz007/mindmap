@@ -8,13 +8,13 @@
       "name": "Amazon.com Inc",
       "shares": 0.844,
       "avgCost": 207.42,
-      "currentPrice": 214.30,
-      "unrealizedPL": 5.81,
-      "unrealizedPLPct": 3.32,
-      "newsScore": 8.5,
+      "currentPrice": 214.33,
+      "unrealizedPL": 5.83,
+      "unrealizedPLPct": 3.33,
+      "newsScore": 9.0,
       "analystScore": 8.5,
       "technicalScore": 7.5,
-      "combinedScore": 8.13,
+      "combinedScore": 8.30,
       "buyDate": "2026-03-09T07:00:00-08:00"
     },
     {
@@ -22,13 +22,13 @@
       "name": "Meta Platforms Inc",
       "shares": 0.1351,
       "avgCost": 634.85,
-      "currentPrice": 655.83,
-      "unrealizedPL": 2.83,
-      "unrealizedPLPct": 3.31,
-      "newsScore": 9.0,
+      "currentPrice": 653.98,
+      "unrealizedPL": 2.58,
+      "unrealizedPLPct": 3.01,
+      "newsScore": 8.5,
       "analystScore": 8.5,
       "technicalScore": 7.5,
-      "combinedScore": 8.35,
+      "combinedScore": 8.15,
       "buyDate": "2026-03-09T08:03:00-08:00"
     },
     {
@@ -36,13 +36,13 @@
       "name": "NVIDIA Corp",
       "shares": 2.4681,
       "avgCost": 183.76,
-      "currentPrice": 184.39,
-      "unrealizedPL": 1.55,
-      "unrealizedPLPct": 0.34,
+      "currentPrice": 184.76,
+      "unrealizedPL": 2.47,
+      "unrealizedPLPct": 0.54,
       "newsScore": 8.5,
       "analystScore": 7.5,
-      "technicalScore": 7.0,
-      "combinedScore": 7.68,
+      "technicalScore": 6.5,
+      "combinedScore": 7.45,
       "buyDate": "2026-03-10T07:00:00-08:00"
     },
     {
@@ -50,13 +50,13 @@
       "name": "Apple Inc",
       "shares": 0.9167,
       "avgCost": 261.85,
-      "currentPrice": 261.41,
-      "unrealizedPL": -0.40,
-      "unrealizedPLPct": -0.17,
+      "currentPrice": 260.87,
+      "unrealizedPL": -0.90,
+      "unrealizedPLPct": -0.37,
       "newsScore": 8.0,
       "analystScore": 7.0,
       "technicalScore": 7.0,
-      "combinedScore": 7.35,
+      "combinedScore": 7.30,
       "buyDate": "2026-03-10T10:00:00-08:00"
     }
   ],
@@ -305,7 +305,7 @@
       "ticker": "AMD",
       "name": "Advanced Micro Devices Inc",
       "shares": 0.568,
-      "buyPrice": 190.95,
+      "buyPrice": 200.18,
       "sellPrice": 202.00,
       "buyDate": "2026-03-04T06:00:00-08:00",
       "sellDate": "2026-03-04T11:00:00-08:00",
@@ -608,6 +608,7 @@
     {"timestamp": "10.03.2026 09:00 PST", "value": 967.02},
     {"timestamp": "10.03.2026 10:00 PST", "value": 968.96},
     {"timestamp": "10.03.2026 11:00 PST", "value": 969.20},
-    {"timestamp": "10.03.2026 12:00 PST", "value": 964.19}
+    {"timestamp": "10.03.2026 12:00 PST", "value": 964.19},
+    {"timestamp": "10.03.2026 13:00 PST", "value": 964.40}
   ]
 }
