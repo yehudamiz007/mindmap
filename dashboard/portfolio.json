@@ -8,13 +8,13 @@
       "name": "Meta Platforms Inc",
       "shares": 0.1351,
       "avgCost": 634.85,
-      "currentPrice": 652.15,
-      "unrealizedPL": 2.34,
-      "unrealizedPLPct": 2.73,
-      "newsScore": 8.0,
+      "currentPrice": 652.99,
+      "unrealizedPL": 2.45,
+      "unrealizedPLPct": 2.86,
+      "newsScore": 8.5,
       "analystScore": 7.5,
-      "technicalScore": 7.0,
-      "combinedScore": 7.5,
+      "technicalScore": 7.5,
+      "combinedScore": 7.87,
       "buyDate": "2026-03-09T08:03:00-08:00"
     },
     {
@@ -22,13 +22,13 @@
       "name": "NVIDIA Corp",
       "shares": 3.7442,
       "avgCost": 184.32,
-      "currentPrice": 185.16,
-      "unrealizedPL": 3.14,
-      "unrealizedPLPct": 0.46,
-      "newsScore": 8.5,
+      "currentPrice": 185.60,
+      "unrealizedPL": 4.79,
+      "unrealizedPLPct": 0.69,
+      "newsScore": 7.5,
       "analystScore": 8.5,
-      "technicalScore": 8.0,
-      "combinedScore": 8.33,
+      "technicalScore": 7.5,
+      "combinedScore": 7.87,
       "buyDate": "2026-03-10T07:00:00-08:00"
     },
     {
@@ -36,9 +36,9 @@
       "name": "Amazon.com Inc",
       "shares": 0.844,
       "avgCost": 207.42,
-      "currentPrice": 212.19,
-      "unrealizedPL": 4.03,
-      "unrealizedPLPct": 2.30,
+      "currentPrice": 212.96,
+      "unrealizedPL": 4.68,
+      "unrealizedPLPct": 2.67,
       "newsScore": 7.0,
       "analystScore": 7.5,
       "technicalScore": 7.0,
@@ -625,6 +625,7 @@
     {"timestamp": "11.03.2026 08:02 PST", "value": 967.32},
     {"timestamp": "11.03.2026 09:00 PST", "value": 961.33},
     {"timestamp": "11.03.2026 10:00 PST", "value": 963.26},
-    {"timestamp": "11.03.2026 11:00 PST", "value": 960.41}
+    {"timestamp": "11.03.2026 11:00 PST", "value": 960.41},
+    {"timestamp": "11.03.2026 12:00 PST", "value": 962.91}
   ]
 }
