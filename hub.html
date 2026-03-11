@@ -183,10 +183,10 @@ const DEFAULT_APPS=[
   {id:'iran-dashboard',icon:'🛡️',name:'Iran War Map',desc:'Iran conflict intelligence dashboard',url:'https://yehudamiz007.github.io/mindmap/iran-dashboard/',cat:'Dashboards'},
   {id:'moltta',icon:'🎯',name:'MOLTTA',desc:'Molt Trading Arena - Virtual trading platform',url:'https://yehudamiz007.github.io/mindmap/dashboard/trading.html',cat:'Apps'},
   {id:'models',icon:'🤖',name:'Multimodal Management',desc:'Model registry, use cases & routing instructions',url:'https://yehudamiz007.github.io/mindmap/models/',cat:'Dashboards'},
-  {id:'subagents',icon:'🤖',name:'Sub-Agents Dashboard',desc:'מעקב עלויות וסטטוס סאב-אגנטים בזמן אמת - ממוין לפי עלות',url:'https://yehudamiz007.github.io/mindmap/subagents-dashboard/',cat:'Dashboards'},
+  {id:'subagents',icon:'🤖',name:'Sub-Agents Dashboard',desc:'Real-time sub-agent cost & status tracking - sorted by cost',url:'https://yehudamiz007.github.io/mindmap/subagents-dashboard/',cat:'Dashboards'},
   {id:'architecture',icon:'🏗️',name:'Architecture Diagrams',desc:'7 interactive technical diagrams explaining how OpenClaw works',url:'https://yehudamiz007.github.io/mindmap/architecture/',cat:'Dashboards'},
-  {id:'deebot',icon:'🤖',name:'DEEBOT Controller',desc:'שליטה מרחוק על שואב האבק - נקה, עצור, הגדרות שאיבה ושטיפה',url:'https://yehudamiz007.github.io/mindmap/ecovacs-joystick/',cat:'Apps'},
-  {id:'any1',icon:'🏛️',name:'Any1 App',desc:'The Human Market - פלטפורמה חברתית שבה לכל אדם יש שווי נסחר. React/Vite on Vercel.',url:'https://any1.vercel.app',cat:'Apps'}
+  {id:'deebot',icon:'🤖',name:'DEEBOT Controller',desc:'Remote vacuum control - clean, stop, suction & mop settings',url:'https://yehudamiz007.github.io/mindmap/ecovacs-joystick/',cat:'Apps'},
+  {id:'any1',icon:'🏛️',name:'Any1 App',desc:'The Human Market - social platform where every person has a tradeable value. React/Vite on Vercel.',url:'https://any1.vercel.app',cat:'Apps'}
 ];
 let customApps=JSON.parse(localStorage.getItem('hub_custom')||'[]');
 let favorites=JSON.parse(localStorage.getItem('hub_favs')||'[]');
@@ -350,10 +350,10 @@ function fmtLastRun(ms){
   const diff=Date.now()-ms;
   const m=Math.floor(diff/60000),h=Math.floor(diff/3600000),d=Math.floor(diff/86400000);
   let s,col;
-  if(m<2){s='עכשיו';col='var(--green)'}
-  else if(m<60){s=`לפני ${m}ד'`;col='var(--green)'}
-  else if(h<24){s=`לפני ${h}ש'`;col='var(--accent)'}
-  else if(d<7){s=`לפני ${d}י'`;col='var(--text)'}
+  if(m<2){s='just now';col='var(--green)'}
+  else if(m<60){s=`${m}m ago`;col='var(--green)'}
+  else if(h<24){s=`${h}h ago`;col='var(--accent)'}
+  else if(d<7){s=`${d}d ago`;col='var(--text)'}
   else{const dt=new Date(ms);s=`${dt.getDate()}.${dt.getMonth()+1}.${dt.getFullYear()}`;col='var(--text-dim)'}
   return`<span style="color:${col};font-size:.78rem;white-space:nowrap">${s}</span>`;
 }
@@ -465,8 +465,8 @@ const SKILLS=[
   {icon:'🛠️',name:'Skill Creator',desc:'Design, structure, and package new AgentSkills with scripts, references, and assets',cat:'Technical',model:'claude-sonnet-4-6'},
   {icon:'🌤️',name:'Weather',desc:'Current weather and forecasts, no API key required',cat:'Utility',model:'claude-sonnet-4-6'},
   {icon:'🔐',name:'Healthcheck',desc:'Host security hardening, firewall/SSH audits, risk-tolerance configuration for OpenClaw deployments',cat:'Security',model:'claude-sonnet-4-6'},
-  {icon:'🤖',name:'Ecovacs',desc:'שליטה ב-DEEBOT X8 PRO OMNI - ניקוי, עצירה, השהיה, חזרה לעגינה, סטטוס וצליל',cat:'Lifestyle',model:'claude-sonnet-4-6'},
-  {icon:'🏛️',name:'Any1',desc:'The Human Market - פיתוח אפליקציית מסחר בבני אדם. Skill לפיתוח React/Vite, GitHub ו-Vercel',cat:'Technical',model:'claude-sonnet-4-6'}
+  {icon:'🤖',name:'Ecovacs',desc:'Control DEEBOT X8 PRO OMNI - clean, stop, pause, dock, status and sound',cat:'Lifestyle',model:'claude-sonnet-4-6'},
+  {icon:'🏛️',name:'Any1',desc:'The Human Market - social trading platform where people have tradeable value. React/Vite, GitHub & Vercel.',cat:'Technical',model:'claude-sonnet-4-6'}
 ];
 
 const SKILL_CAT_COLORS={'Trading':'badge-trading','Technical':'badge-maintenance','Personal':'badge-reminders','Language':'badge-news','Lifestyle':'badge-grok','Security':'badge-claude','Utility':'badge-system'};
