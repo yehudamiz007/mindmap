@@ -1,145 +1,155 @@
 {
-  "lastUpdated": "10.03.2026 17:00 IST",
+  "lastUpdated": "11.03.2026 09:01 IST",
   "stocks": [
     {
-      "ticker": "MSTR",
-      "name": "Strategy Inc (MicroStrategy)",
-      "price": "$140.29",
-      "news": 8.0,
-      "analyst": 9.5,
-      "technical": 7.5,
-      "total": 8.35,
-      "notes": "פרוקסי ביטקוין עם קניה מאסיבית - B. Riley מוסיף Strong Buy היום, פוטנציאל של 153% למעלה לפי קונסנזוס אנליסטים"
-    },
-    {
-      "ticker": "IONQ",
-      "name": "IonQ Inc",
-      "price": "$36.76",
+      "ticker": "NVDA",
+      "name": "NVIDIA Corp",
+      "price": "$184.77",
       "news": 8.5,
       "analyst": 9.0,
-      "technical": 7.0,
-      "total": 8.20,
-      "notes": "מחשוב קוונטי מוביל עם עסקת SkyWater שמאיצה ייצור, הכנסות הוכפלו פי 3 ו-Strong Buy קונסנזוס עם יעד $67"
+      "technical": 7.5,
+      "total": 8.35,
+      "notes": "NVIDIA מספקת 1 גיגאוואט של שבבי AI ל-Thinking Machines Labs - עסקת ענק שמאשרת את הביקוש האדיר לתשתיות AI. תוצאות Q4 הכו את התחזיות עם צמיחה של 73% בהכנסות. המניה מתאחדת מעל ה-50MA לפני ריצה הבאה."
     },
     {
-      "ticker": "CELH",
-      "name": "Celsius Holdings Inc",
-      "price": "$45.35",
+      "ticker": "AVGO",
+      "name": "Broadcom Inc",
+      "price": "$342.58",
       "news": 8.0,
       "analyst": 9.0,
-      "technical": 7.5,
-      "total": 8.18,
-      "notes": "ירידה של 20% יצרה הזדמנות קניה - הרחבה לאירופה עם Suntory, קונסנזוס Strong Buy עם יעד $66.5 (+47%)"
-    },
-    {
-      "ticker": "HOOD",
-      "name": "Robinhood Markets Inc",
-      "price": "$79.80",
-      "news": 7.5,
-      "analyst": 9.0,
-      "technical": 7.5,
-      "total": 8.03,
-      "notes": "סופר-אפ פיננסי עם צמיחה של 20%+, Goldman ו-Goldman Sachs Strong Buy, פוטנציאל עלייה של 41% ליעד $112"
-    },
-    {
-      "ticker": "BTC",
-      "name": "Bitcoin",
-      "price": "$71,453.23",
-      "news": 7.5,
-      "analyst": 8.0,
-      "technical": 8.5,
-      "total": 8.00,
-      "notes": "התאוששות מחדש לאחר פאניקת מלחמה - Strategy קנתה 1,420 BTC היום, זרמי ETF מתחדשים, מומנטום טכני חיובי"
+      "technical": 8.0,
+      "total": 8.35,
+      "notes": "Broadcom שמה יעד של מיליון שבבי XPU עד 2027 - קטליסט ענקי. הכנסות Q1 עלו 29% עם FCF חזק. אנליסטים אופטימיים עם קונסנזוס מעל $400. טרנד טכני חזק, סמוך לשיאים."
     },
     {
       "ticker": "META",
       "name": "Meta Platforms Inc",
-      "price": "$659.14",
-      "news": 8.0,
+      "price": "$654.07",
+      "news": 7.5,
       "analyst": 9.0,
-      "technical": 7.0,
-      "total": 7.95,
-      "notes": "רכישת Moltbook ב-AI agents היום, Strong Buy קונסנזוס עם יעד $835 (+27%), צמיחת הכנסות 27% QoQ"
+      "technical": 7.5,
+      "total": 8.00,
+      "notes": "Meta רכשה את Moltbook - 'פייסבוק לסוכני AI', מהלך אסטרטגי חכם לעידן ה-agentic AI. P/E של 22 זול להפתיע ביחס לצמיחה. קונסנזוס אנליסטים מעל $750. מתאחדת בין $640-$660."
     },
     {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings Inc",
-      "price": "$433.89",
-      "news": 8.5,
+      "ticker": "BTC",
+      "name": "Bitcoin",
+      "price": "$69,965.30",
+      "news": 8.0,
       "analyst": 8.0,
       "technical": 7.5,
-      "total": 7.95,
-      "notes": "שדרוג Morgan Stanley ל-Overweight היום עם יעד $510, קונסנזוס Buy חזק בסייבר-סקיוריטי"
-    },
-    {
-      "ticker": "NVDA",
-      "name": "NVIDIA Corp",
-      "price": "$185.47",
-      "news": 8.5,
-      "analyst": 9.0,
-      "technical": 6.5,
-      "total": 7.93,
-      "notes": "השקעה של $2B ב-Lumentum ו-Coherent + השקעה בסטארטאפ AI של מורטי, Strong Buy עם יעד $263 (+42%)"
+      "total": 7.85,
+      "notes": "ביטקוין יציב מעל $70,000 עם סוחרים שמהמרים על פריצה ל-$80,000. קנייה מוסדית חזקה, Strategy קנתה $1.28 מיליארד בשבוע האחרון. מאקרו תומך. תנגודת בין $70K-$80K - פריצה תהיה חזקה."
     },
     {
       "ticker": "PLTR",
       "name": "Palantir Technologies Inc",
-      "price": "$151.81",
+      "price": "$151.14",
+      "news": 8.5,
+      "analyst": 6.5,
+      "technical": 8.0,
+      "total": 7.70,
+      "notes": "Palantir עולה בזמן שטק גדולה נופלת - ייחוד גדול. חוזי AI ממשלתיים מתרחבים ב-DOGE. צמיחת הכנסות 70% ורווח נקי עלה 670%. ביצוע טכני מרשים מעל $140. אנליסטים מחולקים בגלל הוואלואציה הגבוהה."
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon.com Inc",
+      "price": "$214.33",
+      "news": 7.5,
+      "analyst": 8.5,
+      "technical": 7.0,
+      "total": 7.65,
+      "notes": "AWS מרחיבה פלטפורמת AI לאוטומציית שירותי בריאות - שוק ענק. P/E 30 סביר עם צמיחה חזקה. קונסנזוס אנליסטים מעל $260. כלכלת הענן ממשיכה לגדול עם מרג'ינים עולים."
+    },
+    {
+      "ticker": "IONQ",
+      "name": "IONQ Inc",
+      "price": "$35.12",
       "news": 8.0,
       "analyst": 7.5,
-      "technical": 7.5,
-      "total": 7.68,
-      "notes": "עולה כשה-Big Tech יורד - הכנסות +70% YoY, אנליסטים שדרגו ל-Buy, מומנטום ביטחוני ממשיך"
+      "technical": 7.0,
+      "total": 7.52,
+      "notes": "IonQ שיתפה פעולה עם Applied Research Lab לאבטחת קוונטום, וסכם SkyWater מאיץ את הייצור. הכנסות Q4 קפצו 428%. סיכון גבוה, פוטנציאל גבוה - מניה לסוחרים עם יכולת סובלנות לתנודתיות."
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$87.77",
-      "news": 7.0,
+      "price": "$86.05",
+      "news": 7.5,
       "analyst": 7.5,
-      "technical": 8.0,
-      "total": 7.53,
-      "notes": "נפח סטייבלקוין שיא של $650B בפברואר, Grayscale מדגיש ביקוש תשלומים, תמיכה טכנית חזקה ב-$85"
+      "technical": 7.5,
+      "total": 7.50,
+      "notes": "Solana רשמה שיא היסטורי של $650 מיליארד בנפח סטייבלקוין בפברואר. תזרים ETF יציב. התנגדות ב-$100 - פריצה תהיה קטליסט גדול. Standard Chartered צופה $2,000 עד סוף העשור."
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings Inc",
+      "price": "$436.33",
+      "news": 6.5,
+      "analyst": 8.0,
+      "technical": 7.5,
+      "total": 7.38,
+      "notes": "CrowdStrike הכתה תחזיות Q4 עם FCF שגדל 95%. דאיווה הורידה המלצה - לחץ קצר טווח, אבל קונסנזוס נשאר חיובי עם יעד $500+. הוצאות על אבטחת סייבר ממשיכות לגדול."
+    },
+    {
+      "ticker": "ARM",
+      "name": "Arm Holdings PLC - ADR",
+      "price": "$120.55",
+      "news": 7.0,
+      "analyst": 8.0,
+      "technical": 7.0,
+      "total": 7.35,
+      "notes": "ARM מקבלת השקעה של $4 מיליון מ-Long Corridor Asset Management. מחשבי AI נייד ומרכזי נתונים מאמצים ארכיטקטורת ARM. קונסנזוס מעל $150. מתאוששת מהשפל, אבל עדיין רחוקה משיאים."
+    },
+    {
+      "ticker": "ASTS",
+      "name": "AST SpaceMobile Inc",
+      "price": "$87.53",
+      "news": 7.5,
+      "analyst": 7.0,
+      "technical": 7.0,
+      "total": 7.17,
+      "notes": "פעילות אופציות חריגה ב-ASTS מרמזת על ציפיות גדולות. הכנסות Q4 קפצו 2,731% ל-$54M. שיתוף פעולה עם T-Mobile מקדם את רשת הלוויינים. מניה ספקולטיבית עם פוטנציאל ענק אם הרשת תתממש."
+    },
+    {
+      "ticker": "RDDT",
+      "name": "Reddit",
+      "price": "$134.13",
+      "news": 6.5,
+      "analyst": 7.0,
+      "technical": 6.5,
+      "total": 6.67,
+      "notes": "18 אנליסטים מתחזים ל-Reddit השבוע - Bernstein ממשיך ב-Hold. הכנסות גדלו 70% ורווח נקי עלה 254%, אבל המניה ירדה מ-$282 לרמות נוכחיות. שוק מחכה לראות אם קנסוס AI ימשיך."
+    },
+    {
+      "ticker": "MSTR",
+      "name": "Strategy Inc (MicroStrategy)",
+      "price": "$138.46",
+      "news": 7.0,
+      "analyst": 6.5,
+      "technical": 6.0,
+      "total": 6.48,
+      "notes": "Strategy קנתה $1.28 מיליארד בביטקוין - ממשיכה האסטרטגיה האגרסיבית. בנק השקעות נתן Buy Rating. אבל המניה רחוקה מ-$457 השיא, ותלויה לחלוטין בביצועי BTC. סיכון גבוה."
     },
     {
       "ticker": "ETH",
       "name": "Ethereum",
-      "price": "$2,077.50",
-      "news": 6.5,
-      "analyst": 7.0,
-      "technical": 8.0,
-      "total": 7.23,
-      "notes": "התאוששות לקראת $2,100-$2,200 לפי ניתוח טכני, סיכון short sellers על tokenomics - שדרוג Pectra מתקרב"
-    },
-    {
-      "ticker": "SHOP",
-      "name": "Shopify Inc",
-      "price": "$130.31",
-      "news": 7.0,
-      "analyst": 7.5,
-      "technical": 6.5,
-      "total": 7.00,
-      "notes": "צמיחת הכנסות 30% YoY, קונסנזוס Buy עם יעד $163 (+26%), נפח אופציות גבוה מצביע על תנועה"
-    },
-    {
-      "ticker": "SMCI",
-      "name": "Super Micro Computer Inc",
-      "price": "$32.25",
-      "news": 6.0,
+      "price": "$2,024.66",
+      "news": 5.5,
       "analyst": 6.5,
-      "technical": 7.0,
-      "total": 6.53,
-      "notes": "הכנסות +123% YoY אך קונסנזוס Hold עם Strong Sell מסוימים, ציפיות לאחר ביקורת עדיין מדכאות"
+      "technical": 6.0,
+      "total": 6.02,
+      "notes": "אתריום בלחץ - שיעורי מימון הפכו שליליים, מה שמרמז על פסימיות סוחרים. Culper Research מנסה לשורט עם טיעוני 'tokenomics פגום'. BitMine מפסידה מיליארדים. התנגדות ב-$2,100-$2,200."
     },
     {
       "ticker": "TSLA",
       "name": "Tesla Inc",
-      "price": "$405.28",
+      "price": "$399.24",
       "news": 5.0,
-      "analyst": 4.5,
-      "technical": 6.5,
-      "total": 5.43,
-      "notes": "מכירות UK ירדו 37%, קונסנזוס Hold עם יעד ממוצע $396 מתחת למחיר הנוכחי, תחרות סינית מכבידה"
+      "analyst": 6.5,
+      "technical": 5.5,
+      "total": 5.68,
+      "notes": "טסלה בצרות - מכירות בבריטניה ירדו 37%, תחרות סינית מאיימת, FSD גרם לתקריות. P/E של 371 לא מוצדק עם ירידה ברווח של 60.5%. מניה עם פוטנציאל אם הרובוטקסי יצא בטקסס - אבל עדיין לא."
     }
   ]
 }
