@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "11.03.2026 09:01 IST",
+  "lastUpdated": "11.03.2026 17:00 IST",
   "stocks": [
+    {
+      "ticker": "ORCL",
+      "name": "Oracle Corp",
+      "price": "$166.31",
+      "news": 9.2,
+      "analyst": 8.5,
+      "technical": 8.0,
+      "total": 8.55,
+      "notes": "תוצאות Q3 FY2026 פורסמו אתמול - צמיחת ענן מואצת; ריבוי אנליסטים (Evercore, TD Cowen, Wolfe) מאשרים המלצת קנייה; ביקוש עצום לתשתיות AI"
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings",
+      "price": "$442.58",
+      "news": 8.5,
+      "analyst": 8.8,
+      "technical": 8.2,
+      "total": 8.51,
+      "notes": "DZ Bank שדרג ל-Buy היום; פעילות פלטפורמה חזקה; שוק אבטחת הסייבר ממשיך לצמוח דו-ספרתי; פריצת שיא חדש בהכנסות"
+    },
+    {
+      "ticker": "APP",
+      "name": "AppLovin Corp",
+      "price": "$467.70",
+      "news": 8.0,
+      "analyst": 8.5,
+      "technical": 8.3,
+      "total": 8.30,
+      "notes": "שולי רווח יוצאי דופן 66%; צמיחת הכנסות 66% YoY; מנוע Axon 2 מהפכני; התרחבות לפרסום e-commerce; מניית הטכנולוגיה הכי חמה ב-2025-2026"
+    },
     {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
-      "price": "$184.77",
+      "price": "$186.41",
       "news": 8.5,
-      "analyst": 9.0,
-      "technical": 7.5,
-      "total": 8.35,
-      "notes": "NVIDIA מספקת 1 גיגאוואט של שבבי AI ל-Thinking Machines Labs - עסקת ענק שמאשרת את הביקוש האדיר לתשתיות AI. תוצאות Q4 הכו את התחזיות עם צמיחה של 73% בהכנסות. המניה מתאחדת מעל ה-50MA לפני ריצה הבאה."
+      "analyst": 8.2,
+      "technical": 7.8,
+      "total": 8.14,
+      "notes": "השקעת $2B ב-Nebius; מספק 1 גיגאוואט של שבבי AI ל-Thinking Machines Labs; תוצאות Q4 FY2026 חזקות - הכנסות $68B; מחזיקה בשוק AI"
     },
     {
-      "ticker": "AVGO",
-      "name": "Broadcom Inc",
-      "price": "$342.58",
+      "ticker": "PLTR",
+      "name": "Palantir Technologies",
+      "price": "$152.14",
       "news": 8.0,
-      "analyst": 9.0,
-      "technical": 8.0,
-      "total": 8.35,
-      "notes": "Broadcom שמה יעד של מיליון שבבי XPU עד 2027 - קטליסט ענקי. הכנסות Q1 עלו 29% עם FCF חזק. אנליסטים אופטימיים עם קונסנזוס מעל $400. טרנד טכני חזק, סמוך לשיאים."
-    },
-    {
-      "ticker": "META",
-      "name": "Meta Platforms Inc",
-      "price": "$654.07",
-      "news": 7.5,
-      "analyst": 9.0,
-      "technical": 7.5,
-      "total": 8.00,
-      "notes": "Meta רכשה את Moltbook - 'פייסבוק לסוכני AI', מהלך אסטרטגי חכם לעידן ה-agentic AI. P/E של 22 זול להפתיע ביחס לצמיחה. קונסנזוס אנליסטים מעל $750. מתאחדת בין $640-$660."
+      "analyst": 7.5,
+      "technical": 8.5,
+      "total": 8.03,
+      "notes": "אנליסטים שוריים - PLTR מנצח בזמן שהטכנולוגיה הגדולה נפגעת; צמיחת הכנסות 70% YoY; חוזים ממשלתיים ו-NATO מסייעים; טכני בשחרור מעל התנגדות"
     },
     {
       "ticker": "BTC",
       "name": "Bitcoin",
-      "price": "$69,965.30",
-      "news": 8.0,
+      "price": "$70,606.32",
+      "news": 7.5,
       "analyst": 8.0,
       "technical": 7.5,
-      "total": 7.85,
-      "notes": "ביטקוין יציב מעל $70,000 עם סוחרים שמהמרים על פריצה ל-$80,000. קנייה מוסדית חזקה, Strategy קנתה $1.28 מיליארד בשבוע האחרון. מאקרו תומך. תנגודת בין $70K-$80K - פריצה תהיה חזקה."
-    },
-    {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies Inc",
-      "price": "$151.14",
-      "news": 8.5,
-      "analyst": 6.5,
-      "technical": 8.0,
       "total": 7.70,
-      "notes": "Palantir עולה בזמן שטק גדולה נופלת - ייחוד גדול. חוזי AI ממשלתיים מתרחבים ב-DOGE. צמיחת הכנסות 70% ורווח נקי עלה 670%. ביצוע טכני מרשים מעל $140. אנליסטים מחולקים בגלל הוואלואציה הגבוהה."
+      "notes": "נתוני אינפלציה תואמים תחזיות; נסחר ליד $70K; Goldman Sachs מחזיק ב-ETF; ביקוש מוסדי יציב; מאבק בתחת $70K - פוטנציאל פריצה"
     },
     {
       "ticker": "AMZN",
       "name": "Amazon.com Inc",
-      "price": "$214.33",
-      "news": 7.5,
-      "analyst": 8.5,
-      "technical": 7.0,
-      "total": 7.65,
-      "notes": "AWS מרחיבה פלטפורמת AI לאוטומציית שירותי בריאות - שוק ענק. P/E 30 סביר עם צמיחה חזקה. קונסנזוס אנליסטים מעל $260. כלכלת הענן ממשיכה לגדול עם מרג'ינים עולים."
+      "price": "$213.95",
+      "news": 7.8,
+      "analyst": 7.8,
+      "technical": 7.5,
+      "total": 7.70,
+      "notes": "הנפקת אגרות חוב ענק למימון AI ו-capex; AWS משיקה פלטפורמת AI לאוטומציית בריאות; הכנסות $213B ב-Q4; ענן + AI + פרסום = מנוע צמיחה משולש"
     },
     {
-      "ticker": "IONQ",
-      "name": "IONQ Inc",
-      "price": "$35.12",
+      "ticker": "TSM",
+      "name": "Taiwan Semiconductor",
+      "price": "$356.90",
+      "news": 7.5,
+      "analyst": 8.0,
+      "technical": 7.5,
+      "total": 7.68,
+      "notes": "גל גיוסים לשבבי AI; מפעל אריזונה בהשקה; ביקוש שבבים 3nm ו-2nm עצום; מרווח נקי 48%; שוק $1.55T - ענק הייצור של עידן ה-AI"
+    },
+    {
+      "ticker": "XRP",
+      "name": "XRP (Ripple)",
+      "price": "$1.3963",
       "news": 8.0,
-      "analyst": 7.5,
-      "technical": 7.0,
+      "analyst": 7.0,
+      "technical": 7.5,
+      "total": 7.53,
+      "notes": "Goldman Sachs בראש מחזיקי ETF; טרנזקציות XRPL זינקו 145%; רישיון UK חדש ל-Ripple; שילוב עתידי Coinbase; ביקוש מוסדי גובר"
+    },
+    {
+      "ticker": "ANET",
+      "name": "Arista Networks",
+      "price": "$140.38",
+      "news": 7.2,
+      "analyst": 7.8,
+      "technical": 7.5,
       "total": 7.52,
-      "notes": "IonQ שיתפה פעולה עם Applied Research Lab לאבטחת קוונטום, וסכם SkyWater מאיץ את הייצור. הכנסות Q4 קפצו 428%. סיכון גבוה, פוטנציאל גבוה - מניה לסוחרים עם יכולת סובלנות לתנודתיות."
+      "notes": "יעד $3.25B AI; אפסייד 53% לפי TradingNews; מניית הרשתות הטובה ביותר לתשתיות AI; אפס חוב, מזומן $10.7B; צמיחה 29% YoY"
+    },
+    {
+      "ticker": "HOOD",
+      "name": "Robinhood Markets",
+      "price": "$78.80",
+      "news": 7.5,
+      "analyst": 7.2,
+      "technical": 7.0,
+      "total": 7.22,
+      "notes": "Ventures Fund I - הפיכת משקיעי קמעונאות לקרן הון-סיכון; יעד 20%+ צמיחה; P/E 38; פיחות מ-$153 - נקודת כניסה אטרקטיבית; סופר-אפ פיננסי"
+    },
+    {
+      "ticker": "RDDT",
+      "name": "Reddit Inc",
+      "price": "$134.75",
+      "news": 6.5,
+      "analyst": 6.8,
+      "technical": 7.0,
+      "total": 6.78,
+      "notes": "18 אנליסטים חיזרו תחזיות; הכנסות +70% YoY; Bernstein שומר Hold; מניה ירדה מ-$282 - פוטנציאל התאוששות; רישוי נתוני AI ממשיך"
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$86.05",
-      "news": 7.5,
-      "analyst": 7.5,
-      "technical": 7.5,
-      "total": 7.50,
-      "notes": "Solana רשמה שיא היסטורי של $650 מיליארד בנפח סטייבלקוין בפברואר. תזרים ETF יציב. התנגדות ב-$100 - פריצה תהיה קטליסט גדול. Standard Chartered צופה $2,000 עד סוף העשור."
-    },
-    {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings Inc",
-      "price": "$436.33",
-      "news": 6.5,
-      "analyst": 8.0,
-      "technical": 7.5,
-      "total": 7.38,
-      "notes": "CrowdStrike הכתה תחזיות Q4 עם FCF שגדל 95%. דאיווה הורידה המלצה - לחץ קצר טווח, אבל קונסנזוס נשאר חיובי עם יעד $500+. הוצאות על אבטחת סייבר ממשיכות לגדול."
-    },
-    {
-      "ticker": "ARM",
-      "name": "Arm Holdings PLC - ADR",
-      "price": "$120.55",
-      "news": 7.0,
-      "analyst": 8.0,
-      "technical": 7.0,
-      "total": 7.35,
-      "notes": "ARM מקבלת השקעה של $4 מיליון מ-Long Corridor Asset Management. מחשבי AI נייד ומרכזי נתונים מאמצים ארכיטקטורת ARM. קונסנזוס מעל $150. מתאוששת מהשפל, אבל עדיין רחוקה משיאים."
-    },
-    {
-      "ticker": "ASTS",
-      "name": "AST SpaceMobile Inc",
-      "price": "$87.53",
-      "news": 7.5,
-      "analyst": 7.0,
-      "technical": 7.0,
-      "total": 7.17,
-      "notes": "פעילות אופציות חריגה ב-ASTS מרמזת על ציפיות גדולות. הכנסות Q4 קפצו 2,731% ל-$54M. שיתוף פעולה עם T-Mobile מקדם את רשת הלוויינים. מניה ספקולטיבית עם פוטנציאל ענק אם הרשת תתממש."
-    },
-    {
-      "ticker": "RDDT",
-      "name": "Reddit",
-      "price": "$134.13",
-      "news": 6.5,
-      "analyst": 7.0,
-      "technical": 6.5,
-      "total": 6.67,
-      "notes": "18 אנליסטים מתחזים ל-Reddit השבוע - Bernstein ממשיך ב-Hold. הכנסות גדלו 70% ורווח נקי עלה 254%, אבל המניה ירדה מ-$282 לרמות נוכחיות. שוק מחכה לראות אם קנסוס AI ימשיך."
-    },
-    {
-      "ticker": "MSTR",
-      "name": "Strategy Inc (MicroStrategy)",
-      "price": "$138.46",
-      "news": 7.0,
+      "price": "$86.63",
+      "news": 6.0,
       "analyst": 6.5,
-      "technical": 6.0,
-      "total": 6.48,
-      "notes": "Strategy קנתה $1.28 מיליארד בביטקוין - ממשיכה האסטרטגיה האגרסיבית. בנק השקעות נתן Buy Rating. אבל המניה רחוקה מ-$457 השיא, ותלויה לחלוטין בביצועי BTC. סיכון גבוה."
+      "technical": 7.2,
+      "total": 6.60,
+      "notes": "ניתוח: אפשרי ירידה ל-$65 לפני עלייה; Standard Chartered רואה $2000 עד סוף העשור; ETF SOL זורם כספים; הרחבה ל-Base עם Doppler"
     },
     {
       "ticker": "ETH",
       "name": "Ethereum",
-      "price": "$2,024.66",
+      "price": "$2,065.60",
       "news": 5.5,
-      "analyst": 6.5,
-      "technical": 6.0,
-      "total": 6.02,
-      "notes": "אתריום בלחץ - שיעורי מימון הפכו שליליים, מה שמרמז על פסימיות סוחרים. Culper Research מנסה לשורט עם טיעוני 'tokenomics פגום'. BitMine מפסידה מיליארדים. התנגדות ב-$2,100-$2,200."
+      "analyst": 6.0,
+      "technical": 6.2,
+      "total": 5.93,
+      "notes": "ריבית מימון הפכה שלילית - דובים בשליטה; BitMine הפסיד $8B; מחיר מאבק מעל $2K; מכירות קצרות גוברות; ביצועים נחותים מ-BTC"
     },
     {
-      "ticker": "TSLA",
-      "name": "Tesla Inc",
-      "price": "$399.24",
-      "news": 5.0,
-      "analyst": 6.5,
-      "technical": 5.5,
-      "total": 5.68,
-      "notes": "טסלה בצרות - מכירות בבריטניה ירדו 37%, תחרות סינית מאיימת, FSD גרם לתקריות. P/E של 371 לא מוצדק עם ירידה ברווח של 60.5%. מניה עם פוטנציאל אם הרובוטקסי יצא בטקסס - אבל עדיין לא."
+      "ticker": "MSTR",
+      "name": "Strategy Inc (MicroStrategy)",
+      "price": "$138.21",
+      "news": 6.0,
+      "analyst": 5.5,
+      "technical": 5.0,
+      "total": 5.50,
+      "notes": "ריבית שורט עולה בחדות; ירידה מ-$457 - הפסד 70%; BTC בסביבות $70K לא מספיק; הפסד נקי $12.4B; שווי שוק $2.59B בלבד - סיכון גבוה"
     }
   ]
 }
