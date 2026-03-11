@@ -8,13 +8,13 @@
       "name": "Meta Platforms Inc",
       "shares": 0.1351,
       "avgCost": 634.85,
-      "currentPrice": 654.80,
+      "currentPrice": 654.86,
       "unrealizedPL": 2.70,
-      "unrealizedPLPct": 3.15,
+      "unrealizedPLPct": 3.16,
       "newsScore": 8.5,
       "analystScore": 8.0,
       "technicalScore": 7.5,
-      "combinedScore": 8.00,
+      "combinedScore": 7.99,
       "buyDate": "2026-03-09T08:03:00-08:00"
     },
     {
@@ -22,28 +22,28 @@
       "name": "NVIDIA Corp",
       "shares": 3.7442,
       "avgCost": 184.32,
-      "currentPrice": 185.97,
-      "unrealizedPL": 6.18,
-      "unrealizedPLPct": 0.90,
-      "newsScore": 7.5,
+      "currentPrice": 186.00,
+      "unrealizedPL": 6.29,
+      "unrealizedPLPct": 0.91,
+      "newsScore": 8.0,
       "analystScore": 8.5,
       "technicalScore": 7.0,
-      "combinedScore": 7.72,
+      "combinedScore": 7.82,
       "buyDate": "2026-03-10T07:00:00-08:00"
     },
     {
-      "ticker": "AMZN",
-      "name": "Amazon.com Inc",
-      "shares": 0.844,
-      "avgCost": 207.42,
-      "currentPrice": 212.60,
-      "unrealizedPL": 4.37,
-      "unrealizedPLPct": 2.50,
-      "newsScore": 7.5,
-      "analystScore": 7.5,
-      "technicalScore": 7.0,
-      "combinedScore": 7.33,
-      "buyDate": "2026-03-09T07:00:00-08:00"
+      "ticker": "ORCL",
+      "name": "Oracle Corp",
+      "shares": 1.1001,
+      "avgCost": 163.12,
+      "currentPrice": 163.12,
+      "unrealizedPL": 0.00,
+      "unrealizedPLPct": 0.00,
+      "newsScore": 9.5,
+      "analystScore": 9.0,
+      "technicalScore": 8.5,
+      "combinedScore": 9.01,
+      "buyDate": "2026-03-11T14:00:00-08:00"
     }
   ],
   "closedTrades": [
@@ -526,6 +526,18 @@
       "realizedPL": -2.14,
       "realizedPLPct": -0.90,
       "sellReason": "Score dropped to 6.5: Piper Sandler cut PT 'valuation reset', OpenAI Texas data center plan dropped, post-earnings selling pressure. Gap vs NVDA (8.65 vs 6.5 = 2.15) triggers rotation."
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon.com Inc",
+      "shares": 0.844,
+      "buyPrice": 207.42,
+      "sellPrice": 212.65,
+      "buyDate": "2026-03-09T07:00:00-08:00",
+      "sellDate": "2026-03-11T14:00:00-08:00",
+      "realizedPL": 4.41,
+      "realizedPLPct": 2.52,
+      "sellReason": "Rotated to ORCL (score 9.01 vs 7.32, gap 1.69) - ORCL up +9.2% today post-earnings, analyst PT $240, Oracle revenue +14.2% Y/Y, net income +94.7%, strong earnings beat"
     }
   ],
   "portfolioHistory": [
@@ -627,6 +639,7 @@
     {"timestamp": "11.03.2026 10:00 PST", "value": 963.26},
     {"timestamp": "11.03.2026 11:00 PST", "value": 960.41},
     {"timestamp": "11.03.2026 12:00 PST", "value": 962.91},
-    {"timestamp": "11.03.2026 13:00 PST", "value": 963.25}
+    {"timestamp": "11.03.2026 13:00 PST", "value": 963.25},
+    {"timestamp": "11.03.2026 14:00 PST", "value": 969.44}
   ]
 }
