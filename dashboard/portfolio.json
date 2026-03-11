@@ -8,13 +8,13 @@
       "name": "Meta Platforms Inc",
       "shares": 0.1351,
       "avgCost": 634.85,
-      "currentPrice": 653.58,
-      "unrealizedPL": 2.53,
-      "unrealizedPLPct": 2.95,
-      "newsScore": 8.5,
-      "analystScore": 8.0,
-      "technicalScore": 7.5,
-      "combinedScore": 8.0,
+      "currentPrice": 652.15,
+      "unrealizedPL": 2.34,
+      "unrealizedPLPct": 2.73,
+      "newsScore": 8.0,
+      "analystScore": 7.5,
+      "technicalScore": 7.0,
+      "combinedScore": 7.5,
       "buyDate": "2026-03-09T08:03:00-08:00"
     },
     {
@@ -22,13 +22,13 @@
       "name": "NVIDIA Corp",
       "shares": 3.7442,
       "avgCost": 184.32,
-      "currentPrice": 185.70,
-      "unrealizedPL": 5.17,
-      "unrealizedPLPct": 0.75,
-      "newsScore": 9.0,
+      "currentPrice": 185.16,
+      "unrealizedPL": 3.14,
+      "unrealizedPLPct": 0.46,
+      "newsScore": 8.5,
       "analystScore": 8.5,
       "technicalScore": 8.0,
-      "combinedScore": 8.52,
+      "combinedScore": 8.33,
       "buyDate": "2026-03-10T07:00:00-08:00"
     },
     {
@@ -36,13 +36,13 @@
       "name": "Amazon.com Inc",
       "shares": 0.844,
       "avgCost": 207.42,
-      "currentPrice": 212.98,
-      "unrealizedPL": 4.69,
-      "unrealizedPLPct": 2.68,
-      "newsScore": 7.5,
-      "analystScore": 8.0,
-      "technicalScore": 7.5,
-      "combinedScore": 7.68,
+      "currentPrice": 212.19,
+      "unrealizedPL": 4.03,
+      "unrealizedPLPct": 2.30,
+      "newsScore": 7.0,
+      "analystScore": 7.5,
+      "technicalScore": 7.0,
+      "combinedScore": 7.17,
       "buyDate": "2026-03-09T07:00:00-08:00"
     }
   ],
@@ -624,6 +624,7 @@
     {"timestamp": "11.03.2026 07:00 PST", "value": 970.89},
     {"timestamp": "11.03.2026 08:02 PST", "value": 967.32},
     {"timestamp": "11.03.2026 09:00 PST", "value": 961.33},
-    {"timestamp": "11.03.2026 10:00 PST", "value": 963.26}
+    {"timestamp": "11.03.2026 10:00 PST", "value": 963.26},
+    {"timestamp": "11.03.2026 11:00 PST", "value": 960.41}
   ]
 }
