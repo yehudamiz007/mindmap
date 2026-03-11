@@ -1,5 +1,5 @@
 {
-  "cash": 0.05,
+  "cash": 0.00,
   "startingBalance": 1000,
   "startDate": "2026-02-21T01:30:00+02:00",
   "positions": [
@@ -8,27 +8,27 @@
       "name": "Meta Platforms Inc",
       "shares": 0.1351,
       "avgCost": 634.85,
-      "currentPrice": 651.28,
-      "unrealizedPL": 2.22,
-      "unrealizedPLPct": 2.59,
-      "newsScore": 8.0,
+      "currentPrice": 649.83,
+      "unrealizedPL": 2.03,
+      "unrealizedPLPct": 2.36,
+      "newsScore": 8.5,
       "analystScore": 8.0,
-      "technicalScore": 7.5,
-      "combinedScore": 7.87,
+      "technicalScore": 8.0,
+      "combinedScore": 8.18,
       "buyDate": "2026-03-09T08:03:00-08:00"
     },
     {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
-      "shares": 2.4681,
-      "avgCost": 183.76,
-      "currentPrice": 186.41,
-      "unrealizedPL": 6.54,
-      "unrealizedPLPct": 1.44,
+      "shares": 3.7442,
+      "avgCost": 184.32,
+      "currentPrice": 185.53,
+      "unrealizedPL": 4.53,
+      "unrealizedPLPct": 0.66,
       "newsScore": 9.5,
       "analystScore": 8.5,
       "technicalScore": 8.0,
-      "combinedScore": 8.70,
+      "combinedScore": 8.65,
       "buyDate": "2026-03-10T07:00:00-08:00"
     },
     {
@@ -36,28 +36,14 @@
       "name": "Amazon.com Inc",
       "shares": 0.844,
       "avgCost": 207.42,
-      "currentPrice": 213.95,
-      "unrealizedPL": 5.51,
-      "unrealizedPLPct": 3.15,
-      "newsScore": 8.5,
-      "analystScore": 8.5,
-      "technicalScore": 7.5,
-      "combinedScore": 8.17,
+      "currentPrice": 211.99,
+      "unrealizedPL": 3.86,
+      "unrealizedPLPct": 2.20,
+      "newsScore": 8.0,
+      "analystScore": 8.0,
+      "technicalScore": 8.0,
+      "combinedScore": 8.00,
       "buyDate": "2026-03-09T07:00:00-08:00"
-    },
-    {
-      "ticker": "ORCL",
-      "name": "Oracle Corp",
-      "shares": 1.4354,
-      "avgCost": 166.31,
-      "currentPrice": 166.31,
-      "unrealizedPL": 0.00,
-      "unrealizedPLPct": 0.00,
-      "newsScore": 9.5,
-      "analystScore": 9.0,
-      "technicalScore": 9.0,
-      "combinedScore": 9.17,
-      "buyDate": "2026-03-11T08:02:00-08:00"
     }
   ],
   "closedTrades": [
@@ -528,6 +514,18 @@
       "realizedPL": -1.38,
       "realizedPLPct": -0.57,
       "sellReason": "Rotated to ORCL (score 9.17 vs 7.10) - post-earnings: Jim Cramer 'King of Data Center', TD Cowen reiterates, Evercore ISI reiterates, Wolfe Research reiterates on strong demand. 2.07 score gap triggers rotation."
+    },
+    {
+      "ticker": "ORCL",
+      "name": "Oracle Corp",
+      "shares": 1.4354,
+      "buyPrice": 166.31,
+      "sellPrice": 164.82,
+      "buyDate": "2026-03-11T08:02:00-08:00",
+      "sellDate": "2026-03-11T09:00:00-08:00",
+      "realizedPL": -2.14,
+      "realizedPLPct": -0.90,
+      "sellReason": "Score dropped to 6.5: Piper Sandler cut PT 'valuation reset', OpenAI Texas data center plan dropped, post-earnings selling pressure. Gap vs NVDA (8.65 vs 6.5 = 2.15) triggers rotation."
     }
   ],
   "portfolioHistory": [
@@ -624,6 +622,7 @@
     {"timestamp": "10.03.2026 13:00 PST", "value": 964.40},
     {"timestamp": "10.03.2026 14:00 PST", "value": 964.54},
     {"timestamp": "11.03.2026 07:00 PST", "value": 970.89},
-    {"timestamp": "11.03.2026 08:02 PST", "value": 967.32}
+    {"timestamp": "11.03.2026 08:02 PST", "value": 967.32},
+    {"timestamp": "11.03.2026 09:00 PST", "value": 961.33}
   ]
 }
