@@ -4,29 +4,15 @@
   "startDate": "2026-02-21T01:30:00+02:00",
   "positions": [
     {
-      "ticker": "AMZN",
-      "name": "Amazon.com Inc",
-      "shares": 0.844,
-      "avgCost": 207.42,
-      "currentPrice": 215.71,
-      "unrealizedPL": 7.00,
-      "unrealizedPLPct": 3.99,
-      "newsScore": 8.5,
-      "analystScore": 9.0,
-      "technicalScore": 8.0,
-      "combinedScore": 8.52,
-      "buyDate": "2026-03-09T07:00:00-08:00"
-    },
-    {
       "ticker": "META",
       "name": "Meta Platforms Inc",
       "shares": 0.1351,
       "avgCost": 634.85,
-      "currentPrice": 657.24,
-      "unrealizedPL": 3.02,
-      "unrealizedPLPct": 3.53,
-      "newsScore": 7.5,
-      "analystScore": 8.5,
+      "currentPrice": 651.28,
+      "unrealizedPL": 2.22,
+      "unrealizedPLPct": 2.59,
+      "newsScore": 8.0,
+      "analystScore": 8.0,
       "technicalScore": 7.5,
       "combinedScore": 7.87,
       "buyDate": "2026-03-09T08:03:00-08:00"
@@ -36,9 +22,9 @@
       "name": "NVIDIA Corp",
       "shares": 2.4681,
       "avgCost": 183.76,
-      "currentPrice": 186.54,
-      "unrealizedPL": 6.89,
-      "unrealizedPLPct": 1.51,
+      "currentPrice": 186.41,
+      "unrealizedPL": 6.54,
+      "unrealizedPLPct": 1.44,
       "newsScore": 9.5,
       "analystScore": 8.5,
       "technicalScore": 8.0,
@@ -46,18 +32,32 @@
       "buyDate": "2026-03-10T07:00:00-08:00"
     },
     {
-      "ticker": "AAPL",
-      "name": "Apple Inc",
-      "shares": 0.9167,
-      "avgCost": 261.85,
-      "currentPrice": 261.23,
-      "unrealizedPL": -0.57,
-      "unrealizedPLPct": -0.24,
-      "newsScore": 7.5,
-      "analystScore": 6.5,
-      "technicalScore": 7.0,
-      "combinedScore": 7.02,
-      "buyDate": "2026-03-10T10:00:00-08:00"
+      "ticker": "AMZN",
+      "name": "Amazon.com Inc",
+      "shares": 0.844,
+      "avgCost": 207.42,
+      "currentPrice": 213.95,
+      "unrealizedPL": 5.51,
+      "unrealizedPLPct": 3.15,
+      "newsScore": 8.5,
+      "analystScore": 8.5,
+      "technicalScore": 7.5,
+      "combinedScore": 8.17,
+      "buyDate": "2026-03-09T07:00:00-08:00"
+    },
+    {
+      "ticker": "ORCL",
+      "name": "Oracle Corp",
+      "shares": 1.4354,
+      "avgCost": 166.31,
+      "currentPrice": 166.31,
+      "unrealizedPL": 0.00,
+      "unrealizedPLPct": 0.00,
+      "newsScore": 9.5,
+      "analystScore": 9.0,
+      "technicalScore": 9.0,
+      "combinedScore": 9.17,
+      "buyDate": "2026-03-11T08:02:00-08:00"
     }
   ],
   "closedTrades": [
@@ -516,6 +516,18 @@
       "realizedPL": -0.16,
       "realizedPLPct": -0.21,
       "sellReason": "Score 6.88, no catalyst, weak news flow. Rotating to AAPL (India production record, tariff story, score 7.88 vs 6.88)"
+    },
+    {
+      "ticker": "AAPL",
+      "name": "Apple Inc",
+      "shares": 0.9167,
+      "buyPrice": 261.85,
+      "sellPrice": 260.35,
+      "buyDate": "2026-03-10T10:00:00-08:00",
+      "sellDate": "2026-03-11T08:02:00-08:00",
+      "realizedPL": -1.38,
+      "realizedPLPct": -0.57,
+      "sellReason": "Rotated to ORCL (score 9.17 vs 7.10) - post-earnings: Jim Cramer 'King of Data Center', TD Cowen reiterates, Evercore ISI reiterates, Wolfe Research reiterates on strong demand. 2.07 score gap triggers rotation."
     }
   ],
   "portfolioHistory": [
@@ -611,6 +623,7 @@
     {"timestamp": "10.03.2026 12:00 PST", "value": 964.19},
     {"timestamp": "10.03.2026 13:00 PST", "value": 964.40},
     {"timestamp": "10.03.2026 14:00 PST", "value": 964.54},
-    {"timestamp": "11.03.2026 07:00 PST", "value": 970.89}
+    {"timestamp": "11.03.2026 07:00 PST", "value": 970.89},
+    {"timestamp": "11.03.2026 08:02 PST", "value": 967.32}
   ]
 }
