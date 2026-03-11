@@ -67,5 +67,21 @@
 - מניות + טריידר: https://yehudamiz007.github.io/mindmap/dashboard/
 - איראן: https://yehudamiz007.github.io/mindmap/iran-dashboard/
 
+## Model Preferences
+- **פיתוח קוד, תכנות, אפליקציות:** `anthropic/claude-sonnet-4-6` (ברירת מחדל - כבר מוגדר)
+
+## LinkedIn Daily AI Post
+- פורמט קבוע לפוסט יומי ב-LinkedIn
+- כותרת: `סיכום AI יומי | #[מספר] - [DD.MM.YYYY]`
+- תת-כותרת: `ארבעה חידושים מ-24 השעות האחרונות (בדקה וחצי של קריאה):`
+- 4 פריטים: כותרת + פסקת הסבר בעברית + לינק (לינקים רגילים)
+- הפרדה עם נקודה (.) בין התוכן להאשטאגים
+- האשטאגים: `#AI #ArtificialIntelligence #TechNews #בינהמלאכותית`
+- **מספר פוסט נוכחי: #12** (לעדכן אחרי כל פוסט)
+- Cron ID: `17ee5f68-63c1-4dfe-b54d-c8cda3b31250` — כל יום 08:00 שעון ישראל
+- Grok מחפש חדשות, מסכם בעברית, שולח לוואטסאפ ידנית
+
 ## Key Decisions
 - 2026-02-17: Set up WhatsApp allowlist for Yehuda (+972502446410) and Ilana (+972542049822)
+- 2026-03-08: Yehuda confirmed Claude Sonnet 4.6 as preferred model for all coding/development tasks
+- 2026-03-10: Confirmed LinkedIn daily AI post format (see above)
