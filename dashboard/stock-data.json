@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "11.03.2026 17:00 IST",
+  "lastUpdated": "12.03.2026 09:02 IST",
   "stocks": [
     {
-      "ticker": "ORCL",
-      "name": "Oracle Corp",
-      "price": "$166.31",
-      "news": 9.2,
-      "analyst": 8.5,
-      "technical": 8.0,
-      "total": 8.55,
-      "notes": "תוצאות Q3 FY2026 פורסמו אתמול - צמיחת ענן מואצת; ריבוי אנליסטים (Evercore, TD Cowen, Wolfe) מאשרים המלצת קנייה; ביקוש עצום לתשתיות AI"
+      "ticker": "NVDA",
+      "name": "NVIDIA Corp",
+      "price": "$186.03",
+      "news": 8.5,
+      "analyst": 9.5,
+      "technical": 7.5,
+      "total": 8.54,
+      "notes": "ענקית ה-AI - השקעה של $2B בנביוס, קונסנזוס Strong Buy עם יעד $263, מנוע הצמיחה של עידן ה-AI"
     },
     {
       "ticker": "CRWD",
       "name": "CrowdStrike Holdings",
-      "price": "$442.58",
+      "price": "$442.03",
       "news": 8.5,
-      "analyst": 8.8,
-      "technical": 8.2,
-      "total": 8.51,
-      "notes": "DZ Bank שדרג ל-Buy היום; פעילות פלטפורמה חזקה; שוק אבטחת הסייבר ממשיך לצמוח דו-ספרתי; פריצת שיא חדש בהכנסות"
-    },
-    {
-      "ticker": "APP",
-      "name": "AppLovin Corp",
-      "price": "$467.70",
-      "news": 8.0,
-      "analyst": 8.5,
-      "technical": 8.3,
-      "total": 8.30,
-      "notes": "שולי רווח יוצאי דופן 66%; צמיחת הכנסות 66% YoY; מנוע Axon 2 מהפכני; התרחבות לפרסום e-commerce; מניית הטכנולוגיה הכי חמה ב-2025-2026"
-    },
-    {
-      "ticker": "NVDA",
-      "name": "NVIDIA Corp",
-      "price": "$186.41",
-      "news": 8.5,
-      "analyst": 8.2,
-      "technical": 7.8,
-      "total": 8.14,
-      "notes": "השקעת $2B ב-Nebius; מספק 1 גיגאוואט של שבבי AI ל-Thinking Machines Labs; תוצאות Q4 FY2026 חזקות - הכנסות $68B; מחזיקה בשוק AI"
+      "analyst": 8.0,
+      "technical": 8.5,
+      "total": 8.35,
+      "notes": "שדרוג אנליסט היום, מורגן סטנלי העלה יעד ל-$510, עונת סייבר חזקה עם תוצאות מצוינות"
     },
     {
       "ticker": "PLTR",
       "name": "Palantir Technologies",
-      "price": "$152.14",
+      "price": "$151.60",
       "news": 8.0,
       "analyst": 7.5,
-      "technical": 8.5,
-      "total": 8.03,
-      "notes": "אנליסטים שוריים - PLTR מנצח בזמן שהטכנולוגיה הגדולה נפגעת; צמיחת הכנסות 70% YoY; חוזים ממשלתיים ו-NATO מסייעים; טכני בשחרור מעל התנגדות"
+      "technical": 8.0,
+      "total": 7.85,
+      "notes": "מנצח במלחמת איראן - ביקוש ממשלתי גדל, UBS ו-Mizuho שדרגו לאחרונה, קטגוריה של אחד"
     },
     {
-      "ticker": "BTC",
-      "name": "Bitcoin",
-      "price": "$70,606.32",
+      "ticker": "IONQ",
+      "name": "IonQ Inc",
+      "price": "$34.27",
       "news": 7.5,
-      "analyst": 8.0,
-      "technical": 7.5,
-      "total": 7.70,
-      "notes": "נתוני אינפלציה תואמים תחזיות; נסחר ליד $70K; Goldman Sachs מחזיק ב-ETF; ביקוש מוסדי יציב; מאבק בתחת $70K - פוטנציאל פריצה"
-    },
-    {
-      "ticker": "AMZN",
-      "name": "Amazon.com Inc",
-      "price": "$213.95",
-      "news": 7.8,
-      "analyst": 7.8,
-      "technical": 7.5,
-      "total": 7.70,
-      "notes": "הנפקת אגרות חוב ענק למימון AI ו-capex; AWS משיקה פלטפורמת AI לאוטומציית בריאות; הכנסות $213B ב-Q4; ענן + AI + פרסום = מנוע צמיחה משולש"
-    },
-    {
-      "ticker": "TSM",
-      "name": "Taiwan Semiconductor",
-      "price": "$356.90",
-      "news": 7.5,
-      "analyst": 8.0,
-      "technical": 7.5,
-      "total": 7.68,
-      "notes": "גל גיוסים לשבבי AI; מפעל אריזונה בהשקה; ביקוש שבבים 3nm ו-2nm עצום; מרווח נקי 48%; שוק $1.55T - ענק הייצור של עידן ה-AI"
-    },
-    {
-      "ticker": "XRP",
-      "name": "XRP (Ripple)",
-      "price": "$1.3963",
-      "news": 8.0,
-      "analyst": 7.0,
-      "technical": 7.5,
-      "total": 7.53,
-      "notes": "Goldman Sachs בראש מחזיקי ETF; טרנזקציות XRPL זינקו 145%; רישיון UK חדש ל-Ripple; שילוב עתידי Coinbase; ביקוש מוסדי גובר"
-    },
-    {
-      "ticker": "ANET",
-      "name": "Arista Networks",
-      "price": "$140.38",
-      "news": 7.2,
-      "analyst": 7.8,
-      "technical": 7.5,
-      "total": 7.52,
-      "notes": "יעד $3.25B AI; אפסייד 53% לפי TradingNews; מניית הרשתות הטובה ביותר לתשתיות AI; אפס חוב, מזומן $10.7B; צמיחה 29% YoY"
-    },
-    {
-      "ticker": "HOOD",
-      "name": "Robinhood Markets",
-      "price": "$78.80",
-      "news": 7.5,
-      "analyst": 7.2,
-      "technical": 7.0,
-      "total": 7.22,
-      "notes": "Ventures Fund I - הפיכת משקיעי קמעונאות לקרן הון-סיכון; יעד 20%+ צמיחה; P/E 38; פיחות מ-$153 - נקודת כניסה אטרקטיבית; סופר-אפ פיננסי"
+      "analyst": 9.5,
+      "technical": 6.5,
+      "total": 7.80,
+      "notes": "קוונטום בוערת - שותפות עם אוניברסיטת קיימברידג', יעד ממוצע $67 (+97%), Strong Buy על כל הקו"
     },
     {
       "ticker": "RDDT",
       "name": "Reddit Inc",
-      "price": "$134.75",
-      "news": 6.5,
-      "analyst": 6.8,
-      "technical": 7.0,
-      "total": 6.78,
-      "notes": "18 אנליסטים חיזרו תחזיות; הכנסות +70% YoY; Bernstein שומר Hold; מניה ירדה מ-$282 - פוטנציאל התאוששות; רישוי נתוני AI ממשיך"
+      "price": "$137.12",
+      "news": 7.0,
+      "analyst": 8.5,
+      "technical": 7.5,
+      "total": 7.70,
+      "notes": "הכנסות פרסום עלו 70%, עסקאות רישוי נתוני AI, קונסנזוס Buy עם יעד $225 (+64%)"
     },
     {
-      "ticker": "SOL",
-      "name": "Solana",
-      "price": "$86.63",
-      "news": 6.0,
-      "analyst": 6.5,
-      "technical": 7.2,
-      "total": 6.60,
-      "notes": "ניתוח: אפשרי ירידה ל-$65 לפני עלייה; Standard Chartered רואה $2000 עד סוף העשור; ETF SOL זורם כספים; הרחבה ל-Base עם Doppler"
+      "ticker": "CELH",
+      "name": "Celsius Holdings",
+      "price": "$45.72",
+      "news": 7.5,
+      "analyst": 9.0,
+      "technical": 6.5,
+      "total": 7.60,
+      "notes": "עסקת ספרד רחבה, פרמיום מחיר חזרה לאחר ירידה של 20%, אנליסטים עם Strong Buy ויעד $66.5"
     },
     {
-      "ticker": "ETH",
-      "name": "Ethereum",
-      "price": "$2,065.60",
-      "news": 5.5,
-      "analyst": 6.0,
-      "technical": 6.2,
-      "total": 5.93,
-      "notes": "ריבית מימון הפכה שלילית - דובים בשליטה; BitMine הפסיד $8B; מחיר מאבק מעל $2K; מכירות קצרות גוברות; ביצועים נחותים מ-BTC"
+      "ticker": "TSM",
+      "name": "Taiwan Semiconductor",
+      "price": "$354.56",
+      "news": 7.0,
+      "analyst": 7.5,
+      "technical": 8.0,
+      "total": 7.60,
+      "notes": "תנופת גיוס לשבבי AI, הכנסות +20.45%, הייצרנית המובילה של שבבים מתקדמים בעולם"
     },
     {
       "ticker": "MSTR",
       "name": "Strategy Inc (MicroStrategy)",
-      "price": "$138.21",
+      "price": "$138.33",
       "news": 6.0,
+      "analyst": 9.0,
+      "technical": 7.0,
+      "total": 7.55,
+      "notes": "פרוקסי ביטקוין עם רכישות מתמשכות, יעד Strong Buy $354 (+156%), קיצור ריבית עולה - סיכון"
+    },
+    {
+      "ticker": "HOOD",
+      "name": "Robinhood Markets",
+      "price": "$78.69",
+      "news": 6.5,
+      "analyst": 8.0,
+      "technical": 7.0,
+      "total": 7.20,
+      "notes": "קרן VC חדשה הופכת לקוחות לבעלי הון סיכון, Buy קונסנזוס $113, גידול הכנסות +52%"
+    },
+    {
+      "ticker": "BTC",
+      "name": "Bitcoin",
+      "price": "$69,463",
+      "news": 7.0,
+      "analyst": 7.5,
+      "technical": 7.0,
+      "total": 7.18,
+      "notes": "מחזיק $70K תוך מלחמת איראן, זרימות ETF יציבות, עוצמה יחסית לעומת מניות"
+    },
+    {
+      "ticker": "ARM",
+      "name": "Arm Holdings",
+      "price": "$120.10",
+      "news": 6.0,
+      "analyst": 7.5,
+      "technical": 6.5,
+      "total": 6.65,
+      "notes": "Buy קונסנזוס עם יעד $160, אבל קרנות מוכרות - המתן לנקודת כניסה טובה יותר"
+    },
+    {
+      "ticker": "ETH",
+      "name": "Ethereum",
+      "price": "$2,031",
+      "news": 6.5,
+      "analyst": 7.0,
+      "technical": 6.5,
+      "total": 6.68,
+      "notes": "שדרוג Pectra מתקרב, זרימות ETF, אבל מפגר אחרי BTC - פחות מומנטום קצר טווח"
+    },
+    {
+      "ticker": "SOL",
+      "name": "Solana",
+      "price": "$85.35",
+      "news": 6.5,
+      "analyst": 7.0,
+      "technical": 6.0,
+      "total": 6.50,
+      "notes": "פעילות on-chain שיא אבל זרימות ETF מפגרות, סיכון ירידה טכני ל-$72-79"
+    },
+    {
+      "ticker": "SMCI",
+      "name": "Super Micro Computer",
+      "price": "$31.79",
+      "news": 5.5,
       "analyst": 5.5,
-      "technical": 5.0,
+      "technical": 5.5,
       "total": 5.50,
-      "notes": "ריבית שורט עולה בחדות; ירידה מ-$457 - הפסד 70%; BTC בסביבות $70K לא מספיק; הפסד נקי $12.4B; שווי שוק $2.59B בלבד - סיכון גבוה"
+      "notes": "Hold קונסנזוס, החלמה איטית מאחר שינויים חשבונאיים, יעד $39.5 - פחות אטרקטיבי"
+    },
+    {
+      "ticker": "AVAX",
+      "name": "Avalanche",
+      "price": "$9.53",
+      "news": 5.0,
+      "analyst": 5.0,
+      "technical": 4.5,
+      "total": 4.85,
+      "notes": "ירידה משמעותית מרמות גבוהות, מומנטום חלש, פחות קטליזטורים - הכי פחות מומלץ היום"
     }
   ]
 }
