@@ -4,46 +4,46 @@
   "startDate": "2026-02-21T01:30:00+02:00",
   "positions": [
     {
-      "ticker": "META",
-      "name": "Meta Platforms Inc",
-      "shares": 0.1351,
-      "avgCost": 634.85,
-      "currentPrice": 654.86,
-      "unrealizedPL": 2.70,
-      "unrealizedPLPct": 3.16,
-      "newsScore": 8.5,
-      "analystScore": 8.0,
-      "technicalScore": 7.5,
-      "combinedScore": 7.99,
-      "buyDate": "2026-03-09T08:03:00-08:00"
-    },
-    {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
       "shares": 3.7442,
       "avgCost": 184.32,
-      "currentPrice": 186.00,
-      "unrealizedPL": 6.29,
-      "unrealizedPLPct": 0.91,
-      "newsScore": 8.0,
-      "analystScore": 8.5,
-      "technicalScore": 7.0,
-      "combinedScore": 7.82,
+      "currentPrice": 180.25,
+      "unrealizedPL": -15.24,
+      "unrealizedPLPct": -2.21,
+      "newsScore": 7.5,
+      "analystScore": 8.0,
+      "technicalScore": 6.5,
+      "combinedScore": 7.35,
       "buyDate": "2026-03-10T07:00:00-08:00"
     },
     {
-      "ticker": "ORCL",
-      "name": "Oracle Corp",
-      "shares": 1.1001,
-      "avgCost": 163.12,
-      "currentPrice": 163.12,
+      "ticker": "GOOGL",
+      "name": "Alphabet Inc Class A",
+      "shares": 0.5032,
+      "avgCost": 302.28,
+      "currentPrice": 302.28,
       "unrealizedPL": 0.00,
       "unrealizedPLPct": 0.00,
-      "newsScore": 9.5,
-      "analystScore": 9.0,
-      "technicalScore": 8.5,
-      "combinedScore": 9.01,
-      "buyDate": "2026-03-11T14:00:00-08:00"
+      "newsScore": 7.5,
+      "analystScore": 8.0,
+      "technicalScore": 7.5,
+      "combinedScore": 7.68,
+      "buyDate": "2026-03-15T04:33:00-08:00"
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon.com Inc",
+      "shares": 0.4883,
+      "avgCost": 207.67,
+      "currentPrice": 207.67,
+      "unrealizedPL": 0.00,
+      "unrealizedPLPct": 0.00,
+      "newsScore": 7.0,
+      "analystScore": 7.5,
+      "technicalScore": 7.0,
+      "combinedScore": 7.18,
+      "buyDate": "2026-03-15T04:33:00-08:00"
     }
   ],
   "closedTrades": [
@@ -538,6 +538,30 @@
       "realizedPL": 4.41,
       "realizedPLPct": 2.52,
       "sellReason": "Rotated to ORCL (score 9.01 vs 7.32, gap 1.69) - ORCL up +9.2% today post-earnings, analyst PT $240, Oracle revenue +14.2% Y/Y, net income +94.7%, strong earnings beat"
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms Inc",
+      "shares": 0.1351,
+      "buyPrice": 634.85,
+      "sellPrice": 613.71,
+      "buyDate": "2026-03-09T08:03:00-08:00",
+      "sellDate": "2026-03-15T04:33:00-08:00",
+      "realizedPL": -2.86,
+      "realizedPLPct": -3.33,
+      "sellReason": "Loss -3.33% > 2.5% threshold. Moltbook acquisition news mixed, valuation pullback concern. Score 7.35 - rotating to GOOGL (White House data center pledge, JP Morgan PT update, score 7.68) and AMZN ($37-42B bond issuance = expansion confidence, score 7.18)"
+    },
+    {
+      "ticker": "ORCL",
+      "name": "Oracle Corp",
+      "shares": 1.1001,
+      "buyPrice": 163.12,
+      "sellPrice": 155.11,
+      "buyDate": "2026-03-11T14:00:00-08:00",
+      "sellDate": "2026-03-15T04:33:00-08:00",
+      "realizedPL": -8.82,
+      "realizedPLPct": -4.91,
+      "sellReason": "Loss -4.91% > 2.5%. Cantor Fitzgerald lowered PT today. ORCL down from recent highs after earnings surge fades. Score 6.8 - cut loss, rotating capital to GOOGL + AMZN"
     }
   ],
   "portfolioHistory": [
@@ -640,6 +664,7 @@
     {"timestamp": "11.03.2026 11:00 PST", "value": 960.41},
     {"timestamp": "11.03.2026 12:00 PST", "value": 962.91},
     {"timestamp": "11.03.2026 13:00 PST", "value": 963.25},
-    {"timestamp": "11.03.2026 14:00 PST", "value": 969.44}
+    {"timestamp": "11.03.2026 14:00 PST", "value": 969.44},
+    {"timestamp": "15.03.2026 04:33 PST", "value": 948.25}
   ]
 }
