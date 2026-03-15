@@ -1,155 +1,145 @@
 {
-  "lastUpdated": "12.03.2026 09:02 IST",
+  "lastUpdated": "15.03.2026 13:30 IST",
   "stocks": [
     {
-      "ticker": "NVDA",
-      "name": "NVIDIA Corp",
-      "price": "$186.03",
+      "ticker": "APP",
+      "name": "AppLovin Corp",
+      "price": "$458.67",
       "news": 8.5,
-      "analyst": 9.5,
-      "technical": 7.5,
-      "total": 8.54,
-      "notes": "ענקית ה-AI - השקעה של $2B בנביוס, קונסנזוס Strong Buy עם יעד $263, מנוע הצמיחה של עידן ה-AI"
-    },
-    {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings",
-      "price": "$442.03",
-      "news": 8.5,
-      "analyst": 8.0,
-      "technical": 8.5,
-      "total": 8.35,
-      "notes": "שדרוג אנליסט היום, מורגן סטנלי העלה יעד ל-$510, עונת סייבר חזקה עם תוצאות מצוינות"
-    },
-    {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies",
-      "price": "$151.60",
-      "news": 8.0,
-      "analyst": 7.5,
-      "technical": 8.0,
-      "total": 7.85,
-      "notes": "מנצח במלחמת איראן - ביקוש ממשלתי גדל, UBS ו-Mizuho שדרגו לאחרונה, קטגוריה של אחד"
-    },
-    {
-      "ticker": "IONQ",
-      "name": "IonQ Inc",
-      "price": "$34.27",
-      "news": 7.5,
-      "analyst": 9.5,
-      "technical": 6.5,
-      "total": 7.80,
-      "notes": "קוונטום בוערת - שותפות עם אוניברסיטת קיימברידג', יעד ממוצע $67 (+97%), Strong Buy על כל הקו"
-    },
-    {
-      "ticker": "RDDT",
-      "name": "Reddit Inc",
-      "price": "$137.12",
-      "news": 7.0,
-      "analyst": 8.5,
-      "technical": 7.5,
-      "total": 7.70,
-      "notes": "הכנסות פרסום עלו 70%, עסקאות רישוי נתוני AI, קונסנזוס Buy עם יעד $225 (+64%)"
+      "analyst": 8.8,
+      "technical": 8.2,
+      "total": 8.52,
+      "notes": "פלטפורמת פרסום מובייל עם AI שמכה את הציפיות ברבעון האחרון; מנוע AXON ממשיך לשדרג תשואות פרסום; William Blair מחזיק בהמלצת קנייה חזקה"
     },
     {
       "ticker": "CELH",
-      "name": "Celsius Holdings",
-      "price": "$45.72",
-      "news": 7.5,
-      "analyst": 9.0,
-      "technical": 6.5,
-      "total": 7.60,
-      "notes": "עסקת ספרד רחבה, פרמיום מחיר חזרה לאחר ירידה של 20%, אנליסטים עם Strong Buy ויעד $66.5"
+      "name": "Celsius Holdings Inc",
+      "price": "$44.57",
+      "news": 8.2,
+      "analyst": 8.0,
+      "technical": 7.8,
+      "total": 8.00,
+      "notes": "רכישת Alani Nu מחזקת נתח שוק; עסקת ספרד מרחיבה נוכחות גלובלית; הכנסות Q4 עלו 117% שנה על שנה - מומנטום חזק"
     },
     {
       "ticker": "TSM",
-      "name": "Taiwan Semiconductor",
-      "price": "$354.56",
-      "news": 7.0,
-      "analyst": 7.5,
-      "technical": 8.0,
-      "total": 7.60,
-      "notes": "תנופת גיוס לשבבי AI, הכנסות +20.45%, הייצרנית המובילה של שבבים מתקדמים בעולם"
+      "name": "Taiwan Semiconductor Manufacturing",
+      "price": "$338.31",
+      "news": 7.8,
+      "analyst": 8.5,
+      "technical": 7.5,
+      "total": 7.97,
+      "notes": "הביקוש לשבבי AI ממשיך לדחוף הכנסות שיא; הרחבת פאב אריזונה קרובה; עלייה של 98% בשנה האחרונה עם תמיכת אנליסטים חזקה"
     },
     {
-      "ticker": "MSTR",
-      "name": "Strategy Inc (MicroStrategy)",
-      "price": "$138.33",
-      "news": 6.0,
+      "ticker": "NVDA",
+      "name": "NVIDIA Corp",
+      "price": "$180.25",
+      "news": 7.5,
       "analyst": 9.0,
-      "technical": 7.0,
-      "total": 7.55,
-      "notes": "פרוקסי ביטקוין עם רכישות מתמשכות, יעד Strong Buy $354 (+156%), קיצור ריבית עולה - סיכון"
+      "technical": 7.2,
+      "total": 7.97,
+      "notes": "השקעה של 26 מיליארד דולר ב-AI בקוד פתוח; תוצאות פיסקל Q4 מדהימות עם הכנסות של 68 מיליארד; ביקוש ל-Blackwell עולה על ההיצע"
     },
     {
-      "ticker": "HOOD",
-      "name": "Robinhood Markets",
-      "price": "$78.69",
-      "news": 6.5,
-      "analyst": 8.0,
-      "technical": 7.0,
-      "total": 7.20,
-      "notes": "קרן VC חדשה הופכת לקוחות לבעלי הון סיכון, Buy קונסנזוס $113, גידול הכנסות +52%"
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings Inc",
+      "price": "$441.78",
+      "news": 7.0,
+      "analyst": 8.2,
+      "technical": 7.8,
+      "total": 7.73,
+      "notes": "מנהיג באבטחת סייבר עם שיאי תזרים מזומנים חופשי; ביקוש ממשלתי פדרלי חזק; הכנסות Q4 גדלו 23% - מגמה חיובית"
     },
     {
       "ticker": "BTC",
       "name": "Bitcoin",
-      "price": "$69,463",
-      "news": 7.0,
+      "price": "$71,760.33",
+      "news": 7.2,
       "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.18,
-      "notes": "מחזיק $70K תוך מלחמת איראן, זרימות ETF יציבות, עוצמה יחסית לעומת מניות"
-    },
-    {
-      "ticker": "ARM",
-      "name": "Arm Holdings",
-      "price": "$120.10",
-      "news": 6.0,
-      "analyst": 7.5,
-      "technical": 6.5,
-      "total": 6.65,
-      "notes": "Buy קונסנזוס עם יעד $160, אבל קרנות מוכרות - המתן לנקודת כניסה טובה יותר"
-    },
-    {
-      "ticker": "ETH",
-      "name": "Ethereum",
-      "price": "$2,031",
-      "news": 6.5,
-      "analyst": 7.0,
-      "technical": 6.5,
-      "total": 6.68,
-      "notes": "שדרוג Pectra מתקרב, זרימות ETF, אבל מפגר אחרי BTC - פחות מומנטום קצר טווח"
+      "technical": 7.5,
+      "total": 7.41,
+      "notes": "שוק קריפטו מתייצב לאחר 'חורף מיני'; תזרים ETF חיובי מ-BlackRock ואחרים; Tom Lee מאותת על סיום ירידות"
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$85.35",
+      "price": "$88.30",
+      "news": 7.5,
+      "analyst": 7.0,
+      "technical": 7.2,
+      "total": 7.22,
+      "notes": "Pump.fun הגיעה ל-1 מיליארד דולר הכנסות - ראשונה בסולאנה; Grayscale מזהה הזדמנות; אינטגרציה עם Mastercard מגבירה לגיטימיות"
+    },
+    {
+      "ticker": "ASTS",
+      "name": "AST SpaceMobile Inc",
+      "price": "$86.34",
+      "news": 6.8,
+      "analyst": 7.5,
+      "technical": 7.0,
+      "total": 7.10,
+      "notes": "הכנסות Q4 עלו 2,731% שנה על שנה לראשונה; בניית רשת לוויינים מסחרית; מוסדות חדשים נכנסים לפוזיציה"
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies Inc",
+      "price": "$150.95",
+      "news": 6.0,
+      "analyst": 7.0,
+      "technical": 7.5,
+      "total": 6.93,
+      "notes": "ירד 27% מהשיא - שאלה האם זו הזדמנות קנייה; לחץ מ-Michael Burry ומסתבכות עם הפנטגון; רווח Q4 קפץ 670%"
+    },
+    {
+      "ticker": "LINK",
+      "name": "Chainlink",
+      "price": "$9.27",
+      "news": 7.0,
+      "analyst": 6.5,
+      "technical": 7.0,
+      "total": 6.78,
+      "notes": "אינגייג'מנט מוסדי קפץ 499%; ביטוויז מגדיר כנכס קריפטו הכי undervalued; לווייתן גדול נכנס לאחרונה"
+    },
+    {
+      "ticker": "ETH",
+      "name": "Ethereum",
+      "price": "$2,116.72",
       "news": 6.5,
       "analyst": 7.0,
-      "technical": 6.0,
-      "total": 6.50,
-      "notes": "פעילות on-chain שיא אבל זרימות ETF מפגרות, סיכון ירידה טכני ל-$72-79"
+      "technical": 6.5,
+      "total": 6.67,
+      "notes": "פעילות ברשת בשיא היסטורי אך מחיר מפגר; ETF נשאר ירוק; BitMine ממשיך לצבור; אחרי ירידה מ-2,000 - יש תמיכה"
+    },
+    {
+      "ticker": "MSTR",
+      "name": "Strategy Inc (MicroStrategy)",
+      "price": "$139.67",
+      "news": 6.2,
+      "analyst": 6.5,
+      "technical": 6.8,
+      "total": 6.52,
+      "notes": "Ossiam קנתה 63,000 מניות השבוע; B. Riley אופטימי; פרוקסי ל-BTC עם מנוף - מתאים לשוק שטוח/עולה"
     },
     {
       "ticker": "SMCI",
-      "name": "Super Micro Computer",
-      "price": "$31.79",
+      "name": "Super Micro Computer Inc",
+      "price": "$30.75",
       "news": 5.5,
-      "analyst": 5.5,
-      "technical": 5.5,
-      "total": 5.50,
-      "notes": "Hold קונסנזוס, החלמה איטית מאחר שינויים חשבונאיים, יעד $39.5 - פחות אטרקטיבי"
+      "analyst": 6.0,
+      "technical": 5.8,
+      "total": 5.78,
+      "notes": "הכנסות Q4 עלו 123% אך מניה רחוקה מ-62 דולר השיא; בעיות ציות בעבר עדיין מעיקות; סיכון גבוה עם פוטנציאל גבוה"
     },
     {
-      "ticker": "AVAX",
-      "name": "Avalanche",
-      "price": "$9.53",
-      "news": 5.0,
-      "analyst": 5.0,
-      "technical": 4.5,
-      "total": 4.85,
-      "notes": "ירידה משמעותית מרמות גבוהות, מומנטום חלש, פחות קטליזטורים - הכי פחות מומלץ היום"
+      "ticker": "RXRX",
+      "name": "Recursion Pharmaceuticals Inc",
+      "price": "$3.42",
+      "news": 3.5,
+      "analyst": 4.5,
+      "technical": 4.0,
+      "total": 4.03,
+      "notes": "Jim Cramer קורא לזה 'אכזבה גדולה'; מניה ליד שפל שנתי; מכירה בסיסית בסביבת $3 - סיכון גבוה מאוד"
     }
   ]
 }
