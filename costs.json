@@ -1,10 +1,10 @@
 {
-  "lastUpdated": "2026-03-12T07:04:52.894Z",
-  "totalCost": 35.302352,
-  "totalTokens": 448556,
-  "totalCalls": 791,
-  "totalSessions": 222,
-  "daysActive": 8,
+  "lastUpdated": "2026-03-15T11:20:02.453Z",
+  "totalCost": 34.616639,
+  "totalTokens": 437881,
+  "totalCalls": 773,
+  "totalSessions": 220,
+  "daysActive": 9,
   "daily": [
     {
       "date": "2026-02-19",
@@ -121,46 +121,64 @@
     },
     {
       "date": "2026-03-11",
-      "cost": 23.264912,
-      "tokens": 254570,
-      "inputTokens": 864,
-      "outputTokens": 253706,
-      "cacheReadTokens": 15789015,
-      "cacheWriteTokens": 3925340,
-      "calls": 528,
-      "sessions": 154,
+      "cost": 18.014058,
+      "tokens": 220266,
+      "inputTokens": 603,
+      "outputTokens": 219663,
+      "cacheReadTokens": 13657094,
+      "cacheWriteTokens": 2832047,
+      "calls": 381,
+      "sessions": 97,
       "byModel": {
         "claude-sonnet-4-6": {
-          "cost": 23.264912,
-          "tokens": 254570,
-          "calls": 528
+          "cost": 18.014058,
+          "tokens": 220266,
+          "calls": 381
         }
       }
     },
     {
       "date": "2026-03-12",
-      "cost": 5.417794,
-      "tokens": 25287,
-      "inputTokens": 273,
-      "outputTokens": 25014,
-      "cacheReadTokens": 2504608,
-      "cacheWriteTokens": 1144102,
-      "calls": 151,
-      "sessions": 60,
+      "cost": 9.917045,
+      "tokens": 48840,
+      "inputTokens": 511,
+      "outputTokens": 48329,
+      "cacheReadTokens": 3955243,
+      "cacheWriteTokens": 2134401,
+      "calls": 279,
+      "sessions": 114,
       "byModel": {
         "claude-sonnet-4-6": {
-          "cost": 5.417794,
-          "tokens": 25287,
-          "calls": 151
+          "cost": 9.917045,
+          "tokens": 48840,
+          "calls": 279
+        }
+      }
+    },
+    {
+      "date": "2026-03-15",
+      "cost": 0.065889,
+      "tokens": 76,
+      "inputTokens": 3,
+      "outputTokens": 73,
+      "cacheReadTokens": 0,
+      "cacheWriteTokens": 17276,
+      "calls": 1,
+      "sessions": 1,
+      "byModel": {
+        "claude-sonnet-4-6": {
+          "cost": 0.065889,
+          "tokens": 76,
+          "calls": 1
         }
       }
     }
   ],
   "byModel": {
     "claude-sonnet-4-6": {
-      "cost": 32.822153,
-      "tokens": 305401,
-      "calls": 757
+      "cost": 32.13644,
+      "tokens": 294726,
+      "calls": 739
     },
     "claude-opus-4-6": {
       "cost": 1.53068,
@@ -175,29 +193,29 @@
   },
   "byCategory": {
     "Other Jobs": {
-      "cost": 13.244146,
-      "tokens": 53298,
-      "calls": 363
+      "cost": 12.837842,
+      "tokens": 42484,
+      "calls": 355
     },
     "Maintenance": {
-      "cost": 1.967598,
-      "tokens": 10449,
-      "calls": 70
+      "cost": 1.973433,
+      "tokens": 10500,
+      "calls": 71
     },
     "Trading": {
-      "cost": 5.250362,
-      "tokens": 241621,
-      "calls": 95
+      "cost": 5.483148,
+      "tokens": 242027,
+      "calls": 100
     },
     "Sub-Agents": {
-      "cost": 14.531212,
-      "tokens": 139782,
-      "calls": 254
+      "cost": 14.043049,
+      "tokens": 139902,
+      "calls": 240
     },
     "Daily Summary": {
-      "cost": 0.309034,
-      "tokens": 3406,
-      "calls": 9
+      "cost": 0.279167,
+      "tokens": 2968,
+      "calls": 7
     }
   },
   "dailyByCategory": [
@@ -251,18 +269,26 @@
     },
     {
       "date": "2026-03-11",
-      "Other Jobs": 9.298225,
-      "Maintenance": 1.383426,
-      "Trading": 4.340948,
-      "Sub-Agents": 7.933278,
-      "Daily Summary": 0.309034
+      "Other Jobs": 5.526731,
+      "Maintenance": 0.808373,
+      "Trading": 3.846575,
+      "Sub-Agents": 7.832379,
+      "Daily Summary": 0
     },
     {
       "date": "2026-03-12",
-      "Other Jobs": 3.819287,
-      "Maintenance": 0.584172,
+      "Other Jobs": 7.184476,
+      "Maintenance": 1.16506,
+      "Trading": 0.72716,
+      "Sub-Agents": 0.561182,
+      "Daily Summary": 0.279167
+    },
+    {
+      "date": "2026-03-15",
+      "Other Jobs": 0,
+      "Maintenance": 0,
       "Trading": 0,
-      "Sub-Agents": 1.014335,
+      "Sub-Agents": 0.065889,
       "Daily Summary": 0
     }
   ]
