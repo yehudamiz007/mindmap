@@ -1,145 +1,155 @@
 {
-  "lastUpdated": "15.03.2026 13:30 IST",
+  "lastUpdated": "15.03.2026 17:00 IST",
   "stocks": [
     {
-      "ticker": "APP",
-      "name": "AppLovin Corp",
-      "price": "$458.67",
+      "ticker": "AVGO",
+      "name": "Broadcom Inc",
+      "price": "$322.16",
       "news": 8.5,
-      "analyst": 8.8,
-      "technical": 8.2,
-      "total": 8.52,
-      "notes": "פלטפורמת פרסום מובייל עם AI שמכה את הציפיות ברבעון האחרון; מנוע AXON ממשיך לשדרג תשואות פרסום; William Blair מחזיק בהמלצת קנייה חזקה"
-    },
-    {
-      "ticker": "CELH",
-      "name": "Celsius Holdings Inc",
-      "price": "$44.57",
-      "news": 8.2,
-      "analyst": 8.0,
-      "technical": 7.8,
-      "total": 8.00,
-      "notes": "רכישת Alani Nu מחזקת נתח שוק; עסקת ספרד מרחיבה נוכחות גלובלית; הכנסות Q4 עלו 117% שנה על שנה - מומנטום חזק"
-    },
-    {
-      "ticker": "TSM",
-      "name": "Taiwan Semiconductor Manufacturing",
-      "price": "$338.31",
-      "news": 7.8,
-      "analyst": 8.5,
-      "technical": 7.5,
-      "total": 7.97,
-      "notes": "הביקוש לשבבי AI ממשיך לדחוף הכנסות שיא; הרחבת פאב אריזונה קרובה; עלייה של 98% בשנה האחרונה עם תמיכת אנליסטים חזקה"
+      "analyst": 9.0,
+      "technical": 8.0,
+      "total": 8.50,
+      "notes": "בריקאם חיפשו רווח AI של $100 מיליארד+ - קניה חזקה לאחר התיקון מהשיא"
     },
     {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
       "price": "$180.25",
-      "news": 7.5,
-      "analyst": 9.0,
-      "technical": 7.2,
-      "total": 7.97,
-      "notes": "השקעה של 26 מיליארד דולר ב-AI בקוד פתוח; תוצאות פיסקל Q4 מדהימות עם הכנסות של 68 מיליארד; ביקוש ל-Blackwell עולה על ההיצע"
+      "news": 8.0,
+      "analyst": 9.5,
+      "technical": 7.5,
+      "total": 8.35,
+      "notes": "ענקית ה-AI עם יעד $263 מאנליסטים, GTC כנס קרוב - פריצה פוטנציאלית מרמת $180"
     },
     {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings Inc",
-      "price": "$441.78",
-      "news": 7.0,
-      "analyst": 8.2,
-      "technical": 7.8,
-      "total": 7.73,
-      "notes": "מנהיג באבטחת סייבר עם שיאי תזרים מזומנים חופשי; ביקוש ממשלתי פדרלי חזק; הכנסות Q4 גדלו 23% - מגמה חיובית"
+      "ticker": "META",
+      "name": "Meta Platforms Inc",
+      "price": "$613.71",
+      "news": 8.0,
+      "analyst": 9.5,
+      "technical": 7.5,
+      "total": 8.35,
+      "notes": "רכישת Moltbook + AI Capex חזק, 39 אנליסטים עם יעד $836 - תמיכה ב-$610"
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon.com Inc",
+      "price": "$207.67",
+      "news": 7.5,
+      "analyst": 9.5,
+      "technical": 7.5,
+      "total": 8.20,
+      "notes": "הנפקת אג\"ח $40 מיליארד לתשתיות AI + AWS חזק - 44 אנליסטים קניה חזקה"
     },
     {
       "ticker": "BTC",
       "name": "Bitcoin",
-      "price": "$71,760.33",
-      "news": 7.2,
+      "price": "$71,610.32",
+      "news": 8.5,
+      "analyst": 8.0,
+      "technical": 7.0,
+      "total": 7.80,
+      "notes": "ביטקוין מעל $71K, Strategy קנה $1.28B נוסף, ETF inflows חיוביים, Tom Lee: המיני-חורף נגמר"
+    },
+    {
+      "ticker": "IONQ",
+      "name": "IonQ Inc",
+      "price": "$32.98",
+      "news": 7.5,
+      "analyst": 8.5,
+      "technical": 6.5,
+      "total": 7.50,
+      "notes": "ברית קיימברידג' לחומרת קוונטום, 12 אנליסטים עם יעד $67.67 - פוטנציאל הכפלה"
+    },
+    {
+      "ticker": "MSTR",
+      "name": "Strategy Inc (MicroStrategy)",
+      "price": "$139.67",
+      "news": 8.0,
+      "analyst": 8.0,
+      "technical": 6.5,
+      "total": 7.48,
+      "notes": "Bitcoin proxy - רכישה ב-$1.28B, BTC מעל $73K, B.Riley מתחיל כיסוי בקניה"
+    },
+    {
+      "ticker": "ETH",
+      "name": "Ethereum",
+      "price": "$2,096.67",
+      "news": 8.0,
       "analyst": 7.5,
-      "technical": 7.5,
-      "total": 7.41,
-      "notes": "שוק קריפטו מתייצב לאחר 'חורף מיני'; תזרים ETF חיובי מ-BlackRock ואחרים; Tom Lee מאותת על סיום ירידות"
+      "technical": 7.0,
+      "total": 7.48,
+      "notes": "BlackRock משיק ETF עם staking, פעילות ברשת בשיא כל הזמנים, ETF inflows ירוקים"
+    },
+    {
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices Inc",
+      "price": "$193.39",
+      "news": 6.5,
+      "analyst": 8.0,
+      "technical": 7.0,
+      "total": 7.20,
+      "notes": "ירידה זמנית בשל נפט ותוכניות שבבי Meta - יעד $261 מ-33 אנליסטים, תמיכה ב-$192"
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$88.30",
-      "news": 7.5,
+      "price": "$87.97",
+      "news": 7.0,
       "analyst": 7.0,
-      "technical": 7.2,
-      "total": 7.22,
-      "notes": "Pump.fun הגיעה ל-1 מיליארד דולר הכנסות - ראשונה בסולאנה; Grayscale מזהה הזדמנות; אינטגרציה עם Mastercard מגבירה לגיטימיות"
-    },
-    {
-      "ticker": "ASTS",
-      "name": "AST SpaceMobile Inc",
-      "price": "$86.34",
-      "news": 6.8,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.10,
-      "notes": "הכנסות Q4 עלו 2,731% שנה על שנה לראשונה; בניית רשת לוויינים מסחרית; מוסדות חדשים נכנסים לפוזיציה"
+      "technical": 7.5,
+      "total": 7.18,
+      "notes": "Grayscale מזהה הזדמנות, אינטגרציה Mastercard, Pump.fun $1B הכנסות - אות שורי ראשון בחודשיים"
     },
     {
       "ticker": "PLTR",
       "name": "Palantir Technologies Inc",
       "price": "$150.95",
       "news": 6.0,
-      "analyst": 7.0,
+      "analyst": 6.5,
       "technical": 7.5,
-      "total": 6.93,
-      "notes": "ירד 27% מהשיא - שאלה האם זו הזדמנות קנייה; לחץ מ-Michael Burry ומסתבכות עם הפנטגון; רווח Q4 קפץ 670%"
+      "total": 6.70,
+      "notes": "חתכי תקציב פנטגון + Burry שורט מלחיצים, אבל המגמה הארוכה עדיין חיובית - UBS שדרג"
     },
     {
-      "ticker": "LINK",
-      "name": "Chainlink",
-      "price": "$9.27",
-      "news": 7.0,
-      "analyst": 6.5,
-      "technical": 7.0,
-      "total": 6.78,
-      "notes": "אינגייג'מנט מוסדי קפץ 499%; ביטוויז מגדיר כנכס קריפטו הכי undervalued; לווייתן גדול נכנס לאחרונה"
-    },
-    {
-      "ticker": "ETH",
-      "name": "Ethereum",
-      "price": "$2,116.72",
+      "ticker": "XRP",
+      "name": "XRP / Ripple",
+      "price": "$1.4168",
       "news": 6.5,
-      "analyst": 7.0,
-      "technical": 6.5,
-      "total": 6.67,
-      "notes": "פעילות ברשת בשיא היסטורי אך מחיר מפגר; ETF נשאר ירוק; BitMine ממשיך לצבור; אחרי ירידה מ-2,000 - יש תמיכה"
-    },
-    {
-      "ticker": "MSTR",
-      "name": "Strategy Inc (MicroStrategy)",
-      "price": "$139.67",
-      "news": 6.2,
-      "analyst": 6.5,
-      "technical": 6.8,
-      "total": 6.52,
-      "notes": "Ossiam קנתה 63,000 מניות השבוע; B. Riley אופטימי; פרוקסי ל-BTC עם מנוף - מתאים לשוק שטוח/עולה"
-    },
-    {
-      "ticker": "SMCI",
-      "name": "Super Micro Computer Inc",
-      "price": "$30.75",
-      "news": 5.5,
       "analyst": 6.0,
-      "technical": 5.8,
-      "total": 5.78,
-      "notes": "הכנסות Q4 עלו 123% אך מניה רחוקה מ-62 דולר השיא; בעיות ציות בעבר עדיין מעיקות; סיכון גבוה עם פוטנציאל גבוה"
+      "technical": 6.0,
+      "total": 6.15,
+      "notes": "רכישת רישיון אוסטרלי, Ripple CEO אופטימי ל-2031, ETF buzz - אך עדיין חסר קטליסט מיידי"
+    },
+    {
+      "ticker": "XOM",
+      "name": "Exxon Mobil Corp",
+      "price": "$156.12",
+      "news": 6.5,
+      "analyst": 5.0,
+      "technical": 6.5,
+      "total": 5.98,
+      "notes": "נפט מעל $100 חיובי לרווחים, שורט יורד -18.8% - אך יעד אנליסטים מתחת למחיר הנוכחי"
     },
     {
       "ticker": "RXRX",
       "name": "Recursion Pharmaceuticals Inc",
       "price": "$3.42",
-      "news": 3.5,
-      "analyst": 4.5,
-      "technical": 4.0,
-      "total": 4.03,
-      "notes": "Jim Cramer קורא לזה 'אכזבה גדולה'; מניה ליד שפל שנתי; מכירה בסיסית בסביבת $3 - סיכון גבוה מאוד"
+      "news": 4.5,
+      "analyst": 7.5,
+      "technical": 5.0,
+      "total": 5.73,
+      "notes": "קראמר קרא לזה 'אכזבה גדולה' - אך יעד $7.50 מ-4 אנליסטים, ספקולטיבי בסיכון גבוה"
+    },
+    {
+      "ticker": "TSLA",
+      "name": "Tesla Inc",
+      "price": "$391.20",
+      "news": 5.0,
+      "analyst": 4.0,
+      "technical": 6.0,
+      "total": 5.00,
+      "notes": "הכנסות ירדו 3% YoY, קונסנסוס Hold, יעד ממוצע $389 - כמעט בדיוק במחיר הנוכחי"
     }
   ]
 }
