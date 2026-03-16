@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "16.03.2026 09:00 IST",
+  "lastUpdated": "16.03.2026 17:00 IST",
   "stocks": [
     {
-      "ticker": "BTC",
-      "name": "Bitcoin",
-      "price": "$73,749.77",
-      "news": 8.0,
+      "ticker": "AVGO",
+      "name": "Broadcom Inc",
+      "price": "$325.65",
+      "news": 9.0,
+      "analyst": 9.0,
+      "technical": 8.0,
+      "total": 8.65,
+      "notes": "אדריכל מחזור העל של תשתיות AI - יעד אנליסטים $435 פורסם היום, 34% אפסייד"
+    },
+    {
+      "ticker": "ORCL",
+      "name": "Oracle Corp",
+      "price": "$156.23",
+      "news": 9.0,
       "analyst": 8.5,
       "technical": 8.0,
-      "total": 8.18,
-      "notes": "ביטקוין מעל $73K - Strategy רכשה $1.28B נוספים, BlackRock מוביל זרימות ETF, מומנטום מחזורי חזק"
-    },
-    {
-      "ticker": "RKLB",
-      "name": "Rocket Lab Corp",
-      "price": "$68.41",
-      "news": 7.5,
-      "analyst": 8.5,
-      "technical": 7.8,
-      "total": 7.98,
-      "notes": "רוקט לאב - רכישות מוסדיות חזקות (Clear Street, BNP Paribas), קצב שיגורים מואץ, פיתוח Neutron בעיצומו"
-    },
-    {
-      "ticker": "ETH",
-      "name": "Ethereum",
-      "price": "$2,262.66",
-      "news": 8.5,
-      "analyst": 7.5,
-      "technical": 7.5,
-      "total": 7.88,
-      "notes": "אית'ריום - BlackRock השיק ETF עם stake, פעילות רשת שיא, Tom Lee: 'מיני חורף קריפטו כמעט הסתיים'"
-    },
-    {
-      "ticker": "TSM",
-      "name": "Taiwan Semiconductor Mfg",
-      "price": "$338.31",
-      "news": 7.5,
-      "analyst": 8.5,
-      "technical": 7.5,
-      "total": 7.88,
-      "notes": "TSMC - עלייה של 98% בשנה, ביקוש CoWoS חזק מ-NVIDIA ו-Apple, הכנסות +20% YoY"
+      "total": 8.48,
+      "notes": "אורקל כותשת - רבעון Q3 מעל תחזיות, צבר הזמנות $553 מיליארד, ג'פריס מדגיש צמיחת ענן AI"
     },
     {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
-      "price": "$180.25",
+      "price": "$184.10",
       "news": 8.5,
+      "analyst": 9.0,
+      "technical": 7.5,
+      "total": 8.33,
+      "notes": "טרוסט מאשר BUY, מוסדות מגדילים פוזיציות, כנס GTC בפתח - זרז קטלוג"
+    },
+    {
+      "ticker": "BTC",
+      "name": "Bitcoin",
+      "price": "$73,457.05",
+      "news": 8.5,
+      "analyst": 8.0,
+      "technical": 8.5,
+      "total": 8.33,
+      "notes": "בקספר $74K, מצב ריסק-און עם מטבעות מים, BlackRock ממשיך לצבור"
+    },
+    {
+      "ticker": "TSM",
+      "name": "Taiwan Semiconductor",
+      "price": "$341.97",
+      "news": 8.0,
       "analyst": 8.5,
-      "technical": 6.5,
-      "total": 7.77,
-      "notes": "נבידיה - Truist מאשר Buy, השקעה של $26B בקוד פתוח AI, רווחי Q4 FY26 חצו ציפיות (+94% YoY)"
-    },
-    {
-      "ticker": "META",
-      "name": "Meta Platforms Inc",
-      "price": "$613.71",
-      "news": 7.5,
-      "analyst": 8.0,
-      "technical": 6.5,
-      "total": 7.30,
-      "notes": "מטא - סנטימנט אנליסטים חזק אחרי רכישת Moltbook, הכנסות פרסום AI +24%, P/E נמוך יחסית לצמיחה"
-    },
-    {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings",
-      "price": "$441.78",
-      "news": 6.0,
-      "analyst": 8.0,
       "technical": 7.5,
-      "total": 7.28,
-      "notes": "CrowdStrike - תוצאות Q4 טובות, FCF +95% YoY, מכירות מוסדיות נרשמו אך ביקוש ארגוני יציב"
+      "total": 8.00,
+      "notes": "עלייה של 98% בשנה האחרונה, פאב אריזונה מואץ, הזמנות NVIDIA ואפל ממשיכות"
     },
     {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies",
-      "price": "$150.95",
-      "news": 7.0,
-      "analyst": 7.0,
-      "technical": 7.5,
-      "total": 7.18,
-      "notes": "פאלנטיר - 'קטגוריה לעצמה' לפי אנליסטים, צמיחת הכנסות +70% YoY, שותפויות הגנה מתרחבות"
-    },
-    {
-      "ticker": "IONQ",
-      "name": "IonQ Inc",
-      "price": "$32.98",
-      "news": 7.0,
+      "ticker": "ETH",
+      "name": "Ethereum",
+      "price": "$2,273.63",
+      "news": 8.5,
       "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.18,
-      "notes": "IonQ - פרישת תשתית קוונטית עבור RoNaQCI, הכנסות +428% YoY, יתרת מזומן חזקה של $2.4B"
+      "technical": 8.0,
+      "total": 7.98,
+      "notes": "BlackRock משיקה ETF של ETH עם סטייקינג, פעילות ברשת שיא, שדרוג Pectra קרב"
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$93.58",
+      "price": "$93.07",
+      "news": 8.0,
+      "analyst": 7.5,
+      "technical": 8.0,
+      "total": 7.83,
+      "notes": "פריצה טכנית +3.7% היום, גיבוי מוסדי ל-ETF, Standard Chartered צופה $2,000 לסוף העשור"
+    },
+    {
+      "ticker": "RKLB",
+      "name": "Rocket Lab Corp",
+      "price": "$70.20",
+      "news": 7.5,
+      "analyst": 8.0,
+      "technical": 7.5,
+      "total": 7.68,
+      "notes": "רכישות מוסדיות גדולות (Clear Street 622K מניות), צמיחת הכנסות +36% ברבעון, דפנס + לווינים"
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies",
+      "price": "$152.01",
       "news": 7.5,
       "analyst": 7.0,
-      "technical": 7.0,
-      "total": 7.17,
-      "notes": "סולנה - ETF מוסדי עם תמיכה חזקה, שילוב פיננסים בעולם האמיתי, ניתוח טכני מצביע על פריצה"
+      "technical": 7.5,
+      "total": 7.33,
+      "notes": "קטגוריה ייחודית - AI לממשלות, הכנסות +70% שנה לשנה, טרוסט רואה הזדמנות לאחר ירידה"
     },
     {
       "ticker": "MSTR",
       "name": "Strategy Inc (MicroStrategy)",
-      "price": "$139.67",
-      "news": 8.0,
-      "analyst": 7.5,
-      "technical": 8.0,
-      "total": 7.87,
-      "notes": "Strategy - רכישת ביטקוין $1.28B עם BTC מעל $73K, B. Riley אופטימי, ביצועי leverage על BTC"
+      "price": "$145.87",
+      "news": 7.0,
+      "analyst": 7.0,
+      "technical": 7.5,
+      "total": 7.18,
+      "notes": "פרוקסי ביטקוין - B. Riley אופטימי, ARP Global רכשה 27K מניות, עולה עם BTC"
+    },
+    {
+      "ticker": "COIN",
+      "name": "Coinbase Global",
+      "price": "$204.07",
+      "news": 7.5,
+      "analyst": 7.0,
+      "technical": 7.0,
+      "total": 7.15,
+      "notes": "גאפ-אפ בשבוע שעבר, נהנה מעלייה בנפחי קריפטו, בורסה הגדולה בארה\"ב"
     },
     {
       "ticker": "ARM",
-      "name": "Arm Holdings PLC",
-      "price": "$115.75",
-      "news": 6.5,
+      "name": "Arm Holdings ADR",
+      "price": "$119.27",
+      "news": 7.0,
+      "analyst": 7.0,
+      "technical": 7.0,
+      "total": 7.00,
+      "notes": "Cantor Fitzgerald מגדיל פוזיציה, מרכז AI PC וסמארטפון, אך Coatue מוכרת - מעורב"
+    },
+    {
+      "ticker": "AXON",
+      "name": "Axon Enterprise",
+      "price": "$488.91",
+      "news": 7.0,
       "analyst": 7.5,
       "technical": 6.5,
-      "total": 6.85,
-      "notes": "ARM - Cantor Fitzgerald הגדיל חשיפה, Coatue מכר - ניגוד. תמלוגי AI שבבים גדלים, P/E גבוה"
+      "total": 7.00,
+      "notes": "צבירה מוסדית יציבה, טכנולוגיות AI לאכיפת חוק, אך רחוק מ-ATH של $885"
     },
     {
-      "ticker": "HOOD",
-      "name": "Robinhood Markets",
-      "price": "$73.39",
-      "news": 5.5,
+      "ticker": "XRP",
+      "name": "XRP / Ripple",
+      "price": "$1.49",
+      "news": 7.0,
       "analyst": 6.5,
-      "technical": 6.0,
-      "total": 6.05,
-      "notes": "רובינהוד - נפח קריפטו גדל אך Arrow Capital מכרה מניות, הכנסות +27% YoY, מחיר ירד מ-$76"
-    },
-    {
-      "ticker": "CELH",
-      "name": "Celsius Holdings Inc",
-      "price": "$44.57",
-      "news": 5.5,
-      "analyst": 6.5,
-      "technical": 6.0,
-      "total": 6.02,
-      "notes": "Celsius - AllianceBernstein מכרה 2.5M מניות, הכנסות +117% YoY אך FCF שלילי, רגישות ניהול כספי"
+      "technical": 7.0,
+      "total": 6.83,
+      "notes": "פריצת מגמת ירידה ב-$1.39, עונת אלטקוין מתחילה, אך חשש מהשפעת סכסוך איראן"
     },
     {
       "ticker": "SMCI",
       "name": "Super Micro Computer",
-      "price": "$30.75",
-      "news": 5.0,
-      "analyst": 5.5,
-      "technical": 5.5,
-      "total": 5.35,
-      "notes": "Super Micro - ביקוש שרתי AI חזק (+123% הכנסות YoY) אך FCF שלילי, ירידה חדה מ-$62 השנה"
+      "price": "$31.20",
+      "news": 6.0,
+      "analyst": 6.0,
+      "technical": 6.0,
+      "total": 6.00,
+      "notes": "חברה מתאוששת מבעיות חשבונאיות, P/E זול אך סיכון ממשי - לא להיחפז"
     }
   ]
 }
