@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "17.03.2026 09:00 IST",
+  "lastUpdated": "18.03.2026 09:00 IST",
   "stocks": [
     {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
-      "price": "$183.19",
-      "news": 9.0,
-      "analyst": 9.5,
-      "technical": 8.5,
-      "total": 9.0,
-      "notes": "הכרזת NemoClaw + הכנסות מכפילות, GTC בדרך - קטליסטורים חזקים מאוד השבוע"
-    },
-    {
-      "ticker": "AVGO",
-      "name": "Broadcom Inc",
-      "price": "$324.92",
+      "price": "$181.93",
       "news": 8.5,
       "analyst": 9.0,
-      "technical": 8.0,
-      "total": 8.52,
-      "notes": "מומנטום AI ממשיך, הכנסות רבעוניות $19.3B, הצטרף ל-Magnificent 7 - מנגנון מוצק"
+      "technical": 7.5,
+      "total": 8.35,
+      "notes": "רוזנבלאט מאשר Buy, הכנסות Q4 עלו 73%, Blackwell Ultra בזינוק - מלך ה-AI ללא תחרות"
+    },
+    {
+      "ticker": "ANET",
+      "name": "Arista Networks Inc",
+      "price": "$133.07",
+      "news": 8.0,
+      "analyst": 8.5,
+      "technical": 7.0,
+      "total": 7.88,
+      "notes": "אופטיקה מקוררת XPO לדאטה סנטרים של AI, Seeking Alpha שורי - עמוד השדרה של רשתות AI"
     },
     {
       "ticker": "META",
       "name": "Meta Platforms Inc",
-      "price": "$627.45",
-      "news": 8.0,
-      "analyst": 8.5,
-      "technical": 7.5,
-      "total": 8.0,
-      "notes": "עסקת Nebius $27B, Llama 4 מתקרב, P/E נמוך של 21x - זול יחסית לטכנולוגיה"
-    },
-    {
-      "ticker": "TSM",
-      "name": "Taiwan Semiconductor Manufacturing",
-      "price": "$340.23",
-      "news": 8.0,
-      "analyst": 8.5,
-      "technical": 7.5,
-      "total": 8.0,
-      "notes": "פאב אריזונה מתחמם, פעילות אופציות חריגה גבוהה, הפגת הנחת סיכון טייוואן"
-    },
-    {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies Inc",
-      "price": "$152.72",
-      "news": 7.5,
-      "analyst": 7.0,
-      "technical": 8.5,
-      "total": 7.73,
-      "notes": "AI ביטחוני מוביל, רווח +670% שנה, טכנית חזק - יקר אבל מומנטום אמיתי"
-    },
-    {
-      "ticker": "BTC",
-      "name": "Bitcoin",
-      "price": "$74,097",
+      "price": "$622.66",
       "news": 7.0,
-      "analyst": 8.0,
-      "technical": 7.0,
-      "total": 7.35,
-      "notes": "זרימות ETF מוסדיות חזקות, מחזור עליית מחצית - צריך לחזור מעל $75K"
+      "analyst": 8.5,
+      "technical": 7.5,
+      "total": 7.70,
+      "notes": "מעורבות משתמשים עלתה 17%, P/E נמוך יחסית ל-Big Tech, Llama 4 בפתח - מנועי צמיחה חזקים"
     },
     {
       "ticker": "ARM",
       "name": "Arm Holdings PLC ADR",
-      "price": "$121.70",
-      "news": 7.0,
-      "analyst": 7.5,
-      "technical": 7.5,
-      "total": 7.35,
-      "notes": "Cantor Fitzgerald מגדיל פוזיציה, שעות נוספות +1.2%, עיצוב שבבי AI חזק"
-    },
-    {
-      "ticker": "HOOD",
-      "name": "Robinhood Markets Inc",
-      "price": "$75.31",
+      "price": "$127.31",
       "news": 8.0,
-      "analyst": 7.0,
+      "analyst": 8.0,
       "technical": 7.0,
-      "total": 7.35,
-      "notes": "מניות טוקניזציה + כרטיס פלטינום - הרחבת מוצר משמעותית, ריבאונד טכנולוגיה"
-    },
-    {
-      "ticker": "ETH",
-      "name": "Ethereum",
-      "price": "$2,315",
-      "news": 8.0,
-      "analyst": 7.5,
-      "technical": 6.5,
-      "total": 7.33,
-      "notes": "BlackRock משיק ETF ETH מסייק, Bitmine רוכש 61K מטבעות - אינטרס מוסדי גדול"
-    },
-    {
-      "ticker": "XRP",
-      "name": "XRP",
-      "price": "$1.516",
-      "news": 7.5,
-      "analyst": 7.0,
-      "technical": 7.0,
-      "total": 7.18,
-      "notes": "Goldman Sachs מחזיק ETF מוביל, Ripple רוכשת רישיון אוסטרלי, +10% היום"
-    },
-    {
-      "ticker": "SOL",
-      "name": "Solana",
-      "price": "$93.93",
-      "news": 6.5,
-      "analyst": 7.0,
-      "technical": 6.5,
-      "total": 6.67,
-      "notes": "פריצה טכנית +3.7% אבל אזהרת ירידה 15%, יתרות בורסה עולות - זהירות"
-    },
-    {
-      "ticker": "SOFI",
-      "name": "SoFi Technologies Inc",
-      "price": "$17.63",
-      "news": 7.5,
-      "analyst": 6.0,
-      "technical": 5.5,
-      "total": 6.35,
-      "notes": "מודל הון-קל מתחזק, אנליסטים אופטימיים, אבל 62% מתחת לשיא שנה - ריסק גבוה"
-    },
-    {
-      "ticker": "AAPL",
-      "name": "Apple Inc",
-      "price": "$252.82",
-      "news": 5.5,
-      "analyst": 7.0,
-      "technical": 6.0,
-      "total": 6.18,
-      "notes": "דחיית מסך בית חכם, קרן מוכרת פוזיציה - חסר קטליסטור ברור כרגע"
-    },
-    {
-      "ticker": "MSTR",
-      "name": "Strategy Inc Class A",
-      "price": "$147.52",
-      "news": 6.0,
-      "analyst": 5.5,
-      "technical": 6.5,
-      "total": 5.98,
-      "notes": "BTC עלות עברה מיילסטון, ממונף ל-BTC בלבד - תנודתי ומסוכן"
+      "total": 7.68,
+      "notes": "קריימר: המניה לא משקפת את הביזנס הפלאי - תמלוגים מ-AI inference בוערים, עלייה מ-$80"
     },
     {
       "ticker": "CRWD",
       "name": "CrowdStrike Holdings Inc",
-      "price": "$423.84",
-      "news": 5.0,
+      "price": "$433.20",
+      "news": 7.5,
+      "analyst": 8.5,
+      "technical": 7.0,
+      "total": 7.65,
+      "notes": "התאוששות +2.2% אחרי ירידה, ביקוש לסייבר ממשיך, ARR חזק - תקפי ארוך טווח"
+    },
+    {
+      "ticker": "DDOG",
+      "name": "Datadog Inc",
+      "price": "$128.87",
+      "news": 7.0,
+      "analyst": 8.0,
+      "technical": 6.5,
+      "total": 7.23,
+      "notes": "פותחים מרכז נתונים בבריטניה לענן ו-AI, ביקוש לניטור workloads בעלייה מתמדת"
+    },
+    {
+      "ticker": "BTC",
+      "name": "Bitcoin",
+      "price": "$73,990.44",
+      "news": 7.0,
+      "analyst": 7.5,
+      "technical": 7.0,
+      "total": 7.18,
+      "notes": "ישיבת הפד כקטליסט, זרימות ETF יציבות, מתבסס סביב שיא כל הזמנים - הולדינג הגנתי בקריפטו"
+    },
+    {
+      "ticker": "ETH",
+      "name": "Ethereum",
+      "price": "$2,326.31",
+      "news": 7.5,
       "analyst": 7.0,
-      "technical": 5.5,
+      "technical": 7.0,
+      "total": 7.18,
+      "notes": "BlackRock משיק ETF עם staking, זרימות חיוביות, יעד $3,000 - התאוששות מ-$2K"
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies Inc",
+      "price": "$155.08",
+      "news": 6.0,
+      "analyst": 7.0,
+      "technical": 7.5,
+      "total": 6.93,
+      "notes": "אחד מניות AI הטובות אך אינסיידרים מוכרים $6M ביום - סנטימנט חיצוני חזק, פנימי פחות"
+    },
+    {
+      "ticker": "SOL",
+      "name": "Solana",
+      "price": "$94.34",
+      "news": 7.0,
+      "analyst": 6.5,
+      "technical": 6.5,
+      "total": 6.68,
+      "notes": "אותות בוטום טכני, $2.85B USDC על Solana, ETF מוסדי - פוטנציאל התאוששות חד"
+    },
+    {
+      "ticker": "AXON",
+      "name": "Axon Enterprise Inc",
+      "price": "$506.57",
+      "news": 6.5,
+      "analyst": 7.5,
+      "technical": 6.0,
+      "total": 6.63,
+      "notes": "קנייה מוסדית, טכנולוגיה לאכיפת חוק בהתרחבות - אבל רחוק מ-$885 שיא, מגמה יורדת"
+    },
+    {
+      "ticker": "TSLA",
+      "name": "Tesla Inc",
+      "price": "$399.27",
+      "news": 6.5,
+      "analyst": 5.5,
+      "technical": 6.5,
+      "total": 6.13,
+      "notes": "עסקת LG סוללות $4.3B, סייברטראק צבאי - אבל P/E של 371 וביצועים פיננסיים חלשים"
+    },
+    {
+      "ticker": "MSTR",
+      "name": "Strategy Inc Class A",
+      "price": "$150.28",
+      "news": 6.5,
+      "analyst": 5.5,
+      "technical": 6.0,
       "total": 5.95,
-      "notes": "ירידה -4.1% היום ללא סיבה ברורה, ירד מ-$441 - חכה לייצוב לפני כניסה"
+      "notes": "רכישות BTC ממשיכות דרך מניות preferred - מינוף גבוה על ביטקוין, רחוק מ-$457"
+    },
+    {
+      "ticker": "SMCI",
+      "name": "Super Micro Computer Inc",
+      "price": "$31.51",
+      "news": 5.5,
+      "analyst": 6.0,
+      "technical": 5.5,
+      "total": 5.68,
+      "notes": "הכנסות Q4 זינקו 123% אך צל בעיות הנהלה עדיין תלוי - מחיר נמוך קרוב לשפל שנתי"
+    },
+    {
+      "ticker": "LINK",
+      "name": "Chainlink",
+      "price": "$9.83",
+      "news": 5.5,
+      "analyst": 5.5,
+      "technical": 5.5,
+      "total": 5.50,
+      "notes": "Ripple מאיים עם oracle מתחרה, מריבת XRP-LINK - התחרות פוגעת בנרטיב הייחודיות"
     }
   ]
 }
