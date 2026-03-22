@@ -1,155 +1,156 @@
 {
-  "lastUpdated": "22.03.2026 09:00 IST",
+  "lastUpdated": "22.03.2026 18:00 IST",
+  "marketNote": "שוק בירידות - VIX 26.78 (+11%), נאסד\"ק -2%, לחץ גיאופוליטי מאיראן. יום סיכון נמוך.",
   "stocks": [
     {
-      "ticker": "AVGO",
-      "name": "Broadcom Inc",
-      "price": "$310.51",
-      "news": 8.5,
-      "analyst": 9.0,
-      "technical": 8.0,
-      "total": 8.53,
-      "notes": "Broadcom מתחיל משלוחי נפח של שבב Tomahawk 6 - מניע ברור לרשתות AI; Cantor Fitzgerald ואחרים שדרגו לאחר תוצאות מצוינות"
-    },
-    {
       "ticker": "PLTR",
-      "name": "Palantir Technologies Inc",
+      "name": "Palantir Technologies",
       "price": "$150.68",
-      "news": 8.0,
-      "analyst": 7.5,
-      "technical": 8.5,
-      "total": 8.03,
-      "notes": "צמיחת הכנסות של 70% ברבעון האחרון + חוזי ממשל AI מתרחבים; מומנטום טכני חזק אחרי בסיס ביסוס"
+      "news": 8.5,
+      "analyst": 8.0,
+      "technical": 7.5,
+      "total": 7.98,
+      "notes": "צמיחת הכנסות 70% YoY, שדרוג אנליסטים השבוע, חוזים ממשלתיים/נאט\"ו ממשיכים לצמוח. הדיפ הוא הזדמנות."
     },
     {
-      "ticker": "AMZN",
-      "name": "Amazon.com Inc",
-      "price": "$205.37",
-      "news": 8.0,
+      "ticker": "META",
+      "name": "Meta Platforms",
+      "price": "$593.66",
+      "news": 7.5,
       "analyst": 8.5,
       "technical": 7.5,
-      "total": 8.00,
-      "notes": "AWS ממשיך להאיץ בתחום AI; בילינרים מדרגים כאחת ממניות הצמיחה ארוכות הטווח הטובות; P/E נוח יחסית ב-28"
+      "total": 7.83,
+      "notes": "ירד מתחת ל-$600 - מוטלי פול אומר 'זמן לקנות'. Llama 4 משפרת פרסום. קנייה של AIA Group בשבוע זה. יעד אנליסטים $680-750."
     },
     {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
       "price": "$172.93",
-      "news": 7.0,
-      "analyst": 9.0,
-      "technical": 7.5,
-      "total": 7.93,
-      "notes": "הכנסות של 68B$ ב-Q1 2026 (+73% YoY); סנטימנט שלילי קל בשל מכירת EVP; סופרציקל AI ממשיך - יעד אנליסטים גבוה"
+      "news": 8.0,
+      "analyst": 8.5,
+      "technical": 6.5,
+      "total": 7.68,
+      "notes": "Blackwell Ultra ממשיך לגרוף הכנסות ענק ($68B ברבעון). תיזת ה-Physical AI עם פאלנטיר. יעד ממוצע $200+."
     },
     {
-      "ticker": "BTC",
-      "name": "Bitcoin",
-      "price": "$69,179.20",
+      "ticker": "APP",
+      "name": "AppLovin Corp",
+      "price": "$442.39",
+      "news": 7.0,
+      "analyst": 8.5,
+      "technical": 7.5,
+      "total": 7.73,
+      "notes": "רווח נקי $1.1B ברבעון, שולי 66%. אנליסטים אוהבים. מינוס: מנהל מכר $9.6M מניות. עדיין מנגנון מונטיזציה חזק ביותר."
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings",
+      "price": "$409.00",
       "news": 7.5,
       "analyst": 8.0,
-      "technical": 7.5,
-      "total": 7.68,
-      "notes": "SEC הכריזה על רוב הקריפטו כלא-ניירות ערך - קטליזטור גדול; ירידה קלה בגלל אולטימטום טראמפ לאיראן - הזדמנות קנייה"
+      "technical": 6.5,
+      "total": 7.33,
+      "notes": "אבטחת AI - עמוד שדרה של הסייבר. שותפות עם AWS ו-NVIDIA להאצלת סטארטאפים. הכנסות $1.31B +23% YoY."
     },
     {
-      "ticker": "META",
-      "name": "Meta Platforms Inc",
-      "price": "$593.66",
+      "ticker": "CELH",
+      "name": "Celsius Holdings",
+      "price": "$41.51",
+      "news": 7.5,
+      "analyst": 7.5,
+      "technical": 6.5,
+      "total": 7.18,
+      "notes": "הכנסות +117% YoY ל-$721M. ביקוש גלובלי גובר. מניה קרובה לשפל שנתי - הזדמנות ערך. יעד $55-65."
+    },
+    {
+      "ticker": "RDDT",
+      "name": "Reddit Inc",
+      "price": "$139.85",
       "news": 7.0,
-      "analyst": 8.0,
-      "technical": 7.5,
-      "total": 7.53,
-      "notes": "ירידה של 2% ביום האחרון יוצרת הזדמנות; צמיחת הכנסות 24% + מנוע AI לפרסום; P/E נמוך ב-20 לחברה כזו"
+      "analyst": 7.5,
+      "technical": 6.5,
+      "total": 7.03,
+      "notes": "שילוב Pacvue לפרסום ארגוני. רווח נקי $251M +254% YoY. ירדה חזק מ-$283 - פוטנציאל ריבאונד. הכנסות פרסום ממשיכות לגדול."
     },
     {
       "ticker": "ETH",
       "name": "Ethereum",
-      "price": "$2,108.05",
-      "news": 7.0,
-      "analyst": 7.5,
-      "technical": 7.5,
-      "total": 7.35,
-      "notes": "קטליזטור רגולטורי - SEC מסיר חסמים; תשואות staking אטרקטיביות; פיתוח L2 ממשיך לצמוח"
-    },
-    {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings Inc",
-      "price": "$409.00",
-      "news": 7.0,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.18,
-      "notes": "סייברסקיוריטי + AI - שכבת גב של בינה מלאכותית; תחום חזק, תוצאות טובות; ירידה מ-$566 מציגה נקודת כניסה"
-    },
-    {
-      "ticker": "AAPL",
-      "name": "Apple Inc",
-      "price": "$247.99",
-      "news": 6.5,
-      "analyst": 7.5,
-      "technical": 7.5,
-      "total": 7.18,
-      "notes": "תוצאות Q1 מצוינות (+16% הכנסות); Apple Intelligence מניע מחזור שדרוגים; מגמת ירידה קצרה = כניסה"
-    },
-    {
-      "ticker": "ARM",
-      "name": "Arm Holdings PLC ADR",
-      "price": "$132.35",
+      "price": "$2,076.81",
       "news": 7.5,
       "analyst": 7.0,
       "technical": 6.5,
       "total": 7.00,
-      "notes": "HSBC שדרגה בגלל פוטנציאל מעבדי שרתי AI; מעוניינים בCPU מלא - מהלך אסטרטגי; התאוששות מ-$80"
+      "notes": "ה-SEC סיווג ETH כסחורה (לא ניירות ערך) - קטליזטור בולישי ענק! שדרוג Pectra קרוב. תשואות סטייקינג אטרקטיביות."
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$88.16",
-      "news": 6.5,
-      "analyst": 7.0,
-      "technical": 7.0,
-      "total": 6.83,
-      "notes": "אקוסיסטם DeFi חזק; פלטפורמת memecoin מובילה; ירידה מ-ATH מציגה נקודת כניסה פוטנציאלית"
-    },
-    {
-      "ticker": "TSLA",
-      "name": "Tesla Inc",
-      "price": "$367.96",
-      "news": 5.5,
+      "price": "$87.23",
+      "news": 7.0,
       "analyst": 6.5,
-      "technical": 7.0,
-      "total": 6.38,
-      "notes": "FSD probe מעיק על הסנטימנט; Semi הצלחה עם נהגי משאיות; P/E גבוה של 342 מסוכן; ציפיות גבוהות ל-Robotaxi"
+      "technical": 5.5,
+      "total": 6.35,
+      "notes": "SEC סיווג SOL כסחורה. אקוסיסטם RWA שיא $1.82B. חלש טכנית - מתחת לממוצעים. הזדמנות ביקוש לטווח בינוני."
     },
     {
-      "ticker": "XRP",
-      "name": "Ripple (XRP)",
-      "price": "$1.41",
-      "news": 6.0,
-      "analyst": 6.0,
-      "technical": 7.0,
-      "total": 6.35,
-      "notes": "SEC הכריזה XRP לא ניירות ערך; RLUSD stablecoin תפוצה גוברת; טכנית חזק אך עדיין מתחת לשיאים"
+      "ticker": "BTC",
+      "name": "Bitcoin",
+      "price": "$68,731",
+      "news": 5.5,
+      "analyst": 7.0,
+      "technical": 6.0,
+      "total": 6.28,
+      "notes": "לחץ מאולטימטום טראמפ לאיראן. יציאת ETF. אופציות PUT $20K פופולריות. בינתיים מחכים לבהירות - לא יום לקנות BTC."
     },
     {
       "ticker": "MSTR",
       "name": "Strategy Inc (MicroStrategy)",
       "price": "$135.66",
-      "news": 6.0,
-      "analyst": 5.5,
-      "technical": 6.0,
-      "total": 5.88,
-      "notes": "קנה עוד $1.57B ביטקוין; רחוק מאוד מהשיא $457; BTC play עקיפה עם פרמיה גבוהה - סיכון גבוה"
+      "news": 6.5,
+      "analyst": 6.0,
+      "technical": 5.5,
+      "total": 6.00,
+      "notes": "קנה עוד $1.57B ביטקוין השבוע. מסוכן - תלוי לחלוטין במחיר BTC. לא יום לגעת ב-MSTR עם BTC חלש."
     },
     {
-      "ticker": "SMCI",
-      "name": "Super Micro Computer Inc",
-      "price": "$20.53",
-      "news": 4.0,
-      "analyst": 5.0,
+      "ticker": "ALAB",
+      "name": "Astera Labs",
+      "price": "$116.04",
+      "news": 5.5,
+      "analyst": 7.0,
+      "technical": 5.0,
+      "total": 5.95,
+      "notes": "Seeking Alpha: 'ריסט שנראה עמוק יותר ממה שנראה'. ירדה מ-$263 לשפל שנתי $114. הכנסות +91% אבל טכנית שבורה."
+    },
+    {
+      "ticker": "BNB",
+      "name": "Binance Coin",
+      "price": "$630.09",
+      "news": 5.5,
+      "analyst": 6.0,
+      "technical": 5.5,
+      "total": 5.68,
+      "notes": "יציב יחסית אבל חסר קטליזטור ברור. אקוסיסטם BNB Chain גדל אך לא בולט בשוק זה."
+    },
+    {
+      "ticker": "TSLA",
+      "name": "Tesla Inc",
+      "price": "$367.96",
+      "news": 4.5,
+      "analyst": 5.5,
       "technical": 4.5,
-      "total": 4.53,
-      "notes": "Seeking Alpha מזהיר 'סערה מושלמת נוספת'; Invezz ממליץ להימנע מקנייה; ירד 33% מ-$30 - חולשה קיצונית"
+      "total": 4.82,
+      "notes": "הכנסות -3.14%, רווח נקי -60%. P/E 342 - בועה. ירדה 8% בחודש. תמיכה $325-340. לא זמן להיכנס."
+    },
+    {
+      "ticker": "HOOD",
+      "name": "Robinhood Markets",
+      "price": "$70.89",
+      "news": 4.0,
+      "analyst": 5.5,
+      "technical": 4.0,
+      "total": 4.55,
+      "notes": "מניה צונחת -4.4%, חדשות שליליות, ירדה מ-$153 שיא שנתי. שוק קריפטו חלש פוגע בנפחי מסחר."
     }
   ]
 }
