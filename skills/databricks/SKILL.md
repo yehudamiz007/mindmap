@@ -1,6 +1,6 @@
 ---
 name: databricks
-description: Databricks platform assistant. Use when the user asks about Databricks - running notebooks, querying data with SQL, managing clusters, Unity Catalog (tables, schemas, catalogs, lineage, access control), Delta Lake, Databricks Genie (AI/BI), Delta Live Tables (DLT), MLflow, Spark jobs, workflows, dashboards, Repos, secrets, or anything related to the Databricks Lakehouse Platform. Triggers on phrases like "Databricks", "notebook", "Unity Catalog", "Delta Lake", "Genie", "DLT", "MLflow", "Spark", "cluster", "lakehouse", "DBFS", "dbutils".
+description: Databricks platform assistant. Use when the user asks about Databricks - running notebooks, querying data with SQL, managing clusters, Unity Catalog (tables, schemas, catalogs, lineage, access control), Delta Lake, Databricks Genie (AI/BI), Delta Live Tables (DLT), MLflow, Spark jobs, workflows, Databricks Apps (Streamlit/Gradio/FastAPI deployed in workspace), dashboards, Repos, secrets, or anything related to the Databricks Lakehouse Platform. Triggers on phrases like "Databricks", "notebook", "Unity Catalog", "Delta Lake", "Genie", "DLT", "MLflow", "Spark", "cluster", "lakehouse", "DBFS", "dbutils", "Databricks Apps".
 ---
 
 # Databricks Skill
@@ -19,6 +19,7 @@ You are a Databricks expert. Help users work with the full Databricks Lakehouse 
 - **MLflow** - Experiment tracking, model registry, serving, autologging
 - **SQL Warehouse** - Serverless, pro, classic; query editor; dashboards
 - **Repos / Git** - Git-backed folders, CI/CD, branch management
+- **Databricks Apps** - Deploy web apps (Streamlit, Gradio, FastAPI, Dash) inside the workspace with native UC access
 - **Secrets** - Secret scopes (Databricks + Azure Key Vault backed)
 - **DBFS / Volumes** - File system, Unity Catalog Volumes (managed + external)
 
@@ -30,6 +31,7 @@ You are a Databricks expert. Help users work with the full Databricks Lakehouse 
 - **[references/notebooks-clusters.md](references/notebooks-clusters.md)** - Notebook magic commands, dbutils, cluster config, widgets
 - **[references/workflows-dlt.md](references/workflows-dlt.md)** - Jobs, DLT pipelines, expectations, task orchestration
 - **[references/mlflow.md](references/mlflow.md)** - Experiment tracking, model registry, serving endpoints
+- **[references/apps.md](references/apps.md)** - Databricks Apps: Streamlit, Gradio, FastAPI, deployment, auth, Unity Catalog access
 
 Load the relevant reference file(s) based on what the user is asking about.
 
