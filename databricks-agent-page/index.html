@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Databricks Agent Architecture</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#0d1117; font-family:'Segoe UI',sans-serif; overflow:hidden; }
+#header { position:fixed; top:0; left:0; right:0; z-index:10; padding:10px 20px; background:#161b22; border-bottom:1px solid #30363d; display:flex; align-items:center; justify-content:space-between; }
+#header h1 { color:#ff6b35; font-size:18px; font-weight:700; }
+#header span { color:#8b949e; font-size:12px; }
+svg { margin-top:44px; }
+.link { fill:none; stroke-width:1.5px; }
+.node circle { stroke-width:2px; cursor:pointer; }
+.node text { fill:#e6edf3; pointer-events:none; }
+#tooltip { position:fixed; background:#161b22; border:1px solid #30363d; border-radius:8px; padding:10px 14px; font-size:12px; color:#8b949e; pointer-events:none; display:none; max-width:240px; z-index:100; }
+#tooltip b { color:#e6edf3; font-size:13px; display:block; margin-bottom:4px; }
+</style>
+</head>
+<body>
+<div id="header">
+  <h1>🔶 Databricks Agent Architecture</h1>
+  <span>Scroll to zoom · Drag to pan · Hover for details</span>
+</div>
+<div id="tooltip"></div>
+<svg id="svg"></svg>
+
+<script>
+const data = {
+  name:"databricks-agent", group:"root", desc:"AI Agent Platform on Databricks - OpenClaw-like architecture",
+  children:[
+    { name:"databricks.yml", group:"config", desc:"DAB bundle config - defines App + nightly Job + variables (catalog, warehouse_id, genie_space_id)",
+      children:[
+        {name:"App Resource", group:"config", desc:"Deploys FastAPI as Databricks App"},
+        {name:"Job Resource", group:"config", desc:"Nightly memory maintenance job at 02:00"},
+        {name:"Targets: dev/prod", group:"config", desc:"dev uses ai_agent_dev catalog, prod uses ai_agent"},
+      ]
+    },
+    { name:"app/", group:"app", desc:"FastAPI application - the agent brain",
+      children:[
+        { name:"app.py", group:"app", desc:"7 routes: /chat, /webhook/slack, /webhook/generic, /health, /memory, /skills, /admin/sync-skills",
+          children:[
+            {name:"POST /chat", group:"app", desc:"Main chat endpoint - full agent pipeline"},
+            {name:"POST /webhook/slack", group:"app", desc:"Slack Events API handler"},
+            {name:"POST /webhook/generic", group:"app", desc:"Generic webhook for any channel"},
+            {name:"GET /memory/{user_id}", group:"app", desc:"View user memory summary"},
+            {name:"GET /skills", group:"app", desc:"List all available skills"},
+          ]
+        },
+        { name:"agent/", group:"agent", desc:"Core agent modules",
+          children:[
+            {name:"runtime.py", group:"agent", desc:"AgentRuntime: 10-step pipeline - memory → skill → genie → LLM → save → audit"},
+            {name:"memory.py", group:"memory", desc:"Read/write Delta tables via Statement Execution API (no Spark needed)"},
+            {name:"skills.py", group:"skills", desc:"SkillIndex: load _index.json, keyword match, load SKILL.md from Volume"},
+            {name:"genie.py", group:"genie", desc:"Genie API: detect data questions, query, format results"},
+            {name:"context.py", group:"agent", desc:"Build system prompt: persona + memory + skill + data + history"},
+          ]
+        },
+        { name:"channels/", group:"channels", desc:"Messaging channel handlers",
+          children:[
+            {name:"slack.py", group:"channels", desc:"Slack Events API: challenge verification + message handling + anti-loop"},
+            {name:"webhook.py", group:"channels", desc:"Generic webhook handler for any platform"},
+          ]
+        },
+        {name:"app.yaml", group:"config", desc:"Databricks App config: command, env vars, secret scope refs"},
+        {name:"requirements.txt", group:"config", desc:"fastapi, uvicorn, anthropic, databricks-sdk, pydantic, tenacity"},
+      ]
+    },
+    { name:"Unity Catalog", group:"memory", desc:"ai_agent catalog - all data lives here",
+      children:[
+        { name:"memory schema", group:"memory", desc:"User memory layer",
+          children:[
+            {name:"longterm table", group:"memory", desc:"Permanent memory: category, key, value, importance 1-10. CDF enabled. MERGE on upsert"},
+            {name:"daily table", group:"memory", desc:"Daily notes with tags and session_id. Like memory/YYYY-MM-DD.md"},
+            {name:"preferences table", group:"memory", desc:"User preferences: language, timezone, style, etc."},
+          ]
+        },
+        { name:"sessions schema", group:"memory", desc:"Conversation history",
+          children:[
+            {name:"history table", group:"memory", desc:"Every turn: role, content, skill_used, genie_query, tokens_used, model"},
+          ]
+        },
+        { name:"skills schema", group:"skills", desc:"Skill Volumes",
+          children:[
+            {name:"library Volume", group:"skills", desc:"/Volumes/ai_agent/skills/library/ - official skills"},
+            {name:"user_skills Volume", group:"skills", desc:"/Volumes/ai_agent/skills/user_skills/ - custom user skills"},
+          ]
+        },
+        { name:"audit schema", group:"config", desc:"Observability",
+          children:[
+            {name:"agent_runs table", group:"config", desc:"Every request: latency, skill, genie_used, success/fail, error"},
+          ]
+        },
+      ]
+    },
+    { name:"Skills", group:"skills", desc:"Modular knowledge loaded into context",
+      children:[
+        {name:"general/SKILL.md", group:"skills", desc:"Fallback skill - always active. Includes [REMEMBER: category|key|value|importance] tag pattern"},
+        {name:"databricks/SKILL.md", group:"skills", desc:"Databricks expert: notebooks, UC, Delta, Genie, clusters, jobs, apps, MLflow, DLT"},
+        {name:"_index.json", group:"skills", desc:"Skill registry with names, descriptions, keywords for matching"},
+        {name:"custom skills", group:"skills", desc:"User can add skills to user_skills Volume"},
+      ]
+    },
+    { name:"Genie Integration", group:"genie", desc:"Natural language → SQL → results",
+      children:[
+        {name:"Data question detection", group:"genie", desc:"Keywords: 'how many', 'total', 'count', 'show me', 'list all', 'query'"},
+        {name:"Genie API call", group:"genie", desc:"start_conversation → poll → get_message_query_result via Databricks SDK"},
+        {name:"Result formatting", group:"genie", desc:"Convert Genie response to readable text injected into context"},
+      ]
+    },
+    { name:"jobs/", group:"jobs", desc:"Scheduled background tasks",
+      children:[
+        { name:"memory_maintenance.py", group:"jobs", desc:"Nightly at 02:00: reads daily notes → Claude extracts facts → MERGE into longterm memory",
+          children:[
+            {name:"Extract users", group:"jobs", desc:"All users active in last 7 days"},
+            {name:"Call Claude", group:"jobs", desc:"Summarize daily notes → key facts with importance score"},
+            {name:"MERGE to longterm", group:"jobs", desc:"Save extracted memories with source='agent'"},
+          ]
+        }
+      ]
+    },
+    { name:"setup/", group:"setup", desc:"One-time initialization scripts",
+      children:[
+        {name:"01_init_catalog.sql", group:"setup", desc:"CREATE CATALOG + all schemas + 5 Delta tables"},
+        {name:"02_init_volumes.sql", group:"setup", desc:"CREATE VOLUME for library and user_skills"},
+        {name:"03_seed_skills.py", group:"setup", desc:"Upload skills to Volume + write _index.json"},
+        {name:"04_init_genie_space.md", group:"setup", desc:"Manual guide: create Genie Space, add tables, verified answers, custom instructions"},
+      ]
+    },
+    { name:"CI/CD", group:"config", desc:"Deployment automation",
+      children:[
+        {name:".github/workflows/deploy.yml", group:"config", desc:"GitHub Actions: push to main → validate → bundle deploy -t prod → notify"},
+        {name:"databricks bundle deploy", group:"config", desc:"CLI command to deploy App + Job to workspace"},
+      ]
+    },
+  ]
+};
+
+const colors = {
+  root:     "#ff6b35",
+  app:      "#388bfd",
+  agent:    "#d2a8ff",
+  memory:   "#3fb950",
+  skills:   "#ffa657",
+  genie:    "#79c0ff",
+  channels: "#58a6ff",
+  jobs:     "#f78166",
+  config:   "#8b949e",
+  setup:    "#56d364",
+};
+
+const W = window.innerWidth, H = window.innerHeight - 44;
+const svg = d3.select("#svg").attr("width", W).attr("height", H);
+const g = svg.append("g");
+
+svg.call(d3.zoom().scaleExtent([0.15, 3]).on("zoom", e => g.attr("transform", e.transform)));
+
+const root = d3.hierarchy(data);
+const treeLayout = d3.tree()
+  .size([2 * Math.PI, Math.min(W, H) / 2 - 100])
+  .separation((a, b) => (a.parent == b.parent ? 1 : 2.5) / a.depth);
+
+treeLayout(root);
+
+// Gradient links
+const defs = svg.append("defs");
+g.selectAll(".link")
+  .data(root.links())
+  .join("path")
+  .attr("class","link")
+  .attr("stroke", d => colors[d.target.data.group] || "#30363d")
+  .attr("stroke-opacity", 0.5)
+  .attr("d", d3.linkRadial().angle(d => d.x).radius(d => d.y));
+
+const node = g.selectAll(".node")
+  .data(root.descendants())
+  .join("g")
+  .attr("class","node")
+  .attr("transform", d => `rotate(${d.x * 180 / Math.PI - 90}) translate(${d.y},0)`);
+
+node.append("circle")
+  .attr("r", d => d.depth === 0 ? 20 : d.depth === 1 ? 13 : d.depth === 2 ? 8 : 5)
+  .attr("fill", d => colors[d.data.group] || "#58a6ff")
+  .attr("stroke", d => {
+    const c = d3.color(colors[d.data.group] || "#58a6ff");
+    return c ? c.brighter(0.8).toString() : "#fff";
+  })
+  .attr("stroke-width", d => d.depth === 0 ? 3 : 2)
+  .on("mouseover", function(event, d) {
+    d3.select(this).transition().duration(100)
+      .attr("r", d => d.depth === 0 ? 24 : d.depth === 1 ? 16 : d.depth === 2 ? 11 : 8);
+    const tip = document.getElementById("tooltip");
+    tip.style.display = "block";
+    tip.style.left = (event.clientX + 14) + "px";
+    tip.style.top = (event.clientY - 14) + "px";
+    tip.innerHTML = `<b>${d.data.name}</b>${d.data.desc ? '<span>' + d.data.desc + '</span>' : ''}`;
+  })
+  .on("mousemove", function(event) {
+    const tip = document.getElementById("tooltip");
+    tip.style.left = (event.clientX + 14) + "px";
+    tip.style.top = (event.clientY - 14) + "px";
+  })
+  .on("mouseout", function(event, d) {
+    d3.select(this).transition().duration(100)
+      .attr("r", d => d.depth === 0 ? 20 : d.depth === 1 ? 13 : d.depth === 2 ? 8 : 5);
+    document.getElementById("tooltip").style.display = "none";
+  });
+
+node.append("text")
+  .attr("dy", "0.31em")
+  .attr("x", d => d.x < Math.PI === !d.children ? 10 : -10)
+  .attr("text-anchor", d => d.x < Math.PI === !d.children ? "start" : "end")
+  .attr("transform", d => d.x >= Math.PI ? "rotate(180)" : null)
+  .style("font-size", d => d.depth === 0 ? "14px" : d.depth === 1 ? "12px" : "10px")
+  .style("font-weight", d => d.depth <= 1 ? "600" : "400")
+  .style("fill", d => d.depth === 0 ? "#ff6b35" : d.depth === 1 ? colors[d.data.group] : "#e6edf3")
+  .text(d => d.data.name);
+
+g.attr("transform", `translate(${W/2},${H/2 + 22})`);
+svg.call(d3.zoom().scaleExtent([0.15,3]).on("zoom", e => g.attr("transform", e.transform)))
+   .call(d3.zoom().transform, d3.zoomIdentity.translate(W/2, H/2+22).scale(0.85));
+</script>
+</body>
+</html>
