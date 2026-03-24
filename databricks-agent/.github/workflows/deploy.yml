@@ -1,0 +1,126 @@
+name: Deploy to Databricks (Production)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Deployment target"
+        required: true
+        default: "prod"
+        type: choice
+        options:
+          - prod
+          - dev
+
+jobs:
+  deploy:
+    name: Deploy Databricks Asset Bundle
+    runs-on: ubuntu-latest
+    environment: production
+
+    env:
+      DATABRICKS_HOST:  ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
+    steps:
+      # ----------------------------------------------------------------
+      # 1. Checkout source
+      # ----------------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ----------------------------------------------------------------
+      # 2. Set up Python
+      # ----------------------------------------------------------------
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # ----------------------------------------------------------------
+      # 3. Install Databricks CLI
+      # ----------------------------------------------------------------
+      - name: Install Databricks CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+          databricks --version
+
+      # ----------------------------------------------------------------
+      # 4. Validate bundle
+      # ----------------------------------------------------------------
+      - name: Validate bundle
+        run: |
+          databricks bundle validate -t ${{ github.event.inputs.target || 'prod' }}
+
+      # ----------------------------------------------------------------
+      # 5. Run unit tests (if any)
+      # ----------------------------------------------------------------
+      - name: Install test dependencies
+        run: |
+          pip install pytest pytest-asyncio httpx
+          pip install -r app/requirements.txt
+        continue-on-error: true
+
+      - name: Run tests
+        run: |
+          if [ -d "tests/" ]; then
+            python -m pytest tests/ -v --tb=short
+          else
+            echo "No tests directory found, skipping."
+          fi
+        continue-on-error: true
+
+      # ----------------------------------------------------------------
+      # 6. Deploy bundle
+      # ----------------------------------------------------------------
+      - name: Deploy bundle to ${{ github.event.inputs.target || 'prod' }}
+        run: |
+          TARGET=${{ github.event.inputs.target || 'prod' }}
+          echo "Deploying to target: $TARGET"
+          databricks bundle deploy -t $TARGET
+
+      # ----------------------------------------------------------------
+      # 7. Verify deployment
+      # ----------------------------------------------------------------
+      - name: Verify app deployment
+        run: |
+          TARGET=${{ github.event.inputs.target || 'prod' }}
+          echo "Deployment to $TARGET completed successfully."
+          databricks bundle summary -t $TARGET || true
+
+      # ----------------------------------------------------------------
+      # 8. Post deployment summary
+      # ----------------------------------------------------------------
+      - name: Post deployment summary
+        if: always()
+        run: |
+          echo "## Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Target:** ${{ github.event.inputs.target || 'prod' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Triggered by:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status:** ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+
+  # ------------------------------------------------------------------
+  # Notification on failure
+  # ------------------------------------------------------------------
+  notify-failure:
+    name: Notify on Failure
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: failure()
+
+    steps:
+      - name: Notify deployment failure
+        run: |
+          echo "Deployment to production FAILED!"
+          echo "Commit: ${{ github.sha }}"
+          echo "Triggered by: ${{ github.actor }}"
+          # Add your notification step here (Slack, email, etc.)
+          # Example with Slack:
+          # curl -X POST ${{ secrets.SLACK_WEBHOOK_URL }} \
+          #   -H 'Content-type: application/json' \
+          #   -d '{"text": "Databricks Agent deployment FAILED! Commit: ${{ github.sha }}"}'

@@ -1,0 +1,55 @@
+bundle:
+  name: databricks-agent
+
+variables:
+  catalog:
+    default: ai_agent
+    description: Unity Catalog catalog name
+  warehouse_id:
+    default: ""
+    description: SQL Warehouse ID
+  genie_space_id:
+    default: ""
+    description: Genie Space ID
+  app_name:
+    default: ai-agent
+    description: Databricks App name
+
+targets:
+  dev:
+    mode: development
+    workspace:
+      host: ${workspace.host}
+    variables:
+      catalog: ai_agent_dev
+
+  prod:
+    mode: production
+    workspace:
+      host: ${workspace.host}
+
+resources:
+  apps:
+    ai_agent_app:
+      name: ${var.app_name}
+      description: "AI Agent Platform on Databricks"
+      source_code_path: ./app
+
+  jobs:
+    memory_maintenance:
+      name: "Agent Memory Maintenance"
+      schedule:
+        quartz_cron_expression: "0 0 2 * * ?"
+        timezone_id: "Asia/Jerusalem"
+      tasks:
+        - task_key: summarize_daily
+          notebook_task:
+            notebook_path: ./jobs/memory_maintenance.py
+          job_cluster_key: maintenance_cluster
+      job_clusters:
+        - job_cluster_key: maintenance_cluster
+          new_cluster:
+            spark_version: "15.4.x-scala2.12"
+            node_type_id: "i3.xlarge"
+            num_workers: 1
+            data_security_mode: SINGLE_USER

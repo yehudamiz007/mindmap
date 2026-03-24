@@ -1,0 +1,58 @@
+{
+  "version": "1.0",
+  "generated": "2024-01-01T00:00:00Z",
+  "skills": [
+    {
+      "name": "general",
+      "description": "General purpose AI assistant. Use for any question not covered by specialized skills. Always active as fallback.",
+      "keywords": [
+        "help",
+        "explain",
+        "what is",
+        "how do",
+        "tell me",
+        "write",
+        "summarize",
+        "translate",
+        "calculate",
+        "compare"
+      ],
+      "skill_dir": "general",
+      "indexed_at": "2024-01-01T00:00:00Z"
+    },
+    {
+      "name": "databricks",
+      "description": "Databricks platform expert. Use when user asks about Databricks - notebooks, Unity Catalog, Delta Lake, Genie, clusters, jobs, apps, MLflow, DLT, SQL Warehouses, Repos, secrets, or anything Databricks/Spark related.",
+      "keywords": [
+        "databricks",
+        "notebook",
+        "unity catalog",
+        "delta lake",
+        "delta table",
+        "genie",
+        "cluster",
+        "job",
+        "workflow",
+        "mlflow",
+        "dlt",
+        "delta live tables",
+        "sql warehouse",
+        "repos",
+        "secret",
+        "spark",
+        "pyspark",
+        "lakehouse",
+        "dbfs",
+        "dbutils",
+        "databricks app",
+        "autoloader",
+        "structured streaming",
+        "vector search",
+        "feature store",
+        "model serving"
+      ],
+      "skill_dir": "databricks",
+      "indexed_at": "2024-01-01T00:00:00Z"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+command: ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8080", "--workers", "2"]
+
+env:
+  - name: CATALOG
+    value: "ai_agent"
+
+  - name: WAREHOUSE_ID
+    value: ""          # Fill in: e.g. "abc123def456"
+
+  - name: GENIE_SPACE_ID
+    value: ""          # Fill in: UUID from the Genie Space URL
+
+  - name: LLM_MODEL
+    value: "claude-sonnet-4-6"
+
+  - name: ANTHROPIC_API_KEY
+    valueFrom:
+      secretScope: ai-agent-secrets
+      secretKey: anthropic-api-key
+
+  - name: SLACK_BOT_TOKEN
+    valueFrom:
+      secretScope: ai-agent-secrets
+      secretKey: slack-bot-token
