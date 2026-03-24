@@ -1,145 +1,155 @@
 {
-  "lastUpdated": "24.03.2026 17:14 IST",
+  "lastUpdated": "24.03.2026 17:24 IST",
   "stocks": [
     {
-      "ticker": "NVDA",
-      "name": "NVIDIA Corp",
-      "price": "$175.38",
-      "news": 7.5,
-      "analyst": 9.0,
-      "technical": 8.0,
-      "total": 8.23,
-      "notes": "טיגרס העלתה יעד מחיר, ביקוש AI מואץ - סנקציות סין ברקע אך לא בולמות"
-    },
-    {
       "ticker": "TSM",
-      "name": "Taiwan Semiconductor Manufacturing",
-      "price": "$341.82",
-      "news": 7.5,
+      "name": "Taiwan Semiconductor",
+      "price": "$344.58",
+      "news": 8.0,
       "analyst": 8.5,
       "technical": 8.0,
-      "total": 8.03,
-      "notes": "קנייה מוסדית, מפעל אריזונה בתוואי, המייצרת הגדולה של שבבי AI"
+      "total": 8.20,
+      "notes": "ספקית שבבי AI ענקית - ביקוש CoWoS sold out, קנייה מוסדית חזקה, שנת שיא"
     },
     {
       "ticker": "AMZN",
       "name": "Amazon.com Inc",
-      "price": "$207.68",
-      "news": 8.0,
+      "price": "$208.34",
+      "news": 8.5,
       "analyst": 8.5,
       "technical": 7.5,
-      "total": 8.00,
-      "notes": "ג'פריז: בתמחור חסר למרות CapEx, CEO הכריז על הרחבת AI - עלייה חדה"
+      "total": 8.10,
+      "notes": "Jefferies: בחסר מחיר, הרחבת AI של CEO מניעה עליות, AWS ממשיך לצמוח"
+    },
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA Corp",
+      "price": "$175.98",
+      "news": 7.0,
+      "analyst": 9.0,
+      "technical": 8.0,
+      "total": 8.05,
+      "notes": "Tigress העלה מחיר יעד, ביקוש Blackwell מתגבר - סיכון בייצוא לסין"
     },
     {
       "ticker": "ARM",
       "name": "Arm Holdings PLC - ADR",
-      "price": "$137.04",
-      "news": 7.5,
-      "analyst": 8.0,
-      "technical": 7.0,
-      "total": 7.53,
-      "notes": "עלייה על חדשות תמלוגים, ארכיטקטורת שבבי AI דומיננטית, עלייה קלה היום"
-    },
-    {
-      "ticker": "META",
-      "name": "Meta Platforms Inc",
-      "price": "$595.77",
-      "news": 6.5,
-      "analyst": 8.0,
-      "technical": 7.5,
-      "total": 7.40,
-      "notes": "ירידה פותחת הזדמנות ערך, Llama 4 קרב, יעד ממוצע ~$720"
-    },
-    {
-      "ticker": "BTC",
-      "name": "Bitcoin",
-      "price": "$69,942.87",
-      "news": 6.5,
-      "analyst": 7.0,
-      "technical": 7.0,
-      "total": 6.83,
-      "notes": "SEC הגדיר כסחורה - קטליזטור חיובי, לחץ ירידה מ-Whales"
-    },
-    {
-      "ticker": "RDDT",
-      "name": "Reddit Inc",
-      "price": "$137.68",
-      "news": 7.0,
-      "analyst": 7.0,
-      "technical": 6.5,
-      "total": 6.80,
-      "notes": "הצטרפות למדד FTSE All-World - קטליזטור חיובי, צמיחת הכנסות 70%"
-    },
-    {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies Inc",
-      "price": "$153.93",
-      "news": 5.5,
+      "price": "$137.76",
+      "news": 8.0,
       "analyst": 7.5,
-      "technical": 7.0,
-      "total": 6.68,
-      "notes": "ירידה 5% בסל-אוף, קונגרסמן מכר - אך AIP וחוזי ממשלה ממשיכים לצמוח"
+      "technical": 7.5,
+      "total": 7.68,
+      "notes": "ניצחון בעיצוב שבבי AI, עלייה היום לאחר חדשות חיוביות, רישיונות AI מתחזקים"
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$89.59",
-      "news": 7.0,
-      "analyst": 6.5,
-      "technical": 6.5,
-      "total": 6.68,
-      "notes": "מסגרת פרטיות ל-Institutional, SEC: סחורה - יעד חודשי $71.94 מזהיר"
+      "price": "$89.83",
+      "news": 8.0,
+      "analyst": 7.5,
+      "technical": 7.0,
+      "total": 7.50,
+      "notes": "פלטפורמת מפתחים עם Mastercard ו-Western Union, SEC הכריז כ-commodity"
     },
     {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings Inc",
-      "price": "$397.27",
-      "news": 5.0,
+      "ticker": "UBER",
+      "name": "Uber Technologies Inc",
+      "price": "$73.32",
+      "news": 7.5,
+      "analyst": 8.0,
+      "technical": 6.5,
+      "total": 7.28,
+      "notes": "בדיקת רשת היברידית רובוטקסי+נהגים אנושיים, מתומחר בחסר ביחס למתחרים"
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms Inc",
+      "price": "$596.12",
+      "news": 7.0,
+      "analyst": 7.0,
+      "technical": 7.5,
+      "total": 7.18,
+      "notes": "ירידה פותחת הזדמנות, תוצאות Q4 חזקות, דיבידנד חדש - Oppenheimer Perform"
+    },
+    {
+      "ticker": "BTC",
+      "name": "Bitcoin",
+      "price": "$70,023.76",
+      "news": 7.5,
+      "analyst": 7.0,
+      "technical": 7.0,
+      "total": 7.18,
+      "notes": "ETF inflows מתאוששים, לווייתן זזה אחרי 13 שנה, SEC הכיר כסחורה דיגיטלית"
+    },
+    {
+      "ticker": "SHOP",
+      "name": "Shopify Inc",
+      "price": "$117.61",
+      "news": 7.5,
       "analyst": 7.5,
       "technical": 6.5,
-      "total": 6.43,
-      "notes": "CEO ומנהלים מוכרים RSU - לחץ, פלטפורמה חזקה אך ירידה מ-$566"
+      "total": 7.15,
+      "notes": "קנייה מוסדית גדלה, פאניקת AI מוגזמת, GMV גדל - הזדמנות לקנות את הדיפ"
     },
     {
       "ticker": "ETH",
       "name": "Ethereum",
-      "price": "$2,132.88",
-      "news": 6.5,
+      "price": "$2,139.53",
+      "news": 7.0,
       "analyst": 6.5,
-      "technical": 6.0,
-      "total": 6.33,
-      "notes": "הגבלת אופציות ETF בורסה הוסרה, אפגרייד Pectra ממשמש, מתחת לשיאים"
+      "technical": 6.5,
+      "total": 6.65,
+      "notes": "NYSE הסיר מגבלת options על ETF, SEC commodity status, upgrade Pectra קרוב"
     },
     {
-      "ticker": "AAPL",
-      "name": "Apple Inc",
-      "price": "$253.66",
-      "news": 5.0,
-      "analyst": 6.5,
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings",
+      "price": "$400.30",
+      "news": 6.0,
+      "analyst": 7.5,
       "technical": 7.0,
-      "total": 6.25,
-      "notes": "דירוג Sector Weight היום, מגמות הוצאה מעורבות - ביצועי שירותים חזקים"
+      "total": 6.90,
+      "notes": "מכירות פנימיות של CEO מדאיגות, אך ARR צומח 23% ו-FCF מוכפל ב-94%"
     },
     {
-      "ticker": "HIMS",
-      "name": "Hims & Hers Health Inc",
-      "price": "$21.76",
-      "news": 5.5,
+      "ticker": "XRP",
+      "name": "XRP",
+      "price": "$1.40",
+      "news": 6.5,
       "analyst": 6.0,
-      "technical": 5.5,
-      "total": 5.68,
-      "notes": "שביתת Novo Nordisk, CFO חדש - אך ירידה חדה מ-$70, סיכון GLP-1 גבוה"
+      "technical": 6.5,
+      "total": 6.33,
+      "notes": "עלייה של 4.2% על רגיעה גיאופוליטית, אבל ריפל מתכנן dump של מיליארד טוקן"
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies",
+      "price": "$155.08",
+      "news": 5.0,
+      "analyst": 7.5,
+      "technical": 6.0,
+      "total": 6.30,
+      "notes": "קונגרסמן מכר מניות, ירידה של 5% היום - אבל הכנסות עלו 70% YoY"
+    },
+    {
+      "ticker": "MSTR",
+      "name": "Strategy Inc (MicroStrategy)",
+      "price": "$136.82",
+      "news": 6.5,
+      "analyst": 5.5,
+      "technical": 6.5,
+      "total": 6.15,
+      "notes": "תוכנית ATM של 21 מיליארד דולר - דילול משמעותי, proxy ל-Bitcoin עם פרמיה"
     },
     {
       "ticker": "SMCI",
-      "name": "Super Micro Computer Inc",
-      "price": "$21.75",
-      "news": 4.5,
-      "analyst": 6.0,
-      "technical": 6.0,
-      "total": 5.55,
-      "notes": "קפיצה 5% ביום שני, אך חקירה פדרלית פעילה - סיכון ממשל גבוה מאוד"
+      "name": "Super Micro Computer",
+      "price": "$21.66",
+      "news": 4.0,
+      "analyst": 5.0,
+      "technical": 5.5,
+      "total": 4.88,
+      "notes": "אישומים פדרליים, משבר ממשל חברה - הכנסות צמחו 123% אך הסיכון גבוה מאוד"
     }
   ]
 }
