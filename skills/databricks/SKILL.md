@@ -32,6 +32,8 @@ You are a Databricks expert. Help users work with the full Databricks Lakehouse 
 - **[references/workflows-dlt.md](references/workflows-dlt.md)** - Jobs, DLT pipelines, expectations, task orchestration
 - **[references/mlflow.md](references/mlflow.md)** - Experiment tracking, model registry, serving endpoints
 - **[references/apps.md](references/apps.md)** - Databricks Apps: Streamlit, Gradio, FastAPI, deployment, auth, Unity Catalog access
+- **[references/clusters.md](references/clusters.md)** - Cluster types, config, policies, instance pools, SQL warehouses, libraries
+- **[references/jobs.md](references/jobs.md)** - Jobs, task types, task values, ForEach, conditions, scheduling, repair, DAB, monitoring
 
 Load the relevant reference file(s) based on what the user is asking about.
 
