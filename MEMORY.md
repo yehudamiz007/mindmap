@@ -48,6 +48,7 @@
 - analyst-price-targets — מחירי יעד אנליסטים ודירוגי קונצנזוס
 - secure-skill-downloader — שומר סף אבטחה לכל התקנת סקיל מבחוץ (MANDATORY)
 - ecovacs — שליטה ב-DEEBOT X8 PRO OMNI (clean/stop/pause/charge/status/sound)
+- databricks — Databricks Lakehouse platform: Notebooks, Unity Catalog, Delta Lake, Genie, DLT, MLflow, Workflows, Clusters
 
 ## Smart Home
 - **DEEBOT X8 PRO OMNI** (ECOVACS)
@@ -77,7 +78,7 @@
 - 4 פריטים: כותרת + פסקת הסבר בעברית + לינק (לינקים רגילים)
 - הפרדה עם נקודה (.) בין התוכן להאשטאגים
 - האשטאגים: `#AI #ArtificialIntelligence #TechNews #בינהמלאכותית`
-- **מספר פוסט נוכחי: #13** (לעדכן אחרי כל פוסט)
+- **מספר פוסט נוכחי: #16** (לעדכן אחרי כל פוסט)
 - Cron ID: `17ee5f68-63c1-4dfe-b54d-c8cda3b31250` — כל יום 08:00 שעון ישראל
 - Grok מחפש חדשות, מסכם בעברית, שולח לוואטסאפ ידנית
 
