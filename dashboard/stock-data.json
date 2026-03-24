@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "24.03.2026 10:00 IST",
+  "lastUpdated": "24.03.2026 18:06 IST",
   "stocks": [
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA Corp",
+      "price": "$175.25",
+      "news": 8.0,
+      "analyst": 9.0,
+      "technical": 7.5,
+      "total": 8.15,
+      "notes": "ביקוש ענק לשבבי Blackwell GB300, מטרת מחיר של Tigress הועלתה היום - מנוע ה-AI הגדול ביותר בשוק"
+    },
     {
       "ticker": "AMZN",
       "name": "Amazon.com Inc",
-      "price": "$210.25",
+      "price": "$207.74",
+      "news": 8.0,
+      "analyst": 8.5,
+      "technical": 7.0,
+      "total": 7.83,
+      "notes": "Jefferies: מוערך בחסר למרות חששות CapEx AI; תוכניות הרחבת AI אגרסיביות של המנכ\"ל דוחפות AWS קדימה"
+    },
+    {
+      "ticker": "TSM",
+      "name": "Taiwan Semiconductor",
+      "price": "$341.91",
+      "news": 7.5,
+      "analyst": 8.5,
+      "technical": 7.5,
+      "total": 7.87,
+      "notes": "קניות מוסדיות חזקות, הזמנת ASML של 8 מיליארד דולר מ-SK Hynix מחזקת ביקוש - שחקן ה-AI המרכזי ביותר"
+    },
+    {
+      "ticker": "APP",
+      "name": "AppLovin Corp",
+      "price": "$439.08",
       "news": 8.5,
       "analyst": 8.5,
-      "technical": 8.0,
-      "total": 8.32,
-      "notes": "AWS ממשיכה לצמוח בקצב מואץ עם ביקוש AI, ג'פריז ממליץ קנייה - מנוחסת משמעותית מהשיא"
+      "technical": 6.5,
+      "total": 7.77,
+      "notes": "פלטפורמת פרסום AI שולטת בשוק המובייל לאחר עידן TikTok - רווח נקי 66% YoY, מנוע הכנסות יוצא דופן"
+    },
+    {
+      "ticker": "GOOGL",
+      "name": "Alphabet Inc Class A",
+      "price": "$296.28",
+      "news": 8.0,
+      "analyst": 8.0,
+      "technical": 7.5,
+      "total": 7.82,
+      "notes": "Seth Klarman מביליונרים קנה בגדול, Gemini 2.0 מוניטיזציה מתחילה - P/E 27 זול ביחס לצמיחה"
     },
     {
       "ticker": "META",
       "name": "Meta Platforms Inc",
-      "price": "$604.38",
-      "news": 8.0,
-      "analyst": 9.0,
-      "technical": 7.5,
-      "total": 8.18,
-      "notes": "קונסנזוס Strong Buy עם יעד $838, Llama 4 בדרך ומנועי פרסום AI מאיצים הכנסות"
-    },
-    {
-      "ticker": "MSFT",
-      "name": "Microsoft Corp",
-      "price": "$383.00",
-      "news": 7.5,
-      "analyst": 9.5,
-      "technical": 7.0,
-      "total": 8.08,
-      "notes": "יעד ממוצע $603 - פי 1.57 מהמחיר הנוכחי, Copilot Enterprise מגיע לנקודת מפנה בהכנסות"
-    },
-    {
-      "ticker": "RDDT",
-      "name": "Reddit Inc",
-      "price": "$140.96",
-      "news": 8.0,
-      "analyst": 8.5,
-      "technical": 7.5,
-      "total": 8.05,
-      "notes": "נוסף למדד FTSE All-World השבוע, יעד ממוצע $225 - פוטנציאל עלייה של 60% מהמחיר הנוכחי"
-    },
-    {
-      "ticker": "NVDA",
-      "name": "NVIDIA Corp",
-      "price": "$175.68",
-      "news": 8.5,
-      "analyst": 9.5,
-      "technical": 6.0,
-      "total": 7.93,
-      "notes": "38 אנליסטים בקונסנזוס Strong Buy, יעד $266 (+51%), קנטור פיצג'רלד ורוזנבלאט שמרו על דירוג ביום אמש"
-    },
-    {
-      "ticker": "HOOD",
-      "name": "Robinhood Markets Inc",
-      "price": "$72.49",
-      "news": 7.5,
-      "analyst": 8.0,
-      "technical": 8.0,
-      "total": 7.88,
-      "notes": "יעד ממוצע $112 (+54%), נפח מסחר בקריפטו עולה, שוקי חיזוי מתרחבים - פינטק בשיא גל"
-    },
-    {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies Inc",
-      "price": "$160.84",
-      "news": 8.5,
-      "analyst": 7.0,
-      "technical": 8.0,
-      "total": 7.80,
-      "notes": "עלה 23% בחודש האחרון, חוזי ממשל AI מתרחבים, Wedbush יעד $230 - פלטפורמת AIP בלב הרגע"
-    },
-    {
-      "ticker": "ETH",
-      "name": "Ethereum",
-      "price": "$2,143.15",
-      "news": 8.0,
-      "analyst": 7.5,
-      "technical": 7.5,
-      "total": 7.68,
-      "notes": "SEC הכריז על ETH כסחורה (לא ניירות ערך), שדרוג Pectra מתקרב + NYSE בוטלה הגבלת אופציות ETF"
-    },
-    {
-      "ticker": "AAPL",
-      "name": "Apple Inc",
-      "price": "$251.49",
+      "price": "$596.58",
       "news": 7.5,
       "analyst": 7.5,
-      "technical": 7.5,
-      "total": 7.50,
-      "notes": "מורגן סטנלי ו-BofA שמרו על Overweight/Buy אתמול, Apple Intelligence מאיץ מכירות iPhone 17"
-    },
-    {
-      "ticker": "AMD",
-      "name": "Advanced Micro Devices Inc",
-      "price": "$202.68",
-      "news": 7.5,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.23,
-      "notes": "יעד ממוצע $261 (+29%), MI350 GPU יתחרה ישירות ב-NVDA H200 - הזדמנות $1T בדאטה סנטר"
+      "technical": 6.5,
+      "total": 7.17,
+      "notes": "ירידה מ-$796 ATH פותחת הזדמנות קנייה - הכנסות פרסום מואצות + Llama 4 קרוב לשחרור"
     },
     {
       "ticker": "BTC",
       "name": "Bitcoin",
-      "price": "$70,519.31",
+      "price": "$69,928.59",
       "news": 7.5,
       "analyst": 7.0,
-      "technical": 7.0,
-      "total": 7.18,
-      "notes": "לבן הבית אישר אבן דרך בקריפטו, זינוקי מחיר עם מתיחות גיאופוליטית - BTC כנכס מקלט"
+      "technical": 6.5,
+      "total": 7.00,
+      "notes": "SEC סיווג רשמית כסחורה דיגיטלית - קנייה מוסדית מצד קרנות גידור, התנגדות קריטית ב-$70K"
     },
     {
-      "ticker": "TSLA",
-      "name": "Tesla Inc",
-      "price": "$380.85",
+      "ticker": "ARM",
+      "name": "Arm Holdings PLC ADR",
+      "price": "$136.76",
       "news": 7.5,
-      "analyst": 5.0,
-      "technical": 7.5,
-      "total": 6.68,
-      "notes": "FSD 14.3 יצא ועשה ראלי, Terafab שבב $25B הוכרז - אבל קונסנזוס Hold ורווחים ירדו 61%"
+      "analyst": 7.0,
+      "technical": 6.5,
+      "total": 7.02,
+      "notes": "עלייה היום בזכות קטליסט AI חדש, רישוי מרכזי נתונים גדל - מרוויח מכל שבב AI שנמכר בעולם"
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$90.38",
-      "news": 6.5,
-      "analyst": 6.0,
+      "price": "$89.73",
+      "news": 7.5,
+      "analyst": 6.5,
       "technical": 6.5,
-      "total": 6.33,
-      "notes": "SEC הכיר בסולנה כסחורה, אבל נשיא הפאונדיישן הכריז שמשחקי קריפטו מתו - נרטיב מעורב"
+      "total": 6.83,
+      "notes": "SEC הכריז כסחורה, מסגרת פרטיות חדשה למוסדות, קפיצה של 6% היום - DeFi TVL בשיא"
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings",
+      "price": "$398.63",
+      "news": 6.5,
+      "analyst": 7.5,
+      "technical": 6.0,
+      "total": 6.72,
+      "notes": "מכירות RSU של המנכ\"ל לחץ קצר, אבל ביקוש אבטחת סייבר ממשיך לגדול - הכנסות +23% YoY"
+    },
+    {
+      "ticker": "ETH",
+      "name": "Ethereum",
+      "price": "$2,137.56",
+      "news": 7.0,
+      "analyst": 6.5,
+      "technical": 6.0,
+      "total": 6.50,
+      "notes": "סיווג SEC כסחורה חיובי, שדרוג Pectra קרב - ביצועים נמוכים מ-BTC אבל פוטנציאל להדבקות"
     },
     {
       "ticker": "XRP",
-      "name": "XRP / Ripple",
-      "price": "$1.4133",
-      "news": 6.0,
-      "analyst": 5.5,
+      "name": "XRP",
+      "price": "$1.40",
+      "news": 6.5,
+      "analyst": 6.0,
       "technical": 6.0,
-      "total": 5.83,
-      "notes": "סטנדרט צ'רטרד קיצץ יעד מחיר ב-65%, Evernorth $1B SPAC עניין, אבל רמה טכנית נחלשת"
+      "total": 6.17,
+      "notes": "עלייה של 4.2% היום, SEC הכיר כסחורה - אבל Ripple מתכננת לשחרר מיליארד טוקנים ב-2026"
     },
     {
-      "ticker": "SMCI",
-      "name": "Super Micro Computer Inc",
-      "price": "$21.58",
-      "news": 5.0,
+      "ticker": "RXRX",
+      "name": "Recursion Pharmaceuticals",
+      "price": "$3.15",
+      "news": 6.5,
       "analyst": 5.5,
-      "technical": 6.5,
-      "total": 5.68,
-      "notes": "נורת'לנד הוריד דירוג ל-Hold, האשמות פדרליות חדשות עדיין מעיבות - ביקוש שרתי AI אמיתי אבל סיכון ממשל גבוה"
+      "technical": 5.0,
+      "total": 5.67,
+      "notes": "שותפויות AI עם Roche ו-Sanofi מבטיחות אבל ריצה עד 2028 ומחיר ירד בחדות - ספקולטיבי מאוד"
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies",
+      "price": "$153.67",
+      "news": 6.0,
+      "analyst": 5.5,
+      "technical": 5.5,
+      "total": 5.65,
+      "notes": "קונגרסמן מכר מניות, ירידה של 5% היום, P/E מופרז של 243 - ביצועים מצוינים אך תמחור מוגזם מאוד"
+    },
+    {
+      "ticker": "MSTR",
+      "name": "Strategy Inc (MicroStrategy)",
+      "price": "$137.00",
+      "news": 6.5,
+      "analyst": 5.0,
+      "technical": 5.5,
+      "total": 5.65,
+      "notes": "תוכנית ATM של 21 מיליארד דולר מדללת, BTC תקוע ב-$70K - פרוקסי ביטקוין עם סיכון גבוה ביחס לתגמול"
     }
   ]
 }
