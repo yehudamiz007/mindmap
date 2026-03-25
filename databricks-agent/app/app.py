@@ -22,9 +22,11 @@ import uuid
 from typing import Optional
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
+
+from agent.identity import get_current_user
 
 load_dotenv()
 
@@ -100,13 +102,19 @@ async def health():
 
 
 @app.post("/chat", response_model=ChatResponse)
-async def chat(req: ChatRequest):
+async def chat(req: ChatRequest, user_id: str = Depends(get_current_user)):
+    """
+    user_id comes from the authenticated Databricks identity
+    (X-Forwarded-Access-Token in production, fallback for dev).
+    The user_id in the request body is ignored in production -
+    the real identity is always resolved server-side.
+    """
     session_id = req.session_id or str(uuid.uuid4())
     t0 = time.time()
     try:
         rt = get_runtime()
         response = rt.process_message(
-            user_id=req.user_id,
+            user_id=user_id,   # ← real Databricks identity, not from body
             message=req.message,
             session_id=session_id,
             channel="direct",
@@ -131,8 +139,9 @@ async def generic_webhook(req: WebhookRequest):
     return await handle_webhook(req.user_id, req.message, req.session_id, req.channel)
 
 
-@app.get("/memory/{user_id}")
-async def get_memory(user_id: str):
+@app.get("/memory/me")
+async def get_my_memory(user_id: str = Depends(get_current_user)):
+    """Returns memory for the authenticated user only."""
     try:
         from agent.memory import get_user_context
         context = get_user_context(user_id)
@@ -142,8 +151,9 @@ async def get_memory(user_id: str):
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
-@app.post("/memory/{user_id}")
-async def save_memory_entry(user_id: str, req: MemorySaveRequest):
+@app.post("/memory/me")
+async def save_my_memory(req: MemorySaveRequest, user_id: str = Depends(get_current_user)):
+    """Saves memory for the authenticated user only."""
     try:
         from agent.memory import save_memory
         save_memory(
