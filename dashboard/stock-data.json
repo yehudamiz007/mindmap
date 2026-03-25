@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "25.03.2026 09:00 IST",
+  "lastUpdated": "25.03.2026 18:00 IST",
   "stocks": [
     {
-      "ticker": "APP",
-      "name": "AppLovin Corp",
-      "price": "$435.91",
-      "news": 8.5,
+      "ticker": "ARM",
+      "name": "Arm Holdings PLC",
+      "price": "$157.78",
+      "news": 9.0,
       "analyst": 8.5,
-      "technical": 8.0,
-      "total": 8.33,
-      "notes": "פלטפורמת פרסום מבוססת AI עם רווחיות יוצאת דופן - 66% מרג'ין נקי, מנוע הצמיחה הכי חזק בסקטור"
-    },
-    {
-      "ticker": "TSM",
-      "name": "Taiwan Semiconductor Manufacturing",
-      "price": "$343.25",
-      "news": 7.5,
-      "analyst": 8.5,
-      "technical": 8.0,
-      "total": 8.03,
-      "notes": "המפעל הגדול בעולם לייצור שבבים נהנה מביקוש שיא לשבבי AI, קנייה מוסדית חזקה"
-    },
-    {
-      "ticker": "AVGO",
-      "name": "Broadcom Inc",
-      "price": "$318.29",
-      "news": 8.0,
-      "analyst": 8.5,
-      "technical": 7.5,
-      "total": 8.00,
-      "notes": "יעד $100B בהכנסות AI עד 2027, Citi מציב יעד $475 - פוטנציאל עלייה של 50%"
+      "technical": 8.8,
+      "total": 8.80,
+      "notes": "ARM זינקה +17% היום - שדרוג של גוגנהיים ועדויות חזקות על מומנטום AI בשוק הצ'יפים"
     },
     {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
-      "price": "$175.20",
-      "news": 7.5,
-      "analyst": 9.0,
-      "technical": 7.5,
-      "total": 7.98,
-      "notes": "מלכת ה-AI עם הכנסות $68B ו-94% צמיחה ברווח שנתי, קונצנזוס אנליסטים חיובי מאוד"
-    },
-    {
-      "ticker": "BTC",
-      "name": "Bitcoin",
-      "price": "$71,094.44",
-      "news": 7.5,
-      "analyst": 8.0,
-      "technical": 7.5,
-      "total": 7.68,
-      "notes": "זרימות ETF מוסדיות ממשיכות, אנליסטים רואים צבירה אמיתית - מעל $71K שוב"
-    },
-    {
-      "ticker": "SOL",
-      "name": "Solana",
-      "price": "$92.52",
+      "price": "$180.51",
       "news": 8.0,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.58,
-      "notes": "Mastercard ו-Western Union מצטרפים לפלטפורמת Solana - קטליזטור מוסדי ענק השבוע"
-    },
-    {
-      "ticker": "ETH",
-      "name": "Ethereum",
-      "price": "$2,168.14",
-      "news": 7.0,
-      "analyst": 7.5,
-      "technical": 6.5,
-      "total": 7.00,
-      "notes": "SEC מסווג ETH כסחורה דיגיטלית - הסרת סיכון רגולטורי, Harvard בונה פוזיציה של $87M"
-    },
-    {
-      "ticker": "RDDT",
-      "name": "Reddit Inc",
-      "price": "$136.12",
-      "news": 7.0,
-      "analyst": 7.5,
-      "technical": 6.5,
-      "total": 7.00,
-      "notes": "צמיחה של 70% בהכנסות, עסקאות רישוי AI ממשיכות, מסחר מתחת ליעדי האנליסטים"
-    },
-    {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings",
-      "price": "$392.99",
-      "news": 6.5,
-      "analyst": 8.0,
-      "technical": 6.5,
-      "total": 7.05,
-      "notes": "ירידה חדה מ-$566 - הזדמנות קנייה בסייבר, FCF חזק $470M ברבעון"
+      "analyst": 9.0,
+      "technical": 8.5,
+      "total": 8.58,
+      "notes": "NVIDIA בועטת עם הכנסות של $68 מיליארד ב-Q4, AI דאטה סנטר ממשיך לדחוף את הביקושים"
     },
     {
       "ticker": "PLTR",
       "name": "Palantir Technologies",
-      "price": "$154.78",
-      "news": 7.0,
-      "analyst": 6.5,
-      "technical": 7.0,
-      "total": 6.83,
-      "notes": "ירידה של 5% ביחד עם הטק - אנליסטים אומרים זה מתנה, הכנסות ממשלתיות מאיצות"
+      "price": "$158.77",
+      "news": 8.5,
+      "analyst": 7.5,
+      "technical": 8.5,
+      "total": 8.18,
+      "notes": "פאלנטיר - מומנטום חזק, הכנסות +70% שנה על שנה, AIP צובר לקוחות ממשלתיים ועסקיים"
     },
     {
       "ticker": "META",
       "name": "Meta Platforms Inc",
-      "price": "$592.92",
-      "news": 6.0,
+      "price": "$598.31",
+      "news": 7.5,
+      "analyst": 9.0,
+      "technical": 7.5,
+      "total": 8.03,
+      "notes": "מטא - רכישות מוסדיות חדשות, Llama 4 מאיצה אימוץ עסקי, מניה מתקרבת לתמיכה טכנית"
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon.com Inc",
+      "price": "$212.14",
+      "news": 8.0,
+      "analyst": 8.5,
+      "technical": 7.5,
+      "total": 8.00,
+      "notes": "ג'פריס רואה אמזון undervalued - AWS AI מרחיב שולי רווח, Benzinga מדגישה השקעות רובוטיקה"
+    },
+    {
+      "ticker": "BTC",
+      "name": "Bitcoin",
+      "price": "$71,275.93",
+      "news": 8.5,
+      "analyst": 8.0,
+      "technical": 7.5,
+      "total": 8.00,
+      "notes": "בלאקרוק מנפיק תחזית ענקית לביטקוין, זהב מאבד בסטריק של 100 שנה - ביטקוין מרוויח"
+    },
+    {
+      "ticker": "AAPL",
+      "name": "Apple Inc",
+      "price": "$253.42",
+      "news": 8.0,
       "analyst": 7.5,
-      "technical": 6.5,
-      "total": 6.70,
-      "notes": "ירידה מ-$796 - ניתוח ערך מחדש, Q4 חזק אבל הוצאות AI מכבידות על הסנטימנט"
+      "technical": 7.5,
+      "total": 7.73,
+      "notes": "אפל - מכירות אייפון 17 טובות מהצפוי, Apple Intelligence מאיצה מחזור שדרוגים"
     },
     {
-      "ticker": "BNB",
-      "name": "Binance Coin",
-      "price": "$645.50",
-      "news": 6.0,
-      "analyst": 6.5,
-      "technical": 6.5,
-      "total": 6.33,
-      "notes": "יציב מתחת ל-$650 עם תמיכה טכנית, אבל חדשות שליליות על סגירת זוגות מרג'ין"
-    },
-    {
-      "ticker": "HOOD",
-      "name": "Robinhood Markets",
-      "price": "$69.08",
-      "news": 5.5,
+      "ticker": "ETH",
+      "name": "Ethereum",
+      "price": "$2,175.65",
+      "news": 7.5,
       "analyst": 7.0,
-      "technical": 6.0,
-      "total": 6.30,
-      "notes": "ירידה של 4.7% - נפגע מהצעת חוק סטייבלקוין, עדיין צמיחה של 27% בהכנסות"
+      "technical": 7.0,
+      "total": 7.18,
+      "notes": "אתריום - SEC הכיר בו כסחורה דיגיטלית, TradFi מתעניין ב-staked ETH, הארווארד בנה פוזיציה"
+    },
+    {
+      "ticker": "RDDT",
+      "name": "Reddit",
+      "price": "$142.74",
+      "news": 7.0,
+      "analyst": 7.5,
+      "technical": 7.0,
+      "total": 7.18,
+      "notes": "רדיט - הכנסות +70% שנה על שנה, שותפויות AI לאימון מודלים, מניה נסחרת מתחת ליעדי אנליסטים"
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings",
+      "price": "$397.38",
+      "news": 6.5,
+      "analyst": 8.0,
+      "technical": 7.5,
+      "total": 7.38,
+      "notes": "קראוסטרייק - תזרים מזומנים חזק, מכירות פנימיות של המנכ\"ל - בטחון ביטחון סייבר איתן"
+    },
+    {
+      "ticker": "TSLA",
+      "name": "Tesla Inc",
+      "price": "$393.19",
+      "news": 7.0,
+      "analyst": 6.5,
+      "technical": 7.5,
+      "total": 7.03,
+      "notes": "טסלה - FSD 14.3 יצא, מומנטום רובוטי מול אמזון, תמחור גבוה על רקע רווח נמוך"
+    },
+    {
+      "ticker": "SOL",
+      "name": "Solana",
+      "price": "$92.10",
+      "news": 6.5,
+      "analyst": 7.0,
+      "technical": 7.0,
+      "total": 6.85,
+      "notes": "סולאנה - SEC אישר כסחורה, תמיכה שבועית שרידה, מחיר מתמודד עם רמות התנגדות חשובות"
+    },
+    {
+      "ticker": "MELI",
+      "name": "MercadoLibre Inc",
+      "price": "$1,646.33",
+      "news": 5.5,
+      "analyst": 7.5,
+      "technical": 5.5,
+      "total": 6.20,
+      "notes": "מרקדוליברה - השקעה של $11 מיליארד בברזיל שגרמה לירידה, בשפל 52 שבועות - הזדמנות לטווח ארוך"
     },
     {
       "ticker": "MSTR",
       "name": "Strategy Inc (MicroStrategy)",
-      "price": "$136.25",
-      "news": 5.0,
-      "analyst": 5.5,
-      "technical": 6.0,
-      "total": 5.58,
-      "notes": "תוכנית ATM של $21B להמשך רכישות BTC - ספקולטיבי מאוד, מינוף גבוה על ביטקוין"
+      "price": "$141.45",
+      "news": 6.0,
+      "analyst": 5.0,
+      "technical": 6.5,
+      "total": 5.93,
+      "notes": "סטרטג'י - הנפקת חוב של $21 מיליארד נוסף לרכישת ביטקוין, רווחיות שלילית, ריסק גבוה"
     },
     {
-      "ticker": "COIN",
-      "name": "Coinbase Global",
-      "price": "$181.04",
+      "ticker": "SMCI",
+      "name": "Super Micro Computer",
+      "price": "$23.62",
       "news": 4.5,
-      "analyst": 6.0,
-      "technical": 5.5,
-      "total": 5.33,
-      "notes": "הצעת חוק הסטייבלקוין גרמה לצלילה חדה - הכי חלש ברשימה, הכנסות ירדו 22%"
+      "analyst": 5.5,
+      "technical": 5.0,
+      "total": 5.03,
+      "notes": "SMCI - כתבות על משבר ממשל חברתי מול מצוינות הנדסית, לחץ מכירה, בשפל 52 שבועות"
     }
   ]
 }
