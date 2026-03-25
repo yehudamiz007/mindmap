@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NuDay AI - Always Available. Always On Your Side.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#7c6af7',
+            primaryLight: '#a855f7',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      background-color: #0a0a0f;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Gradient text utility */
+    .gradient-text {
+      background: linear-gradient(135deg, #7c6af7 0%, #a855f7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Glassmorphism */
+    .glass {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .glass-card {
+      background: rgba(124, 106, 247, 0.06);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(124, 106, 247, 0.15);
+      transition: all 0.3s ease;
+    }
+    .glass-card:hover {
+      background: rgba(124, 106, 247, 0.10);
+      border-color: rgba(124, 106, 247, 0.30);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(124, 106, 247, 0.15);
+    }
+
+    /* Navbar */
+    nav {
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* Primary button */
+    .btn-primary {
+      background: linear-gradient(135deg, #7c6af7 0%, #a855f7 100%);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 24px rgba(124, 106, 247, 0.35);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(124, 106, 247, 0.55);
+    }
+
+    /* Outlined button */
+    .btn-outline {
+      border: 1px solid rgba(124, 106, 247, 0.5);
+      color: #7c6af7;
+      transition: all 0.3s ease;
+    }
+    .btn-outline:hover {
+      background: rgba(124, 106, 247, 0.1);
+      border-color: #7c6af7;
+      transform: translateY(-2px);
+    }
+
+    /* Orb animations */
+    @keyframes float1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33%       { transform: translate(40px, -30px) scale(1.05); }
+      66%       { transform: translate(-20px, 20px) scale(0.97); }
+    }
+    @keyframes float2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33%       { transform: translate(-50px, 30px) scale(1.07); }
+      66%       { transform: translate(30px, -20px) scale(0.96); }
+    }
+    @keyframes float3 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50%       { transform: translate(20px, -40px) scale(1.04); }
+    }
+
+    .orb1 { animation: float1 12s ease-in-out infinite; }
+    .orb2 { animation: float2 15s ease-in-out infinite; }
+    .orb3 { animation: float3 10s ease-in-out infinite; }
+
+    /* Scroll fade-in */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+    .fade-in-delay-4 { transition-delay: 0.4s; }
+
+    /* Chat bubble typing animation */
+    @keyframes typing {
+      0%, 60%, 100% { opacity: 0.3; transform: scale(0.8); }
+      30%            { opacity: 1;   transform: scale(1.1); }
+    }
+    .dot1 { animation: typing 1.2s 0.0s infinite; }
+    .dot2 { animation: typing 1.2s 0.2s infinite; }
+    .dot3 { animation: typing 1.2s 0.4s infinite; }
+
+    /* Gradient border on demo phone */
+    .phone-frame {
+      background: linear-gradient(135deg, #7c6af7 0%, #a855f7 100%);
+      padding: 2px;
+      border-radius: 40px;
+    }
+    .phone-inner {
+      background: #12121c;
+      border-radius: 38px;
+      overflow: hidden;
+    }
+
+    /* Laptop frame */
+    .laptop-frame {
+      background: #1a1a2e;
+      border-radius: 16px;
+      border: 1.5px solid rgba(124,106,247,0.25);
+      box-shadow: 0 40px 120px rgba(0,0,0,0.8), 0 0 60px rgba(124,106,247,0.1);
+    }
+    .laptop-screen {
+      background: #0d0d1a;
+      border-radius: 8px 8px 0 0;
+      overflow: hidden;
+    }
+    .laptop-base {
+      background: linear-gradient(180deg, #1a1a2e, #111120);
+      border-radius: 0 0 16px 16px;
+    }
+
+    /* Chat message bubble */
+    .msg-user {
+      background: linear-gradient(135deg, #7c6af7 0%, #a855f7 100%);
+      border-radius: 18px 18px 4px 18px;
+    }
+    .msg-ai {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 18px 18px 18px 4px;
+    }
+
+    /* Mood bar */
+    .mood-bar-fill {
+      background: linear-gradient(90deg, #7c6af7, #a855f7);
+      border-radius: 4px;
+      height: 100%;
+    }
+
+    /* Trusted by logos */
+    .logo-pill {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      color: rgba(255,255,255,0.35);
+      transition: all 0.3s ease;
+    }
+    .logo-pill:hover {
+      border-color: rgba(124,106,247,0.3);
+      color: rgba(255,255,255,0.65);
+      background: rgba(124,106,247,0.06);
+    }
+
+    /* CTA Banner gradient */
+    .cta-banner {
+      background: linear-gradient(135deg, rgba(124,106,247,0.15) 0%, rgba(168,85,247,0.15) 100%);
+      border: 1px solid rgba(124,106,247,0.2);
+    }
+
+    /* Section divider glow */
+    .section-glow {
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, #7c6af7, #a855f7);
+      border-radius: 2px;
+      margin: 0 auto 1.5rem;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0a0a0f; }
+    ::-webkit-scrollbar-thumb { background: #7c6af7; border-radius: 3px; }
+
+    /* Grid dot pattern */
+    .dot-pattern {
+      background-image: radial-gradient(circle, rgba(124,106,247,0.12) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    /* Feature icon container */
+    .feature-icon {
+      background: linear-gradient(135deg, rgba(124,106,247,0.2), rgba(168,85,247,0.2));
+      border: 1px solid rgba(124,106,247,0.3);
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Pulse ring */
+    @keyframes pulse-ring {
+      0%   { transform: scale(0.8); opacity: 0.8; }
+      100% { transform: scale(1.6); opacity: 0; }
+    }
+    .pulse-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 2px solid rgba(124,106,247,0.5);
+      animation: pulse-ring 2s ease-out infinite;
+    }
+
+    /* Chat scroll */
+    .chat-scroll { overflow-y: auto; scrollbar-width: none; }
+    .chat-scroll::-webkit-scrollbar { display: none; }
+
+    /* Status dot */
+    .status-dot {
+      width: 8px; height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 8px rgba(34,197,94,0.6);
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    .shimmer {
+      background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
+      background-size: 200% auto;
+      animation: shimmer 3s linear infinite;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─────────────────── NAVBAR ─────────────────── -->
+<nav class="fixed top-0 left-0 right-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="#" class="flex items-center gap-2 group">
+      <div class="w-8 h-8 rounded-lg btn-primary flex items-center justify-center">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="3" fill="white"/>
+          <circle cx="8" cy="8" r="6" stroke="white" stroke-width="1.5" stroke-opacity="0.5"/>
+        </svg>
+      </div>
+      <span class="text-xl font-bold gradient-text tracking-tight">NuDay</span>
+    </a>
+
+    <!-- Nav links (desktop) -->
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#about" class="text-sm text-slate-400 hover:text-white transition-colors">About</a>
+      <a href="#technology" class="text-sm text-slate-400 hover:text-white transition-colors">Technology</a>
+      <a href="#contact" class="text-sm text-slate-400 hover:text-white transition-colors">Contact</a>
+    </div>
+
+    <!-- CTA -->
+    <a href="#demo-cta" class="btn-primary text-white text-sm font-semibold px-5 py-2.5 rounded-full">
+      Book a Demo
+    </a>
+  </div>
+</nav>
+
+<!-- ─────────────────── HERO ─────────────────── -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+
+  <!-- Background orbs -->
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="orb1 absolute top-1/4 left-1/4 w-96 h-96 rounded-full"
+         style="background: radial-gradient(circle, rgba(124,106,247,0.25) 0%, transparent 70%); filter: blur(40px);"></div>
+    <div class="orb2 absolute top-1/3 right-1/4 w-80 h-80 rounded-full"
+         style="background: radial-gradient(circle, rgba(168,85,247,0.2) 0%, transparent 70%); filter: blur(50px);"></div>
+    <div class="orb3 absolute bottom-1/4 left-1/2 w-64 h-64 rounded-full"
+         style="background: radial-gradient(circle, rgba(99,102,241,0.18) 0%, transparent 70%); filter: blur(60px);"></div>
+  </div>
+
+  <!-- Dot grid -->
+  <div class="absolute inset-0 dot-pattern opacity-40 pointer-events-none"></div>
+
+  <!-- Hero content -->
+  <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
+    <!-- Badge -->
+    <div class="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-8 fade-in">
+      <span class="status-dot"></span>
+      <span class="text-sm text-slate-300 font-medium">AI-powered mental health support, available 24/7</span>
+    </div>
+
+    <!-- Headline -->
+    <h1 class="text-5xl md:text-7xl font-black leading-tight mb-6 fade-in fade-in-delay-1">
+      <span class="gradient-text">Always Available.</span>
+      <br/>
+      <span class="text-white">Always On Your Side.</span>
+    </h1>
+
+    <!-- Subtext -->
+    <p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed fade-in fade-in-delay-2">
+      NuDay is the next generation mental health platform. AI agents trained in CBT, EMDR, and mindfulness - for both adults and children. Human-grade empathy. Machine-scale availability.
+    </p>
+
+    <!-- CTAs -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center fade-in fade-in-delay-3">
+      <a href="#demo-cta" class="btn-primary text-white font-semibold px-8 py-4 rounded-full text-base inline-flex items-center gap-2">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 1L15 8L8 15M1 8H15" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        Book a Demo
+      </a>
+      <a href="#technology" class="btn-outline font-semibold px-8 py-4 rounded-full text-base">
+        Learn More
+      </a>
+    </div>
+
+    <!-- Stats -->
+    <div class="flex flex-col sm:flex-row gap-8 justify-center items-center mt-16 fade-in fade-in-delay-4">
+      <div class="text-center">
+        <div class="text-3xl font-bold gradient-text">10k+</div>
+        <div class="text-sm text-slate-500 mt-1">Sessions Completed</div>
+      </div>
+      <div class="hidden sm:block w-px h-8 bg-slate-800"></div>
+      <div class="text-center">
+        <div class="text-3xl font-bold gradient-text">98%</div>
+        <div class="text-sm text-slate-500 mt-1">User Satisfaction</div>
+      </div>
+      <div class="hidden sm:block w-px h-8 bg-slate-800"></div>
+      <div class="text-center">
+        <div class="text-3xl font-bold gradient-text">24/7</div>
+        <div class="text-sm text-slate-500 mt-1">Always Available</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+    <span class="text-xs text-slate-500 tracking-widest uppercase">Scroll</span>
+    <div class="w-px h-8 bg-gradient-to-b from-slate-500 to-transparent"></div>
+  </div>
+</section>
+
+<!-- ─────────────────── APP DEMO ─────────────────── -->
+<section id="about" class="py-24 relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute bottom-0 right-0 w-96 h-96 rounded-full"
+         style="background: radial-gradient(circle, rgba(124,106,247,0.12) 0%, transparent 70%); filter: blur(60px);"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16 fade-in">
+      <div class="section-glow"></div>
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">See NuDay in Action</h2>
+      <p class="text-slate-400 text-lg max-w-2xl mx-auto">
+        A calming, intelligent companion - always ready to listen, guide, and support.
+      </p>
+    </div>
+
+    <!-- Laptop Mockup -->
+    <div class="max-w-4xl mx-auto fade-in fade-in-delay-1">
+      <div class="laptop-frame">
+        <!-- Screen bezel -->
+        <div class="px-6 pt-6 pb-0 laptop-screen">
+          <!-- Browser chrome -->
+          <div class="flex items-center gap-2 mb-4 px-2">
+            <div class="w-3 h-3 rounded-full bg-red-500 opacity-70"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500 opacity-70"></div>
+            <div class="w-3 h-3 rounded-full bg-green-500 opacity-70"></div>
+            <div class="flex-1 mx-4 bg-white/5 rounded-full px-4 py-1.5 text-xs text-slate-500 border border-white/5">
+              app.nuday-ai.com
+            </div>
+          </div>
+
+          <!-- App UI -->
+          <div class="flex h-[440px] rounded-t-lg overflow-hidden" style="background:#0d0d1a;">
+
+            <!-- Sidebar -->
+            <div class="w-60 flex-shrink-0 border-r border-white/5 flex flex-col" style="background:#0f0f1c;">
+              <div class="p-4 border-b border-white/5">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-lg btn-primary flex items-center justify-center flex-shrink-0">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                      <circle cx="8" cy="8" r="3" fill="white"/>
+                      <circle cx="8" cy="8" r="6" stroke="white" stroke-width="1.5" stroke-opacity="0.5"/>
+                    </svg>
+                  </div>
+                  <span class="text-white font-semibold text-sm gradient-text">NuDay</span>
+                </div>
+              </div>
+
+              <!-- Nav items -->
+              <div class="flex-1 p-3 space-y-1">
+                <div class="flex items-center gap-3 px-3 py-2 rounded-lg" style="background:rgba(124,106,247,0.15); border:1px solid rgba(124,106,247,0.2);">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                    <path d="M2 10L8 4L14 10" stroke="#7c6af7" stroke-width="1.5" stroke-linecap="round"/>
+                    <rect x="5" y="10" width="6" height="4" rx="1" stroke="#7c6af7" stroke-width="1.5"/>
+                  </svg>
+                  <span class="text-xs text-white font-medium">My Sessions</span>
+                </div>
+                <div class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 cursor-pointer">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                    <rect x="2" y="3" width="12" height="10" rx="2" stroke="#475569" stroke-width="1.5"/>
+                    <path d="M2 6H14" stroke="#475569" stroke-width="1.5"/>
+                    <path d="M6 9H10" stroke="#475569" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                  <span class="text-xs text-slate-500">Mood Journal</span>
+                </div>
+                <div class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 cursor-pointer">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                    <path d="M2 12L6 8L9 11L13 5" stroke="#475569" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span class="text-xs text-slate-500">Insights</span>
+                </div>
+                <div class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 cursor-pointer">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                    <circle cx="8" cy="8" r="5" stroke="#475569" stroke-width="1.5"/>
+                    <path d="M8 5V8L10 10" stroke="#475569" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                  <span class="text-xs text-slate-500">Exercises</span>
+                </div>
+              </div>
+
+              <!-- Mood summary -->
+              <div class="p-3 border-t border-white/5">
+                <div class="glass-card rounded-xl p-3">
+                  <div class="text-xs text-slate-500 mb-2">Today's Mood</div>
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="text-lg">😊</span>
+                    <span class="text-sm font-semibold text-white">Calm & Hopeful</span>
+                  </div>
+                  <div class="w-full bg-white/5 rounded-full h-1.5">
+                    <div class="mood-bar-fill" style="width:72%"></div>
+                  </div>
+                  <div class="text-xs text-slate-500 mt-1">72 / 100</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Main chat area -->
+            <div class="flex-1 flex flex-col">
+              <!-- Chat header -->
+              <div class="px-5 py-3 border-b border-white/5 flex items-center justify-between" style="background:#0d0d1a;">
+                <div class="flex items-center gap-3">
+                  <div class="relative">
+                    <div class="w-9 h-9 rounded-full btn-primary flex items-center justify-center text-sm font-bold text-white">N</div>
+                    <div class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2" style="border-color:#0d0d1a;"></div>
+                  </div>
+                  <div>
+                    <div class="text-sm font-semibold text-white">Aria - Your AI Therapist</div>
+                    <div class="text-xs text-green-400 flex items-center gap-1">
+                      <span class="status-dot" style="width:6px;height:6px;"></span> Online now
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div class="glass rounded-lg px-3 py-1.5 text-xs text-slate-400">CBT Mode</div>
+                </div>
+              </div>
+
+              <!-- Messages -->
+              <div class="flex-1 chat-scroll p-4 space-y-3" style="background:#0d0d1a;">
+
+                <!-- AI message -->
+                <div class="flex gap-3 items-end">
+                  <div class="w-7 h-7 rounded-full btn-primary flex items-center justify-center text-xs font-bold text-white flex-shrink-0">A</div>
+                  <div>
+                    <div class="msg-ai px-4 py-3 max-w-xs">
+                      <p class="text-sm text-slate-200 leading-relaxed">Hi! I'm Aria. I'm here to support you. How are you feeling today? 💙</p>
+                    </div>
+                    <div class="text-xs text-slate-600 mt-1 ml-2">9:03 AM</div>
+                  </div>
+                </div>
+
+                <!-- User message -->
+                <div class="flex gap-3 items-end justify-end">
+                  <div>
+                    <div class="msg-user px-4 py-3 max-w-xs">
+                      <p class="text-sm text-white leading-relaxed">I've been feeling anxious about work lately. Hard to focus.</p>
+                    </div>
+                    <div class="text-xs text-slate-600 mt-1 mr-2 text-right">9:05 AM</div>
+                  </div>
+                </div>
+
+                <!-- AI response -->
+                <div class="flex gap-3 items-end">
+                  <div class="w-7 h-7 rounded-full btn-primary flex items-center justify-center text-xs font-bold text-white flex-shrink-0">A</div>
+                  <div>
+                    <div class="msg-ai px-4 py-3 max-w-xs">
+                      <p class="text-sm text-slate-200 leading-relaxed">I hear you, and I'm glad you shared that. Work anxiety is very common. Let's try a quick grounding exercise together - can you name 3 things you can see right now?</p>
+                    </div>
+                    <div class="text-xs text-slate-600 mt-1 ml-2">9:05 AM</div>
+                  </div>
+                </div>
+
+                <!-- User -->
+                <div class="flex gap-3 items-end justify-end">
+                  <div>
+                    <div class="msg-user px-4 py-3 max-w-xs">
+                      <p class="text-sm text-white leading-relaxed">My screen, a plant, and my coffee mug ☕</p>
+                    </div>
+                    <div class="text-xs text-slate-600 mt-1 mr-2 text-right">9:06 AM</div>
+                  </div>
+                </div>
+
+                <!-- AI typing -->
+                <div class="flex gap-3 items-end">
+                  <div class="w-7 h-7 rounded-full btn-primary flex items-center justify-center text-xs font-bold text-white flex-shrink-0">A</div>
+                  <div class="msg-ai px-4 py-3">
+                    <div class="flex gap-1 items-center">
+                      <div class="dot1 w-2 h-2 rounded-full bg-slate-400"></div>
+                      <div class="dot2 w-2 h-2 rounded-full bg-slate-400"></div>
+                      <div class="dot3 w-2 h-2 rounded-full bg-slate-400"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Input bar -->
+              <div class="px-4 py-3 border-t border-white/5" style="background:#0f0f1c;">
+                <div class="flex items-center gap-3 glass rounded-xl px-4 py-2.5">
+                  <input class="flex-1 bg-transparent text-sm text-slate-400 outline-none placeholder-slate-600" placeholder="Share what's on your mind..." readonly />
+                  <button class="btn-primary w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 10L10 6L2 2V5L8 6L2 7V10Z" fill="white"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right panel - insights -->
+            <div class="w-52 flex-shrink-0 border-l border-white/5 flex flex-col p-3 gap-3" style="background:#0f0f1c;">
+              <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Session Insights</div>
+
+              <!-- Mood trend -->
+              <div class="glass-card rounded-xl p-3">
+                <div class="text-xs text-slate-500 mb-2">7-Day Mood Trend</div>
+                <div class="flex items-end gap-1 h-12">
+                  <div class="flex-1 rounded-sm" style="height:40%;background:rgba(124,106,247,0.4)"></div>
+                  <div class="flex-1 rounded-sm" style="height:55%;background:rgba(124,106,247,0.5)"></div>
+                  <div class="flex-1 rounded-sm" style="height:45%;background:rgba(124,106,247,0.4)"></div>
+                  <div class="flex-1 rounded-sm" style="height:70%;background:rgba(124,106,247,0.6)"></div>
+                  <div class="flex-1 rounded-sm" style="height:60%;background:rgba(124,106,247,0.5)"></div>
+                  <div class="flex-1 rounded-sm" style="height:80%;background:rgba(168,85,247,0.7)"></div>
+                  <div class="flex-1 rounded-sm" style="height:72%;background:rgba(168,85,247,0.8)"></div>
+                </div>
+                <div class="text-xs text-green-400 mt-2 flex items-center gap-1">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 7L4 4L6 6L9 2" stroke="#22c55e" stroke-width="1.2" stroke-linecap="round"/></svg>
+                  +12% this week
+                </div>
+              </div>
+
+              <!-- Techniques used -->
+              <div class="glass-card rounded-xl p-3">
+                <div class="text-xs text-slate-500 mb-2">Techniques Today</div>
+                <div class="space-y-2">
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs text-slate-400">Grounding</span>
+                    <span class="text-xs text-primary font-medium">Active</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs text-slate-400">Breathing</span>
+                    <span class="text-xs text-slate-600">Pending</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs text-slate-400">CBT Reframe</span>
+                    <span class="text-xs text-slate-600">Pending</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Quick actions -->
+              <div class="space-y-2">
+                <button class="w-full glass rounded-lg px-3 py-2 text-xs text-slate-400 hover:text-white text-left flex items-center gap-2">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="4" stroke="#7c6af7" stroke-width="1.2"/></svg>
+                  Breathing Exercise
+                </button>
+                <button class="w-full glass rounded-lg px-3 py-2 text-xs text-slate-400 hover:text-white text-left flex items-center gap-2">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4h8M2 7h5" stroke="#7c6af7" stroke-width="1.2" stroke-linecap="round"/></svg>
+                  Log Mood Entry
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Laptop base -->
+        <div class="laptop-base px-16 py-4 flex flex-col items-center gap-2">
+          <div class="w-20 h-1 bg-white/10 rounded-full"></div>
+        </div>
+      </div>
+
+      <!-- Caption -->
+      <p class="text-center text-slate-500 text-sm mt-6">
+        Aria, your AI companion, combines clinical techniques with genuine empathy - available day and night.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────── FEATURES ─────────────────── -->
+<section id="technology" class="py-24 relative">
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute top-0 left-0 w-96 h-96 rounded-full"
+         style="background: radial-gradient(circle, rgba(168,85,247,0.1) 0%, transparent 70%); filter: blur(60px);"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16 fade-in">
+      <div class="section-glow"></div>
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">Everything You Need to Heal</h2>
+      <p class="text-slate-400 text-lg max-w-2xl mx-auto">
+        Built on clinical research. Powered by cutting-edge AI. Designed with compassion.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- Card 1 -->
+      <div class="glass-card rounded-2xl p-8 fade-in">
+        <div class="feature-icon mb-5">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke="#a855f7" stroke-width="1.5"/>
+            <circle cx="9" cy="10" r="1.5" fill="#a855f7"/>
+            <circle cx="15" cy="10" r="1.5" fill="#a855f7"/>
+            <path d="M8 15s1.5 2 4 2 4-2 4-2" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">Personalized AI Agents</h3>
+        <p class="text-slate-400 leading-relaxed mb-4">
+          Your NuDay agent learns your emotional patterns, communication style, and what works for you. No two experiences are alike - because no two people are alike.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="text-xs px-3 py-1 rounded-full border border-primary/30 text-primary/80">Adaptive Learning</span>
+          <span class="text-xs px-3 py-1 rounded-full border border-primary/30 text-primary/80">Memory Aware</span>
+          <span class="text-xs px-3 py-1 rounded-full border border-primary/30 text-primary/80">Multi-Agent</span>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="glass-card rounded-2xl p-8 fade-in fade-in-delay-1">
+        <div class="feature-icon mb-5">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="#a855f7" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M8 10h8M8 14h4" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">Real-Time Therapy Chat</h3>
+        <p class="text-slate-400 leading-relaxed mb-4">
+          Evidence-based modalities at your fingertips: CBT thought records, EMDR bilateral stimulation, guided mindfulness, and somatic grounding. All in a calm, conversational interface.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="text-xs px-3 py-1 rounded-full border border-primary/30 text-primary/80">CBT</span>
+          <span class="text-xs px-3 py-1 rounded-full border border-primary/30 text-primary/80">EMDR</span>
+          <span class="text-xs px-3 py-1 rounded-full border border-primary/30 text-primary/80">Mindfulness</span>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="glass-card rounded-2xl p-8 fade-in fade-in-delay-2">
+        <div class="feature-icon mb-5">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M2 20L6 14L10 17L14 10L18 13L22 6" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="6" cy="14" r="2" fill="rgba(168,85,247,0.3)" stroke="#a855f7" stroke-width="1"/>
+            <circle cx="14" cy="10" r="2" fill="rgba(168,85,247,0.3)" stroke="#a855f7" stroke-width="1"/>
+            <circle cx="22" cy="6" r="2" fill="rgba(168,85,247,0.3)" stroke="#a855f7" stroke-width="1"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">Mood Tracker & Insights</h3>
+        <p class="text-slate-400 leading-relaxed mb-4">
+          Log daily mood check-ins and watch your emotional journey unfold. NuDay identifies patterns, highlights your triggers, and celebrates your growth over time.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="text-xs px-3 py-1 rounded-full border border-primary/30 text-primary/80">Daily Logs</span>
+          <span class="text-xs px-3 py-1 rounded-full border border-primary/30 text-primary/80">Pattern Detection</span>
+          <span class="text-xs px-3 py-1 rounded-full border border-primary/30 text-primary/80">Progress Reports</span>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="glass-card rounded-2xl p-8 fade-in fade-in-delay-3">
+        <div class="feature-icon mb-5">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="#a855f7" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M2 17l10 5 10-5" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2 12l10 5 10-5" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">Customizable Experience</h3>
+        <p class="text-slate-400 leading-relaxed mb-4">
+          Choose your AI agent's tone, therapeutic approach, and session length. For children, a friendly companion. For adults, a professional guide. One platform, infinite configurations.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="text-xs px-3 py-1 rounded-full border border-primary/30 text-primary/80">For Adults</span>
+          <span class="text-xs px-3 py-1 rounded-full border border-primary/30 text-primary/80">For Children</span>
+          <span class="text-xs px-3 py-1 rounded-full border border-primary/30 text-primary/80">Custom Flows</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────── TRUSTED BY ─────────────────── -->
+<section class="py-16 relative">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-12 fade-in">
+      <p class="text-sm font-semibold text-slate-500 uppercase tracking-widest mb-8">Trusted By Leading Organizations</p>
+    </div>
+    <div class="flex flex-wrap justify-center items-center gap-4 md:gap-6 fade-in">
+      <div class="logo-pill rounded-xl px-6 py-3 cursor-default">
+        <span class="font-bold text-sm tracking-wide">Microsoft</span>
+      </div>
+      <div class="logo-pill rounded-xl px-6 py-3 cursor-default">
+        <span class="font-bold text-sm tracking-wide">Google</span>
+      </div>
+      <div class="logo-pill rounded-xl px-6 py-3 cursor-default">
+        <span class="font-bold text-sm tracking-wide">IDF</span>
+      </div>
+      <div class="logo-pill rounded-xl px-6 py-3 cursor-default">
+        <span class="font-bold text-sm tracking-wide">Maccabi Healthcare</span>
+      </div>
+      <div class="logo-pill rounded-xl px-6 py-3 cursor-default">
+        <span class="font-bold text-sm tracking-wide">Ministry of Health</span>
+      </div>
+      <div class="logo-pill rounded-xl px-6 py-3 cursor-default">
+        <span class="font-bold text-sm tracking-wide">Ben-Gurion University</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────── WHY NUDAY ─────────────────── -->
+<section class="py-24 relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute inset-0 dot-pattern opacity-20"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
+         style="background: radial-gradient(circle, rgba(124,106,247,0.07) 0%, transparent 70%); filter: blur(40px);"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16 fade-in">
+      <div class="section-glow"></div>
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">Why Choose NuDay?</h2>
+      <p class="text-slate-400 text-lg max-w-2xl mx-auto">
+        Built by people who understand loss, resilience, and the power of healing. Founded after October 7 - because mental health cannot wait.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+      <!-- Column 1 -->
+      <div class="text-center fade-in">
+        <div class="relative inline-flex items-center justify-center w-20 h-20 mb-6">
+          <div class="pulse-ring w-20 h-20"></div>
+          <div class="feature-icon" style="width:64px;height:64px;border-radius:20px;">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <path d="M14 4C10.686 4 8 6.686 8 10c0 2.122 1.08 3.99 2.726 5.094L14 22l3.274-6.906C18.92 13.99 20 12.122 20 10c0-3.314-2.686-6-6-6z" stroke="#a855f7" stroke-width="1.5" stroke-linejoin="round"/>
+              <circle cx="14" cy="10" r="2" fill="#a855f7"/>
+            </svg>
+          </div>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">Empathy-Centric</h3>
+        <p class="text-slate-400 leading-relaxed">
+          Every interaction is designed with human compassion at its core. Our AI doesn't just respond - it listens, validates, and genuinely cares. Because you deserve to feel heard.
+        </p>
+      </div>
+
+      <!-- Column 2 -->
+      <div class="text-center fade-in fade-in-delay-1">
+        <div class="relative inline-flex items-center justify-center w-20 h-20 mb-6">
+          <div class="pulse-ring w-20 h-20" style="animation-delay:0.5s;"></div>
+          <div class="feature-icon" style="width:64px;height:64px;border-radius:20px;">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <rect x="4" y="8" width="20" height="14" rx="3" stroke="#a855f7" stroke-width="1.5"/>
+              <path d="M10 8V6a4 4 0 0 1 8 0v2" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="14" cy="15" r="2" fill="#a855f7"/>
+              <path d="M14 17v2" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">AI Built for Healing</h3>
+        <p class="text-slate-400 leading-relaxed">
+          Not a generic chatbot. NuDay's models are trained specifically on therapeutic methodologies, clinical guidelines, and trauma-informed care - to safely support real mental health journeys.
+        </p>
+      </div>
+
+      <!-- Column 3 -->
+      <div class="text-center fade-in fade-in-delay-2">
+        <div class="relative inline-flex items-center justify-center w-20 h-20 mb-6">
+          <div class="pulse-ring w-20 h-20" style="animation-delay:1s;"></div>
+          <div class="feature-icon" style="width:64px;height:64px;border-radius:20px;">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <path d="M14 3L6 7v8c0 5.25 3.4 10.15 8 11 4.6-.85 8-5.75 8-11V7L14 3z" stroke="#a855f7" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M10 14l3 3 5-5" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">Trust & Privacy</h3>
+        <p class="text-slate-400 leading-relaxed">
+          Your mental health data is sacred. End-to-end encrypted, never sold, never shared. HIPAA-compliant infrastructure with zero-knowledge architecture. Your story stays yours.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────── CTA BANNER ─────────────────── -->
+<section id="demo-cta" class="py-24 px-6">
+  <div class="max-w-4xl mx-auto">
+    <div class="cta-banner rounded-3xl p-12 md:p-16 text-center relative overflow-hidden fade-in">
+      <!-- Glow -->
+      <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute top-0 left-1/4 w-64 h-64 rounded-full"
+             style="background: radial-gradient(circle, rgba(124,106,247,0.2) 0%, transparent 70%); filter: blur(40px);"></div>
+        <div class="absolute bottom-0 right-1/4 w-48 h-48 rounded-full"
+             style="background: radial-gradient(circle, rgba(168,85,247,0.2) 0%, transparent 70%); filter: blur(40px);"></div>
+      </div>
+
+      <div class="relative z-10">
+        <div class="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-6">
+          <span class="status-dot"></span>
+          <span class="text-sm text-slate-300">Available now for healthcare providers</span>
+        </div>
+        <h2 class="text-4xl md:text-5xl font-black text-white mb-4 leading-tight">
+          Ready to Transform
+          <br/>
+          <span class="gradient-text">Mental Health Care?</span>
+        </h2>
+        <p class="text-slate-400 text-lg mb-10 max-w-2xl mx-auto">
+          Join the growing network of clinics, hospitals, and healthcare organizations using NuDay to extend their reach and help more people heal.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="https://www.nuday-ai.com" target="_blank" class="btn-primary text-white font-semibold px-10 py-4 rounded-full text-base inline-flex items-center justify-center gap-2">
+            Book a Demo
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8H13M9 4L13 8L9 12" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a href="mailto:contact@nuday-ai.com" id="contact" class="btn-outline font-semibold px-10 py-4 rounded-full text-base inline-flex items-center justify-center gap-2">
+            Contact Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────── FOOTER ─────────────────── -->
+<footer class="border-t border-white/5 py-12 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
+      <!-- Brand -->
+      <div class="md:col-span-2">
+        <div class="flex items-center gap-2 mb-4">
+          <div class="w-8 h-8 rounded-lg btn-primary flex items-center justify-center">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <circle cx="8" cy="8" r="3" fill="white"/>
+              <circle cx="8" cy="8" r="6" stroke="white" stroke-width="1.5" stroke-opacity="0.5"/>
+            </svg>
+          </div>
+          <span class="text-xl font-bold gradient-text tracking-tight">NuDay</span>
+        </div>
+        <p class="text-slate-500 text-sm leading-relaxed max-w-xs">
+          Next-generation mental health support powered by AI. Always available. Always on your side.
+        </p>
+        <!-- LinkedIn -->
+        <div class="mt-5">
+          <a href="https://linkedin.com/company/nuday-ai" target="_blank"
+             class="inline-flex items-center gap-2 glass rounded-lg px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+            LinkedIn
+          </a>
+        </div>
+      </div>
+
+      <!-- Links -->
+      <div>
+        <h4 class="text-sm font-semibold text-white mb-4 uppercase tracking-wider">Platform</h4>
+        <ul class="space-y-2">
+          <li><a href="#about" class="text-slate-500 text-sm hover:text-slate-300 transition-colors">About</a></li>
+          <li><a href="#technology" class="text-slate-500 text-sm hover:text-slate-300 transition-colors">Technology</a></li>
+          <li><a href="#demo-cta" class="text-slate-500 text-sm hover:text-slate-300 transition-colors">Book a Demo</a></li>
+          <li><a href="https://www.nuday-ai.com" target="_blank" class="text-slate-500 text-sm hover:text-slate-300 transition-colors">Visit Site</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h4 class="text-sm font-semibold text-white mb-4 uppercase tracking-wider">Contact</h4>
+        <ul class="space-y-2">
+          <li class="flex items-center gap-2 text-slate-500 text-sm">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M1 3l6 4 6-4M1 3v8a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V3" stroke="#7c6af7" stroke-width="1.2" stroke-linejoin="round"/>
+            </svg>
+            contact@nuday-ai.com
+          </li>
+          <li class="flex items-center gap-2 text-slate-500 text-sm">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <circle cx="7" cy="6" r="2" stroke="#7c6af7" stroke-width="1.2"/>
+              <path d="M7 1C4.239 1 2 3.239 2 6c0 4 5 7 5 7s5-3 5-7c0-2.761-2.239-5-5-5z" stroke="#7c6af7" stroke-width="1.2"/>
+            </svg>
+            Tel Aviv, Israel
+          </li>
+          <li>
+            <a href="https://www.nuday-ai.com" target="_blank" class="text-slate-500 text-sm hover:text-slate-300 transition-colors flex items-center gap-2">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <circle cx="7" cy="7" r="5" stroke="#7c6af7" stroke-width="1.2"/>
+                <path d="M7 2C7 2 9 4.5 9 7s-2 5-2 5" stroke="#7c6af7" stroke-width="1.2"/>
+                <path d="M7 2C7 2 5 4.5 5 7s2 5 2 5" stroke="#7c6af7" stroke-width="1.2"/>
+                <path d="M2 7h10" stroke="#7c6af7" stroke-width="1.2"/>
+              </svg>
+              nuday-ai.com
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-slate-600 text-sm">
+        &copy; 2024 NuDay AI. All rights reserved. Not a replacement for professional medical care.
+      </p>
+      <div class="flex items-center gap-6">
+        <a href="#" class="text-slate-600 text-xs hover:text-slate-400 transition-colors">Privacy Policy</a>
+        <a href="#" class="text-slate-600 text-xs hover:text-slate-400 transition-colors">Terms of Service</a>
+        <a href="#" class="text-slate-600 text-xs hover:text-slate-400 transition-colors">HIPAA Compliance</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ─────────────────── JS ─────────────────── -->
+<script>
+  // Intersection Observer for fade-in animations
+  const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Navbar background on scroll
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+      nav.style.borderBottomColor = 'rgba(124,106,247,0.15)';
+    } else {
+      nav.style.borderBottomColor = 'rgba(255,255,255,0.06)';
+    }
+  });
+
+  // Auto-animate the chat (typing bubble appears, then resolves)
+  let chatCycle = 0;
+  const chatReplies = [
+    "Great job! Naming objects around you is a perfect 5-4-3-2-1 grounding start. Now, can you name 3 things you can physically touch?",
+    "You're doing wonderfully. Remember - anxiety is your mind trying to protect you. Let's work with it, not against it. 💜",
+    "Let's try a quick breathing reset: breathe in for 4 counts, hold for 4, out for 6. Ready when you are. 🌬️"
+  ];
+
+  // Simulate chat activity after 3 seconds
+  setTimeout(() => {
+    const typingBubble = document.querySelector('.dot1')?.closest('.flex');
+    if (!typingBubble) return;
+
+    setTimeout(() => {
+      // Replace typing with real message
+      const aiDiv = typingBubble.querySelector('.msg-ai');
+      if (aiDiv) {
+        aiDiv.innerHTML = `<p class="text-sm text-slate-200 leading-relaxed">${chatReplies[0]}</p>`;
+      }
+    }, 2000);
+  }, 3000);
+</script>
+
+</body>
+</html>

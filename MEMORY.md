@@ -49,6 +49,7 @@
 - secure-skill-downloader — שומר סף אבטחה לכל התקנת סקיל מבחוץ (MANDATORY)
 - ecovacs — שליטה ב-DEEBOT X8 PRO OMNI (clean/stop/pause/charge/status/sound)
 - databricks — Databricks Lakehouse platform: Notebooks, Unity Catalog, Delta Lake, Genie, DLT, MLflow, Workflows, Clusters
+- data-engineer — Senior Data Engineer: Spark, PySpark, dbt, Databricks, Delta Lake, Unity Catalog, ADLS Gen2, S3, Azure, ADF, Airflow, medallion architecture
 
 ## Smart Home
 - **DEEBOT X8 PRO OMNI** (ECOVACS)

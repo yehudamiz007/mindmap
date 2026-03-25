@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenClaw – Azure Architecture</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0b0f1a;font-family:'Segoe UI',system-ui,sans-serif;color:#cdd6f4;overflow-x:hidden}
+
+h1{text-align:center;padding:32px 20px 6px;font-size:22px;font-weight:700;color:#e2e8f0;letter-spacing:-.3px}
+.subtitle{text-align:center;color:#4a5568;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;padding-bottom:28px}
+
+/* SVG canvas */
+#arch{display:block;width:100%;max-width:1300px;margin:0 auto;padding:0 20px 60px}
+
+/* Node boxes */
+.node rect{rx:6;stroke-width:1.5}
+.node text{font-family:'Segoe UI',system-ui,sans-serif;font-size:11px;fill:#e2e8f0;font-weight:600;text-anchor:middle}
+.node .sub{font-size:9.5px;fill:#64748b;font-weight:400}
+.node .icon-text{font-size:13px;fill:#94a3b8;font-weight:400}
+
+/* Layer backgrounds */
+.layer-bg{rx:10;fill-opacity:.03;stroke-width:1;stroke-dasharray:4,3}
+.layer-label{font-family:'Segoe UI',system-ui,sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;fill-opacity:.5}
+
+/* Animated paths */
+.flow-path{fill:none;stroke-width:1.5;opacity:.8}
+
+/* Dash animation */
+@keyframes dash{to{stroke-dashoffset:0}}
+.animated-path{fill:none;stroke-width:1.5;stroke-dasharray:6,4;animation:dash 1.2s linear infinite}
+
+/* Dot pulse on nodes */
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+.pulse-dot{animation:pulse 2s ease-in-out infinite}
+
+/* Legend */
+#legend{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;padding:0 24px 40px}
+.leg{display:flex;align-items:center;gap:7px;font-size:11px;color:#64748b}
+.leg-line{width:28px;height:2px;border-radius:2px}
+.leg-dash{width:28px;height:0;border-top:2px dashed}
+</style>
+</head>
+<body>
+
+<h1>OpenClaw @ Scale — Azure Cloud Architecture</h1>
+<p class="subtitle">10,000 Users · 1 WhatsApp Number · Shared Brain · Isolated Memory per User</p>
+
+<div id="arch">
+<svg id="svg-arch" viewBox="0 0 1240 1080" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+<defs>
+
+  <!-- Arrowhead markers — one per color -->
+  <marker id="arr-blue"   markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0 0,7 3.5,0 7" fill="#3b82f6"/></marker>
+  <marker id="arr-purple" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0 0,7 3.5,0 7" fill="#8b5cf6"/></marker>
+  <marker id="arr-cyan"   markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0 0,7 3.5,0 7" fill="#06b6d4"/></marker>
+  <marker id="arr-green"  markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0 0,7 3.5,0 7" fill="#10b981"/></marker>
+  <marker id="arr-yellow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0 0,7 3.5,0 7" fill="#f59e0b"/></marker>
+  <marker id="arr-red"    markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0 0,7 3.5,0 7" fill="#ef4444"/></marker>
+  <marker id="arr-gray"   markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0 0,7 3.5,0 7" fill="#475569"/></marker>
+  <marker id="arr-teal"   markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0 0,7 3.5,0 7" fill="#14b8a6"/></marker>
+
+  <!-- Glow filter -->
+  <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="glow-sm"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+
+  <!-- Animated stroke dashes -->
+  <style>
+    .f-blue   {stroke:#3b82f6; stroke-dashoffset:200; stroke-dasharray:6,4; animation:dash 1.4s linear infinite}
+    .f-purple {stroke:#8b5cf6; stroke-dashoffset:200; stroke-dasharray:6,4; animation:dash 1.6s linear infinite}
+    .f-cyan   {stroke:#06b6d4; stroke-dashoffset:200; stroke-dasharray:6,4; animation:dash 1.3s linear infinite}
+    .f-green  {stroke:#10b981; stroke-dashoffset:200; stroke-dasharray:6,4; animation:dash 1.5s linear infinite}
+    .f-yellow {stroke:#f59e0b; stroke-dashoffset:200; stroke-dasharray:6,4; animation:dash 1.7s linear infinite}
+    .f-red    {stroke:#ef4444; stroke-dashoffset:200; stroke-dasharray:6,4; animation:dash 1.2s linear infinite}
+    .f-gray   {stroke:#475569; stroke-dashoffset:200; stroke-dasharray:6,4; animation:dash 2s linear infinite}
+    .f-teal   {stroke:#14b8a6; stroke-dashoffset:200; stroke-dasharray:6,4; animation:dash 1.8s linear infinite}
+    @keyframes dash{from{stroke-dashoffset:200}to{stroke-dashoffset:0}}
+  </style>
+</defs>
+
+<!-- ═══════════════════════════════════════════════
+     LAYER BACKGROUNDS
+═══════════════════════════════════════════════ -->
+
+<!-- Users layer -->
+<rect class="layer-bg" x="20" y="20" width="1200" height="120" stroke="#06b6d4"/>
+<text class="layer-label" x="36" y="38" fill="#06b6d4">CLIENT LAYER</text>
+
+<!-- WhatsApp + APIM layer -->
+<rect class="layer-bg" x="20" y="160" width="1200" height="110" stroke="#8b5cf6"/>
+<text class="layer-label" x="36" y="178" fill="#8b5cf6">INGESTION LAYER</text>
+
+<!-- Gateway / AKS layer -->
+<rect class="layer-bg" x="20" y="290" width="1200" height="140" stroke="#3b82f6"/>
+<text class="layer-label" x="36" y="308" fill="#3b82f6">GATEWAY LAYER — AKS</text>
+
+<!-- Shared FS layer -->
+<rect class="layer-bg" x="20" y="450" width="580" height="160" stroke="#10b981"/>
+<text class="layer-label" x="36" y="468" fill="#10b981">SHARED FILESYSTEM (READ-ONLY)</text>
+
+<!-- Memory layer -->
+<rect class="layer-bg" x="620" y="450" width="600" height="160" stroke="#f59e0b"/>
+<text class="layer-label" x="636" y="468" fill="#f59e0b">PER-USER MEMORY (ISOLATED)</text>
+
+<!-- LLM layer -->
+<rect class="layer-bg" x="20" y="630" width="1200" height="120" stroke="#ef4444"/>
+<text class="layer-label" x="36" y="648" fill="#ef4444">LLM INFERENCE LAYER</text>
+
+<!-- Azure infra layer -->
+<rect class="layer-bg" x="20" y="770" width="1200" height="290" stroke="#0078d4"/>
+<text class="layer-label" x="36" y="788" fill="#0078d4">AZURE INFRASTRUCTURE</text>
+
+
+<!-- ═══════════════════════════════════════════════
+     NODES — CLIENT LAYER
+═══════════════════════════════════════════════ -->
+
+<!-- 10K Users -->
+<g class="node" transform="translate(60,42)">
+  <rect width="170" height="80" fill="#0f172a" stroke="#06b6d4" stroke-opacity=".5"/>
+  <text x="85" y="22" fill="#22d3ee">10,000 Users</text>
+  <text x="85" y="38" class="sub">WhatsApp clients</text>
+  <text x="85" y="54" class="sub">Any phone / OS</text>
+  <text x="85" y="70" class="sub">No app install</text>
+</g>
+
+<!-- Web / REST clients -->
+<g class="node" transform="translate(270,42)">
+  <rect width="160" height="80" fill="#0f172a" stroke="#06b6d4" stroke-opacity=".4"/>
+  <text x="80" y="22" fill="#22d3ee">Web / API Clients</text>
+  <text x="80" y="38" class="sub">REST · WebSocket</text>
+  <text x="80" y="54" class="sub">Portal access</text>
+  <text x="80" y="70" class="sub">Same session identity</text>
+</g>
+
+<!-- WhatsApp single number callout -->
+<g class="node" transform="translate(700,42)">
+  <rect width="200" height="80" fill="#1a0b2e" stroke="#8b5cf6" stroke-opacity=".7" filter="url(#glow-sm)"/>
+  <text x="100" y="22" fill="#c084fc">Single WA Number</text>
+  <text x="100" y="38" class="sub">+1-800-OPENCLAW</text>
+  <text x="100" y="54" class="sub">All 10K users share</text>
+  <text x="100" y="70" class="sub">one business number</text>
+</g>
+
+<!-- External: Meta -->
+<g class="node" transform="translate(940,42)">
+  <rect width="150" height="80" fill="#0f172a" stroke="#8b5cf6" stroke-opacity=".4"/>
+  <text x="75" y="22" fill="#c084fc">Meta Cloud API</text>
+  <text x="75" y="38" class="sub">WhatsApp Business</text>
+  <text x="75" y="54" class="sub">v18+ webhook</text>
+  <text x="75" y="70" class="sub">Routes by sender ID</text>
+</g>
+
+
+<!-- ═══════════════════════════════════════════════
+     NODES — INGESTION LAYER
+═══════════════════════════════════════════════ -->
+
+<!-- Azure APIM -->
+<g class="node" transform="translate(60,175)">
+  <rect width="180" height="80" fill="#0f172a" stroke="#8b5cf6" stroke-opacity=".6"/>
+  <text x="90" y="22" fill="#c084fc">Azure API Management</text>
+  <text x="90" y="38" class="sub">Webhook receiver</text>
+  <text x="90" y="54" class="sub">WAF · Rate limiting</text>
+  <text x="90" y="70" class="sub">Session routing</text>
+</g>
+
+<!-- Azure Service Bus -->
+<g class="node" transform="translate(280,175)">
+  <rect width="160" height="80" fill="#0f172a" stroke="#8b5cf6" stroke-opacity=".5"/>
+  <text x="80" y="22" fill="#c084fc">Azure Service Bus</text>
+  <text x="80" y="38" class="sub">Message queue</text>
+  <text x="80" y="54" class="sub">FIFO guaranteed</text>
+  <text x="80" y="70" class="sub">No message loss</text>
+</g>
+
+<!-- Azure AD B2C -->
+<g class="node" transform="translate(480,175)">
+  <rect width="155" height="80" fill="#0f172a" stroke="#8b5cf6" stroke-opacity=".5"/>
+  <text x="77" y="22" fill="#c084fc">Azure AD B2C</text>
+  <text x="77" y="38" class="sub">User identity</text>
+  <text x="77" y="54" class="sub">Session token</text>
+  <text x="77" y="70" class="sub">Phone → tenant ID</text>
+</g>
+
+<!-- Azure Front Door / LB -->
+<g class="node" transform="translate(675,175)">
+  <rect width="165" height="80" fill="#0f172a" stroke="#8b5cf6" stroke-opacity=".5"/>
+  <text x="82" y="22" fill="#c084fc">Azure Front Door</text>
+  <text x="82" y="38" class="sub">Global load balancer</text>
+  <text x="82" y="54" class="sub">TLS termination</text>
+  <text x="82" y="70" class="sub">DDoS protection</text>
+</g>
+
+<!-- Azure Key Vault -->
+<g class="node" transform="translate(880,175)">
+  <rect width="145" height="80" fill="#0f172a" stroke="#8b5cf6" stroke-opacity=".4"/>
+  <text x="72" y="22" fill="#c084fc">Azure Key Vault</text>
+  <text x="72" y="38" class="sub">API keys</text>
+  <text x="72" y="54" class="sub">Secrets · Certs</text>
+  <text x="72" y="70" class="sub">Managed identities</text>
+</g>
+
+
+<!-- ═══════════════════════════════════════════════
+     NODES — GATEWAY / AKS LAYER
+═══════════════════════════════════════════════ -->
+
+<!-- AKS Cluster -->
+<g class="node" transform="translate(60,305)">
+  <rect width="185" height="108" fill="#0c1628" stroke="#3b82f6" stroke-opacity=".7" filter="url(#glow-sm)"/>
+  <text x="92" y="22" fill="#60a5fa">AKS — Gateway Pods</text>
+  <text x="92" y="38" class="sub">10 — 200 pods</text>
+  <text x="92" y="54" class="sub">Stateless · HPA auto-scale</text>
+  <text x="92" y="70" class="sub">Queue-depth scaling</text>
+  <text x="92" y="86" class="sub">Each pod: multi-session</text>
+  <text x="92" y="102" class="sub">OpenClaw runtime</text>
+</g>
+
+<!-- Session Manager / Redis -->
+<g class="node" transform="translate(280,305)">
+  <rect width="165" height="108" fill="#0f172a" stroke="#3b82f6" stroke-opacity=".6"/>
+  <text x="82" y="22" fill="#60a5fa">Session Manager</text>
+  <text x="82" y="38" class="sub">Phone → session key</text>
+  <text x="82" y="54" class="sub">Backed by Redis</text>
+  <text x="82" y="70" class="sub">10K active sessions</text>
+  <text x="82" y="86" class="sub">Sub-ms lookup</text>
+  <text x="82" y="102" class="sub">TTL 24h</text>
+</g>
+
+<!-- Agent Loop -->
+<g class="node" transform="translate(480,305)">
+  <rect width="160" height="108" fill="#0f172a" stroke="#3b82f6" stroke-opacity=".6"/>
+  <text x="80" y="22" fill="#60a5fa">Agent Loop</text>
+  <text x="80" y="38" class="sub">Per-user reasoning</text>
+  <text x="80" y="54" class="sub">Tool orchestration</text>
+  <text x="80" y="70" class="sub">Skills execution</text>
+  <text x="80" y="86" class="sub">Response streaming</text>
+  <text x="80" y="102" class="sub">Cron scheduler</text>
+</g>
+
+<!-- ACR -->
+<g class="node" transform="translate(675,305)">
+  <rect width="155" height="108" fill="#0f172a" stroke="#3b82f6" stroke-opacity=".5"/>
+  <text x="77" y="22" fill="#60a5fa">Container Registry</text>
+  <text x="77" y="38" class="sub">Azure ACR</text>
+  <text x="77" y="54" class="sub">Docker images</text>
+  <text x="77" y="70" class="sub">CI/CD pipeline</text>
+  <text x="77" y="86" class="sub">GitHub Actions</text>
+  <text x="77" y="102" class="sub">Zero-downtime deploy</text>
+</g>
+
+<!-- Monitor -->
+<g class="node" transform="translate(865,305)">
+  <rect width="165" height="108" fill="#0f172a" stroke="#3b82f6" stroke-opacity=".5"/>
+  <text x="82" y="22" fill="#60a5fa">Azure Monitor</text>
+  <text x="82" y="38" class="sub">App Insights</text>
+  <text x="82" y="54" class="sub">Distributed tracing</text>
+  <text x="82" y="70" class="sub">Log Analytics</text>
+  <text x="82" y="86" class="sub">Alerts · Dashboards</text>
+  <text x="82" y="102" class="sub">Cost tracking</text>
+</g>
+
+
+<!-- ═══════════════════════════════════════════════
+     NODES — SHARED FILESYSTEM
+═══════════════════════════════════════════════ -->
+
+<!-- Azure Files -->
+<g class="node" transform="translate(40,475)">
+  <rect width="165" height="115" fill="#0a1f14" stroke="#10b981" stroke-opacity=".7" filter="url(#glow-sm)"/>
+  <text x="82" y="22" fill="#34d399">Azure Files (NFS)</text>
+  <text x="82" y="38" class="sub">Premium · ZRS</text>
+  <text x="82" y="54" class="sub">Read-only mount</text>
+  <text x="82" y="70" class="sub">All pods share 1 FS</text>
+  <text x="82" y="86" class="sub">SOUL.md · AGENTS.md</text>
+  <text x="82" y="102" class="sub">MEMORY.md · config</text>
+</g>
+
+<!-- Skills Library -->
+<g class="node" transform="translate(235,475)">
+  <rect width="165" height="115" fill="#0a1f14" stroke="#10b981" stroke-opacity=".6"/>
+  <text x="82" y="22" fill="#34d399">Skills Library</text>
+  <text x="82" y="38" class="sub">All SKILL.md files</text>
+  <text x="82" y="54" class="sub">Scripts · References</text>
+  <text x="82" y="70" class="sub">Shared · versioned</text>
+  <text x="82" y="86" class="sub">Hot-reload on update</text>
+  <text x="82" y="102" class="sub">15+ skill modules</text>
+</g>
+
+<!-- App Config -->
+<g class="node" transform="translate(430,475)">
+  <rect width="155" height="115" fill="#0a1f14" stroke="#10b981" stroke-opacity=".5"/>
+  <text x="77" y="22" fill="#34d399">Azure App Config</text>
+  <text x="77" y="38" class="sub">Global config</text>
+  <text x="77" y="54" class="sub">Feature flags</text>
+  <text x="77" y="70" class="sub">Model routing rules</text>
+  <text x="77" y="86" class="sub">Rate limit policies</text>
+  <text x="77" y="102" class="sub">Cron definitions</text>
+</g>
+
+
+<!-- ═══════════════════════════════════════════════
+     NODES — PER-USER MEMORY
+═══════════════════════════════════════════════ -->
+
+<!-- Cosmos DB -->
+<g class="node" transform="translate(640,475)">
+  <rect width="170" height="115" fill="#1f1500" stroke="#f59e0b" stroke-opacity=".7" filter="url(#glow-sm)"/>
+  <text x="85" y="22" fill="#fbbf24">Cosmos DB</text>
+  <text x="85" y="38" class="sub">Per-user partitions</text>
+  <text x="85" y="54" class="sub">partitionKey=userID</text>
+  <text x="85" y="70" class="sub">MEMORY.md per user</text>
+  <text x="85" y="86" class="sub">Daily memory logs</text>
+  <text x="85" y="102" class="sub">Cross-read impossible</text>
+</g>
+
+<!-- Redis Cache -->
+<g class="node" transform="translate(840,475)">
+  <rect width="155" height="115" fill="#1f1500" stroke="#f59e0b" stroke-opacity=".6"/>
+  <text x="77" y="22" fill="#fbbf24">Azure Redis Cache</text>
+  <text x="77" y="38" class="sub">Session context</text>
+  <text x="77" y="54" class="sub">Last 20 turns hot</text>
+  <text x="77" y="70" class="sub">Sub-ms access</text>
+  <text x="77" y="86" class="sub">TTL 24h per user</text>
+  <text x="77" y="102" class="sub">10K namespaces</text>
+</g>
+
+<!-- AI Search -->
+<g class="node" transform="translate(1025,475)">
+  <rect width="160" height="115" fill="#1f1500" stroke="#f59e0b" stroke-opacity=".5"/>
+  <text x="80" y="22" fill="#fbbf24">Azure AI Search</text>
+  <text x="80" y="38" class="sub">Vector embeddings</text>
+  <text x="80" y="54" class="sub">Semantic memory search</text>
+  <text x="80" y="70" class="sub">Per-user indexes</text>
+  <text x="80" y="86" class="sub">memory_search tool</text>
+  <text x="80" y="102" class="sub">RAG pipeline</text>
+</g>
+
+
+<!-- ═══════════════════════════════════════════════
+     NODES — LLM LAYER
+═══════════════════════════════════════════════ -->
+
+<!-- Azure OpenAI -->
+<g class="node" transform="translate(60,645)">
+  <rect width="195" height="90" fill="#1f0a0a" stroke="#ef4444" stroke-opacity=".8" filter="url(#glow-sm)"/>
+  <text x="97" y="22" fill="#f87171">Azure OpenAI Service</text>
+  <text x="97" y="38" class="sub">1 shared model endpoint</text>
+  <text x="97" y="54" class="sub">PTU — Provisioned Throughput</text>
+  <text x="97" y="70" class="sub">Stateless per-call inference</text>
+  <text x="97" y="86" class="sub">Context isolated per request</text>
+</g>
+
+<!-- Model Router -->
+<g class="node" transform="translate(290,645)">
+  <rect width="165" height="90" fill="#1f0a0a" stroke="#ef4444" stroke-opacity=".6"/>
+  <text x="82" y="22" fill="#f87171">Model Router</text>
+  <text x="82" y="38" class="sub">Claude Sonnet — default</text>
+  <text x="82" y="54" class="sub">GPT-4o — fast replies</text>
+  <text x="82" y="70" class="sub">Grok — news / web</text>
+  <text x="82" y="86" class="sub">Cost-optimized routing</text>
+</g>
+
+<!-- Anthropic -->
+<g class="node" transform="translate(490,645)">
+  <rect width="145" height="90" fill="#1f0a0a" stroke="#ef4444" stroke-opacity=".5"/>
+  <text x="72" y="22" fill="#f87171">Anthropic API</text>
+  <text x="72" y="38" class="sub">Claude Sonnet 4.6</text>
+  <text x="72" y="54" class="sub">Claude Opus 4.6</text>
+  <text x="72" y="70" class="sub">Primary reasoning</text>
+  <text x="72" y="86" class="sub">Extended thinking</text>
+</g>
+
+<!-- OpenAI -->
+<g class="node" transform="translate(670,645)">
+  <rect width="145" height="90" fill="#1f0a0a" stroke="#ef4444" stroke-opacity=".5"/>
+  <text x="72" y="22" fill="#f87171">OpenAI API</text>
+  <text x="72" y="38" class="sub">GPT-4o</text>
+  <text x="72" y="54" class="sub">o1 / o3</text>
+  <text x="72" y="70" class="sub">Multimodal</text>
+  <text x="72" y="86" class="sub">Fast responses</text>
+</g>
+
+<!-- xAI Grok -->
+<g class="node" transform="translate(850,645)">
+  <rect width="145" height="90" fill="#1f0a0a" stroke="#ef4444" stroke-opacity=".5"/>
+  <text x="72" y="22" fill="#f87171">xAI Grok API</text>
+  <text x="72" y="38" class="sub">Grok 3 / 4</text>
+  <text x="72" y="54" class="sub">Real-time web</text>
+  <text x="72" y="70" class="sub">News · markets</text>
+  <text x="72" y="86" class="sub">Trading tasks</text>
+</g>
+
+<!-- Token Quota -->
+<g class="node" transform="translate(1030,645)">
+  <rect width="160" height="90" fill="#1f0a0a" stroke="#ef4444" stroke-opacity=".5"/>
+  <text x="80" y="22" fill="#f87171">Token Quota Service</text>
+  <text x="80" y="38" class="sub">Per-user budgets</text>
+  <text x="80" y="54" class="sub">Prevents starvation</text>
+  <text x="80" y="70" class="sub">Real-time tracking</text>
+  <text x="80" y="86" class="sub">Billing attribution</text>
+</g>
+
+
+<!-- ═══════════════════════════════════════════════
+     NODES — AZURE INFRA LAYER
+═══════════════════════════════════════════════ -->
+
+<!-- Traffic Manager -->
+<g class="node" transform="translate(40,795)">
+  <rect width="155" height="80" fill="#040e1e" stroke="#0078d4" stroke-opacity=".7"/>
+  <text x="77" y="22" fill="#60a5fa">Traffic Manager</text>
+  <text x="77" y="38" class="sub">Global DNS routing</text>
+  <text x="77" y="54" class="sub">Multi-region failover</text>
+  <text x="77" y="70" class="sub">Geo-based routing</text>
+</g>
+
+<!-- Blob Storage -->
+<g class="node" transform="translate(225,795)">
+  <rect width="155" height="80" fill="#040e1e" stroke="#0078d4" stroke-opacity=".6"/>
+  <text x="77" y="22" fill="#60a5fa">Blob Storage</text>
+  <text x="77" y="38" class="sub">Full chat history</text>
+  <text x="77" y="54" class="sub">MEMORY.md backups</text>
+  <text x="77" y="70" class="sub">Cold tier archival</text>
+</g>
+
+<!-- VNet -->
+<g class="node" transform="translate(410,795)">
+  <rect width="155" height="80" fill="#040e1e" stroke="#0078d4" stroke-opacity=".6"/>
+  <text x="77" y="22" fill="#60a5fa">Azure VNet</text>
+  <text x="77" y="38" class="sub">Private endpoints</text>
+  <text x="77" y="54" class="sub">NSG · subnet isolation</text>
+  <text x="77" y="70" class="sub">Zero-trust network</text>
+</g>
+
+<!-- Policy / RBAC -->
+<g class="node" transform="translate(595,795)">
+  <rect width="160" height="80" fill="#040e1e" stroke="#0078d4" stroke-opacity=".6"/>
+  <text x="80" y="22" fill="#60a5fa">Azure Policy / RBAC</text>
+  <text x="80" y="38" class="sub">HIPAA / SOC2 controls</text>
+  <text x="80" y="54" class="sub">Role assignments</text>
+  <text x="80" y="70" class="sub">Compliance audit</text>
+</g>
+
+<!-- Backup -->
+<g class="node" transform="translate(785,795)">
+  <rect width="150" height="80" fill="#040e1e" stroke="#0078d4" stroke-opacity=".6"/>
+  <text x="75" y="22" fill="#60a5fa">Azure Backup</text>
+  <text x="75" y="38" class="sub">Cosmos DB backup</text>
+  <text x="75" y="54" class="sub">Files snapshots</text>
+  <text x="75" y="70" class="sub">RPO: 1h / RTO: 4h</text>
+</g>
+
+<!-- GitHub Actions CI/CD -->
+<g class="node" transform="translate(965,795)">
+  <rect width="175" height="80" fill="#040e1e" stroke="#0078d4" stroke-opacity=".6"/>
+  <text x="87" y="22" fill="#60a5fa">GitHub Actions CI/CD</text>
+  <text x="87" y="38" class="sub">Build → ACR push</text>
+  <text x="87" y="54" class="sub">AKS rolling deploy</text>
+  <text x="87" y="70" class="sub">Skills hot-reload</text>
+</g>
+
+<!-- Second row infra -->
+<!-- Cost Management -->
+<g class="node" transform="translate(40,900)">
+  <rect width="155" height="80" fill="#040e1e" stroke="#0078d4" stroke-opacity=".5"/>
+  <text x="77" y="22" fill="#60a5fa">Cost Management</text>
+  <text x="77" y="38" class="sub">Per-user billing</text>
+  <text x="77" y="54" class="sub">Budget alerts</text>
+  <text x="77" y="70" class="sub">Token attribution</text>
+</g>
+
+<!-- Private DNS -->
+<g class="node" transform="translate(225,900)">
+  <rect width="155" height="80" fill="#040e1e" stroke="#0078d4" stroke-opacity=".5"/>
+  <text x="77" y="22" fill="#60a5fa">Private DNS Zone</text>
+  <text x="77" y="38" class="sub">Internal name res.</text>
+  <text x="77" y="54" class="sub">Service discovery</text>
+  <text x="77" y="70" class="sub">No public exposure</text>
+</g>
+
+<!-- Defender for Cloud -->
+<g class="node" transform="translate(410,900)">
+  <rect width="155" height="80" fill="#040e1e" stroke="#0078d4" stroke-opacity=".5"/>
+  <text x="77" y="22" fill="#60a5fa">Defender for Cloud</text>
+  <text x="77" y="38" class="sub">Threat detection</text>
+  <text x="77" y="54" class="sub">Vulnerability scan</text>
+  <text x="77" y="70" class="sub">Security score</text>
+</g>
+
+<!-- Log Analytics -->
+<g class="node" transform="translate(595,900)">
+  <rect width="160" height="80" fill="#040e1e" stroke="#0078d4" stroke-opacity=".5"/>
+  <text x="80" y="22" fill="#60a5fa">Log Analytics WS</text>
+  <text x="80" y="38" class="sub">Centralized logs</text>
+  <text x="80" y="54" class="sub">KQL queries</text>
+  <text x="80" y="70" class="sub">90-day retention</text>
+</g>
+
+<!-- Multi-region -->
+<g class="node" transform="translate(785,900)">
+  <rect width="150" height="80" fill="#040e1e" stroke="#0078d4" stroke-opacity=".5"/>
+  <text x="75" y="22" fill="#60a5fa">Multi-Region</text>
+  <text x="75" y="38" class="sub">Primary: East US</text>
+  <text x="75" y="54" class="sub">Secondary: West EU</text>
+  <text x="75" y="70" class="sub">Active-active HA</text>
+</g>
+
+<!-- Managed Identity -->
+<g class="node" transform="translate(965,900)">
+  <rect width="175" height="80" fill="#040e1e" stroke="#0078d4" stroke-opacity=".5"/>
+  <text x="87" y="22" fill="#60a5fa">Managed Identities</text>
+  <text x="87" y="38" class="sub">Pod → Key Vault auth</text>
+  <text x="87" y="54" class="sub">No secrets in code</text>
+  <text x="87" y="70" class="sub">RBAC service principal</text>
+</g>
+
+
+<!-- ═══════════════════════════════════════════════
+     ANIMATED FLOW ARROWS
+═══════════════════════════════════════════════ -->
+
+<!-- Users → WA Number -->
+<path class="animated-path f-cyan" d="M 145 122 L 750 122" marker-end="url(#arr-cyan)"/>
+<text x="430" y="118" font-size="9" fill="#0891b2" text-anchor="middle" font-family="Segoe UI">HTTPS / WhatsApp message</text>
+
+<!-- WA Number → Meta API -->
+<path class="animated-path f-purple" d="M 900 82 L 940 82" marker-end="url(#arr-purple)"/>
+<text x="920" y="76" font-size="9" fill="#7c3aed" text-anchor="middle" font-family="Segoe UI">webhook</text>
+
+<!-- Meta API → APIM -->
+<path class="animated-path f-purple" d="M 1000 160 L 280 200 Q 240 200 240 215" marker-end="url(#arr-purple)"/>
+<text x="620" y="192" font-size="9" fill="#7c3aed" text-anchor="middle" font-family="Segoe UI">POST /webhook · sender_phone</text>
+
+<!-- Web clients → APIM -->
+<path class="animated-path f-cyan" d="M 350 122 L 150 175" marker-end="url(#arr-cyan)"/>
+
+<!-- APIM → Service Bus -->
+<path class="animated-path f-purple" d="M 240 215 L 280 215" marker-end="url(#arr-purple)"/>
+<text x="260" y="210" font-size="9" fill="#7c3aed" text-anchor="middle" font-family="Segoe UI">enqueue</text>
+
+<!-- APIM → AD B2C -->
+<path class="animated-path f-purple" d="M 200 240 Q 200 260 480 250 L 537 255" marker-end="url(#arr-purple)"/>
+<text x="380" y="265" font-size="9" fill="#7c3aed" text-anchor="middle" font-family="Segoe UI">validate token</text>
+
+<!-- APIM → Front Door -->
+<path class="animated-path f-blue" d="M 240 215 Q 400 215 675 215" marker-end="url(#arr-blue)"/>
+<text x="460" y="208" font-size="9" fill="#2563eb" text-anchor="middle" font-family="Segoe UI">route to region</text>
+
+<!-- Key Vault → APIM -->
+<path class="animated-path f-gray" d="M 952 215 L 840 215 Q 700 215 240 215" marker-end="url(#arr-gray)"/>
+<text x="590" y="245" font-size="9" fill="#475569" text-anchor="middle" font-family="Segoe UI">inject secrets</text>
+
+<!-- Service Bus → AKS pods -->
+<path class="animated-path f-blue" d="M 360 255 L 200 305" marker-end="url(#arr-blue)"/>
+<text x="245" y="275" font-size="9" fill="#2563eb" text-anchor="middle" font-family="Segoe UI">dequeue</text>
+
+<!-- Front Door → AKS -->
+<path class="animated-path f-blue" d="M 757 255 L 200 345" marker-end="url(#arr-blue)"/>
+
+<!-- AKS pods → Session Manager -->
+<path class="animated-path f-blue" d="M 245 360 L 280 360" marker-end="url(#arr-blue)"/>
+<text x="263" y="354" font-size="9" fill="#2563eb" text-anchor="middle" font-family="Segoe UI">lookup</text>
+
+<!-- Session Manager → Agent Loop -->
+<path class="animated-path f-blue" d="M 445 360 L 480 360" marker-end="url(#arr-blue)"/>
+<text x="463" y="354" font-size="9" fill="#2563eb" text-anchor="middle" font-family="Segoe UI">session ctx</text>
+
+<!-- Agent Loop → Azure Files (Shared FS) -->
+<path class="animated-path f-green" d="M 560 413 L 200 475" marker-end="url(#arr-green)"/>
+<text x="340" y="448" font-size="9" fill="#059669" text-anchor="middle" font-family="Segoe UI">read brain / skills</text>
+
+<!-- Agent Loop → Cosmos DB (User Memory) -->
+<path class="animated-path f-yellow" d="M 600 390 Q 650 430 725 475" marker-end="url(#arr-yellow)"/>
+<text x="700" y="435" font-size="9" fill="#d97706" text-anchor="middle" font-family="Segoe UI">load user memory</text>
+
+<!-- Agent Loop → Redis Cache -->
+<path class="animated-path f-yellow" d="M 620 380 Q 800 420 877 475" marker-end="url(#arr-yellow)"/>
+<text x="810" y="432" font-size="9" fill="#d97706" text-anchor="middle" font-family="Segoe UI">hot context</text>
+
+<!-- Agent Loop → AI Search -->
+<path class="animated-path f-yellow" d="M 640 370 Q 900 410 1105 475" marker-end="url(#arr-yellow)"/>
+<text x="950" y="415" font-size="9" fill="#d97706" text-anchor="middle" font-family="Segoe UI">memory_search</text>
+
+<!-- Agent Loop → Model Router (LLM) -->
+<path class="animated-path f-red" d="M 560 413 Q 400 530 370 645" marker-end="url(#arr-red)"/>
+<text x="410" y="530" font-size="9" fill="#dc2626" text-anchor="middle" font-family="Segoe UI">LLM inference request</text>
+
+<!-- Model Router → Azure OpenAI -->
+<path class="animated-path f-red" d="M 290 690 L 255 690" marker-end="url(#arr-red)"/>
+<text x="272" y="684" font-size="9" fill="#dc2626" text-anchor="middle" font-family="Segoe UI">route</text>
+
+<!-- Model Router → Anthropic -->
+<path class="animated-path f-red" d="M 400 690 L 490 690" marker-end="url(#arr-red)"/>
+
+<!-- Model Router → OpenAI -->
+<path class="animated-path f-red" d="M 455 700 Q 550 720 670 700" marker-end="url(#arr-red)"/>
+
+<!-- Model Router → Grok -->
+<path class="animated-path f-red" d="M 455 710 Q 650 740 850 710" marker-end="url(#arr-red)"/>
+
+<!-- Token Quota → Model Router -->
+<path class="animated-path f-red" d="M 1030 690 L 455 690" marker-end="url(#arr-red)"/>
+<text x="750" y="684" font-size="9" fill="#dc2626" text-anchor="middle" font-family="Segoe UI">quota check</text>
+
+<!-- AKS → ACR (pull images) -->
+<path class="animated-path f-gray" d="M 245 360 Q 500 320 675 360" marker-end="url(#arr-gray)"/>
+<text x="460" y="325" font-size="9" fill="#475569" text-anchor="middle" font-family="Segoe UI">pull image</text>
+
+<!-- GitHub Actions → ACR -->
+<path class="animated-path f-gray" d="M 1052 795 Q 900 750 830 413" marker-end="url(#arr-gray)"/>
+<text x="1000" y="730" font-size="9" fill="#475569" text-anchor="middle" font-family="Segoe UI">push image</text>
+
+<!-- Cosmos DB → Blob (long-term) -->
+<path class="animated-path f-yellow" d="M 725 590 L 302 795" marker-end="url(#arr-yellow)"/>
+<text x="460" y="700" font-size="9" fill="#d97706" text-anchor="middle" font-family="Segoe UI">archive</text>
+
+<!-- AKS → Monitor -->
+<path class="animated-path f-gray" d="M 245 380 Q 600 380 865 360" marker-end="url(#arr-gray)"/>
+<text x="580" y="374" font-size="9" fill="#475569" text-anchor="middle" font-family="Segoe UI">metrics / traces</text>
+
+<!-- Monitor → Log Analytics -->
+<path class="animated-path f-gray" d="M 947 413 Q 900 700 755 900" marker-end="url(#arr-gray)"/>
+<text x="1000" y="660" font-size="9" fill="#475569" text-anchor="middle" font-family="Segoe UI">logs</text>
+
+<!-- VNet wraps everything (annotation) -->
+<path class="animated-path f-blue" d="M 487 795 Q 487 760 640 413" marker-end="url(#arr-blue)"/>
+<text x="526" y="690" font-size="9" fill="#2563eb" text-anchor="middle" font-family="Segoe UI">private endpoint</text>
+
+</svg>
+</div>
+
+<!-- LEGEND -->
+<div id="legend">
+  <div class="leg"><div class="leg-line" style="background:#06b6d4"></div>User traffic (HTTPS)</div>
+  <div class="leg"><div class="leg-line" style="background:#8b5cf6"></div>WhatsApp / ingestion</div>
+  <div class="leg"><div class="leg-line" style="background:#3b82f6"></div>Gateway / AKS internal</div>
+  <div class="leg"><div class="leg-line" style="background:#10b981"></div>Shared filesystem read</div>
+  <div class="leg"><div class="leg-line" style="background:#f59e0b"></div>User memory (isolated)</div>
+  <div class="leg"><div class="leg-line" style="background:#ef4444"></div>LLM inference</div>
+  <div class="leg"><div class="leg-line" style="background:#475569"></div>Infrastructure / DevOps</div>
+</div>
+
+</body>
+</html>

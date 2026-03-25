@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<title>NuDay AI - Mental Health Intelligence Platform</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#060b14;font-family:'Segoe UI',system-ui,sans-serif;touch-action:none}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%}
+#ui{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none}
+
+.node{position:absolute;pointer-events:auto;cursor:pointer;display:flex;flex-direction:column;align-items:center;text-align:center;transition:transform .3s,opacity .3s;user-select:none;transform:translate(-50%,-50%)}
+.node.hidden{opacity:0;transform:translate(-50%,-50%) scale(0)!important;pointer-events:none}
+.node.visible{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.node:hover{transform:translate(-50%,-50%) scale(1.1)!important;z-index:10}
+.node-circle{border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
+.node-text{margin-top:4px;white-space:nowrap;max-width:120px;overflow:visible;text-overflow:clip;line-height:1.2;text-shadow:0 0 6px rgba(0,0,0,.9),0 0 12px rgba(0,0,0,.7);transform-origin:center top;font-family:'Segoe UI',system-ui,sans-serif}
+.node-emoji{font-size:1.2em}
+.cat-node .node-emoji{font-size:1em}
+.sub-node .node-emoji,.leaf-node .node-emoji{font-size:0.7em}
+.collapse-badge{position:absolute;bottom:-4px;right:-4px;width:14px;height:14px;border-radius:50%;background:#475569;color:#e2e8f0;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 0 6px rgba(0,0,0,.5);pointer-events:none}
+
+.center-node .node-circle{width:70px;height:70px;background:radial-gradient(circle,#0f2744,#060b14);border:3px solid #38bdf8;box-shadow:0 0 40px rgba(56,189,248,.5)}
+.center-node .node-text{font-size:12px;font-weight:700;color:#e2e8f0;white-space:normal;max-width:140px}
+.center-node{z-index:5}
+.cat-node .node-circle{width:40px;height:40px}
+.cat-node .node-text{font-size:12px;font-weight:600;color:#fff}
+.cat-node{z-index:4}
+.sub-node .node-circle{width:28px;height:28px}
+.sub-node .node-text{font-size:12px;font-weight:600;color:#fff}
+.sub-node{z-index:3}
+.leaf-node .node-circle{width:18px;height:18px}
+.leaf-node .node-text{font-size:12px;font-weight:500;color:#cbd5e1}
+.leaf-node{z-index:2}
+.treatment-node .node-circle{width:14px;height:14px}
+.treatment-node .node-text{font-size:11px;font-weight:500;color:#fdba74}
+.treatment-node{z-index:1}
+
+@media (min-width:768px) and (max-width:1199px),(min-width:768px) and (pointer:coarse){
+  .center-node .node-circle{width:62px;height:62px}
+  .cat-node .node-circle{width:38px;height:38px}
+  .sub-node .node-circle{width:26px;height:26px}
+  .leaf-node .node-circle{width:17px;height:17px}
+}
+@media (max-width:767px){
+  .center-node .node-circle{width:54px;height:54px;border:2px solid #38bdf8}
+  .center-node .node-text{font-size:12px;max-width:110px}
+  .cat-node .node-circle{width:34px;height:34px}
+  .sub-node .node-circle{width:23px;height:23px}
+  .leaf-node .node-circle{width:15px;height:15px}
+  .treatment-node .node-circle{width:12px;height:12px}
+  .treatment-node .node-text{font-size:10px}
+  .collapse-badge{width:12px;height:12px;font-size:9px}
+}
+
+@keyframes glow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.25)}}
+.cat-node .node-circle{animation:glow 3s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 40px rgba(56,189,248,.5)}50%{box-shadow:0 0 70px rgba(56,189,248,.9)}}
+.center-node .node-circle{animation:pulse 4s ease-in-out infinite}
+
+#panel{
+  position:fixed;bottom:-200px;left:50%;transform:translateX(-50%);
+  width:min(560px,96vw);max-height:180px;
+  background:rgba(6,11,20,.97);border:1px solid #1e3a5f;border-radius:14px 14px 0 0;
+  backdrop-filter:blur(16px);z-index:50;transition:bottom .28s cubic-bezier(.4,0,.2,1);
+  overflow:hidden;pointer-events:auto;box-shadow:0 -8px 40px rgba(0,0,0,.6)
+}
+#panel.open{bottom:0}
+#panel-close{position:absolute;top:10px;right:12px;background:none;border:none;color:#64748b;font-size:18px;cursor:pointer;padding:2px 6px;border-radius:4px;line-height:1;z-index:2}
+#panel-close:hover{color:#e2e8f0;background:rgba(255,255,255,.08)}
+#panel-header{padding:12px 36px 8px 14px;border-bottom:1px solid #1e3a5f;display:flex;align-items:center;gap:10px}
+#panel-emoji{font-size:22px;flex-shrink:0}
+#panel-title{font-size:15px;font-weight:700;color:#e2e8f0}
+#panel-level{font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-left:6px}
+#panel-body{padding:8px 14px 10px;display:flex;gap:16px;align-items:flex-start}
+#panel-desc{color:#94a3b8;font-size:12px;line-height:1.5;flex:1;min-width:0}
+.panel-child{display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border-radius:20px;cursor:pointer;transition:background .15s;margin:2px;background:rgba(255,255,255,.04);border:1px solid #1e3a5f}
+.panel-child:hover{background:rgba(255,255,255,.1)}
+.panel-child-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.panel-child-name{color:#cbd5e1;font-size:11px}
+#panel-children-wrap{flex-shrink:0;max-width:220px;display:flex;flex-wrap:wrap;align-content:flex-start}
+.panel-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle}
+
+@media (max-width:767px){
+  #panel{width:100%;max-height:58vh;border-radius:18px 18px 0 0;bottom:-60vh}
+  #panel.open{bottom:0}
+  #panel-header{padding:14px 44px 10px 16px}
+  #panel-emoji{font-size:24px}
+  #panel-title{font-size:16px}
+  #panel-body{flex-direction:column;padding:10px 16px 20px;gap:10px}
+  #panel-desc{font-size:13px;line-height:1.6}
+  #panel-children-wrap{max-width:100%;width:100%}
+  #panel-close{font-size:24px;top:12px;right:16px;padding:4px 8px}
+  .panel-child{padding:6px 12px;margin:3px}
+  .panel-child-name{font-size:12px}
+  #panel::before{content:'';display:block;width:40px;height:4px;background:#1e3a5f;border-radius:2px;margin:10px auto 0}
+}
+
+#title{position:fixed;top:20px;left:20px;pointer-events:none;z-index:20}
+#title h1{color:#e2e8f0;font-size:18px;font-weight:700;letter-spacing:-.5px}
+#title p{color:#38bdf8;font-size:12px;margin-top:4px;letter-spacing:.5px}
+@media (max-width:767px){
+  #title{top:14px;left:14px}
+  #title h1{font-size:15px}
+  #title p{font-size:11px;margin-top:2px}
+}
+
+#legend{position:fixed;bottom:20px;left:20px;pointer-events:auto;background:rgba(6,11,20,.9);border:1px solid #1e3a5f;border-radius:12px;padding:14px 18px;color:#94a3b8;font-size:11px;backdrop-filter:blur(8px);z-index:20;max-width:220px}
+#legend h3{color:#e2e8f0;font-size:13px;margin-bottom:8px}
+#legend .leg-item{display:flex;align-items:center;gap:8px;margin:4px 0}
+#legend .leg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+@media (max-width:767px){#legend{display:none}}
+@media (min-width:768px) and (max-width:1199px){
+  #legend{bottom:auto;top:80px;left:20px;max-width:180px;padding:10px 14px}
+  #legend h3{font-size:12px;margin-bottom:6px}
+  #legend .leg-item{gap:6px;margin:2px 0}
+  #legend .leg-dot{width:8px;height:8px}
+}
+
+#device-badge{position:fixed;bottom:20px;right:20px;background:rgba(6,11,20,.9);border:1px solid #1e3a5f;border-radius:8px;padding:6px 12px;color:#64748b;font-size:10px;backdrop-filter:blur(8px);z-index:20;display:flex;align-items:center;gap:6px;pointer-events:none}
+#device-badge span{color:#94a3b8;font-weight:600}
+@media (max-width:767px){#device-badge{bottom:12px;right:12px;font-size:9px;padding:4px 10px}}
+
+#zoom-controls{display:none;position:fixed;right:20px;bottom:60px;flex-direction:column;gap:6px;z-index:20;pointer-events:auto}
+#zoom-controls button{width:40px;height:40px;border-radius:50%;background:rgba(6,11,20,.9);border:1px solid #1e3a5f;color:#94a3b8;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);transition:all .2s;user-select:none}
+#zoom-controls button:hover,#zoom-controls button:active{color:#e2e8f0;border-color:#38bdf8;background:rgba(15,39,68,.95)}
+@media (max-width:1199px){#zoom-controls{display:flex}}
+@media (max-width:767px){#zoom-controls{right:14px;bottom:55px;gap:8px}#zoom-controls button{width:44px;height:44px;font-size:22px}}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<canvas id="lines"></canvas>
+<div id="ui"></div>
+<div id="title">
+  <h1>🧠 NuDay AI</h1>
+  <p>Mental Health Intelligence Platform</p>
+</div>
+<div id="legend">
+  <h3>Branches</h3>
+  <div class="leg-item"><div class="leg-dot" style="background:#06b6d4"></div>Patient Journey</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#8b5cf6"></div>Therapist Portal</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#ef4444"></div>Mental Disorders</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#f59e0b"></div>AI Engine</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#10b981"></div>Analytics</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#64748b"></div>Platform</div>
+  <div style="border-top:1px solid #1e3a5f;margin:8px 0 4px"></div>
+  <div class="leg-item"><div class="leg-dot" style="background:#f97316"></div>🟠 Treatment Offered</div>
+</div>
+<div id="device-badge">&#128241; <span id="device-label">Detecting...</span></div>
+<div id="zoom-controls">
+  <button id="zoom-in" title="Zoom in">+</button>
+  <button id="zoom-reset" title="Reset zoom">&#8635;</button>
+  <button id="zoom-out" title="Zoom out">-</button>
+</div>
+<div id="panel">
+  <button id="panel-close">&times;</button>
+  <div id="panel-header">
+    <div id="panel-emoji"></div>
+    <div id="panel-title"></div>
+    <div id="panel-level"></div>
+  </div>
+  <div id="panel-path"></div>
+  <div id="panel-body">
+    <div id="panel-desc"></div>
+    <div id="panel-children-title" style="display:none"></div>
+    <div id="panel-children-wrap"><div id="panel-children"></div></div>
+  </div>
+</div>
+<script>
+// ── DEVICE DETECTION ─────────────────────────────────────────────────────────
+const Device=(function(){
+  const ua=navigator.userAgent;
+  const touch='ontouchstart' in window||navigator.maxTouchPoints>0;
+  const W=window.innerWidth,H=window.innerHeight;
+  const isIPad=/iPad/.test(ua)||(/Macintosh/.test(ua)&&touch);
+  const isIPhone=/iPhone/.test(ua);
+  const isAndTablet=/Android/.test(ua)&&!/Mobile/.test(ua);
+  const isAndPhone=/Android/.test(ua)&&/Mobile/.test(ua);
+  const isMobile=isIPhone||isAndPhone||(touch&&W<768);
+  const isTablet=isIPad||isAndTablet||(touch&&W>=768&&W<1200);
+  const isDesktop=!isMobile&&!isTablet;
+  const type=isMobile?'mobile':isTablet?'tablet':'desktop';
+  const params={
+    desktop:{defaultZoom:0.36,catRadius:340,subRadiusBase:195,subRadiusMult:10,leafRadiusBase:115,leafRadiusMult:10,minD:[60,50,38,28],repIter:80},
+    tablet:{defaultZoom:0.28,catRadius:310,subRadiusBase:185,subRadiusMult:10,leafRadiusBase:108,leafRadiusMult:9,minD:[58,48,36,26],repIter:80},
+    mobile:{defaultZoom:0.20,catRadius:270,subRadiusBase:170,subRadiusMult:9,leafRadiusBase:98,leafRadiusMult:8,minD:[52,42,32,22],repIter:70},
+  };
+  const labelMap={desktop:'💻 Desktop',tablet:isIPad?'📱 iPad':'📱 Tablet',mobile:'📱 Mobile'};
+  return{type,params:params[type],label:labelMap[type],isMobile,isTablet,isDesktop};
+})();
+
+document.getElementById('device-label').textContent=Device.label;
+
+// ── DATA ─────────────────────────────────────────────────────────────────────
+// [id, parentId, level, emoji, label, color]
+const DATA=[
+  ["center",null,0,"🧠","NuDay AI","#38bdf8"],
+
+  // ── PATIENT JOURNEY ──────────────────────────────────
+  ["pt","center",1,"👤","Patient Journey","#06b6d4"],
+  ["pt-on","pt",2,"","Onboarding","#06b6d4"],
+  ["pt-on-1","pt-on",3,"","WhatsApp Registration","#06b6d4"],
+  ["pt-on-2","pt-on",3,"","Initial Assessment","#06b6d4"],
+  ["pt-on-3","pt-on",3,"","Intake Form","#06b6d4"],
+  ["pt-on-4","pt-on",3,"","Consent & Privacy","#06b6d4"],
+  ["pt-wa","pt",2,"","WhatsApp Sessions","#06b6d4"],
+  ["pt-wa-1","pt-wa",3,"","Daily Check-ins","#06b6d4"],
+  ["pt-wa-2","pt-wa",3,"","Crisis Alerts","#06b6d4"],
+  ["pt-wa-3","pt-wa",3,"","Mood Tracking","#06b6d4"],
+  ["pt-wa-4","pt-wa",3,"","Homework Tasks","#06b6d4"],
+  ["pt-wa-5","pt-wa",3,"","Psychoeducation","#06b6d4"],
+  ["pt-tx","pt",2,"","Treatment","#06b6d4"],
+  ["pt-tx-1","pt-tx",3,"","CBT Exercises","#06b6d4"],
+  ["pt-tx-2","pt-tx",3,"","DBT Skills","#06b6d4"],
+  ["pt-tx-3","pt-tx",3,"","Exposure Therapy","#06b6d4"],
+  ["pt-tx-4","pt-tx",3,"","Mindfulness","#06b6d4"],
+  ["pt-tx-5","pt-tx",3,"","Journaling Prompts","#06b6d4"],
+  ["pt-pr","pt",2,"","Progress","#06b6d4"],
+  ["pt-pr-1","pt-pr",3,"","Symptom Scores","#06b6d4"],
+  ["pt-pr-2","pt-pr",3,"","PHQ-9 / GAD-7","#06b6d4"],
+  ["pt-pr-3","pt-pr",3,"","Weekly Summary","#06b6d4"],
+  ["pt-pr-4","pt-pr",3,"","Milestone Badges","#06b6d4"],
+
+  // ── THERAPIST PORTAL ─────────────────────────────────
+  ["th","center",1,"🧑‍⚕️","Therapist Portal","#8b5cf6"],
+  ["th-pm","th",2,"","Patient Mgmt","#8b5cf6"],
+  ["th-pm-1","th-pm",3,"","Patient List","#8b5cf6"],
+  ["th-pm-2","th-pm",3,"","Assign Patient","#8b5cf6"],
+  ["th-pm-3","th-pm",3,"","Patient Profile","#8b5cf6"],
+  ["th-pm-4","th-pm",3,"","Consent Records","#8b5cf6"],
+  ["th-sh","th",2,"","Session History","#8b5cf6"],
+  ["th-sh-1","th-sh",3,"","Full Chat Log","#8b5cf6"],
+  ["th-sh-2","th-sh",3,"","AI-Flagged Msgs","#8b5cf6"],
+  ["th-sh-3","th-sh",3,"","Crisis Events","#8b5cf6"],
+  ["th-sh-4","th-sh",3,"","Session Notes","#8b5cf6"],
+  ["th-dx","th",2,"","Diagnosis","#8b5cf6"],
+  ["th-dx-1","th-dx",3,"","Current Diagnosis","#8b5cf6"],
+  ["th-dx-2","th-dx",3,"","DSM-5 Criteria","#8b5cf6"],
+  ["th-dx-3","th-dx",3,"","Severity 1-10","#8b5cf6"],
+  ["th-dx-4","th-dx",3,"","Comorbidities","#8b5cf6"],
+  ["th-al","th",2,"","Alerts","#8b5cf6"],
+  ["th-al-1","th-al",3,"","Crisis Alerts","#8b5cf6"],
+  ["th-al-2","th-al",3,"","Non-Response","#8b5cf6"],
+  ["th-al-3","th-al",3,"","Regression Alert","#8b5cf6"],
+  ["th-al-4","th-al",3,"","Escalation Flow","#8b5cf6"],
+  ["th-tp","th",2,"","Treatment Plans","#8b5cf6"],
+  ["th-tp-1","th-tp",3,"","Assign Protocol","#8b5cf6"],
+  ["th-tp-2","th-tp",3,"","Custom Exercises","#8b5cf6"],
+  ["th-tp-3","th-tp",3,"","Goals & Milestones","#8b5cf6"],
+  ["th-tp-4","th-tp",3,"","Session Frequency","#8b5cf6"],
+
+  // ── MENTAL DISORDERS ─────────────────────────────────
+  ["md","center",1,"🧩","Mental Disorders","#ef4444"],
+
+  // Anxiety
+  ["md-ax","md",2,"","Anxiety","#ef4444"],
+  ["md-ax-1","md-ax",3,"😰","GAD","#ef4444"],
+  ["md-ax-1-t1","md-ax-1",4,"💬","CBT Worry Modules","#f97316"],
+  ["md-ax-1-t2","md-ax-1",4,"📊","GAD-7 Tracking","#f97316"],
+  ["md-ax-1-t3","md-ax-1",4,"🧘","Relaxation Training","#f97316"],
+  ["md-ax-1-t4","md-ax-1",4,"📓","Worry Journal","#f97316"],
+  ["md-ax-2","md-ax",3,"👥","Social Anxiety","#ef4444"],
+  ["md-ax-2-t1","md-ax-2",4,"🪜","Exposure Hierarchy","#f97316"],
+  ["md-ax-2-t2","md-ax-2",4,"💬","CBT Social Skills","#f97316"],
+  ["md-ax-2-t3","md-ax-2",4,"🎭","Role-Play Practice","#f97316"],
+  ["md-ax-3","md-ax",3,"💓","Panic Disorder","#ef4444"],
+  ["md-ax-3-t1","md-ax-3",4,"🫁","Breathing Retraining","#f97316"],
+  ["md-ax-3-t2","md-ax-3",4,"🔬","Interoceptive Exposure","#f97316"],
+  ["md-ax-3-t3","md-ax-3",4,"🧠","Panic Psychoeducation","#f97316"],
+  ["md-ax-4","md-ax",3,"🚪","Agoraphobia","#ef4444"],
+  ["md-ax-4-t1","md-ax-4",4,"🪜","Graduated Exposure","#f97316"],
+  ["md-ax-4-t2","md-ax-4",4,"🗺️","Avoidance Mapping","#f97316"],
+  ["md-ax-4-t3","md-ax-4",4,"🏆","Daily Challenges","#f97316"],
+  ["md-ax-5","md-ax",3,"🕷️","Specific Phobias","#ef4444"],
+  ["md-ax-5-t1","md-ax-5",4,"🪜","Desensitization","#f97316"],
+  ["md-ax-5-t2","md-ax-5",4,"🧘","Relaxation Pairing","#f97316"],
+  ["md-ax-5-t3","md-ax-5",4,"📈","Fear Ladder","#f97316"],
+
+  // Mood
+  ["md-mo","md",2,"","Mood","#ef4444"],
+  ["md-mo-1","md-mo",3,"😔","MDD","#ef4444"],
+  ["md-mo-1-t1","md-mo-1",4,"⚡","Behavioral Activation","#f97316"],
+  ["md-mo-1-t2","md-mo-1",4,"💬","CBT Thought Records","#f97316"],
+  ["md-mo-1-t3","md-mo-1",4,"📊","PHQ-9 Weekly","#f97316"],
+  ["md-mo-1-t4","md-mo-1",4,"🌞","Activity Scheduling","#f97316"],
+  ["md-mo-2","md-mo",3,"🎢","Bipolar I & II","#ef4444"],
+  ["md-mo-2-t1","md-mo-2",4,"📉","Mood Charting","#f97316"],
+  ["md-mo-2-t2","md-mo-2",4,"💊","Med Adherence","#f97316"],
+  ["md-mo-2-t3","md-mo-2",4,"😴","Sleep Regulation","#f97316"],
+  ["md-mo-2-t4","md-mo-2",4,"🧠","Psychoeducation","#f97316"],
+  ["md-mo-3","md-mo",3,"🌧️","Dysthymia / PDD","#ef4444"],
+  ["md-mo-3-t1","md-mo-3",4,"⚡","Behavioral Activation","#f97316"],
+  ["md-mo-3-t2","md-mo-3",4,"💬","CBT Core Beliefs","#f97316"],
+  ["md-mo-3-t3","md-mo-3",4,"🎯","Values Clarification","#f97316"],
+  ["md-mo-4","md-mo",3,"🌊","Cyclothymia","#ef4444"],
+  ["md-mo-4-t1","md-mo-4",4,"📉","Mood Monitoring","#f97316"],
+  ["md-mo-4-t2","md-mo-4",4,"😴","Sleep & Routine","#f97316"],
+  ["md-mo-4-t3","md-mo-4",4,"🚨","Trigger Awareness","#f97316"],
+
+  // Trauma
+  ["md-tr","md",2,"","Trauma","#ef4444"],
+  ["md-tr-1","md-tr",3,"💥","PTSD","#ef4444"],
+  ["md-tr-1-t1","md-tr-1",4,"🧩","CPT Stuck Points","#f97316"],
+  ["md-tr-1-t2","md-tr-1",4,"🪜","Prolonged Exposure","#f97316"],
+  ["md-tr-1-t3","md-tr-1",4,"📊","PCL-5 Tracking","#f97316"],
+  ["md-tr-1-t4","md-tr-1",4,"🌱","Grounding Skills","#f97316"],
+  ["md-tr-2","md-tr",3,"⚡","Acute Stress","#ef4444"],
+  ["md-tr-2-t1","md-tr-2",4,"🧠","Psychoeducation","#f97316"],
+  ["md-tr-2-t2","md-tr-2",4,"🌱","Grounding Exercises","#f97316"],
+  ["md-tr-2-t3","md-tr-2",4,"💤","Sleep Support","#f97316"],
+  ["md-tr-3","md-tr",3,"🔄","Adjustment Disorder","#ef4444"],
+  ["md-tr-3-t1","md-tr-3",4,"💬","Supportive CBT","#f97316"],
+  ["md-tr-3-t2","md-tr-3",4,"🎯","Problem Solving","#f97316"],
+  ["md-tr-3-t3","md-tr-3",4,"💪","Coping Skills","#f97316"],
+  ["md-tr-4","md-tr",3,"🌀","Complex PTSD","#ef4444"],
+  ["md-tr-4-t1","md-tr-4",4,"🛡️","Phase-Based Tx","#f97316"],
+  ["md-tr-4-t2","md-tr-4",4,"🧘","Emotion Regulation","#f97316"],
+  ["md-tr-4-t3","md-tr-4",4,"🫂","DBT Skills","#f97316"],
+  ["md-tr-4-t4","md-tr-4",4,"🌱","Trauma Processing","#f97316"],
+
+  // Psychosis
+  ["md-ps","md",2,"","Psychosis","#ef4444"],
+  ["md-ps-1","md-ps",3,"🔮","Schizophrenia","#ef4444"],
+  ["md-ps-1-t1","md-ps-1",4,"💊","Med Adherence","#f97316"],
+  ["md-ps-1-t2","md-ps-1",4,"🧠","CBT for Psychosis","#f97316"],
+  ["md-ps-1-t3","md-ps-1",4,"📚","Psychoeducation","#f97316"],
+  ["md-ps-1-t4","md-ps-1",4,"🏠","Daily Living Skills","#f97316"],
+  ["md-ps-2","md-ps",3,"🌓","Schizoaffective","#ef4444"],
+  ["md-ps-2-t1","md-ps-2",4,"💊","Med Adherence","#f97316"],
+  ["md-ps-2-t2","md-ps-2",4,"📉","Mood Monitoring","#f97316"],
+  ["md-ps-2-t3","md-ps-2",4,"🧠","Combined Protocol","#f97316"],
+  ["md-ps-3","md-ps",3,"⚡","Brief Psychosis","#ef4444"],
+  ["md-ps-3-t1","md-ps-3",4,"👁️","Symptom Monitoring","#f97316"],
+  ["md-ps-3-t2","md-ps-3",4,"📚","Psychoeducation","#f97316"],
+  ["md-ps-3-t3","md-ps-3",4,"🔗","Therapist Alert","#f97316"],
+  ["md-ps-4","md-ps",3,"💭","Delusional Disorder","#ef4444"],
+  ["md-ps-4-t1","md-ps-4",4,"🧠","CBT for Psychosis","#f97316"],
+  ["md-ps-4-t2","md-ps-4",4,"🤝","Therapeutic Alliance","#f97316"],
+  ["md-ps-4-t3","md-ps-4",4,"📊","Reality Testing","#f97316"],
+
+  // OCD Spectrum
+  ["md-oc","md",2,"","OCD Spectrum","#ef4444"],
+  ["md-oc-1","md-oc",3,"🔁","OCD","#ef4444"],
+  ["md-oc-1-t1","md-oc-1",4,"🔥","ERP Exposure","#f97316"],
+  ["md-oc-1-t2","md-oc-1",4,"🚫","Response Prevention","#f97316"],
+  ["md-oc-1-t3","md-oc-1",4,"📊","Y-BOCS Tracking","#f97316"],
+  ["md-oc-1-t4","md-oc-1",4,"🧠","Psychoeducation","#f97316"],
+  ["md-oc-2","md-oc",3,"🪞","Body Dysmorphia","#ef4444"],
+  ["md-oc-2-t1","md-oc-2",4,"🔥","ERP Exercises","#f97316"],
+  ["md-oc-2-t2","md-oc-2",4,"💬","CBT Mirror Work","#f97316"],
+  ["md-oc-2-t3","md-oc-2",4,"🚫","Checking Reduction","#f97316"],
+  ["md-oc-3","md-oc",3,"📦","Hoarding","#ef4444"],
+  ["md-oc-3-t1","md-oc-3",4,"💬","CBT + MI","#f97316"],
+  ["md-oc-3-t2","md-oc-3",4,"🎯","Discarding Tasks","#f97316"],
+  ["md-oc-3-t3","md-oc-3",4,"📸","Photo Accountability","#f97316"],
+  ["md-oc-4","md-oc",3,"💇","Trichotillomania","#ef4444"],
+  ["md-oc-4-t1","md-oc-4",4,"🔄","Habit Reversal HRT","#f97316"],
+  ["md-oc-4-t2","md-oc-4",4,"🚨","Trigger Awareness","#f97316"],
+  ["md-oc-4-t3","md-oc-4",4,"💪","Competing Response","#f97316"],
+
+  // Personality
+  ["md-pd","md",2,"","Personality","#ef4444"],
+  ["md-pd-1","md-pd",3,"🌊","Borderline BPD","#ef4444"],
+  ["md-pd-1-t1","md-pd-1",4,"🫂","DBT Skills Training","#f97316"],
+  ["md-pd-1-t2","md-pd-1",4,"🌡️","Emotion Regulation","#f97316"],
+  ["md-pd-1-t3","md-pd-1",4,"🌊","Distress Tolerance","#f97316"],
+  ["md-pd-1-t4","md-pd-1",4,"🤝","Interpersonal Skills","#f97316"],
+  ["md-pd-2","md-pd",3,"👑","Narcissistic NPD","#ef4444"],
+  ["md-pd-2-t1","md-pd-2",4,"🗺️","Schema Therapy","#f97316"],
+  ["md-pd-2-t2","md-pd-2",4,"💬","Empathy Building","#f97316"],
+  ["md-pd-2-t3","md-pd-2",4,"🎯","Values Exploration","#f97316"],
+  ["md-pd-3","md-pd",3,"🫣","Avoidant AvPD","#ef4444"],
+  ["md-pd-3-t1","md-pd-3",4,"🪜","Social Exposure","#f97316"],
+  ["md-pd-3-t2","md-pd-3",4,"💬","CBT Core Beliefs","#f97316"],
+  ["md-pd-3-t3","md-pd-3",4,"💪","Confidence Building","#f97316"],
+  ["md-pd-4","md-pd",3,"📋","OCPD","#ef4444"],
+  ["md-pd-4-t1","md-pd-4",4,"💬","CBT Perfectionism","#f97316"],
+  ["md-pd-4-t2","md-pd-4",4,"🍃","ACT Flexibility","#f97316"],
+  ["md-pd-4-t3","md-pd-4",4,"🎯","Values vs Rules","#f97316"],
+
+  // Eating
+  ["md-ed","md",2,"","Eating","#ef4444"],
+  ["md-ed-1","md-ed",3,"🍃","Anorexia","#ef4444"],
+  ["md-ed-1-t1","md-ed-1",4,"🍽️","CBT-E Protocol","#f97316"],
+  ["md-ed-1-t2","md-ed-1",4,"⚖️","Weight Monitoring","#f97316"],
+  ["md-ed-1-t3","md-ed-1",4,"🧠","Body Image Work","#f97316"],
+  ["md-ed-1-t4","md-ed-1",4,"🔗","MD Coordination","#f97316"],
+  ["md-ed-2","md-ed",3,"🌀","Bulimia","#ef4444"],
+  ["md-ed-2-t1","md-ed-2",4,"🍽️","CBT-E Protocol","#f97316"],
+  ["md-ed-2-t2","md-ed-2",4,"📓","Food Diary","#f97316"],
+  ["md-ed-2-t3","md-ed-2",4,"🚨","Binge Triggers","#f97316"],
+  ["md-ed-3","md-ed",3,"🍩","Binge Eating BED","#ef4444"],
+  ["md-ed-3-t1","md-ed-3",4,"🧘","DBT Distress Skills","#f97316"],
+  ["md-ed-3-t2","md-ed-3",4,"💬","CBT Binge Chain","#f97316"],
+  ["md-ed-3-t3","md-ed-3",4,"🎯","Mindful Eating","#f97316"],
+  ["md-ed-4","md-ed",3,"🚫","ARFID","#ef4444"],
+  ["md-ed-4-t1","md-ed-4",4,"🪜","Food Exposure","#f97316"],
+  ["md-ed-4-t2","md-ed-4",4,"😌","Anxiety Reduction","#f97316"],
+  ["md-ed-4-t3","md-ed-4",4,"🏆","Food Shaping","#f97316"],
+
+  // Neurodevelopmental
+  ["md-nd","md",2,"","Neurodevelopmental","#ef4444"],
+  ["md-nd-1","md-nd",3,"⚡","ADHD","#ef4444"],
+  ["md-nd-1-t1","md-nd-1",4,"📅","CBT + Planning","#f97316"],
+  ["md-nd-1-t2","md-nd-1",4,"⏰","Time Management","#f97316"],
+  ["md-nd-1-t3","md-nd-1",4,"✅","Task Breakdown","#f97316"],
+  ["md-nd-1-t4","md-nd-1",4,"💊","Med Adherence","#f97316"],
+  ["md-nd-2","md-nd",3,"🌈","Autism ASD","#ef4444"],
+  ["md-nd-2-t1","md-nd-2",4,"🤝","Social Scripts","#f97316"],
+  ["md-nd-2-t2","md-nd-2",4,"📚","Psychoeducation","#f97316"],
+  ["md-nd-2-t3","md-nd-2",4,"🗓️","Routine Support","#f97316"],
+  ["md-nd-3","md-nd",3,"📚","Learning Disorders","#ef4444"],
+  ["md-nd-3-t1","md-nd-3",4,"🛠️","Compensatory Skills","#f97316"],
+  ["md-nd-3-t2","md-nd-3",4,"💪","Self-Efficacy CBT","#f97316"],
+  ["md-nd-3-t3","md-nd-3",4,"📋","Study Strategies","#f97316"],
+
+  // Substance Use
+  ["md-su","md",2,"","Substance Use","#ef4444"],
+  ["md-su-1","md-su",3,"🍷","Alcohol Use Disorder","#ef4444"],
+  ["md-su-1-t1","md-su-1",4,"🎯","Motivational MI","#f97316"],
+  ["md-su-1-t2","md-su-1",4,"🚨","Craving Management","#f97316"],
+  ["md-su-1-t3","md-su-1",4,"🔄","Relapse Prevention","#f97316"],
+  ["md-su-1-t4","md-su-1",4,"📊","AUDIT Tracking","#f97316"],
+  ["md-su-2","md-su",3,"💊","Substance Dependence","#ef4444"],
+  ["md-su-2-t1","md-su-2",4,"🎯","Motivational MI","#f97316"],
+  ["md-su-2-t2","md-su-2",4,"🚨","Trigger Mapping","#f97316"],
+  ["md-su-2-t3","md-su-2",4,"🔄","Relapse Prevention","#f97316"],
+  ["md-su-3","md-su",3,"🔀","Dual Diagnosis","#ef4444"],
+  ["md-su-3-t1","md-su-3",4,"🔗","Integrated Tx","#f97316"],
+  ["md-su-3-t2","md-su-3",4,"📊","Dual Monitoring","#f97316"],
+  ["md-su-3-t3","md-su-3",4,"🤝","Care Coordination","#f97316"],
+
+  // ── AI ENGINE ────────────────────────────────────────
+  ["ai","center",1,"🤖","AI Engine","#f59e0b"],
+  ["ai-nl","ai",2,"","NLP & Understanding","#f59e0b"],
+  ["ai-nl-1","ai-nl",3,"","Intent Detection","#f59e0b"],
+  ["ai-nl-2","ai-nl",3,"","Emotion Recognition","#f59e0b"],
+  ["ai-nl-3","ai-nl",3,"","Crisis Detection","#f59e0b"],
+  ["ai-nl-4","ai-nl",3,"","LLM Core","#f59e0b"],
+  ["ai-cp","ai",2,"","Clinical Protocols","#f59e0b"],
+  ["ai-cp-1","ai-cp",3,"","CBT Scripting","#f59e0b"],
+  ["ai-cp-2","ai-cp",3,"","DBT Module Engine","#f59e0b"],
+  ["ai-cp-3","ai-cp",3,"","CPT Trauma","#f59e0b"],
+  ["ai-cp-4","ai-cp",3,"","ACT Frameworks","#f59e0b"],
+  ["ai-dx","ai",2,"","Diagnostic Engine","#f59e0b"],
+  ["ai-dx-1","ai-dx",3,"","Symptom Clustering","#f59e0b"],
+  ["ai-dx-2","ai-dx",3,"","DSM-5 Mapping","#f59e0b"],
+  ["ai-dx-3","ai-dx",3,"","Severity Scoring","#f59e0b"],
+  ["ai-dx-4","ai-dx",3,"","Differential Dx","#f59e0b"],
+  ["ai-sf","ai",2,"","Safety Layer","#f59e0b"],
+  ["ai-sf-1","ai-sf",3,"","Suicide Risk Screen","#f59e0b"],
+  ["ai-sf-2","ai-sf",3,"","Columbia C-SSRS","#f59e0b"],
+  ["ai-sf-3","ai-sf",3,"","Human Handoff","#f59e0b"],
+  ["ai-sf-4","ai-sf",3,"","Emergency Services","#f59e0b"],
+
+  // ── ANALYTICS & DASHBOARDS ───────────────────────────
+  ["an","center",1,"📊","Analytics","#10b981"],
+  ["an-td","an",2,"","Therapist Dashboard","#10b981"],
+  ["an-td-1","an-td",3,"","All Patients View","#10b981"],
+  ["an-td-2","an-td",3,"","Severity Heat Map","#10b981"],
+  ["an-td-3","an-td",3,"","Adherence Tracking","#10b981"],
+  ["an-td-4","an-td",3,"","Alert Feed","#10b981"],
+  ["an-pa","an",2,"","Patient Analytics","#10b981"],
+  ["an-pa-1","an-pa",3,"","Mood Timeline","#10b981"],
+  ["an-pa-2","an-pa",3,"","Symptom Trends","#10b981"],
+  ["an-pa-3","an-pa",3,"","PHQ-9 / GAD-7 Graph","#10b981"],
+  ["an-pa-4","an-pa",3,"","Session Frequency","#10b981"],
+  ["an-pi","an",2,"","Population Insights","#10b981"],
+  ["an-pi-1","an-pi",3,"","Disorder Distribution","#10b981"],
+  ["an-pi-2","an-pi",3,"","Outcome Statistics","#10b981"],
+  ["an-pi-3","an-pi",3,"","Engagement Metrics","#10b981"],
+  ["an-pi-4","an-pi",3,"","Recovery Rates","#10b981"],
+  ["an-rp","an",2,"","Reports","#10b981"],
+  ["an-rp-1","an-rp",3,"","Weekly PDF Report","#10b981"],
+  ["an-rp-2","an-rp",3,"","Clinical Notes","#10b981"],
+  ["an-rp-3","an-rp",3,"","EHR Export","#10b981"],
+  ["an-rp-4","an-rp",3,"","Audit Logs","#10b981"],
+
+  // ── PLATFORM & INFRASTRUCTURE ────────────────────────
+  ["pl","center",1,"⚙️","Platform","#64748b"],
+  ["pl-in","pl",2,"","Integrations","#64748b"],
+  ["pl-in-1","pl-in",3,"","WhatsApp Business API","#64748b"],
+  ["pl-in-2","pl-in",3,"","EHR / EMR Systems","#64748b"],
+  ["pl-in-3","pl-in",3,"","Zoom Video","#64748b"],
+  ["pl-in-4","pl-in",3,"","Payment Gateway","#64748b"],
+  ["pl-sc","pl",2,"","Security & Compliance","#64748b"],
+  ["pl-sc-1","pl-sc",3,"","HIPAA Compliance","#64748b"],
+  ["pl-sc-2","pl-sc",3,"","Data Encryption","#64748b"],
+  ["pl-sc-3","pl-sc",3,"","Role-Based Access","#64748b"],
+  ["pl-sc-4","pl-sc",3,"","Audit Trail","#64748b"],
+  ["pl-ad","pl",2,"","Admin Panel","#64748b"],
+  ["pl-ad-1","pl-ad",3,"","Organization Mgmt","#64748b"],
+  ["pl-ad-2","pl-ad",3,"","Therapist Accounts","#64748b"],
+  ["pl-ad-3","pl-ad",3,"","Billing & Subscriptions","#64748b"],
+  ["pl-ad-4","pl-ad",3,"","Feature Flags","#64748b"],
+  ["pl-i18n","pl",2,"","Languages","#64748b"],
+  ["pl-i18n-1","pl-i18n",3,"","Hebrew","#64748b"],
+  ["pl-i18n-2","pl-i18n",3,"","English","#64748b"],
+  ["pl-i18n-3","pl-i18n",3,"","Arabic","#64748b"],
+  ["pl-i18n-4","pl-i18n",3,"","RTL Support","#64748b"],
+];
+
+const byId={},children={};
+DATA.forEach(d=>{
+  const o={id:d[0],parent:d[1],level:d[2],emoji:d[3],label:d[4],color:d[5],wx:0,wy:0};
+  byId[o.id]=o;
+  if(o.parent)(children[o.parent]=children[o.parent]||[]).push(o);
+});
+
+// Collapse all level-3 disorder nodes by default (treatments hidden until you click the disorder)
+const collapsed=new Set();
+DATA.forEach(d=>{ if(d[2]===3) collapsed.add(d[0]); });
+function hasChildren(id){return !!(children[id]&&children[id].length);}
+function isVisible(id){
+  let cur=byId[id];
+  while(cur.parent){if(collapsed.has(cur.parent))return false;cur=byId[cur.parent];}
+  return true;
+}
+
+// ── LAYOUT ───────────────────────────────────────────────────────────────────
+function layout(){
+  const P=Device.params;
+  const center=byId["center"];center.wx=0;center.wy=0;
+
+  // Generic recursive layout — works for any depth
+  function placeChildren(parentNode, parentAngle, spreadMult, radiusBase, radiusMult){
+    const kids=children[parentNode.id]||[];
+    if(!kids.length)return;
+    const spread=Math.max(kids.length*spreadMult, Math.PI*0.35);
+    const radius=radiusBase+kids.length*radiusMult;
+    kids.forEach((kid,i)=>{
+      const a=parentAngle-spread/2+spread*(kids.length===1?0.5:i/(kids.length-1));
+      kid.wx=parentNode.wx+Math.cos(a)*radius;
+      kid.wy=parentNode.wy+Math.sin(a)*radius;
+      // recurse with tighter params for deeper levels
+      const childAngle=Math.atan2(kid.wy-parentNode.wy,kid.wx-parentNode.wx);
+      const nextRadius=Math.max(radiusBase*0.65,70);
+      const nextMult=Math.max(radiusMult*0.6,5);
+      const nextSpread=spreadMult*0.75;
+      placeChildren(kid,childAngle,nextSpread,nextRadius,nextMult);
+    });
+  }
+
+  // Level 1 cats around center
+  const cats=children["center"]||[];
+  cats.forEach((cat,i)=>{
+    const a=(2*Math.PI*i/cats.length)-Math.PI/2;
+    cat.wx=Math.cos(a)*P.catRadius;
+    cat.wy=Math.sin(a)*P.catRadius;
+    const catAngle=Math.atan2(cat.wy,cat.wx);
+    placeChildren(cat, catAngle, 0.32, P.subRadiusBase, P.subRadiusMult);
+  });
+
+  // Repulsion passes
+  const all=DATA.map(d=>byId[d[0]]);
+  const minD=[60,50,38,26,20];
+  for(let iter=0;iter<P.repIter;iter++){
+    let moved=false;
+    for(let i=0;i<all.length;i++)for(let j=i+1;j<all.length;j++){
+      const a=all[i],b=all[j];
+      const dx=b.wx-a.wx,dy=b.wy-a.wy,dist=Math.sqrt(dx*dx+dy*dy);
+      const req=minD[Math.min(a.level,4)]+minD[Math.min(b.level,4)];
+      if(dist<req&&dist>0){
+        const push=(req-dist)/2*0.5,nx=dx/dist,ny=dy/dist;
+        if(a.id!=="center"){a.wx-=nx*push;a.wy-=ny*push;}
+        if(b.id!=="center"){b.wx+=nx*push;b.wy+=ny*push;}
+        moved=true;
+      }
+    }
+    if(!moved)break;
+  }
+}
+layout();
+
+// ── CAMERA ───────────────────────────────────────────────────────────────────
+let camX=0,camY=0,zoom=Device.params.defaultZoom;
+const DEFAULT_ZOOM=Device.params.defaultZoom;
+const uiEl=document.getElementById("ui");
+const bgC=document.getElementById("bg"),lnC=document.getElementById("lines");
+const bgCtx=bgC.getContext("2d"),lnCtx=lnC.getContext("2d");
+function resize(){const w=window.innerWidth,h=window.innerHeight;bgC.width=w;bgC.height=h;lnC.width=w;lnC.height=h;}
+window.addEventListener("resize",()=>{resize();});resize();
+
+// ── STARS ─────────────────────────────────────────────────────────────────────
+const TILE=2000;
+const starTile=Array.from({length:80},()=>({x:Math.random()*TILE,y:Math.random()*TILE,r:Math.random()*.6+.2,b:Math.random()}));
+function drawStars(t){
+  bgCtx.clearRect(0,0,bgC.width,bgC.height);
+  const cx=bgC.width/2,cy=bgC.height/2,p=0.3;
+  const ox=camX*p,oy=camY*p;
+  const txMin=Math.floor((-cx/(zoom*p)+ox)/TILE),txMax=Math.floor((cx/(zoom*p)+ox)/TILE);
+  const tyMin=Math.floor((-cy/(zoom*p)+oy)/TILE),tyMax=Math.floor((cy/(zoom*p)+oy)/TILE);
+  for(let tx=txMin;tx<=txMax;tx++)for(let ty=tyMin;ty<=tyMax;ty++)
+    for(const s of starTile){
+      const sx=cx+(s.x+tx*TILE-ox)*zoom*p,sy=cy+(s.y+ty*TILE-oy)*zoom*p;
+      if(sx<-5||sx>bgC.width+5||sy<-5||sy>bgC.height+5)continue;
+      const a=0.4+0.6*Math.sin(t*.001+s.b*6.28);
+      bgCtx.beginPath();bgCtx.arc(sx,sy,s.r,0,6.28);
+      bgCtx.fillStyle=`rgba(180,220,255,${a*0.6})`;bgCtx.fill();
+    }
+}
+
+// ── CREATE NODE ELEMENTS ──────────────────────────────────────────────────────
+const nodeEls={},badgeEls={};
+DATA.forEach((d,i)=>{
+  const o=byId[d[0]];
+  const clsArr=["center-node","cat-node","sub-node","leaf-node","treatment-node"];
+  const el=document.createElement("div");
+  el.className="node "+clsArr[Math.min(o.level,4)];
+  const circle=document.createElement("div");circle.className="node-circle";
+  if(o.level===0){}
+  else if(o.level===1){circle.style.cssText=`background:radial-gradient(circle,${o.color}dd,${o.color}88);border:2px solid ${o.color};box-shadow:0 0 20px ${o.color}66`;}
+  else if(o.level===2){circle.style.cssText=`background:radial-gradient(circle,${o.color}99,${o.color}55);border:2px solid ${o.color}88;box-shadow:0 0 12px ${o.color}44`;}
+  else if(o.level===3){circle.style.cssText=`background:radial-gradient(circle,${o.color}66,${o.color}33);border:1px solid ${o.color}66;box-shadow:0 0 6px ${o.color}22`;}
+  else{circle.style.cssText=`background:radial-gradient(circle,${o.color}cc,${o.color}88);border:2px solid ${o.color};box-shadow:0 0 8px ${o.color}66`;}
+  if(o.emoji){const sp=document.createElement("span");sp.className="node-emoji";sp.innerHTML=o.emoji;circle.appendChild(sp);}
+  if(hasChildren(o.id)){
+    const badge=document.createElement("div");badge.className="collapse-badge";badge.textContent="+";badge.style.display="none";
+    circle.appendChild(badge);badgeEls[o.id]=badge;
+  }
+  el.appendChild(circle);
+  const text=document.createElement("div");text.className="node-text";text.textContent=o.label;el.appendChild(text);
+  el.addEventListener("click",e=>{
+    e.stopPropagation();if(dragMoved)return;
+    if(hasChildren(o.id)){collapsed.has(o.id)?collapsed.delete(o.id):collapsed.add(o.id);updateBadges();}
+    openPanel(o.id);
+  });
+  uiEl.appendChild(el);nodeEls[o.id]=el;
+  setTimeout(()=>el.classList.add("visible"),60+i*10);
+});
+
+function updateBadges(){for(const id in badgeEls)badgeEls[id].style.display=collapsed.has(id)?"flex":"none";}
+
+// ── DRAW LINES ────────────────────────────────────────────────────────────────
+function drawLines(){
+  const cx=lnC.width/2,cy=lnC.height/2;
+  lnCtx.clearRect(0,0,lnC.width,lnC.height);
+  DATA.forEach(d=>{
+    const o=byId[d[0]];if(!o.parent||!isVisible(o.id))return;
+    const p=byId[o.parent];
+    const x1=cx+(p.wx-camX)*zoom,y1=cy+(p.wy-camY)*zoom;
+    const x2=cx+(o.wx-camX)*zoom,y2=cy+(o.wy-camY)*zoom;
+    const g=lnCtx.createLinearGradient(x1,y1,x2,y2);
+    g.addColorStop(0,p.color+"88");g.addColorStop(1,o.color+"44");
+    lnCtx.beginPath();lnCtx.moveTo(x1,y1);lnCtx.lineTo(x2,y2);
+    lnCtx.strokeStyle=g;lnCtx.lineWidth=o.level===1?2:o.level===2?1.5:1;lnCtx.stroke();
+  });
+}
+
+// ── POSITIONS ─────────────────────────────────────────────────────────────────
+function updatePositions(){
+  const cx=lnC.width/2,cy=lnC.height/2;
+  DATA.forEach(d=>{
+    const o=byId[d[0]];const el=nodeEls[o.id];
+    if(!isVisible(o.id)){el.classList.add("hidden");el.classList.remove("visible");return;}
+    el.classList.remove("hidden");if(!el.classList.contains("visible"))el.classList.add("visible");
+    el.style.left=cx+(o.wx-camX)*zoom+"px";
+    el.style.top=cy+(o.wy-camY)*zoom+"px";
+    const t=el.querySelector(".node-text");
+    if(t){const s=Math.min(1,zoom/0.55);t.style.transform=`scale(${s})`;}
+  });
+}
+
+// ── INPUT ─────────────────────────────────────────────────────────────────────
+let dragging=false,lastX,lastY,dragMoved=false;
+document.addEventListener("pointerdown",e=>{dragging=true;dragMoved=false;lastX=e.clientX;lastY=e.clientY;});
+document.addEventListener("pointermove",e=>{
+  if(!dragging)return;
+  const dx=e.clientX-lastX,dy=e.clientY-lastY;
+  if(Math.abs(dx)>3||Math.abs(dy)>3)dragMoved=true;
+  camX-=dx/zoom;camY-=dy/zoom;lastX=e.clientX;lastY=e.clientY;
+});
+document.addEventListener("pointerup",e=>{
+  dragging=false;
+  if(!dragMoved&&!e.target.closest(".node,.panel-child,#panel,#zoom-controls"))
+    document.getElementById("panel").classList.remove("open");
+});
+document.addEventListener("wheel",e=>{e.preventDefault();zoom=Math.max(0.1,Math.min(3,zoom*(e.deltaY>0?.9:1.1)));},{passive:false});
+
+let lastDist=0;
+document.addEventListener("touchstart",e=>{
+  if(e.touches.length===2){const dx=e.touches[0].clientX-e.touches[1].clientX,dy=e.touches[0].clientY-e.touches[1].clientY;lastDist=Math.sqrt(dx*dx+dy*dy);}
+},{passive:true});
+document.addEventListener("touchmove",e=>{
+  if(e.touches.length===2){
+    const dx=e.touches[0].clientX-e.touches[1].clientX,dy=e.touches[0].clientY-e.touches[1].clientY;
+    const d=Math.sqrt(dx*dx+dy*dy);
+    const midX=(e.touches[0].clientX+e.touches[1].clientX)/2,midY=(e.touches[0].clientY+e.touches[1].clientY)/2;
+    if(lastDist>0){
+      const scale=d/lastDist,cx=lnC.width/2,cy=lnC.height/2;
+      const wx=(midX-cx)/zoom+camX,wy=(midY-cy)/zoom+camY;
+      zoom=Math.max(0.1,Math.min(3,zoom*scale));
+      camX=wx-(midX-cx)/zoom;camY=wy-(midY-cy)/zoom;
+    }
+    lastDist=d;e.preventDefault();
+  }
+},{passive:false});
+document.addEventListener("touchend",e=>{if(e.touches.length<2)lastDist=0;});
+
+document.getElementById("zoom-in").addEventListener("click",e=>{e.stopPropagation();zoom=Math.min(3,zoom*1.2);});
+document.getElementById("zoom-out").addEventListener("click",e=>{e.stopPropagation();zoom=Math.max(0.1,zoom*0.83);});
+document.getElementById("zoom-reset").addEventListener("click",e=>{e.stopPropagation();zoom=DEFAULT_ZOOM;camX=0;camY=0;});
+
+// ── PANEL DESCRIPTIONS ────────────────────────────────────────────────────────
+const DESC={
+  "center":"NuDay AI - Mental Health Intelligence Platform. Treats all DSM-5 mental disorders via conversational AI on WhatsApp. Two user types: Patients (treatment via chat) and Therapists (monitoring portal with dashboards, diagnosis, and severity tracking).",
+  // Patient Journey
+  "pt":"The patient's full journey - from first contact on WhatsApp through onboarding, daily AI conversations, evidence-based treatment exercises, and continuous progress tracking.",
+  "pt-on":"Patient registration and setup flow entirely via WhatsApp.",
+  "pt-on-1":"Patient links to NuDay AI on WhatsApp. No app download required.",
+  "pt-on-2":"AI conducts structured clinical intake assessment (PHQ-9, GAD-7, PCL-5).",
+  "pt-on-3":"Demographic info, history, current symptoms collected conversationally.",
+  "pt-on-4":"Digital consent forms sent via WhatsApp. HIPAA-compliant.",
+  "pt-wa":"All therapeutic interaction happens through WhatsApp messages.",
+  "pt-wa-1":"Morning and evening check-ins tailored to the patient's treatment plan.",
+  "pt-wa-2":"Real-time detection of crisis language triggers immediate escalation.",
+  "pt-wa-3":"Daily mood rating (1-10) with emoji-based quick responses.",
+  "pt-wa-4":"AI assigns and follows up on between-session cognitive tasks.",
+  "pt-wa-5":"Condition-specific educational content delivered in digestible messages.",
+  "pt-tx":"Evidence-based treatment modules delivered conversationally.",
+  "pt-tx-1":"Cognitive restructuring, thought records, behavioral activation.",
+  "pt-tx-2":"Distress tolerance, emotion regulation, mindfulness, interpersonal skills.",
+  "pt-tx-3":"Graduated exposure hierarchies with real-time AI coaching.",
+  "pt-tx-4":"Body scan, breathing exercises, grounding techniques.",
+  "pt-tx-5":"Structured reflection prompts; responses stored for therapist review.",
+  "pt-pr":"Continuous measurement and feedback on treatment outcomes.",
+  "pt-pr-1":"PHQ-9 depression, GAD-7 anxiety, PCL-5 PTSD tracked weekly.",
+  "pt-pr-2":"Standardized validated questionnaires re-administered automatically.",
+  "pt-pr-3":"AI-generated weekly narrative sent to patient and therapist.",
+  "pt-pr-4":"Achievements unlocked at milestones (7 days, 30 days, score improvement).",
+  // Therapist Portal
+  "th":"Web portal for licensed therapists to monitor patients, review AI conversations, validate diagnoses, and manage treatment plans.",
+  "th-pm":"Full patient roster management for each therapist's caseload.",
+  "th-pm-1":"Sortable by severity, last contact, diagnosis, adherence.",
+  "th-pm-2":"Therapist assigns patients from org pool or onboards new ones.",
+  "th-pm-3":"Full patient card: diagnosis, scores, history, treatment plan.",
+  "th-pm-4":"Stored consent records with timestamps and versions.",
+  "th-sh":"Complete transparency into every AI-patient interaction.",
+  "th-sh-1":"Full WhatsApp conversation history with timestamps.",
+  "th-sh-2":"AI highlights clinically significant messages for review.",
+  "th-sh-3":"Timeline of crisis detections with AI response and outcome.",
+  "th-sh-4":"Therapist can add clinical notes attached to sessions.",
+  "th-dx":"Clinical diagnosis workflow integrated with DSM-5.",
+  "th-dx-1":"AI-suggested diagnosis with confidence score; therapist validates.",
+  "th-dx-2":"Side-by-side DSM-5 criteria matching with patient symptom evidence.",
+  "th-dx-3":"Color-coded severity gauge: mild (1-3), moderate (4-6), severe (7-10).",
+  "th-dx-4":"Multiple co-occurring diagnoses tracked and weighted.",
+  "th-al":"Proactive alerting system to prevent patient deterioration.",
+  "th-al-1":"Push notification + email when C-SSRS score crosses threshold.",
+  "th-al-2":"Alert if patient hasn't responded for >48 hours.",
+  "th-al-3":"Alert when validated scores worsen more than 20% week-over-week.",
+  "th-al-4":"Step-by-step protocol: AI -> therapist -> clinic -> emergency services.",
+  "th-tp":"Therapist configures and customizes each patient's treatment plan.",
+  "th-tp-1":"Select from CBT, DBT, CPT, ACT, or hybrid protocol libraries.",
+  "th-tp-2":"Modify specific exercises or add custom content.",
+  "th-tp-3":"Set measurable treatment goals with target dates.",
+  "th-tp-4":"Configure how often AI checks in (daily, twice daily, weekly).",
+  // Mental Disorders + Treatments (orange nodes = what NuDay AI offers)
+  "md":"NuDay AI treats all major DSM-5 mental health disorders. Click any disorder to see the specific treatments NuDay AI delivers via WhatsApp. Orange nodes = treatments offered by the app.",
+  // Anxiety
+  "md-ax":"Anxiety disorders - the most prevalent mental health conditions. NuDay AI delivers CBT, exposure therapy, and validated tracking for all anxiety subtypes.",
+  "md-ax-1":"Generalized Anxiety Disorder (GAD) - excessive, uncontrollable worry across multiple life domains. Affects ~6% of adults.",
+  "md-ax-1-t1":"🟠 TREATMENT: Structured CBT worry modules via WhatsApp - identifying cognitive distortions, challenging catastrophic thinking, scheduling worry time.",
+  "md-ax-1-t2":"🟠 TREATMENT: GAD-7 questionnaire re-administered weekly. Tracks anxiety severity over time with graphs in therapist portal.",
+  "md-ax-1-t3":"🟠 TREATMENT: Progressive muscle relaxation and diaphragmatic breathing exercises delivered as guided audio-text sessions.",
+  "md-ax-1-t4":"🟠 TREATMENT: Daily structured worry journal - patient logs worries, AI prompts reflection and cognitive restructuring.",
+  "md-ax-2":"Social Anxiety Disorder - intense fear of social situations and negative evaluation. Leads to significant avoidance.",
+  "md-ax-2-t1":"🟠 TREATMENT: Collaboratively built exposure hierarchy - AI guides patient through gradual real-life social challenges.",
+  "md-ax-2-t2":"🟠 TREATMENT: CBT social skills - identifying automatic thoughts before/after social events, behavioral experiments.",
+  "md-ax-2-t3":"🟠 TREATMENT: Conversational role-play via WhatsApp - AI acts as social partner to practice conversations.",
+  "md-ax-3":"Panic Disorder - recurrent unexpected panic attacks with persistent fear of future attacks.",
+  "md-ax-3-t1":"🟠 TREATMENT: Breathing retraining - slow diaphragmatic breathing to counter hyperventilation during panic.",
+  "md-ax-3-t2":"🟠 TREATMENT: Interoceptive exposure - AI guides patient through safe symptom induction exercises to reduce fear of sensations.",
+  "md-ax-3-t3":"🟠 TREATMENT: Panic cycle psychoeducation via interactive WhatsApp lessons with diagrams and quizzes.",
+  "md-ax-4":"Agoraphobia - avoidance of situations where escape might be difficult. Often co-occurs with panic disorder.",
+  "md-ax-4-t1":"🟠 TREATMENT: Graduated real-world exposure tasks - AI assigns daily challenges from easiest to hardest on a fear ladder.",
+  "md-ax-4-t2":"🟠 TREATMENT: Avoidance mapping - patient logs avoided situations; AI tracks progress in reducing them.",
+  "md-ax-4-t3":"🟠 TREATMENT: Daily challenge system - AI assigns one small exposure task per day and follows up on completion.",
+  "md-ax-5":"Specific Phobias - intense, irrational fear of specific objects or situations (animals, heights, blood, flying).",
+  "md-ax-5-t1":"🟠 TREATMENT: Systematic desensitization - AI guides patient through relaxation paired with phobia exposure steps.",
+  "md-ax-5-t2":"🟠 TREATMENT: Deep relaxation training paired with gradual mental and real-world exposure to the feared stimulus.",
+  "md-ax-5-t3":"🟠 TREATMENT: Personalized fear ladder - patient and AI co-build 10-step hierarchy from least to most feared.",
+  // Mood
+  "md-mo":"Mood disorders - conditions characterized by extreme or persistent changes in emotional state.",
+  "md-mo-1":"Major Depressive Disorder (MDD) - persistent depressed mood, loss of interest, fatigue, hopelessness lasting 2+ weeks.",
+  "md-mo-1-t1":"🟠 TREATMENT: Behavioral Activation - AI schedules pleasurable and meaningful activities to break the depression-inactivity cycle.",
+  "md-mo-1-t2":"🟠 TREATMENT: CBT Thought Records via WhatsApp - patient captures automatic negative thoughts; AI guides restructuring.",
+  "md-mo-1-t3":"🟠 TREATMENT: PHQ-9 administered weekly. AI tracks score trends and alerts therapist to worsening.",
+  "md-mo-1-t4":"🟠 TREATMENT: Daily activity scheduling - AI sends morning plan and evening review to increase engagement.",
+  "md-mo-2":"Bipolar I & II - alternating periods of mania/hypomania and depression. Requires mood stability focus.",
+  "md-mo-2-t1":"🟠 TREATMENT: Daily mood charting via emoji-based WhatsApp check-in. AI detects early warning signs of mood episodes.",
+  "md-mo-2-t2":"🟠 TREATMENT: Medication adherence support - daily reminders, adherence tracking, side effect monitoring.",
+  "md-mo-2-t3":"🟠 TREATMENT: Sleep regulation coaching - consistent sleep/wake times are critical for bipolar stability.",
+  "md-mo-2-t4":"🟠 TREATMENT: Bipolar psychoeducation - understanding cycles, triggers, and early warning signs via interactive modules.",
+  "md-mo-3":"Persistent Depressive Disorder / Dysthymia - chronic, low-grade depression lasting 2+ years. Often overlooked.",
+  "md-mo-3-t1":"🟠 TREATMENT: Behavioral Activation with emphasis on values-aligned activities to counter chronic withdrawal.",
+  "md-mo-3-t2":"🟠 TREATMENT: CBT targeting deep-seated negative core beliefs (e.g. 'I am worthless') through Socratic dialogue.",
+  "md-mo-3-t3":"🟠 TREATMENT: ACT values clarification - identifying what matters most and taking committed action despite low mood.",
+  "md-mo-4":"Cyclothymia - mild but persistent mood cycling between hypomania and depressive symptoms.",
+  "md-mo-4-t1":"🟠 TREATMENT: Daily mood monitoring via WhatsApp - detecting early swing patterns before they escalate.",
+  "md-mo-4-t2":"🟠 TREATMENT: Sleep and daily routine coaching to reduce mood destabilization.",
+  "md-mo-4-t3":"🟠 TREATMENT: Trigger awareness - AI helps patient identify situations that precede mood shifts.",
+  // Trauma
+  "md-tr":"Trauma and stressor-related disorders - caused or triggered by exposure to traumatic or stressful events.",
+  "md-tr-1":"Post-Traumatic Stress Disorder (PTSD) - intrusive memories, nightmares, avoidance, negative mood, hyperarousal after trauma.",
+  "md-tr-1-t1":"🟠 TREATMENT: Cognitive Processing Therapy (CPT) - AI delivers stuck point worksheets and challenging questions via WhatsApp.",
+  "md-tr-1-t2":"🟠 TREATMENT: Prolonged Exposure (PE) - gradual trauma narrative writing + in-vivo exposure assignments with AI support.",
+  "md-tr-1-t3":"🟠 TREATMENT: PCL-5 PTSD checklist administered every 2 weeks. AI tracks and graphs symptom trajectory.",
+  "md-tr-1-t4":"🟠 TREATMENT: Grounding skills - 5-4-3-2-1 technique, safe place imagery - delivered when distress is detected.",
+  "md-tr-2":"Acute Stress Disorder - severe stress reaction within 1 month of trauma. Can develop into PTSD if untreated.",
+  "md-tr-2-t1":"🟠 TREATMENT: Trauma psychoeducation - normalizing stress reactions, explaining the trauma response.",
+  "md-tr-2-t2":"🟠 TREATMENT: Grounding exercises - sensory anchoring delivered via WhatsApp in moments of dissociation or flashback.",
+  "md-tr-2-t3":"🟠 TREATMENT: Sleep hygiene support and nightmare management techniques.",
+  "md-tr-3":"Adjustment Disorder - emotional or behavioral symptoms in response to an identifiable stressor (divorce, job loss, illness).",
+  "md-tr-3-t1":"🟠 TREATMENT: Supportive CBT - validating emotional response while building adaptive coping strategies.",
+  "md-tr-3-t2":"🟠 TREATMENT: Structured problem-solving - AI guides patient through a 5-step problem-solving protocol.",
+  "md-tr-3-t3":"🟠 TREATMENT: Personalized coping skills toolbox built collaboratively with patient via WhatsApp.",
+  "md-tr-4":"Complex PTSD (C-PTSD) - result of prolonged, repeated trauma. Includes emotional dysregulation and identity disturbances.",
+  "md-tr-4-t1":"🟠 TREATMENT: Phase-based treatment - stabilization first, then trauma processing, then integration.",
+  "md-tr-4-t2":"🟠 TREATMENT: Emotion regulation skills from DBT - TIPP, PLEASE, opposite action, urge surfing.",
+  "md-tr-4-t3":"🟠 TREATMENT: DBT distress tolerance and interpersonal effectiveness skills delivered weekly.",
+  "md-tr-4-t4":"🟠 TREATMENT: Gradual trauma narrative processing with AI scaffolding and therapist oversight.",
+  // Psychosis
+  "md-ps":"Psychotic disorders - characterized by loss of contact with reality (hallucinations, delusions, disorganized thinking).",
+  "md-ps-1":"Schizophrenia - chronic disorder with positive symptoms (hallucinations, delusions) and negative symptoms (flat affect, avolition).",
+  "md-ps-1-t1":"🟠 TREATMENT: Medication adherence support - daily reminders, side effect check-ins, refill reminders via WhatsApp.",
+  "md-ps-1-t2":"🟠 TREATMENT: CBT for psychosis (CBTp) - examining evidence for beliefs, normalizing unusual experiences.",
+  "md-ps-1-t3":"🟠 TREATMENT: Psychoeducation modules on schizophrenia, warning signs, and relapse prevention.",
+  "md-ps-1-t4":"🟠 TREATMENT: Daily living skills support - routines, hygiene reminders, social functioning goals.",
+  "md-ps-2":"Schizoaffective Disorder - combination of psychotic symptoms and a significant mood episode (manic or depressive).",
+  "md-ps-2-t1":"🟠 TREATMENT: Medication adherence coaching for antipsychotic + mood stabilizer regimens.",
+  "md-ps-2-t2":"🟠 TREATMENT: Daily mood + psychosis symptom monitoring via dual tracking check-in.",
+  "md-ps-2-t3":"🟠 TREATMENT: Combined CBTp + mood stabilization protocol tailored to current episode phase.",
+  "md-ps-3":"Brief Psychotic Episode - sudden onset of psychotic symptoms lasting less than 1 month.",
+  "md-ps-3-t1":"🟠 TREATMENT: Daily symptom monitoring - AI checks in on hallucinations, disorganization, and distress level.",
+  "md-ps-3-t2":"🟠 TREATMENT: Psychoeducation about acute psychosis and recovery trajectory.",
+  "md-ps-3-t3":"🟠 TREATMENT: Automatic therapist alert if symptoms persist or worsen beyond safe threshold.",
+  "md-ps-4":"Delusional Disorder - persistent, fixed false beliefs without other psychotic symptoms.",
+  "md-ps-4-t1":"🟠 TREATMENT: CBT for psychosis - gentle Socratic questioning to examine evidence for and against beliefs.",
+  "md-ps-4-t2":"🟠 TREATMENT: Building therapeutic alliance - AI prioritizes trust and non-confrontational engagement.",
+  "md-ps-4-t3":"🟠 TREATMENT: Reality testing exercises - structured conversations to evaluate plausibility of beliefs.",
+  // OCD Spectrum
+  "md-oc":"OCD Spectrum disorders - characterized by intrusive thoughts, repetitive behaviors, or body-focused urges.",
+  "md-oc-1":"OCD - obsessive thoughts + compulsive rituals. The gold-standard treatment is ERP (Exposure and Response Prevention).",
+  "md-oc-1-t1":"🟠 TREATMENT: ERP - AI guides patient through gradual exposure to feared triggers without performing compulsions.",
+  "md-oc-1-t2":"🟠 TREATMENT: Response Prevention coaching - AI checks in after ERP sessions to verify ritual was resisted.",
+  "md-oc-1-t3":"🟠 TREATMENT: Y-BOCS scale administered bi-weekly to track obsession and compulsion severity.",
+  "md-oc-1-t4":"🟠 TREATMENT: OCD psychoeducation - explaining the obsession-compulsion-relief cycle.",
+  "md-oc-2":"Body Dysmorphic Disorder - obsessive preoccupation with perceived physical flaws. High distress and avoidance.",
+  "md-oc-2-t1":"🟠 TREATMENT: ERP - reducing mirror checking, skin picking, reassurance-seeking behaviors.",
+  "md-oc-2-t2":"🟠 TREATMENT: CBT body image work - cognitive restructuring of appearance-related beliefs.",
+  "md-oc-2-t3":"🟠 TREATMENT: Checking reduction protocol - patient logs and reduces daily mirror/skin-checking frequency.",
+  "md-oc-3":"Hoarding Disorder - persistent difficulty discarding possessions, causing cluttered living spaces.",
+  "md-oc-3-t1":"🟠 TREATMENT: CBT + Motivational Interviewing - exploring ambivalence and building motivation to declutter.",
+  "md-oc-3-t2":"🟠 TREATMENT: Discarding tasks - AI assigns small daily sorting tasks and follows up on completion.",
+  "md-oc-3-t3":"🟠 TREATMENT: Patient photos progress to therapist; AI tracks before/after as accountability tool.",
+  "md-oc-4":"Trichotillomania - compulsive hair pulling causing hair loss. Body-focused repetitive behavior.",
+  "md-oc-4-t1":"🟠 TREATMENT: Habit Reversal Training (HRT) - awareness training + competing response practice via WhatsApp.",
+  "md-oc-4-t2":"🟠 TREATMENT: Trigger awareness - patient logs when, where, and why pulling occurs. AI identifies patterns.",
+  "md-oc-4-t3":"🟠 TREATMENT: Competing response practice - AI coaches substitute behavior whenever urge is detected.",
+  // Personality
+  "md-pd":"Personality disorders - enduring, rigid patterns of experience and behavior that deviate from cultural expectations.",
+  "md-pd-1":"Borderline Personality Disorder (BPD) - emotional dysregulation, unstable relationships, impulsivity, fear of abandonment.",
+  "md-pd-1-t1":"🟠 TREATMENT: DBT Skills Training - the evidence-based gold standard for BPD, delivered in modules via WhatsApp.",
+  "md-pd-1-t2":"🟠 TREATMENT: Emotion regulation skills - identifying emotions, reducing vulnerability, increasing positive experiences.",
+  "md-pd-1-t3":"🟠 TREATMENT: Distress tolerance - TIPP, ACCEPTS, self-soothe, improve-the-moment techniques.",
+  "md-pd-1-t4":"🟠 TREATMENT: Interpersonal effectiveness - DEAR MAN, GIVE, FAST skills for relationships.",
+  "md-pd-2":"Narcissistic Personality Disorder (NPD) - grandiosity, need for admiration, lack of empathy.",
+  "md-pd-2-t1":"🟠 TREATMENT: Schema therapy - identifying and restructuring early maladaptive schemas (e.g. entitlement).",
+  "md-pd-2-t2":"🟠 TREATMENT: Empathy building exercises - perspective-taking conversations and reflection prompts.",
+  "md-pd-2-t3":"🟠 TREATMENT: Values exploration - identifying meaningful goals beyond external validation.",
+  "md-pd-3":"Avoidant Personality Disorder (AvPD) - pervasive social inhibition, feelings of inadequacy, hypersensitivity to criticism.",
+  "md-pd-3-t1":"🟠 TREATMENT: Graduated social exposure - AI assigns weekly real-world social challenges starting very small.",
+  "md-pd-3-t2":"🟠 TREATMENT: CBT core beliefs - targeting beliefs like 'I am defective' through evidence examination.",
+  "md-pd-3-t3":"🟠 TREATMENT: Confidence-building exercises - logging competencies, tracking social successes.",
+  "md-pd-4":"OCPD - Obsessive-Compulsive Personality Disorder. Preoccupation with orderliness, perfectionism, and control.",
+  "md-pd-4-t1":"🟠 TREATMENT: CBT perfectionism - identifying costs of perfectionism and experimenting with 'good enough'.",
+  "md-pd-4-t2":"🟠 TREATMENT: ACT psychological flexibility - defusion from rules, acceptance of imperfection.",
+  "md-pd-4-t3":"🟠 TREATMENT: Values vs rules exercise - identifying when rigidity conflicts with what truly matters.",
+  // Eating
+  "md-ed":"Eating disorders - severe and persistent disturbances in eating behaviors and related thoughts and emotions.",
+  "md-ed-1":"Anorexia Nervosa - restriction of energy intake, intense fear of weight gain, distorted body image.",
+  "md-ed-1-t1":"🟠 TREATMENT: CBT-Enhanced (CBT-E) - the leading evidence-based protocol for anorexia, delivered via WhatsApp.",
+  "md-ed-1-t2":"🟠 TREATMENT: Weight monitoring coordination - AI tracks patient-reported weight and alerts therapist to critical changes.",
+  "md-ed-1-t3":"🟠 TREATMENT: Body image cognitive work - distorted appearance beliefs challenged through structured exercises.",
+  "md-ed-1-t4":"🟠 TREATMENT: Medical team coordination - AI flags concerning physical symptoms for immediate professional escalation.",
+  "md-ed-2":"Bulimia Nervosa - binge eating followed by compensatory behaviors (vomiting, laxatives, excessive exercise).",
+  "md-ed-2-t1":"🟠 TREATMENT: CBT-Enhanced (CBT-E) - regular eating, reducing binge/purge cycles, addressing shape/weight concerns.",
+  "md-ed-2-t2":"🟠 TREATMENT: Food diary - patient logs meals via WhatsApp. AI identifies patterns and triggers.",
+  "md-ed-2-t3":"🟠 TREATMENT: Binge trigger identification - AI maps emotional, situational, and cognitive triggers for binge episodes.",
+  "md-ed-3":"Binge Eating Disorder (BED) - recurrent binge eating without compensatory behaviors. Most common eating disorder.",
+  "md-ed-3-t1":"🟠 TREATMENT: DBT distress tolerance - skills to cope with urges to binge without acting on them.",
+  "md-ed-3-t2":"🟠 TREATMENT: CBT binge chain analysis - identifying the thought-emotion-behavior sequence leading to binges.",
+  "md-ed-3-t3":"🟠 TREATMENT: Mindful eating practices delivered as daily guided exercises via WhatsApp.",
+  "md-ed-4":"ARFID - Avoidant/Restrictive Food Intake Disorder. Food avoidance based on sensory properties, fear of consequences.",
+  "md-ed-4-t1":"🟠 TREATMENT: Food exposure hierarchy - gradual introduction of avoided foods with AI support and encouragement.",
+  "md-ed-4-t2":"🟠 TREATMENT: Anxiety reduction - addressing the fear response to new or avoided foods.",
+  "md-ed-4-t3":"🟠 TREATMENT: Food shaping - starting with safe foods and gradually modifying texture, taste, or type.",
+  // Neurodevelopmental
+  "md-nd":"Neurodevelopmental disorders - conditions originating in early development affecting daily functioning.",
+  "md-nd-1":"ADHD - Attention-Deficit/Hyperactivity Disorder. Inattention, impulsivity, and/or hyperactivity impairing daily life.",
+  "md-nd-1-t1":"🟠 TREATMENT: CBT + executive function coaching - planning, organization, and prioritization via WhatsApp tasks.",
+  "md-nd-1-t2":"🟠 TREATMENT: Time management tools - AI sends time-blocking suggestions, reminders, and routine check-ins.",
+  "md-nd-1-t3":"🟠 TREATMENT: Task breakdown - AI helps patient decompose overwhelming tasks into small actionable steps.",
+  "md-nd-1-t4":"🟠 TREATMENT: Medication adherence support - daily reminders and side effect monitoring.",
+  "md-nd-2":"Autism Spectrum Disorder (ASD) - challenges with social communication and restricted, repetitive behaviors.",
+  "md-nd-2-t1":"🟠 TREATMENT: Social scripts - AI provides scripted conversation examples for common social situations.",
+  "md-nd-2-t2":"🟠 TREATMENT: ASD psychoeducation - understanding sensory sensitivities, social differences, and self-advocacy.",
+  "md-nd-2-t3":"🟠 TREATMENT: Routine and structure support - AI helps maintain and adapt daily schedules for stability.",
+  "md-nd-3":"Learning Disorders - dyslexia, dyscalculia, dysgraphia. Difficulties in reading, math, or writing.",
+  "md-nd-3-t1":"🟠 TREATMENT: Compensatory strategies - AI coaches use of tools, workarounds, and strengths-based approaches.",
+  "md-nd-3-t2":"🟠 TREATMENT: CBT self-efficacy - addressing shame and negative self-beliefs related to academic struggles.",
+  "md-nd-3-t3":"🟠 TREATMENT: Study strategy coaching - AI suggests evidence-based learning strategies tailored to the patient.",
+  // Substance Use
+  "md-su":"Substance use disorders - problematic patterns of substance use leading to significant impairment or distress.",
+  "md-su-1":"Alcohol Use Disorder - problematic alcohol consumption with loss of control. Ranges from mild to severe.",
+  "md-su-1-t1":"🟠 TREATMENT: Motivational Interviewing (MI) - AI explores ambivalence about change using reflective listening.",
+  "md-su-1-t2":"🟠 TREATMENT: Craving management - urge surfing, distraction techniques, coping cards via WhatsApp.",
+  "md-su-1-t3":"🟠 TREATMENT: Relapse prevention - identifying high-risk situations, building coping plans, post-relapse recovery.",
+  "md-su-1-t4":"🟠 TREATMENT: AUDIT scale tracked monthly to measure alcohol use severity and treatment response.",
+  "md-su-2":"Substance Dependence - physical and/or psychological dependence on drugs (opioids, cannabis, stimulants, etc.).",
+  "md-su-2-t1":"🟠 TREATMENT: Motivational Interviewing - stage-matched intervention to build intrinsic motivation.",
+  "md-su-2-t2":"🟠 TREATMENT: Trigger mapping - AI identifies people, places, emotions, and situations that precede use.",
+  "md-su-2-t3":"🟠 TREATMENT: Relapse prevention with personalized coping plan built and stored in WhatsApp thread.",
+  "md-su-3":"Dual Diagnosis - co-occurring mental illness and substance use disorder. Requires integrated treatment.",
+  "md-su-3-t1":"🟠 TREATMENT: Integrated treatment protocol - addresses both disorders simultaneously rather than sequentially.",
+  "md-su-3-t2":"🟠 TREATMENT: Dual monitoring - separate tracking for both mental health symptoms and substance use metrics.",
+  "md-su-3-t3":"🟠 TREATMENT: Care coordination - AI facilitates communication between mental health and addiction specialists.",
+  // AI Engine
+  "ai":"The clinical AI that powers all patient conversations, diagnosis, and safety protocols.",
+  "ai-nl":"Natural Language Processing layer for understanding patient messages.",
+  "ai-nl-1":"Classifies what the patient is talking about in each message.",
+  "ai-nl-2":"Detects sadness, fear, anger, hopelessness from text.",
+  "ai-nl-3":"Real-time monitoring for suicidal ideation, self-harm language.",
+  "ai-nl-4":"Large Language Model fine-tuned on clinical conversation data.",
+  "ai-cp":"Evidence-based clinical protocol engines.",
+  "ai-cp-1":"Structured CBT modules: thought records, behavioral experiments.",
+  "ai-cp-2":"DBT skills delivery: TIPP, PLEASE, FAST, DEAR MAN.",
+  "ai-cp-3":"Cognitive Processing Therapy for trauma: stuck points, challenging questions.",
+  "ai-cp-4":"Acceptance and Commitment Therapy: values, defusion, acceptance.",
+  "ai-dx":"Automated diagnostic reasoning engine.",
+  "ai-dx-1":"Groups reported symptoms into diagnostic clusters.",
+  "ai-dx-2":"Maps patient symptoms to DSM-5 diagnostic criteria.",
+  "ai-dx-3":"0-100 severity score updated after each session.",
+  "ai-dx-4":"Considers multiple possible diagnoses with probability weighting.",
+  "ai-sf":"Non-negotiable patient safety systems.",
+  "ai-sf-1":"C-SSRS-based suicide risk questions triggered by crisis language.",
+  "ai-sf-2":"Columbia Suicide Severity Rating Scale - standardized protocol.",
+  "ai-sf-3":"Automatic notification to therapist when risk is detected.",
+  "ai-sf-4":"AI provides emergency hotline numbers and can contact services.",
+  // Analytics
+  "an":"Comprehensive analytics platform for therapists, organizations, and clinical researchers.",
+  "an-td":"Main therapist interface - overview of entire caseload.",
+  "an-td-1":"Grid view of all patients with severity indicators.",
+  "an-td-2":"Color-coded grid showing which patients need attention.",
+  "an-td-3":"Who completed their check-ins and exercises vs. who didn't.",
+  "an-td-4":"Chronological list of crisis alerts, regression alerts, non-responses.",
+  "an-pa":"Deep-dive analytics for individual patients.",
+  "an-pa-1":"Day-by-day mood scores plotted over time.",
+  "an-pa-2":"PHQ-9, GAD-7, PCL-5 scores trending up or down.",
+  "an-pa-3":"Validated questionnaire scores with normative comparison bands.",
+  "an-pa-4":"Chart of how often patient initiates vs. responds to check-ins.",
+  "an-pi":"Aggregate insights across the patient population.",
+  "an-pi-1":"Breakdown of which disorders are most common in the population.",
+  "an-pi-2":"Recovery rates, average treatment duration, dropout rates.",
+  "an-pi-3":"Message response rates, exercise completion rates.",
+  "an-pi-4":"% of patients who reached clinically significant improvement.",
+  "an-rp":"Automated and on-demand reporting.",
+  "an-rp-1":"Auto-generated weekly clinical summary PDF.",
+  "an-rp-2":"AI-drafted session notes in SOAP format.",
+  "an-rp-3":"Data export to Epic, Cerner, or HL7 FHIR format.",
+  "an-rp-4":"Full log of all AI decisions for compliance review.",
+  // Platform
+  "pl":"Technical infrastructure, integrations, compliance, and administration.",
+  "pl-in":"Third-party system integrations.",
+  "pl-in-1":"Meta's official WhatsApp Business API for enterprise messaging.",
+  "pl-in-2":"Bi-directional sync with major EHR/EMR systems.",
+  "pl-in-3":"Zoom integration for therapist video session scheduling.",
+  "pl-in-4":"Stripe / local payment gateways for subscriptions.",
+  "pl-sc":"Enterprise-grade security and regulatory compliance.",
+  "pl-sc-1":"Full HIPAA Business Associate Agreement (BAA) compliance.",
+  "pl-sc-2":"End-to-end encryption of all patient data at rest and in transit.",
+  "pl-sc-3":"Therapists see only their patients; org admins see aggregate only.",
+  "pl-sc-4":"Immutable audit trail of all access and modifications.",
+  "pl-ad":"Organization and system administration.",
+  "pl-ad-1":"Multi-tenant: separate spaces per clinic or health system.",
+  "pl-ad-2":"Therapist onboarding, license verification, seat management.",
+  "pl-ad-3":"Per-seat or per-patient pricing with usage-based billing.",
+  "pl-ad-4":"Enable/disable experimental features per organization.",
+  "pl-i18n":"Multi-language support for diverse patient populations.",
+  "pl-i18n-1":"Hebrew - full interface and AI conversation support.",
+  "pl-i18n-2":"English - primary language.",
+  "pl-i18n-3":"Arabic - for MENA patient populations.",
+  "pl-i18n-4":"Right-to-left layout support for Hebrew and Arabic.",
+};
+
+const LEVELS=["Platform","Branch","Module","Disorder","🟠 Treatment"];
+const panel=document.getElementById("panel");
+const panelClose=document.getElementById("panel-close");
+function openPanel(id){
+  const o=byId[id];if(!o)return;
+  document.getElementById("panel-emoji").innerHTML=o.emoji||"";
+  document.getElementById("panel-title").textContent=o.label;
+  document.getElementById("panel-level").innerHTML=`<span class="panel-dot" style="background:${o.color}"></span>${LEVELS[Math.min(o.level,3)]}`;
+  document.getElementById("panel-desc").textContent=DESC[id]||"";
+  const kids=children[id]||[];
+  document.getElementById("panel-children").innerHTML=kids.map(k=>
+    `<div class="panel-child" onclick="openPanel('${k.id}')"><div class="panel-child-dot" style="background:${k.color}"></div><div class="panel-child-name">${k.label}</div></div>`
+  ).join("");
+  panel.classList.add("open");
+}
+panelClose.addEventListener("click",()=>panel.classList.remove("open"));
+
+let panelTouchStartY=0;
+panel.addEventListener("touchstart",e=>{panelTouchStartY=e.touches[0].clientY;},{passive:true});
+panel.addEventListener("touchend",e=>{
+  const dy=e.changedTouches[0].clientY-panelTouchStartY;
+  if(dy>60)panel.classList.remove("open");
+},{passive:true});
+
+// ── RENDER LOOP ───────────────────────────────────────────────────────────────
+function frame(t){drawStars(t);drawLines();updatePositions();requestAnimationFrame(frame);}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
