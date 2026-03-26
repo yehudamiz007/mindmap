@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "25.03.2026 18:00 IST",
+  "lastUpdated": "26.03.2026 09:00 IST",
   "stocks": [
     {
       "ticker": "ARM",
       "name": "Arm Holdings PLC",
-      "price": "$157.78",
+      "price": "$157.07",
       "news": 9.0,
-      "analyst": 8.5,
-      "technical": 8.8,
-      "total": 8.80,
-      "notes": "ARM זינקה +17% היום - שדרוג של גוגנהיים ועדויות חזקות על מומנטום AI בשוק הצ'יפים"
+      "analyst": 8.0,
+      "technical": 8.5,
+      "total": 8.48,
+      "notes": "זינוק של 16% על רקע כניסה לשוק שבבי AI ותמיכת Meta - קטליסט חזק השבוע"
     },
     {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
-      "price": "$180.51",
+      "price": "$178.68",
       "news": 8.0,
-      "analyst": 9.0,
-      "technical": 8.5,
-      "total": 8.58,
-      "notes": "NVIDIA בועטת עם הכנסות של $68 מיליארד ב-Q4, AI דאטה סנטר ממשיך לדחוף את הביקושים"
-    },
-    {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies",
-      "price": "$158.77",
-      "news": 8.5,
-      "analyst": 7.5,
-      "technical": 8.5,
+      "analyst": 8.5,
+      "technical": 8.0,
       "total": 8.18,
-      "notes": "פאלנטיר - מומנטום חזק, הכנסות +70% שנה על שנה, AIP צובר לקוחות ממשלתיים ועסקיים"
+      "notes": "מובילה מדיה חברתית, הכנסות $68B ברבעון, ביקוש Blackwell Ultra עולה על היצע"
     },
     {
       "ticker": "META",
       "name": "Meta Platforms Inc",
-      "price": "$598.31",
+      "price": "$594.89",
       "news": 7.5,
-      "analyst": 9.0,
-      "technical": 7.5,
-      "total": 8.03,
-      "notes": "מטא - רכישות מוסדיות חדשות, Llama 4 מאיצה אימוץ עסקי, מניה מתקרבת לתמיכה טכנית"
-    },
-    {
-      "ticker": "AMZN",
-      "name": "Amazon.com Inc",
-      "price": "$212.14",
-      "news": 8.0,
       "analyst": 8.5,
-      "technical": 7.5,
-      "total": 8.00,
-      "notes": "ג'פריס רואה אמזון undervalued - AWS AI מרחיב שולי רווח, Benzinga מדגישה השקעות רובוטיקה"
+      "technical": 8.0,
+      "total": 8.03,
+      "notes": "מטא AI מגיע למיליארד משתמשים, הכנסות פרסום מאיצות, יעד אנליסטים $700-750"
     },
     {
-      "ticker": "BTC",
-      "name": "Bitcoin",
-      "price": "$71,275.93",
+      "ticker": "HOOD",
+      "name": "Robinhood Markets Inc",
+      "price": "$72.54",
       "news": 8.5,
-      "analyst": 8.0,
+      "analyst": 7.0,
       "technical": 7.5,
-      "total": 8.00,
-      "notes": "בלאקרוק מנפיק תחזית ענקית לביטקוין, זהב מאבד בסטריק של 100 שנה - ביטקוין מרוויח"
+      "total": 7.68,
+      "notes": "עלייה של 5% היום, נפחי מסחר בקריפטו עולים עם שוק השוורים, מומנטום חזק"
     },
     {
       "ticker": "AAPL",
       "name": "Apple Inc",
-      "price": "$253.42",
+      "price": "$252.62",
       "news": 8.0,
-      "analyst": 7.5,
-      "technical": 7.5,
-      "total": 7.73,
-      "notes": "אפל - מכירות אייפון 17 טובות מהצפוי, Apple Intelligence מאיצה מחזור שדרוגים"
-    },
-    {
-      "ticker": "ETH",
-      "name": "Ethereum",
-      "price": "$2,175.65",
-      "news": 7.5,
       "analyst": 7.0,
-      "technical": 7.0,
-      "total": 7.18,
-      "notes": "אתריום - SEC הכיר בו כסחורה דיגיטלית, TradFi מתעניין ב-staked ETH, הארווארד בנה פוזיציה"
-    },
-    {
-      "ticker": "RDDT",
-      "name": "Reddit",
-      "price": "$142.74",
-      "news": 7.0,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.18,
-      "notes": "רדיט - הכנסות +70% שנה על שנה, שותפויות AI לאימון מודלים, מניה נסחרת מתחת ליעדי אנליסטים"
+      "technical": 7.5,
+      "total": 7.48,
+      "notes": "מכירות iPhone 17 טובות מהצפוי, Apple Intelligence מניעה ביקוש מחדש"
     },
     {
       "ticker": "CRWD",
-      "name": "CrowdStrike Holdings",
-      "price": "$397.38",
+      "name": "CrowdStrike Holdings Inc",
+      "price": "$385.86",
       "news": 6.5,
-      "analyst": 8.0,
+      "analyst": 7.5,
       "technical": 7.5,
-      "total": 7.38,
-      "notes": "קראוסטרייק - תזרים מזומנים חזק, מכירות פנימיות של המנכ\"ל - בטחון ביטחון סייבר איתן"
+      "total": 7.18,
+      "notes": "הכנסות $1.31B עם צמיחה של 23%, ביקוש אבטחת סייבר מת ניסיון - חיסרון: מכירות פנים"
     },
     {
-      "ticker": "TSLA",
-      "name": "Tesla Inc",
-      "price": "$393.19",
+      "ticker": "TSM",
+      "name": "Taiwan Semiconductor",
+      "price": "$347.75",
       "news": 7.0,
-      "analyst": 6.5,
-      "technical": 7.5,
-      "total": 7.03,
-      "notes": "טסלה - FSD 14.3 יצא, מומנטום רובוטי מול אמזון, תמחור גבוה על רקע רווח נמוך"
+      "analyst": 7.5,
+      "technical": 7.0,
+      "total": 7.18,
+      "notes": "הספקית הגדולה בעולם, הכנסות $1.05T TWD, מרכזי לכל מהפכת ה-AI"
+    },
+    {
+      "ticker": "RDDT",
+      "name": "Reddit Inc",
+      "price": "$139.63",
+      "news": 7.0,
+      "analyst": 7.5,
+      "technical": 7.0,
+      "total": 7.18,
+      "notes": "צמיחת הכנסות 70%, הסכמי רישוי נתונים ל-AI, מסחר מתחת ליעד האנליסטים"
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies Inc",
+      "price": "$154.96",
+      "news": 7.5,
+      "analyst": 5.5,
+      "technical": 8.0,
+      "total": 7.00,
+      "notes": "צמיחה של 70% ברבעון, 'קטגוריה ייחודית' לפי אנליסטים - אך מחיר P/E גבוה של 244"
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$92.10",
-      "news": 6.5,
-      "analyst": 7.0,
+      "price": "$89.04",
+      "news": 7.0,
+      "analyst": 6.5,
       "technical": 7.0,
-      "total": 6.85,
-      "notes": "סולאנה - SEC אישר כסחורה, תמיכה שבועית שרידה, מחיר מתמודד עם רמות התנגדות חשובות"
-    },
-    {
-      "ticker": "MELI",
-      "name": "MercadoLibre Inc",
-      "price": "$1,646.33",
-      "news": 5.5,
-      "analyst": 7.5,
-      "technical": 5.5,
-      "total": 6.20,
-      "notes": "מרקדוליברה - השקעה של $11 מיליארד בברזיל שגרמה לירידה, בשפל 52 שבועות - הזדמנות לטווח ארוך"
+      "total": 6.83,
+      "notes": "בולט עם תזרים חיובי ל-ETF בעוד Bitcoin ו-Ethereum סובלים מיציאות - חוזק יחסי"
     },
     {
       "ticker": "MSTR",
       "name": "Strategy Inc (MicroStrategy)",
-      "price": "$141.45",
-      "news": 6.0,
-      "analyst": 5.0,
+      "price": "$139.13",
+      "news": 6.5,
+      "analyst": 6.5,
       "technical": 6.5,
-      "total": 5.93,
-      "notes": "סטרטג'י - הנפקת חוב של $21 מיליארד נוסף לרכישת ביטקוין, רווחיות שלילית, ריסק גבוה"
+      "total": 6.50,
+      "notes": "תוכנית ATM חדשה של $21B, חשיפה ממונפת ל-Bitcoin - סיכון גבוה, תגמול גבוה"
+    },
+    {
+      "ticker": "BTC",
+      "name": "Bitcoin",
+      "price": "$70,063.67",
+      "news": 5.5,
+      "analyst": 6.0,
+      "technical": 6.5,
+      "total": 6.03,
+      "notes": "לחץ ממכירות בהוטאן ויציאות מ-ETF, אך מחזיק מעל $70K - תמיכה קריטית"
+    },
+    {
+      "ticker": "CLSK",
+      "name": "CleanSpark Inc",
+      "price": "$9.96",
+      "news": 6.5,
+      "analyst": 6.0,
+      "technical": 5.5,
+      "total": 5.98,
+      "notes": "מינר Bitcoin עם עלויות נמוכות, דיבידנד מיוחד הוכרז - אך הפסדים ממשיכים"
+    },
+    {
+      "ticker": "ETH",
+      "name": "Ethereum",
+      "price": "$2,120.88",
+      "news": 5.0,
+      "analyst": 5.5,
+      "technical": 5.5,
+      "total": 5.35,
+      "notes": "יציאות ETF של $136M, Citigroup הוריד יעדים, חקיקת קריפטו תקועה"
     },
     {
       "ticker": "SMCI",
-      "name": "Super Micro Computer",
-      "price": "$23.62",
+      "name": "Super Micro Computer Inc",
+      "price": "$24.05",
       "news": 4.5,
       "analyst": 5.5,
       "technical": 5.0,
-      "total": 5.03,
-      "notes": "SMCI - כתבות על משבר ממשל חברתי מול מצוינות הנדסית, לחץ מכירה, בשפל 52 שבועות"
+      "total": 5.08,
+      "notes": "סיכון מוניטין גבוה לפי Seeking Alpha, שנה קשה - מחיר ירד מ-$62 לפני שנה"
     }
   ]
 }
