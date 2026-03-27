@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "26.03.2026 18:00 IST",
+  "lastUpdated": "27.03.2026 08:00 IST",
   "stocks": [
     {
-      "ticker": "RKLB",
-      "name": "Rocket Lab Corp",
-      "price": "$68.05",
-      "news": 8.5,
-      "analyst": 8.0,
-      "technical": 8.0,
-      "total": 8.17,
-      "notes": "כיסוי חדש מ-Clear Street עם המלצת קנייה; מניה שוברת שיאים על רקע השקת Neutron המתקרבת"
-    },
-    {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings",
-      "price": "$393.70",
+      "ticker": "MSTR",
+      "name": "Strategy Inc (MicroStrategy)",
+      "price": "$132.96",
       "news": 7.5,
-      "analyst": 8.5,
-      "technical": 8.0,
-      "total": 8.03,
-      "notes": "AgentWorks AI מוביל גל חדש של ביטחון סייבר; הכנסות גדלות 23% ומומנטום טכני חזק"
-    },
-    {
-      "ticker": "NVDA",
-      "name": "NVIDIA Corp",
-      "price": "$173.81",
-      "news": 8.0,
-      "analyst": 9.0,
+      "analyst": 9.5,
       "technical": 7.0,
-      "total": 7.95,
-      "notes": "Reflection AI בשווי 25 מיליארד קשורה ל-NVDA; הכנסות Q1 של 68 מיליארד עם צמיחה של 73%"
-    },
-    {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies",
-      "price": "$149.26",
-      "news": 7.0,
-      "analyst": 8.5,
-      "technical": 8.0,
-      "total": 7.93,
-      "notes": "שיתוף פעולה חדש עם Bain מאיץ AI ארגוני; יעד אנליסטים 196-201 דולר"
-    },
-    {
-      "ticker": "APP",
-      "name": "AppLovin Corp",
-      "price": "$397.02",
-      "news": 6.0,
-      "analyst": 8.5,
-      "technical": 8.5,
-      "total": 7.78,
-      "notes": "ירידה של 8% היום בגלל מוכרים בחסר - הזדמנות קנייה; הכנסות גדלות 66% ורווח נקי 83%"
-    },
-    {
-      "ticker": "AMD",
-      "name": "Advanced Micro Devices",
-      "price": "$207.87",
-      "news": 7.5,
-      "analyst": 8.0,
-      "technical": 7.5,
-      "total": 7.67,
-      "notes": "דיווחים על העלאת מחירי CPU מחזקים את הרווחיות; מזומן הכפיל ל-10.5 מיליארד"
+      "total": 8.07,
+      "notes": "פרוקסי ביטקוין עם מינוף - מחיר יעד ממוצע $349 (+163%), קונצנזוס Strong Buy, BTC תומך בעלייה"
     },
     {
       "ticker": "META",
       "name": "Meta Platforms Inc",
-      "price": "$561.50",
+      "price": "$547.75",
+      "news": 6.5,
+      "analyst": 9.5,
+      "technical": 7.5,
+      "total": 7.90,
+      "notes": "ירידה חדה -8% על רקע סיכונים משפטיים - הזדמנות קנייה, יעד ממוצע $838 (+53%), Llama 4 בדרך"
+    },
+    {
+      "ticker": "ARM",
+      "name": "Arm Holdings PLC",
+      "price": "$154.80",
+      "news": 8.5,
+      "analyst": 7.0,
+      "technical": 8.0,
+      "total": 7.80,
+      "notes": "יעד שיא חדש ברחוב היום - שדרוג Needham + Barclays, מרכזי ה-AI מאמצים ארכיטקטורת ARM, מומנטום חזק"
+    },
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA Corp",
+      "price": "$171.24",
+      "news": 7.5,
+      "analyst": 9.5,
+      "technical": 6.5,
+      "total": 7.75,
+      "notes": "Strong Buy מ-38 אנליסטים, יעד ממוצע $266 (+55%), ביקוש Blackwell ממשיך לגדול, דיפ לקנייה"
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies Inc",
+      "price": "$147.56",
       "news": 7.0,
       "analyst": 8.0,
-      "technical": 7.5,
-      "total": 7.52,
-      "notes": "נרכש על ידי Grove Bank & Trust; ב-Jim Cramer Portfolio; P/E של 19 - זול לטכנולוגיה"
+      "technical": 8.0,
+      "total": 7.75,
+      "notes": "שותפות עם Bain Capital ל-AI ארגוני, יעד $195 (+32%), הכנסות ממשלתיות ומסחריות מואצות"
     },
     {
-      "ticker": "COIN",
-      "name": "Coinbase Global Inc",
-      "price": "$176.56",
+      "ticker": "AVGO",
+      "name": "Broadcom Inc",
+      "price": "$309.42",
+      "news": 8.0,
+      "analyst": 9.0,
+      "technical": 7.0,
+      "total": 7.85,
+      "notes": "AI thesis מתממש מהר מהצפוי, יעד $431 (+39%), הזמנות XPU מגוגל ומטא מזנקות, Strong Buy"
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings Inc",
+      "price": "$392.62",
       "news": 7.5,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.25,
-      "notes": "Goldman Sachs קבע יעד של 235 דולר - 30% עלייה פוטנציאלית; רגולציה נוחה לקריפטו"
+      "analyst": 8.5,
+      "technical": 7.5,
+      "total": 7.72,
+      "notes": "AgentWorks AI פורץ לשוק, יעד $507 (+29%), ARR צומח, שדרוג Morgan Stanley השבוע"
     },
     {
-      "ticker": "ORCL",
-      "name": "Oracle Corp",
-      "price": "$144.78",
-      "news": 6.0,
-      "analyst": 7.5,
+      "ticker": "HOOD",
+      "name": "Robinhood Markets Inc",
+      "price": "$70.35",
+      "news": 7.5,
+      "analyst": 8.5,
       "technical": 7.0,
-      "total": 6.83,
-      "notes": "יעד אנליסטים 256 דולר - 77% פוטנציאל; Agentic AI מוביל בסיס נתונים ו-Fusion Cloud"
+      "total": 7.60,
+      "notes": "כניסת Jefferies עם Buy $88, יעד ממוצע $109 (+55%), נפחי קריפטו ואופציות עולים, רווחיות גדלה"
     },
     {
       "ticker": "BTC",
       "name": "Bitcoin",
-      "price": "$69,379.31",
+      "price": "$68,585.42",
       "news": 6.5,
-      "analyst": 6.5,
+      "analyst": 8.0,
       "technical": 7.0,
-      "total": 6.68,
-      "notes": "טווח מסחר צר של 50 יום - לא דגל דובי; Strategy של סיילור ממשיכה לצבור"
-    },
-    {
-      "ticker": "TSLA",
-      "name": "Tesla Inc",
-      "price": "$379.80",
-      "news": 5.5,
-      "analyst": 7.0,
-      "technical": 6.5,
-      "total": 6.38,
-      "notes": "יעד אנליסטים 407 דולר; חששות ממכירות אירופה לחצות עם השקת רובוטקסי בפרדוקס"
-    },
-    {
-      "ticker": "ETH",
-      "name": "Ethereum",
-      "price": "$2,074.88",
-      "news": 6.0,
-      "analyst": 6.5,
-      "technical": 6.0,
-      "total": 6.17,
-      "notes": "מחסור בהיצע ETH מואץ; Citi הוריד יעד; Pectra Upgrade נשאר קטליזטור לטווח בינוני"
+      "total": 7.18,
+      "notes": "תזרים מוסדי ממשיך, ETF ביקוש, אך לחץ מאיראן ומכסים - תמיכה ב-$65K, מומנטום מחזורי"
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$87.48",
-      "news": 5.5,
-      "analyst": 6.0,
-      "technical": 5.5,
-      "total": 5.68,
-      "notes": "בוחן תמיכה ב-72 דולר; Backpack BP Token הוא קטליזטור אקוסיסטם; מזג אוויר קריפטו קשה"
+      "price": "$87.63",
+      "news": 6.5,
+      "analyst": 7.0,
+      "technical": 6.5,
+      "total": 6.67,
+      "notes": "DePIN ואפליקציות צרכניות מניעות ביקוש, TVL גבוה, תמיכה טכנית ב-$80, פוטנציאל ל-$120+"
     },
     {
-      "ticker": "MSTR",
-      "name": "Strategy Inc (MicroStrategy)",
-      "price": "$137.65",
-      "news": 5.0,
-      "analyst": 5.5,
-      "technical": 5.5,
-      "total": 5.35,
-      "notes": "ביקוש אוצר BTC מתמוסס; Strategy שולטת ברכישות אבל הדילול מחשש; P/B מתחת ל-1"
+      "ticker": "SUI",
+      "name": "Sui Network",
+      "price": "$0.92",
+      "news": 6.0,
+      "analyst": 6.5,
+      "technical": 6.5,
+      "total": 6.33,
+      "notes": "Layer-1 עולה עם TVL גדל, מיעוט תחרות, מומנטום מפתחים, פוטנציאל X5 אם שוק קריפטו יתאושש"
+    },
+    {
+      "ticker": "ETH",
+      "name": "Ethereum",
+      "price": "$2,060.03",
+      "news": 5.5,
+      "analyst": 7.0,
+      "technical": 6.0,
+      "total": 6.23,
+      "notes": "שדרוג Pectra קרוב, אחזקות הרווארד גדלות, אך ביקוש מוסדי חלש לעת עתה, תמיכה ב-$2K"
+    },
+    {
+      "ticker": "TSLA",
+      "name": "Tesla Inc",
+      "price": "$372.11",
+      "news": 5.5,
+      "analyst": 4.5,
+      "technical": 7.0,
+      "total": 5.80,
+      "notes": "קונצנזוס Hold, ירידה במכירות אירופה, רכב רובוטקסי מתקדם אך אנליסטים מחולקים, P/E 346x"
     },
     {
       "ticker": "SMCI",
-      "name": "Super Micro Computer",
-      "price": "$22.60",
-      "news": 4.0,
+      "name": "Super Micro Computer Inc",
+      "price": "$22.21",
+      "news": 3.5,
       "analyst": 5.0,
+      "technical": 4.0,
+      "total": 4.23,
+      "notes": "תביעות משפטיות חדשות, הורדות דירוג מ-Citi ו-BofA, קונצנזוס Hold עם Strong Sell מנורת אזהרה"
+    },
+    {
+      "ticker": "RXRX",
+      "name": "Recursion Pharmaceuticals Inc",
+      "price": "$3.15",
+      "news": 3.0,
+      "analyst": 4.5,
       "technical": 4.5,
-      "total": 4.52,
-      "notes": "Seeking Alpha: 'AI ענק עם מיכל דולף'; סיכון מוניטין עצום; שנת שיא 62 דולר מול 22 היום"
+      "total": 4.03,
+      "notes": "NVIDIA מכרה את חלקה - אות שלילי חזק, הנהלה חדשה (CMO), חברה עדיין מפסידה, סיכון גבוה"
     }
   ]
 }
