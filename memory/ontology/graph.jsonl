@@ -1,0 +1,212 @@
+{"op":"create","entity":{"id":"person_yehuda","type":"Person","properties":{"name":"Yehuda Mizrahi","role":"Owner & Admin","whatsapp":"+972502446410"}}}
+{"op":"create","entity":{"id":"person_ilana","type":"Person","properties":{"name":"Ilana Briskman Mizrahi","whatsapp":"+972542049822"}}}
+{"op":"create","entity":{"id":"person_avior","type":"Person","properties":{"name":"Avior Mizrahi","born":"19.04.2019","notes":"כיתה א, צייר מוכשר"}}}
+{"op":"create","entity":{"id":"person_nitai","type":"Person","properties":{"name":"Nitai Mizrahi","born":"11.01.2022","notes":"גן ילדים, ספורטאי"}}}
+{"op":"create","entity":{"id":"person_arbel","type":"Person","properties":{"name":"Arbel Mizrahi","born":"08.04.2025","notes":"תינוקת, עיניים כחולות"}}}
+{"op":"create","entity":{"id":"skill_ai_architect","type":"Document","properties":{"title":"ai-chief-architect","category":"Skill","description":"System design, architecture decisions, ADRs"}}}
+{"op":"create","entity":{"id":"skill_husband","type":"Document","properties":{"title":"husband","category":"Skill","description":"Relationship support, available for Ilana"}}}
+{"op":"create","entity":{"id":"skill_parenting","type":"Document","properties":{"title":"parenting","category":"Skill","description":"Tailored to Avior, Nitai, Arbel"}}}
+{"op":"create","entity":{"id":"skill_hebrew","type":"Document","properties":{"title":"hebrew","category":"Skill","description":"Bilingual Hebrew/English communication"}}}
+{"op":"create","entity":{"id":"skill_technical_analysis","type":"Document","properties":{"title":"technical-analysis","category":"Skill","description":"Elliott Wave, Wyckoff, chart analysis"}}}
+{"op":"create","entity":{"id":"skill_market_news","type":"Document","properties":{"title":"market-news-sentiment","category":"Skill","description":"News sentiment analysis - Grok model"}}}
+{"op":"create","entity":{"id":"skill_analyst_targets","type":"Document","properties":{"title":"analyst-price-targets","category":"Skill","description":"Wall Street price targets & consensus"}}}
+{"op":"create","entity":{"id":"skill_secure_dl","type":"Document","properties":{"title":"secure-skill-downloader","category":"Skill","description":"Security gatekeeper for all skill installs"}}}
+{"op":"create","entity":{"id":"skill_ecovacs","type":"Document","properties":{"title":"ecovacs","category":"Skill","description":"DEEBOT X8 PRO OMNI controller"}}}
+{"op":"create","entity":{"id":"skill_databricks","type":"Document","properties":{"title":"databricks","category":"Skill","description":"Databricks Lakehouse: Unity Catalog, Delta Lake, MLflow"}}}
+{"op":"create","entity":{"id":"skill_data_engineer","type":"Document","properties":{"title":"data-engineer","category":"Skill","description":"Spark, PySpark, dbt, ADLS, Azure, S3, medallion arch"}}}
+{"op":"create","entity":{"id":"skill_nextjs_backend","type":"Document","properties":{"title":"nextjs-backend","category":"Skill","description":"Next.js API routes, Supabase, NextAuth"}}}
+{"op":"create","entity":{"id":"skill_nextjs_frontend","type":"Document","properties":{"title":"nextjs-frontend","category":"Skill","description":"React, Tailwind, Chart.js, Hebrew RTL"}}}
+{"op":"create","entity":{"id":"skill_coffee","type":"Document","properties":{"title":"coffee-master","category":"Skill","description":"La Marzocco Linea Micra espresso mastery"}}}
+{"op":"create","entity":{"id":"skill_fitness","type":"Document","properties":{"title":"fitness-nutrition","category":"Skill","description":"Workout plans, nutrition, macros"}}}
+{"op":"create","entity":{"id":"skill_weather","type":"Document","properties":{"title":"weather","category":"Skill","description":"Weather via wttr.in / Open-Meteo"}}}
+{"op":"create","entity":{"id":"skill_ontology","type":"Document","properties":{"title":"ontology","category":"Skill","description":"Typed knowledge graph, entity relations"}}}
+{"op":"create","entity":{"id":"skill_skill_creator","type":"Document","properties":{"title":"skill-creator","category":"Skill","description":"Create, edit, audit AgentSkills"}}}
+{"op":"create","entity":{"id":"skill_gh_issues","type":"Document","properties":{"title":"gh-issues","category":"Skill","description":"GitHub issues, PRs, CI monitoring"}}}
+{"op":"create","entity":{"id":"skill_github","type":"Document","properties":{"title":"github","category":"Skill","description":"GitHub CLI operations"}}}
+{"op":"create","entity":{"id":"skill_healthcheck","type":"Document","properties":{"title":"healthcheck","category":"Skill","description":"Host security hardening"}}}
+{"op":"create","entity":{"id":"skill_node_connect","type":"Document","properties":{"title":"node-connect","category":"Skill","description":"Diagnose OpenClaw node connection failures"}}}
+{"op":"create","entity":{"id":"skill_video_frames","type":"Document","properties":{"title":"video-frames","category":"Skill","description":"Extract frames from videos with ffmpeg"}}}
+{"op":"create","entity":{"id":"cat_family","type":"Organization","properties":{"name":"Family Skills","type":"category"}}}
+{"op":"create","entity":{"id":"cat_finance","type":"Organization","properties":{"name":"Finance & Trading","type":"category"}}}
+{"op":"create","entity":{"id":"cat_data","type":"Organization","properties":{"name":"Data Engineering","type":"category"}}}
+{"op":"create","entity":{"id":"cat_dev","type":"Organization","properties":{"name":"Development","type":"category"}}}
+{"op":"create","entity":{"id":"cat_security","type":"Organization","properties":{"name":"Security","type":"category"}}}
+{"op":"create","entity":{"id":"cat_lifestyle","type":"Organization","properties":{"name":"Lifestyle","type":"category"}}}
+{"op":"create","entity":{"id":"cat_devtools","type":"Organization","properties":{"name":"Dev Tools","type":"category"}}}
+{"op":"relate","from":"skill_husband","rel":"belongs_to","to":"cat_family"}
+{"op":"relate","from":"skill_parenting","rel":"belongs_to","to":"cat_family"}
+{"op":"relate","from":"skill_hebrew","rel":"belongs_to","to":"cat_family"}
+{"op":"relate","from":"skill_technical_analysis","rel":"belongs_to","to":"cat_finance"}
+{"op":"relate","from":"skill_market_news","rel":"belongs_to","to":"cat_finance"}
+{"op":"relate","from":"skill_analyst_targets","rel":"belongs_to","to":"cat_finance"}
+{"op":"relate","from":"skill_databricks","rel":"belongs_to","to":"cat_data"}
+{"op":"relate","from":"skill_data_engineer","rel":"belongs_to","to":"cat_data"}
+{"op":"relate","from":"skill_nextjs_backend","rel":"belongs_to","to":"cat_dev"}
+{"op":"relate","from":"skill_nextjs_frontend","rel":"belongs_to","to":"cat_dev"}
+{"op":"relate","from":"skill_ai_architect","rel":"belongs_to","to":"cat_dev"}
+{"op":"relate","from":"skill_secure_dl","rel":"belongs_to","to":"cat_security"}
+{"op":"relate","from":"skill_healthcheck","rel":"belongs_to","to":"cat_security"}
+{"op":"relate","from":"skill_coffee","rel":"belongs_to","to":"cat_lifestyle"}
+{"op":"relate","from":"skill_fitness","rel":"belongs_to","to":"cat_lifestyle"}
+{"op":"relate","from":"skill_weather","rel":"belongs_to","to":"cat_lifestyle"}
+{"op":"relate","from":"skill_ecovacs","rel":"belongs_to","to":"cat_lifestyle"}
+{"op":"relate","from":"skill_ontology","rel":"belongs_to","to":"cat_devtools"}
+{"op":"relate","from":"skill_skill_creator","rel":"belongs_to","to":"cat_devtools"}
+{"op":"relate","from":"skill_gh_issues","rel":"belongs_to","to":"cat_devtools"}
+{"op":"relate","from":"skill_github","rel":"belongs_to","to":"cat_devtools"}
+{"op":"relate","from":"skill_node_connect","rel":"belongs_to","to":"cat_devtools"}
+{"op":"relate","from":"skill_video_frames","rel":"belongs_to","to":"cat_devtools"}
+{"op":"relate","from":"skill_databricks","rel":"complements","to":"skill_data_engineer"}
+{"op":"relate","from":"skill_nextjs_frontend","rel":"complements","to":"skill_nextjs_backend"}
+{"op":"relate","from":"skill_technical_analysis","rel":"complements","to":"skill_market_news"}
+{"op":"relate","from":"skill_market_news","rel":"complements","to":"skill_analyst_targets"}
+{"op":"relate","from":"skill_secure_dl","rel":"guards","to":"skill_skill_creator"}
+{"op":"relate","from":"skill_skill_creator","rel":"creates","to":"skill_ontology"}
+{"op":"relate","from":"skill_gh_issues","rel":"uses","to":"skill_github"}
+{"op":"relate","from":"skill_husband","rel":"supports","to":"person_ilana"}
+{"op":"relate","from":"skill_parenting","rel":"supports","to":"person_avior"}
+{"op":"relate","from":"skill_parenting","rel":"supports","to":"person_nitai"}
+{"op":"relate","from":"skill_parenting","rel":"supports","to":"person_arbel"}
+{"op":"relate","from":"person_yehuda","rel":"owns","to":"skill_ai_architect"}
+{"op":"relate","from":"person_yehuda","rel":"owns","to":"skill_databricks"}
+{"op":"relate","from":"person_yehuda","rel":"owns","to":"skill_data_engineer"}
+{"op":"relate","from":"person_yehuda","rel":"owns","to":"skill_nextjs_backend"}
+{"op":"relate","from":"person_yehuda","rel":"owns","to":"skill_nextjs_frontend"}
+{"op":"relate","from":"person_yehuda","rel":"spouse","to":"person_ilana"}
+{"op":"relate","from":"person_yehuda","rel":"parent_of","to":"person_avior"}
+{"op":"relate","from":"person_yehuda","rel":"parent_of","to":"person_nitai"}
+{"op":"relate","from":"person_yehuda","rel":"parent_of","to":"person_arbel"}
+{"op":"create","entity":{"id":"req_001","type":"Action","properties":{"type":"request","content":"???? ?? ???? ?? NVDA","date":"2026-03"}}}
+{"op":"create","entity":{"id":"req_002","type":"Action","properties":{"type":"request","content":"?? ???????? ?? TSLA ???????","date":"2026-03"}}}
+{"op":"create","entity":{"id":"req_003","type":"Action","properties":{"type":"request","content":"?? ???? ???? ?? ???????? ?-AAPL?","date":"2026-03"}}}
+{"op":"create","entity":{"id":"req_004","type":"Action","properties":{"type":"request","content":"???? ?????????? ???????????? ?-NuDay","date":"2026-03"}}}
+{"op":"create","entity":{"id":"req_005","type":"Action","properties":{"type":"request","content":"??? Databricks pipeline ?? Unity Catalog","date":"2026-03"}}}
+{"op":"create","entity":{"id":"req_006","type":"Action","properties":{"type":"request","content":"??? API route ?? Supabase ?-NextAuth","date":"2026-03"}}}
+{"op":"create","entity":{"id":"req_007","type":"Action","properties":{"type":"request","content":"??? ?????? Next.js ?? Tailwind ?-Chart.js","date":"2026-03"}}}
+{"op":"create","entity":{"id":"req_008","type":"Action","properties":{"type":"request","content":"????? ?? ????? ????? ?? ?????","date":"2026-03"}}}
+{"op":"create","entity":{"id":"req_009","type":"Action","properties":{"type":"request","content":"??? ????? espresso ????? ?? Linea Micra?","date":"2026-03"}}}
+{"op":"create","entity":{"id":"req_010","type":"Action","properties":{"type":"request","content":"???? ?????? ???? ??????","date":"2026-03"}}}
+{"op":"create","entity":{"id":"req_011","type":"Action","properties":{"type":"request","content":"?? ??? ?????? ??? ?????","date":"2026-03"}}}
+{"op":"create","entity":{"id":"req_012","type":"Action","properties":{"type":"request","content":"???? ????? ??????? ??????","date":"2026-03"}}}
+{"op":"create","entity":{"id":"req_013","type":"Action","properties":{"type":"request","content":"?? ???????? ??????? ??????? ?? 6?","date":"2026-03"}}}
+{"op":"create","entity":{"id":"req_014","type":"Action","properties":{"type":"request","content":"???? ?????? - translate to Hebrew","date":"2026-03"}}}
+{"op":"create","entity":{"id":"req_015","type":"Action","properties":{"type":"request","content":"??? ???? data-engineer","date":"2026-03-25"}}}
+{"op":"create","entity":{"id":"req_016","type":"Action","properties":{"type":"request","content":"???? ???? ?-GitHub ???? ?????","date":"2026-03-25"}}}
+{"op":"create","entity":{"id":"req_017","type":"Action","properties":{"type":"request","content":"???? openclaw-bot-review dashboard","date":"2026-03-25"}}}
+{"op":"create","entity":{"id":"req_018","type":"Action","properties":{"type":"request","content":"???? ontology skill ?-ClawHub","date":"2026-03-25"}}}
+{"op":"create","entity":{"id":"req_019","type":"Action","properties":{"type":"request","content":"???? dbt incremental model ?-Databricks","date":"2026-03"}}}
+{"op":"create","entity":{"id":"req_020","type":"Action","properties":{"type":"request","content":"????? GitHub PR status ?-CI","date":"2026-03"}}}
+{"op":"relate","from":"req_001","rel":"triggered","to":"skill_technical_analysis"}
+{"op":"relate","from":"req_002","rel":"triggered","to":"skill_market_news"}
+{"op":"relate","from":"req_003","rel":"triggered","to":"skill_analyst_targets"}
+{"op":"relate","from":"req_004","rel":"triggered","to":"skill_ai_architect"}
+{"op":"relate","from":"req_005","rel":"triggered","to":"skill_databricks"}
+{"op":"relate","from":"req_006","rel":"triggered","to":"skill_nextjs_backend"}
+{"op":"relate","from":"req_007","rel":"triggered","to":"skill_nextjs_frontend"}
+{"op":"relate","from":"req_008","rel":"triggered","to":"skill_ecovacs"}
+{"op":"relate","from":"req_009","rel":"triggered","to":"skill_coffee"}
+{"op":"relate","from":"req_010","rel":"triggered","to":"skill_fitness"}
+{"op":"relate","from":"req_011","rel":"triggered","to":"skill_weather"}
+{"op":"relate","from":"req_012","rel":"triggered","to":"skill_husband"}
+{"op":"relate","from":"req_013","rel":"triggered","to":"skill_parenting"}
+{"op":"relate","from":"req_014","rel":"triggered","to":"skill_hebrew"}
+{"op":"relate","from":"req_015","rel":"triggered","to":"skill_skill_creator"}
+{"op":"relate","from":"req_016","rel":"triggered","to":"skill_secure_dl"}
+{"op":"relate","from":"req_017","rel":"triggered","to":"skill_node_connect"}
+{"op":"relate","from":"req_018","rel":"triggered","to":"skill_ontology"}
+{"op":"relate","from":"req_019","rel":"triggered","to":"skill_data_engineer"}
+{"op":"relate","from":"req_020","rel":"triggered","to":"skill_github"}
+{"op":"relate","from":"req_001","rel":"requested_by","to":"person_yehuda"}
+{"op":"relate","from":"req_002","rel":"requested_by","to":"person_yehuda"}
+{"op":"relate","from":"req_003","rel":"requested_by","to":"person_yehuda"}
+{"op":"relate","from":"req_004","rel":"requested_by","to":"person_yehuda"}
+{"op":"relate","from":"req_005","rel":"requested_by","to":"person_yehuda"}
+{"op":"relate","from":"req_006","rel":"requested_by","to":"person_yehuda"}
+{"op":"relate","from":"req_007","rel":"requested_by","to":"person_yehuda"}
+{"op":"relate","from":"req_008","rel":"requested_by","to":"person_yehuda"}
+{"op":"relate","from":"req_009","rel":"requested_by","to":"person_yehuda"}
+{"op":"relate","from":"req_010","rel":"requested_by","to":"person_yehuda"}
+{"op":"relate","from":"req_011","rel":"requested_by","to":"person_yehuda"}
+{"op":"relate","from":"req_012","rel":"requested_by","to":"person_yehuda"}
+{"op":"relate","from":"req_013","rel":"requested_by","to":"person_yehuda"}
+{"op":"relate","from":"req_014","rel":"requested_by","to":"person_yehuda"}
+{"op":"relate","from":"req_015","rel":"requested_by","to":"person_yehuda"}
+{"op":"relate","from":"req_016","rel":"requested_by","to":"person_yehuda"}
+{"op":"relate","from":"req_017","rel":"requested_by","to":"person_yehuda"}
+{"op":"relate","from":"req_018","rel":"requested_by","to":"person_yehuda"}
+{"op":"relate","from":"req_019","rel":"requested_by","to":"person_yehuda"}
+{"op":"relate","from":"req_020","rel":"requested_by","to":"person_yehuda"}
+{"op":"create","entity":{"id":"info_ai_arch_1","type":"Note","properties":{"content":"Microservices, Monolith, Event-driven, Serverless","tags":["patterns","architecture"]}}}
+{"op":"create","entity":{"id":"info_ai_arch_2","type":"Note","properties":{"content":"ADR - Architecture Decision Records","tags":["documentation"]}}}
+{"op":"create","entity":{"id":"info_ai_arch_3","type":"Note","properties":{"content":"Cloud-native: AWS, Azure, GCP trade-offs","tags":["cloud"]}}}
+{"op":"create","entity":{"id":"info_husband_1","type":"Note","properties":{"content":"Ilana born 11.04.1993, ??????? 14.09.2016","tags":["family","dates"]}}}
+{"op":"create","entity":{"id":"info_husband_2","type":"Note","properties":{"content":"???? 23.10.2010, ??? ???","tags":["family"]}}}
+{"op":"create","entity":{"id":"info_parenting_1","type":"Note","properties":{"content":"Avior 6yo - ???? ?, ???? ?????","tags":["kids"]}}}
+{"op":"create","entity":{"id":"info_parenting_2","type":"Note","properties":{"content":"Nitai 4yo - ??, ??????? ???????","tags":["kids"]}}}
+{"op":"create","entity":{"id":"info_parenting_3","type":"Note","properties":{"content":"Arbel 9mo - ?????? ?????, ?????? ??????","tags":["kids"]}}}
+{"op":"create","entity":{"id":"info_ta_1","type":"Note","properties":{"content":"Elliott Wave Theory - 5 impulse + 3 corrective","tags":["trading","methodology"]}}}
+{"op":"create","entity":{"id":"info_ta_2","type":"Note","properties":{"content":"Wyckoff Method - Accumulation/Distribution phases","tags":["trading","methodology"]}}}
+{"op":"create","entity":{"id":"info_ta_3","type":"Note","properties":{"content":"ICT/Smart Money Concepts - Order blocks, FVG","tags":["trading","methodology"]}}}
+{"op":"create","entity":{"id":"info_market_1","type":"Note","properties":{"content":"Grok model for real-time web-aware news analysis","tags":["model","news"]}}}
+{"op":"create","entity":{"id":"info_market_2","type":"Note","properties":{"content":"Multi-source sentiment: bullish/bearish/neutral signal","tags":["sentiment"]}}}
+{"op":"create","entity":{"id":"info_analyst_1","type":"Note","properties":{"content":"Wall Street consensus: buy/hold/sell ratings","tags":["finance"]}}}
+{"op":"create","entity":{"id":"info_analyst_2","type":"Note","properties":{"content":"Price targets: low/average/high + upside %","tags":["finance"]}}}
+{"op":"create","entity":{"id":"info_db_1","type":"Note","properties":{"content":"Unity Catalog - 3-level namespace: catalog.schema.table","tags":["databricks","unity-catalog"]}}}
+{"op":"create","entity":{"id":"info_db_2","type":"Note","properties":{"content":"Delta Lake - ACID transactions, time travel, MERGE INTO","tags":["databricks","delta"]}}}
+{"op":"create","entity":{"id":"info_db_3","type":"Note","properties":{"content":"DLT - Delta Live Tables, declarative pipelines","tags":["databricks","dlt"]}}}
+{"op":"create","entity":{"id":"info_db_4","type":"Note","properties":{"content":"MLflow - experiment tracking, model registry","tags":["databricks","ml"]}}}
+{"op":"create","entity":{"id":"info_de_1","type":"Note","properties":{"content":"Medallion: Bronze (raw) ? Silver (clean) ? Gold (biz)","tags":["architecture","data"]}}}
+{"op":"create","entity":{"id":"info_de_2","type":"Note","properties":{"content":"dbt: staging ? intermediate ? marts","tags":["dbt","data"]}}}
+{"op":"create","entity":{"id":"info_de_3","type":"Note","properties":{"content":"ADLS Gen2: abfss://<container>@<account>.dfs.core.windows.net","tags":["azure","storage"]}}}
+{"op":"create","entity":{"id":"info_de_4","type":"Note","properties":{"content":"Z-ORDER + OPTIMIZE for Delta performance tuning","tags":["spark","performance"]}}}
+{"op":"create","entity":{"id":"info_next_be_1","type":"Note","properties":{"content":"Next.js 14 App Router API routes","tags":["nextjs","backend"]}}}
+{"op":"create","entity":{"id":"info_next_be_2","type":"Note","properties":{"content":"Supabase Postgres + NextAuth Google OAuth","tags":["auth","database"]}}}
+{"op":"create","entity":{"id":"info_next_fe_1","type":"Note","properties":{"content":"Tailwind CSS + Chart.js + Hebrew RTL support","tags":["frontend","ui"]}}}
+{"op":"create","entity":{"id":"info_next_fe_2","type":"Note","properties":{"content":"Server/Client components, Vercel deployment","tags":["nextjs","deployment"]}}}
+{"op":"create","entity":{"id":"info_ecovacs_1","type":"Note","properties":{"content":"DEEBOT X8 PRO OMNI - yehudamiz007@gmail.com","tags":["smarthome"]}}}
+{"op":"create","entity":{"id":"info_ecovacs_2","type":"Note","properties":{"content":"Commands: clean, stop, pause, resume, charge, status, sound","tags":["smarthome","commands"]}}}
+{"op":"create","entity":{"id":"info_coffee_1","type":"Note","properties":{"content":"La Marzocco Linea Micra - espresso recipes","tags":["coffee"]}}}
+{"op":"create","entity":{"id":"info_coffee_2","type":"Note","properties":{"content":"Milk steaming, latte art, grinder settings, extraction","tags":["coffee"]}}}
+{"op":"create","entity":{"id":"info_fitness_1","type":"Note","properties":{"content":"Hypertrophy, strength training, body recomposition","tags":["fitness"]}}}
+{"op":"create","entity":{"id":"info_fitness_2","type":"Note","properties":{"content":"Macros, flexible dieting, sports nutrition","tags":["nutrition"]}}}
+{"op":"create","entity":{"id":"info_secure_1","type":"Note","properties":{"content":"Scans: prompt injection, credential theft, shell commands","tags":["security"]}}}
+{"op":"create","entity":{"id":"info_secure_2","type":"Note","properties":{"content":"Triple confirmation required for suspicious skills","tags":["security","process"]}}}
+{"op":"create","entity":{"id":"info_ontology_1","type":"Note","properties":{"content":"Entity types: Person, Project, Task, Event, Document","tags":["ontology","schema"]}}}
+{"op":"create","entity":{"id":"info_ontology_2","type":"Note","properties":{"content":"Storage: memory/ontology/graph.jsonl (append-only)","tags":["ontology","storage"]}}}
+{"op":"relate","from":"info_ai_arch_1","rel":"knowledge_in","to":"skill_ai_architect"}
+{"op":"relate","from":"info_ai_arch_2","rel":"knowledge_in","to":"skill_ai_architect"}
+{"op":"relate","from":"info_ai_arch_3","rel":"knowledge_in","to":"skill_ai_architect"}
+{"op":"relate","from":"info_husband_1","rel":"knowledge_in","to":"skill_husband"}
+{"op":"relate","from":"info_husband_2","rel":"knowledge_in","to":"skill_husband"}
+{"op":"relate","from":"info_parenting_1","rel":"knowledge_in","to":"skill_parenting"}
+{"op":"relate","from":"info_parenting_2","rel":"knowledge_in","to":"skill_parenting"}
+{"op":"relate","from":"info_parenting_3","rel":"knowledge_in","to":"skill_parenting"}
+{"op":"relate","from":"info_ta_1","rel":"knowledge_in","to":"skill_technical_analysis"}
+{"op":"relate","from":"info_ta_2","rel":"knowledge_in","to":"skill_technical_analysis"}
+{"op":"relate","from":"info_ta_3","rel":"knowledge_in","to":"skill_technical_analysis"}
+{"op":"relate","from":"info_market_1","rel":"knowledge_in","to":"skill_market_news"}
+{"op":"relate","from":"info_market_2","rel":"knowledge_in","to":"skill_market_news"}
+{"op":"relate","from":"info_analyst_1","rel":"knowledge_in","to":"skill_analyst_targets"}
+{"op":"relate","from":"info_analyst_2","rel":"knowledge_in","to":"skill_analyst_targets"}
+{"op":"relate","from":"info_db_1","rel":"knowledge_in","to":"skill_databricks"}
+{"op":"relate","from":"info_db_2","rel":"knowledge_in","to":"skill_databricks"}
+{"op":"relate","from":"info_db_3","rel":"knowledge_in","to":"skill_databricks"}
+{"op":"relate","from":"info_db_4","rel":"knowledge_in","to":"skill_databricks"}
+{"op":"relate","from":"info_de_1","rel":"knowledge_in","to":"skill_data_engineer"}
+{"op":"relate","from":"info_de_2","rel":"knowledge_in","to":"skill_data_engineer"}
+{"op":"relate","from":"info_de_3","rel":"knowledge_in","to":"skill_data_engineer"}
+{"op":"relate","from":"info_de_4","rel":"knowledge_in","to":"skill_data_engineer"}
+{"op":"relate","from":"info_next_be_1","rel":"knowledge_in","to":"skill_nextjs_backend"}
+{"op":"relate","from":"info_next_be_2","rel":"knowledge_in","to":"skill_nextjs_backend"}
+{"op":"relate","from":"info_next_fe_1","rel":"knowledge_in","to":"skill_nextjs_frontend"}
+{"op":"relate","from":"info_next_fe_2","rel":"knowledge_in","to":"skill_nextjs_frontend"}
+{"op":"relate","from":"info_ecovacs_1","rel":"knowledge_in","to":"skill_ecovacs"}
+{"op":"relate","from":"info_ecovacs_2","rel":"knowledge_in","to":"skill_ecovacs"}
+{"op":"relate","from":"info_coffee_1","rel":"knowledge_in","to":"skill_coffee"}
+{"op":"relate","from":"info_coffee_2","rel":"knowledge_in","to":"skill_coffee"}
+{"op":"relate","from":"info_fitness_1","rel":"knowledge_in","to":"skill_fitness"}
+{"op":"relate","from":"info_fitness_2","rel":"knowledge_in","to":"skill_fitness"}
+{"op":"relate","from":"info_secure_1","rel":"knowledge_in","to":"skill_secure_dl"}
+{"op":"relate","from":"info_secure_2","rel":"knowledge_in","to":"skill_secure_dl"}
+{"op":"relate","from":"info_ontology_1","rel":"knowledge_in","to":"skill_ontology"}
+{"op":"relate","from":"info_ontology_2","rel":"knowledge_in","to":"skill_ontology"}

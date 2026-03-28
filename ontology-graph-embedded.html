@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Yehuda's Knowledge Graph</title>
+  <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: #0f1117; color: #e2e8f0; height: 100vh; display: flex; flex-direction: column; }
+    header { padding: 14px 20px; background: #1a1d2e; border-bottom: 1px solid #2d3748; display: flex; align-items: center; gap: 16px; }
+    header h1 { font-size: 18px; font-weight: 600; color: #7c3aed; }
+    header span { font-size: 13px; color: #718096; }
+    .toolbar { padding: 10px 20px; background: #161827; border-bottom: 1px solid #2d3748; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .btn { padding: 6px 14px; border-radius: 6px; border: none; cursor: pointer; font-size: 13px; font-weight: 500; transition: 0.15s; }
+    .btn-secondary { background: #2d3748; color: #e2e8f0; }
+    .btn-secondary:hover { background: #374151; }
+    .filter-group { display: flex; gap: 6px; align-items: center; margin-left: auto; }
+    .filter-group label { font-size: 12px; color: #718096; }
+    select { background: #2d3748; border: 1px solid #4a5568; color: #e2e8f0; padding: 5px 10px; border-radius: 6px; font-size: 13px; }
+    .main { display: flex; flex: 1; overflow: hidden; }
+    #network { flex: 1; height: 100%; }
+    .sidebar { width: 300px; background: #1a1d2e; border-left: 1px solid #2d3748; display: flex; flex-direction: column; overflow: hidden; }
+    .sidebar-header { padding: 14px 16px; border-bottom: 1px solid #2d3748; font-size: 13px; font-weight: 600; color: #a78bfa; }
+    .sidebar-content { padding: 14px 16px; overflow-y: auto; flex: 1; }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .stat-card { background: #0f1117; border-radius: 8px; padding: 10px 12px; border: 1px solid #2d3748; }
+    .stat-card .val { font-size: 22px; font-weight: 700; color: #7c3aed; }
+    .stat-card .lbl { font-size: 11px; color: #718096; margin-top: 2px; }
+    .type-legend { margin-bottom: 16px; }
+    .type-legend h3 { font-size: 12px; color: #718096; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .type-item { display: flex; align-items: center; gap: 8px; padding: 5px 0; font-size: 13px; cursor: pointer; }
+    .type-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .node-detail { display: none; }
+    .node-detail.active { display: block; }
+    .node-detail h3 { font-size: 15px; font-weight: 600; margin-bottom: 10px; }
+    .prop-row { display: flex; gap: 8px; margin-bottom: 6px; font-size: 12px; }
+    .prop-key { color: #718096; min-width: 80px; flex-shrink: 0; }
+    .prop-val { color: #e2e8f0; word-break: break-all; }
+    .relations-list { margin-top: 12px; }
+    .relation-item { background: #0f1117; border: 1px solid #2d3748; border-radius: 6px; padding: 7px 10px; margin-bottom: 6px; font-size: 12px; }
+    .relation-type { color: #f59e0b; font-weight: 600; }
+    .relation-target { color: #60a5fa; }
+    #toast { position: fixed; bottom: 20px; right: 20px; background: #065f46; color: #ecfdf5; padding: 10px 18px; border-radius: 8px; font-size: 13px; display: none; z-index: 1000; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>🕸️ Yehuda's Knowledge Graph</h1>
+  <span id="stats-label">Loading...</span>
+</header>
+<div class="toolbar">
+  <button class="btn btn-secondary" onclick="fitGraph()">🔍 Fit</button>
+  <button class="btn btn-secondary" onclick="togglePhysics()">⚡ Physics</button>
+  <div class="filter-group">
+    <label>Filter:</label>
+    <select id="type-filter" onchange="applyFilter()"><option value="">All types</option></select>
+  </div>
+</div>
+<div class="main">
+  <div id="network"></div>
+  <div class="sidebar">
+    <div class="sidebar-header">Graph Info</div>
+    <div class="sidebar-content">
+      <div class="stat-grid">
+        <div class="stat-card"><div class="val" id="stat-nodes">0</div><div class="lbl">Entities</div></div>
+        <div class="stat-card"><div class="val" id="stat-edges">0</div><div class="lbl">Relations</div></div>
+        <div class="stat-card"><div class="val" id="stat-types">0</div><div class="lbl">Types</div></div>
+        <div class="stat-card"><div class="val" id="stat-ops">0</div><div class="lbl">Operations</div></div>
+      </div>
+      <div class="type-legend"><h3>Entity Types</h3><div id="legend"></div></div>
+      <div class="node-detail" id="node-detail">
+        <h3 id="detail-title"></h3>
+        <div id="detail-props"></div>
+        <div class="relations-list">
+          <h3 style="font-size:12px;color:#718096;margin-bottom:8px;">RELATIONS</h3>
+          <div id="detail-relations"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+const GRAPH_DATA = [
+{"op":"create","entity":{"id":"person_yehuda","type":"Person","properties":{"name":"Yehuda Mizrahi","role":"Owner & Admin"}}},
+{"op":"create","entity":{"id":"person_ilana","type":"Person","properties":{"name":"Ilana Briskman Mizrahi"}}},
+{"op":"create","entity":{"id":"person_avior","type":"Person","properties":{"name":"Avior Mizrahi","born":"19.04.2019","notes":"כיתה א, צייר מוכשר"}}},
+{"op":"create","entity":{"id":"person_nitai","type":"Person","properties":{"name":"Nitai Mizrahi","born":"11.01.2022","notes":"גן ילדים, ספורטאי"}}},
+{"op":"create","entity":{"id":"person_arbel","type":"Person","properties":{"name":"Arbel Mizrahi","born":"08.04.2025","notes":"תינוקת, עיניים כחולות"}}},
+{"op":"create","entity":{"id":"skill_ai_architect","type":"Document","properties":{"title":"ai-chief-architect","category":"Skill","description":"System design, architecture decisions, ADRs"}}},
+{"op":"create","entity":{"id":"skill_husband","type":"Document","properties":{"title":"husband","category":"Skill","description":"Relationship support, available for Ilana"}}},
+{"op":"create","entity":{"id":"skill_parenting","type":"Document","properties":{"title":"parenting","category":"Skill","description":"Tailored to Avior, Nitai, Arbel"}}},
+{"op":"create","entity":{"id":"skill_hebrew","type":"Document","properties":{"title":"hebrew","category":"Skill","description":"Bilingual Hebrew/English communication"}}},
+{"op":"create","entity":{"id":"skill_technical_analysis","type":"Document","properties":{"title":"technical-analysis","category":"Skill","description":"Elliott Wave, Wyckoff, chart analysis"}}},
+{"op":"create","entity":{"id":"skill_market_news","type":"Document","properties":{"title":"market-news-sentiment","category":"Skill","description":"News sentiment analysis - Grok model"}}},
+{"op":"create","entity":{"id":"skill_analyst_targets","type":"Document","properties":{"title":"analyst-price-targets","category":"Skill","description":"Wall Street price targets & consensus"}}},
+{"op":"create","entity":{"id":"skill_secure_dl","type":"Document","properties":{"title":"secure-skill-downloader","category":"Skill","description":"Security gatekeeper for all skill installs"}}},
+{"op":"create","entity":{"id":"skill_ecovacs","type":"Document","properties":{"title":"ecovacs","category":"Skill","description":"DEEBOT X8 PRO OMNI controller"}}},
+{"op":"create","entity":{"id":"skill_databricks","type":"Document","properties":{"title":"databricks","category":"Skill","description":"Databricks Lakehouse: Unity Catalog, Delta Lake, MLflow"}}},
+{"op":"create","entity":{"id":"skill_data_engineer","type":"Document","properties":{"title":"data-engineer","category":"Skill","description":"Spark, PySpark, dbt, ADLS, Azure, S3, medallion arch"}}},
+{"op":"create","entity":{"id":"skill_nextjs_backend","type":"Document","properties":{"title":"nextjs-backend","category":"Skill","description":"Next.js API routes, Supabase, NextAuth"}}},
+{"op":"create","entity":{"id":"skill_nextjs_frontend","type":"Document","properties":{"title":"nextjs-frontend","category":"Skill","description":"React, Tailwind, Chart.js, Hebrew RTL"}}},
+{"op":"create","entity":{"id":"skill_coffee","type":"Document","properties":{"title":"coffee-master","category":"Skill","description":"La Marzocco Linea Micra espresso mastery"}}},
+{"op":"create","entity":{"id":"skill_fitness","type":"Document","properties":{"title":"fitness-nutrition","category":"Skill","description":"Workout plans, nutrition, macros"}}},
+{"op":"create","entity":{"id":"skill_weather","type":"Document","properties":{"title":"weather","category":"Skill","description":"Weather via wttr.in / Open-Meteo"}}},
+{"op":"create","entity":{"id":"skill_ontology","type":"Document","properties":{"title":"ontology","category":"Skill","description":"Typed knowledge graph, entity relations"}}},
+{"op":"create","entity":{"id":"skill_skill_creator","type":"Document","properties":{"title":"skill-creator","category":"Skill","description":"Create, edit, audit AgentSkills"}}},
+{"op":"create","entity":{"id":"skill_gh_issues","type":"Document","properties":{"title":"gh-issues","category":"Skill","description":"GitHub issues, PRs, CI monitoring"}}},
+{"op":"create","entity":{"id":"skill_github","type":"Document","properties":{"title":"github","category":"Skill","description":"GitHub CLI operations"}}},
+{"op":"create","entity":{"id":"skill_healthcheck","type":"Document","properties":{"title":"healthcheck","category":"Skill","description":"Host security hardening"}}},
+{"op":"create","entity":{"id":"skill_node_connect","type":"Document","properties":{"title":"node-connect","category":"Skill","description":"Diagnose OpenClaw node connection failures"}}},
+{"op":"create","entity":{"id":"skill_video_frames","type":"Document","properties":{"title":"video-frames","category":"Skill","description":"Extract frames from videos with ffmpeg"}}},
+{"op":"create","entity":{"id":"cat_family","type":"Organization","properties":{"name":"Family Skills","type":"category"}}},
+{"op":"create","entity":{"id":"cat_finance","type":"Organization","properties":{"name":"Finance & Trading","type":"category"}}},
+{"op":"create","entity":{"id":"cat_data","type":"Organization","properties":{"name":"Data Engineering","type":"category"}}},
+{"op":"create","entity":{"id":"cat_dev","type":"Organization","properties":{"name":"Development","type":"category"}}},
+{"op":"create","entity":{"id":"cat_security","type":"Organization","properties":{"name":"Security","type":"category"}}},
+{"op":"create","entity":{"id":"cat_lifestyle","type":"Organization","properties":{"name":"Lifestyle","type":"category"}}},
+{"op":"create","entity":{"id":"cat_devtools","type":"Organization","properties":{"name":"Dev Tools","type":"category"}}},
+{"op":"create","entity":{"id":"req_001","type":"Action","properties":{"type":"request","content":"ניתוח טכני NVDA","date":"2026-03"}}},
+{"op":"create","entity":{"id":"req_002","type":"Action","properties":{"type":"request","content":"סנטימנט חדשות TSLA","date":"2026-03"}}},
+{"op":"create","entity":{"id":"req_003","type":"Action","properties":{"type":"request","content":"מחיר יעד אנליסטים AAPL","date":"2026-03"}}},
+{"op":"create","entity":{"id":"req_004","type":"Action","properties":{"type":"request","content":"ארכיטקטורת מיקרוסרביסים NuDay","date":"2026-03"}}},
+{"op":"create","entity":{"id":"req_005","type":"Action","properties":{"type":"request","content":"Databricks pipeline Unity Catalog","date":"2026-03"}}},
+{"op":"create","entity":{"id":"req_006","type":"Action","properties":{"type":"request","content":"API route Supabase NextAuth","date":"2026-03"}}},
+{"op":"create","entity":{"id":"req_007","type":"Action","properties":{"type":"request","content":"דשבורד Next.js Tailwind Chart.js","date":"2026-03"}}},
+{"op":"create","entity":{"id":"req_008","type":"Action","properties":{"type":"request","content":"הדלק שואב לנקות הסלון","date":"2026-03"}}},
+{"op":"create","entity":{"id":"req_009","type":"Action","properties":{"type":"request","content":"espresso מושלם Linea Micra","date":"2026-03"}}},
+{"op":"create","entity":{"id":"req_010","type":"Action","properties":{"type":"request","content":"תוכנית כושר שבועית","date":"2026-03"}}},
+{"op":"create","entity":{"id":"req_011","type":"Action","properties":{"type":"request","content":"מזג אוויר תל אביב","date":"2026-03"}}},
+{"op":"create","entity":{"id":"req_012","type":"Action","properties":{"type":"request","content":"הודעה רומנטית לאילנה","date":"2026-03"}}},
+{"op":"create","entity":{"id":"req_013","type":"Action","properties":{"type":"request","content":"פעילויות לאביאור בן 6","date":"2026-03"}}},
+{"op":"create","entity":{"id":"req_014","type":"Action","properties":{"type":"request","content":"תרגום לעברית","date":"2026-03"}}},
+{"op":"create","entity":{"id":"req_015","type":"Action","properties":{"type":"request","content":"צור סקיל data-engineer","date":"2026-03-25"}}},
+{"op":"create","entity":{"id":"req_016","type":"Action","properties":{"type":"request","content":"סרוק סקיל מ-GitHub לפני התקנה","date":"2026-03-25"}}},
+{"op":"create","entity":{"id":"req_017","type":"Action","properties":{"type":"request","content":"התקן openclaw-bot-review dashboard","date":"2026-03-25"}}},
+{"op":"create","entity":{"id":"req_018","type":"Action","properties":{"type":"request","content":"התקן ontology skill מ-ClawHub","date":"2026-03-25"}}},
+{"op":"create","entity":{"id":"req_019","type":"Action","properties":{"type":"request","content":"dbt incremental model Databricks","date":"2026-03"}}},
+{"op":"create","entity":{"id":"req_020","type":"Action","properties":{"type":"request","content":"GitHub PR status CI","date":"2026-03"}}},
+{"op":"create","entity":{"id":"info_ai_arch_1","type":"Note","properties":{"content":"Microservices, Monolith, Event-driven, Serverless"}}},
+{"op":"create","entity":{"id":"info_ai_arch_2","type":"Note","properties":{"content":"ADR - Architecture Decision Records"}}},
+{"op":"create","entity":{"id":"info_ai_arch_3","type":"Note","properties":{"content":"Cloud-native: AWS, Azure, GCP trade-offs"}}},
+{"op":"create","entity":{"id":"info_husband_1","type":"Note","properties":{"content":"Ilana born 11.04.1993, נישואין 14.09.2016"}}},
+{"op":"create","entity":{"id":"info_husband_2","type":"Note","properties":{"content":"הכרו 23.10.2010, מזל טלה"}}},
+{"op":"create","entity":{"id":"info_parenting_1","type":"Note","properties":{"content":"Avior 6yo - כיתה א, צייר מוכשר"}}},
+{"op":"create","entity":{"id":"info_parenting_2","type":"Note","properties":{"content":"Nitai 4yo - גן, ספורטאי כריזמטי"}}},
+{"op":"create","entity":{"id":"info_parenting_3","type":"Note","properties":{"content":"Arbel 9mo - מתחילה לזחול, עיניים כחולות"}}},
+{"op":"create","entity":{"id":"info_ta_1","type":"Note","properties":{"content":"Elliott Wave Theory - 5 impulse + 3 corrective"}}},
+{"op":"create","entity":{"id":"info_ta_2","type":"Note","properties":{"content":"Wyckoff Method - Accumulation/Distribution phases"}}},
+{"op":"create","entity":{"id":"info_ta_3","type":"Note","properties":{"content":"ICT/Smart Money Concepts - Order blocks, FVG"}}},
+{"op":"create","entity":{"id":"info_market_1","type":"Note","properties":{"content":"Grok model for real-time web-aware news analysis"}}},
+{"op":"create","entity":{"id":"info_market_2","type":"Note","properties":{"content":"Multi-source sentiment: bullish/bearish/neutral signal"}}},
+{"op":"create","entity":{"id":"info_analyst_1","type":"Note","properties":{"content":"Wall Street consensus: buy/hold/sell ratings"}}},
+{"op":"create","entity":{"id":"info_analyst_2","type":"Note","properties":{"content":"Price targets: low/average/high + upside %"}}},
+{"op":"create","entity":{"id":"info_db_1","type":"Note","properties":{"content":"Unity Catalog - catalog.schema.table namespace"}}},
+{"op":"create","entity":{"id":"info_db_2","type":"Note","properties":{"content":"Delta Lake - ACID, time travel, MERGE INTO"}}},
+{"op":"create","entity":{"id":"info_db_3","type":"Note","properties":{"content":"DLT - Delta Live Tables, declarative pipelines"}}},
+{"op":"create","entity":{"id":"info_db_4","type":"Note","properties":{"content":"MLflow - experiment tracking, model registry"}}},
+{"op":"create","entity":{"id":"info_de_1","type":"Note","properties":{"content":"Medallion: Bronze → Silver → Gold"}}},
+{"op":"create","entity":{"id":"info_de_2","type":"Note","properties":{"content":"dbt: staging → intermediate → marts"}}},
+{"op":"create","entity":{"id":"info_de_3","type":"Note","properties":{"content":"ADLS Gen2: abfss://<container>@<account>.dfs.core.windows.net"}}},
+{"op":"create","entity":{"id":"info_de_4","type":"Note","properties":{"content":"Z-ORDER + OPTIMIZE for Delta performance"}}},
+{"op":"create","entity":{"id":"info_next_be_1","type":"Note","properties":{"content":"Next.js 14 App Router API routes"}}},
+{"op":"create","entity":{"id":"info_next_be_2","type":"Note","properties":{"content":"Supabase Postgres + NextAuth Google OAuth"}}},
+{"op":"create","entity":{"id":"info_next_fe_1","type":"Note","properties":{"content":"Tailwind CSS + Chart.js + Hebrew RTL support"}}},
+{"op":"create","entity":{"id":"info_next_fe_2","type":"Note","properties":{"content":"Server/Client components, Vercel deployment"}}},
+{"op":"create","entity":{"id":"info_ecovacs_1","type":"Note","properties":{"content":"DEEBOT X8 PRO OMNI robot vacuum"}}},
+{"op":"create","entity":{"id":"info_ecovacs_2","type":"Note","properties":{"content":"Commands: clean, stop, pause, resume, charge, status"}}},
+{"op":"create","entity":{"id":"info_coffee_1","type":"Note","properties":{"content":"La Marzocco Linea Micra - espresso recipes"}}},
+{"op":"create","entity":{"id":"info_coffee_2","type":"Note","properties":{"content":"Milk steaming, latte art, grinder settings"}}},
+{"op":"create","entity":{"id":"info_fitness_1","type":"Note","properties":{"content":"Hypertrophy, strength training, body recomposition"}}},
+{"op":"create","entity":{"id":"info_fitness_2","type":"Note","properties":{"content":"Macros, flexible dieting, sports nutrition"}}},
+{"op":"create","entity":{"id":"info_secure_1","type":"Note","properties":{"content":"Scans: prompt injection, credential theft, shell commands"}}},
+{"op":"create","entity":{"id":"info_secure_2","type":"Note","properties":{"content":"Triple confirmation required for suspicious skills"}}},
+{"op":"create","entity":{"id":"info_ontology_1","type":"Note","properties":{"content":"Entity types: Person, Project, Task, Event, Document"}}},
+{"op":"create","entity":{"id":"info_ontology_2","type":"Note","properties":{"content":"Storage: memory/ontology/graph.jsonl (append-only)"}}},
+{"op":"relate","from":"skill_husband","rel":"belongs_to","to":"cat_family"},
+{"op":"relate","from":"skill_parenting","rel":"belongs_to","to":"cat_family"},
+{"op":"relate","from":"skill_hebrew","rel":"belongs_to","to":"cat_family"},
+{"op":"relate","from":"skill_technical_analysis","rel":"belongs_to","to":"cat_finance"},
+{"op":"relate","from":"skill_market_news","rel":"belongs_to","to":"cat_finance"},
+{"op":"relate","from":"skill_analyst_targets","rel":"belongs_to","to":"cat_finance"},
+{"op":"relate","from":"skill_databricks","rel":"belongs_to","to":"cat_data"},
+{"op":"relate","from":"skill_data_engineer","rel":"belongs_to","to":"cat_data"},
+{"op":"relate","from":"skill_nextjs_backend","rel":"belongs_to","to":"cat_dev"},
+{"op":"relate","from":"skill_nextjs_frontend","rel":"belongs_to","to":"cat_dev"},
+{"op":"relate","from":"skill_ai_architect","rel":"belongs_to","to":"cat_dev"},
+{"op":"relate","from":"skill_secure_dl","rel":"belongs_to","to":"cat_security"},
+{"op":"relate","from":"skill_healthcheck","rel":"belongs_to","to":"cat_security"},
+{"op":"relate","from":"skill_coffee","rel":"belongs_to","to":"cat_lifestyle"},
+{"op":"relate","from":"skill_fitness","rel":"belongs_to","to":"cat_lifestyle"},
+{"op":"relate","from":"skill_weather","rel":"belongs_to","to":"cat_lifestyle"},
+{"op":"relate","from":"skill_ecovacs","rel":"belongs_to","to":"cat_lifestyle"},
+{"op":"relate","from":"skill_ontology","rel":"belongs_to","to":"cat_devtools"},
+{"op":"relate","from":"skill_skill_creator","rel":"belongs_to","to":"cat_devtools"},
+{"op":"relate","from":"skill_gh_issues","rel":"belongs_to","to":"cat_devtools"},
+{"op":"relate","from":"skill_github","rel":"belongs_to","to":"cat_devtools"},
+{"op":"relate","from":"skill_node_connect","rel":"belongs_to","to":"cat_devtools"},
+{"op":"relate","from":"skill_video_frames","rel":"belongs_to","to":"cat_devtools"},
+{"op":"relate","from":"skill_databricks","rel":"complements","to":"skill_data_engineer"},
+{"op":"relate","from":"skill_nextjs_frontend","rel":"complements","to":"skill_nextjs_backend"},
+{"op":"relate","from":"skill_technical_analysis","rel":"complements","to":"skill_market_news"},
+{"op":"relate","from":"skill_market_news","rel":"complements","to":"skill_analyst_targets"},
+{"op":"relate","from":"skill_secure_dl","rel":"guards","to":"skill_skill_creator"},
+{"op":"relate","from":"skill_skill_creator","rel":"creates","to":"skill_ontology"},
+{"op":"relate","from":"skill_gh_issues","rel":"uses","to":"skill_github"},
+{"op":"relate","from":"skill_husband","rel":"supports","to":"person_ilana"},
+{"op":"relate","from":"skill_parenting","rel":"supports","to":"person_avior"},
+{"op":"relate","from":"skill_parenting","rel":"supports","to":"person_nitai"},
+{"op":"relate","from":"skill_parenting","rel":"supports","to":"person_arbel"},
+{"op":"relate","from":"person_yehuda","rel":"owns","to":"skill_ai_architect"},
+{"op":"relate","from":"person_yehuda","rel":"owns","to":"skill_databricks"},
+{"op":"relate","from":"person_yehuda","rel":"owns","to":"skill_data_engineer"},
+{"op":"relate","from":"person_yehuda","rel":"owns","to":"skill_nextjs_backend"},
+{"op":"relate","from":"person_yehuda","rel":"owns","to":"skill_nextjs_frontend"},
+{"op":"relate","from":"person_yehuda","rel":"spouse","to":"person_ilana"},
+{"op":"relate","from":"person_yehuda","rel":"parent_of","to":"person_avior"},
+{"op":"relate","from":"person_yehuda","rel":"parent_of","to":"person_nitai"},
+{"op":"relate","from":"person_yehuda","rel":"parent_of","to":"person_arbel"},
+{"op":"relate","from":"req_001","rel":"triggered","to":"skill_technical_analysis"},
+{"op":"relate","from":"req_002","rel":"triggered","to":"skill_market_news"},
+{"op":"relate","from":"req_003","rel":"triggered","to":"skill_analyst_targets"},
+{"op":"relate","from":"req_004","rel":"triggered","to":"skill_ai_architect"},
+{"op":"relate","from":"req_005","rel":"triggered","to":"skill_databricks"},
+{"op":"relate","from":"req_006","rel":"triggered","to":"skill_nextjs_backend"},
+{"op":"relate","from":"req_007","rel":"triggered","to":"skill_nextjs_frontend"},
+{"op":"relate","from":"req_008","rel":"triggered","to":"skill_ecovacs"},
+{"op":"relate","from":"req_009","rel":"triggered","to":"skill_coffee"},
+{"op":"relate","from":"req_010","rel":"triggered","to":"skill_fitness"},
+{"op":"relate","from":"req_011","rel":"triggered","to":"skill_weather"},
+{"op":"relate","from":"req_012","rel":"triggered","to":"skill_husband"},
+{"op":"relate","from":"req_013","rel":"triggered","to":"skill_parenting"},
+{"op":"relate","from":"req_014","rel":"triggered","to":"skill_hebrew"},
+{"op":"relate","from":"req_015","rel":"triggered","to":"skill_skill_creator"},
+{"op":"relate","from":"req_016","rel":"triggered","to":"skill_secure_dl"},
+{"op":"relate","from":"req_017","rel":"triggered","to":"skill_node_connect"},
+{"op":"relate","from":"req_018","rel":"triggered","to":"skill_ontology"},
+{"op":"relate","from":"req_019","rel":"triggered","to":"skill_data_engineer"},
+{"op":"relate","from":"req_020","rel":"triggered","to":"skill_github"},
+{"op":"relate","from":"req_001","rel":"requested_by","to":"person_yehuda"},
+{"op":"relate","from":"req_002","rel":"requested_by","to":"person_yehuda"},
+{"op":"relate","from":"req_003","rel":"requested_by","to":"person_yehuda"},
+{"op":"relate","from":"req_004","rel":"requested_by","to":"person_yehuda"},
+{"op":"relate","from":"req_005","rel":"requested_by","to":"person_yehuda"},
+{"op":"relate","from":"req_006","rel":"requested_by","to":"person_yehuda"},
+{"op":"relate","from":"req_007","rel":"requested_by","to":"person_yehuda"},
+{"op":"relate","from":"req_008","rel":"requested_by","to":"person_yehuda"},
+{"op":"relate","from":"req_009","rel":"requested_by","to":"person_yehuda"},
+{"op":"relate","from":"req_010","rel":"requested_by","to":"person_yehuda"},
+{"op":"relate","from":"req_011","rel":"requested_by","to":"person_yehuda"},
+{"op":"relate","from":"req_012","rel":"requested_by","to":"person_yehuda"},
+{"op":"relate","from":"req_013","rel":"requested_by","to":"person_yehuda"},
+{"op":"relate","from":"req_014","rel":"requested_by","to":"person_yehuda"},
+{"op":"relate","from":"req_015","rel":"requested_by","to":"person_yehuda"},
+{"op":"relate","from":"req_016","rel":"requested_by","to":"person_yehuda"},
+{"op":"relate","from":"req_017","rel":"requested_by","to":"person_yehuda"},
+{"op":"relate","from":"req_018","rel":"requested_by","to":"person_yehuda"},
+{"op":"relate","from":"req_019","rel":"requested_by","to":"person_yehuda"},
+{"op":"relate","from":"req_020","rel":"requested_by","to":"person_yehuda"},
+{"op":"relate","from":"info_ai_arch_1","rel":"knowledge_in","to":"skill_ai_architect"},
+{"op":"relate","from":"info_ai_arch_2","rel":"knowledge_in","to":"skill_ai_architect"},
+{"op":"relate","from":"info_ai_arch_3","rel":"knowledge_in","to":"skill_ai_architect"},
+{"op":"relate","from":"info_husband_1","rel":"knowledge_in","to":"skill_husband"},
+{"op":"relate","from":"info_husband_2","rel":"knowledge_in","to":"skill_husband"},
+{"op":"relate","from":"info_parenting_1","rel":"knowledge_in","to":"skill_parenting"},
+{"op":"relate","from":"info_parenting_2","rel":"knowledge_in","to":"skill_parenting"},
+{"op":"relate","from":"info_parenting_3","rel":"knowledge_in","to":"skill_parenting"},
+{"op":"relate","from":"info_ta_1","rel":"knowledge_in","to":"skill_technical_analysis"},
+{"op":"relate","from":"info_ta_2","rel":"knowledge_in","to":"skill_technical_analysis"},
+{"op":"relate","from":"info_ta_3","rel":"knowledge_in","to":"skill_technical_analysis"},
+{"op":"relate","from":"info_market_1","rel":"knowledge_in","to":"skill_market_news"},
+{"op":"relate","from":"info_market_2","rel":"knowledge_in","to":"skill_market_news"},
+{"op":"relate","from":"info_analyst_1","rel":"knowledge_in","to":"skill_analyst_targets"},
+{"op":"relate","from":"info_analyst_2","rel":"knowledge_in","to":"skill_analyst_targets"},
+{"op":"relate","from":"info_db_1","rel":"knowledge_in","to":"skill_databricks"},
+{"op":"relate","from":"info_db_2","rel":"knowledge_in","to":"skill_databricks"},
+{"op":"relate","from":"info_db_3","rel":"knowledge_in","to":"skill_databricks"},
+{"op":"relate","from":"info_db_4","rel":"knowledge_in","to":"skill_databricks"},
+{"op":"relate","from":"info_de_1","rel":"knowledge_in","to":"skill_data_engineer"},
+{"op":"relate","from":"info_de_2","rel":"knowledge_in","to":"skill_data_engineer"},
+{"op":"relate","from":"info_de_3","rel":"knowledge_in","to":"skill_data_engineer"},
+{"op":"relate","from":"info_de_4","rel":"knowledge_in","to":"skill_data_engineer"},
+{"op":"relate","from":"info_next_be_1","rel":"knowledge_in","to":"skill_nextjs_backend"},
+{"op":"relate","from":"info_next_be_2","rel":"knowledge_in","to":"skill_nextjs_backend"},
+{"op":"relate","from":"info_next_fe_1","rel":"knowledge_in","to":"skill_nextjs_frontend"},
+{"op":"relate","from":"info_next_fe_2","rel":"knowledge_in","to":"skill_nextjs_frontend"},
+{"op":"relate","from":"info_ecovacs_1","rel":"knowledge_in","to":"skill_ecovacs"},
+{"op":"relate","from":"info_ecovacs_2","rel":"knowledge_in","to":"skill_ecovacs"},
+{"op":"relate","from":"info_coffee_1","rel":"knowledge_in","to":"skill_coffee"},
+{"op":"relate","from":"info_coffee_2","rel":"knowledge_in","to":"skill_coffee"},
+{"op":"relate","from":"info_fitness_1","rel":"knowledge_in","to":"skill_fitness"},
+{"op":"relate","from":"info_fitness_2","rel":"knowledge_in","to":"skill_fitness"},
+{"op":"relate","from":"info_secure_1","rel":"knowledge_in","to":"skill_secure_dl"},
+{"op":"relate","from":"info_secure_2","rel":"knowledge_in","to":"skill_secure_dl"},
+{"op":"relate","from":"info_ontology_1","rel":"knowledge_in","to":"skill_ontology"},
+{"op":"relate","from":"info_ontology_2","rel":"knowledge_in","to":"skill_ontology"}
+];
+
+const TYPE_COLORS = {
+  Person:'#7c3aed', Organization:'#2563eb', Document:'#059669',
+  Action:'#d97706', Note:'#0891b2', Project:'#dc2626', Task:'#65a30d'
+};
+function typeColor(t){ return TYPE_COLORS[t]||'#6b7280'; }
+
+let network=null, physicsEnabled=true;
+let allNodes=new vis.DataSet(), allEdges=new vis.DataSet();
+let rawEntities={}, rawRelations=[];
+
+function getLabel(e){
+  const p=e.properties||{};
+  return p.name||p.title||p.content?.substring(0,28)||e.id;
+}
+
+function loadData(){
+  for(const op of GRAPH_DATA){
+    if(op.op==='create'&&op.entity){
+      const e=op.entity;
+      rawEntities[e.id]=e;
+      const c=typeColor(e.type);
+      allNodes.update({id:e.id,label:getLabel(e),group:e.type,
+        color:{background:c,border:c,highlight:{background:c,border:'#fff'}},
+        title:`<b>${e.type}</b><br>${JSON.stringify(e.properties,null,2)}`});
+    } else if(op.op==='relate'&&op.from&&op.to){
+      rawRelations.push({from:op.from,rel:op.rel,to:op.to});
+      allEdges.update({id:`${op.from}-${op.rel}-${op.to}`,from:op.from,to:op.to,label:op.rel});
+    }
+  }
+}
+
+function initNetwork(){
+  const container=document.getElementById('network');
+  network=new vis.Network(container,{nodes:allNodes,edges:allEdges},{
+    physics:{enabled:true,stabilization:{iterations:200},barnesHut:{gravitationalConstant:-3000,springLength:150}},
+    nodes:{shape:'dot',size:18,font:{color:'#e2e8f0',size:12},borderWidth:2,shadow:true},
+    edges:{arrows:{to:{enabled:true,scaleFactor:0.6}},color:{color:'#4a5568',highlight:'#7c3aed'},
+      font:{color:'#a0aec0',size:10,align:'middle'},smooth:{type:'curvedCW',roundness:0.2},width:1.5},
+    interaction:{hover:true}
+  });
+  network.on('selectNode',onSelectNode);
+  network.on('deselectNode',()=>document.getElementById('node-detail').classList.remove('active'));
+}
+
+function onSelectNode(params){
+  if(!params.nodes.length)return;
+  const id=params.nodes[0], entity=rawEntities[id];
+  if(!entity)return;
+  document.getElementById('detail-title').textContent=`${entity.type}: ${getLabel(entity)}`;
+  let propsHtml='';
+  for(const[k,v]of Object.entries(entity.properties||{}))
+    propsHtml+=`<div class="prop-row"><span class="prop-key">${k}</span><span class="prop-val">${v}</span></div>`;
+  document.getElementById('detail-props').innerHTML=propsHtml;
+  const related=rawRelations.filter(r=>r.from===id||r.to===id);
+  let relHtml=related.length?'':'<div style="color:#4a5568;font-size:12px;">No relations</div>';
+  for(const r of related){
+    const isFrom=r.from===id, other=rawEntities[isFrom?r.to:r.from];
+    relHtml+=`<div class="relation-item"><span class="relation-type">${isFrom?'→':'←'} ${r.rel}</span><br><span class="relation-target">${other?getLabel(other):(isFrom?r.to:r.from)}</span></div>`;
+  }
+  document.getElementById('detail-relations').innerHTML=relHtml;
+  document.getElementById('node-detail').classList.add('active');
+}
+
+function updateUI(){
+  const nodes=allNodes.get(), edges=allEdges.get();
+  document.getElementById('stat-nodes').textContent=nodes.length;
+  document.getElementById('stat-edges').textContent=edges.length;
+  document.getElementById('stat-ops').textContent=GRAPH_DATA.length;
+  const types=[...new Set(nodes.map(n=>n.group).filter(Boolean))];
+  document.getElementById('stat-types').textContent=types.length;
+  document.getElementById('stats-label').textContent=`${nodes.length} entities · ${edges.length} relations`;
+  document.getElementById('legend').innerHTML=types.map(t=>
+    `<div class="type-item" onclick="filterByType('${t}')">
+      <div class="type-dot" style="background:${typeColor(t)}"></div>${t}
+      <span style="color:#4a5568;font-size:11px;margin-left:auto">${nodes.filter(n=>n.group===t).length}</span>
+    </div>`).join('');
+  const sel=document.getElementById('type-filter');
+  const cur=sel.value;
+  sel.innerHTML='<option value="">All types</option>'+types.map(t=>`<option value="${t}" ${t===cur?'selected':''}>${t}</option>`).join('');
+}
+
+function filterByType(t){ document.getElementById('type-filter').value=t; applyFilter(); }
+function applyFilter(){
+  const type=document.getElementById('type-filter').value;
+  allNodes.update(Object.values(rawEntities).map(e=>({id:e.id,hidden:type?e.type!==type:false})));
+}
+function fitGraph(){ if(network)network.fit({animation:true}); }
+function togglePhysics(){
+  physicsEnabled=!physicsEnabled;
+  if(network)network.setOptions({physics:{enabled:physicsEnabled}});
+  const t=document.getElementById('toast');
+  t.textContent=physicsEnabled?'⚡ Physics ON':'🧊 Physics OFF';
+  t.style.display='block'; setTimeout(()=>t.style.display='none',2000);
+}
+
+loadData(); initNetwork(); updateUI();
+</script>
+</body>
+</html>
