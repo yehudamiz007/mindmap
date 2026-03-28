@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "28.03.2026 09:00 IST",
+  "lastUpdated": "28.03.2026 16:00 IST",
   "stocks": [
     {
       "ticker": "NVDA",
@@ -9,147 +9,137 @@
       "analyst": 9.2,
       "technical": 7.8,
       "total": 8.20,
-      "notes": "מנוע ה-AI של השוק - יעד אנליסטים $269 (60% פוטנציאל עלייה), בלאקוול אולטרה בשיא הרמפ-אפ, המניה ירדה מ-$212 - הזדמנות קנייה"
+      "notes": "מנוע הבינה המלאכותית העולמי - ה-Blackwell Ultra עולה לאוויר, יעד אנליסטים $275 - פוטנציאל עלייה של 65% מהמחיר הנוכחי"
     },
     {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings",
-      "price": "$369.58",
-      "news": 6.5,
+      "ticker": "AVGO",
+      "name": "Broadcom Inc",
+      "price": "$300.68",
+      "news": 8.0,
       "analyst": 9.0,
-      "technical": 6.2,
-      "total": 7.29,
-      "notes": "קונסנסוס אנליסטים $492 (33% פוטנציאל), ירד 5.9% היום על חדשות Claude Mythos - קנייה בדיפ, ביקוש סייבר ממשיך לעלות"
+      "technical": 7.5,
+      "total": 8.18,
+      "notes": "מלך שבבי ה-AI המותאמים - 27 אנליסטים ממליצים קנייה, יעד $455, תזה ה-AI מתממשת מהר מהצפוי"
     },
     {
       "ticker": "RDDT",
       "name": "Reddit Inc",
       "price": "$121.84",
-      "news": 6.0,
+      "news": 6.5,
       "analyst": 9.5,
-      "technical": 6.5,
-      "total": 7.27,
-      "notes": "יעד אנליסטים $242 - כמעט 100% פוטנציאל! רווח Q4 +254% שנתי, הכנסות +69%, הסכמי רישוי AI גדלים - מוצלל ע״י חדשות שוק כללי"
+      "technical": 7.0,
+      "total": 7.93,
+      "notes": "הפתעת הרווחים הגדולה - הכנסות +70%, יעד אנליסטים $228-242 - עלייה פוטנציאלית של 87% מהמחיר הנוכחי"
+    },
+    {
+      "ticker": "TSM",
+      "name": "Taiwan Semiconductor",
+      "price": "$326.74",
+      "news": 7.0,
+      "analyst": 8.5,
+      "technical": 7.8,
+      "total": 7.83,
+      "notes": "יצרנית השבבים הגדולה בעולם - מחזיקה 70% מהשוק, ביקוש עצום לשבבי AI, תוכנית Terafab של מאסק מחזקת את הביקוש"
+    },
+    {
+      "ticker": "COIN",
+      "name": "Coinbase Global Inc",
+      "price": "$161.14",
+      "news": 7.5,
+      "analyst": 8.5,
+      "technical": 7.0,
+      "total": 7.73,
+      "notes": "גולדמן זאקס יעד $235 - עלייה של 46%, הבורסה הגדולה בארה\"ב לקריפטו נהנית מנפח מסחר גבוה ופיקוח נוח יותר"
+    },
+    {
+      "ticker": "BTC",
+      "name": "Bitcoin",
+      "price": "$66,828.08",
+      "news": 7.0,
+      "analyst": 7.5,
+      "technical": 8.5,
+      "total": 7.73,
+      "notes": "בלאקרוק חוזה $500K, לוויות BTC זזות אחרי 13 שנים - סנטימנט חיובי לטווח ארוך למרות תנודתיות נוכחית"
     },
     {
       "ticker": "PLTR",
       "name": "Palantir Technologies",
       "price": "$143.06",
-      "news": 6.0,
-      "analyst": 6.5,
-      "technical": 8.5,
-      "total": 7.08,
-      "notes": "שותפות Bain חדשה לאצ׳לרוק AI ארגוני, הכנסות Q4 +70% שנתי, ממשלה + NATO AI platform מוביל - ולואציה גבוהה אבל מומנטום חזק"
-    },
-    {
-      "ticker": "AMD",
-      "name": "Advanced Micro Devices",
-      "price": "$201.99",
-      "news": 7.0,
-      "analyst": 7.8,
-      "technical": 6.8,
-      "total": 7.18,
-      "notes": "עלייה ב-7% לפני ירידה היום - עליית מחירי CPU קטליסט, MI300X תופס נתח שוק מ-NVDA, רווחים Q4 +213% שנתי - הזדמנות ה-AI של המשקיע הזהיר"
-    },
-    {
-      "ticker": "BTC",
-      "name": "Bitcoin",
-      "price": "$66,358",
       "news": 6.5,
+      "analyst": 8.0,
+      "technical": 8.0,
+      "total": 7.53,
+      "notes": "שותפות Bain מעמיקה, ממשלות מגבירות שימוש ב-AI, יעד $198-201 - חזק טכנית למרות נרטיב ישן שמתפרק"
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms Inc",
+      "price": "$525.72",
+      "news": 7.0,
+      "analyst": 8.0,
+      "technical": 7.0,
+      "total": 7.35,
+      "notes": "Llama 4 קרוב, P/E של 18 זול להפליא לחברה כזו, אנליסטים מוכנים לאסוף בנפילה - הזדמנות קנייה נוכחית"
+    },
+    {
+      "ticker": "ETH",
+      "name": "Ethereum",
+      "price": "$2,022.65",
+      "news": 6.0,
+      "analyst": 7.0,
+      "technical": 7.5,
+      "total": 6.93,
+      "notes": "שדרוג Pectra קרוב, הרווארד בונה פוזיציה של $87M, אך סנטימנט חלש עם הפסיקה מתחת ל-$2K"
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings",
+      "price": "$369.58",
+      "news": 6.0,
       "analyst": 7.5,
       "technical": 7.0,
-      "total": 7.03,
-      "notes": "מתאושש מ-$63K לפני חודש, זרימות מוסדיות ETF ממשיכות, הצעת חוק קריפטו מאכזבת (ללא פטור מס BTC) - תמיכה חזקה ב-$65K"
+      "total": 6.90,
+      "notes": "מוביל אבטחת הסייבר עם FCF של $470M, אך ירד 5.9% ביום שישי - חלש טכנית בטווח הקצר"
+    },
+    {
+      "ticker": "SOL",
+      "name": "Solana",
+      "price": "$83.30",
+      "news": 7.0,
+      "analyst": 6.5,
+      "technical": 7.0,
+      "total": 6.83,
+      "notes": "Mastercard ו-Western Union בונים על Solana Enterprise, אות קנייה TD Sequential - כיוון $100 אפשרי"
+    },
+    {
+      "ticker": "ARM",
+      "name": "Arm Holdings PLC",
+      "price": "$144.13",
+      "news": 6.5,
+      "analyst": 7.0,
+      "technical": 6.5,
+      "total": 6.68,
+      "notes": "CPUs חדשים לדאטה-סנטרים AI, אך מכפיל P/E של 192 קשה לצדיקה - ירד משמעותית מהשיא $183"
+    },
+    {
+      "ticker": "XRP",
+      "name": "XRP",
+      "price": "$1.3497",
+      "news": 7.0,
+      "analyst": 6.0,
+      "technical": 6.5,
+      "total": 6.53,
+      "notes": "Ripple משלב AI ב-XRPL, טווח מתהדק עם breakout אפשרי, אך מאחר מול BTC ו-ETH בנפח המסחר"
     },
     {
       "ticker": "MSTR",
       "name": "Strategy Inc (MicroStrategy)",
       "price": "$126.03",
       "news": 5.5,
-      "analyst": 7.0,
-      "technical": 6.8,
-      "total": 6.51,
-      "notes": "פרוקסי ביטקוין הכי טהור, מחזיקה ביטקוין ענק, CFO מכר מניות ב-$328K - לחץ שלילי קצר טווח, אבל הדוגמה הכפולה תנועה עם BTC"
-    },
-    {
-      "ticker": "META",
-      "name": "Meta Platforms",
-      "price": "$525.72",
-      "news": 4.5,
-      "analyst": 7.8,
-      "technical": 5.5,
-      "total": 5.96,
-      "notes": "קרוב לשפל שנתי - דינמיקת שלילי כפולה: פסקי דין התמכרות לרשתות חברתיות + AI CapEx ענק מדאיג, Llama 4 קטליסט פוטנציאלי"
-    },
-    {
-      "ticker": "IONQ",
-      "name": "IonQ Inc",
-      "price": "$27.51",
-      "news": 5.5,
       "analyst": 6.0,
-      "technical": 6.5,
-      "total": 6.03,
-      "notes": "מחשוב קוונטי בצמיחת יתר - הכנסות +428%, אבל אזהרת ׳$930M דילול׳ מדאיגה - ספקולטיבי עם פוטנציאל גבוה"
-    },
-    {
-      "ticker": "SOL",
-      "name": "Solana",
-      "price": "$82.68",
-      "news": 6.0,
-      "analyst": 6.5,
-      "technical": 5.8,
-      "total": 6.10,
-      "notes": "שבר תמיכה קריטית, אבל TD Sequential מאותת קנייה, Mastercard + Western Union שותפים לאקוסיסטם - ביקוש בנק ענק להמשיך"
-    },
-    {
-      "ticker": "HOOD",
-      "name": "Robinhood Markets",
-      "price": "$66.02",
-      "news": 4.0,
-      "analyst": 6.0,
-      "technical": 5.0,
-      "total": 5.05,
-      "notes": "ירד 6.2% אחרי הורדת דירוג אנליסט היום - לחץ כפול של הורדת דירוג + ירידת שוק, רווחים Q4 -33.95% שנתי - לא הזמן"
-    },
-    {
-      "ticker": "SMCI",
-      "name": "Super Micro Computer",
-      "price": "$21.97",
-      "news": 3.5,
-      "analyst": 5.5,
-      "technical": 5.0,
-      "total": 4.72,
-      "notes": "תביעה משפטית חדשה מ-Rosen Law Firm, בעיות ביקורת ממשיכות להכביד, למרות ביקוש AI שרתים - סיכון משפטי גבוה"
-    },
-    {
-      "ticker": "ETH",
-      "name": "Ethereum",
-      "price": "$1,993",
-      "news": 4.5,
-      "analyst": 5.5,
-      "technical": 4.0,
-      "total": 4.67,
-      "notes": "שבר מתחת ל-$2,000 - רמה פסיכולוגית קריטית אבדה, אנליסטים רואים ירידה נוספת, עלית Pectra ממתינה לא מספיקה כקטליסט"
-    },
-    {
-      "ticker": "CELH",
-      "name": "Celsius Holdings",
-      "price": "$33.94",
-      "news": 3.0,
-      "analyst": 5.0,
-      "technical": 3.5,
-      "total": 3.90,
-      "notes": "6 ימי ירידות ברציפות, -21%, Vanguard מכרה את כל האחזקות - אות אזהרה ענק, -49% מהשיא השנתי, לא עכשיו"
-    },
-    {
-      "ticker": "SUI",
-      "name": "Sui Network",
-      "price": "$0.8755",
-      "news": 4.0,
-      "analyst": 4.5,
-      "technical": 3.5,
-      "total": 3.98,
-      "notes": "קרס חזק מהשיאים, TVL ירד, אין מומנטום ממשי - אפשר להחזיק לטווח ארוך אבל לא לקנות עכשיו"
+      "technical": 6.0,
+      "total": 5.85,
+      "notes": "CFO מוכר מניות, הפסד נקי של $12.4B ברבעון, ירד 52% מהשיא - ממונף מדי על BTC בשוק יורד"
     }
   ]
 }
