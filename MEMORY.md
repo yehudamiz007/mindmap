@@ -51,6 +51,7 @@
 - databricks — Databricks Lakehouse platform: Notebooks, Unity Catalog, Delta Lake, Genie, DLT, MLflow, Workflows, Clusters
 - data-engineer — Senior Data Engineer: Spark, PySpark, dbt, Databricks, Delta Lake, Unity Catalog, ADLS Gen2, S3, Azure, ADF, Airflow, medallion architecture
 - etoro — eToro agent-portfolio trading: create portfolios, open/close positions, rebalance, proportional mirroring with real money
+- grok-trader — Autonomous eToro trader using Grok 4 strategy: MA20 + macro catalysts, large-cap only, notifies Yehuda after each trade, no approval needed
 
 ## Smart Home
 - **DEEBOT X8 PRO OMNI** (ECOVACS)
@@ -83,6 +84,18 @@
 - **מספר פוסט נוכחי: #16** (לעדכן אחרי כל פוסט)
 - Cron ID: `17ee5f68-63c1-4dfe-b54d-c8cda3b31250` — כל יום 08:00 שעון ישראל
 - Grok מחפש חדשות, מסכם בעברית, שולח לוואטסאפ ידנית
+
+## eToro Grok Trader
+- Agent-portfolio API key: active (user re-provided 2026-03-29)
+- Strategy: Grok 4 - MA20 + macro catalysts, large-cap only, patience
+- Autonomous mode: YES - no approval needed, notify after each trade
+- Model for analysis: xai/grok-3
+- Skill: grok-trader (workspace/skills/grok-trader)
+- **Pending actions (execute Sunday market open ~09:30 ET):**
+  - CLOSE: AMZN (positionID: 3377763752), ARM (3377763871), CRWD (3377763891), PLTR (3377763784)
+  - INCREASE: MSFT → 20%, AMD → 10%, GOOGL → 10%, META → 15%
+  - HOLD: NVDA (25%), AVGO (10%)
+  - CASH TARGET: 10%
 
 ## Key Decisions
 - 2026-02-17: Set up WhatsApp allowlist for Yehuda (+972502446410) and Ilana (+972542049822)

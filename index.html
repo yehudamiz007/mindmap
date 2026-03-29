@@ -1,1013 +1,505 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-<title>OpenClaw Architecture - High Level</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏠 Hub — Command Center</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;height:100%;overflow:hidden;background:#0a0a1a;font-family:'Segoe UI',system-ui,sans-serif;touch-action:none}
-canvas{position:fixed;top:0;left:0;width:100%;height:100%}
-#ui{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none}
-
-/* ── NODE BASE ──────────────────────────────── */
-.node{position:absolute;pointer-events:auto;cursor:pointer;display:flex;flex-direction:column;align-items:center;text-align:center;transition:transform .3s,opacity .3s;user-select:none;transform:translate(-50%,-50%)}
-.node.hidden{opacity:0;transform:translate(-50%,-50%) scale(0)!important;pointer-events:none}
-.node.visible{opacity:1;transform:translate(-50%,-50%) scale(1)}
-.node:hover{transform:translate(-50%,-50%) scale(1.1)!important;z-index:10}
-.node-circle{border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
-.node-text{margin-top:4px;white-space:nowrap;max-width:120px;overflow:visible;text-overflow:clip;line-height:1.2;text-shadow:0 0 6px rgba(0,0,0,.9),0 0 12px rgba(0,0,0,.7);transform-origin:center top;font-family:'Segoe UI',system-ui,sans-serif}
-.node-emoji{font-size:1.2em}
-.cat-node .node-emoji{font-size:1em}
-.sub-node .node-emoji,.leaf-node .node-emoji{font-size:0.7em}
-.collapse-badge{position:absolute;bottom:-4px;right:-4px;width:14px;height:14px;border-radius:50%;background:#475569;color:#e2e8f0;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 0 6px rgba(0,0,0,.5);pointer-events:none}
-
-/* ── NODE SIZES - DESKTOP (default) ──────── */
-.center-node .node-circle{width:70px;height:70px;background:radial-gradient(circle,#1e293b,#0f172a);border:3px solid #64748b;box-shadow:0 0 30px rgba(100,116,139,.4)}
-.center-node .node-text{font-size:12px;font-weight:700;color:#e2e8f0;white-space:normal;max-width:140px}
-.center-node{z-index:5}
-.cat-node .node-circle{width:40px;height:40px}
-.cat-node .node-text{font-size:12px;font-weight:600;color:#fff}
-.cat-node{z-index:4}
-.sub-node .node-circle{width:28px;height:28px}
-.sub-node .node-text{font-size:12px;font-weight:600;color:#fff}
-.sub-node{z-index:3}
-.leaf-node .node-circle{width:18px;height:18px}
-.leaf-node .node-text{font-size:12px;font-weight:500;color:#cbd5e1}
-.leaf-node{z-index:2}
-
-/* ── TABLET (iPad) - md breakpoint ────────── */
-@media (min-width:768px) and (max-width:1199px),(min-width:768px) and (pointer:coarse){
-  .center-node .node-circle{width:62px;height:62px}
-  .center-node .node-text{font-size:12px}
-  .cat-node .node-circle{width:38px;height:38px}
-  .cat-node .node-text{font-size:12px}
-  .sub-node .node-circle{width:26px;height:26px}
-  .sub-node .node-text{font-size:12px}
-  .leaf-node .node-circle{width:17px;height:17px}
-  .leaf-node .node-text{font-size:12px}
-}
-
-/* ── MOBILE - sm breakpoint ───────────────── */
-@media (max-width:767px){
-  .center-node .node-circle{width:54px;height:54px;border:2px solid #64748b}
-  .center-node .node-text{font-size:12px;max-width:110px}
-  .cat-node .node-circle{width:34px;height:34px}
-  .cat-node .node-text{font-size:12px}
-  .sub-node .node-circle{width:23px;height:23px}
-  .sub-node .node-text{font-size:12px}
-  .leaf-node .node-circle{width:15px;height:15px}
-  .leaf-node .node-text{font-size:12px}
-  .collapse-badge{width:12px;height:12px;font-size:9px}
-}
-
-/* ── ANIMATIONS ───────────────────────────── */
-@keyframes glow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.2)}}
-.cat-node .node-circle{animation:glow 3s ease-in-out infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 30px rgba(100,116,139,.4)}50%{box-shadow:0 0 50px rgba(100,116,139,.7)}}
-.center-node .node-circle{animation:pulse 4s ease-in-out infinite}
-
-/* ── PANEL - DESKTOP ──────────────────────── */
-#panel{
-  position:fixed;bottom:-200px;left:50%;transform:translateX(-50%);
-  width:min(560px,96vw);max-height:180px;
-  background:rgba(10,14,30,.96);border:1px solid #334155;border-radius:14px 14px 0 0;
-  backdrop-filter:blur(16px);z-index:50;transition:bottom .28s cubic-bezier(.4,0,.2,1);
-  overflow:hidden;pointer-events:auto;box-shadow:0 -8px 40px rgba(0,0,0,.5)
-}
-#panel.open{bottom:0}
-#panel-close{position:absolute;top:10px;right:12px;background:none;border:none;color:#64748b;font-size:18px;cursor:pointer;padding:2px 6px;border-radius:4px;line-height:1;z-index:2}
-#panel-close:hover{color:#e2e8f0;background:rgba(255,255,255,.08)}
-#panel-header{padding:12px 36px 8px 14px;border-bottom:1px solid #1e293b;display:flex;align-items:center;gap:10px}
-#panel-emoji{font-size:22px;flex-shrink:0}
-#panel-title{font-size:15px;font-weight:700;color:#e2e8f0}
-#panel-level{font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-left:6px}
-#panel-body{padding:8px 14px 10px;display:flex;gap:16px;align-items:flex-start}
-#panel-desc{color:#94a3b8;font-size:12px;line-height:1.5;flex:1;min-width:0}
-#panel-children-title{display:none}
-.panel-child{display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border-radius:20px;cursor:pointer;transition:background .15s;margin:2px;background:rgba(255,255,255,.04);border:1px solid #1e293b}
-.panel-child:hover{background:rgba(255,255,255,.1)}
-.panel-child-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-.panel-child-name{color:#cbd5e1;font-size:11px}
-#panel-path{display:none}
-#panel-children-wrap{flex-shrink:0;max-width:220px;display:flex;flex-wrap:wrap;align-content:flex-start}
-.panel-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle}
-
-/* ── PANEL - TABLET ───────────────────────── */
-@media (min-width:768px) and (max-width:1199px),(min-width:768px) and (pointer:coarse){
-  #panel{width:min(640px,94vw);max-height:200px;border-radius:16px 16px 0 0}
-  #panel-title{font-size:16px}
-  #panel-desc{font-size:13px}
-  .panel-child{padding:5px 10px}
-  .panel-child-name{font-size:12px}
-  #panel-close{font-size:22px;top:12px;right:14px}
-}
-
-/* ── PANEL - MOBILE ───────────────────────── */
-@media (max-width:767px){
-  #panel{width:100%;max-height:58vh;border-radius:18px 18px 0 0;bottom:-60vh}
-  #panel.open{bottom:0}
-  #panel-header{padding:14px 44px 10px 16px}
-  #panel-emoji{font-size:24px}
-  #panel-title{font-size:16px}
-  #panel-body{flex-direction:column;padding:10px 16px 20px;gap:10px}
-  #panel-desc{font-size:13px;line-height:1.6}
-  #panel-children-wrap{max-width:100%;width:100%}
-  #panel-close{font-size:24px;top:12px;right:16px;padding:4px 8px}
-  .panel-child{padding:6px 12px;margin:3px}
-  .panel-child-name{font-size:12px}
-  #panel-path{display:none}
-  /* pull-handle */
-  #panel::before{content:'';display:block;width:40px;height:4px;background:#334155;border-radius:2px;margin:10px auto 0}
-}
-
-/* ── TITLE ────────────────────────────────── */
-#title{position:fixed;top:20px;left:20px;pointer-events:none;z-index:20}
-#title h1{color:#e2e8f0;font-size:18px;font-weight:700;letter-spacing:-.5px}
-#title p{color:#64748b;font-size:12px;margin-top:4px}
-@media (max-width:767px){
-  #title{top:14px;left:14px}
-  #title h1{font-size:15px}
-  #title p{font-size:11px;margin-top:2px}
-}
-@media (min-width:768px) and (max-width:1199px){
-  #title h1{font-size:17px}
-}
-
-/* ── NAV ──────────────────────────────────── */
-#nav{position:fixed;top:20px;right:20px;pointer-events:auto;display:flex;flex-direction:column;gap:8px;z-index:20}
-#nav a{background:rgba(15,23,42,.85);border:1px solid #334155;border-radius:8px;padding:8px 14px;color:#94a3b8;font-size:11px;text-decoration:none;text-align:center;backdrop-filter:blur(8px);transition:all .2s}
-#nav a:hover{color:#e2e8f0;border-color:#64748b}
-#nav a.active{color:#e2e8f0;border-color:#3b82f6}
-@media (max-width:767px){
-  #nav{top:14px;right:14px;gap:6px}
-  #nav a{padding:6px 10px;font-size:10px;border-radius:6px}
-}
-@media (min-width:768px) and (max-width:1199px){
-  #nav a{padding:10px 16px;font-size:12px;border-radius:10px}
-}
-
-/* ── LEGEND ───────────────────────────────── */
-#legend{position:fixed;bottom:20px;left:20px;pointer-events:auto;background:rgba(15,23,42,.85);border:1px solid #334155;border-radius:12px;padding:14px 18px;color:#94a3b8;font-size:11px;backdrop-filter:blur(8px);z-index:20;max-width:240px}
-#legend h3{color:#e2e8f0;font-size:13px;margin-bottom:8px}
-#legend .leg-item{display:flex;align-items:center;gap:8px;margin:3px 0}
-#legend .leg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-@media (max-width:767px){
-  #legend{display:none}/* hidden on mobile - use panel instead */
-}
-@media (min-width:768px) and (max-width:1199px){
-  #legend{bottom:auto;top:80px;left:20px;max-width:180px;padding:10px 14px}
-  #legend h3{font-size:12px;margin-bottom:6px}
-  #legend .leg-item{gap:6px;margin:2px 0}
-  #legend .leg-dot{width:8px;height:8px}
-}
-
-/* ── DEVICE BADGE ─────────────────────────── */
-#device-badge{
-  position:fixed;bottom:20px;right:20px;
-  background:rgba(15,23,42,.85);border:1px solid #334155;border-radius:8px;
-  padding:6px 12px;color:#64748b;font-size:10px;
-  backdrop-filter:blur(8px);z-index:20;
-  display:flex;align-items:center;gap:6px;pointer-events:none
-}
-#device-badge span{color:#94a3b8;font-weight:600}
-@media (max-width:767px){
-  #device-badge{bottom:12px;right:12px;font-size:9px;padding:4px 10px}
-}
-
-/* ── ZOOM CONTROLS (mobile/tablet only) ───── */
-#zoom-controls{
-  display:none;position:fixed;right:20px;bottom:60px;
-  flex-direction:column;gap:6px;z-index:20;pointer-events:auto
-}
-#zoom-controls button{
-  width:40px;height:40px;border-radius:50%;
-  background:rgba(15,23,42,.9);border:1px solid #334155;
-  color:#94a3b8;font-size:20px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  backdrop-filter:blur(8px);transition:all .2s;user-select:none
-}
-#zoom-controls button:hover,#zoom-controls button:active{color:#e2e8f0;border-color:#64748b;background:rgba(30,41,59,.95)}
-@media (max-width:1199px){
-  #zoom-controls{display:flex}
-}
-@media (max-width:767px){
-  #zoom-controls{right:14px;bottom:55px;gap:8px}
-  #zoom-controls button{width:44px;height:44px;font-size:22px}
-}
+:root{--bg:#0a0a0f;--surface:rgba(255,255,255,0.04);--surface-hover:rgba(255,255,255,0.08);--border:rgba(255,255,255,0.06);--border-hover:rgba(255,255,255,0.12);--text:#e4e4e7;--text-dim:#71717a;--accent:#818cf8;--accent2:#a78bfa;--green:#34d399;--red:#f87171;--glass:rgba(15,15,25,0.7)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;direction:ltr}
+canvas#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+.container{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:24px 20px 60px}
+/* Header */
+.header{text-align:center;padding:48px 0 24px}
+.clock{font-size:3.5rem;font-weight:200;letter-spacing:-2px;background:linear-gradient(135deg,#e4e4e7,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1}
+.greeting{font-size:1.15rem;color:var(--text-dim);margin-top:8px}
+.greeting .emoji{color:initial;-webkit-text-fill-color:initial;font-style:normal}
+.date-line{font-size:.85rem;color:var(--text-dim);margin-top:4px;opacity:.6}
+/* Stats bar */
+.stats-bar{display:flex;justify-content:center;gap:28px;margin:28px 0 20px;flex-wrap:wrap}
+.stat{display:flex;align-items:center;gap:6px;font-size:.82rem;color:var(--text-dim)}
+.stat b{color:var(--text);font-size:1rem}
+/* Toolbar */
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:24px}
+.search-box{flex:1;min-width:200px;padding:10px 16px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:.95rem;outline:none;transition:.2s}
+.search-box:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(129,140,248,.15)}
+.search-box::placeholder{color:var(--text-dim)}
+.btn{padding:9px 16px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text-dim);cursor:pointer;font-size:.85rem;transition:.2s;display:flex;align-items:center;gap:5px}
+.btn:hover{background:var(--surface-hover);color:var(--text);border-color:var(--border-hover)}
+.btn.active{background:rgba(129,140,248,.15);color:var(--accent);border-color:rgba(129,140,248,.3)}
+/* Category */
+.category{margin-bottom:32px}
+.category-title{font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:14px;padding-left:4px}
+/* Grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.grid.list-view{grid-template-columns:1fr}
+/* Card */
+.card{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:16px;padding:24px;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;text-decoration:none;color:inherit;display:block;opacity:0;transform:translateY(16px);animation:fadeUp .5s forwards}
+.card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(129,140,248,.06),transparent);opacity:0;transition:.3s}
+.card:hover{border-color:var(--border-hover);transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.3)}
+.card:hover::before{opacity:1}
+.card .icon{font-size:2.5rem;margin-bottom:14px;display:block}
+.card .name{font-size:1.05rem;font-weight:600;margin-bottom:6px}
+.card .desc{font-size:.82rem;color:var(--text-dim);line-height:1.5}
+.card .status-dot{position:absolute;top:16px;right:16px;width:8px;height:8px;border-radius:50%;background:var(--text-dim);transition:.3s}
+.card .status-dot.online{background:var(--green);box-shadow:0 0 8px rgba(52,211,153,.5)}
+.card .status-dot.offline{background:var(--red)}
+.card .fav-star{position:absolute;top:14px;right:36px;font-size:.9rem;opacity:0;transition:.2s;cursor:pointer;z-index:2}
+.card:hover .fav-star{opacity:.5}
+.card .fav-star:hover,.card .fav-star.starred{opacity:1}
+.card .meta{font-size:.7rem;color:var(--text-dim);margin-top:12px;opacity:.5}
+/* List view card */
+.list-view .card{display:flex;align-items:center;gap:16px;padding:16px 20px}
+.list-view .card .icon{font-size:1.8rem;margin-bottom:0;flex-shrink:0}
+.list-view .card .card-body{flex:1}
+.list-view .card .name{margin-bottom:2px}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.show{display:flex}
+.modal{background:#16161e;border:1px solid var(--border);border-radius:20px;padding:32px;width:100%;max-width:440px}
+.modal h3{margin-bottom:20px;font-size:1.1rem}
+.modal input,.modal select{width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:.9rem;margin-bottom:12px;outline:none}
+.modal input:focus,.modal select:focus{border-color:var(--accent)}
+.modal-actions{display:flex;gap:10px;margin-top:8px}
+.modal-actions .btn{flex:1;justify-content:center}
+.btn-primary{background:rgba(129,140,248,.2)!important;color:var(--accent)!important;border-color:rgba(129,140,248,.3)!important}
+/* Favorites section */
+.fav-badge{background:rgba(250,204,21,.1);color:#facc15;font-size:.65rem;padding:2px 8px;border-radius:6px;margin-right:8px}
+/* Responsive */
+@media(max-width:640px){.header{padding:32px 0 16px}.clock{font-size:2.5rem}.grid{grid-template-columns:1fr}.toolbar{flex-direction:column}.search-box{min-width:100%}}
+/* Scrollbar */
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px}
+/* Cron Section */
+.cron-section{margin-top:48px}
+.cron-stats{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.cron-stat{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:12px;padding:12px 20px;font-size:.85rem;color:var(--text-dim);display:flex;align-items:center;gap:6px}
+.cron-stat b{color:var(--text);font-size:1.1rem}
+.cron-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.cron-filter{padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text-dim);cursor:pointer;font-size:.8rem;transition:.2s}
+.cron-filter:hover{background:var(--surface-hover);color:var(--text)}
+.cron-filter.active{background:rgba(129,140,248,.15);color:var(--accent);border-color:rgba(129,140,248,.3)}
+.cron-table-wrap{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.cron-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.cron-table th{text-align:left;padding:14px 16px;color:var(--text-dim);font-weight:500;font-size:.75rem;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border);white-space:nowrap}
+.cron-table td{padding:12px 16px;border-bottom:1px solid var(--border);vertical-align:middle}
+.cron-table tr:last-child td{border-bottom:none}
+.cron-table tr:hover td{background:var(--surface-hover)}
+.cron-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.cron-dot.ok{background:var(--green);box-shadow:0 0 6px rgba(52,211,153,.5)}
+.cron-dot.pending{background:var(--text-dim)}
+.cron-name{font-weight:600;font-size:.9rem}
+.cron-desc{color:var(--text-dim);font-size:.78rem;max-width:260px;line-height:1.4}
+.badge{display:inline-block;padding:2px 10px;border-radius:6px;font-size:.72rem;font-weight:600;letter-spacing:.3px}
+.badge-trading{background:rgba(168,85,247,.15);color:#c084fc}
+.badge-maintenance{background:rgba(34,211,238,.12);color:#22d3ee}
+.badge-news{background:rgba(59,130,246,.15);color:#60a5fa}
+.badge-reminders{background:rgba(250,204,21,.12);color:#facc15}
+.badge-grok{background:rgba(251,146,60,.15);color:#fb923c}
+.badge-claude{background:rgba(129,140,248,.15);color:#818cf8}
+.badge-system{background:rgba(161,161,170,.12);color:#a1a1aa}
+.cron-schedule{cursor:pointer;font-family:'Courier New',monospace;font-size:.82rem;color:var(--accent);border-bottom:1px dashed rgba(129,140,248,.3);padding-bottom:1px}
+.cron-schedule:hover{color:#a78bfa}
+.cron-schedule-human{font-size:.72rem;color:var(--text-dim);margin-top:2px}
+.cron-schedule-edit{display:none;gap:4px;align-items:center}
+.cron-schedule-edit input{padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:'Courier New',monospace;font-size:.82rem;width:120px;outline:none}
+.cron-schedule-edit input:focus{border-color:var(--accent)}
+.cron-schedule-edit button{padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text-dim);cursor:pointer;font-size:.75rem}
+.toggle{position:relative;width:36px;height:20px;cursor:pointer}
+.toggle input{opacity:0;width:0;height:0}
+.toggle .slider{position:absolute;inset:0;background:rgba(255,255,255,.1);border-radius:10px;transition:.2s}
+.toggle .slider::before{content:'';position:absolute;width:16px;height:16px;left:2px;top:2px;background:var(--text-dim);border-radius:50%;transition:.2s}
+.toggle input:checked+.slider{background:rgba(52,211,153,.3)}
+.toggle input:checked+.slider::before{transform:translateX(16px);background:var(--green)}
+.cron-note{font-size:.75rem;color:var(--text-dim);opacity:.6;margin-top:12px;text-align:center;font-style:italic}
+@media(max-width:900px){.cron-table-wrap{overflow-x:auto}.cron-desc{max-width:160px}}
 </style>
 </head>
 <body>
-<canvas id="bg"></canvas>
-<canvas id="lines"></canvas>
-<div id="ui"></div>
-<div id="title">
-  <h1>&#128395; OpenClaw Architecture</h1>
-  <p>High-Level System Overview</p>
-</div>
-<div id="nav">
-  <a href="index.html" class="active">HL View</a>
-  <a href="mindmap-detailed.html">Detailed</a>
-  <a href="mindmap-personal.html">Personal</a>
-</div>
-<div id="legend">
-  <h3>Components</h3>
-  <div class="leg-item"><div class="leg-dot" style="background:#3b82f6"></div>Gateway</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#8b5cf6"></div>Channels</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#ec4899"></div>Agent</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#f59e0b"></div>Models</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#10b981"></div>Tools</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#06b6d4"></div>Nodes</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#f97316"></div>Workspace</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#ef4444"></div>Automation</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#a855f7"></div>Interfaces</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#64748b"></div>Security</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#14b8a6"></div>Smart Home</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#e11d48"></div>Dashboards &amp; Apps</div>
-</div>
-<div id="device-badge">&#128241; <span id="device-label">Detecting...</span></div>
-<div id="zoom-controls">
-  <button id="zoom-in" title="Zoom in">+</button>
-  <button id="zoom-reset" title="Reset zoom">&#8635;</button>
-  <button id="zoom-out" title="Zoom out">-</button>
-</div>
-<div id="panel">
-  <button id="panel-close">&times;</button>
-  <div id="panel-header">
-    <div id="panel-emoji"></div>
-    <div id="panel-title"></div>
-    <div id="panel-level"></div>
+<canvas id="bgCanvas"></canvas>
+<div class="container">
+  <header class="header">
+    <div class="clock" id="clock"></div>
+    <div class="greeting" id="greeting"></div>
+    <div class="date-line" id="dateLine"></div>
+  </header>
+  <div class="stats-bar" id="statsBar"></div>
+  <div class="toolbar">
+    <input class="search-box" id="search" placeholder="🔍 Search apps..." autocomplete="off">
+    <button class="btn" id="viewToggle" onclick="toggleView()">☰ List</button>
+    <button class="btn" id="addBtn" onclick="openModal()">＋ Add Link</button>
   </div>
-  <div id="panel-path"></div>
-  <div id="panel-body">
-    <div id="panel-desc"></div>
-    <div id="panel-children-title" style="display:none"></div>
-    <div id="panel-children-wrap"><div id="panel-children"></div></div>
+  <div id="appContainer"></div>
+  <!-- Skills Section -->
+  <div class="cron-section" id="skillsSection">
+    <div class="category-title">🎯 Skills & Capabilities</div>
+    <div class="cron-stats" id="skillsStats"></div>
+    <div class="cron-filters" id="skillsFilters"></div>
+    <div class="cron-table-wrap">
+      <table class="cron-table">
+        <thead><tr><th>Icon</th><th>Name</th><th>Description</th><th>Category</th><th>Model</th><th>Last Used</th></tr></thead>
+        <tbody id="skillsBody"></tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Cron Jobs Section -->
+  <div class="cron-section" id="cronSection">
+    <div class="category-title">⏰ Cron Jobs</div>
+    <div class="cron-stats" id="cronStats"></div>
+    <div class="cron-filters" id="cronFilters"></div>
+    <div class="cron-table-wrap">
+      <table class="cron-table">
+        <thead><tr><th>Status</th><th>Name</th><th>Description</th><th>Schedule</th><th>Model</th><th>Category</th><th>Last Used</th><th>Enabled</th></tr></thead>
+        <tbody id="cronBody"></tbody>
+      </table>
+    </div>
+    <div class="cron-note">💡 Changes here are display-only — actual cron updates require the OpenClaw CLI</div>
+  </div>
+</div>
+<!-- Add Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h3>➕ Add New Link</h3>
+    <input id="mName" placeholder="Name">
+    <input id="mUrl" placeholder="URL">
+    <input id="mIcon" placeholder="Emoji (e.g. 🔗)" maxlength="4">
+    <input id="mDesc" placeholder="Short description">
+    <select id="mCat"><option value="Tools">Tools</option><option value="Dashboards">Dashboards</option><option value="Apps">Apps</option><option value="Bookmarks">Bookmarks</option></select>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="saveLink()">Save</button>
+      <button class="btn" onclick="closeModal()">Cancel</button>
+    </div>
   </div>
 </div>
 <script>
-// ── DEVICE DETECTION ─────────────────────────────────────────────────────────
-const Device = (function(){
-  const ua = navigator.userAgent;
-  const touch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  const W = window.innerWidth, H = window.innerHeight;
-  const isIPad    = /iPad/.test(ua) || (/Macintosh/.test(ua) && touch);
-  const isIPhone  = /iPhone/.test(ua);
-  const isAndTablet = /Android/.test(ua) && !/Mobile/.test(ua);
-  const isAndPhone  = /Android/.test(ua) && /Mobile/.test(ua);
-  const isMobile  = isIPhone || isAndPhone || (touch && W < 768);
-  const isTablet  = isIPad || isAndTablet || (touch && W >= 768 && W < 1200);
-  const isDesktop = !isMobile && !isTablet;
-  const isLandscape = W > H;
+const DEFAULT_APPS=[
+  {id:'mindmap',icon:'🧠',name:'Mindmap',desc:'Interactive brain map',url:'https://yehudamiz007.github.io/mindmap/',cat:'Tools'},
+  {id:'costs',icon:'💰',name:'Cost Dashboard',desc:'OpenClaw cost monitoring & analytics',url:'https://yehudamiz007.github.io/mindmap/dashboard.html',cat:'Dashboards'},
+  {id:'stocks',icon:'📊',name:'Stock Scanner',desc:'Daily automated stock & crypto analysis',url:'https://yehudamiz007.github.io/mindmap/dashboard/',cat:'Dashboards'},
+  {id:'tasks',icon:'📋',name:'Task Manager',desc:'Jira/Monday-style task management',url:'https://yehudamiz007.github.io/mindmap/tasks.html',cat:'Apps'},
+  {id:'mindmap-detailed',icon:'🗺️',name:'Detailed Mindmap',desc:'Detailed brain map with all info',url:'https://yehudamiz007.github.io/mindmap/mindmap-detailed.html',cat:'Tools'},
+  {id:'family-tree',icon:'🌳',name:'Family Tree',desc:'Mizrahi family tree',url:'https://yehudamiz007.github.io/mindmap/family-tree/',cat:'Dashboards'},
+  {id:'iran-dashboard',icon:'🛡️',name:'Iran War Map',desc:'Iran conflict intelligence dashboard',url:'https://yehudamiz007.github.io/mindmap/iran-dashboard/',cat:'Dashboards'},
+  {id:'moltta',icon:'🎯',name:'MOLTTA',desc:'Molt Trading Arena - Virtual trading platform',url:'https://yehudamiz007.github.io/mindmap/dashboard/trading.html',cat:'Apps'},
+  {id:'models',icon:'🤖',name:'Multimodal Management',desc:'Model registry, use cases & routing instructions',url:'https://yehudamiz007.github.io/mindmap/models/',cat:'Dashboards'},
+  {id:'subagents',icon:'🤖',name:'Sub-Agents Dashboard',desc:'Real-time sub-agent cost & status tracking - sorted by cost',url:'https://yehudamiz007.github.io/mindmap/subagents-dashboard/',cat:'Dashboards'},
+  {id:'architecture',icon:'🏗️',name:'Architecture Diagrams',desc:'7 interactive technical diagrams explaining how OpenClaw works',url:'https://yehudamiz007.github.io/mindmap/architecture/',cat:'Dashboards'},
+  {id:'deebot',icon:'🤖',name:'DEEBOT Controller',desc:'Remote vacuum control - clean, stop, suction & mop settings',url:'https://yehudamiz007.github.io/mindmap/ecovacs-joystick/',cat:'Apps'},
+  {id:'any1',icon:'🏛️',name:'Any1 App',desc:'The Human Market - social platform where every person has a tradeable value. React/Vite on Vercel.',url:'https://any1.vercel.app',cat:'Apps'},
+  {id:'knowledge-graph',icon:'🕸️',name:'Knowledge Graph',desc:'Interactive graph of all skills, requests, people and knowledge connections - D3.js visualization',url:'https://yehudamiz007.github.io/mindmap/knowledge-graph.html',cat:'Dashboards'},
+  {id:'grok-trader',icon:'🤖',name:'Grok Trader',desc:'Live eToro portfolio - equity chart, unrealized P&L, positions & trade log. Grok 4 strategy auto-managed.',url:'https://yehudamiz007.github.io/mindmap/trading-dashboard.html',cat:'Dashboards'}
+];
+let customApps=JSON.parse(localStorage.getItem('hub_custom')||'[]');
+let favorites=JSON.parse(localStorage.getItem('hub_favs')||'[]');
+let recents=JSON.parse(localStorage.getItem('hub_recents')||'[]');
+let listView=localStorage.getItem('hub_listview')==='1';
+let statusCache={};
 
-  const type = isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop';
+function allApps(){return[...DEFAULT_APPS,...customApps]}
+function saveFavs(){localStorage.setItem('hub_favs',JSON.stringify(favorites))}
+function saveRecents(){localStorage.setItem('hub_recents',JSON.stringify(recents))}
+function saveCustom(){localStorage.setItem('hub_custom',JSON.stringify(customApps))}
 
-  // layout params per device
-  const params = {
-    desktop : { defaultZoom:0.38, catRadius:330, subRadiusBase:190, subRadiusMult:10,
-                leafRadiusBase:110, leafRadiusMult:10, minD:[60,50,38,28], repIter:80 },
-    tablet  : { defaultZoom:0.30, catRadius:300, subRadiusBase:180, subRadiusMult:10,
-                leafRadiusBase:105, leafRadiusMult:9,  minD:[58,48,36,26], repIter:80 },
-    mobile  : { defaultZoom:0.22, catRadius:260, subRadiusBase:165, subRadiusMult:9,
-                leafRadiusBase:95,  leafRadiusMult:8,  minD:[52,42,32,22], repIter:70 },
-  };
+// Clock & Greeting
+function updateClock(){
+  const now=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Jerusalem'}));
+  const h=now.getHours(),m=now.getMinutes();
+  document.getElementById('clock').textContent=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+  let g='Good Night <em class="emoji">🌙</em>';
+  if(h>=5&&h<12)g='Good Morning <em class="emoji">☀️</em>';
+  else if(h>=12&&h<17)g='Good Afternoon <em class="emoji">🌤️</em>';
+  else if(h>=17&&h<21)g='Good Evening <em class="emoji">🌅</em>';
+  document.getElementById('greeting').innerHTML=g;
+  const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('dateLine').textContent=`${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+}
+updateClock();setInterval(updateClock,10000);
 
-  // label
-  const labelMap = {
-    desktop:'💻 Desktop', tablet: isIPad?'📱 iPad':'📱 Tablet', mobile:'📱 Mobile'
-  };
+// Stats
+function updateStats(){
+  const apps=allApps();
+  const cats=new Set(apps.map(a=>a.cat));
+  document.getElementById('statsBar').innerHTML=`
+    <div class="stat"><b>${apps.length}</b> Apps</div>
+    <div class="stat"><b>${cats.size}</b> Categories</div>
+    <div class="stat"><b>${favorites.length}</b> Favorites</div>
+    <div class="stat"><b>${recents.length}</b> Recent</div>`;
+}
 
-  return { type, params:params[type], label:labelMap[type], isLandscape, isMobile, isTablet, isDesktop };
+// Status check
+function checkStatus(url,id){
+  fetch(url,{mode:'no-cors',cache:'no-cache'}).then(()=>{statusCache[id]='online';renderApps()}).catch(()=>{statusCache[id]='offline';renderApps()});
+}
+
+// Render
+function renderApps(){
+  const q=document.getElementById('search').value.trim().toLowerCase();
+  const apps=allApps().filter(a=>!q||a.name.includes(q)||a.desc.includes(q)||a.cat.includes(q));
+  const cats={};
+  // Favorites first
+  const favApps=apps.filter(a=>favorites.includes(a.id||a.name));
+  const rest=apps.filter(a=>!favorites.includes(a.id||a.name));
+  if(favApps.length)cats['⭐ Favorites']=favApps;
+  rest.forEach(a=>{const c=a.cat||'אחר';(cats[c]=cats[c]||[]).push(a)});
+  
+  let html='';
+  const catOrder=['⭐ Favorites','Dashboards','Apps','Tools','Bookmarks'];
+  const sorted=Object.keys(cats).sort((a,b)=>catOrder.indexOf(a)-catOrder.indexOf(b));
+  let i=0;
+  sorted.forEach(cat=>{
+    html+=`<div class="category"><div class="category-title">${cat}</div><div class="grid${listView?' list-view':''}">`;
+    cats[cat].forEach(a=>{
+      const aid=a.id||a.name;
+      const st=statusCache[aid]||'';
+      const isFav=favorites.includes(aid);
+      const isCustom=customApps.some(c=>c.name===a.name);
+      html+=`<a class="card" href="${a.url}" target="_blank" rel="noopener" style="animation-delay:${i*60}ms" onclick="trackRecent('${aid}')">
+
+        <span class="status-dot ${st}"></span>
+        <span class="fav-star ${isFav?'starred':''}" onclick="event.preventDefault();event.stopPropagation();toggleFav('${aid}')">${isFav?'★':'☆'}</span>
+        ${listView?'':'<span class="icon">'+a.icon+'</span>'}
+        <div class="card-body">
+          ${listView?'<span class="icon">'+a.icon+'</span>':''}
+          <div class="name">${a.name}</div>
+          <div class="desc">${a.desc}</div>
+          ${isCustom?'<div class="meta">Custom link · <span style="cursor:pointer;color:var(--red)" onclick="event.preventDefault();event.stopPropagation();removeCustom(\''+a.name+'\')">Delete</span></div>':''}
+        </div>
+      </a>`;
+      i++;
+    });
+    html+=`</div></div>`;
+  });
+  document.getElementById('appContainer').innerHTML=html;
+  updateStats();
+}
+
+function toggleFav(id){
+  const i=favorites.indexOf(id);
+  i>=0?favorites.splice(i,1):favorites.push(id);
+  saveFavs();renderApps();
+}
+function trackRecent(id){
+  recents=recents.filter(r=>r!==id);
+  recents.unshift(id);
+  if(recents.length>10)recents.pop();
+  saveRecents();
+}
+function toggleView(){
+  listView=!listView;
+  localStorage.setItem('hub_listview',listView?'1':'0');
+  document.getElementById('viewToggle').textContent=listView?'⊞ Grid':'☰ List';
+  renderApps();
+}
+function openModal(){document.getElementById('modal').classList.add('show')}
+function closeModal(){document.getElementById('modal').classList.remove('show')}
+function saveLink(){
+  const n=document.getElementById('mName').value.trim();
+  const u=document.getElementById('mUrl').value.trim();
+  if(!n||!u)return;
+  customApps.push({id:'custom_'+Date.now(),icon:document.getElementById('mIcon').value||'🔗',name:n,url:u,desc:document.getElementById('mDesc').value||'',cat:document.getElementById('mCat').value});
+  saveCustom();closeModal();renderApps();
+  ['mName','mUrl','mIcon','mDesc'].forEach(x=>document.getElementById(x).value='');
+}
+function removeCustom(name){
+  customApps=customApps.filter(a=>a.name!==name);
+  saveCustom();renderApps();
+}
+
+document.getElementById('search').addEventListener('input',renderApps);
+if(listView)document.getElementById('viewToggle').textContent='⊞ Grid';
+
+// Init
+renderApps();
+allApps().forEach(a=>checkStatus(a.url,a.id||a.name));
+
+// Background animation
+(function(){
+  const c=document.getElementById('bgCanvas'),ctx=c.getContext('2d');
+  let w,h;
+  function resize(){w=c.width=innerWidth;h=c.height=innerHeight}
+  resize();addEventListener('resize',resize);
+  const orbs=[
+    {x:.3,y:.4,r:300,color:'rgba(99,102,241,.07)',vx:.0002,vy:.0003},
+    {x:.7,y:.6,r:250,color:'rgba(168,85,247,.06)',vx:-.0003,vy:.0002},
+    {x:.5,y:.2,r:200,color:'rgba(59,130,246,.05)',vx:.0001,vy:-.0002}
+  ];
+  function draw(t){
+    ctx.clearRect(0,0,w,h);
+    orbs.forEach(o=>{
+      o.x+=o.vx;o.y+=o.vy;
+      if(o.x<0||o.x>1)o.vx*=-1;
+      if(o.y<0||o.y>1)o.vy*=-1;
+      const g=ctx.createRadialGradient(o.x*w,o.y*h,0,o.x*w,o.y*h,o.r);
+      g.addColorStop(0,o.color);g.addColorStop(1,'transparent');
+      ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
 })();
 
-document.getElementById('device-label').textContent = Device.label;
+// Close modal on overlay click
+document.getElementById('modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal()});
 
-// ── DATA ─────────────────────────────────────────────────────────────────────
-// [id, parentId, level, emoji, label, color]
-const DATA = [
-  ["center",null,0,"&#128395;","OpenClaw","#64748b"],
+// === USAGE DATA (hub-usage.json) ===
+let USAGE={cron:{},skills:{}};
+fetch('hub-usage.json?_='+Date.now()).then(r=>r.json()).then(d=>{USAGE=d;renderCron();renderSkills();}).catch(()=>{});
 
-  // ── GATEWAY ──────────────────────────────────────────
-  ["gw","center",1,"&#127760;","Gateway","#3b82f6"],
-  ["gw-ws","gw",2,"","WebSocket API","#3b82f6"],
-  ["gw-ws-1","gw-ws",3,"","JSON Protocol","#3b82f6"],
-  ["gw-ws-2","gw-ws",3,"","Auth/Token","#3b82f6"],
-  ["gw-ws-3","gw-ws",3,"","Pairing","#3b82f6"],
-  ["gw-d","gw",2,"","Daemon","#3b82f6"],
-  ["gw-d-1","gw-d",3,"","Port 18789","#3b82f6"],
-  ["gw-d-2","gw-d",3,"","Health Check","#3b82f6"],
-  ["gw-d-3","gw-d",3,"","Events","#3b82f6"],
-  ["gw-h","gw",2,"","HTTP Server","#3b82f6"],
-  ["gw-h-1","gw-h",3,"","Canvas Host","#3b82f6"],
-  ["gw-h-2","gw-h",3,"","REST API","#3b82f6"],
-  ["gw-h-3","gw-h",3,"","OpenAI API","#3b82f6"],
+function fmtLastRun(ms){
+  if(!ms)return'<span style="color:var(--text-dim);font-size:.75rem">-</span>';
+  const diff=Date.now()-ms;
+  const m=Math.floor(diff/60000),h=Math.floor(diff/3600000),d=Math.floor(diff/86400000);
+  let s,col;
+  if(m<2){s='just now';col='var(--green)'}
+  else if(m<60){s=`${m}m ago`;col='var(--green)'}
+  else if(h<24){s=`${h}h ago`;col='var(--accent)'}
+  else if(d<7){s=`${d}d ago`;col='var(--text)'}
+  else{const dt=new Date(ms);s=`${dt.getDate()}.${dt.getMonth()+1}.${dt.getFullYear()}`;col='var(--text-dim)'}
+  return`<span style="color:${col};font-size:.78rem;white-space:nowrap">${s}</span>`;
+}
 
-  // ── CHANNELS ─────────────────────────────────────────
-  ["ch","center",1,"&#128172;","Channels","#8b5cf6"],
-  ["ch-wa","ch",2,"","WhatsApp","#8b5cf6"],
-  ["ch-wa-1","ch-wa",3,"","Baileys","#8b5cf6"],
-  ["ch-wa-2","ch-wa",3,"","DMs/Groups","#8b5cf6"],
-  ["ch-wa-3","ch-wa",3,"","Media/Voice","#8b5cf6"],
-  ["ch-tg","ch",2,"","Telegram","#8b5cf6"],
-  ["ch-tg-1","ch-tg",3,"","grammY","#8b5cf6"],
-  ["ch-tg-2","ch-tg",3,"","Bot API","#8b5cf6"],
-  ["ch-dc","ch",2,"","Discord","#8b5cf6"],
-  ["ch-dc-1","ch-dc",3,"","Guilds","#8b5cf6"],
-  ["ch-dc-2","ch-dc",3,"","Reactions","#8b5cf6"],
-  ["ch-more","ch",2,"","More","#8b5cf6"],
-  ["ch-more-1","ch-more",3,"","Signal","#8b5cf6"],
-  ["ch-more-2","ch-more",3,"","Slack","#8b5cf6"],
-  ["ch-more-3","ch-more",3,"","iMessage","#8b5cf6"],
-  ["ch-more-4","ch-more",3,"","+9 others","#8b5cf6"],
-
-  // ── AGENT ────────────────────────────────────────────
-  ["ag","center",1,"&#129302;","Agent","#ec4899"],
-  ["ag-s","ag",2,"","Sessions","#ec4899"],
-  ["ag-s-1","ag-s",3,"","Main","#ec4899"],
-  ["ag-s-2","ag-s",3,"","Isolated","#ec4899"],
-  ["ag-s-3","ag-s",3,"","Sub-agents","#ec4899"],
-  ["ag-s-4","ag-s",3,"","Compaction","#ec4899"],
-  ["ag-al","ag",2,"","Agent Loop","#ec4899"],
-  ["ag-al-1","ag-al",3,"","System Prompt","#ec4899"],
-  ["ag-al-2","ag-al",3,"","Tool Calls","#ec4899"],
-  ["ag-al-3","ag-al",3,"","Streaming","#ec4899"],
-  ["ag-m","ag",2,"","Memory","#ec4899"],
-  ["ag-m-1","ag-m",3,"","MEMORY.md","#ec4899"],
-  ["ag-m-2","ag-m",3,"","Daily Notes","#ec4899"],
-  ["ag-m-3","ag-m",3,"","memory_search","#ec4899"],
-
-  // ── MODELS ───────────────────────────────────────────
-  ["mo","center",1,"&#129504;","Models","#f59e0b"],
-  ["mo-an","mo",2,"","Anthropic","#f59e0b"],
-  ["mo-an-1","mo-an",3,"","Claude Sonnet","#f59e0b"],
-  ["mo-an-2","mo-an",3,"","Claude Opus","#f59e0b"],
-  ["mo-gk","mo",2,"","xAI Grok","#f59e0b"],
-  ["mo-gk-1","mo-gk",3,"","Grok 4","#f59e0b"],
-  ["mo-gk-2","mo-gk",3,"","Web-aware","#f59e0b"],
-  ["mo-oa","mo",2,"","OpenAI","#f59e0b"],
-  ["mo-oa-1","mo-oa",3,"","GPT-4o","#f59e0b"],
-  ["mo-oa-2","mo-oa",3,"","o1/o3","#f59e0b"],
-  ["mo-go","mo",2,"","Google","#f59e0b"],
-  ["mo-go-1","mo-go",3,"","Gemini Pro","#f59e0b"],
-  ["mo-go-2","mo-go",3,"","Long Context","#f59e0b"],
-  ["mo-ol","mo",2,"","Ollama","#f59e0b"],
-  ["mo-ol-1","mo-ol",3,"","Local Models","#f59e0b"],
-  ["mo-ol-2","mo-ol",3,"","No API Key","#f59e0b"],
-  ["mo-or","mo",2,"","OpenRouter","#f59e0b"],
-  ["mo-or-1","mo-or",3,"","100+ Models","#f59e0b"],
-
-  // ── TOOLS ────────────────────────────────────────────
-  ["to","center",1,"&#128295;","Tools","#10b981"],
-  ["to-builtin","to",2,"","Built-in","#10b981"],
-  ["to-b-1","to-builtin",3,"","exec","#10b981"],
-  ["to-b-2","to-builtin",3,"","read/write","#10b981"],
-  ["to-b-3","to-builtin",3,"","browser","#10b981"],
-  ["to-b-4","to-builtin",3,"","web_search","#10b981"],
-  ["to-b-5","to-builtin",3,"","web_fetch","#10b981"],
-  ["to-b-6","to-builtin",3,"","cron","#10b981"],
-  ["to-b-7","to-builtin",3,"","message","#10b981"],
-  ["to-b-8","to-builtin",3,"","tts","#10b981"],
-  ["to-sk","to",2,"","19 Skills","#10b981"],
-  ["to-sk-1","to-sk",3,"","ai-chief-architect","#10b981"],
-  ["to-sk-2","to-sk",3,"","husband","#10b981"],
-  ["to-sk-3","to-sk",3,"","parenting","#10b981"],
-  ["to-sk-4","to-sk",3,"","hebrew","#10b981"],
-  ["to-sk-5","to-sk",3,"","technical-analysis","#10b981"],
-  ["to-sk-6","to-sk",3,"","market-news-sentiment","#10b981"],
-  ["to-sk-7","to-sk",3,"","analyst-price-targets","#10b981"],
-  ["to-sk-8","to-sk",3,"💪","fitness-nutrition","#10b981"],
-  ["to-sk-9","to-sk",3,"","coffee-master","#10b981"],
-  ["to-sk-10","to-sk",3,"","secure-skill-downloader","#10b981"],
-  ["to-sk-11","to-sk",3,"","ecovacs","#10b981"],
-  ["to-sk-12","to-sk",3,"","weather","#10b981"],
-  ["to-sk-13","to-sk",3,"","nextjs-backend","#10b981"],
-  ["to-sk-14","to-sk",3,"","nextjs-frontend","#10b981"],
-  ["to-sk-15","to-sk",3,"","databricks","#10b981"],
-  ["to-sk-16","to-sk",3,"","data-engineer","#10b981"],
-  ["to-sk-17","to-sk",3,"","ontology","#10b981"],
-  ["to-sk-18","to-sk",3,"","etoro","#10b981"],
-  ["to-sk-19","to-sk",3,"🏛️","any1","#C9A84C"],
-
-  // ── NODES ────────────────────────────────────────────
-  ["no","center",1,"&#128241;","Nodes","#06b6d4"],
-  ["no-pl","no",2,"","Platforms","#06b6d4"],
-  ["no-pl-1","no-pl",3,"","iOS","#06b6d4"],
-  ["no-pl-2","no-pl",3,"","Android","#06b6d4"],
-  ["no-pl-3","no-pl",3,"","macOS","#06b6d4"],
-  ["no-ca","no",2,"","Capabilities","#06b6d4"],
-  ["no-ca-1","no-ca",3,"","Camera","#06b6d4"],
-  ["no-ca-2","no-ca",3,"","Screen","#06b6d4"],
-  ["no-ca-3","no-ca",3,"","Location","#06b6d4"],
-  ["no-ca-4","no-ca",3,"","Canvas","#06b6d4"],
-  ["no-ca-5","no-ca",3,"","Audio","#06b6d4"],
-
-  // ── WORKSPACE ────────────────────────────────────────
-  ["ws","center",1,"&#128194;","Workspace","#f97316"],
-  ["ws-cf","ws",2,"","Core Files","#f97316"],
-  ["ws-cf-1","ws-cf",3,"","AGENTS.md","#f97316"],
-  ["ws-cf-2","ws-cf",3,"","SOUL.md","#f97316"],
-  ["ws-cf-3","ws-cf",3,"","USER.md","#f97316"],
-  ["ws-cf-4","ws-cf",3,"","MEMORY.md","#f97316"],
-  ["ws-cf-5","ws-cf",3,"","HEARTBEAT.md","#f97316"],
-  ["ws-me","ws",2,"","Memory","#f97316"],
-  ["ws-me-1","ws-me",3,"","Long-term","#f97316"],
-  ["ws-me-2","ws-me",3,"","Daily Logs","#f97316"],
-  ["ws-me-3","ws-me",3,"","Backups","#f97316"],
-  ["ws-sc","ws",2,"","Scripts","#f97316"],
-  ["ws-sc-1","ws-sc",3,"","ecovacs.py","#f97316"],
-  ["ws-sc-2","ws-sc",3,"","ecovacs_server.py","#f97316"],
-  ["ws-sc-3","ws-sc",3,"","deebot_autostart.py","#f97316"],
-  ["ws-sc-4","ws-sc",3,"","update-costs.js","#f97316"],
-  ["ws-sc-5","ws-sc",3,"","backup_hub.ps1","#f97316"],
-
-  // ── AUTOMATION ───────────────────────────────────────
-  ["au","center",1,"&#9889;","Automation","#ef4444"],
-  ["au-cr","au",2,"","Cron Jobs","#ef4444"],
-  ["au-cr-1","au-cr",3,"","Backup MEMORY","#ef4444"],
-  ["au-cr-2","au-cr",3,"","Stock Scanner","#ef4444"],
-  ["au-cr-3","au-cr",3,"","Birthday Alerts","#ef4444"],
-  ["au-cr-4","au-cr",3,"","Anniversary","#ef4444"],
-  ["au-cr-5","au-cr",3,"","LinkedIn AI Post","#ef4444"],
-  ["au-cr-6","au-cr",3,"","Cost Dashboard","#ef4444"],
-  ["au-cr-7","au-cr",3,"","Daily Backup","#ef4444"],
-  ["au-hb","au",2,"","Heartbeat","#ef4444"],
-  ["au-hb-1","au-hb",3,"","HEARTBEAT.md","#ef4444"],
-  ["au-hb-2","au-hb",3,"","Mindmap Check","#ef4444"],
-  ["au-hb-3","au-hb",3,"","Git Push","#ef4444"],
-  ["au-wh","au",2,"","Webhooks","#ef4444"],
-  ["au-wh-1","au-wh",3,"","External Triggers","#ef4444"],
-  ["au-wh-2","au-wh",3,"","Gmail PubSub","#ef4444"],
-
-  // ── INTERFACES ───────────────────────────────────────
-  ["ui","center",1,"&#128421;","Interfaces","#a855f7"],
-  ["ui-w","ui",2,"","Web","#a855f7"],
-  ["ui-w-1","ui-w",3,"","WebChat","#a855f7"],
-  ["ui-w-2","ui-w",3,"","Control UI","#a855f7"],
-  ["ui-w-3","ui-w",3,"","Dashboard","#a855f7"],
-  ["ui-a","ui",2,"","Apps","#a855f7"],
-  ["ui-a-1","ui-a",3,"","macOS App","#a855f7"],
-  ["ui-a-2","ui-a",3,"","Menu Bar","#a855f7"],
-  ["ui-a-3","ui-a",3,"","CLI","#a855f7"],
-
-  // ── SECURITY ─────────────────────────────────────────
-  ["se","center",1,"&#128274;","Security","#64748b"],
-  ["se-au","se",2,"","Auth","#64748b"],
-  ["se-au-1","se-au",3,"","Gateway Token","#64748b"],
-  ["se-au-2","se-au",3,"","Device Pairing","#64748b"],
-  ["se-au-3","se-au",3,"","Allowlists","#64748b"],
-  ["se-sb","se",2,"","Sandboxing","#64748b"],
-  ["se-sb-1","se-sb",3,"","Exec Policy","#64748b"],
-  ["se-sb-2","se-sb",3,"","Tool Policy","#64748b"],
-  ["se-sb-3","se-sb",3,"","Elevated Mode","#64748b"],
-
-  // ── SMART HOME ───────────────────────────────────────
-  ["sh","center",1,"&#127968;","Smart Home","#14b8a6"],
-  ["sh-db","sh",2,"","DEEBOT X8 PRO","#14b8a6"],
-  ["sh-db-1","sh-db",3,"","yehudamiz007@gmail.com","#14b8a6"],
-  ["sh-db-2","sh-db",3,"","Country: IL","#14b8a6"],
-  ["sh-cl","sh",2,"","Commands","#14b8a6"],
-  ["sh-cl-1","sh-cl",3,"","clean/stop/pause","#14b8a6"],
-  ["sh-cl-2","sh-cl",3,"","resume/charge","#14b8a6"],
-  ["sh-cl-3","sh-cl",3,"","sound","#14b8a6"],
-  ["sh-mo","sh",2,"","Settings","#14b8a6"],
-  ["sh-mo-1","sh-mo",3,"","Fan Speed (4)","#14b8a6"],
-  ["sh-mo-2","sh-mo",3,"","Water Level (4)","#14b8a6"],
-  ["sh-mo-3","sh-mo",3,"","Work Mode (4)","#14b8a6"],
-  ["sh-mo-4","sh-mo",3,"","Volume","#14b8a6"],
-  ["sh-cf","sh",2,"","CF Tunnel","#14b8a6"],
-  ["sh-cf-1","sh-cf",3,"","cloudflared.exe","#14b8a6"],
-  ["sh-cf-2","sh-cf",3,"","Port 8765","#14b8a6"],
-  ["sh-cf-3","sh-cf",3,"","Auto-update HTML","#14b8a6"],
-
-  // ── DASHBOARDS & APPS ────────────────────────────────
-  ["da","center",1,"&#128202;","Dashboards","#e11d48"],
-  ["da-hub","da",2,"","Hub","#e11d48"],
-  ["da-hub-1","da-hub",3,"","All Links","#e11d48"],
-  ["da-hub-2","da-hub",3,"","Cron Overview","#e11d48"],
-  ["da-hub-3","da-hub",3,"","Skills List","#e11d48"],
-  ["da-stocks","da",2,"","Stock Scanner","#e11d48"],
-  ["da-stocks-1","da-stocks",3,"","15 Daily Picks","#e11d48"],
-  ["da-stocks-2","da-stocks",3,"","3-Pillar Score","#e11d48"],
-  ["da-stocks-3","da-stocks",3,"","WhatsApp Alert","#e11d48"],
-  ["da-deebot","da",2,"","DEEBOT App","#e11d48"],
-  ["da-deebot-1","da-deebot",3,"","Mobile Web App","#e11d48"],
-  ["da-deebot-2","da-deebot",3,"","Joystick UI","#e11d48"],
-  ["da-deebot-3","da-deebot",3,"","Remote Control","#e11d48"],
-  ["da-other","da",2,"","More Apps","#e11d48"],
-  ["da-other-1","da-other",3,"","Mindmap","#e11d48"],
-  ["da-other-2","da-other",3,"","Cost Dashboard","#e11d48"],
-  ["da-other-3","da-other",3,"","Subagents","#e11d48"],
-  ["da-other-4","da-other",3,"","Architecture","#e11d48"],
-  ["da-other-5","da-other",3,"","Family Tree","#e11d48"],
-  ["da-other-6","da-other",3,"🏛️","Any1 App","#C9A84C"],
-
-  // ── ANY1 ─────────────────────────────────────────────
-  ["a1","center",1,"🏛️","Any1","#C9A84C"],
-  ["a1-co","a1",2,"","Concept","#C9A84C"],
-  ["a1-co-1","a1-co",3,"","Human Market","#C9A84C"],
-  ["a1-co-2","a1-co",3,"","People = Stocks","#C9A84C"],
-  ["a1-co-3","a1-co",3,"","any1.vercel.app","#C9A84C"],
-  ["a1-ty","a1",2,"","User Types","#C9A84C"],
-  ["a1-ty-1","a1-ty",3,"","Investor","#7A9E7E"],
-  ["a1-ty-2","a1-ty",3,"","Founder","#8B85C1"],
-  ["a1-ty-3","a1-ty",3,"","Surfer","#5AABA2"],
-  ["a1-ty-4","a1-ty",3,"","Expert","#B8714F"],
-  ["a1-te","a1",2,"","Tech Stack","#C9A84C"],
-  ["a1-te-1","a1-te",3,"","React + Vite","#C9A84C"],
-  ["a1-te-2","a1-te",3,"","Vercel Deploy","#C9A84C"],
-  ["a1-te-3","a1-te",3,"","localStorage","#C9A84C"],
-  ["a1-sc","a1",2,"","Screens","#C9A84C"],
-  ["a1-sc-1","a1-sc",3,"","Home Feed","#C9A84C"],
-  ["a1-sc-2","a1-sc",3,"","Discover (Swipe)","#C9A84C"],
-  ["a1-sc-3","a1-sc",3,"","Market","#C9A84C"],
-  ["a1-sc-4","a1-sc",3,"","Portfolio","#C9A84C"],
-  ["a1-sc-5","a1-sc",3,"","Missions","#C9A84C"],
-  ["a1-sc-6","a1-sc",3,"","Chat / DM","#C9A84C"],
-  ["a1-fo","a1",2,"","Founders","#C9A84C"],
-  ["a1-fo-1","a1-fo",3,"","Yehuda Mizrahi","#8B85C1"],
-  ["a1-fo-2","a1-fo",3,"","Tamir Mizrahi","#8B85C1"],
-  ["a1-ta","a1",2,"","Tasks","#C9A84C"],
-  ["a1-ta-1","a1-ta",3,"","Phase 1 (13 tasks)","#C9A84C"],
-  ["a1-ta-2","a1-ta",3,"","Phase 2 (3 tasks)","#C9A84C"],
+// === CRON JOBS ===
+const CRON_JOBS=[
+  {id:'74a0a646-b83d-441b-bbdc-8a8613dbcdfd',name:'Backup MEMORY.md',description:'Backs up MEMORY.md to memory/backups/ every hour. Keeps only last 48 backups.',schedule:'0 * * * *',scheduleHuman:'Every hour',tz:'Asia/Jerusalem',enabled:true,model:'claude-sonnet-4-6',category:'Maintenance',lastStatus:'ok'},
+  {id:'8e0d2072-d8aa-4c0d-bf8e-099a7d19e88b',name:'Hourly Hub HTML Backup',description:'Backs up hub.html to backups/hub/ every hour.',schedule:'0 * * * *',scheduleHuman:'Every hour',tz:'Asia/Jerusalem',enabled:true,model:'claude-sonnet-4-6',category:'Maintenance',lastStatus:'ok'},
+  {id:'a7f3c9a1-9418-4a82-a5a5-61e2adf624c3',name:'Daily yehudaclaw Backup',description:'Backs up entire workspace, config, cron & devices folders to GitHub (yehudaclaw repo) daily at 3:00 AM.',schedule:'0 3 * * *',scheduleHuman:'Daily 3:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'claude-sonnet-4-6',category:'Maintenance',lastStatus:'ok'},
+  {id:'b40fce25-bfb3-4a89-80bf-cdac1b3f08f5',name:'Oref Seed Update',description:'Runs update_oref_seed.py every 10 minutes to fetch latest alerts and push to GitHub.',schedule:'*/10 * * * *',scheduleHuman:'Every 10 minutes',tz:'Asia/Jerusalem',enabled:true,model:'claude-sonnet-4-6',category:'Maintenance',lastStatus:'ok'},
+  {id:'df402cec-2d90-4241-88a0-03e0f451cef9',name:'Daily AI News Summary',description:'Fetches AI news from TechCrunch, VentureBeat, The Verge. Picks top 5 stories from last 24h, writes Hebrew summary, sends to WhatsApp.',schedule:'0 9 * * 0-5',scheduleHuman:'Daily 9:00 AM (Sun-Fri)',tz:'Asia/Jerusalem',enabled:true,model:'grok-3',category:'News',lastStatus:'ok'},
+  {id:'22bbae55-0d84-413d-a05a-915e52652398',name:'LinkedIn Daily AI Post',description:'Writes a Hebrew LinkedIn post about the most interesting AI story of the day. Sends draft to WhatsApp.',schedule:'0 10 * * 0-5',scheduleHuman:'Daily 10:00 AM (Sun-Fri)',tz:'Asia/Jerusalem',enabled:true,model:'claude-sonnet-4-6',category:'News',lastStatus:'ok'},
+  {id:'b496cdfe-7a7c-4462-b172-7d3fe8dbb758',name:'Daily Stock Scanner',description:'Grok picks 15 best stocks/crypto to buy. Analyzes news sentiment (30%), analyst targets (35%), technical analysis (35%).',schedule:'0 9,17 * * *',scheduleHuman:'Daily 9:00 AM & 5:00 PM',tz:'Asia/Jerusalem',enabled:true,model:'grok-3',category:'Trading',lastStatus:'ok'},
+  {id:'aa64c5a7-930c-454b-9fc2-db1d1a54beee',name:'Cost Dashboard Update',description:'Runs update-costs.js to calculate OpenClaw API costs, pushes costs.json to GitHub.',schedule:'0 9,21 * * *',scheduleHuman:'Daily 9:00 AM & 9:00 PM',tz:'Asia/Jerusalem',enabled:true,model:'claude-sonnet-4-6',category:'Maintenance',lastStatus:'ok'},
+  {id:'e1eb3b60-b369-41e4-be2e-fbf5f0844f79',name:'Grok Virtual Trader',description:'Manages a virtual $1,000 stock portfolio. Fetches real prices, runs 3-pillar analysis, rotates positions.',schedule:'0 16-23 * * 1-6',scheduleHuman:'Hourly 4-11 PM (Mon-Sat)',tz:'Asia/Jerusalem',enabled:true,model:'grok-3',category:'Trading',lastStatus:'ok'},
+  {id:'9ec71945-81ab-4389-b61f-d3637dfbed80',name:'Iran Dashboard Update',description:'Searches for latest US-Iran tension news, updates iran-data.json threat level, timeline events, and forces data.',schedule:'0 12 * * *',scheduleHuman:'Daily 12:00 PM',tz:'Asia/Jerusalem',enabled:true,model:'grok-3',category:'News',lastStatus:'ok'},
+  {id:'968e059d-dc07-4651-8577-05b3f3c9fb3e',name:'Arbel Birthday Reminder',description:'Reminds 1 week before Arbel birthday (April 8).',schedule:'0 8 1 4 *',scheduleHuman:'April 1, 8:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'system-event',category:'Reminders',lastStatus:'pending'},
+  {id:'b59cde1a-e3d0-4cbc-a564-d03579e3e6b2',name:'Ilana Birthday Reminder',description:'Reminds 1 week before Ilana birthday (April 11).',schedule:'0 8 4 4 *',scheduleHuman:'April 4, 8:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'system-event',category:'Reminders',lastStatus:'pending'},
+  {id:'b208a785-8b36-40fc-b989-dd217237636b',name:'Avior Birthday Reminder',description:'Reminds 1 week before Avior birthday (April 19).',schedule:'0 8 12 4 *',scheduleHuman:'April 12, 8:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'system-event',category:'Reminders',lastStatus:'pending'},
+  {id:'5996c738-544e-4633-9ce0-72703242fb1e',name:'Wedding Anniversary Reminder',description:'Reminds 1 week before wedding anniversary (September 14).',schedule:'0 8 7 9 *',scheduleHuman:'September 7, 8:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'system-event',category:'Reminders',lastStatus:'pending'},
+  {id:'74767929-3a2d-49c6-8317-902e71e6d339',name:'Nitai Birthday Reminder',description:'Reminds 1 week before Nitai birthday (January 11).',schedule:'0 8 4 1 *',scheduleHuman:'January 4, 8:00 AM',tz:'Asia/Jerusalem',enabled:true,model:'system-event',category:'Reminders',lastStatus:'pending'}
 ];
 
-const byId={}, children={};
-DATA.forEach(d=>{
-  const o={id:d[0],parent:d[1],level:d[2],emoji:d[3],label:d[4],color:d[5],wx:0,wy:0};
-  byId[o.id]=o;
-  if(o.parent)(children[o.parent]=children[o.parent]||[]).push(o);
-});
+const cronOverrides=JSON.parse(localStorage.getItem('hub_cron_overrides')||'{}');
+const cronToggles=JSON.parse(localStorage.getItem('hub_cron_toggles')||'{}');
+let cronFilter='All';
 
-const collapsed=new Set();
-function hasChildren(id){return !!(children[id]&&children[id].length);}
-function isVisible(id){
-  let cur=byId[id];
-  while(cur.parent){if(collapsed.has(cur.parent))return false;cur=byId[cur.parent];}
-  return true;
+const CAT_BADGE={'Trading':'badge-trading','Maintenance':'badge-maintenance','News':'badge-news','Reminders':'badge-reminders','Security':'badge-claude','Technical':'badge-maintenance','Personal':'badge-reminders','Language':'badge-news','Lifestyle':'badge-grok','Utility':'badge-system'};
+const MODEL_BADGE={'grok-3':'badge-grok','claude-opus-4-6':'badge-claude','claude-sonnet-4-6':'badge-claude','system-event':'badge-system','xai/grok-3':'badge-grok','anthropic/claude-sonnet-4-6':'badge-claude'};
+
+function getCronEnabled(job){return cronToggles[job.id]!==undefined?cronToggles[job.id]:job.enabled}
+function getCronSchedule(job){return cronOverrides[job.id]||job.schedule}
+
+function renderCronStats(){
+  const active=CRON_JOBS.filter(j=>getCronEnabled(j)).length;
+  const cats={};CRON_JOBS.forEach(j=>{cats[j.category]=(cats[j.category]||0)+1});
+  let html=`<div class="cron-stat"><b>${CRON_JOBS.length}</b>Total</div><div class="cron-stat"><b>${active}</b>Active</div>`;
+  for(const[c,n]of Object.entries(cats))html+=`<div class="cron-stat"><span class="badge ${CAT_BADGE[c]||''}">${c}</span><b>${n}</b></div>`;
+  document.getElementById('cronStats').innerHTML=html;
 }
 
-// ── LAYOUT (device-aware) ────────────────────────────────────────────────────
-function layout(){
-  const P=Device.params;
-  const center=byId["center"];center.wx=0;center.wy=0;
-  const cats=children["center"]||[];
-  cats.forEach((cat,i)=>{
-    const a=(2*Math.PI*i/cats.length)-Math.PI/2;
-    cat.wx=Math.cos(a)*P.catRadius;cat.wy=Math.sin(a)*P.catRadius;
-    const subs=children[cat.id]||[];
-    const catAngle=a;
-    const subSpread=Math.max(subs.length*0.3,Math.PI*0.5);
-    const subRadius=P.subRadiusBase+subs.length*P.subRadiusMult;
-    subs.forEach((sub,j)=>{
-      const sa=catAngle-subSpread/2+subSpread*(subs.length===1?0.5:j/(subs.length-1));
-      sub.wx=cat.wx+Math.cos(sa)*subRadius;
-      sub.wy=cat.wy+Math.sin(sa)*subRadius;
-      const leaves=children[sub.id]||[];
-      const subAngle=Math.atan2(sub.wy-cat.wy,sub.wx-cat.wx);
-      const leafSpread=Math.max(leaves.length*0.25,Math.PI*0.4);
-      const leafRadius=P.leafRadiusBase+leaves.length*P.leafRadiusMult;
-      leaves.forEach((leaf,k)=>{
-        const la=subAngle-leafSpread/2+leafSpread*(leaves.length===1?0.5:k/(leaves.length-1));
-        leaf.wx=sub.wx+Math.cos(la)*leafRadius;
-        leaf.wy=sub.wy+Math.sin(la)*leafRadius;
-      });
-    });
-  });
-  // Repulsion
-  const all=DATA.map(d=>byId[d[0]]);
-  const minD=P.minD;
-  for(let iter=0;iter<P.repIter;iter++){
-    let moved=false;
-    for(let i=0;i<all.length;i++)for(let j=i+1;j<all.length;j++){
-      const a=all[i],b=all[j];
-      const dx=b.wx-a.wx,dy=b.wy-a.wy,dist=Math.sqrt(dx*dx+dy*dy);
-      const req=minD[Math.min(a.level,3)]+minD[Math.min(b.level,3)];
-      if(dist<req&&dist>0){
-        const push=(req-dist)/2*0.5,nx=dx/dist,ny=dy/dist;
-        if(a.id!=="center"){a.wx-=nx*push;a.wy-=ny*push;}
-        if(b.id!=="center"){b.wx+=nx*push;b.wy+=ny*push;}
-        moved=true;
-      }
-    }
-    if(!moved)break;
-  }
-}
-layout();
-
-// ── CAMERA ───────────────────────────────────────────────────────────────────
-let camX=0, camY=0, zoom=Device.params.defaultZoom;
-const DEFAULT_ZOOM=Device.params.defaultZoom;
-
-const uiEl=document.getElementById("ui");
-const bgC=document.getElementById("bg"),lnC=document.getElementById("lines");
-const bgCtx=bgC.getContext("2d"),lnCtx=lnC.getContext("2d");
-function resize(){const w=window.innerWidth,h=window.innerHeight;bgC.width=w;bgC.height=h;lnC.width=w;lnC.height=h;}
-window.addEventListener("resize",()=>{resize();});resize();
-
-// ── STARS ─────────────────────────────────────────────────────────────────────
-const TILE=2000;
-const starTile=Array.from({length:80},()=>({x:Math.random()*TILE,y:Math.random()*TILE,r:Math.random()*.6+.2,b:Math.random()}));
-function drawStars(t){
-  bgCtx.clearRect(0,0,bgC.width,bgC.height);
-  const cx=bgC.width/2,cy=bgC.height/2,p=0.3;
-  const ox=camX*p,oy=camY*p;
-  const txMin=Math.floor((-cx/(zoom*p)+ox)/TILE),txMax=Math.floor((cx/(zoom*p)+ox)/TILE);
-  const tyMin=Math.floor((-cy/(zoom*p)+oy)/TILE),tyMax=Math.floor((cy/(zoom*p)+oy)/TILE);
-  for(let tx=txMin;tx<=txMax;tx++)for(let ty=tyMin;ty<=tyMax;ty++)
-    for(const s of starTile){
-      const sx=cx+(s.x+tx*TILE-ox)*zoom*p,sy=cy+(s.y+ty*TILE-oy)*zoom*p;
-      if(sx<-5||sx>bgC.width+5||sy<-5||sy>bgC.height+5)continue;
-      const a=0.4+0.6*Math.sin(t*.001+s.b*6.28);
-      bgCtx.beginPath();bgCtx.arc(sx,sy,s.r,0,6.28);
-      bgCtx.fillStyle=`rgba(255,255,255,${a})`;bgCtx.fill();
-    }
+function renderCronFilters(){
+  const cats=['All',...new Set(CRON_JOBS.map(j=>j.category))];
+  document.getElementById('cronFilters').innerHTML=cats.map(c=>`<button class="cron-filter${cronFilter===c?' active':''}" onclick="cronFilter='${c}';renderCron()">${c}</button>`).join('');
 }
 
-// ── CREATE NODE ELEMENTS ──────────────────────────────────────────────────────
-const nodeEls={},badgeEls={};
-DATA.forEach((d,i)=>{
-  const o=byId[d[0]];
-  const clsArr=["center-node","cat-node","sub-node","leaf-node"];
-  const el=document.createElement("div");
-  el.className="node "+clsArr[Math.min(o.level,3)];
-  const circle=document.createElement("div");circle.className="node-circle";
-  if(o.level===0){}
-  else if(o.level===1){circle.style.cssText=`background:radial-gradient(circle,${o.color}dd,${o.color}88);border:2px solid ${o.color};box-shadow:0 0 20px ${o.color}66`;}
-  else if(o.level===2){circle.style.cssText=`background:radial-gradient(circle,${o.color}99,${o.color}55);border:2px solid ${o.color}88;box-shadow:0 0 12px ${o.color}44`;}
-  else{circle.style.cssText=`background:radial-gradient(circle,${o.color}66,${o.color}33);border:1px solid ${o.color}66;box-shadow:0 0 6px ${o.color}22`;}
-  if(o.emoji){const sp=document.createElement("span");sp.className="node-emoji";sp.innerHTML=o.emoji;circle.appendChild(sp);}
-  if(hasChildren(o.id)){
-    const badge=document.createElement("div");badge.className="collapse-badge";badge.textContent="+";badge.style.display="none";
-    circle.appendChild(badge);badgeEls[o.id]=badge;
-  }
-  el.appendChild(circle);
-  const text=document.createElement("div");text.className="node-text";text.textContent=o.label;el.appendChild(text);
-  el.addEventListener("click",e=>{
-    e.stopPropagation();if(dragMoved)return;
-    if(hasChildren(o.id)){collapsed.has(o.id)?collapsed.delete(o.id):collapsed.add(o.id);updateBadges();}
-    openPanel(o.id);
-  });
-  uiEl.appendChild(el);nodeEls[o.id]=el;
-  setTimeout(()=>el.classList.add("visible"),60+i*15);
-});
-
-function updateBadges(){for(const id in badgeEls)badgeEls[id].style.display=collapsed.has(id)?"flex":"none";}
-
-// ── DRAW LINES ────────────────────────────────────────────────────────────────
-function drawLines(){
-  const cx=lnC.width/2,cy=lnC.height/2;
-  lnCtx.clearRect(0,0,lnC.width,lnC.height);
-  DATA.forEach(d=>{
-    const o=byId[d[0]];if(!o.parent||!isVisible(o.id))return;
-    const p=byId[o.parent];
-    const x1=cx+(p.wx-camX)*zoom,y1=cy+(p.wy-camY)*zoom;
-    const x2=cx+(o.wx-camX)*zoom,y2=cy+(o.wy-camY)*zoom;
-    const g=lnCtx.createLinearGradient(x1,y1,x2,y2);
-    g.addColorStop(0,p.color+"88");g.addColorStop(1,o.color+"44");
-    lnCtx.beginPath();lnCtx.moveTo(x1,y1);lnCtx.lineTo(x2,y2);
-    lnCtx.strokeStyle=g;lnCtx.lineWidth=o.level===1?2:o.level===2?1.5:1;lnCtx.stroke();
-  });
+function renderCronTable(){
+  const jobs=cronFilter==='All'?CRON_JOBS:CRON_JOBS.filter(j=>j.category===cronFilter);
+  document.getElementById('cronBody').innerHTML=jobs.map(j=>{
+    const en=getCronEnabled(j);
+    const sched=getCronSchedule(j);
+    return`<tr style="opacity:${en?1:.45}">
+      <td><span class="cron-dot ${j.lastStatus}"></span></td>
+      <td><div class="cron-name">${j.name}</div></td>
+      <td><div class="cron-desc">${j.description}</div></td>
+      <td>
+        <div class="cron-schedule-show" id="sched-show-${j.id}" onclick="editSchedule('${j.id}')">
+          <div class="cron-schedule">${sched}</div>
+          <div class="cron-schedule-human">${j.scheduleHuman}</div>
+        </div>
+        <div class="cron-schedule-edit" id="sched-edit-${j.id}">
+          <input value="${sched}" id="sched-input-${j.id}" onkeydown="if(event.key==='Enter')saveSchedule('${j.id}');if(event.key==='Escape')cancelSchedule('${j.id}')">
+          <button onclick="saveSchedule('${j.id}')">✓</button>
+          <button onclick="cancelSchedule('${j.id}')">✕</button>
+        </div>
+      </td>
+      <td><span class="badge ${MODEL_BADGE[j.model]||''}">${j.model}</span></td>
+      <td><span class="badge ${CAT_BADGE[j.category]||''}">${j.category}</span></td>
+      <td>${fmtLastRun((USAGE.cron[j.id]||{}).lastRun)}</td>
+      <td><label class="toggle"><input type="checkbox" ${en?'checked':''} onchange="toggleCron('${j.id}',this.checked)"><span class="slider"></span></label></td>
+    </tr>`}).join('');
 }
 
-// ── POSITIONS ─────────────────────────────────────────────────────────────────
-function updatePositions(){
-  const cx=lnC.width/2,cy=lnC.height/2;
-  DATA.forEach(d=>{
-    const o=byId[d[0]];const el=nodeEls[o.id];
-    if(!isVisible(o.id)){el.classList.add("hidden");el.classList.remove("visible");return;}
-    el.classList.remove("hidden");if(!el.classList.contains("visible"))el.classList.add("visible");
-    el.style.left=cx+(o.wx-camX)*zoom+"px";
-    el.style.top=cy+(o.wy-camY)*zoom+"px";
-    const t=el.querySelector(".node-text");
-    if(t){const s=Math.min(1,zoom/0.55);t.style.transform=`scale(${s})`;}
-  });
+function renderCron(){renderCronStats();renderCronFilters();renderCronTable()}
+
+function editSchedule(id){
+  document.getElementById('sched-show-'+id).style.display='none';
+  const el=document.getElementById('sched-edit-'+id);el.style.display='flex';
+  el.querySelector('input').focus();
+}
+function saveSchedule(id){
+  const v=document.getElementById('sched-input-'+id).value.trim();
+  if(v){cronOverrides[id]=v;localStorage.setItem('hub_cron_overrides',JSON.stringify(cronOverrides))}
+  cancelSchedule(id);renderCronTable();
+}
+function cancelSchedule(id){
+  document.getElementById('sched-show-'+id).style.display='';
+  document.getElementById('sched-edit-'+id).style.display='none';
+}
+function toggleCron(id,val){
+  cronToggles[id]=val;localStorage.setItem('hub_cron_toggles',JSON.stringify(cronToggles));
+  renderCron();
 }
 
-// ── INPUT: MOUSE + TOUCH + PINCH ──────────────────────────────────────────────
-let dragging=false,lastX,lastY,dragMoved=false;
+renderCron();
 
-document.addEventListener("pointerdown",e=>{
-  dragging=true;dragMoved=false;lastX=e.clientX;lastY=e.clientY;
-});
-document.addEventListener("pointermove",e=>{
-  if(!dragging)return;
-  const dx=e.clientX-lastX,dy=e.clientY-lastY;
-  if(Math.abs(dx)>3||Math.abs(dy)>3)dragMoved=true;
-  camX-=dx/zoom;camY-=dy/zoom;lastX=e.clientX;lastY=e.clientY;
-});
-document.addEventListener("pointerup",e=>{
-  dragging=false;
-  if(!dragMoved&&!e.target.closest(".node,.panel-child,#panel,#zoom-controls"))
-    document.getElementById("panel").classList.remove("open");
-});
+// === SKILLS ===
+const SKILLS=[
+  {icon:'🏛️',name:'AI Chief Architect',desc:'System design, architecture decisions, ADRs, technology choices, microservices, cloud-native, LLM/Agentic AI',cat:'Technical',model:'claude-sonnet-4-6'},
+  {icon:'💕',name:'Husband',desc:'Relationship support for Yehuda & Ilana. Available for Ilana on WhatsApp - tips, reminders, warm words',cat:'Personal',model:'claude-sonnet-4-6'},
+  {icon:'👶',name:'Parenting',desc:'Tailored parenting for Avior (6), Nitai (4), Arbel (9mo). Activities, milestones, meals, behavior tips',cat:'Personal',model:'claude-sonnet-4-6'},
+  {icon:'🇮🇱',name:'Hebrew',desc:'Bilingual Hebrew/English communication, cultural context, modern Israeli Hebrew & slang',cat:'Language',model:'claude-sonnet-4-6'},
+  {icon:'📈',name:'Technical Analysis',desc:'Advanced chart analysis - Elliott Wave, Wyckoff, ICT/Smart Money, harmonic patterns, order flow',cat:'Trading',model:'claude-sonnet-4-6'},
+  {icon:'📰',name:'Market News Sentiment',desc:'News sentiment analysis for stocks & crypto. Fetches real-time news, analyzes sentiment, actionable signals',cat:'Trading',model:'grok-3'},
+  {icon:'🎯',name:'Analyst Price Targets',desc:'Aggregates analyst ratings, consensus estimates, fair value calculations with upside/downside potential',cat:'Trading',model:'claude-sonnet-4-6'},
+  {icon:'☕',name:'Coffee Master',desc:'Espresso recipes, milk steaming, latte art, grinder settings for La Marzocco Linea Micra',cat:'Lifestyle',model:'claude-sonnet-4-6'},
+  {icon:'💪',name:'Fitness & Nutrition',desc:'Workout plans, strength training, body recomposition, macros, meal prep, supplements, recovery. Profile: Yehuda 79.5kg/1.82m, 37yo, 3x/week, goal: cut flanks while preserving muscle. Target: 2500 kcal/day, 180-200g protein.',cat:'Lifestyle',model:'claude-sonnet-4-6'},
+  {icon:'🔒',name:'Secure Skill Downloader',desc:'Security gatekeeper for all skill installations. Scans for malicious code, prompt injection, credential theft',cat:'Security',model:'claude-sonnet-4-6'},
+  {icon:'🛠️',name:'Skill Creator',desc:'Design, structure, and package new AgentSkills with scripts, references, and assets',cat:'Technical',model:'claude-sonnet-4-6'},
+  {icon:'🌤️',name:'Weather',desc:'Current weather and forecasts, no API key required',cat:'Utility',model:'claude-sonnet-4-6'},
+  {icon:'🔐',name:'Healthcheck',desc:'Host security hardening, firewall/SSH audits, risk-tolerance configuration for OpenClaw deployments',cat:'Security',model:'claude-sonnet-4-6'},
+  {icon:'🤖',name:'Ecovacs',desc:'Control DEEBOT X8 PRO OMNI - clean, stop, pause, dock, status and sound',cat:'Lifestyle',model:'claude-sonnet-4-6'},
+  {icon:'🏛️',name:'Any1',desc:'The Human Market - social trading platform where people have tradeable value. React/Vite, GitHub & Vercel.',cat:'Technical',model:'claude-sonnet-4-6'}
+];
 
-// Mouse wheel zoom (desktop)
-document.addEventListener("wheel",e=>{
-  e.preventDefault();
-  zoom=Math.max(0.1,Math.min(3,zoom*(e.deltaY>0?.9:1.1)));
-},{passive:false});
+const SKILL_CAT_COLORS={'Trading':'badge-trading','Technical':'badge-maintenance','Personal':'badge-reminders','Language':'badge-news','Lifestyle':'badge-grok','Security':'badge-claude','Utility':'badge-system'};
+let skillFilter='All';
 
-// Pinch-to-zoom (tablet/mobile)
-let lastDist=0,lastMidX=0,lastMidY=0;
-document.addEventListener("touchstart",e=>{
-  if(e.touches.length===2){
-    const dx=e.touches[0].clientX-e.touches[1].clientX;
-    const dy=e.touches[0].clientY-e.touches[1].clientY;
-    lastDist=Math.sqrt(dx*dx+dy*dy);
-    lastMidX=(e.touches[0].clientX+e.touches[1].clientX)/2;
-    lastMidY=(e.touches[0].clientY+e.touches[1].clientY)/2;
-  }
-},{passive:true});
-document.addEventListener("touchmove",e=>{
-  if(e.touches.length===2){
-    const dx=e.touches[0].clientX-e.touches[1].clientX;
-    const dy=e.touches[0].clientY-e.touches[1].clientY;
-    const d=Math.sqrt(dx*dx+dy*dy);
-    const midX=(e.touches[0].clientX+e.touches[1].clientX)/2;
-    const midY=(e.touches[0].clientY+e.touches[1].clientY)/2;
-    if(lastDist>0){
-      const scale=d/lastDist;
-      const cx=lnC.width/2,cy=lnC.height/2;
-      // zoom toward pinch midpoint
-      const wx=(midX-cx)/zoom+camX;
-      const wy=(midY-cy)/zoom+camY;
-      zoom=Math.max(0.1,Math.min(3,zoom*scale));
-      camX=wx-(midX-cx)/zoom;
-      camY=wy-(midY-cy)/zoom;
-    }
-    lastDist=d;lastMidX=midX;lastMidY=midY;
-    e.preventDefault();
-  }
-},{passive:false});
-document.addEventListener("touchend",e=>{if(e.touches.length<2)lastDist=0;});
-
-// ── ZOOM BUTTONS (mobile/tablet) ──────────────────────────────────────────────
-document.getElementById("zoom-in").addEventListener("click",e=>{
-  e.stopPropagation();zoom=Math.min(3,zoom*1.2);
-});
-document.getElementById("zoom-out").addEventListener("click",e=>{
-  e.stopPropagation();zoom=Math.max(0.1,zoom*0.83);
-});
-document.getElementById("zoom-reset").addEventListener("click",e=>{
-  e.stopPropagation();zoom=DEFAULT_ZOOM;camX=0;camY=0;
-});
-
-// ── PANEL ─────────────────────────────────────────────────────────────────────
-const DESC={
-  "center":"OpenClaw - AI agent gateway for Yehuda Mizrahi. Runs on DESKTOP-P5I7EIM. Connects Claude (primary), Grok, GPT to WhatsApp, cron jobs, smart home, and custom dashboards.",
-  "gw":"Core daemon on port 18789. Manages all WebSocket connections, HTTP endpoints, and message routing.",
-  "gw-ws":"WebSocket API - all client communication. JSON frames with typed request/response protocol.",
-  "gw-ws-1":"All messages use JSON with schema validation via TypeBox.",
-  "gw-ws-2":"Gateway token authentication. First frame must be auth handshake.",
-  "gw-ws-3":"Device pairing - new devices require approval before connecting.",
-  "gw-d":"Long-running daemon. Maintains all provider connections and emits events.",
-  "gw-d-1":"Binds to 127.0.0.1:18789 by default.",
-  "gw-d-2":"Health check endpoint included in hello-ok handshake.",
-  "gw-d-3":"Server-push events: agent, chat, heartbeat, cron, shutdown.",
-  "gw-h":"HTTP server on same port. Serves canvas, REST API, webhook receivers.",
-  "gw-h-1":"Agent-editable HTML/CSS/JS at /__openclaw__/canvas/.",
-  "gw-h-2":"REST API for config, sessions, and management.",
-  "gw-h-3":"OpenAI-compatible HTTP API for external tool integration.",
-  "ch":"15+ messaging channels. Each is a plugin with its own protocol adapter.",
-  "ch-wa":"WhatsApp via Baileys. Allowlist: Yehuda (+972502446410), Ilana (+972542049822), Tamir (+972545364868), Sapir (+972532411212).",
-  "ch-wa-1":"Baileys - WhatsApp Web protocol, no official API needed.",
-  "ch-wa-2":"DMs with allowlist. Groups with open/mention-based activation.",
-  "ch-wa-3":"Images, audio, video, documents - full media support.",
-  "ch-tg":"Telegram bot via grammY framework.",
-  "ch-tg-1":"grammY - modern TypeScript Telegram Bot API framework.",
-  "ch-tg-2":"Full Bot API - inline keyboards, media, commands.",
-  "ch-dc":"Discord bot via discord.js.",
-  "ch-dc-1":"Guild support - channels, threads, voice.",
-  "ch-dc-2":"Reactions, components, slash commands.",
-  "ch-more":"Additional channels: Signal, Slack, iMessage, IRC, Matrix, MS Teams, Line, Nostr, Google Chat.",
-  "ch-more-1":"Signal - encrypted conversations via signal-cli.",
-  "ch-more-2":"Slack workspace integration.",
-  "ch-more-3":"iMessage via local imsg CLI (macOS only).",
-  "ch-more-4":"IRC, Matrix, MS Teams, Line, Nostr, Google Chat.",
-  "ag":"AI agent system. Manages sessions, reasoning, and memory.",
-  "ag-s":"Session management. Main session for owner; isolated per group or task.",
-  "ag-s-1":"Main session - shared context for direct chats with Yehuda.",
-  "ag-s-2":"Isolated sessions - separate context per group or agent run.",
-  "ag-s-3":"Sub-agents spawned for background tasks. Auto-announce results.",
-  "ag-s-4":"Context compaction - summarizes long convos to fit token limits.",
-  "ag-al":"Core loop: receive message -> build prompt -> call LLM -> execute tools -> respond.",
-  "ag-al-1":"System prompt from AGENTS.md, SOUL.md, skills, and runtime context.",
-  "ag-al-2":"Tool calls executed in sequence. Results fed back to LLM.",
-  "ag-al-3":"Streaming responses with chunking for long messages.",
-  "ag-m":"File-based memory. MEMORY.md long-term + daily notes + semantic search.",
-  "ag-m-1":"MEMORY.md - curated long-term. Only loaded in main session (security).",
-  "ag-m-2":"memory/YYYY-MM-DD.md - daily journal files.",
-  "ag-m-3":"Semantic search across all memory files via memory_search tool.",
-  "mo":"Multi-provider model support with failover, aliases, thinking mode.",
-  "mo-an":"Anthropic - primary provider. Claude Sonnet default, Opus for deep tasks.",
-  "mo-an-1":"claude-sonnet-4-6 - default model. Fast, capable.",
-  "mo-an-2":"claude-opus-4-6 - deep reasoning, complex tasks.",
-  "mo-gk":"xAI Grok - real-time web knowledge. Used in news & trading jobs.",
-  "mo-gk-1":"Grok 4 (xai/grok-4) - current version. Web-aware.",
-  "mo-gk-2":"Real-time web knowledge, good for news aggregation.",
-  "mo-oa":"OpenAI GPT models.",
-  "mo-oa-1":"GPT-4o - multimodal, fast.",
-  "mo-oa-2":"o1/o3 - reasoning models.",
-  "mo-go":"Google Gemini - large context windows.",
-  "mo-go-1":"Gemini Pro/Flash.",
-  "mo-go-2":"2M token context window.",
-  "mo-ol":"Ollama - run local models, no API key.",
-  "mo-ol-1":"Llama, Mistral, CodeLlama and more.",
-  "mo-ol-2":"Private, no data sent externally.",
-  "mo-or":"OpenRouter - 100+ models via single endpoint.",
-  "mo-or-1":"Access any model from Anthropic, OpenAI, Google, Meta, Mistral.",
-  "to":"Built-in tools, 12 custom skills, and extension plugins.",
-  "to-builtin":"Core tools available in every session.",
-  "to-b-1":"exec - shell commands, PTY, background processes.",
-  "to-b-2":"read/write/edit - file operations with line precision.",
-  "to-b-3":"browser - Playwright: navigate, click, screenshot.",
-  "to-b-4":"web_search - Brave Search API.",
-  "to-b-5":"web_fetch - URL to readable markdown.",
-  "to-b-6":"cron - schedule jobs and reminders.",
-  "to-b-7":"message - send across any channel.",
-  "to-b-8":"tts - text-to-speech.",
-  "to-sk":"17 custom skills in workspace/skills/.",
-  "to-sk-1":"ai-chief-architect - system design, ADRs, LLM patterns.",
-  "to-sk-2":"husband - relationship support, gift ideas, date planning.",
-  "to-sk-3":"parenting - Avior/Nitai/Arbel activities and milestones.",
-  "to-sk-4":"hebrew - bilingual chat, Israeli cultural context.",
-  "to-sk-5":"technical-analysis - Elliott Wave, ICT, chart patterns.",
-  "to-sk-6":"market-news-sentiment - Grok 4 buy/sell signal from news.",
-  "to-sk-7":"analyst-price-targets - Wall Street consensus, TipRanks.",
-  "to-sk-8":"fitness-nutrition - training plans, macros, supplements. Profile: Yehuda 79.5kg/1.82m, 37yo, 3x/week כוח. Target: 2500 kcal, 180-200g protein, gerfon of 400 kcal. Goal: cut flanks, preserve muscle. Memory file: memory/fitness-yehuda.md",
-  "to-sk-9":"coffee-master - La Marzocco Linea Micra, espresso, latte art.",
-  "to-sk-10":"secure-skill-downloader - security gate for all skill installs.",
-  "to-sk-11":"ecovacs - DEEBOT X8 PRO OMNI control.",
-  "to-sk-12":"weather - current weather and forecasts via wttr.in.",
-  "to-sk-13":"nextjs-backend - Next.js 14 API routes, Supabase, NextAuth Google OAuth.",
-  "to-sk-14":"nextjs-frontend - Next.js 14 UI, Tailwind CSS, Chart.js, Hebrew RTL.",
-  "to-sk-15":"databricks - Notebooks, Unity Catalog, Delta Lake, Genie, DLT, MLflow, Spark.",
-  "to-sk-16":"data-engineer - Spark, dbt, Databricks, Delta Lake, ADLS, Airflow, medallion architecture.",
-  "to-sk-17":"ontology - typed knowledge graph for structured agent memory and composable skills.",
-  "to-sk-18":"etoro - eToro trading platform integration for portfolio tracking and trade management.",
-  "to-sk-19":"any1 - The Human Market skill. Context and guidance for building the Any1 app (any1.vercel.app).",
-  "a1":"Any1 - The Human Market. Every person has a tradable valuation. Co-founded by Yehuda & Tamir Mizrahi.",
-  "a1-co":"Core concept of Any1.",
-  "a1-co-1":"The Human Market - a stock market for people.",
-  "a1-co-2":"Every person = a tradable stock with market cap, collateral, backers & reputation.",
-  "a1-co-3":"Live at any1.vercel.app",
-  "a1-ty":"4 user archetypes in Any1.",
-  "a1-ty-1":"Investor - backs people and projects with capital.",
-  "a1-ty-2":"Founder - builder with vision, domain expert, company owner.",
-  "a1-ty-3":"Surfer - joins many projects, multitasker, no lock-in.",
-  "a1-ty-4":"Expert - master of one craft (chef, musician, athlete, actor).",
-  "a1-te":"Tech stack: React 18 + Vite, inline styles, React Router, lucide-react icons.",
-  "a1-te-1":"React + Vite (JavaScript). Mobile-first, max-width 430px.",
-  "a1-te-2":"Auto-deployed to Vercel on every push to main branch.",
-  "a1-te-3":"All persistence via localStorage. No backend yet.",
-  "a1-sc":"Main screens / pages of the app.",
-  "a1-sc-1":"Home Feed - live ticker, leaderboard, notifications, market summary, user cards.",
-  "a1-sc-2":"Discover - Tinder-style swipe cards. Right=Follow, Left=Skip, Up=Back.",
-  "a1-sc-3":"Market - full list sorted by valuation/gainers/losers, search, mini charts.",
-  "a1-sc-4":"Portfolio - your backed people, P&L, sparkline charts.",
-  "a1-sc-5":"Missions - task board. Post or apply for missions, earn reputation.",
-  "a1-sc-6":"Chat / DM - 1:1 messaging (mock, no backend).",
-  "a1-fo":"Co-founders of Any1.",
-  "a1-fo-1":"Yehuda Mizrahi - CTO & Co-founder, NUDAY.AI. GitHub: TM-Design-Industries.",
-  "a1-fo-2":"Tamir Mizrahi - Transportation & Industrial Designer. TMD founder.",
-  "a1-ta":"Open tasks from TASKS.md.",
-  "a1-ta-1":"Phase 1: Onboarding, Missions, Notifications, Portfolio, Reputation, Posts, Chat, Digest, Swipe UX, Edit Profile.",
-  "a1-ta-2":"Phase 2: Full Market screen, Collateral UI, Any1 Score (0-1000 composite).",
-  "no":"Mobile and desktop nodes paired to the Gateway.",
-  "no-pl":"Supported platforms.",
-  "no-pl-1":"iOS - camera, canvas, location, notifications.",
-  "no-pl-2":"Android - full capabilities.",
-  "no-pl-3":"macOS - menu bar, voice overlay, screen capture.",
-  "no-ca":"Device capabilities exposed through node connections.",
-  "no-ca-1":"Camera - snap photos, record clips.",
-  "no-ca-2":"Screen recording and capture.",
-  "no-ca-3":"GPS location with configurable accuracy.",
-  "no-ca-4":"Canvas - agent-controlled HTML surface on device.",
-  "no-ca-5":"Audio - voice input/output.",
-  "ws":"Agent workspace at C:\\Users\\YEHUDA\\.openclaw\\workspace",
-  "ws-cf":"Core configuration files loaded every session.",
-  "ws-cf-1":"AGENTS.md - rules, safety, memory conventions.",
-  "ws-cf-2":"SOUL.md - personality, no em dash, no filler words.",
-  "ws-cf-3":"USER.md - Yehuda's info, family, timezone.",
-  "ws-cf-4":"MEMORY.md - curated long-term memory.",
-  "ws-cf-5":"HEARTBEAT.md - periodic task checklist.",
-  "ws-me":"Memory files for cross-session continuity.",
-  "ws-me-1":"MEMORY.md - family, skills, smart home, decisions.",
-  "ws-me-2":"memory/YYYY-MM-DD.md - daily raw logs.",
-  "ws-me-3":"memory/backups/ - 48 rolling MEMORY.md backups.",
-  "ws-sc":"Python/PowerShell automation scripts.",
-  "ws-sc-1":"ecovacs.py - robot command CLI (status, clean, charge...).",
-  "ws-sc-2":"ecovacs_server.py - HTTP server on port 8765.",
-  "ws-sc-3":"deebot_autostart.py - starts server, updates HTML, git push.",
-  "ws-sc-4":"update-costs.js - fetches and saves cost analytics.",
-  "ws-sc-5":"backup_hub.ps1 - hourly hub.html backup.",
-  "au":"Automation: cron jobs, heartbeat, webhooks.",
-  "au-cr":"All scheduled cron jobs.",
-  "au-cr-1":"Backup MEMORY.md - hourly, keep last 48.",
-  "au-cr-2":"Daily Stock Scanner - 9:00 and 17:00 IST.",
-  "au-cr-3":"Birthday alerts 1 week before: Avior, Nitai, Arbel, Ilana.",
-  "au-cr-4":"Anniversary reminder Sep 7 (wedding Sep 14).",
-  "au-cr-5":"LinkedIn Daily AI Post - every day 10:00 IST (Sun-Fri).",
-  "au-cr-6":"Cost Dashboard Update - 09:00 and 21:00 IST.",
-  "au-cr-7":"Daily yehudaclaw Backup - 03:00 IST, pushes to GitHub.",
-  "au-hb":"Heartbeat polling for proactive background work.",
-  "au-hb-1":"HEARTBEAT.md defines what to check each poll.",
-  "au-hb-2":"Verifies mindmap.html reflects current state.",
-  "au-hb-3":"Git push if mindmap.html was updated.",
-  "au-wh":"Event-driven webhooks.",
-  "au-wh-1":"Webhook endpoints for external service triggers.",
-  "au-wh-2":"Gmail PubSub for real-time email notifications.",
-  "ui":"Interfaces for interacting with OpenClaw.",
-  "ui-w":"Web-based interfaces.",
-  "ui-w-1":"WebChat - browser chat at localhost.",
-  "ui-w-2":"Control UI - admin dashboard.",
-  "ui-w-3":"Analytics dashboard - usage and sessions.",
-  "ui-a":"Native applications.",
-  "ui-a-1":"macOS app with system integration.",
-  "ui-a-2":"Menu bar presence for quick access.",
-  "ui-a-3":"CLI - full 'openclaw' command suite.",
-  "se":"Security: auth, pairing, sandboxing.",
-  "se-au":"Authentication mechanisms.",
-  "se-au-1":"Gateway token - shared secret for WebSocket auth.",
-  "se-au-2":"Device pairing with QR code approval flow.",
-  "se-au-3":"Allowlists for DM senders and group participants.",
-  "se-sb":"Execution sandboxing and permission controls.",
-  "se-sb-1":"Exec policy - control which commands the agent runs.",
-  "se-sb-2":"Tool policy - per-tool allow/deny rules.",
-  "se-sb-3":"Elevated mode - higher privileges when explicitly needed.",
-  "sh":"Smart home devices controlled via OpenClaw.",
-  "sh-db":"DEEBOT X8 PRO OMNI - robot vacuum with mop function.",
-  "sh-db-1":"Account: yehudamiz007@gmail.com",
-  "sh-db-2":"Country: IL (Israel)",
-  "sh-cl":"Robot control commands.",
-  "sh-cl-1":"clean / stop / pause",
-  "sh-cl-2":"resume / charge (return to dock)",
-  "sh-cl-3":"sound (play location beep)",
-  "sh-mo":"Settings and cleaning modes.",
-  "sh-mo-1":"Fan Speed: Quiet, Normal, Max, Max+",
-  "sh-mo-2":"Water Level: Low, Medium, High, UltraHigh",
-  "sh-mo-3":"Work Mode: Vacuum+Mop, Vacuum, Mop, Mop after Vacuum",
-  "sh-mo-4":"Volume 0-10 + Clean Count",
-  "sh-cf":"Cloudflare tunnel - remote access from anywhere.",
-  "sh-cf-1":"cloudflared.exe at workspace/scripts/cloudflared.exe",
-  "sh-cf-2":"Local HTTP server on port 8765.",
-  "sh-cf-3":"Auto-updates ecovacs-joystick/index.html and git pushes.",
-  "da":"All GitHub Pages dashboards. Base: yehudamiz007.github.io/mindmap/",
-  "da-hub":"Command Center hub - entry point to everything.",
-  "da-hub-1":"All app links in one place.",
-  "da-hub-2":"Live cron jobs overview with status.",
-  "da-hub-3":"Skills list with descriptions.",
-  "da-stocks":"Daily stock and crypto scanner.",
-  "da-stocks-1":"15 tickers selected and scored daily by Grok.",
-  "da-stocks-2":"3-pillar: News (30%) + Analyst (35%) + Technical (35%).",
-  "da-stocks-3":"Top 5 picks sent to WhatsApp every morning.",
-  "da-deebot":"Mobile web app to control DEEBOT remotely.",
-  "da-deebot-1":"Responsive mobile web app.",
-  "da-deebot-2":"Joystick-style UI with all controls.",
-  "da-deebot-3":"Routes commands through Cloudflare tunnel.",
-  "da-other":"More apps and dashboards.",
-  "da-other-1":"Mindmap - this interactive brain map.",
-  "da-other-2":"Cost Dashboard - OpenClaw usage analytics.",
-  "da-other-3":"Subagents Dashboard - cost tracking sorted by spend.",
-  "da-other-4":"Architecture - 7 technical diagrams.",
-  "da-other-5":"Family Tree - Mizrahi family visualization.",
-  "da-other-6":"Any1 App - The Human Market. Human stocks platform (React/Vite, Vercel). https://any1.vercel.app",
-};
-
-const LEVELS=["Core","Category","Component","Detail"];
-const panel=document.getElementById("panel");
-const panelClose=document.getElementById("panel-close");
-function openPanel(id){
-  const o=byId[id];if(!o)return;
-  document.getElementById("panel-emoji").innerHTML=o.emoji||"";
-  document.getElementById("panel-title").textContent=o.label;
-  document.getElementById("panel-level").innerHTML=`<span class="panel-dot" style="background:${o.color}"></span>${LEVELS[Math.min(o.level,3)]}`;
-  const path=[];let cur=o;while(cur){path.unshift(cur);cur=cur.parent?byId[cur.parent]:null;}
-  document.getElementById("panel-path").innerHTML=path.map((p,i)=>
-    i<path.length-1?`<a onclick="openPanel('${p.id}')">${p.label}</a>`:`<span>${p.label}</span>`
-  ).join(' <span style="color:#475569"> > </span> ');
-  document.getElementById("panel-desc").textContent=DESC[id]||"";
-  const kids=children[id]||[];
-  document.getElementById("panel-children-title").textContent=kids.length?(o.level===0?"Categories":"Components"):"";
-  document.getElementById("panel-children").innerHTML=kids.map(k=>
-    `<div class="panel-child" onclick="openPanel('${k.id}')"><div class="panel-child-dot" style="background:${k.color}"></div><div class="panel-child-name">${k.label}</div></div>`
-  ).join("");
-  panel.classList.add("open");
+function renderSkillsStats(){
+  const cats={};SKILLS.forEach(s=>{cats[s.cat]=(cats[s.cat]||0)+1});
+  let html=`<div class="cron-stat"><b>${SKILLS.length}</b>Total Skills</div>`;
+  for(const[c,n]of Object.entries(cats))html+=`<div class="cron-stat"><span class="badge ${SKILL_CAT_COLORS[c]||''}">${c}</span><b>${n}</b></div>`;
+  document.getElementById('skillsStats').innerHTML=html;
 }
-panelClose.addEventListener("click",()=>panel.classList.remove("open"));
 
-// ── SWIPE DOWN TO CLOSE PANEL (mobile) ───────────────────────────────────────
-let panelTouchStartY=0;
-panel.addEventListener("touchstart",e=>{panelTouchStartY=e.touches[0].clientY;},{passive:true});
-panel.addEventListener("touchend",e=>{
-  const dy=e.changedTouches[0].clientY-panelTouchStartY;
-  if(dy>60)panel.classList.remove("open");
-},{passive:true});
+function renderSkillsFilters(){
+  const cats=['All',...new Set(SKILLS.map(s=>s.cat))];
+  document.getElementById('skillsFilters').innerHTML=cats.map(c=>`<button class="cron-filter${skillFilter===c?' active':''}" onclick="skillFilter='${c}';renderSkills()">${c}</button>`).join('');
+}
 
-// ── RENDER LOOP ───────────────────────────────────────────────────────────────
-function frame(t){drawStars(t);drawLines();updatePositions();requestAnimationFrame(frame);}
-requestAnimationFrame(frame);
+function renderSkillsTable(){
+  const skills=skillFilter==='All'?SKILLS:SKILLS.filter(s=>s.cat===skillFilter);
+  document.getElementById('skillsBody').innerHTML=skills.map(s=>`<tr>
+    <td style="font-size:1.4rem;text-align:center">${s.icon}</td>
+    <td><div class="cron-name">${s.name}</div></td>
+    <td><div class="cron-desc">${s.desc}</div></td>
+    <td><span class="badge ${SKILL_CAT_COLORS[s.cat]||''}">${s.cat}</span></td>
+    <td><span class="badge ${MODEL_BADGE[s.model]||''}">${s.model}</span></td>
+    <td>${fmtLastRun((USAGE.skills[s.name]||{}).lastRun)}</td>
+  </tr>`).join('');
+}
+
+function renderSkills(){renderSkillsStats();renderSkillsFilters();renderSkillsTable()}
+renderSkills();
 </script>
 </body>
 </html>
-
