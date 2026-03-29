@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🤖 Grok Trader — Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0f;--surface:rgba(255,255,255,0.04);--surface2:rgba(255,255,255,0.07);
+  --border:rgba(255,255,255,0.07);--border-hover:rgba(255,255,255,0.14);
+  --text:#e4e4e7;--text-dim:#71717a;--text-mid:#a1a1aa;
+  --accent:#818cf8;--accent2:#a78bfa;
+  --green:#34d399;--red:#f87171;--yellow:#fbbf24;
+  --green-dim:rgba(52,211,153,0.12);--red-dim:rgba(248,113,113,0.12);
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+canvas#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4}
+.container{position:relative;z-index:1;max-width:1300px;margin:0 auto;padding:24px 20px 60px}
+
+/* Header */
+.header{display:flex;align-items:center;justify-content:space-between;padding:20px 0 28px;flex-wrap:wrap;gap:12px}
+.header-left h1{font-size:1.5rem;font-weight:600;display:flex;align-items:center;gap:10px}
+.header-left p{color:var(--text-dim);font-size:.85rem;margin-top:4px}
+.live-badge{display:inline-flex;align-items:center;gap:6px;background:var(--green-dim);border:1px solid rgba(52,211,153,0.25);color:var(--green);border-radius:20px;padding:4px 12px;font-size:.78rem;font-weight:600}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.header-right{display:flex;gap:10px;align-items:center}
+.btn{padding:8px 16px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text-dim);cursor:pointer;font-size:.83rem;transition:.2s}
+.btn:hover{background:var(--surface2);color:var(--text);border-color:var(--border-hover)}
+.btn.primary{background:rgba(129,140,248,.15);color:var(--accent);border-color:rgba(129,140,248,.3)}
+.btn.primary:hover{background:rgba(129,140,248,.25)}
+
+/* KPI Cards */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:24px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px;transition:.2s}
+.kpi:hover{border-color:var(--border-hover);background:var(--surface2)}
+.kpi-label{font-size:.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.kpi-value{font-size:1.65rem;font-weight:600;line-height:1}
+.kpi-sub{font-size:.78rem;color:var(--text-dim);margin-top:6px}
+.pos{color:var(--green)}.neg{color:var(--red)}.neu{color:var(--text)}
+
+/* Charts row */
+.charts-row{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:24px}
+@media(max-width:800px){.charts-row{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px}
+.card-title{font-size:.85rem;font-weight:600;color:var(--text-mid);margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.chart-wrap{position:relative}
+
+/* Positions table */
+.positions-wrap{margin-bottom:24px}
+.positions-title{font-size:.85rem;font-weight:600;color:var(--text-mid);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-dim);padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:12px 14px;font-size:.87rem;border-bottom:1px solid rgba(255,255,255,.03)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--surface2)}
+.symbol-cell{display:flex;align-items:center;gap:10px}
+.symbol-icon{width:32px;height:32px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:var(--accent)}
+.bar-wrap{display:flex;align-items:center;gap:8px}
+.bar-bg{flex:1;height:5px;background:rgba(255,255,255,.07);border-radius:3px;min-width:60px}
+.bar-fill{height:100%;border-radius:3px;background:var(--accent)}
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:.72rem;font-weight:600}
+.badge.hold{background:rgba(129,140,248,.12);color:var(--accent);border:1px solid rgba(129,140,248,.2)}
+.badge.closed{background:var(--red-dim);color:var(--red);border:1px solid rgba(248,113,113,.2)}
+.badge.opened{background:var(--green-dim);color:var(--green);border:1px solid rgba(52,211,153,.2)}
+
+/* Trade log */
+.log-list{display:flex;flex-direction:column;gap:8px;max-height:380px;overflow-y:auto}
+.log-item{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;transition:.2s}
+.log-item:hover{border-color:var(--border-hover)}
+.log-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.log-icon.buy{background:var(--green-dim)}
+.log-icon.sell{background:var(--red-dim)}
+.log-icon.rebal{background:rgba(251,191,36,.1)}
+.log-body{flex:1;min-width:0}
+.log-title{font-size:.87rem;font-weight:600}
+.log-meta{font-size:.75rem;color:var(--text-dim);margin-top:3px}
+.log-pnl{font-size:.85rem;font-weight:600;flex-shrink:0}
+
+/* Two col bottom */
+.bottom-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:700px){.bottom-row{grid-template-columns:1fr}}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:99px}
+
+/* Empty state */
+.empty{text-align:center;padding:32px;color:var(--text-dim);font-size:.85rem}
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <h1>🤖 Grok Trader <span class="live-badge"><span class="live-dot"></span>LIVE</span></h1>
+      <p>eToro Agent Portfolio · Grok 4 Strategy · Auto-managed</p>
+    </div>
+    <div class="header-right">
+      <span id="lastUpdate" style="font-size:.78rem;color:var(--text-dim)">Last updated: —</span>
+      <button class="btn primary" onclick="loadPortfolio()">⟳ Refresh</button>
+      <button class="btn" onclick="toggleTheme()">◐ Theme</button>
+    </div>
+  </div>
+
+  <!-- KPI Row -->
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="kpi-label">Equity</div>
+      <div class="kpi-value neu" id="kpiEquity">—</div>
+      <div class="kpi-sub" id="kpiEquitySub">Loading…</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Unrealized P&L</div>
+      <div class="kpi-value" id="kpiPnl">—</div>
+      <div class="kpi-sub" id="kpiPnlSub">—</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Cash Available</div>
+      <div class="kpi-value neu" id="kpiCash">—</div>
+      <div class="kpi-sub" id="kpiCashSub">—</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Open Positions</div>
+      <div class="kpi-value neu" id="kpiPositions">—</div>
+      <div class="kpi-sub" id="kpiPosSub">—</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Total Trades</div>
+      <div class="kpi-value neu" id="kpiTrades">—</div>
+      <div class="kpi-sub">All time</div>
+    </div>
+  </div>
+
+  <!-- Charts Row -->
+  <div class="charts-row">
+    <div class="card">
+      <div class="card-title">
+        <span>📈 Equity & P&L Over Time</span>
+        <div style="display:flex;gap:8px">
+          <span style="font-size:.72rem;color:var(--accent)">— Equity</span>
+          <span style="font-size:.72rem;color:var(--green)">— P&L</span>
+        </div>
+      </div>
+      <div class="chart-wrap" style="height:220px">
+        <canvas id="equityChart"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span>🥧 Allocation</span></div>
+      <div class="chart-wrap" style="height:220px">
+        <canvas id="allocChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Positions -->
+  <div class="positions-wrap card" style="margin-bottom:24px">
+    <div class="positions-title">
+      <span>💼 Open Positions</span>
+      <span id="posCount" style="font-size:.78rem;color:var(--text-dim)">—</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Symbol</th>
+            <th>Weight</th>
+            <th>Allocation</th>
+            <th>Unrealized P&L</th>
+            <th>Open Rate</th>
+            <th>Current Rate</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="posTableBody">
+          <tr><td colspan="7" class="empty">Loading positions…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Bottom: Trade Log + Strategy -->
+  <div class="bottom-row">
+    <div class="card">
+      <div class="card-title"><span>📋 Trade Log</span><span id="tradeCount" style="font-size:.75rem;color:var(--text-dim)">0 trades</span></div>
+      <div class="log-list" id="tradeLog">
+        <div class="empty">No trades recorded yet.<br>Trades will appear here after the first execution.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span>🧠 Strategy Rules</span></div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:.83rem">
+        <div style="display:flex;gap:10px;align-items:flex-start">
+          <span style="color:var(--accent);font-size:1rem">⏳</span>
+          <div><b>Patience</b><br><span style="color:var(--text-dim)">Few trades. Enter only when ALL signals align.</span></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start">
+          <span style="color:var(--yellow);font-size:1rem">📊</span>
+          <div><b>MA20</b><br><span style="color:var(--text-dim)">Above 20-day MA = hold. Below = exit.</span></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start">
+          <span style="color:var(--green);font-size:1rem">📰</span>
+          <div><b>Macro Catalysts</b><br><span style="color:var(--text-dim)">Earnings, partnerships, analyst upgrades.</span></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start">
+          <span style="color:var(--red);font-size:1rem">🛡️</span>
+          <div><b>Hold Through Volatility</b><br><span style="color:var(--text-dim)">Dips &lt;5-8% are noise. Don't panic-sell.</span></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start">
+          <span style="color:var(--accent2);font-size:1rem">🏢</span>
+          <div><b>Large-Cap Only</b><br><span style="color:var(--text-dim)">NASDAQ/NYSE top 200. No small caps.</span></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;padding-top:10px;border-top:1px solid var(--border)">
+          <span style="color:var(--green);font-size:1rem">✅</span>
+          <div><b>Next Review</b><br><span id="nextReview" style="color:var(--text-dim)">Mon 16:30 IL</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ─── Config ───────────────────────────────────────────────────────
+const API_BASE = 'https://public-api.etoro.com/api/v1';
+const API_KEY  = 'sdgdskldFPLGfjHn1421dgnlxdGTbngdflg6290bRjslfihsjhSDsdgGHH25hjf';
+const USER_KEY = 'eyJjaSI6IjYwY2FiYjBiLTU1OTctNDQ4NS04ZjYzLTdlOWUwNTZlMGJiOCIsImVhbiI6IlVucmVnaXN0ZXJlZEFwcGxpY2F0aW9uIiwiZWsiOiJnYU9JNlZjZklFemNSdDcyNDA4QzRFcC56UTVqRXVFcGVEUWRHa3FKTXRqV2pvSjhpQzFnLmdPWU9QOGlGUGZweFQ2Wjk4MzFKVXUtaVhVOFZ2YlUtRHVBWHo3czV4bG5sUTFKbXMwYmIzNF8ifQ__';
+
+const SYMBOLS = {1003:'META',1004:'MSFT',1005:'AMZN',1137:'NVDA',1365:'ARM',1832:'AMD',4236:'AVGO',5506:'CRWD',6434:'GOOGL',7991:'PLTR',1001:'AAPL',1002:'TSLA'};
+const COLORS = ['#818cf8','#34d399','#f87171','#fbbf24','#a78bfa','#38bdf8','#fb923c','#e879f9','#4ade80','#f472b6','#94a3b8','#67e8f9'];
+
+// ─── State ────────────────────────────────────────────────────────
+let equityHistory = JSON.parse(localStorage.getItem('equity_history') || '[]');
+let tradeLog      = JSON.parse(localStorage.getItem('trade_log') || '[]');
+let equityChart, allocChart;
+
+// ─── API ──────────────────────────────────────────────────────────
+async function fetchPnl() {
+  const res = await fetch(`${API_BASE}/trading/info/real/pnl`, {
+    headers: {
+      'x-api-key': API_KEY,
+      'x-user-key': USER_KEY,
+      'x-request-id': crypto.randomUUID()
+    }
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
+// ─── Calculations ─────────────────────────────────────────────────
+function calcPortfolio(data) {
+  const cp = data.clientPortfolio;
+  const positions = cp.positions || [];
+  const ordersForOpen = (cp.ordersForOpen || []).filter(o => o.mirrorID === 0);
+  const orders = cp.orders || [];
+
+  const cash = (cp.credit || 0)
+    - ordersForOpen.reduce((s,o)=>s+(o.amount||0),0)
+    - orders.reduce((s,o)=>s+(o.amount||0),0);
+
+  const totalInvested = positions.reduce((s,p)=>s+(p.amount||0),0)
+    + ordersForOpen.reduce((s,o)=>s+(o.amount||0),0)
+    + orders.reduce((s,o)=>s+(o.amount||0),0);
+
+  const unrealizedPnl = positions.reduce((s,p)=>s+(p.unrealizedPnL?.pnL||0),0);
+  const equity = cash + totalInvested + unrealizedPnl;
+
+  return {cash, totalInvested, unrealizedPnl, equity, positions};
+}
+
+// ─── Render KPIs ──────────────────────────────────────────────────
+function renderKPIs({cash, totalInvested, unrealizedPnl, equity, positions}) {
+  const pct = equity > 0 ? (unrealizedPnl / (equity - unrealizedPnl) * 100) : 0;
+  const cashPct = equity > 0 ? (cash / equity * 100) : 0;
+
+  document.getElementById('kpiEquity').textContent = `$${equity.toFixed(0)}`;
+  document.getElementById('kpiEquitySub').textContent = `Invested: $${totalInvested.toFixed(0)}`;
+
+  const pnlEl = document.getElementById('kpiPnl');
+  pnlEl.textContent = `${unrealizedPnl >= 0 ? '+' : ''}${pct.toFixed(2)}%`;
+  pnlEl.className = `kpi-value ${unrealizedPnl >= 0 ? 'pos' : 'neg'}`;
+  document.getElementById('kpiPnlSub').textContent = `${unrealizedPnl >= 0 ? '+' : ''}$${unrealizedPnl.toFixed(2)}`;
+
+  document.getElementById('kpiCash').textContent = `${cashPct.toFixed(1)}%`;
+  document.getElementById('kpiCashSub').textContent = `$${cash.toFixed(0)} available`;
+
+  document.getElementById('kpiPositions').textContent = positions.length;
+  document.getElementById('kpiPosSub').textContent = positions.map(p=>SYMBOLS[p.instrumentID]||p.instrumentID).join(', ');
+
+  document.getElementById('kpiTrades').textContent = tradeLog.length;
+  document.getElementById('lastUpdate').textContent = `Updated: ${new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})}`;
+}
+
+// ─── Render Positions Table ───────────────────────────────────────
+function renderPositions({positions, equity}) {
+  const tbody = document.getElementById('posTableBody');
+  document.getElementById('posCount').textContent = `${positions.length} positions`;
+
+  if (!positions.length) {
+    tbody.innerHTML = '<tr><td colspan="7" class="empty">No open positions</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = positions.map(p => {
+    const sym = SYMBOLS[p.instrumentID] || `#${p.instrumentID}`;
+    const exposure = p.unrealizedPnL?.exposureInAccountCurrency || 0;
+    const weight = equity > 0 ? (exposure / equity * 100) : 0;
+    const pnl = p.unrealizedPnL?.pnL || 0;
+    const pnlPct = p.amount > 0 ? (pnl / p.amount * 100) : 0;
+    const openRate = p.openRate || 0;
+    const closeRate = p.unrealizedPnL?.closeRate || 0;
+
+    return `
+    <tr>
+      <td>
+        <div class="symbol-cell">
+          <div class="symbol-icon">${sym.substring(0,3)}</div>
+          <div>
+            <div style="font-weight:600">${sym}</div>
+            <div style="font-size:.72rem;color:var(--text-dim)">${p.units?.toFixed(3)||0} units</div>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="bar-wrap">
+          <div class="bar-bg"><div class="bar-fill" style="width:${Math.min(weight*2,100)}%"></div></div>
+          <span>${weight.toFixed(1)}%</span>
+        </div>
+      </td>
+      <td>$${exposure.toFixed(0)}</td>
+      <td class="${pnl >= 0 ? 'pos' : 'neg'}">${pnl >= 0 ? '+' : ''}${pnlPct.toFixed(2)}%<br><span style="font-size:.72rem;opacity:.7">${pnl >= 0 ? '+' : ''}$${pnl.toFixed(2)}</span></td>
+      <td style="color:var(--text-dim)">$${openRate.toFixed(2)}</td>
+      <td>$${closeRate.toFixed(2)}</td>
+      <td><span class="badge hold">HOLD</span></td>
+    </tr>`;
+  }).join('');
+}
+
+// ─── Charts ───────────────────────────────────────────────────────
+function initCharts() {
+  const chartDefaults = {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { backgroundColor: '#1c1c2e', titleColor: '#e4e4e7', bodyColor: '#a1a1aa', borderColor: 'rgba(255,255,255,.1)', borderWidth: 1 } }
+  };
+
+  // Equity chart
+  equityChart = new Chart(document.getElementById('equityChart').getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        { label: 'Equity', data: [], borderColor: '#818cf8', backgroundColor: 'rgba(129,140,248,.08)', fill: true, tension: 0.4, pointRadius: 3, pointHoverRadius: 5 },
+        { label: 'P&L', data: [], borderColor: '#34d399', backgroundColor: 'rgba(52,211,153,.06)', fill: true, tension: 0.4, pointRadius: 3, pointHoverRadius: 5 }
+      ]
+    },
+    options: { ...chartDefaults, scales: {
+      x: { grid: { color: 'rgba(255,255,255,.04)' }, ticks: { color: '#71717a', maxTicksLimit: 8, font: { size: 11 } } },
+      y: { grid: { color: 'rgba(255,255,255,.04)' }, ticks: { color: '#71717a', font: { size: 11 }, callback: v => `$${v.toFixed(0)}` } }
+    }}
+  });
+
+  // Alloc donut
+  allocChart = new Chart(document.getElementById('allocChart').getContext('2d'), {
+    type: 'doughnut',
+    data: { labels: [], datasets: [{ data: [], backgroundColor: COLORS, borderColor: '#0a0a0f', borderWidth: 3, hoverOffset: 6 }] },
+    options: { ...chartDefaults, cutout: '65%', plugins: { ...chartDefaults.plugins, legend: { display: true, position: 'bottom', labels: { color: '#a1a1aa', font: { size: 11 }, padding: 12, boxWidth: 12, usePointStyle: true } } } }
+  });
+}
+
+function updateCharts({equity, unrealizedPnl, positions}) {
+  // Equity history
+  const now = new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+  equityHistory.push({t: now, equity: parseFloat(equity.toFixed(2)), pnl: parseFloat(unrealizedPnl.toFixed(2))});
+  if (equityHistory.length > 50) equityHistory.shift();
+  localStorage.setItem('equity_history', JSON.stringify(equityHistory));
+
+  equityChart.data.labels = equityHistory.map(h=>h.t);
+  equityChart.data.datasets[0].data = equityHistory.map(h=>h.equity);
+  equityChart.data.datasets[1].data = equityHistory.map(h=>h.pnl);
+  equityChart.update('none');
+
+  // Allocation donut
+  const labels = positions.map(p=>SYMBOLS[p.instrumentID]||`#${p.instrumentID}`);
+  const weights = positions.map(p => {
+    const exp = p.unrealizedPnL?.exposureInAccountCurrency || 0;
+    return equity > 0 ? parseFloat((exp/equity*100).toFixed(2)) : 0;
+  });
+  const cashPct = equity > 0 ? parseFloat(((equity - positions.reduce((s,p)=>s+(p.unrealizedPnL?.exposureInAccountCurrency||0),0))/equity*100).toFixed(2)) : 100;
+  labels.push('Cash');
+  weights.push(cashPct);
+
+  allocChart.data.labels = labels;
+  allocChart.data.datasets[0].data = weights;
+  allocChart.data.datasets[0].backgroundColor = COLORS.slice(0, labels.length);
+  allocChart.update('none');
+}
+
+// ─── Trade Log ────────────────────────────────────────────────────
+function renderTradeLog() {
+  const el = document.getElementById('tradeLog');
+  document.getElementById('tradeCount').textContent = `${tradeLog.length} trade${tradeLog.length !== 1 ? 's' : ''}`;
+
+  if (!tradeLog.length) {
+    el.innerHTML = '<div class="empty">No trades recorded yet.<br>Trades will appear here after the first execution.</div>';
+    return;
+  }
+
+  el.innerHTML = [...tradeLog].reverse().map(t => {
+    const isOpen = t.action === 'open';
+    const icon = isOpen ? '✅' : t.action === 'close' ? '❌' : '🔄';
+    const iconClass = isOpen ? 'buy' : t.action === 'close' ? 'sell' : 'rebal';
+    const pnlStr = t.pnl !== undefined ? `<span class="${t.pnl >= 0 ? 'pos' : 'neg'}">${t.pnl >= 0 ? '+' : ''}${t.pnl.toFixed(2)}%</span>` : '';
+
+    return `
+    <div class="log-item">
+      <div class="log-icon ${iconClass}">${icon}</div>
+      <div class="log-body">
+        <div class="log-title">${isOpen ? 'Opened' : t.action === 'close' ? 'Closed' : 'Rebalanced'} ${t.symbol} ${t.weight ? `(${t.weight})` : ''}</div>
+        <div class="log-meta">${t.time} · ${t.reason || 'Grok 4 strategy'}</div>
+      </div>
+      <div class="log-pnl">${pnlStr}</div>
+    </div>`;
+  }).join('');
+}
+
+// ─── Public: add trade (called by agent after executing) ──────────
+window.addTrade = function(action, symbol, weight, reason, pnl) {
+  const entry = {
+    action, symbol, weight,
+    reason: reason || 'Grok 4 strategy',
+    pnl: pnl ?? undefined,
+    time: new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})
+  };
+  tradeLog.push(entry);
+  localStorage.setItem('trade_log', JSON.stringify(tradeLog));
+  renderTradeLog();
+};
+
+// Seed existing trades from today (March 26 opening)
+if (!tradeLog.length) {
+  const seed = [
+    {action:'open',symbol:'META',weight:'14%',reason:'AI/ads momentum, MA20 setup',time:'Mar 26, 04:40 PM'},
+    {action:'open',symbol:'MSFT',weight:'15%',reason:'Cloud + AI growth catalyst',time:'Mar 26, 04:40 PM'},
+    {action:'open',symbol:'AMZN',weight:'10%',reason:'AWS + retail diversification',time:'Mar 26, 04:40 PM'},
+    {action:'open',symbol:'NVDA',weight:'25%',reason:'AI chip leadership, core position',time:'Mar 26, 04:40 PM'},
+    {action:'open',symbol:'ARM',weight:'3%',reason:'Semiconductor ecosystem',time:'Mar 26, 04:40 PM'},
+    {action:'open',symbol:'AMD',weight:'6%',reason:'AI/data center demand',time:'Mar 26, 04:40 PM'},
+    {action:'open',symbol:'AVGO',weight:'10%',reason:'Networking + AI infrastructure',time:'Mar 26, 04:40 PM'},
+    {action:'open',symbol:'CRWD',weight:'2%',reason:'Cybersecurity demand',time:'Mar 26, 04:40 PM'},
+    {action:'open',symbol:'GOOGL',weight:'7%',reason:'Cloud + AI diversification',time:'Mar 26, 04:40 PM'},
+    {action:'open',symbol:'PLTR',weight:'8%',reason:'AI/government contracts',time:'Mar 26, 04:40 PM'},
+  ];
+  tradeLog = seed;
+  localStorage.setItem('trade_log', JSON.stringify(tradeLog));
+}
+
+// ─── Main load ────────────────────────────────────────────────────
+async function loadPortfolio() {
+  try {
+    const data = await fetchPnl();
+    const portfolio = calcPortfolio(data);
+    renderKPIs(portfolio);
+    renderPositions(portfolio);
+    updateCharts(portfolio);
+  } catch(e) {
+    console.error('Failed to load portfolio:', e);
+    document.getElementById('kpiEquity').textContent = 'Error';
+    document.getElementById('kpiEquitySub').textContent = e.message;
+  }
+}
+
+// ─── Background canvas ────────────────────────────────────────────
+function initBg() {
+  const canvas = document.getElementById('bgCanvas');
+  const ctx = canvas.getContext('2d');
+  let w, h, particles = [];
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+
+  function makeParticle() {
+    return { x: Math.random()*w, y: Math.random()*h, r: Math.random()*1.5+0.3, vx: (Math.random()-.5)*0.2, vy: (Math.random()-.5)*0.2, alpha: Math.random()*0.4+0.1 };
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  for (let i = 0; i < 80; i++) particles.push(makeParticle());
+
+  (function animate() {
+    ctx.clearRect(0,0,w,h);
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+      if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(129,140,248,${p.alpha})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(animate);
+  })();
+}
+
+function toggleTheme() {
+  document.body.style.filter = document.body.style.filter ? '' : 'invert(1) hue-rotate(180deg)';
+}
+
+// ─── Init ─────────────────────────────────────────────────────────
+initBg();
+initCharts();
+renderTradeLog();
+loadPortfolio();
+// Auto-refresh every 2 min
+setInterval(loadPortfolio, 120000);
+</script>
+</body>
+</html>
