@@ -234,6 +234,11 @@ const API_BASE = 'https://public-api.etoro.com/api/v1';
 const API_KEY  = 'sdgdskldFPLGfjHn1421dgnlxdGTbngdflg6290bRjslfihsjhSDsdgGHH25hjf';
 const USER_KEY = 'eyJjaSI6IjYwY2FiYjBiLTU1OTctNDQ4NS04ZjYzLTdlOWUwNTZlMGJiOCIsImVhbiI6IlVucmVnaXN0ZXJlZEFwcGxpY2F0aW9uIiwiZWsiOiJnYU9JNlZjZklFemNSdDcyNDA4QzRFcC56UTVqRXVFcGVEUWRHa3FKTXRqV2pvSjhpQzFnLmdPWU9QOGlGUGZweFQ2Wjk4MzFKVXUtaVhVOFZ2YlUtRHVBWHo3czV4bG5sUTFKbXMwYmIzNF8ifQ__';
 
+// Real investment = $500, virtual portfolio = $10,000 → mirror ratio = 5%
+const VIRTUAL_BALANCE = 10000;
+const REAL_INVESTMENT = 500;
+const MIRROR_RATIO = REAL_INVESTMENT / VIRTUAL_BALANCE; // 0.05
+
 const SYMBOLS = {1003:'META',1004:'MSFT',1005:'AMZN',1137:'NVDA',1365:'ARM',1832:'AMD',4236:'AVGO',5506:'CRWD',6434:'GOOGL',7991:'PLTR',1001:'AAPL',1002:'TSLA'};
 const COLORS = ['#818cf8','#34d399','#f87171','#fbbf24','#a78bfa','#38bdf8','#fb923c','#e879f9','#4ade80','#f472b6','#94a3b8','#67e8f9'];
 
@@ -278,19 +283,25 @@ function calcPortfolio(data) {
 
 // ─── Render KPIs ──────────────────────────────────────────────────
 function renderKPIs({cash, totalInvested, unrealizedPnl, equity, positions}) {
+  // Scale all $ values to real investment (mirror ratio)
+  const realEquity       = equity       * MIRROR_RATIO;
+  const realPnl          = unrealizedPnl * MIRROR_RATIO;
+  const realCash         = cash         * MIRROR_RATIO;
+  const realInvested     = totalInvested * MIRROR_RATIO;
+
   const pct = equity > 0 ? (unrealizedPnl / (equity - unrealizedPnl) * 100) : 0;
   const cashPct = equity > 0 ? (cash / equity * 100) : 0;
 
-  document.getElementById('kpiEquity').textContent = `$${equity.toFixed(0)}`;
-  document.getElementById('kpiEquitySub').textContent = `Invested: $${totalInvested.toFixed(0)}`;
+  document.getElementById('kpiEquity').textContent = `$${realEquity.toFixed(2)}`;
+  document.getElementById('kpiEquitySub').textContent = `Invested: $${REAL_INVESTMENT} · Virtual: $${equity.toFixed(0)}`;
 
   const pnlEl = document.getElementById('kpiPnl');
-  pnlEl.textContent = `${unrealizedPnl >= 0 ? '+' : ''}${pct.toFixed(2)}%`;
-  pnlEl.className = `kpi-value ${unrealizedPnl >= 0 ? 'pos' : 'neg'}`;
-  document.getElementById('kpiPnlSub').textContent = `${unrealizedPnl >= 0 ? '+' : ''}$${unrealizedPnl.toFixed(2)}`;
+  pnlEl.textContent = `${realPnl >= 0 ? '+' : ''}${pct.toFixed(2)}%`;
+  pnlEl.className = `kpi-value ${realPnl >= 0 ? 'pos' : 'neg'}`;
+  document.getElementById('kpiPnlSub').textContent = `${realPnl >= 0 ? '+' : ''}$${realPnl.toFixed(2)}`;
 
   document.getElementById('kpiCash').textContent = `${cashPct.toFixed(1)}%`;
-  document.getElementById('kpiCashSub').textContent = `$${cash.toFixed(0)} available`;
+  document.getElementById('kpiCashSub').textContent = `$${realCash.toFixed(2)} available`;
 
   document.getElementById('kpiPositions').textContent = positions.length;
   document.getElementById('kpiPosSub').textContent = positions.map(p=>SYMBOLS[p.instrumentID]||p.instrumentID).join(', ');
@@ -312,8 +323,10 @@ function renderPositions({positions, equity}) {
   tbody.innerHTML = positions.map(p => {
     const sym = SYMBOLS[p.instrumentID] || `#${p.instrumentID}`;
     const exposure = p.unrealizedPnL?.exposureInAccountCurrency || 0;
+    const realExposure = exposure * MIRROR_RATIO;
     const weight = equity > 0 ? (exposure / equity * 100) : 0;
     const pnl = p.unrealizedPnL?.pnL || 0;
+    const realPnl = pnl * MIRROR_RATIO;
     const pnlPct = p.amount > 0 ? (pnl / p.amount * 100) : 0;
     const openRate = p.openRate || 0;
     const closeRate = p.unrealizedPnL?.closeRate || 0;
@@ -335,8 +348,8 @@ function renderPositions({positions, equity}) {
           <span>${weight.toFixed(1)}%</span>
         </div>
       </td>
-      <td>$${exposure.toFixed(0)}</td>
-      <td class="${pnl >= 0 ? 'pos' : 'neg'}">${pnl >= 0 ? '+' : ''}${pnlPct.toFixed(2)}%<br><span style="font-size:.72rem;opacity:.7">${pnl >= 0 ? '+' : ''}$${pnl.toFixed(2)}</span></td>
+      <td>$${realExposure.toFixed(2)}</td>
+      <td class="${pnl >= 0 ? 'pos' : 'neg'}">${pnl >= 0 ? '+' : ''}${pnlPct.toFixed(2)}%<br><span style="font-size:.72rem;opacity:.7">${realPnl >= 0 ? '+' : ''}$${realPnl.toFixed(2)}</span></td>
       <td style="color:var(--text-dim)">$${openRate.toFixed(2)}</td>
       <td>$${closeRate.toFixed(2)}</td>
       <td><span class="badge hold">HOLD</span></td>
@@ -376,15 +389,19 @@ function initCharts() {
 }
 
 function updateCharts({equity, unrealizedPnl, positions}) {
+  // Scale to real investment
+  const realEquity = equity * MIRROR_RATIO;
+  const realPnl    = unrealizedPnl * MIRROR_RATIO;
+
   // Equity history
   const now = new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-  equityHistory.push({t: now, equity: parseFloat(equity.toFixed(2)), pnl: parseFloat(unrealizedPnl.toFixed(2))});
+  equityHistory.push({t: now, equity: parseFloat(realEquity.toFixed(2)), pnl: parseFloat(realPnl.toFixed(2))});
   if (equityHistory.length > 50) equityHistory.shift();
   localStorage.setItem('equity_history', JSON.stringify(equityHistory));
 
   equityChart.data.labels = equityHistory.map(h=>h.t);
-  equityChart.data.datasets[0].data = equityHistory.map(h=>h.equity);
-  equityChart.data.datasets[1].data = equityHistory.map(h=>h.pnl);
+  equityChart.data.datasets[0].data = equityHistory.map(h=>h.equity); // already scaled
+  equityChart.data.datasets[1].data = equityHistory.map(h=>h.pnl);   // already scaled
   equityChart.update('none');
 
   // Allocation donut
