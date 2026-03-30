@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "30.03.2026 16:43 IST",
+  "lastUpdated": "30.03.2026 17:00 IST",
   "stocks": [
     {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
-      "price": "$167.35",
-      "news": 9.0,
-      "analyst": 9.5,
-      "technical": 7.0,
-      "total": 8.48,
-      "notes": "מנוע ה-AI - ביקוש עצום לשבבי Blackwell Ultra, הכנסות $68B ברבעון, קונסנזוס אנליסטים מעל $200"
+      "price": "$166.58",
+      "news": 8.0,
+      "analyst": 9.0,
+      "technical": 7.5,
+      "total": 8.18,
+      "notes": "מנוע ה-AI שלא נעצר - הכנסות +73% YoY, יעד אנליסטים $266, הרבה פוטנציאל עלייה מהרמה הנוכחית"
     },
     {
-      "ticker": "APP",
-      "name": "AppLovin Corp",
-      "price": "$385.35",
-      "news": 8.0,
-      "analyst": 8.0,
-      "technical": 7.5,
-      "total": 7.83,
-      "notes": "צמיחת הכנסות 66%, רווח נקי +84%, פרסום מובייל עם AI - מאשש אסטרטגיית GARP"
+      "ticker": "ORCL",
+      "name": "Oracle Corp",
+      "price": "$138.42",
+      "news": 7.5,
+      "analyst": 9.5,
+      "technical": 7.0,
+      "total": 8.03,
+      "notes": "הפתעת שנה - 91% פוטנציאל עלייה לפי אנליסטים, הרחבת Nashville ועסקת Veritone AI, הכנסות ענן מתפוצצות"
     },
     {
       "ticker": "META",
       "name": "Meta Platforms Inc",
-      "price": "$533.88",
-      "news": 7.5,
-      "analyst": 8.0,
-      "technical": 8.0,
+      "price": "$531.91",
+      "news": 7.0,
+      "analyst": 9.5,
+      "technical": 7.0,
       "total": 7.88,
-      "notes": "הכנסות $59.9B, Llama 4 בדרך, מחיר יעד קונסנזוס מעל $700 - עלייה היום מ-$525"
+      "notes": "Strong Buy חזק עם יעד $838, Llama 4 ומשקפי AR בדרך, הכנסות פרסום חזקות"
     },
     {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings",
-      "price": "$382.49",
-      "news": 8.5,
-      "analyst": 8.0,
-      "technical": 8.5,
-      "total": 8.35,
-      "notes": "פריצה +3.5% היום, איומי סייבר AI מאיצים ביקוש, הכנסות +23%, מחיר יעד $450-500"
-    },
-    {
-      "ticker": "TSM",
-      "name": "Taiwan Semiconductor",
-      "price": "$322.21",
-      "news": 8.0,
-      "analyst": 8.5,
-      "technical": 7.0,
-      "total": 7.85,
-      "notes": "עוגן הסייקל השבבי - עליית CoWoS עבור NVDA/AMD, טריגר $320B בום שבבים 2025"
-    },
-    {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies",
-      "price": "$142.37",
-      "news": 8.5,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.63,
-      "notes": "ניצחון Golden Dome, הכנסות +70%, פלטפורמת AIP - קטגוריה בפני עצמה בתחום AI ממשלתי"
+      "ticker": "MSTR",
+      "name": "Strategy Inc (MicroStrategy)",
+      "price": "$127.66",
+      "news": 6.5,
+      "analyst": 9.5,
+      "technical": 7.5,
+      "total": 7.90,
+      "notes": "פוטנציאל עלייה של 174% לפי אנליסטים, תביעה ייצוגית נסגרה, מינוף BTC ישיר - משחק סיכון/תשואה גבוה"
     },
     {
       "ticker": "AMZN",
       "name": "Amazon.com Inc",
-      "price": "$201.41",
+      "price": "$201.59",
       "news": 7.0,
-      "analyst": 8.5,
+      "analyst": 9.0,
       "technical": 7.5,
-      "total": 7.68,
-      "notes": "Jefferies ממליץ לקנות בירידה, תמיכה ב-$200, AWS+AI בלתי ניתן לעצירה - Risk/Reward מעולה"
+      "total": 7.88,
+      "notes": "AWS ממשיך לצמוח, קיצוץ עלויות לוגיסטיקה מתבטא ברווחיות, יעד $279 מ-45 אנליסטים"
     },
     {
-      "ticker": "SOL",
-      "name": "Solana",
-      "price": "$84.45",
+      "ticker": "TSM",
+      "name": "Taiwan Semiconductor Mfg",
+      "price": "$319.82",
       "news": 7.5,
-      "analyst": 7.0,
-      "technical": 7.5,
-      "total": 7.35,
-      "notes": "עלייה +2.1% היום, מתחים גיאופוליטיים מגבירים בידינג, DeFi TVL שיא בסולנה"
+      "analyst": 8.5,
+      "technical": 7.0,
+      "total": 7.68,
+      "notes": "עסק חזק עם צמיחה בסיסית, פאב אריזונה בדרך, ספק ראשי של NVIDIA ואפל - יסודות מצוינים"
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies Inc",
+      "price": "$140.88",
+      "news": 8.0,
+      "analyst": 8.0,
+      "technical": 6.5,
+      "total": 7.48,
+      "notes": "הכנסות +70% YoY, חוזי ממשלה ו-NATO מתרחבים, נקרא 'קטגוריה בפני עצמה' - מחיר גבוה אבל מוצדק"
+    },
+    {
+      "ticker": "XRP",
+      "name": "XRP (Ripple)",
+      "price": "$1.35",
+      "news": 7.0,
+      "analyst": 7.5,
+      "technical": 7.0,
+      "total": 7.18,
+      "notes": "טווח מתהדק ובניית פריצה, 73% ממשקיעים מוסדיים שוריים, יעד $2.50 של אנליסטים"
+    },
+    {
+      "ticker": "ARM",
+      "name": "Arm Holdings PLC ADR",
+      "price": "$140.61",
+      "news": 7.0,
+      "analyst": 8.0,
+      "technical": 6.5,
+      "total": 7.18,
+      "notes": "שבבי AI קצה מזנקים, Barclays העלה יעד ל-$200, Needham שדרג - מנוע רוייאלטי לעידן ה-AI"
     },
     {
       "ticker": "BTC",
       "name": "Bitcoin",
-      "price": "$67,722.10",
-      "news": 7.5,
-      "analyst": 7.0,
-      "technical": 7.0,
-      "total": 7.18,
-      "notes": "התאוששות מ-$65K, שיחות טראמפ-איראן מגבירות ביקוש, זרמי ETF חיוביים מחכים להשתקם"
-    },
-    {
-      "ticker": "AAPL",
-      "name": "Apple Inc",
-      "price": "$247.49",
+      "price": "$67,485.67",
       "news": 6.5,
       "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.03,
-      "notes": "יום הולדת 50, ספירת גיל AI - מנוע iPhone ב-AI עדיין לפנינו, שירותים מאיצים"
-    },
-    {
-      "ticker": "RDDT",
-      "name": "Reddit Inc",
-      "price": "$122.22",
-      "news": 7.0,
-      "analyst": 7.5,
       "technical": 6.5,
-      "total": 7.02,
-      "notes": "הכנסות +70%, נראה אטרקטיבי בירידה מ-$282, רישוי נתונים לאימון AI - פוטנציאל עצום"
+      "total": 6.85,
+      "notes": "התאוששות מ-$65,200 בזכות מתיחות איראן-טראמפ, מוסדיים ממשיכים לצבור - אבל קצב הקפיצה מתמצה"
     },
     {
-      "ticker": "SUI",
-      "name": "Sui",
-      "price": "$0.8872",
-      "news": 7.0,
-      "analyst": 6.5,
-      "technical": 6.0,
-      "total": 6.52,
-      "notes": "L1 מתפתח עם מומנטום מפתחים, אך שחרור טוקנים של $643M מהווה לחץ בטווח הקצר"
+      "ticker": "SOL",
+      "name": "Solana",
+      "price": "$84.05",
+      "news": 6.5,
+      "analyst": 7.0,
+      "technical": 6.5,
+      "total": 6.68,
+      "notes": "+2.1% היום, פעילות DeFi חזקה, אבל סיכון תוכנה זדונית GlassWorm שמנצל תשתית סולנה מדאיג"
+    },
+    {
+      "ticker": "CRWV",
+      "name": "CoreWeave Inc",
+      "price": "$70.51",
+      "news": 6.0,
+      "analyst": 8.5,
+      "technical": 5.5,
+      "total": 6.70,
+      "notes": "הכנסות מרהיבות +110% אבל מנכ\"ל מוכר מניות ומניה יורדת 5.5% - פוטנציאל גבוה עם סיכון ביצוע"
     },
     {
       "ticker": "ETH",
       "name": "Ethereum",
-      "price": "$2,070.90",
-      "news": 6.5,
-      "analyst": 6.5,
-      "technical": 6.5,
-      "total": 6.50,
-      "notes": "התאוששות מ-$1,982, אך מומנטום נמוך - מכירות ויטאליק ולחץ ETF שוחקים ביטחון"
-    },
-    {
-      "ticker": "MSFT",
-      "name": "Microsoft Corp",
-      "price": "$360.92",
+      "price": "$2,059.69",
       "news": 5.5,
-      "analyst": 7.5,
-      "technical": 6.5,
-      "total": 6.53,
-      "notes": "סנטימנט שלילי בחדשות, ירידה מ-$555, אך Azure AI חזק - להמתין לנקודת כניסה טובה יותר"
+      "analyst": 7.0,
+      "technical": 6.0,
+      "total": 6.20,
+      "notes": "וויטאליק מכר 17K ETH החודש שעבר - אות שלילי. BNP פריבה מוסיפה ETN - חיובי. ממתין לשדרוג Pectra"
     },
     {
       "ticker": "HOOD",
-      "name": "Robinhood Markets",
-      "price": "$66.98",
-      "news": 5.0,
-      "analyst": 5.5,
+      "name": "Robinhood Markets Inc",
+      "price": "$66.30",
+      "news": 5.5,
+      "analyst": 7.5,
       "technical": 5.5,
-      "total": 5.35,
-      "notes": "הורדת דירוג ומחיר יעד מברנשטיין, ירידה מ-$153 - לחץ מניות קריפטו משפיע לרעה"
+      "total": 6.20,
+      "notes": "הורדות יעד מרובות היום - ברנשטיין $130, גולדמן $91, ג'פריס $88. ירידה של 6% השבוע - לחץ"
+    },
+    {
+      "ticker": "SMCI",
+      "name": "Super Micro Computer Inc",
+      "price": "$21.74",
+      "news": 4.0,
+      "analyst": 5.5,
+      "technical": 4.5,
+      "total": 4.70,
+      "notes": "ברקליס מזהיר על מוניטין ותפעול, הורדות דירוג מרובות, קונצנזוס Hold - להימנע כרגע"
     }
   ]
 }
