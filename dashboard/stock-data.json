@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "30.03.2026 17:00 IST",
+  "lastUpdated": "31.03.2026 09:00 IST",
   "stocks": [
     {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
-      "price": "$166.58",
-      "news": 8.0,
-      "analyst": 9.0,
-      "technical": 7.5,
-      "total": 8.18,
-      "notes": "מנוע ה-AI שלא נעצר - הכנסות +73% YoY, יעד אנליסטים $266, הרבה פוטנציאל עלייה מהרמה הנוכחית"
-    },
-    {
-      "ticker": "ORCL",
-      "name": "Oracle Corp",
-      "price": "$138.42",
+      "price": "$165.17",
       "news": 7.5,
-      "analyst": 9.5,
-      "technical": 7.0,
-      "total": 8.03,
-      "notes": "הפתעת שנה - 91% פוטנציאל עלייה לפי אנליסטים, הרחבת Nashville ועסקת Veritone AI, הכנסות ענן מתפוצצות"
-    },
-    {
-      "ticker": "META",
-      "name": "Meta Platforms Inc",
-      "price": "$531.91",
-      "news": 7.0,
-      "analyst": 9.5,
-      "technical": 7.0,
-      "total": 7.88,
-      "notes": "Strong Buy חזק עם יעד $838, Llama 4 ומשקפי AR בדרך, הכנסות פרסום חזקות"
-    },
-    {
-      "ticker": "MSTR",
-      "name": "Strategy Inc (MicroStrategy)",
-      "price": "$127.66",
-      "news": 6.5,
-      "analyst": 9.5,
-      "technical": 7.5,
-      "total": 7.90,
-      "notes": "פוטנציאל עלייה של 174% לפי אנליסטים, תביעה ייצוגית נסגרה, מינוף BTC ישיר - משחק סיכון/תשואה גבוה"
-    },
-    {
-      "ticker": "AMZN",
-      "name": "Amazon.com Inc",
-      "price": "$201.59",
-      "news": 7.0,
       "analyst": 9.0,
-      "technical": 7.5,
-      "total": 7.88,
-      "notes": "AWS ממשיך לצמוח, קיצוץ עלויות לוגיסטיקה מתבטא ברווחיות, יעד $279 מ-45 אנליסטים"
-    },
-    {
-      "ticker": "TSM",
-      "name": "Taiwan Semiconductor Mfg",
-      "price": "$319.82",
-      "news": 7.5,
-      "analyst": 8.5,
       "technical": 7.0,
-      "total": 7.68,
-      "notes": "עסק חזק עם צמיחה בסיסית, פאב אריזונה בדרך, ספק ראשי של NVIDIA ואפל - יסודות מצוינים"
+      "total": 7.85,
+      "notes": "שיא של 7 שנים בשפל ביחס לשווי - הזדמנות קנייה! מחיר יעד אנליסטים $275 (פוטנציאל 67% עלייה), הזמנות Blackwell ממשיכות להגיע"
     },
     {
       "ticker": "PLTR",
-      "name": "Palantir Technologies Inc",
-      "price": "$140.88",
-      "news": 8.0,
-      "analyst": 8.0,
-      "technical": 6.5,
-      "total": 7.48,
-      "notes": "הכנסות +70% YoY, חוזי ממשלה ו-NATO מתרחבים, נקרא 'קטגוריה בפני עצמה' - מחיר גבוה אבל מוצדק"
+      "name": "Palantir Technologies",
+      "price": "$137.55",
+      "news": 8.5,
+      "analyst": 7.0,
+      "technical": 7.5,
+      "total": 7.73,
+      "notes": "שדרוג אנליסטים ל'קטגוריה בפני עצמה', הרחבת חוזי AI ממשלתיים, AIP Commercial מואץ - מומנטום חזק"
     },
     {
-      "ticker": "XRP",
-      "name": "XRP (Ripple)",
-      "price": "$1.35",
+      "ticker": "MSFT",
+      "name": "Microsoft Corp",
+      "price": "$358.96",
       "news": 7.0,
-      "analyst": 7.5,
+      "analyst": 8.5,
+      "technical": 7.5,
+      "total": 7.73,
+      "notes": "Copilot Enterprise ממשיך לצמוח, Azure AI עולה, מחיר יעד ~$450-480 מול מחיר נוכחי $359 - עסקה טובה"
+    },
+    {
+      "ticker": "APP",
+      "name": "AppLovin Corp",
+      "price": "$372.08",
+      "news": 7.5,
+      "analyst": 8.0,
       "technical": 7.0,
-      "total": 7.18,
-      "notes": "טווח מתהדק ובניית פריצה, 73% ממשקיעים מוסדיים שוריים, יעד $2.50 של אנליסטים"
+      "total": 7.52,
+      "notes": "אסטרטגיית GARP מושלמת - צמיחה חזקה + רווחיות גבוהה, הכנסות +65% שנה על שנה, שפל מ-$745 = הזדמנות"
     },
     {
-      "ticker": "ARM",
-      "name": "Arm Holdings PLC ADR",
-      "price": "$140.61",
-      "news": 7.0,
-      "analyst": 8.0,
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices",
+      "price": "$196.04",
+      "news": 6.5,
+      "analyst": 8.5,
       "technical": 6.5,
       "total": 7.18,
-      "notes": "שבבי AI קצה מזנקים, Barclays העלה יעד ל-$200, Needham שדרג - מנוע רוייאלטי לעידן ה-AI"
+      "notes": "מחיר יעד $290 לעומת $196 - פוטנציאל 48% עלייה, MI300X מרוויח נתח שוק AI, עסקת $60B עם Meta"
     },
     {
       "ticker": "BTC",
       "name": "Bitcoin",
-      "price": "$67,485.67",
+      "price": "$67,657.53",
       "news": 6.5,
       "analyst": 7.5,
-      "technical": 6.5,
-      "total": 6.85,
-      "notes": "התאוששות מ-$65,200 בזכות מתיחות איראן-טראמפ, מוסדיים ממשיכים לצבור - אבל קצב הקפיצה מתמצה"
+      "technical": 7.5,
+      "total": 7.18,
+      "notes": "תמיכה חזקה ב-$67K, זרימות מוסדיות דרך ETF ממשיכות, מחזור הביצוע ממשיך להוביל לפוטנציאל עלייה"
     },
     {
-      "ticker": "SOL",
-      "name": "Solana",
-      "price": "$84.05",
-      "news": 6.5,
-      "analyst": 7.0,
-      "technical": 6.5,
-      "total": 6.68,
-      "notes": "+2.1% היום, פעילות DeFi חזקה, אבל סיכון תוכנה זדונית GlassWorm שמנצל תשתית סולנה מדאיג"
-    },
-    {
-      "ticker": "CRWV",
-      "name": "CoreWeave Inc",
-      "price": "$70.51",
+      "ticker": "GOOGL",
+      "name": "Alphabet Inc Class A",
+      "price": "$273.50",
       "news": 6.0,
-      "analyst": 8.5,
-      "technical": 5.5,
-      "total": 6.70,
-      "notes": "הכנסות מרהיבות +110% אבל מנכ\"ל מוכר מניות ומניה יורדת 5.5% - פוטנציאל גבוה עם סיכון ביצוע"
+      "analyst": 8.0,
+      "technical": 7.0,
+      "total": 7.05,
+      "notes": "מחיר יעד ~$350, Gemini 2.0 מחזק חיפוש, Cloud מאיץ - תביעה משפטית קטנה מוסיפה לחץ קצר טווח"
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms Inc",
+      "price": "$536.38",
+      "news": 7.5,
+      "analyst": 7.5,
+      "technical": 6.0,
+      "total": 7.0,
+      "notes": "Jefferies רואה הזדמנות קנייה, תיזה של שווי $9 טריליון ל-2031, Llama 4 מניע מונטיזציה AI"
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon.com Inc",
+      "price": "$200.95",
+      "news": 6.5,
+      "analyst": 8.0,
+      "technical": 6.5,
+      "total": 7.0,
+      "notes": "Jefferies ממליץ לקנות בירידה, AWS AI ממשיכה לצמוח, מחיר יעד ~$280 = 40% פוטנציאל"
     },
     {
       "ticker": "ETH",
       "name": "Ethereum",
-      "price": "$2,059.69",
+      "price": "$2,061.89",
+      "news": 7.0,
+      "analyst": 6.5,
+      "technical": 7.0,
+      "total": 6.85,
+      "notes": "חזרה מעל $2K, שדרוג Pectra קרוב מהווה קטליזטור, זרימות ETF מתייצבות - המתן לאישור פריצה"
+    },
+    {
+      "ticker": "XRP",
+      "name": "XRP / Ripple",
+      "price": "$1.3228",
+      "news": 6.5,
+      "analyst": 6.5,
+      "technical": 7.0,
+      "total": 6.68,
+      "notes": "רכישות לוויתנים של 190M XRP, SEC סיווג כסחורה דיגיטלית = חיובי, קונסולידציה לפני מהלך הבא"
+    },
+    {
+      "ticker": "LINK",
+      "name": "Chainlink",
+      "price": "$8.752",
+      "news": 7.0,
+      "analyst": 6.0,
+      "technical": 6.5,
+      "total": 6.50,
+      "notes": "שיתוף פעולה עם Coinbase מביא נתוני בורסה לרשת - קטליזטור ענק, Super PAC קריפטו תומך"
+    },
+    {
+      "ticker": "RDDT",
+      "name": "Reddit Inc",
+      "price": "$124.13",
       "news": 5.5,
       "analyst": 7.0,
       "technical": 6.0,
-      "total": 6.20,
-      "notes": "וויטאליק מכר 17K ETH החודש שעבר - אות שלילי. BNP פריבה מוסיפה ETN - חיובי. ממתין לשדרוג Pectra"
+      "total": 6.23,
+      "notes": "חשש לאחריות משפטית מפסיקת מדיה חברתית, אך Seeking Alpha רואה ערך אמיתי במחיר הנוכחי"
+    },
+    {
+      "ticker": "SOL",
+      "name": "Solana",
+      "price": "$83.01",
+      "news": 5.5,
+      "analyst": 6.0,
+      "technical": 6.5,
+      "total": 6.05,
+      "notes": "לחץ יציאות ETF ועוצמת דולר פוגעים, עדיין רחוק מהשיאים - המתן לאות טכני חיובי לפני כניסה"
     },
     {
       "ticker": "HOOD",
-      "name": "Robinhood Markets Inc",
-      "price": "$66.30",
-      "news": 5.5,
-      "analyst": 7.5,
-      "technical": 5.5,
-      "total": 6.20,
-      "notes": "הורדות יעד מרובות היום - ברנשטיין $130, גולדמן $91, ג'פריס $88. ירידה של 6% השבוע - לחץ"
-    },
-    {
-      "ticker": "SMCI",
-      "name": "Super Micro Computer Inc",
-      "price": "$21.74",
+      "name": "Robinhood Markets",
+      "price": "$65.16",
       "news": 4.0,
       "analyst": 5.5,
-      "technical": 4.5,
-      "total": 4.70,
-      "notes": "ברקליס מזהיר על מוניטין ותפעול, הורדות דירוג מרובות, קונצנזוס Hold - להימנע כרגע"
+      "technical": 5.0,
+      "total": 4.85,
+      "notes": "שדרוג שלילי פעמיים השבוע! ירידה -6.2% אחרי הורדת דירוג אנליסט - הימנע לפי שעה"
     }
   ]
 }
