@@ -1,155 +1,145 @@
 {
-  "lastUpdated": "31.03.2026 09:00 IST",
+  "lastUpdated": "31.03.2026 17:00 IST",
   "stocks": [
     {
-      "ticker": "NVDA",
-      "name": "NVIDIA Corp",
-      "price": "$165.17",
-      "news": 7.5,
-      "analyst": 9.0,
-      "technical": 7.0,
-      "total": 7.85,
-      "notes": "שיא של 7 שנים בשפל ביחס לשווי - הזדמנות קנייה! מחיר יעד אנליסטים $275 (פוטנציאל 67% עלייה), הזמנות Blackwell ממשיכות להגיע"
-    },
-    {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies",
-      "price": "$137.55",
-      "news": 8.5,
-      "analyst": 7.0,
-      "technical": 7.5,
-      "total": 7.73,
-      "notes": "שדרוג אנליסטים ל'קטגוריה בפני עצמה', הרחבת חוזי AI ממשלתיים, AIP Commercial מואץ - מומנטום חזק"
-    },
-    {
-      "ticker": "MSFT",
-      "name": "Microsoft Corp",
-      "price": "$358.96",
-      "news": 7.0,
+      "ticker": "SOFI",
+      "name": "SoFi Technologies Inc",
+      "price": "$15.58",
+      "news": 8.0,
       "analyst": 8.5,
       "technical": 7.5,
-      "total": 7.73,
-      "notes": "Copilot Enterprise ממשיך לצמוח, Azure AI עולה, מחיר יעד ~$450-480 מול מחיר נוכחי $359 - עסקה טובה"
-    },
-    {
-      "ticker": "APP",
-      "name": "AppLovin Corp",
-      "price": "$372.08",
-      "news": 7.5,
-      "analyst": 8.0,
-      "technical": 7.0,
-      "total": 7.52,
-      "notes": "אסטרטגיית GARP מושלמת - צמיחה חזקה + רווחיות גבוהה, הכנסות +65% שנה על שנה, שפל מ-$745 = הזדמנות"
-    },
-    {
-      "ticker": "AMD",
-      "name": "Advanced Micro Devices",
-      "price": "$196.04",
-      "news": 6.5,
-      "analyst": 8.5,
-      "technical": 6.5,
-      "total": 7.18,
-      "notes": "מחיר יעד $290 לעומת $196 - פוטנציאל 48% עלייה, MI300X מרוויח נתח שוק AI, עסקת $60B עם Meta"
-    },
-    {
-      "ticker": "BTC",
-      "name": "Bitcoin",
-      "price": "$67,657.53",
-      "news": 6.5,
-      "analyst": 7.5,
-      "technical": 7.5,
-      "total": 7.18,
-      "notes": "תמיכה חזקה ב-$67K, זרימות מוסדיות דרך ETF ממשיכות, מחזור הביצוע ממשיך להוביל לפוטנציאל עלייה"
-    },
-    {
-      "ticker": "GOOGL",
-      "name": "Alphabet Inc Class A",
-      "price": "$273.50",
-      "news": 6.0,
-      "analyst": 8.0,
-      "technical": 7.0,
-      "total": 7.05,
-      "notes": "מחיר יעד ~$350, Gemini 2.0 מחזק חיפוש, Cloud מאיץ - תביעה משפטית קטנה מוסיפה לחץ קצר טווח"
+      "total": 7.98,
+      "notes": "עלתה 32% ב-2026, יעד אנליסטים $26 - עוד 67% פוטנציאל. ברייקאאוט פינטק עם מומנטום חזק"
     },
     {
       "ticker": "META",
       "name": "Meta Platforms Inc",
-      "price": "$536.38",
+      "price": "$557.42",
+      "news": 8.0,
+      "analyst": 8.5,
+      "technical": 7.5,
+      "total": 7.98,
+      "notes": "ג'פריס רואה הזדמנות קנייה למרות סיכונים רגולטוריים, מניה עלתה 2% אחרי אות מסחר מרכזי"
+    },
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA Corp",
+      "price": "$170.09",
       "news": 7.5,
-      "analyst": 7.5,
-      "technical": 6.0,
-      "total": 7.0,
-      "notes": "Jefferies רואה הזדמנות קנייה, תיזה של שווי $9 טריליון ל-2031, Llama 4 מניע מונטיזציה AI"
+      "analyst": 9.0,
+      "technical": 7.0,
+      "total": 7.85,
+      "notes": "יעד אנליסטים $275 - 60%+ פוטנציאל. הערכת שווי בשפל 7 שנים למרות ביקוש AI חסר תקדים"
     },
     {
       "ticker": "AMZN",
       "name": "Amazon.com Inc",
-      "price": "$200.95",
-      "news": 6.5,
+      "price": "$206.90",
+      "news": 7.5,
+      "analyst": 8.5,
+      "technical": 7.5,
+      "total": 7.85,
+      "notes": "סיטי העלתה יעד, קונצנזוס $287. צמיחת AWS AI מאיצה, ביצועי Q1 חזקים"
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies Inc",
+      "price": "$140.94",
+      "news": 8.5,
       "analyst": 8.0,
-      "technical": 6.5,
-      "total": 7.0,
-      "notes": "Jefferies ממליץ לקנות בירידה, AWS AI ממשיכה לצמוח, מחיר יעד ~$280 = 40% פוטנציאל"
-    },
-    {
-      "ticker": "ETH",
-      "name": "Ethereum",
-      "price": "$2,061.89",
-      "news": 7.0,
-      "analyst": 6.5,
-      "technical": 7.0,
-      "total": 6.85,
-      "notes": "חזרה מעל $2K, שדרוג Pectra קרוב מהווה קטליזטור, זרימות ETF מתייצבות - המתן לאישור פריצה"
-    },
-    {
-      "ticker": "XRP",
-      "name": "XRP / Ripple",
-      "price": "$1.3228",
-      "news": 6.5,
-      "analyst": 6.5,
-      "technical": 7.0,
-      "total": 6.68,
-      "notes": "רכישות לוויתנים של 190M XRP, SEC סיווג כסחורה דיגיטלית = חיובי, קונסולידציה לפני מהלך הבא"
+      "technical": 7.5,
+      "total": 7.95,
+      "notes": "דירוג Outperform חדש על ביקוש ארגוני חזק. 'קטגוריה של אחד' - מונופול AI ממשלתי"
     },
     {
       "ticker": "LINK",
       "name": "Chainlink",
-      "price": "$8.752",
-      "news": 7.0,
-      "analyst": 6.0,
-      "technical": 6.5,
-      "total": 6.50,
-      "notes": "שיתוף פעולה עם Coinbase מביא נתוני בורסה לרשת - קטליזטור ענק, Super PAC קריפטו תומך"
+      "price": "$8.75",
+      "news": 8.0,
+      "analyst": 7.5,
+      "technical": 7.5,
+      "total": 7.65,
+      "notes": "ADI בחרה LINK לגשר נכסים של $240 מיליארד + שיתוף פעולה Coinbase - קטליסטים אמיתיים"
     },
     {
-      "ticker": "RDDT",
-      "name": "Reddit Inc",
-      "price": "$124.13",
-      "news": 5.5,
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings Inc",
+      "price": "$388.23",
+      "news": 7.5,
+      "analyst": 8.0,
+      "technical": 7.5,
+      "total": 7.68,
+      "notes": "משקיעים מוסדיים מגדילים החזקות, סייברסקיוריטי ממשיך לבסס עצמו כחיוני"
+    },
+    {
+      "ticker": "TSM",
+      "name": "Taiwan Semiconductor Mfg",
+      "price": "$326.18",
+      "news": 8.0,
+      "analyst": 7.5,
+      "technical": 7.0,
+      "total": 7.53,
+      "notes": "עידן 2 ננומטר התחיל - שיא טכנולוגי. ביקוש AI מנסח מחדש את הערכת השווי"
+    },
+    {
+      "ticker": "ORCL",
+      "name": "Oracle Corp",
+      "price": "$142.07",
+      "news": 7.5,
+      "analyst": 7.5,
+      "technical": 7.0,
+      "total": 7.33,
+      "notes": "חבילת AI חדשה למסעדות + צמיחת ענן 21%. מנועי AI מחזקים את הדומיננטיות בבסיסי נתונים"
+    },
+    {
+      "ticker": "XOM",
+      "name": "Exxon Mobil Corp",
+      "price": "$172.55",
+      "news": 7.0,
       "analyst": 7.0,
+      "technical": 7.5,
+      "total": 7.18,
+      "notes": "הפקת Golden Pass LNG החלה - מגדילה תזרים מזומנים. רוחות גב מחירים ונפחים"
+    },
+    {
+      "ticker": "ETH",
+      "name": "Ethereum",
+      "price": "$2,072.77",
+      "news": 6.5,
+      "analyst": 6.0,
       "technical": 6.0,
-      "total": 6.23,
-      "notes": "חשש לאחריות משפטית מפסיקת מדיה חברתית, אך Seeking Alpha רואה ערך אמיתי במחיר הנוכחי"
+      "total": 6.18,
+      "notes": "שיפור מ-$2K ועלייה, אפגרייד Pectra קרוב. VB מכר ETH - לחץ שלילי בטווח הקצר"
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$83.01",
-      "news": 5.5,
-      "analyst": 6.0,
-      "technical": 6.5,
-      "total": 6.05,
-      "notes": "לחץ יציאות ETF ועוצמת דולר פוגעים, עדיין רחוק מהשיאים - המתן לאות טכני חיובי לפני כניסה"
+      "price": "$81.79",
+      "news": 6.0,
+      "analyst": 6.5,
+      "technical": 6.0,
+      "total": 6.18,
+      "notes": "Mastercard ו-Western Union בונים על סולנה. פונדמנטלס חזקים אך לחץ מכירה מוסדי"
     },
     {
-      "ticker": "HOOD",
-      "name": "Robinhood Markets",
-      "price": "$65.16",
-      "news": 4.0,
-      "analyst": 5.5,
-      "technical": 5.0,
-      "total": 4.85,
-      "notes": "שדרוג שלילי פעמיים השבוע! ירידה -6.2% אחרי הורדת דירוג אנליסט - הימנע לפי שעה"
+      "ticker": "XRP",
+      "name": "XRP / Ripple",
+      "price": "$1.32",
+      "news": 6.5,
+      "analyst": 6.0,
+      "technical": 5.5,
+      "total": 5.93,
+      "notes": "SEC מיסד XRP כסחורה דיגיטלית. בריקאאוט $2 נדרש - כרגע מתחת לתמיכה"
+    },
+    {
+      "ticker": "BTC",
+      "name": "Bitcoin",
+      "price": "$67,194.85",
+      "news": 5.0,
+      "analyst": 6.0,
+      "technical": 6.0,
+      "total": 5.75,
+      "notes": "איום קוונטי מגוגל + מכירות Nakamoto מוצצים סנטימנט. $67K תמיכה בסיכון"
     }
   ]
 }
