@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "01.04.2026 09:00 IST",
+  "lastUpdated": "01.04.2026 17:00 IST",
   "stocks": [
     {
       "ticker": "APP",
       "name": "AppLovin Corp",
-      "price": "$398.00",
-      "news": 7.5,
-      "analyst": 9.2,
-      "technical": 8.0,
-      "total": 8.27,
-      "notes": "מנוע AI לפרסום מובייל ממשיך לשלוט - יעד אנליסטים $648-703, אפסייד של 60%+ מהמחיר הנוכחי"
-    },
-    {
-      "ticker": "NVDA",
-      "name": "NVIDIA Corp",
-      "price": "$174.40",
+      "price": "$393.15",
       "news": 8.0,
-      "analyst": 9.0,
-      "technical": 7.5,
-      "total": 8.18,
-      "notes": "שיתוף פעולה עם Marvell דרך NVLink Fusion, יעד אנליסטים $275 - 58% אפסייד, Strong Buy"
-    },
-    {
-      "ticker": "META",
-      "name": "Meta Platforms Inc",
-      "price": "$572.13",
-      "news": 7.8,
-      "analyst": 8.8,
-      "technical": 7.5,
-      "total": 8.01,
-      "notes": "מונטייזציה AI בפרסום שוברת שיאים, Llama 4 בדרך - ניתוח Seeking Alpha: הזדמנות ב-Value Valley"
-    },
-    {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings Inc",
-      "price": "$390.41",
-      "news": 7.5,
-      "analyst": 8.5,
-      "technical": 7.8,
-      "total": 7.99,
-      "notes": "Seeking Alpha: השוק לא מבין את CrowdStrike - יעד אנליסטים $505+, 29% אפסייד, strong renewal cycle"
+      "analyst": 9.5,
+      "technical": 8.0,
+      "total": 8.55,
+      "notes": "יעד אנליסטים $703 - פוטנציאל עלייה של 79%, מנוע ה-Axon ממשיך להשתפר, Strong Buy מוחלט"
     },
     {
       "ticker": "ANET",
       "name": "Arista Networks Inc",
-      "price": "$122.78",
-      "news": 8.0,
-      "analyst": 8.5,
-      "technical": 7.5,
-      "total": 7.98,
-      "notes": "השדרה הרשתית של NVIDIA לדאטה-סנטר AI, יעד קונצנזוס $176-183 - 43% אפסייד"
+      "price": "$126.93",
+      "news": 8.5,
+      "analyst": 9.0,
+      "technical": 8.0,
+      "total": 8.55,
+      "notes": "עמוד השדרה של ה-AI datacenter של NVIDIA, עלייה של 5.8% אתמול, יעד $173 עם Strong Buy"
     },
     {
-      "ticker": "ARM",
-      "name": "Arm Holdings PLC - ADR",
-      "price": "$151.28",
+      "ticker": "NVDA",
+      "name": "NVIDIA Corp",
+      "price": "$175.68",
+      "news": 8.5,
+      "analyst": 9.0,
+      "technical": 7.5,
+      "total": 8.35,
+      "notes": "NVLink Fusion עם Marvell - אקוסיסטם ה-AI מתרחב, יעד $276 - פוטנציאל 57% עלייה"
+    },
+    {
+      "ticker": "MELI",
+      "name": "MercadoLibre Inc",
+      "price": "$1707.45",
+      "news": 7.0,
+      "analyst": 9.5,
+      "technical": 7.5,
+      "total": 8.15,
+      "notes": "Strong Buy עם יעד $2,733 - פוטנציאל 60%, מלך ה-ecommerce ו-fintech של LatAm, הזדמנות אחרי ירידה"
+    },
+    {
+      "ticker": "RDDT",
+      "name": "Reddit Inc",
+      "price": "$135.32",
       "news": 8.0,
-      "analyst": 6.5,
-      "technical": 8.2,
-      "total": 7.57,
-      "notes": "קפיצה של 10.5% ביום - ניצחונות בעיצוב שבבי AI, בטכנולוגיית רכב אוטונומי"
+      "analyst": 9.0,
+      "technical": 7.5,
+      "total": 8.15,
+      "notes": "מניה זינקה - יעד אנליסטים $230 (+71%), צמיחה של 69% בהכנסות, הסכמי AI data licensing"
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms Inc",
+      "price": "$577.67",
+      "news": 7.5,
+      "analyst": 8.5,
+      "technical": 7.5,
+      "total": 7.85,
+      "notes": "Llama 4 מולטימודלי בדרך, P/E נמוך של 20 ביחס לענף, הכנסות פרסום AI ממשיכות לצמוח"
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings",
+      "price": "$391.79",
+      "news": 8.0,
+      "analyst": 8.0,
+      "technical": 7.5,
+      "total": 7.85,
+      "notes": "ציון Q4 הכי גבוה בסייבר, שדרוג מורגן סטנלי ל-Buy, יעד $506 - פוטנציאל 29%"
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon.com Inc",
+      "price": "$209.92",
+      "news": 8.0,
+      "analyst": 8.5,
+      "technical": 7.0,
+      "total": 7.85,
+      "notes": "שדרוג AI ו-margin expansion, Citi העלה יעד, יעד $287 - פוטנציאל 37%"
     },
     {
       "ticker": "BTC",
       "name": "Bitcoin",
-      "price": "$68,417.81",
+      "price": "$68173.15",
       "news": 7.5,
-      "analyst": 7.0,
+      "analyst": 7.5,
       "technical": 7.0,
-      "total": 7.18,
-      "notes": "CoinDesk: קרוב ל-buy zone כפי שלא היה 3 שנים, על מסלול לשבור streak הפסד של 5 חודשים"
+      "total": 7.35,
+      "notes": "ETF inflows חוזרים לראשונה מאוקטובר, מחזור post-halving, שאלות על המשך הפרבולי"
     },
     {
       "ticker": "PLTR",
-      "name": "Palantir Technologies Inc",
-      "price": "$146.28",
-      "news": 7.5,
-      "analyst": 5.5,
-      "technical": 8.0,
-      "total": 7.03,
-      "notes": "Outperform rating בזכות ביקוש ארגוני חזק, P/E גבוה מאוד - רק 8% אפסייד לפי אנליסטים"
-    },
-    {
-      "ticker": "XRP",
-      "name": "XRP",
-      "price": "$1.3461",
+      "name": "Palantir Technologies",
+      "price": "$146.19",
       "news": 7.0,
-      "analyst": 6.5,
-      "technical": 6.8,
-      "total": 6.79,
-      "notes": "Ripple + Convera לתשלומים cross-border, צבירה עולה, XRP Ledger נבדק עם AI"
+      "analyst": 7.0,
+      "technical": 7.5,
+      "total": 7.18,
+      "notes": "הרחבת תפקיד AI, יעד $195 (+33%), אבל מכפיל P/S של 100+ - שאלות על שווי"
     },
     {
       "ticker": "HOOD",
-      "name": "Robinhood Markets Inc",
-      "price": "$69.30",
-      "news": 6.5,
-      "analyst": 6.8,
+      "name": "Robinhood Markets",
+      "price": "$70.07",
+      "news": 7.0,
+      "analyst": 7.5,
       "technical": 7.0,
-      "total": 6.78,
-      "notes": "עלייה של 6.4% ביום, שוק הקריפטו מרים את HOOD, תוצרי prediction markets חדשים"
+      "total": 7.18,
+      "notes": "עלייה של 6.4% אתמול, יעד $110 - פוטנציאל 57%, תנרים בקריפטו מגדילים הכנסות"
     },
     {
-      "ticker": "TSLA",
-      "name": "Tesla Inc",
-      "price": "$371.75",
-      "news": 6.5,
-      "analyst": 6.0,
-      "technical": 7.5,
-      "total": 6.68,
-      "notes": "נתוני Q1 Delivery מחר (קונצנזוס 365K), Cybercab מתחיל ייצור באפריל - HSBC $119 vs bulls $600"
-    },
-    {
-      "ticker": "ETH",
-      "name": "Ethereum",
-      "price": "$2,121.78",
-      "news": 6.5,
+      "ticker": "LINK",
+      "name": "Chainlink",
+      "price": "$8.9545",
+      "news": 7.5,
       "analyst": 6.5,
       "technical": 6.5,
-      "total": 6.50,
-      "notes": "Bitmine קנתה 71K ETH, Harvard בנתה פוזיציה של $87M - אבל short seller Culper מהמר נגד"
-    },
-    {
-      "ticker": "SMCI",
-      "name": "Super Micro Computer Inc",
-      "price": "$22.78",
-      "news": 5.0,
-      "analyst": 6.0,
-      "technical": 6.5,
-      "total": 5.83,
-      "notes": "יעד אנליסטים $37+ (60% אפסייד) אך Seeking Alpha: 'מגיע להיות זול' - בעיות חשבונאיות לא נפתרו"
+      "total": 6.83,
+      "notes": "שיתוף עם Coinbase ו-exchange data onchain, צבירת whales, התנסות חיובית עם AI/DeFi"
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$82.00",
-      "news": 5.5,
-      "analyst": 5.5,
-      "technical": 6.0,
-      "total": 5.68,
-      "notes": "ירד 77% מ-ATH, ETF bleeding, נכנס לאפריל עם breakdown target - bearish sentiment"
+      "price": "$82.74",
+      "news": 7.0,
+      "analyst": 6.5,
+      "technical": 6.5,
+      "total": 6.68,
+      "notes": "Tokenized assets עברו $2B, Mastercard ו-Western Union בונים על Solana, אתגרי רשת"
     },
     {
-      "ticker": "MSTR",
-      "name": "Strategy Inc (MicroStrategy)",
-      "price": "$124.80",
+      "ticker": "ETH",
+      "name": "Ethereum",
+      "price": "$2119.89",
       "news": 5.5,
+      "analyst": 6.5,
+      "technical": 6.0,
+      "total": 6.03,
+      "notes": "Short seller מאתגר tokenomics, 8 ימי ירידה רצופים, שאלות על death spiral - זהירות"
+    },
+    {
+      "ticker": "TSLA",
+      "name": "Tesla Inc",
+      "price": "$375.10",
+      "news": 5.0,
       "analyst": 4.0,
       "technical": 6.0,
-      "total": 5.23,
-      "notes": "Jim Cramer המליץ לקנות BTC ישירות במקום MSTR, ירד משמעותית - leverage BTC play בסיכון גבוה"
+      "total": 5.03,
+      "notes": "הורדת דירוג Zacks, Euro NCAP אמר FSD 'לא אחראי', קונצנזוס Hold עם עלייה של 5% בלבד"
     }
   ]
 }
