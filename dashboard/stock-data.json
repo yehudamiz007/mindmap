@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "01.04.2026 17:00 IST",
+  "lastUpdated": "02.04.2026 09:00 IST",
   "stocks": [
     {
-      "ticker": "APP",
-      "name": "AppLovin Corp",
-      "price": "$393.15",
-      "news": 8.0,
-      "analyst": 9.5,
-      "technical": 8.0,
-      "total": 8.55,
-      "notes": "יעד אנליסטים $703 - פוטנציאל עלייה של 79%, מנוע ה-Axon ממשיך להשתפר, Strong Buy מוחלט"
-    },
-    {
-      "ticker": "ANET",
-      "name": "Arista Networks Inc",
-      "price": "$126.93",
-      "news": 8.5,
+      "ticker": "MRVL",
+      "name": "Marvell Technology Inc",
+      "price": "$106.71",
+      "news": 9.0,
       "analyst": 9.0,
-      "technical": 8.0,
-      "total": 8.55,
-      "notes": "עמוד השדרה של ה-AI datacenter של NVIDIA, עלייה של 5.8% אתמול, יעד $173 עם Strong Buy"
+      "technical": 8.5,
+      "total": 8.85,
+      "notes": "שותפות עם NVIDIA חדשה + BofA מעלה יעד - מניה בשיא של 52 שבועות, פוטנציאל ממשי ל-$150+"
     },
     {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
-      "price": "$175.68",
+      "price": "$175.75",
       "news": 8.5,
       "analyst": 9.0,
-      "technical": 7.5,
-      "total": 8.35,
-      "notes": "NVLink Fusion עם Marvell - אקוסיסטם ה-AI מתרחב, יעד $276 - פוטנציאל 57% עלייה"
+      "technical": 8.0,
+      "total": 8.53,
+      "notes": "מחזור Blackwell Ultra בשיאו, NVLink Fusion, מומנטום AI בלתי נעצר - יעד אנליסטים $275+"
     },
     {
-      "ticker": "MELI",
-      "name": "MercadoLibre Inc",
-      "price": "$1707.45",
-      "news": 7.0,
-      "analyst": 9.5,
-      "technical": 7.5,
-      "total": 8.15,
-      "notes": "Strong Buy עם יעד $2,733 - פוטנציאל 60%, מלך ה-ecommerce ו-fintech של LatAm, הזדמנות אחרי ירידה"
+      "ticker": "APP",
+      "name": "Applovin Corp",
+      "price": "$387.84",
+      "news": 7.5,
+      "analyst": 8.5,
+      "technical": 8.0,
+      "total": 8.05,
+      "notes": "דוחות Q1 ב-6 מאי, מנוע פרסום AI ממשיך לגדול, שולי רווח של 66% - מניית הצמיחה הכי חזקה"
     },
     {
-      "ticker": "RDDT",
-      "name": "Reddit Inc",
-      "price": "$135.32",
-      "news": 8.0,
-      "analyst": 9.0,
+      "ticker": "ANET",
+      "name": "Arista Networks Inc",
+      "price": "$124.85",
+      "news": 8.5,
+      "analyst": 8.0,
       "technical": 7.5,
-      "total": 8.15,
-      "notes": "מניה זינקה - יעד אנליסטים $230 (+71%), צמיחה של 69% בהכנסות, הסכמי AI data licensing"
+      "total": 7.98,
+      "notes": "עמוד השדרה של כל מרכז נתונים AI, עלתה 5.8% השבוע - השותפות עם NVIDIA מחזקת את הפוזיציה"
     },
     {
       "ticker": "META",
       "name": "Meta Platforms Inc",
-      "price": "$577.67",
-      "news": 7.5,
-      "analyst": 8.5,
-      "technical": 7.5,
-      "total": 7.85,
-      "notes": "Llama 4 מולטימודלי בדרך, P/E נמוך של 20 ביחס לענף, הכנסות פרסום AI ממשיכות לצמוח"
+      "price": "$579.23",
+      "news": 8.0,
+      "analyst": 7.5,
+      "technical": 8.0,
+      "total": 7.80,
+      "notes": "Llama 4 הושק, הכנסות פרסום AI בזינוק, עלתה 3% אחרי איתות טכני מרכזי"
     },
     {
       "ticker": "CRWD",
-      "name": "CrowdStrike Holdings",
-      "price": "$391.79",
-      "news": 8.0,
+      "name": "CrowdStrike Holdings Inc",
+      "price": "$393.31",
+      "news": 7.5,
       "analyst": 8.0,
       "technical": 7.5,
-      "total": 7.85,
-      "notes": "ציון Q4 הכי גבוה בסייבר, שדרוג מורגן סטנלי ל-Buy, יעד $506 - פוטנציאל 29%"
+      "total": 7.65,
+      "notes": "ציון עליון ב-Q4 לאבטחת סייבר, תזרים מזומנים חופשי +94% - ביקוש לסייבר בשיא"
     },
     {
-      "ticker": "AMZN",
-      "name": "Amazon.com Inc",
-      "price": "$209.92",
+      "ticker": "PLTR",
+      "name": "Palantir Technologies Inc",
+      "price": "$146.49",
+      "news": 7.0,
+      "analyst": 7.0,
+      "technical": 8.5,
+      "total": 7.49,
+      "notes": "כיסוי חדש מ-Benchmark, צמיחת הכנסות 70% YoY, AIP מחלחל לארגונים - מומנטום טכני חזק"
+    },
+    {
+      "ticker": "TSM",
+      "name": "Taiwan Semiconductor Manufacturing",
+      "price": "$341.49",
       "news": 8.0,
-      "analyst": 8.5,
+      "analyst": 8.0,
+      "technical": 6.5,
+      "total": 7.40,
+      "notes": "עידן 2 ננומטר החל, ייצור 3nm ביפן עד 2028 - ביקוש AI לא ניתן לעצירה, שולי רווח 48%"
+    },
+    {
+      "ticker": "MSFT",
+      "name": "Microsoft Corp",
+      "price": "$369.37",
+      "news": 6.5,
+      "analyst": 7.5,
       "technical": 7.0,
-      "total": 7.85,
-      "notes": "שדרוג AI ו-margin expansion, Citi העלה יעד, יעד $287 - פוטנציאל 37%"
+      "total": 7.05,
+      "notes": "השקעה $5.5B בסינגפור, Azure AI בצמיחה - חדשות מעורבות אך ענן ה-AI מניע לחזרה"
     },
     {
       "ticker": "BTC",
       "name": "Bitcoin",
-      "price": "$68173.15",
-      "news": 7.5,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.35,
-      "notes": "ETF inflows חוזרים לראשונה מאוקטובר, מחזור post-halving, שאלות על המשך הפרבולי"
-    },
-    {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies",
-      "price": "$146.19",
-      "news": 7.0,
+      "price": "$66,625.38",
+      "news": 6.0,
       "analyst": 7.0,
-      "technical": 7.5,
-      "total": 7.18,
-      "notes": "הרחבת תפקיד AI, יעד $195 (+33%), אבל מכפיל P/S של 100+ - שאלות על שווי"
+      "technical": 7.0,
+      "total": 6.70,
+      "notes": "לחץ גאואוסטרטגי מטראמפ/איראן, אך רמת תמיכה $65K חזקה - מחזיק טוב ביחס לאלטקוינים"
     },
     {
       "ticker": "HOOD",
-      "name": "Robinhood Markets",
-      "price": "$70.07",
-      "news": 7.0,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.18,
-      "notes": "עלייה של 6.4% אתמול, יעד $110 - פוטנציאל 57%, תנרים בקריפטו מגדילים הכנסות"
+      "name": "Robinhood Markets Inc",
+      "price": "$70.11",
+      "news": 6.0,
+      "analyst": 6.5,
+      "technical": 7.5,
+      "total": 6.70,
+      "notes": "נגיטיב מאסק על SpaceX IPO, אך בסיס טכני חזק - נפחי קריפטו ואופציות בשיא"
     },
     {
       "ticker": "LINK",
       "name": "Chainlink",
-      "price": "$8.9545",
+      "price": "$8.55",
       "news": 7.5,
       "analyst": 6.5,
-      "technical": 6.5,
-      "total": 6.83,
-      "notes": "שיתוף עם Coinbase ו-exchange data onchain, צבירת whales, התנסות חיובית עם AI/DeFi"
-    },
-    {
-      "ticker": "SOL",
-      "name": "Solana",
-      "price": "$82.74",
-      "news": 7.0,
-      "analyst": 6.5,
-      "technical": 6.5,
-      "total": 6.68,
-      "notes": "Tokenized assets עברו $2B, Mastercard ו-Western Union בונים על Solana, אתגרי רשת"
+      "technical": 6.0,
+      "total": 6.65,
+      "notes": "Coinbase שילבה נתוני LINK on-chain, לוויות מוסדיות מסמנות פריצה ל-$15 - צבירת וויילים"
     },
     {
       "ticker": "ETH",
       "name": "Ethereum",
-      "price": "$2119.89",
+      "price": "$2,049.55",
       "news": 5.5,
       "analyst": 6.5,
-      "technical": 6.0,
-      "total": 6.03,
-      "notes": "Short seller מאתגר tokenomics, 8 ימי ירידה רצופים, שאלות על death spiral - זהירות"
+      "technical": 6.5,
+      "total": 6.17,
+      "notes": "8 ימי ירידה ברצף, שורטיסטים תוקפים tokenomics - Pectra upgrade עשוי לשנות את התמונה"
     },
     {
-      "ticker": "TSLA",
-      "name": "Tesla Inc",
-      "price": "$375.10",
-      "news": 5.0,
-      "analyst": 4.0,
+      "ticker": "SOL",
+      "name": "Solana",
+      "price": "$79.17",
+      "news": 4.0,
+      "analyst": 6.5,
       "technical": 6.0,
-      "total": 5.03,
-      "notes": "הורדת דירוג Zacks, Euro NCAP אמר FSD 'לא אחראי', קונצנזוס Hold עם עלייה של 5% בלבד"
+      "total": 5.50,
+      "notes": "פרוטוקול Drift נפרץ - $285M נגנבו, לחץ מכירה כבד, להמתין לייצוב לפני כניסה"
+    },
+    {
+      "ticker": "SMCI",
+      "name": "Super Micro Computer Inc",
+      "price": "$22.51",
+      "news": 4.5,
+      "analyst": 5.0,
+      "technical": 5.0,
+      "total": 4.85,
+      "notes": "כתבה ב-Seeking Alpha 'מגיע לו להיות זול', תזרים מזומנים חופשי שלילי - להימנע כרגע"
     }
   ]
 }
