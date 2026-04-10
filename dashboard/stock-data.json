@@ -1,155 +1,162 @@
 {
-  "lastUpdated": "09.04.2026 17:02 IST",
+  "lastUpdated": "10.04.2026 09:00 IST",
+  "marketContext": {
+    "sp500": "6,824.66 (+0.62%)",
+    "nasdaq": "22,822.42 (+0.83%)",
+    "dow": "48,185.80 (+0.58%)",
+    "vix": "19.49 (-7.37%)",
+    "btc": "$72,110.96"
+  },
   "stocks": [
     {
       "ticker": "META",
       "name": "Meta Platforms Inc",
-      "price": "$624.83",
-      "news": 8.5,
+      "price": "$628.39",
+      "news": 9.5,
       "analyst": 9.0,
-      "technical": 8.0,
-      "total": 8.53,
-      "notes": "השקת Muse Spark AI + עסקת CoreWeave; קונסנזוס Strong Buy עם יעד $834; מניה ירדה 44% מהשיא - הזדמנות כניסה"
+      "technical": 8.5,
+      "total": 8.98,
+      "notes": "CoreWeave חתמה עסקה של $21 מיליארד עם מטא - קטליסטור ענק. מנוע AI של מוס ספארק + שותפות PayPal. שערי יעד מעל $800. מומנטום חזק."
     },
     {
       "ticker": "APP",
       "name": "AppLovin Corp",
-      "price": "$377.68",
-      "news": 8.0,
+      "price": "$379.14",
+      "news": 9.0,
       "analyst": 9.5,
-      "technical": 7.5,
-      "total": 8.47,
-      "notes": "הנפילה של 2026 נראית מוגזמת; יעד ממוצע $704 (+85%); Strong Buy מוסכם - הזדמנות ספקולטיבית מעולה"
+      "technical": 8.0,
+      "total": 8.93,
+      "notes": "Macquarie פתח כיסוי עם Outperform ויעד $710 - גבוה ב-87% מהמחיר הנוכחי. מנוע פרסום AI Axon ממשיך להשתפר. הכי גדול upside מבין האנליסטים."
     },
     {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
-      "price": "$181.48",
-      "news": 8.0,
-      "analyst": 9.5,
-      "technical": 7.5,
-      "total": 8.30,
-      "notes": "מהפכת AI במגזר הטלקום; 39 אנליסטים עם יעד $264 (+46%); Strong Buy - מנוע הצמיחה של AI ממשיך"
+      "price": "$183.94",
+      "news": 8.5,
+      "analyst": 9.0,
+      "technical": 8.5,
+      "total": 8.68,
+      "notes": "שילוב AI-RAN עם T-Mobile, ק. פישר בוחר כמניה AI מובילה. קונסנסוס $275 = עלייה של 50%. ביקוש Blackwell Ultra ממשיך לנבור. VIX נמוך מקל על המניה."
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon.com Inc",
+      "price": "$233.65",
+      "news": 8.5,
+      "analyst": 8.5,
+      "technical": 8.0,
+      "total": 8.33,
+      "notes": "מנכ\"ל אנדי ג'אסי מגן על תוכנית AI בפני בעלי המניות - המניה זינקה היום. AWS ו-AI מניעים את הצמיחה. עלייה מ-$221 ל-$233 ביום אחד."
     },
     {
       "ticker": "BTC",
       "name": "Bitcoin",
-      "price": "$70,825.94",
-      "news": 8.0,
-      "analyst": 7.5,
-      "technical": 7.5,
-      "total": 7.68,
-      "notes": "איראן דורשת תשלום ב-BTC עבור מצר הורמוז; Schwab מתכנן מסחר ספוט; מתחת לרמת התנגדות מפתח"
-    },
-    {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings Inc",
-      "price": "$405.35",
+      "price": "$72,110.96",
       "news": 8.5,
       "analyst": 8.0,
-      "technical": 7.0,
-      "total": 7.72,
-      "notes": "פרויקט Glasswing של Anthropic - שותפות AI חדשה; 45 אנליסטים, יעד $505; שוק הסייבר בום"
+      "technical": 8.0,
+      "total": 8.15,
+      "notes": "ביטקוין בשיא חדש - $72K. איראן גובה דמי מעבר במצר הורמוז בקריפטו. סטושי נקמוטו חשיפה NYT מייצרת באזז. שוורץ מתכנן מסחר ספוט ב-2026."
     },
     {
       "ticker": "MSTR",
       "name": "Strategy Inc (MicroStrategy)",
-      "price": "$126.90",
+      "price": "$128.86",
       "news": 7.5,
-      "analyst": 8.5,
-      "technical": 7.0,
-      "total": 7.67,
-      "notes": "סיילר: 'ביטקוין ניצח'; יעד ממוצע $349 (+175%); Strong Buy מוסכם - פרוקסי BTC עם מינוף"
-    },
-    {
-      "ticker": "RDDT",
-      "name": "Reddit Inc",
-      "price": "$140.41",
-      "news": 7.5,
-      "analyst": 8.0,
-      "technical": 6.5,
-      "total": 7.22,
-      "notes": "עסקת Nectar לנתוני AI; יעד ממוצע $228 (+62%); צמיחת הכנסות 69% - פוטנציאל גבוה מהמחיר"
-    },
-    {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies Inc",
-      "price": "$130.44",
-      "news": 7.0,
-      "analyst": 8.0,
-      "technical": 6.5,
-      "total": 7.15,
-      "notes": "חוזי AI ממשלתיים מתרחבים; יעד $195 (+49%); נפל 7% אתמול - כניסה לאחר תיקון?"
-    },
-    {
-      "ticker": "SOL",
-      "name": "Solana",
-      "price": "$81.74",
-      "news": 7.5,
-      "analyst": 7.0,
-      "technical": 7.0,
-      "total": 7.17,
-      "notes": "תשתית AI agents; אימוץ מוסדי כרשת stablecoin; בולים מכוונים לפריצת $92"
-    },
-    {
-      "ticker": "IONQ",
-      "name": "IonQ Inc",
-      "price": "$28.33",
-      "news": 6.5,
       "analyst": 9.0,
-      "technical": 6.0,
-      "total": 7.17,
-      "notes": "הכנסות שיא $100M ב-2025; יעד ממוצע $67 (+138%); Strong Buy - הימור על מחשוב קוונטי"
+      "technical": 7.5,
+      "total": 8.10,
+      "notes": "וול סטריט רואה 191% upside מהמחיר הנוכחי. מייקל סיילור: 'ביטקוין ניצח'. פרוקסי על BTC בשיאים חדשים. עלייה של 6.56% בשבוע על אופטימיות שוק."
     },
     {
       "ticker": "TSM",
       "name": "Taiwan Semiconductor Mfg",
-      "price": "$364.46",
-      "news": 6.5,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.00,
-      "notes": "עלייה של 136% בשנה; Strong Buy אבל יעד $374 קרוב מדי; סיכון גיאופוליטי טייוואן"
+      "price": "$365.49",
+      "news": 7.5,
+      "analyst": 8.5,
+      "technical": 7.5,
+      "total": 7.88,
+      "notes": "TSMC מהדקת את השליטה ב-AI - Seeking Alpha. תוצאות Q1 צפויות השבוע - קטליסטור פוטנציאלי. 70% נתח שוק בצ'יפים. שנת טווח: $145-$390."
     },
     {
-      "ticker": "ARM",
-      "name": "Arm Holdings PLC - ADR",
-      "price": "$148.93",
-      "news": 6.5,
-      "analyst": 7.0,
-      "technical": 7.0,
-      "total": 6.86,
-      "notes": "AI Agentic משנה את הביקוש ל-CPU; מורגן סטנלי הוריד דירוג - לחץ לטווח קצר"
+      "ticker": "ANET",
+      "name": "Arista Networks Inc",
+      "price": "$146.05",
+      "news": 7.5,
+      "analyst": 8.0,
+      "technical": 7.5,
+      "total": 7.68,
+      "notes": "Rosenblatt שדרג לאחרונה. פסמיה שאחרי AI - אופטימיות לגבי מרכזי נתונים AI. הכנסות Q4 2025 $2.49B +29%. עמוד שדרה של רשתות מרכזי נתוני AI."
     },
     {
       "ticker": "ETH",
       "name": "Ethereum",
-      "price": "$2,165.81",
+      "price": "$2,196.33",
       "news": 7.0,
-      "analyst": 6.5,
-      "technical": 6.5,
-      "total": 6.65,
-      "notes": "Schwab מכניס ETH לפלטפורמה; יציאות מ-ETF; ביצועים נמוכים מ-BTC - זהירות"
+      "analyst": 7.5,
+      "technical": 7.5,
+      "total": 7.23,
+      "notes": "שוורץ מתכנן מסחר ספוט BTC+ETH H1 2026. קרן את'ריאום מכפילה staking. BitMine Treasury עולה לבורסת NYSE. ETF פוטנציאלי מחזיר עניין."
     },
     {
-      "ticker": "ONDO",
-      "name": "Ondo Finance",
-      "price": "$0.26",
+      "ticker": "COIN",
+      "name": "Coinbase Global Inc",
+      "price": "$169.02",
       "news": 7.0,
-      "analyst": 6.0,
-      "technical": 6.5,
-      "total": 6.47,
-      "notes": "נרטיב RWA tokenization חזק; אימוץ מוסדי של DeFi - ספקולציה עם אפסייד גבוה"
+      "analyst": 7.5,
+      "technical": 7.0,
+      "total": 7.18,
+      "notes": "קוינבייס קיבלה רישיון נגזרים באוסטרליה - הרחבה גלובלית. נפחי מסחר עולים עם BTC ב-$72K. מטרה להפוך מגמה. 2 סיבות לאהוב, 1 פחות."
     },
     {
       "ticker": "SMCI",
       "name": "Super Micro Computer Inc",
-      "price": "$23.48",
+      "price": "$23.22",
+      "news": 6.5,
+      "analyst": 7.5,
+      "technical": 6.5,
+      "total": 6.88,
+      "notes": "אחת ממניות מרכז הנתונים הכי מוכרות יתר על המידה לפי Insider Monkey. הכנסות Q2 $12.68B +123% - יסודות חזקים. מחיר נמוך מסכן וגם הזדמנות."
+    },
+    {
+      "ticker": "HOOD",
+      "name": "Robinhood Markets Inc",
+      "price": "$70.12",
+      "news": 5.5,
+      "analyst": 7.5,
+      "technical": 6.5,
+      "total": 6.60,
+      "notes": "נחשף מכירות פנים של סגן קונגרס - לחץ שלילי. אבל Seeking Alpha מדרג בשיא של רכישה. ירידה מ-$153 לשנה - הסנטימנט מעורב."
+    },
+    {
+      "ticker": "SOL",
+      "name": "Solana",
+      "price": "$83.35",
       "news": 6.0,
-      "analyst": 5.0,
+      "analyst": 7.0,
+      "technical": 6.5,
+      "total": 6.53,
+      "notes": "האקרים גנבו $280M מ-Drift (פלטפורמת DeFi של סולנה) - כותרת שלילית. אבל קרן סולנה משיקה STRIDE לאבטחה. איראן מזכירה SOL לתשלום מס מצר."
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies Inc",
+      "price": "$130.54",
+      "news": 5.0,
+      "analyst": 7.0,
       "technical": 5.5,
-      "total": 5.48,
-      "notes": "קרוב לשפל שנתי; BofA Sell; מיזוהו הוריד יעד ל-$25 - ממוכר יתר אבל סיכון גבוה"
+      "total": 5.95,
+      "notes": "מניה 'צונחת' היום לפי Yahoo Finance ו-Motley Fool. יורדת לאחר עליות חזקות. למרות קונסנסוס $170+ - מומנטום שלילי קצר טווח. לחכות."
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings Inc",
+      "price": "$394.68",
+      "news": 4.5,
+      "analyst": 8.0,
+      "technical": 4.5,
+      "total": 5.73,
+      "notes": "ירידה של 8.1% היום - MarketBeat שאל 'האם למכור?'. למרות יעד $504 - טכנית שלילית. שווה לחכות לייצוב לפני כניסה. הכי חלש מבין הבחירות."
     }
   ]
 }
