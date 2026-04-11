@@ -1,155 +1,162 @@
 {
-  "lastUpdated": "11.04.2026 09:00 IST",
+  "lastUpdated": "11.04.2026 17:00 IST",
+  "marketContext": {
+    "sp500": "6,816.89",
+    "nasdaq": "22,902.90",
+    "vix": "19.23",
+    "btc": "$72,693",
+    "note": "VIX נמוך = סביבת קנייה. SMCI עלה 9% על השקת שרת AI חדש. איראן גובה תשלומים בקריפטו - קטליזטור לBTC/SOL."
+  },
   "stocks": [
+    {
+      "ticker": "APP",
+      "name": "AppLovin Corp",
+      "price": "$391.38",
+      "news": 8.5,
+      "analyst": 9.2,
+      "technical": 8.0,
+      "total": 8.57,
+      "notes": "מנוע פרסום AI עם 66% רווח נקי, אנליסטים מסכימים על $660-700, מתאוששת ממינימומים ועוד 70%+ פוטנציאל עלייה"
+    },
     {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
       "price": "$188.75",
       "news": 8.0,
       "analyst": 9.0,
+      "technical": 8.2,
+      "total": 8.42,
+      "notes": "קונצנזוס $274 (+45%), הכנסות Q1 $68B עם 73% צמיחה, ביקוש Blackwell Ultra ממשיך לנסוק"
+    },
+    {
+      "ticker": "SMCI",
+      "name": "Super Micro Computer Inc",
+      "price": "$25.26",
+      "news": 9.0,
+      "analyst": 7.5,
       "technical": 8.5,
-      "total": 8.53,
-      "notes": "בלאקוול אולטרה בתאוצה מלאה - Israel Englander ממשיך לצבור, יעד אנליסטים $275 (46% פוטנציאל עלייה)"
+      "total": 8.30,
+      "notes": "עלה 9% היום על השקת שרת Gold Series AI - קטליזטור ספציפי, ביקוש עצום לשרתי AI למרות בעיות הנהלה"
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms Inc",
+      "price": "$629.86",
+      "news": 8.0,
+      "analyst": 8.5,
+      "technical": 7.8,
+      "total": 8.11,
+      "notes": "Muse Spark AI יצא השבוע, הכנסות פרסום $59B, שיתוף פעולה עם PayPal - מומנטום AI חזק"
     },
     {
       "ticker": "TSM",
       "name": "Taiwan Semiconductor Mfg",
       "price": "$370.60",
       "news": 8.5,
-      "analyst": 8.0,
+      "analyst": 7.8,
       "technical": 8.0,
-      "total": 8.18,
-      "notes": "הכנסות Q1 מזנקות על ביקוש AI בלתי פוסק - מפעל אריזונה בהאצה, קרוב ל-52 שבועות שיא"
+      "total": 8.08,
+      "notes": "הכנסות שיא על ביקוש AI, 2nm בייצור, קונצנזוס $419 - עמוד השדרה של המהפכה בשבבים"
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies Inc",
+      "price": "$128.11",
+      "news": 7.5,
+      "analyst": 8.5,
+      "technical": 8.0,
+      "total": 8.03,
+      "notes": "קונצנזוס $197, Street-high $260 של Citi, רווח 670% גידול, AIP מנצח בחוזי ביטחון"
     },
     {
       "ticker": "BTC",
       "name": "Bitcoin",
-      "price": "$72,759.27",
-      "news": 8.5,
+      "price": "$72,693",
+      "news": 8.0,
       "analyst": 8.0,
       "technical": 7.5,
-      "total": 8.00,
-      "notes": "עלה מעל $73K עם זרימות ETF של $443M - מוסדיים חוזרים, ביקוש חזק מ-Blackrock IBIT"
+      "total": 7.83,
+      "notes": "איראן גובה דמי מעבר בקריפטו, ETF BlackRock שואב $443M, בוחן שוב רמת $73K קריטית"
     },
     {
-      "ticker": "META",
-      "name": "Meta Platforms Inc",
-      "price": "$629.86",
+      "ticker": "AMZN",
+      "name": "Amazon.com Inc",
+      "price": "$238.38",
       "news": 7.5,
-      "analyst": 8.5,
-      "technical": 7.5,
-      "total": 7.88,
-      "notes": "Muse Spark - מהלך AI חדש, יעד אנליסטים $780 (24% פוטנציאל), P/E 21 - זול ביחס לצמיחה"
-    },
-    {
-      "ticker": "IONQ",
-      "name": "IonQ Inc",
-      "price": "$28.79",
-      "news": 7.5,
-      "analyst": 9.5,
-      "technical": 6.5,
+      "analyst": 8.0,
+      "technical": 7.8,
       "total": 7.78,
-      "notes": "יעד אנליסטים $69.45 - פוטנציאל עלייה של 141%! Strong Buy קונצנזוס, הכנסות שיא $100M+"
+      "notes": "קונצנזוס $287 (+20%), AWS AI מאיץ, פרסום ממשיך לצמוח, אנגלנדר של MillenniumMgmt מגדיל פוזיציה"
+    },
+    {
+      "ticker": "ANET",
+      "name": "Arista Networks Inc",
+      "price": "$147.35",
+      "news": 7.5,
+      "analyst": 8.0,
+      "technical": 7.5,
+      "total": 7.68,
+      "notes": "Rosenblatt שדרג השבוע, שידרוג XPO Optics, עמוד שדרה של תשתית AI - הכנסות $2.5B עלייה 29%"
     },
     {
       "ticker": "ETH",
       "name": "Ethereum",
-      "price": "$2,233.96",
+      "price": "$2,241.64",
       "news": 7.5,
-      "analyst": 7.5,
-      "technical": 7.5,
-      "total": 7.50,
-      "notes": "SEC הכיר כסחורה, Schwab מתכנן מסחר ספוט H1 2026, קרן אית'ריום מגדילה סטייקינג"
-    },
-    {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings",
-      "price": "$379.02",
-      "news": 7.0,
-      "analyst": 8.5,
-      "technical": 7.0,
-      "total": 7.53,
-      "notes": "Stifel משאיר Buy עם יעד $480 (27% פוטנציאל), חזרה לביקוש אבטחת סייבר אחרי ירידה"
-    },
-    {
-      "ticker": "XRP",
-      "name": "XRP / Ripple",
-      "price": "$1.35",
-      "news": 8.0,
       "analyst": 7.0,
-      "technical": 6.5,
-      "total": 7.08,
-      "notes": "הוביל זרימות ETF קריפטו של $224M, יתרות בורסה יורדות - CLARITY Act קטליזטור פוטנציאלי"
+      "technical": 7.0,
+      "total": 7.15,
+      "notes": "ETF ETH שאב $443M ב-3 ימים, Schwab מכריז על מסחר ספוט ב-2026, Ethereum Foundation מסמרת 70K ETH"
+    },
+    {
+      "ticker": "HOOD",
+      "name": "Robinhood Markets Inc",
+      "price": "$69.19",
+      "news": 6.0,
+      "analyst": 7.5,
+      "technical": 7.8,
+      "total": 7.16,
+      "notes": "סופר-אפ פיננסי מתהווה, כניסה לשוק החיזוי Kalshi, אבל Motley Fool מציין סיכוני ריצה גבוהים"
+    },
+    {
+      "ticker": "MSFT",
+      "name": "Microsoft Corp",
+      "price": "$370.87",
+      "news": 6.5,
+      "analyst": 7.5,
+      "technical": 6.8,
+      "total": 6.96,
+      "notes": "Azure AI מוביל אבל כפתורי Copilot נעלמים מWindows - סימנים מעורבים, P/E 23 סביר אך לא מרגש"
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$84.18",
-      "news": 7.0,
+      "price": "$84.19",
+      "news": 6.5,
       "analyst": 7.0,
       "technical": 6.5,
-      "total": 6.83,
-      "notes": "יפן מאמצת מסגרת קריפטו, SEC מסיווג כסחורה - Firedancer validator upgrade בדרך"
+      "total": 6.68,
+      "notes": "Forbes מנבא $250 אך $285M Drift hack וסכנות ביטחוניות ב-DeFi שוקלות לשלילה לעת עתה"
     },
     {
       "ticker": "MSTR",
       "name": "Strategy Inc (MicroStrategy)",
       "price": "$128.64",
       "news": 6.5,
-      "analyst": 6.5,
-      "technical": 7.0,
-      "total": 6.70,
-      "notes": "קנה BTC ב-$330M, TD Cowen חתך יעד ל-$350 אך עדיין 172% פוטנציאל עלייה - פרוקסי BTC"
+      "analyst": 7.5,
+      "technical": 5.0,
+      "total": 6.33,
+      "notes": "Wall St רואה 191% עלייה אך 60% ירידה מהשיא, הפסד נקי $12B, טכנית חלשה - ספקולטיבי בלבד"
     },
     {
-      "ticker": "COIN",
-      "name": "Coinbase Global",
-      "price": "$167.85",
-      "news": 6.0,
-      "analyst": 6.5,
-      "technical": 6.5,
-      "total": 6.35,
-      "notes": "רישיון נגזרות אוסטרליה, ניסיון היפוך מגמה - הכנסות Q4 ירדו 22% אך תזרים מזומנים חיובי"
-    },
-    {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies",
-      "price": "$128.11",
-      "news": 6.0,
-      "analyst": 6.0,
-      "technical": 6.5,
-      "total": 6.20,
-      "notes": "השבוע הגרוע ביותר בשנה - Burry טוען Anthropic אוכלת לה את הארוחה, הייפ AI מופרז"
-    },
-    {
-      "ticker": "SMCI",
-      "name": "Super Micro Computer",
-      "price": "$25.26",
-      "news": 5.0,
-      "analyst": 5.5,
-      "technical": 6.5,
-      "total": 5.70,
-      "notes": "תביעה ייצוגית תלויה ועומדת - אך ביצועים חזקים היום, IT spending 2026 צפוי לצמוח"
-    },
-    {
-      "ticker": "HOOD",
-      "name": "Robinhood Markets",
-      "price": "$69.19",
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings Inc",
+      "price": "$379.02",
       "news": 5.5,
-      "analyst": 5.5,
+      "analyst": 6.5,
       "technical": 6.0,
-      "total": 5.68,
-      "notes": "שדרוג אנליסטים כלפי מטה היום, -1.3% - רחוק מ-ATH $153, הכנסות Q4 עלו 26%"
-    },
-    {
-      "ticker": "RXRX",
-      "name": "Recursion Pharmaceuticals",
-      "price": "$3.28",
-      "news": 5.5,
-      "analyst": 4.5,
-      "technical": 4.5,
-      "total": 4.85,
-      "notes": "נרטיבים מתפצלים על שווי, הפסד נמשך - קרוב לשפל 52 שבועות, גבול $2.80"
+      "total": 6.03,
+      "notes": "נסחר נמוך יותר ביום שישי, Wall St רואה רק 15% upside, ARR צומח אך תמחור עדיין גבוה"
     }
   ]
 }
