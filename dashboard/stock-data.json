@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "10.04.2026 17:02 IST",
+  "lastUpdated": "11.04.2026 09:00 IST",
   "stocks": [
-    {
-      "ticker": "ALAB",
-      "name": "Astera Labs Inc",
-      "price": "$145.48",
-      "news": 9.5,
-      "analyst": 8.5,
-      "technical": 8.5,
-      "total": 8.85,
-      "notes": "מניה מרקיעה שחקים היום +7%! זכתה בעסקאות AI חדשות, תקן UALink חדש - קטליסט אמיתי היום. Strong Buy, יעד $195"
-    },
     {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
-      "price": "$186.66",
-      "news": 8.5,
-      "analyst": 8.5,
-      "technical": 8.0,
-      "total": 8.25,
-      "notes": "מנבאים מחיר כפול עד סוף 2026, מהלך GRID Vision לתקשורת - מנוע AI מוביל עם יעד $264"
-    },
-    {
-      "ticker": "IONQ",
-      "name": "IonQ Inc",
-      "price": "$29.16",
-      "news": 7.5,
-      "analyst": 9.5,
-      "technical": 7.5,
-      "total": 8.25,
-      "notes": "מחשוב קוונטי - מכה הכנסות שיא ב-2025, יעד ממוצע $67.67 = פוטנציאל של 133%! Strong Buy"
-    },
-    {
-      "ticker": "MSTR",
-      "name": "Strategy Inc (MicroStrategy)",
-      "price": "$129.96",
+      "price": "$188.75",
       "news": 8.0,
       "analyst": 9.0,
-      "technical": 7.5,
-      "total": 8.18,
-      "notes": "סיילור: 'ביטקוין ניצח' - ירד 60% מהשיא, וול סטריט רואה 191% עלייה, יעד ממוצע $349"
+      "technical": 8.5,
+      "total": 8.53,
+      "notes": "בלאקוול אולטרה בתאוצה מלאה - Israel Englander ממשיך לצבור, יעד אנליסטים $275 (46% פוטנציאל עלייה)"
     },
     {
       "ticker": "TSM",
-      "name": "Taiwan Semiconductor",
-      "price": "$376.21",
+      "name": "Taiwan Semiconductor Mfg",
+      "price": "$370.60",
       "news": 8.5,
-      "analyst": 7.5,
-      "technical": 8.5,
+      "analyst": 8.0,
+      "technical": 8.0,
       "total": 8.18,
-      "notes": "הכנסות זינקו על ביקוש AI בלתי ניתן לעצירה, מניה עולה +2.7% היום, Strong Buy, מדדים חזקים"
-    },
-    {
-      "ticker": "META",
-      "name": "Meta Platforms Inc",
-      "price": "$631.44",
-      "news": 8.0,
-      "analyst": 9.0,
-      "technical": 7.5,
-      "total": 8.18,
-      "notes": "עסקת CoreWeave $21 מיליארד, Strong Buy, יעד $834.74, 39 אנליסטים, אחד מהשוריים ביותר"
-    },
-    {
-      "ticker": "RDDT",
-      "name": "Reddit Inc",
-      "price": "$137.84",
-      "news": 7.5,
-      "analyst": 8.5,
-      "technical": 7.0,
-      "total": 7.73,
-      "notes": "עסקת Nectar לרישוי נתונים, Buy, יעד $228.54 - פוטנציאל 66% עלייה, צמיחת הכנסות 69%"
+      "notes": "הכנסות Q1 מזנקות על ביקוש AI בלתי פוסק - מפעל אריזונה בהאצה, קרוב ל-52 שבועות שיא"
     },
     {
       "ticker": "BTC",
       "name": "Bitcoin",
-      "price": "$72,353",
+      "price": "$72,759.27",
+      "news": 8.5,
+      "analyst": 8.0,
+      "technical": 7.5,
+      "total": 8.00,
+      "notes": "עלה מעל $73K עם זרימות ETF של $443M - מוסדיים חוזרים, ביקוש חזק מ-Blackrock IBIT"
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms Inc",
+      "price": "$629.86",
       "news": 7.5,
-      "analyst": 7.0,
+      "analyst": 8.5,
       "technical": 7.5,
-      "total": 7.35,
-      "notes": "CPI נמוך מהצפוי הזיז BTC ל-$72,400, זרימות ETF מוסדיות - תנועה לאחר דאטה האינפלציה"
+      "total": 7.88,
+      "notes": "Muse Spark - מהלך AI חדש, יעד אנליסטים $780 (24% פוטנציאל), P/E 21 - זול ביחס לצמיחה"
     },
     {
-      "ticker": "HOOD",
-      "name": "Robinhood Markets Inc",
-      "price": "$69.28",
-      "news": 7.0,
-      "analyst": 7.5,
+      "ticker": "IONQ",
+      "name": "IonQ Inc",
+      "price": "$28.79",
+      "news": 7.5,
+      "analyst": 9.5,
       "technical": 6.5,
-      "total": 7.00,
-      "notes": "שדרוג דירוג ב-Seeking Alpha 'נקודת כניסה עולמית', Buy, יעד $103, אינטגרציית קריפטו"
-    },
-    {
-      "ticker": "ARM",
-      "name": "Arm Holdings PLC",
-      "price": "$157.13",
-      "news": 7.0,
-      "analyst": 6.5,
-      "technical": 7.5,
-      "total": 7.00,
-      "notes": "עולה +3.5% היום, מנכ\"ל הואס ינהל פעולות SoftBank הבינלאומיות - Buy, יעד $176"
+      "total": 7.78,
+      "notes": "יעד אנליסטים $69.45 - פוטנציאל עלייה של 141%! Strong Buy קונצנזוס, הכנסות שיא $100M+"
     },
     {
       "ticker": "ETH",
       "name": "Ethereum",
-      "price": "$2,223.73",
-      "news": 7.0,
-      "analyst": 7.0,
-      "technical": 7.0,
-      "total": 7.00,
-      "notes": "יפן מאמצת קריפטו כמכשירים פיננסיים, שדרוג Pectra קרוב - חיובי לנכס"
-    },
-    {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies Inc",
-      "price": "$124.47",
-      "news": 5.0,
-      "analyst": 8.0,
-      "technical": 6.5,
-      "total": 6.58,
-      "notes": "נוחתת חזק היום, כותרות שליליות מרובות - Dan Ives רייטר $230, קנייה לטווח ארוך"
+      "price": "$2,233.96",
+      "news": 7.5,
+      "analyst": 7.5,
+      "technical": 7.5,
+      "total": 7.50,
+      "notes": "SEC הכיר כסחורה, Schwab מתכנן מסחר ספוט H1 2026, קרן אית'ריום מגדילה סטייקינג"
     },
     {
       "ticker": "CRWD",
-      "name": "CrowdStrike Holdings Inc",
-      "price": "$375.24",
-      "news": 4.5,
-      "analyst": 8.0,
-      "technical": 5.5,
-      "total": 6.08,
-      "notes": "ירידה חדה -8% היום, MarketBeat שואל 'Time to Sell?', יעד $491 - כאב בטווח קצר"
+      "name": "CrowdStrike Holdings",
+      "price": "$379.02",
+      "news": 7.0,
+      "analyst": 8.5,
+      "technical": 7.0,
+      "total": 7.53,
+      "notes": "Stifel משאיר Buy עם יעד $480 (27% פוטנציאל), חזרה לביקוש אבטחת סייבר אחרי ירידה"
+    },
+    {
+      "ticker": "XRP",
+      "name": "XRP / Ripple",
+      "price": "$1.35",
+      "news": 8.0,
+      "analyst": 7.0,
+      "technical": 6.5,
+      "total": 7.08,
+      "notes": "הוביל זרימות ETF קריפטו של $224M, יתרות בורסה יורדות - CLARITY Act קטליזטור פוטנציאלי"
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$84.33",
-      "news": 5.5,
+      "price": "$84.18",
+      "news": 7.0,
+      "analyst": 7.0,
+      "technical": 6.5,
+      "total": 6.83,
+      "notes": "יפן מאמצת מסגרת קריפטו, SEC מסיווג כסחורה - Firedancer validator upgrade בדרך"
+    },
+    {
+      "ticker": "MSTR",
+      "name": "Strategy Inc (MicroStrategy)",
+      "price": "$128.64",
+      "news": 6.5,
+      "analyst": 6.5,
+      "technical": 7.0,
+      "total": 6.70,
+      "notes": "קנה BTC ב-$330M, TD Cowen חתך יעד ל-$350 אך עדיין 172% פוטנציאל עלייה - פרוקסי BTC"
+    },
+    {
+      "ticker": "COIN",
+      "name": "Coinbase Global",
+      "price": "$167.85",
+      "news": 6.0,
+      "analyst": 6.5,
+      "technical": 6.5,
+      "total": 6.35,
+      "notes": "רישיון נגזרות אוסטרליה, ניסיון היפוך מגמה - הכנסות Q4 ירדו 22% אך תזרים מזומנים חיובי"
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies",
+      "price": "$128.11",
+      "news": 6.0,
       "analyst": 6.0,
       "technical": 6.5,
-      "total": 6.03,
-      "notes": "ניצול Drift $270M פוגע בסנטימנט, יציב ליד $83-84, פריצת $87 תהיה מפתח"
+      "total": 6.20,
+      "notes": "השבוע הגרוע ביותר בשנה - Burry טוען Anthropic אוכלת לה את הארוחה, הייפ AI מופרז"
     },
     {
       "ticker": "SMCI",
-      "name": "Super Micro Computer Inc",
-      "price": "$24.76",
+      "name": "Super Micro Computer",
+      "price": "$25.26",
+      "news": 5.0,
+      "analyst": 5.5,
+      "technical": 6.5,
+      "total": 5.70,
+      "notes": "תביעה ייצוגית תלויה ועומדת - אך ביצועים חזקים היום, IT spending 2026 צפוי לצמוח"
+    },
+    {
+      "ticker": "HOOD",
+      "name": "Robinhood Markets",
+      "price": "$69.19",
       "news": 5.5,
-      "analyst": 5.0,
+      "analyst": 5.5,
       "technical": 6.0,
-      "total": 5.53,
-      "notes": "Hold קונצנזוס, מניה הכי פחות מומלצת היום - מניות מכרו רחוק מהשיא $62"
+      "total": 5.68,
+      "notes": "שדרוג אנליסטים כלפי מטה היום, -1.3% - רחוק מ-ATH $153, הכנסות Q4 עלו 26%"
+    },
+    {
+      "ticker": "RXRX",
+      "name": "Recursion Pharmaceuticals",
+      "price": "$3.28",
+      "news": 5.5,
+      "analyst": 4.5,
+      "technical": 4.5,
+      "total": 4.85,
+      "notes": "נרטיבים מתפצלים על שווי, הפסד נמשך - קרוב לשפל 52 שבועות, גבול $2.80"
     }
   ]
 }
