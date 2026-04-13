@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "13.04.2026 10:34 IST",
+  "lastUpdated": "13.04.2026 17:00 IST",
   "stocks": [
     {
       "ticker": "APP",
       "name": "AppLovin Corp",
-      "price": "$391.38",
+      "price": "$412.96",
       "news": 8.5,
-      "analyst": 9.0,
-      "technical": 8.0,
-      "total": 8.50,
-      "notes": "שיפורגנים אנליסטים אחרי ביצועי פרסום AI חזקים - מנוע הצמיחה החזק ביותר בשוק כרגע"
+      "analyst": 9.5,
+      "technical": 8.5,
+      "total": 8.85,
+      "notes": "יעד אנליסטים $704 (+71%), שדרוג Wells Fargo, דומיננטיות בפרסום AI - מומנטום חזק"
     },
     {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
-      "price": "$188.75",
-      "news": 7.5,
-      "analyst": 8.5,
-      "technical": 7.5,
-      "total": 7.85,
-      "notes": "מחזור ה-AI ממשיך - הכנסות Q4 68 מיליארד ב+73%, מרווח נקי 63% - המניה הדומיננטית בתשתית AI"
+      "price": "$188.24",
+      "news": 8.5,
+      "analyst": 9.0,
+      "technical": 8.5,
+      "total": 8.72,
+      "notes": "קונסנזוס Strong Buy (39 אנליסטים), יעד $264 (+41%), רמפת Blackwell Ultra, הכנסות +73% שנתי"
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies",
+      "price": "$132.18",
+      "news": 8.0,
+      "analyst": 8.8,
+      "technical": 8.5,
+      "total": 8.48,
+      "notes": "Dan Ives Wedbush יעד $230, צמיחה 61% הכנסות, AIP ממשלתי - מוביל AI אגנטי ייחודי"
     },
     {
       "ticker": "META",
       "name": "Meta Platforms Inc",
-      "price": "$629.86",
-      "news": 7.5,
+      "price": "$631.29",
+      "news": 8.0,
       "analyst": 8.5,
-      "technical": 7.0,
-      "total": 7.68,
-      "notes": "שחרור Muse Spark AI, P/E 21.77 - הזול ביותר מקרב טק גדולה, הכנסות פרסום +24% שנה על שנה"
+      "technical": 8.0,
+      "total": 8.18,
+      "notes": "Strong Buy (39 אנליסטים), יעד $834 (+32%), Muse Spark AI, Rosenblatt $1,015"
     },
     {
-      "ticker": "ARM",
-      "name": "Arm Holdings PLC ADR",
-      "price": "$148.93",
-      "news": 7.0,
+      "ticker": "ANET",
+      "name": "Arista Networks Inc",
+      "price": "$148.10",
+      "news": 8.0,
+      "analyst": 6.8,
+      "technical": 7.5,
+      "total": 7.42,
+      "notes": "שדרוג Rosenblatt לקנייה היום, תשתיות AI Networking, שותפות NVIDIA, יעד $174 (+17%)"
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings",
+      "price": "$395.01",
+      "news": 6.5,
+      "analyst": 7.8,
+      "technical": 7.5,
+      "total": 7.30,
+      "notes": "קונסנזוס Buy (45 אנליסטים), יעד $506 (+28%), שדרוג Morgan Stanley, ביקוש סייבר"
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon.com Inc",
+      "price": "$236.84",
+      "news": 7.5,
+      "analyst": 7.2,
+      "technical": 7.2,
+      "total": 7.29,
+      "notes": "Strong Buy (44 אנליסטים), יעד $279 (+18%), Stifel מחדש היום, AWS AI ענן מוביל"
+    },
+    {
+      "ticker": "GS",
+      "name": "Goldman Sachs Group",
+      "price": "$876.43",
+      "news": 9.0,
+      "analyst": 5.5,
+      "technical": 7.5,
+      "total": 7.22,
+      "notes": "הפתעת Q1 מכירות היום! Jefferies Strong Buy $1,049, פותח עונת רווחים בנקים בחיוב"
+    },
+    {
+      "ticker": "XRP",
+      "name": "XRP / Ripple",
+      "price": "$1.34",
+      "news": 7.5,
       "analyst": 7.5,
-      "technical": 6.5,
-      "total": 7.00,
-      "notes": "מעבר hyperscalers לשבבי ARM, מנכ\"ל מרחיב תפקיד לאסטרטגיה AI של SoftBank - מתחת לשווי הוגן"
+      "technical": 7.0,
+      "total": 7.25,
+      "notes": "זרמי ETF $224M השבוע, SEC מסווג כסחורה, Ripple מוסדי $13T - ייחוד חיובי בשוק קריפטו"
     },
     {
       "ticker": "BTC",
       "name": "Bitcoin",
-      "price": "$70,727.03",
-      "news": 6.5,
+      "price": "$71,599.62",
+      "news": 7.0,
       "analyst": 7.0,
       "technical": 7.0,
-      "total": 6.85,
-      "notes": "מחזיק תמיכה $70K גם בתנאי מלחמה - Strategy ממשיכה לקנות, תזרים ETF יציב"
+      "total": 7.00,
+      "notes": "Saylor רכש $1B BTC היום, צבירת לוויתנים שיא 6 שנים, תמיכה $68K-$74K - בסיס חזק"
     },
     {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies Inc",
-      "price": "$128.11",
-      "news": 7.0,
-      "analyst": 6.5,
-      "technical": 6.0,
-      "total": 6.48,
-      "notes": "בלתי מעורער ב-Agentic AI, צמיחת הכנסות 70%, אבל P/E 202 - יקר מדי בסביבה אי-ודאית"
-    },
-    {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings Inc",
-      "price": "$379.02",
-      "news": 5.5,
-      "analyst": 7.5,
-      "technical": 6.0,
-      "total": 6.38,
-      "notes": "גידול חינם תזרים +95%, אבל סנטימנט חדשותי שלילי השבוע - כדאי לעקוב"
-    },
-    {
-      "ticker": "RDDT",
-      "name": "Reddit Inc",
-      "price": "$139.73",
-      "news": 5.5,
-      "analyst": 8.0,
-      "technical": 5.5,
-      "total": 6.38,
-      "notes": "נסחרת $84 מתחת למחיר יעד ממוצע, ירידה 37% ב-2026 - הזדמנות קנייה קונטרריאנית אם מחזיקים לטווח ארוך"
-    },
-    {
-      "ticker": "TSLA",
-      "name": "Tesla Inc",
-      "price": "$349.00",
-      "news": 6.5,
-      "analyst": 5.5,
-      "technical": 6.5,
-      "total": 6.15,
-      "notes": "שדרוגי דירוג מרובים - \"זול שוב\", אבל P/E 324 ורווח נקי -61% שנה על שנה - ספקולטיבי"
-    },
-    {
-      "ticker": "XRP",
-      "name": "XRP",
-      "price": "$1.3291",
-      "news": 6.5,
-      "analyst": 7.0,
-      "technical": 5.0,
-      "total": 6.15,
-      "notes": "מוביל קרנות ETF קריפטו השבוע ב-$224M, אבל השפל הטכני הארוך ביותר בעשור - FUD גבוה"
-    },
-    {
-      "ticker": "HOOD",
-      "name": "Robinhood Markets Inc",
-      "price": "$69.19",
-      "news": 5.0,
-      "analyst": 6.5,
-      "technical": 5.0,
-      "total": 5.53,
-      "notes": "Morgan Stanley הוריד יעד ל-$95, מכירות פנים - סנטימנט שלילי למרות יעד גבוה יחסית"
+      "ticker": "JPM",
+      "name": "JPMorgan Chase",
+      "price": "$308.00",
+      "news": 7.5,
+      "analyst": 5.8,
+      "technical": 7.0,
+      "total": 6.81,
+      "notes": "רווחי Q1 מחר, Buy consensus, NII חזק, יעד $330 (+7%) - עונת בנקים מתחילה"
     },
     {
       "ticker": "ETH",
       "name": "Ethereum",
-      "price": "$2,185.10",
+      "price": "$2,212.00",
+      "news": 6.0,
+      "analyst": 6.5,
+      "technical": 7.0,
+      "total": 6.47,
+      "notes": "גבול קריטי Fib 0.236 ב-$2,142, SEC מסווג כסחורה, ריסק/ריוארד טוב אם מחזיק תמיכה"
+    },
+    {
+      "ticker": "HOOD",
+      "name": "Robinhood Markets",
+      "price": "$70.36",
       "news": 5.5,
-      "analyst": 6.0,
+      "analyst": 7.5,
       "technical": 5.5,
-      "total": 5.68,
-      "notes": "SPAC עם Ether Machine קרס, זרימות ETF חלשות - ביצועים נחותים לעומת BTC השבוע"
+      "total": 6.15,
+      "notes": "יעד $103 (+46%), Buy consensus, Citizens $155 - אך הורדת דירוג אחרונה מורגן סטנלי ל-Hold"
     },
     {
-      "ticker": "MSTR",
-      "name": "Strategy Inc Class A",
-      "price": "$128.64",
-      "news": 5.5,
-      "analyst": 5.5,
-      "technical": 5.0,
-      "total": 5.33,
-      "notes": "Saylor רומז ל-BTC נוסף אבל הפסדים על הנייר $14.5B - TD Cowen גזז יעד מחיר"
-    },
-    {
-      "ticker": "RXRX",
-      "name": "Recursion Pharmaceuticals Inc",
-      "price": "$3.28",
-      "news": 5.5,
-      "analyst": 5.0,
-      "technical": 4.5,
-      "total": 4.98,
-      "notes": "שיתוף פעולה Citeline AI מבטיח, הכנסות +681%, אבל הפסד נקי $108M - ספקולטיבי גבוה"
+      "ticker": "TSM",
+      "name": "Taiwan Semiconductor",
+      "price": "$369.94",
+      "news": 6.5,
+      "analyst": 5.2,
+      "technical": 6.5,
+      "total": 6.06,
+      "notes": "Strong Buy, ביקוש שבבי AI עצום, יעד $374 (+1%) - מטרגט קרוב למחיר, מכירות ESPP פנימיות"
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$81.9615",
-      "news": 4.5,
+      "price": "$83.48",
+      "news": 5.5,
       "analyst": 5.5,
-      "technical": 4.5,
-      "total": 4.85,
-      "notes": "הדרדרות יומית -2.19%, האקינג $285M ב-Drift - חוסר ביטחון בפרוטוקול, נחלש ביחס לשוק"
+      "technical": 5.8,
+      "total": 5.60,
+      "notes": "SEC: סחורה דיגיטלית חיובי, STRIDE אבטחה, אך האקר Drift $285M, ביצועים חלשים -2.2% היום"
     }
   ]
 }
