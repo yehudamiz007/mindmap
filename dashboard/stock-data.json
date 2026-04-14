@@ -1,155 +1,162 @@
 {
-  "lastUpdated": "13.04.2026 17:00 IST",
+  "lastUpdated": "14.04.2026 17:00 IST",
+  "marketContext": {
+    "sp500": "6,921 (+0.51%)",
+    "nasdaq": "23,389 (+0.89%)",
+    "dow": "48,383 (+0.35%)",
+    "vix": "18.27 (-4.45%)",
+    "sentiment": "risk-on bullish"
+  },
   "stocks": [
-    {
-      "ticker": "APP",
-      "name": "AppLovin Corp",
-      "price": "$412.96",
-      "news": 8.5,
-      "analyst": 9.5,
-      "technical": 8.5,
-      "total": 8.85,
-      "notes": "יעד אנליסטים $704 (+71%), שדרוג Wells Fargo, דומיננטיות בפרסום AI - מומנטום חזק"
-    },
     {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
-      "price": "$188.24",
+      "price": "$191.91",
       "news": 8.5,
       "analyst": 9.0,
       "technical": 8.5,
-      "total": 8.72,
-      "notes": "קונסנזוס Strong Buy (39 אנליסטים), יעד $264 (+41%), רמפת Blackwell Ultra, הכנסות +73% שנתי"
+      "total": 8.68,
+      "notes": "שותפות חדשה עם Google על Gemma4 AI, מהלך של $2B, קונצנזוס אנליסטים $275 (+43% upside), 90%+ המלצות קנייה"
     },
     {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies",
-      "price": "$132.18",
-      "news": 8.0,
-      "analyst": 8.8,
-      "technical": 8.5,
-      "total": 8.48,
-      "notes": "Dan Ives Wedbush יעד $230, צמיחה 61% הכנסות, AIP ממשלתי - מוביל AI אגנטי ייחודי"
-    },
-    {
-      "ticker": "META",
-      "name": "Meta Platforms Inc",
-      "price": "$631.29",
+      "ticker": "APP",
+      "name": "AppLovin Corp",
+      "price": "$431.52",
       "news": 8.0,
       "analyst": 8.5,
       "technical": 8.0,
       "total": 8.18,
-      "notes": "Strong Buy (39 אנליסטים), יעד $834 (+32%), Muse Spark AI, Rosenblatt $1,015"
+      "notes": "מנוע הפרסום ה-AI מוביל את וול סטריט, Philippe Laffont מחזיק גדול, יעד $600+ - 39% upside"
     },
     {
-      "ticker": "ANET",
-      "name": "Arista Networks Inc",
-      "price": "$148.10",
+      "ticker": "RDDT",
+      "name": "Reddit Inc",
+      "price": "$152.95",
       "news": 8.0,
-      "analyst": 6.8,
+      "analyst": 9.0,
       "technical": 7.5,
-      "total": 7.42,
-      "notes": "שדרוג Rosenblatt לקנייה היום, תשתיות AI Networking, שותפות NVIDIA, יעד $174 (+17%)"
-    },
-    {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings",
-      "price": "$395.01",
-      "news": 6.5,
-      "analyst": 7.8,
-      "technical": 7.5,
-      "total": 7.30,
-      "notes": "קונסנזוס Buy (45 אנליסטים), יעד $506 (+28%), שדרוג Morgan Stanley, ביקוש סייבר"
-    },
-    {
-      "ticker": "AMZN",
-      "name": "Amazon.com Inc",
-      "price": "$236.84",
-      "news": 7.5,
-      "analyst": 7.2,
-      "technical": 7.2,
-      "total": 7.29,
-      "notes": "Strong Buy (44 אנליסטים), יעד $279 (+18%), Stifel מחדש היום, AWS AI ענן מוביל"
-    },
-    {
-      "ticker": "GS",
-      "name": "Goldman Sachs Group",
-      "price": "$876.43",
-      "news": 9.0,
-      "analyst": 5.5,
-      "technical": 7.5,
-      "total": 7.22,
-      "notes": "הפתעת Q1 מכירות היום! Jefferies Strong Buy $1,049, פותח עונת רווחים בנקים בחיוב"
-    },
-    {
-      "ticker": "XRP",
-      "name": "XRP / Ripple",
-      "price": "$1.34",
-      "news": 7.5,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.25,
-      "notes": "זרמי ETF $224M השבוע, SEC מסווג כסחורה, Ripple מוסדי $13T - ייחוד חיובי בשוק קריפטו"
+      "total": 8.18,
+      "notes": "עסקת Nectar Social Data מרחיבה AI ומוניטיזציה, קונצנזוס $238 - 56% upside, רבעון חזק"
     },
     {
       "ticker": "BTC",
       "name": "Bitcoin",
-      "price": "$71,599.62",
-      "news": 7.0,
-      "analyst": 7.0,
-      "technical": 7.0,
-      "total": 7.00,
-      "notes": "Saylor רכש $1B BTC היום, צבירת לוויתנים שיא 6 שנים, תמיכה $68K-$74K - בסיס חזק"
-    },
-    {
-      "ticker": "JPM",
-      "name": "JPMorgan Chase",
-      "price": "$308.00",
-      "news": 7.5,
-      "analyst": 5.8,
-      "technical": 7.0,
-      "total": 6.81,
-      "notes": "רווחי Q1 מחר, Buy consensus, NII חזק, יעד $330 (+7%) - עונת בנקים מתחילה"
-    },
-    {
-      "ticker": "ETH",
-      "name": "Ethereum",
-      "price": "$2,212.00",
-      "news": 6.0,
-      "analyst": 6.5,
-      "technical": 7.0,
-      "total": 6.47,
-      "notes": "גבול קריטי Fib 0.236 ב-$2,142, SEC מסווג כסחורה, ריסק/ריוארד טוב אם מחזיק תמיכה"
-    },
-    {
-      "ticker": "HOOD",
-      "name": "Robinhood Markets",
-      "price": "$70.36",
-      "news": 5.5,
+      "price": "$75,552",
+      "news": 8.5,
       "analyst": 7.5,
-      "technical": 5.5,
-      "total": 6.15,
-      "notes": "יעד $103 (+46%), Buy consensus, Citizens $155 - אך הורדת דירוג אחרונה מורגן סטנלי ל-Hold"
+      "technical": 8.0,
+      "total": 8.00,
+      "notes": "פריצה מעל $75K, $200M שורטים בסיכון לסחיטה, $1B תזרים שבועי ל-ETF, מומנטום חזק"
     },
     {
       "ticker": "TSM",
       "name": "Taiwan Semiconductor",
-      "price": "$369.94",
-      "news": 6.5,
-      "analyst": 5.2,
-      "technical": 6.5,
-      "total": 6.06,
-      "notes": "Strong Buy, ביקוש שבבי AI עצום, יעד $374 (+1%) - מטרגט קרוב למחיר, מכירות ESPP פנימיות"
+      "price": "$374.97",
+      "news": 7.5,
+      "analyst": 8.0,
+      "technical": 8.5,
+      "total": 8.03,
+      "notes": "קניית מניות פנימיות (VP), ביקוש שבבי AI בלתי נשבר, קונצנזוס $419, ליד שיא שנתי"
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms Inc",
+      "price": "$649.46",
+      "news": 7.5,
+      "analyst": 7.5,
+      "technical": 8.5,
+      "total": 7.88,
+      "notes": "צפויה להתגבר על Google בפרסום דיגיטלי לפי WSJ, AI Muse משפר מעורבות, מומנטום טכני חזק"
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon.com Inc",
+      "price": "$245.67",
+      "news": 7.5,
+      "analyst": 8.0,
+      "technical": 8.0,
+      "total": 7.88,
+      "notes": "CEO מגן על תוכנית AI, AWS מואץ, קונצנזוס $285-289, ליד שיא שנתי, blue chip חזק"
+    },
+    {
+      "ticker": "MSFT",
+      "name": "Microsoft Corp",
+      "price": "$390.00",
+      "news": 8.0,
+      "analyst": 7.0,
+      "technical": 7.5,
+      "total": 7.52,
+      "notes": "$10B השקעת AI ביפן, Motley Fool: בדרך חזרה למועדון $4T, Azure ו-Copilot בשיא אימוץ"
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings",
+      "price": "$401.56",
+      "news": 7.0,
+      "analyst": 8.0,
+      "technical": 7.5,
+      "total": 7.52,
+      "notes": "קונצנזוס $505 - 26% upside, ביקוש אבטחת סייבר ממשיך, ARR חזק, מתחת לשיא $566"
+    },
+    {
+      "ticker": "ANET",
+      "name": "Arista Networks Inc",
+      "price": "$151.85",
+      "news": 7.5,
+      "analyst": 7.5,
+      "technical": 7.5,
+      "total": 7.50,
+      "notes": "השקת AI Networking Optics חדשה, עלייה 3.1% אתמול, שותפות NVIDIA, קונצנזוס $185-200"
+    },
+    {
+      "ticker": "ETH",
+      "name": "Ethereum",
+      "price": "$2,392",
+      "news": 7.5,
+      "analyst": 7.0,
+      "technical": 7.5,
+      "total": 7.35,
+      "notes": "קרן Ethereum סיימה staking של $93M, $1B תזרים ETF שבועי, SEC הכיר כ-commodity"
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies",
+      "price": "$136.52",
+      "news": 7.0,
+      "analyst": 6.0,
+      "technical": 7.5,
+      "total": 6.90,
+      "notes": "דיון על תמחור מוגזם (P/E 215), דניאל אייבס אומר ניתוח הדוב 'שגוי לחלוטין', סיכון גבוה"
+    },
+    {
+      "ticker": "HOOD",
+      "name": "Robinhood Markets",
+      "price": "$77.83",
+      "news": 6.0,
+      "analyst": 6.0,
+      "technical": 7.0,
+      "total": 6.38,
+      "notes": "Truist פסימי, Seeking Alpha: קנה את הירידה, נכסים ממשיכים לגדול, +8.6% היום - ספקולטיבי"
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$83.48",
+      "price": "$87.33",
       "news": 5.5,
+      "analyst": 6.5,
+      "technical": 6.0,
+      "total": 6.03,
+      "notes": "האק Drift $285M פוגע באמון, Alameda מוכר $16M, stablecoin velocity חזב - לחץ מכירה"
+    },
+    {
+      "ticker": "SMCI",
+      "name": "Super Micro Computer",
+      "price": "$26.96",
+      "news": 4.5,
       "analyst": 5.5,
-      "technical": 5.8,
-      "total": 5.60,
-      "notes": "SEC: סחורה דיגיטלית חיובי, STRIDE אבטחה, אך האקר Drift $285M, ביצועים חלשים -2.2% היום"
+      "technical": 6.0,
+      "total": 5.35,
+      "notes": "תביעה משפטית פעילה עם deadline, משקיעים שהפסידו $100K+ מחפשים עורכי דין - סיכון גבוה"
     }
   ]
 }
