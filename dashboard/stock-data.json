@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "16.04.2026 09:00 IST",
+  "lastUpdated": "16.04.2026 18:36 IST",
   "stocks": [
     {
-      "ticker": "RDDT",
-      "name": "Reddit Inc",
-      "price": "$158.48",
-      "news": 8.5,
+      "ticker": "APP",
+      "name": "Applovin Corp",
+      "price": "$474.19",
+      "news": 9.0,
       "analyst": 9.0,
-      "technical": 7.5,
-      "total": 8.33,
-      "notes": "עסקת נתוני Nectar Social AI הביאה קפיצה של 9.3% - יעד אנליסטים $238 מרמז על אפסייד ענק של 50%"
-    },
-    {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies",
-      "price": "$142.15",
-      "news": 8.0,
-      "analyst": 8.5,
-      "technical": 8.0,
-      "total": 8.18,
-      "notes": "שדרוג דירוג מ-Seeking Alpha היום, דוח Q1 מתקרב - חוזים ממשלתיים מואצים, פלטפורמת AIP בעלייה"
-    },
-    {
-      "ticker": "META",
-      "name": "Meta Platforms Inc",
-      "price": "$671.58",
-      "news": 8.0,
-      "analyst": 8.5,
-      "technical": 7.5,
-      "total": 8.03,
-      "notes": "צפויה להפוך לחברת הפרסום הדיגיטלי הגדולה בעולם, עסקת שבב AI ענקית עם Broadcom, AI מחזיר את ההשקעות"
+      "technical": 8.5,
+      "total": 8.83,
+      "notes": "ארגוס מעלה ל-Strong-Buy, יעד $662, פלטפורמת AI למובייל עם שיאי הכנסות - הכי חזק היום"
     },
     {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
-      "price": "$198.87",
-      "news": 7.5,
+      "price": "$199.23",
+      "news": 8.5,
       "analyst": 8.5,
-      "technical": 7.8,
-      "total": 7.99,
-      "notes": "יעד אנליסטים $275 (+38% אפסייד), שותפות MediaTek ל-Smart Cockpit, ביקוש Blackwell Ultra ממשיך לנסוק"
+      "technical": 8.0,
+      "total": 8.33,
+      "notes": "TSMC CEO רמז על המהלך הבא ב-AI, יעד $275 (+38%), Blackwell Ultra בביקוש שיא"
     },
     {
-      "ticker": "SHOP",
-      "name": "Shopify Inc",
-      "price": "$127.41",
+      "ticker": "RDDT",
+      "name": "Reddit Inc",
+      "price": "$162.34",
+      "news": 8.5,
+      "analyst": 8.5,
+      "technical": 7.5,
+      "total": 8.15,
+      "notes": "פייפר סנדלר חוזר על המלצה, יעד $238 (+47% אפסייד!), Q1 earnings מתקרב עם ציפיות גבוהות"
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms Inc",
+      "price": "$673.96",
+      "news": 8.5,
+      "analyst": 8.0,
+      "technical": 8.0,
+      "total": 8.15,
+      "notes": "עסקת AI-chip עם Broadcom, TD Cowen חוזר על Buy, יעד $860 (+28%) - 'Dislocated High Quality' לפי Benzinga"
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies Inc",
+      "price": "$143.18",
+      "news": 8.0,
+      "analyst": 7.5,
+      "technical": 8.5,
+      "total": 8.00,
+      "notes": "Q1 2026 earnings ב-5 למאי, יעד $197 (+38%), SEC הכיר ב-PLTR כסחורה דיגיטלית - מומנטום דיפנס AI"
+    },
+    {
+      "ticker": "ANET",
+      "name": "Arista Networks Inc",
+      "price": "$158.33",
       "news": 8.0,
       "analyst": 7.5,
       "technical": 8.0,
-      "total": 7.85,
-      "notes": "סקר אופציות חריג היום - מניה זינקה 8% תוך יום, פעילות מסחר SMB חזקה, Shopify Payments צומח"
+      "total": 7.80,
+      "notes": "Zacks מעלה דירוג, יעד $177 (+12%), מומנטום AI מרים מתגי רשת - קרוב לשיא שנה"
     },
     {
       "ticker": "BTC",
       "name": "Bitcoin",
-      "price": "$75,056.69",
-      "news": 7.5,
-      "analyst": 8.0,
-      "technical": 7.5,
-      "total": 7.68,
-      "notes": "טראמפ ומאסק עיניים על $100K, ממשל ארה\"ב שוקל Bitcoin כנכס אסטרטגי, תמיכה חזקה ב-$75K"
+      "price": "$74,221",
+      "news": 8.5,
+      "analyst": 7.0,
+      "technical": 7.0,
+      "total": 7.49,
+      "notes": "Morgan Stanley ETF הגיע ל-$100M בשבוע הראשון, לשעבר יו\"ר פד מזהיר מהיפר-אינפלציה - זרימות מוסדיות חזקות"
     },
     {
-      "ticker": "UBER",
-      "name": "Uber Technologies",
-      "price": "$77.28",
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings Inc",
+      "price": "$418.98",
+      "news": 8.0,
+      "analyst": 7.5,
+      "technical": 7.5,
+      "total": 7.67,
+      "notes": "Anthropic Mythos מאיץ מירוץ סייבר, יעד $505 (+21%), AI-native cybersecurity בביקוש פדרלי גבוה"
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon.com Inc",
+      "price": "$247.78",
       "news": 7.5,
       "analyst": 7.5,
       "technical": 7.5,
       "total": 7.50,
-      "notes": "השקעה חדשה בLucid לאוטונומיה, $10B על AV מציבים את אובר כמנצחת ה-Robotaxi - יעד $120+"
+      "notes": "עסקת Globalstar $11.57B, יעד $287 (+16%), Benzinga: 'Dislocated High Quality' לצד META"
     },
     {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings",
-      "price": "$411.16",
-      "news": 7.0,
-      "analyst": 8.0,
+      "ticker": "HOOD",
+      "name": "Robinhood Markets Inc",
+      "price": "$86.76",
+      "news": 8.0,
+      "analyst": 7.0,
       "technical": 7.0,
       "total": 7.35,
-      "notes": "מוביל אבטחת סייבר, חוזים פדרליים מתרחבים, תזרים מזומנים חינם עלה 94% - חזרה מלאה מהפאוקאפ 2024"
+      "notes": "עלייה של 10.4% אתמול, Seeking Alpha: קטליסטים חדשים לניפוח מכפיל, שווקי ניבוי + קריפטו מגדילים הכנסות"
+    },
+    {
+      "ticker": "TSM",
+      "name": "Taiwan Semiconductor Mfg",
+      "price": "$368.14",
+      "news": 7.0,
+      "analyst": 7.5,
+      "technical": 7.5,
+      "total": 7.35,
+      "notes": "CEO רמז על 'המהלך הבא ב-AI stocks', יעד ~$430 (+17%), CoWoS מוזמן מלא עד 2027"
     },
     {
       "ticker": "ETH",
       "name": "Ethereum",
-      "price": "$2,356.88",
-      "news": 7.0,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.18,
-      "notes": "SEC הכריזה ETH כ-Commodity (לא ני\"ע), אקוסיסטם re-staking צומח, שדרוג Pectra קרוב"
-    },
-    {
-      "ticker": "AAPL",
-      "name": "Apple Inc",
-      "price": "$266.43",
-      "news": 6.5,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.03,
-      "notes": "פעילות ״whale״ חריגה במניה היום, מניה עלתה 3%+, הרחבת ייצור בהודו ממשיכה לגדול"
-    },
-    {
-      "ticker": "ARM",
-      "name": "Arm Holdings PLC",
-      "price": "$159.34",
-      "news": 6.5,
-      "analyst": 7.0,
-      "technical": 7.0,
-      "total": 6.83,
-      "notes": "תמלוגי שבבי AI מכל הסוגים, מחירי ה-V9 core עולים - גידול הכנסות 26% YoY ברבעון האחרון"
-    },
-    {
-      "ticker": "TSLA",
-      "name": "Tesla Inc",
-      "price": "$391.95",
-      "news": 6.0,
+      "price": "$2,322",
+      "news": 7.5,
       "analyst": 6.5,
       "technical": 7.0,
-      "total": 6.53,
-      "notes": "תוכנית Model S Signature מחדשת עניין, אנליסטים מפוצלים - FSD עדיין בשלב supervised, חשיפה ל-Musk רפה"
+      "total": 7.00,
+      "notes": "Ether.fi פרסה $3B, Tom Lee קורא לETH 'wartime store of value', SEC הכיר כסחורה דיגיטלית"
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$85.41",
-      "news": 6.0,
+      "price": "$86.29",
+      "news": 6.5,
       "analyst": 6.5,
       "technical": 6.5,
-      "total": 6.35,
-      "notes": "SEC הכריזה SOL כ-Commodity, אך פריצת DeFi גדולה של Drift ($285M) פגעה בסנטימנט לפי שעה"
+      "total": 6.50,
+      "notes": "פוסט XRP מסתורי עם Ripple עלול להצביע על אינטגרציה $100M, Alameda מניעה SOL - סיכון קצר טווח"
     },
     {
       "ticker": "MSTR",
       "name": "Strategy Inc (MicroStrategy)",
-      "price": "$143.54",
-      "news": 5.5,
+      "price": "$142.95",
+      "news": 6.0,
       "analyst": 5.5,
       "technical": 6.0,
-      "total": 5.68,
-      "notes": "סיילר אומר ״Bitcoin won״ אבל MSTR ירד 70% מהשיא - פרמיית NAV לא מצדיקה סיכון לעומת BTC ישיר"
+      "total": 5.83,
+      "notes": "Saylor: 'Bitcoin ניצח', אך BTC ב-$74K לעומת שיא MSTR של $457 - פרמיית NAV גבוהה מדי"
     },
     {
-      "ticker": "AVAX",
-      "name": "Avalanche",
-      "price": "$9.43",
+      "ticker": "SMCI",
+      "name": "Super Micro Computer Inc",
+      "price": "$28.02",
       "news": 5.0,
-      "analyst": 5.0,
+      "analyst": 5.5,
       "technical": 5.5,
-      "total": 5.18,
-      "notes": "ירד 70%+ מהשיא, ספקולציה על אינטגרציה עם XRP אבל חסר קטליזטור חזק - הכי פחות מומלץ היום"
+      "total": 5.35,
+      "notes": "תביעה פעילה על משקיעים שהפסידו, יעד ממוצע $36.50 (+30%), אך סיכון תביעה משפטית מרחיק מוסדיים"
     }
   ]
 }
