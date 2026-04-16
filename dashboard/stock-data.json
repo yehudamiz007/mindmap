@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "15.04.2026 09:00 IST",
+  "lastUpdated": "16.04.2026 09:00 IST",
   "stocks": [
     {
-      "ticker": "APP",
-      "name": "AppLovin Corp",
-      "price": "$433.51",
-      "news": 8.5,
-      "analyst": 9.2,
-      "technical": 8.0,
-      "total": 8.60,
-      "notes": "יעד אנליסטים $662 - אפסייד של 53%! פרסום מובייל דומיננטי, רווחיות יוצאת דופן, 66% מרג'ין נקי. טכנית - שחזור חזק מהשפל."
-    },
-    {
-      "ticker": "NVDA",
-      "name": "NVIDIA Corp",
-      "price": "$196.51",
+      "ticker": "RDDT",
+      "name": "Reddit Inc",
+      "price": "$158.48",
       "news": 8.5,
       "analyst": 9.0,
-      "technical": 8.2,
-      "total": 8.60,
-      "notes": "יעד $268 - אפסייד 37%. הכנסות Q4 $68B, צמיחה 73% YoY. Blackwell Ultra בעיצומו, ביקוש AI נמשך. קו תמיכה $190 החזיק."
+      "technical": 7.5,
+      "total": 8.33,
+      "notes": "עסקת נתוני Nectar Social AI הביאה קפיצה של 9.3% - יעד אנליסטים $238 מרמז על אפסייד ענק של 50%"
     },
     {
-      "ticker": "AMZN",
-      "name": "Amazon.com Inc",
-      "price": "$249.02",
-      "news": 9.0,
+      "ticker": "PLTR",
+      "name": "Palantir Technologies",
+      "price": "$142.15",
+      "news": 8.0,
       "analyst": 8.5,
       "technical": 8.0,
-      "total": 8.50,
-      "notes": "יעד $287 - רכישת Globalstar ב-$11.5B פתחה מלחמת לוויינים עם SpaceX! AWS+AI מואצים, קרוב לשיא שנתי."
+      "total": 8.18,
+      "notes": "שדרוג דירוג מ-Seeking Alpha היום, דוח Q1 מתקרב - חוזים ממשלתיים מואצים, פלטפורמת AIP בעלייה"
     },
     {
       "ticker": "META",
       "name": "Meta Platforms Inc",
-      "price": "$662.49",
+      "price": "$671.58",
       "news": 8.0,
       "analyst": 8.5,
-      "technical": 8.5,
-      "total": 8.35,
-      "notes": "עלייה של 4.4% ביום - משקיעים ממשיכים לצבור. P/E נמוך של 23, דיבידנד, Llama ומשקפי AI. שבירת $660 - סיגנל bullish."
+      "technical": 7.5,
+      "total": 8.03,
+      "notes": "צפויה להפוך לחברת הפרסום הדיגיטלי הגדולה בעולם, עסקת שבב AI ענקית עם Broadcom, AI מחזיר את ההשקעות"
     },
     {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies Inc",
-      "price": "$135.70",
-      "news": 8.5,
-      "analyst": 7.5,
-      "technical": 8.8,
-      "total": 8.28,
-      "notes": "יעד $197 - הכרזת תוצאות Q1 2026 ממשמשת ובאה. Daniel Ives אמר שהשוק 'טועה דרמטית'. ביקוש עצום מצבא ו-NATO ל-AI."
-    },
-    {
-      "ticker": "HOOD",
-      "name": "Robinhood Markets Inc",
-      "price": "$79.09",
-      "news": 8.5,
-      "analyst": 8.0,
+      "ticker": "NVDA",
+      "name": "NVIDIA Corp",
+      "price": "$198.87",
+      "news": 7.5,
+      "analyst": 8.5,
       "technical": 7.8,
-      "total": 8.09,
-      "notes": "קפיצה של 10% ביום! פרי-מרקט +4.67%. עלייה בנפח מסחר קריפטו. יעדי אנליסטים bullish. ריבאונד חזק מתחתית."
+      "total": 7.99,
+      "notes": "יעד אנליסטים $275 (+38% אפסייד), שותפות MediaTek ל-Smart Cockpit, ביקוש Blackwell Ultra ממשיך לנסוק"
+    },
+    {
+      "ticker": "SHOP",
+      "name": "Shopify Inc",
+      "price": "$127.41",
+      "news": 8.0,
+      "analyst": 7.5,
+      "technical": 8.0,
+      "total": 7.85,
+      "notes": "סקר אופציות חריג היום - מניה זינקה 8% תוך יום, פעילות מסחר SMB חזקה, Shopify Payments צומח"
     },
     {
       "ticker": "BTC",
       "name": "Bitcoin",
-      "price": "$74,047",
-      "news": 8.0,
+      "price": "$75,056.69",
+      "news": 7.5,
       "analyst": 8.0,
       "technical": 7.5,
-      "total": 7.83,
-      "notes": "Morgan Stanley השיק ETF - ב-top 1% בהיסטוריה של השקות ETF. איראן דורשת BTC לעבור במיצר הורמוז. ניסיון פריצת $75K."
+      "total": 7.68,
+      "notes": "טראמפ ומאסק עיניים על $100K, ממשל ארה\"ב שוקל Bitcoin כנכס אסטרטגי, תמיכה חזקה ב-$75K"
     },
     {
-      "ticker": "TSLA",
-      "name": "Tesla Inc",
-      "price": "$364.20",
-      "news": 7.5,
-      "analyst": 7.0,
-      "technical": 8.0,
-      "total": 7.55,
-      "notes": "FSD אושר בהולנד, Model S Signature Edition מוגבלת. דירוג Seeking Alpha שודרג ל-Buy. המניה בריבאונד חזק מהתחתית."
-    },
-    {
-      "ticker": "COIN",
-      "name": "Coinbase Global Inc",
-      "price": "$184.41",
+      "ticker": "UBER",
+      "name": "Uber Technologies",
+      "price": "$77.28",
       "news": 7.5,
       "analyst": 7.5,
       "technical": 7.5,
       "total": 7.50,
-      "notes": "גאות בנפח קריפטו דוחפת הכנסות. Free cash flow $3.38B - שיא. P/E 42. ניהול חקיקה בוושינגטון. שאלה אם יחזור לשיא $444."
+      "notes": "השקעה חדשה בLucid לאוטונומיה, $10B על AV מציבים את אובר כמנצחת ה-Robotaxi - יעד $120+"
     },
     {
-      "ticker": "MSTR",
-      "name": "Strategy Inc (MicroStrategy)",
-      "price": "$137.41",
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings",
+      "price": "$411.16",
       "news": 7.0,
-      "analyst": 7.5,
-      "technical": 7.5,
-      "total": 7.23,
-      "notes": "יעד $322 - אפסייד של 134%! Saylor: 'ביטקוין ניצח'. אחזקות BTC עצומות. מחיר ספר $0.94 - מסחר מתחת לנכסים נטו."
+      "analyst": 8.0,
+      "technical": 7.0,
+      "total": 7.35,
+      "notes": "מוביל אבטחת סייבר, חוזים פדרליים מתרחבים, תזרים מזומנים חינם עלה 94% - חזרה מלאה מהפאוקאפ 2024"
     },
     {
       "ticker": "ETH",
       "name": "Ethereum",
-      "price": "$2,319",
+      "price": "$2,356.88",
       "news": 7.0,
       "analyst": 7.5,
-      "technical": 6.5,
-      "total": 7.00,
-      "notes": "Ether.fi עסקת $3B לנזילות. SEC מיסד ETH כ'סחורה דיגיטלית'. אבל SPAC התמוטט, ETF ביציאה שלילית - פחות חזק מ-BTC."
+      "technical": 7.0,
+      "total": 7.18,
+      "notes": "SEC הכריזה ETH כ-Commodity (לא ני\"ע), אקוסיסטם re-staking צומח, שדרוג Pectra קרוב"
     },
     {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings Inc",
-      "price": "$398.49",
+      "ticker": "AAPL",
+      "name": "Apple Inc",
+      "price": "$266.43",
       "news": 6.5,
       "analyst": 7.5,
-      "technical": 6.8,
-      "total": 6.98,
-      "notes": "אנליסטים שואלים 'כנף ותפילה'? Free cash flow $470M קפץ 95%. רחוק מהשיא $566. כיבוש לקוחות מחדש אחרי תקרית 2024."
+      "technical": 7.0,
+      "total": 7.03,
+      "notes": "פעילות ״whale״ חריגה במניה היום, מניה עלתה 3%+, הרחבת ייצור בהודו ממשיכה לגדול"
+    },
+    {
+      "ticker": "ARM",
+      "name": "Arm Holdings PLC",
+      "price": "$159.34",
+      "news": 6.5,
+      "analyst": 7.0,
+      "technical": 7.0,
+      "total": 6.83,
+      "notes": "תמלוגי שבבי AI מכל הסוגים, מחירי ה-V9 core עולים - גידול הכנסות 26% YoY ברבעון האחרון"
+    },
+    {
+      "ticker": "TSLA",
+      "name": "Tesla Inc",
+      "price": "$391.95",
+      "news": 6.0,
+      "analyst": 6.5,
+      "technical": 7.0,
+      "total": 6.53,
+      "notes": "תוכנית Model S Signature מחדשת עניין, אנליסטים מפוצלים - FSD עדיין בשלב supervised, חשיפה ל-Musk רפה"
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$83.25",
-      "news": 7.0,
-      "analyst": 7.0,
-      "technical": 6.5,
-      "total": 6.83,
-      "notes": "SEC מיסד SOL כסחורה דיגיטלית. TVL ב-DeFi גדל. אבל המחיר ירד 2.57% בחודש, רחוק מהשיא. Firedancer עדיין בציפייה."
-    },
-    {
-      "ticker": "SMCI",
-      "name": "Super Micro Computer Inc",
-      "price": "$27.20",
-      "news": 4.5,
+      "price": "$85.41",
+      "news": 6.0,
       "analyst": 6.5,
-      "technical": 5.5,
-      "total": 5.47,
-      "notes": "אנליסטים רואים 48% אפסייד (יעד $34.53) אבל תביעה קולקטיבית חדשה! הכנסות $12.7B מרשימות אבל סיכון משפטי גבוה."
+      "technical": 6.5,
+      "total": 6.35,
+      "notes": "SEC הכריזה SOL כ-Commodity, אך פריצת DeFi גדולה של Drift ($285M) פגעה בסנטימנט לפי שעה"
     },
     {
-      "ticker": "RXRX",
-      "name": "Recursion Pharmaceuticals Inc",
-      "price": "$3.54",
-      "news": 5.0,
+      "ticker": "MSTR",
+      "name": "Strategy Inc (MicroStrategy)",
+      "price": "$143.54",
+      "news": 5.5,
       "analyst": 5.5,
-      "technical": 4.5,
-      "total": 5.00,
-      "notes": "מניה ספקולטיבית - הכנסות $35M, הפסד $108M. AI לגילוי תרופות מבטיח אך רחוק מרווחיות. סיכון גבוה לטווח קצר."
+      "technical": 6.0,
+      "total": 5.68,
+      "notes": "סיילר אומר ״Bitcoin won״ אבל MSTR ירד 70% מהשיא - פרמיית NAV לא מצדיקה סיכון לעומת BTC ישיר"
+    },
+    {
+      "ticker": "AVAX",
+      "name": "Avalanche",
+      "price": "$9.43",
+      "news": 5.0,
+      "analyst": 5.0,
+      "technical": 5.5,
+      "total": 5.18,
+      "notes": "ירד 70%+ מהשיא, ספקולציה על אינטגרציה עם XRP אבל חסר קטליזטור חזק - הכי פחות מומלץ היום"
     }
   ]
 }
