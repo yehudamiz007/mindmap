@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "16.04.2026 18:36 IST",
+  "lastUpdated": "17.04.2026 09:00 IST",
   "stocks": [
     {
-      "ticker": "APP",
-      "name": "Applovin Corp",
-      "price": "$474.19",
-      "news": 9.0,
-      "analyst": 9.0,
-      "technical": 8.5,
-      "total": 8.83,
-      "notes": "ארגוס מעלה ל-Strong-Buy, יעד $662, פלטפורמת AI למובייל עם שיאי הכנסות - הכי חזק היום"
-    },
-    {
-      "ticker": "NVDA",
-      "name": "NVIDIA Corp",
-      "price": "$199.23",
-      "news": 8.5,
-      "analyst": 8.5,
-      "technical": 8.0,
-      "total": 8.33,
-      "notes": "TSMC CEO רמז על המהלך הבא ב-AI, יעד $275 (+38%), Blackwell Ultra בביקוש שיא"
-    },
-    {
-      "ticker": "RDDT",
-      "name": "Reddit Inc",
-      "price": "$162.34",
-      "news": 8.5,
-      "analyst": 8.5,
+      "ticker": "MSTR",
+      "name": "Strategy Inc (MicroStrategy)",
+      "price": "$148.94",
+      "news": 7.5,
+      "analyst": 9.5,
       "technical": 7.5,
-      "total": 8.15,
-      "notes": "פייפר סנדלר חוזר על המלצה, יעד $238 (+47% אפסייד!), Q1 earnings מתקרב עם ציפיות גבוהות"
+      "total": 8.23,
+      "notes": "יעד אנליסטים $342 - עלייה של 130%! רכישות ביטקוין נמשכות, סיילור אומר 'ביטקוין ניצח'. פוטנציאל הכי גבוה בסל."
     },
     {
-      "ticker": "META",
-      "name": "Meta Platforms Inc",
-      "price": "$673.96",
-      "news": 8.5,
-      "analyst": 8.0,
-      "technical": 8.0,
-      "total": 8.15,
-      "notes": "עסקת AI-chip עם Broadcom, TD Cowen חוזר על Buy, יעד $860 (+28%) - 'Dislocated High Quality' לפי Benzinga"
-    },
-    {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies Inc",
-      "price": "$143.18",
+      "ticker": "COIN",
+      "name": "Coinbase Global Inc",
+      "price": "$199.83",
       "news": 8.0,
-      "analyst": 7.5,
-      "technical": 8.5,
-      "total": 8.00,
-      "notes": "Q1 2026 earnings ב-5 למאי, יעד $197 (+38%), SEC הכיר ב-PLTR כסחורה דיגיטלית - מומנטום דיפנס AI"
+      "analyst": 9.0,
+      "technical": 7.5,
+      "total": 8.20,
+      "notes": "יעד $303 (+52%). צ'ארלס שוואב נכנס לסחר ישיר בקריפטו - מאשר לגיטימציה. חוק מבנה קריפטו מתקדם."
     },
     {
       "ticker": "ANET",
       "name": "Arista Networks Inc",
-      "price": "$158.33",
-      "news": 8.0,
-      "analyst": 7.5,
+      "price": "$161.01",
+      "news": 8.5,
+      "analyst": 7.0,
       "technical": 8.0,
-      "total": 7.80,
-      "notes": "Zacks מעלה דירוג, יעד $177 (+12%), מומנטום AI מרים מתגי רשת - קרוב לשיא שנה"
+      "total": 7.98,
+      "notes": "עלייה של 10% השבוע! JP Morgan העלה יעד ל-$200. תשתית AI עם היפרסקיילרים - ביקוש שיא. בריקאאוט טכני."
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms Inc",
+      "price": "$676.87",
+      "news": 8.0,
+      "analyst": 8.5,
+      "technical": 7.5,
+      "total": 7.98,
+      "notes": "יעד $838 (+24%). עסקת שבבי AI עם ברודקום, CoreWeave מחויבת ב-$21B. מבוסס Strong Buy בקרב 38 אנליסטים."
+    },
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA Corp",
+      "price": "$198.35",
+      "news": 8.0,
+      "analyst": 8.5,
+      "technical": 7.5,
+      "total": 7.98,
+      "notes": "יעד $264 (+33%). 39 אנליסטים - Strong Buy קונצנזוס. עידן ה-Agentic AI מתחיל - NVDA הקטליסט הראשי."
+    },
+    {
+      "ticker": "RDDT",
+      "name": "Reddit Inc",
+      "price": "$162.45",
+      "news": 8.5,
+      "analyst": 8.5,
+      "technical": 7.0,
+      "total": 7.98,
+      "notes": "יעד $227 (+40%). עסקת Nectar Data הגדילה את המניה 9.3%. רווחים פורחים - צמיחה 70% YoY בהכנסות."
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies Inc",
+      "price": "$142.76",
+      "news": 7.5,
+      "analyst": 8.0,
+      "technical": 7.5,
+      "total": 7.68,
+      "notes": "יעד $197 (+39%). קאתי וווד קונה, טראמפ מאשר, AIP ממשיך לרשום עסקאות ממשלתיות חדשות."
     },
     {
       "ticker": "BTC",
       "name": "Bitcoin",
-      "price": "$74,221",
-      "news": 8.5,
-      "analyst": 7.0,
-      "technical": 7.0,
-      "total": 7.49,
-      "notes": "Morgan Stanley ETF הגיע ל-$100M בשבוע הראשון, לשעבר יו\"ר פד מזהיר מהיפר-אינפלציה - זרימות מוסדיות חזקות"
-    },
-    {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings Inc",
-      "price": "$418.98",
-      "news": 8.0,
-      "analyst": 7.5,
-      "technical": 7.5,
-      "total": 7.67,
-      "notes": "Anthropic Mythos מאיץ מירוץ סייבר, יעד $505 (+21%), AI-native cybersecurity בביקוש פדרלי גבוה"
-    },
-    {
-      "ticker": "AMZN",
-      "name": "Amazon.com Inc",
-      "price": "$247.78",
+      "price": "$74,039.75",
       "news": 7.5,
       "analyst": 7.5,
-      "technical": 7.5,
-      "total": 7.50,
-      "notes": "עסקת Globalstar $11.57B, יעד $287 (+16%), Benzinga: 'Dislocated High Quality' לצד META"
-    },
-    {
-      "ticker": "HOOD",
-      "name": "Robinhood Markets Inc",
-      "price": "$86.76",
-      "news": 8.0,
-      "analyst": 7.0,
-      "technical": 7.0,
-      "total": 7.35,
-      "notes": "עלייה של 10.4% אתמול, Seeking Alpha: קטליסטים חדשים לניפוח מכפיל, שווקי ניבוי + קריפטו מגדילים הכנסות"
-    },
-    {
-      "ticker": "TSM",
-      "name": "Taiwan Semiconductor Mfg",
-      "price": "$368.14",
-      "news": 7.0,
-      "analyst": 7.5,
-      "technical": 7.5,
-      "total": 7.35,
-      "notes": "CEO רמז על 'המהלך הבא ב-AI stocks', יעד ~$430 (+17%), CoWoS מוזמן מלא עד 2027"
+      "technical": 6.5,
+      "total": 7.18,
+      "notes": "צ'ארלס שוואב מכריז על מסחר ישיר, מחקר מראה שBTC משפר תשואות תיק. מחיר נמוך יחסית - הזדמנות?"
     },
     {
       "ticker": "ETH",
       "name": "Ethereum",
-      "price": "$2,322",
+      "price": "$2,319.29",
       "news": 7.5,
-      "analyst": 6.5,
-      "technical": 7.0,
-      "total": 7.00,
-      "notes": "Ether.fi פרסה $3B, Tom Lee קורא לETH 'wartime store of value', SEC הכיר כסחורה דיגיטלית"
+      "analyst": 7.5,
+      "technical": 6.5,
+      "total": 7.18,
+      "notes": "Pectra upgrade פעיל. טום לי קורא ל-ETH 'מאגר ערך בזמן מלחמה'. SEC הגדיר כסחורה - חדשות טובות רגולטוריות."
+    },
+    {
+      "ticker": "HOOD",
+      "name": "Robinhood Markets Inc",
+      "price": "$86.85",
+      "news": 7.0,
+      "analyst": 7.0,
+      "technical": 6.5,
+      "total": 6.83,
+      "notes": "יעד $102 (+18%). ברנשטיין מדרג Buy עם יעד $130. שוואב מאיים על הנישה - סיכון, אך עדיין חזק."
+    },
+    {
+      "ticker": "AAPL",
+      "name": "Apple Inc",
+      "price": "$263.40",
+      "news": 6.5,
+      "analyst": 7.0,
+      "technical": 6.0,
+      "total": 6.53,
+      "notes": "יעד $299 (+13.5%). Wedbush נאמן ל-$350. Apple Intelligence מניע שדרוגי מחזור, אך לחץ מאקרו קיים."
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$86.29",
-      "news": 6.5,
-      "analyst": 6.5,
-      "technical": 6.5,
-      "total": 6.50,
-      "notes": "פוסט XRP מסתורי עם Ripple עלול להצביע על אינטגרציה $100M, Alameda מניעה SOL - סיכון קצר טווח"
-    },
-    {
-      "ticker": "MSTR",
-      "name": "Strategy Inc (MicroStrategy)",
-      "price": "$142.95",
+      "price": "$87.51",
       "news": 6.0,
-      "analyst": 5.5,
+      "analyst": 6.5,
       "technical": 6.0,
-      "total": 5.83,
-      "notes": "Saylor: 'Bitcoin ניצח', אך BTC ב-$74K לעומת שיא MSTR של $457 - פרמיית NAV גבוהה מדי"
+      "total": 6.18,
+      "notes": "YC השלים מימון ב-USDC על Solana - אימוץ מוסדי. אלמדה מזיזה $16M SOL - לחץ פוטנציאלי."
     },
     {
-      "ticker": "SMCI",
-      "name": "Super Micro Computer Inc",
-      "price": "$28.02",
-      "news": 5.0,
+      "ticker": "TSLA",
+      "name": "Tesla Inc",
+      "price": "$388.90",
+      "news": 5.5,
       "analyst": 5.5,
       "technical": 5.5,
-      "total": 5.35,
-      "notes": "תביעה פעילה על משקיעים שהפסידו, יעד ממוצע $36.50 (+30%), אך סיכון תביעה משפטית מרחיק מוסדיים"
+      "total": 5.50,
+      "notes": "יעד אנליסטים רק $397 (+2%). הכנסות ירדו 3%. FSD + ביטוח - חדשות מעורבות. P/E של 361 - יקר מאוד."
+    },
+    {
+      "ticker": "ASML",
+      "name": "ASML Holding NV",
+      "price": "$1,410.83",
+      "news": 5.0,
+      "analyst": 5.5,
+      "technical": 5.0,
+      "total": 5.18,
+      "notes": "Q1 מכירות +15% אך מניה ירדה 7%. יעד ממוצע $1,461 - כמעט ללא אפסייד. משלחות EUV האטו."
+    },
+    {
+      "ticker": "DOGE",
+      "name": "Dogecoin",
+      "price": "$0.0936",
+      "news": 4.0,
+      "analyst": 4.0,
+      "technical": 4.5,
+      "total": 4.18,
+      "notes": "רחוק מאוד מהשיאים. חדשות ספציפיות חלשות. ספקולטיבי לחלוטין - הכי מסוכן בסל."
     }
   ]
 }
