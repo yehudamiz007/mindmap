@@ -1,155 +1,162 @@
 {
-  "lastUpdated": "18.04.2026 09:00 IST",
+  "lastUpdated": "18.04.2026 17:00 IST",
+  "marketContext": {
+    "sp500": "7,126.06 (+1.20%)",
+    "nasdaq": "24,468.48 (+1.52%)",
+    "dow": "49,447.43 (+1.79%)",
+    "vix": "17.48 (-2.56%)",
+    "sentiment": "שורי חזק - VIX נמוך, כל המדדים עולים"
+  },
   "stocks": [
-    {
-      "ticker": "TSM",
-      "name": "Taiwan Semiconductor Mfg Co",
-      "price": "$370.50",
-      "news": 8.5,
-      "analyst": 8.5,
-      "technical": 8.2,
-      "total": 8.41,
-      "notes": "דוחות Q1 2026 מעולים - רווח גדל 58%, ביקוש שבבי AI בשיא, הכנסות גדלו 35% - הספק הגדול בעולם לאנבידיה ואפל"
-    },
-    {
-      "ticker": "META",
-      "name": "Meta Platforms Inc",
-      "price": "$688.55",
-      "news": 8.0,
-      "analyst": 8.8,
-      "technical": 8.3,
-      "total": 8.40,
-      "notes": "מכפיל רווח נמוך של 23.8 לחברת צמיחה, הכנסות פרסום חזקות, AI Glasses ולאמה מניבים - מחיר יעד $780+"
-    },
     {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
       "price": "$201.68",
-      "news": 7.5,
-      "analyst": 9.2,
+      "news": 8.5,
+      "analyst": 9.0,
+      "technical": 8.5,
+      "total": 8.70,
+      "notes": "יעד $275 מאנליסטים (36% עלייה), שיתוף פעולה עם Anthropic ו-Claude Opus 4.7, ביקוש ל-Blackwell Ultra ממשיך לגדול"
+    },
+    {
+      "ticker": "APP",
+      "name": "Applovin Corp",
+      "price": "$477.20",
+      "news": 8.0,
+      "analyst": 8.5,
+      "technical": 8.5,
+      "total": 8.35,
+      "notes": "Argus העלה ל-Strong-Buy השבוע, יעד $600+, מנוע פרסום AI גדל 66% YoY, שולי רווח 66%"
+    },
+    {
+      "ticker": "TSM",
+      "name": "Taiwan Semiconductor",
+      "price": "$370.50",
+      "news": 8.5,
+      "analyst": 8.5,
       "technical": 8.0,
-      "total": 8.27,
-      "notes": "מחיר יעד ממוצע $268-275 - פוטנציאל עליה של 33%, שבבי Blackwell Ultra בשיא ביקוש, הכנסות $68B ברבעון האחרון"
+      "total": 8.33,
+      "notes": "רווחי Q1 חזקים - הכנסות +35% YoY, שולי נקי 50%, N2P בדרך, ביקוש AI בלתי נגמר"
+    },
+    {
+      "ticker": "ANET",
+      "name": "Arista Networks",
+      "price": "$164.23",
+      "news": 8.5,
+      "analyst": 8.0,
+      "technical": 8.0,
+      "total": 8.17,
+      "notes": "עלה 10.2% בשבוע אחרי הרחבת תפקיד ב-AI Hyperscalers, שיא כל הזמנים, רשת עמוד השדרה של מרכזי AI"
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies",
+      "price": "$146.39",
+      "news": 8.0,
+      "analyst": 8.0,
+      "technical": 8.0,
+      "total": 8.00,
+      "notes": "Wedbush שומר על יעד $230 (57% upside), שיתוף פעולה עם Stellantis, AIP מנצח בשוק ה-Enterprise AI"
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms",
+      "price": "$688.55",
+      "news": 7.5,
+      "analyst": 8.5,
+      "technical": 7.5,
+      "total": 7.88,
+      "notes": "P/E נמוך של 23 ל-Mega Cap AI, Llama 4 מניע הכנסות פרסום, רבעון Q1 חזוי עם הפתעה חיובית"
     },
     {
       "ticker": "CRWD",
-      "name": "CrowdStrike Holdings Inc",
+      "name": "CrowdStrike Holdings",
       "price": "$423.95",
       "news": 7.5,
-      "analyst": 8.2,
-      "technical": 8.5,
-      "total": 8.12,
-      "notes": "סייבר מניב גם בסביבת קיצוצים, תזרים מזומנים חופשי גדל 94%, פלטפורמת Falcon ממשיכה לנצח"
-    },
-    {
-      "ticker": "AXON",
-      "name": "Axon Enterprise Inc",
-      "price": "$402.85",
-      "news": 7.8,
       "analyst": 8.0,
-      "technical": 7.8,
-      "total": 7.87,
-      "notes": "צמיחת הכנסות 38.5%, AI לאכיפת חוק מתרחבת, תוכניות proxy ל-2026 מציגות צמיחה של 33% - נסחר 50% מתחת לשיא"
-    },
-    {
-      "ticker": "LINK",
-      "name": "Chainlink",
-      "price": "$9.45",
-      "news": 8.0,
-      "analyst": 8.0,
-      "technical": 7.2,
-      "total": 7.72,
-      "notes": "בורסות SIX האירופאיות מזינות נתונים לרשת, כניסות ETF בשיא חודשי, לוויתנים מצטברים - קרוס SMA שורי"
+      "technical": 7.5,
+      "total": 7.70,
+      "notes": "דירוג #1 בגרטנר SIEM 2026, הוצאות סייבר גדלות, מחזור קנייה עצמית $500M פעיל"
     },
     {
       "ticker": "BTC",
       "name": "Bitcoin",
-      "price": "$77,158.66",
-      "news": 7.5,
-      "analyst": 7.8,
-      "technical": 7.8,
-      "total": 7.72,
-      "notes": "Schwab משיק מסחר ישיר ב-BTC, תקוות ראלי בר קיימא, קניות מוסדיות ממשיכות, VIX נמוך תומך בסיכון"
-    },
-    {
-      "ticker": "SOL",
-      "name": "Solana",
-      "price": "$88.42",
-      "news": 7.8,
-      "analyst": 7.8,
-      "technical": 7.5,
-      "total": 7.69,
-      "notes": "XRP עלה חי על סולאנה, Y Combinator ממן סטארטאפ ב-USDC על סולאנה - מערכת האקוסיסטם מתפתחת"
-    },
-    {
-      "ticker": "ETH",
-      "name": "Ether",
-      "price": "$2,409.43",
+      "price": "$74,039",
       "news": 7.5,
       "analyst": 7.5,
-      "technical": 7.8,
-      "total": 7.62,
-      "notes": "יחס ETH/BTC מתאושש משפל 2026, Schwab מסחר ישיר, ETH מוגדר סחורה דיגיטלית ע\"י SEC - פחות סיכון רגולטורי"
+      "technical": 7.5,
+      "total": 7.50,
+      "notes": "תקוות ל-rally בר-קיימא, תזרים לתוך ETF-ים ממשיך, שנת ה-Halving Anniversary - מומנטום שורי"
     },
     {
-      "ticker": "SHOP",
-      "name": "Shopify Inc",
-      "price": "$131.15",
+      "ticker": "RDDT",
+      "name": "Reddit",
+      "price": "$163.80",
       "news": 7.0,
       "analyst": 7.5,
       "technical": 7.5,
       "total": 7.35,
-      "notes": "פעילות אופציות גבוהה במיוחד, הכנסות גדלו 30.6%, 5M לקוחות ועיבוד $292B עסקאות - עדיין 28% מתחת לשיא"
+      "notes": "הכנסות +70% YoY, נתוני AI פרימיום מנוע צמיחה חדש, מכירת מנייה ע\"י CEO מעיבה קצת"
+    },
+    {
+      "ticker": "ETH",
+      "name": "Ethereum",
+      "price": "$2,357",
+      "news": 7.5,
+      "analyst": 7.0,
+      "technical": 7.0,
+      "total": 7.15,
+      "notes": "Tom Lee קורא לאת'ריום 'מאגר ערך בזמן מלחמה', ETF זרם גדל, Pectra upgrade קרוב"
     },
     {
       "ticker": "MSTR",
       "name": "Strategy Inc (MicroStrategy)",
       "price": "$166.52",
-      "news": 7.5,
+      "news": 7.0,
+      "analyst": 6.5,
+      "technical": 7.5,
+      "total": 7.00,
+      "notes": "מאגר BTC גדל, מנייה עלתה 12% בשבוע, מינוף גבוה - משחק BTC ממונף עם סיכון"
+    },
+    {
+      "ticker": "HOOD",
+      "name": "Robinhood Markets",
+      "price": "$90.75",
+      "news": 6.5,
       "analyst": 7.0,
       "technical": 7.0,
-      "total": 7.16,
-      "notes": "אנליסטים מעלים מחירי יעד, Saylor אומר 'ביטקוין ניצח', מניות זינקו היום - מינוף גבוה לביטקוין"
+      "total": 6.85,
+      "notes": "Seeking Alpha: קטליסטים חדשים של הרחבה מרובה, אבל CFO מכר $467K מניות - סיגנל שלילי קל"
     },
     {
-      "ticker": "RDDT",
-      "name": "Reddit Inc",
-      "price": "$163.80",
-      "news": 5.5,
+      "ticker": "SOL",
+      "name": "Solana",
+      "price": "$86.80",
+      "news": 6.5,
       "analyst": 6.5,
-      "technical": 7.2,
-      "total": 6.49,
-      "notes": "מכירת מניות ע\"י המנכ\"ל - 18,000 מניות השבוע, רווח גדל 254% אך מכירות פנימיות מדאיגות"
-    },
-    {
-      "ticker": "CELH",
-      "name": "Celsius Holdings Inc",
-      "price": "$35.25",
-      "news": 5.0,
-      "analyst": 6.0,
       "technical": 6.5,
-      "total": 5.93,
-      "notes": "קוסטקו משיקה משקה אנרגיה מתחרה במחיר נמוך, לחץ שוק קמעונאי - שותפות עם Solidcore חיובית אך לא מספיקה"
+      "total": 6.50,
+      "notes": "XRP מגיע על Solana, Y Combinator משתמש ב-USDC על Solana, אבל Alameda מוכרת $16M"
     },
     {
-      "ticker": "HIMS",
-      "name": "Hims & Hers Health Inc",
-      "price": "$28.82",
-      "news": 5.5,
-      "analyst": 5.5,
+      "ticker": "SOFI",
+      "name": "SoFi Technologies",
+      "price": "$19.43",
+      "news": 6.5,
+      "analyst": 6.5,
       "technical": 6.0,
-      "total": 5.68,
-      "notes": "מחיר יעד ממוצע $25-31, ירידה בריבית שורט חיובית אך רווח נקי ירד 21%, תחרות GLP-1 מאתגרת"
+      "total": 6.33,
+      "notes": "עלה מ-$15 ב-3 שבועות (+29%), הכנסות +40% אבל רווח נקי ירד 48%, ספקולטיבי"
     },
     {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies Inc",
-      "price": "$146.39",
+      "ticker": "XRP",
+      "name": "XRP / Ripple",
+      "price": "$1.44",
       "news": 6.0,
-      "analyst": 4.5,
-      "technical": 5.5,
-      "total": 5.33,
-      "notes": "מייקל בורי שורט, מנכ\"ל קת'י ווד קנתה בירידה אך המניה נסחרת הרבה מעל מחירי יעד אנליסטים של ~$90"
+      "analyst": 6.0,
+      "technical": 6.0,
+      "total": 6.00,
+      "notes": "Rakuten Japan משלבת XRP, אבל FedNow מתחרה ישיר, תנועה ב-range צר - המתנה לברייקאאוט"
     }
   ]
 }
