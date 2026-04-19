@@ -1,192 +1,155 @@
 {
-  "lastUpdated": "19.04.2026 09:00 IST",
-  "marketContext": {
-    "sp500": "7,126.06 (+1.20%)",
-    "nasdaq": "24,468.48 (+1.52%)",
-    "dow": "49,447.43 (+1.79%)",
-    "vix": "17.48 (-2.56%)",
-    "sentiment": "Risk-On Bull"
-  },
+  "lastUpdated": "19.04.2026 17:00 IST",
   "stocks": [
+    {
+      "ticker": "TSM",
+      "name": "Taiwan Semiconductor Manufacturing",
+      "price": "$370.50",
+      "news": 9.0,
+      "analyst": 9.5,
+      "technical": 8.5,
+      "total": 9.01,
+      "notes": "TSMC הכתה את תחזיות Q1 ב-35% צמיחה - ביקוש AI ומפעל אריזונה מניעים מומנטום חזק"
+    },
     {
       "ticker": "NVDA",
       "name": "NVIDIA Corp",
       "price": "$201.68",
-      "analystTarget": "$275.25",
-      "upside": "+36.5%",
-      "news": 8.0,
-      "analyst": 9.0,
-      "technical": 8.5,
-      "total": 8.53,
-      "notes": "ביקוש עצום ל-Blackwell Ultra, יעד קונצנזוס $275 (+37%), Jensen אמר למכור לסין - חדשות חיוביות"
+      "news": 8.5,
+      "analyst": 9.2,
+      "technical": 8.2,
+      "total": 8.66,
+      "notes": "מחזור AI ממשיך להאיץ, יעד אנליסטים $275 - עלייה של 36% מהמחיר הנוכחי"
     },
     {
       "ticker": "META",
       "name": "Meta Platforms Inc",
       "price": "$688.55",
-      "analystTarget": "$838.29",
-      "upside": "+21.7%",
       "news": 8.5,
-      "analyst": 8.5,
-      "technical": 8.0,
-      "total": 8.33,
-      "notes": "הרחבת עסקת שבבי AI עם Broadcom, קונצנזוס Strong Buy מ-38 אנליסטים, יעד $838"
-    },
-    {
-      "ticker": "TSM",
-      "name": "Taiwan Semiconductor",
-      "price": "$370.50",
-      "analystTarget": "$384.29",
-      "upside": "+3.7%",
-      "news": 9.0,
-      "analyst": 7.5,
-      "technical": 8.5,
-      "total": 8.33,
-      "notes": "תוצאות Q1 2026 מעולות - הכנסות +35%, Needham העלה יעד ל-$480, ביקוש 2nm עצום"
-    },
-    {
-      "ticker": "MSTR",
-      "name": "Strategy Inc (MicroStrategy)",
-      "price": "$166.52",
-      "analystTarget": "$342.23",
-      "upside": "+105.5%",
-      "news": 8.5,
-      "analyst": 9.5,
-      "technical": 7.0,
-      "total": 8.28,
-      "notes": "קפיצה של 11.8% ביום שישי, יעד קונצנזוס $342 (+106%), אוצר ביטקוין ממשיך לצמוח"
-    },
-    {
-      "ticker": "APP",
-      "name": "AppLovin Corp",
-      "price": "$477.20",
-      "analystTarget": "$661.95",
-      "upside": "+38.7%",
-      "news": 7.5,
       "analyst": 9.0,
       "technical": 8.0,
-      "total": 8.18,
-      "notes": "מנוע AI לפרסום - יעד MarketBeat $662 (+39%), הכנסות +66%, פנימי קנה RSU"
+      "total": 8.55,
+      "notes": "הסכם שבבי AI עם Broadcom, קונצנזוס אנליסטים $838 - Strong Buy עם 21% פוטנציאל עלייה"
     },
     {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies",
-      "price": "$146.39",
-      "analystTarget": "$197.32",
-      "upside": "+34.8%",
+      "ticker": "BTC",
+      "name": "Bitcoin",
+      "price": "$75,930.05",
       "news": 8.0,
       "analyst": 8.5,
-      "technical": 8.0,
-      "total": 8.18,
-      "notes": "Morgan Stanley 'Strong Setup' לפני רווחי Q1 ב-4 מאי, Wedbush שורי למרות תחרות Anthropic"
-    },
-    {
-      "ticker": "COIN",
-      "name": "Coinbase Global",
-      "price": "$206.33",
-      "analystTarget": "$303.08",
-      "upside": "+46.9%",
-      "news": 7.5,
-      "analyst": 8.5,
-      "technical": 8.0,
-      "total": 8.00,
-      "notes": "פוטנציאל עצום +47% לפי קונצנזוס, מניה קפצה +3.25% ביום שישי, מרכז הסוהר גדול של ביטקוין"
-    },
-    {
-      "ticker": "AMZN",
-      "name": "Amazon.com Inc",
-      "price": "$250.56",
-      "analystTarget": "$281.28",
-      "upside": "+12.3%",
-      "news": 8.0,
-      "analyst": 7.5,
-      "technical": 8.0,
-      "total": 7.83,
-      "notes": "קרוב לשיא כל הזמנים, AWS AI inference מאמץ, Cramer: עדיף על Microsoft, 43 אנליסטים Strong Buy"
+      "technical": 8.5,
+      "total": 8.35,
+      "notes": "ביטקוין עם מטרה ל-$80K, זרמים מוסדיים חזקים, אנליסטים צופים המשך מומנטום לאחר ההסיבה"
     },
     {
       "ticker": "RDDT",
       "name": "Reddit Inc",
       "price": "$163.80",
-      "analystTarget": "$227.54",
-      "upside": "+38.9%",
       "news": 7.5,
-      "analyst": 8.0,
+      "analyst": 9.0,
       "technical": 7.5,
-      "total": 7.68,
-      "notes": "קפיצה דו-ספרתית השבוע, Q1 אמור לסמן נקודת מפנה לפי Seeking Alpha, יעד $227 (+39%)"
+      "total": 8.10,
+      "notes": "יעד אנליסטים $227 - עלייה של 39%, Q1 אמור להיות נקודת מפנה בצמיחה ואיכות הכנסות"
     },
     {
-      "ticker": "ANET",
-      "name": "Arista Networks",
-      "price": "$164.23",
-      "analystTarget": "$175.18",
-      "upside": "+6.7%",
-      "news": 8.0,
-      "analyst": 6.5,
-      "technical": 8.0,
-      "total": 7.53,
-      "notes": "שדרוג Rosenblatt, JP Morgan העלה ל-$200, עמוד השדרה של רשת AI datacenter"
-    },
-    {
-      "ticker": "BTC",
-      "name": "Bitcoin",
-      "price": "$74,039.75",
-      "analystTarget": "N/A",
-      "upside": "N/A",
-      "news": 7.5,
-      "analyst": 7.0,
-      "technical": 7.5,
-      "total": 7.33,
-      "notes": "פריצה ביום שישי, CNBC: BTC+זהב מגבירים תשואה, ארה\"ב אוצר מדלק תחזיות $1.5 קוודריליון"
-    },
-    {
-      "ticker": "ETH",
-      "name": "Ethereum",
-      "price": "$2,333.15",
-      "analystTarget": "N/A",
-      "upside": "N/A",
-      "news": 7.5,
-      "analyst": 7.0,
+      "ticker": "RXRX",
+      "name": "Recursion Pharmaceuticals",
+      "price": "$3.78",
+      "news": 6.5,
+      "analyst": 9.5,
       "technical": 7.0,
-      "total": 7.17,
-      "notes": "Tom Lee מ-Bitmine קורא לאת 'store of value בזמן מלחמה', ETF רווחים מתמשכים, אחזקות 4.87M ETH"
+      "total": 7.87,
+      "notes": "יעד אנליסטים $7.50 - פוטנציאל עלייה של 98%, AI גילוי תרופות עם קטליזטורים לטווח קצר"
     },
     {
       "ticker": "CRWD",
       "name": "CrowdStrike Holdings",
       "price": "$423.95",
-      "analystTarget": "$505.93",
-      "upside": "+19.3%",
-      "news": 6.5,
-      "analyst": 7.0,
+      "news": 7.5,
+      "analyst": 8.5,
       "technical": 7.5,
-      "total": 7.08,
-      "notes": "קונצנזוס Buy, יעד $506 (+19%), אבל חדשות שקטות - מסגרת אלגוריתמית פעילה"
+      "total": 7.85,
+      "notes": "יעד אנליסטים $505 - אבטחת סייבר עם AI מניעה זרמי הכנסות חדשים, קונצנזוס Strong Buy"
     },
     {
       "ticker": "HOOD",
-      "name": "Robinhood Markets",
+      "name": "Robinhood Markets Inc",
       "price": "$90.75",
-      "analystTarget": "$102.17",
-      "upside": "+12.6%",
       "news": 7.0,
-      "analyst": 6.5,
-      "technical": 7.0,
-      "total": 6.83,
-      "notes": "קפיצה +4.5% ביום שישי, אבל CFO מכר מניות - אות שלילי, קונצנזוס Buy אבל יעד צנוע"
+      "analyst": 8.0,
+      "technical": 8.0,
+      "total": 7.80,
+      "notes": "יעד $109 מ-MarketBeat, Charles Schwab נכנסת לתחרות מה שמאשר את הביקוש לקריפטו ישיר"
+    },
+    {
+      "ticker": "ETH",
+      "name": "Ethereum",
+      "price": "$2,339.44",
+      "news": 7.5,
+      "analyst": 8.0,
+      "technical": 7.5,
+      "total": 7.70,
+      "notes": "שדרוג Pectra, Tom Lee קורא ל-ETH 'נכס ערך בזמן מלחמה', זרמי ETF חיוביים"
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies",
+      "price": "$146.39",
+      "news": 7.0,
+      "analyst": 7.0,
+      "technical": 8.0,
+      "total": 7.35,
+      "notes": "דוחות Q1 ב-4 מאי, Morgan Stanley מזהה 'סטאפ חזק', חוזה Army Maven נועל הכנסות"
+    },
+    {
+      "ticker": "MSTR",
+      "name": "Strategy Inc (MicroStrategy)",
+      "price": "$166.52",
+      "news": 7.5,
+      "analyst": 7.5,
+      "technical": 6.5,
+      "total": 7.18,
+      "notes": "ממשיכה לצבור ביטקוין, אנליסטים עם יעד $440, מינוף על BTC עם סיכון גבוה"
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$85.53",
-      "analystTarget": "N/A",
-      "upside": "N/A",
-      "news": 6.0,
-      "analyst": 6.0,
+      "price": "$86.38",
+      "news": 6.5,
+      "analyst": 7.0,
+      "technical": 7.5,
+      "total": 7.05,
+      "notes": "XRP על Solana, Y Combinator מממן ב-USDC על סולנה - אימוץ מואץ של המערכת אקולוגית"
+    },
+    {
+      "ticker": "ANET",
+      "name": "Arista Networks Inc",
+      "price": "$164.23",
+      "news": 7.0,
+      "analyst": 7.5,
       "technical": 6.5,
-      "total": 6.18,
-      "notes": "XRP על Solana, YC funding ב-USDC על Solana, אבל Alameda מוכרת $16M - לחץ מכירות"
+      "total": 7.00,
+      "notes": "יעד $177 מ-MarketBeat, ביקוש רשתות AI ממשיך אך הניצוחה הנוכחית כבר מתומחרת חלקית"
+    },
+    {
+      "ticker": "ARM",
+      "name": "Arm Holdings PLC",
+      "price": "$166.73",
+      "news": 6.5,
+      "analyst": 6.5,
+      "technical": 7.0,
+      "total": 6.67,
+      "notes": "יעד $178 אנליסטים, CEO מכר מניות - עיצוב שבבי AI מתחזק אך הכותרות מכבידות"
+    },
+    {
+      "ticker": "AVAX",
+      "name": "Avalanche",
+      "price": "$9.27",
+      "news": 5.5,
+      "analyst": 5.5,
+      "technical": 5.5,
+      "total": 5.50,
+      "notes": "מחיר נמוך היסטורית, ביצועי חסר משמעותיים מול BTC ו-ETH בשוק הנוכחי"
     }
   ]
 }
