@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "21.04.2026 11:24 IST",
+  "lastUpdated": "21.04.2026 17:05 IST",
   "stocks": [
     {
-      "ticker": "APP",
-      "name": "AppLovin Corporation",
-      "price": "$490.96",
-      "news": 8.5,
-      "analyst": 9.2,
-      "technical": 8.0,
-      "total": 8.57,
-      "notes": "פלטפורמת פרסום מובייל דומיננטית עם AI - הכנסות +70%, רווח נקי +111%, יעד מחיר $694"
-    },
-    {
       "ticker": "NVDA",
-      "name": "NVIDIA Corporation",
-      "price": "$202.06",
-      "news": 8.0,
-      "analyst": 9.0,
-      "technical": 7.5,
-      "total": 8.18,
-      "notes": "מנוע AI המוביל בעולם - Blackwell Ultra בשיא, דוחות ב-27 מאי, 38 אנליסטים Strong Buy"
-    },
-    {
-      "ticker": "META",
-      "name": "Meta Platforms Inc",
-      "price": "$670.91",
-      "news": 8.5,
-      "analyst": 9.0,
-      "technical": 6.5,
-      "total": 7.98,
-      "notes": "דוחות ב-29 אפריל - קטליזטור גדול, AR ו-Llama 4, ירידה לפני דוחות = הזדמנות"
-    },
-    {
-      "ticker": "CELH",
-      "name": "Celsius Holdings Inc",
-      "price": "$33.78",
-      "news": 7.0,
-      "analyst": 9.5,
-      "technical": 7.0,
-      "total": 7.88,
-      "notes": "מניית משקה אנרגיה בתחתית עם פוטנציאל +92% לפי יעד אנליסטים, Strong Buy מ-12 אנליסטים"
-    },
-    {
-      "ticker": "MSTR",
-      "name": "Strategy Inc (MicroStrategy)",
-      "price": "$170.81",
-      "news": 7.0,
-      "analyst": 9.0,
-      "technical": 7.5,
-      "total": 7.88,
-      "notes": "לבנת ביטקוין - ירד 70% מהשיא, יעד $342 עם פוטנציאל +100%, BTC מתאושש"
-    },
-    {
-      "ticker": "ORCL",
-      "name": "Oracle Corporation",
-      "price": "$177.58",
+      "name": "NVIDIA Corp",
+      "price": "$201.49",
       "news": 7.5,
       "analyst": 8.5,
-      "technical": 7.5,
-      "total": 7.85,
-      "notes": "ענן + AI workloads בצמיחה, יעד $261, Guggenheim רואה $400, דיבידנד יציב"
-    },
-    {
-      "ticker": "IONQ",
-      "name": "IonQ Inc",
-      "price": "$48.32",
-      "news": 7.5,
-      "analyst": 8.0,
       "technical": 8.0,
-      "total": 7.85,
-      "notes": "קוונטום קומפיוטינג - Northland יזם כיסוי ב-20 אפריל, +4.84% ביום, יעד $100 מ-Rosenblatt"
-    },
-    {
-      "ticker": "BTC",
-      "name": "Bitcoin",
-      "price": "$76,361.25",
-      "news": 8.0,
-      "analyst": 8.0,
-      "technical": 7.5,
-      "total": 7.83,
-      "notes": "תזרים ETF מוסדי + לאחר ה-Halving, אזור תמיכה $76K, פוטנציאל פריצה לאזור $90K"
-    },
-    {
-      "ticker": "SHOP",
-      "name": "Shopify Inc",
-      "price": "$135.14",
-      "news": 7.5,
-      "analyst": 7.5,
-      "technical": 7.5,
-      "total": 7.50,
-      "notes": "AI אגנטי לקניות + +3% ביום, פרזידנט ב-CNBC, כיוון ברור ל-Agentic commerce"
-    },
-    {
-      "ticker": "ETH",
-      "name": "Ethereum",
-      "price": "$2,322.90",
-      "news": 7.5,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.33,
-      "notes": "קטליזטור אישור staking ב-ETF, DeFi TVL מתאושש, בסיס טוב לעלייה"
-    },
-    {
-      "ticker": "SOL",
-      "name": "Solana",
-      "price": "$85.94",
-      "news": 7.0,
-      "analyst": 7.0,
-      "technical": 7.0,
-      "total": 7.00,
-      "notes": "מנהיג נפח DEX, אקוסיסטם ממים ופי DeFi פעיל, תמיכה ב-$85"
-    },
-    {
-      "ticker": "TSM",
-      "name": "Taiwan Semiconductor",
-      "price": "$366.24",
-      "news": 7.0,
-      "analyst": 6.5,
-      "technical": 6.5,
-      "total": 6.65,
-      "notes": "ביקוש ל-advanced nodes AI עצום, דוחות טובים ב-16 אפריל, סיכון גיאופוליטי מתומחר"
+      "total": 8.03,
+      "notes": "AI ותשתיות דאטה סנטר ממשיכות לצמוח - יעד אנליסטים $266 עם 32% אפסייד, קרוב לשיא 52 שבועות"
     },
     {
       "ticker": "PLTR",
       "name": "Palantir Technologies",
-      "price": "$145.89",
-      "news": 6.5,
+      "price": "$148.58",
+      "news": 7.5,
       "analyst": 7.5,
-      "technical": 6.5,
-      "total": 6.85,
-      "notes": "מתאושש מ-10-month low, Burry ממשיך short, Dan Ives רואה $230 - סיכון גבוה/פרס גבוה"
+      "technical": 7.0,
+      "total": 7.33,
+      "notes": "חוזי AI ממשלתיים מתרחבים, יעד $195 עם 31% אפסייד - AI Platform כוח המניע"
     },
     {
-      "ticker": "RDDT",
-      "name": "Reddit Inc",
-      "price": "$166.28",
-      "news": 6.0,
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings",
+      "price": "$454.96",
+      "news": 7.5,
       "analyst": 7.0,
-      "technical": 6.5,
-      "total": 6.53,
-      "notes": "ירידה 36% ומתאושש, BofA ו-Goldman חתכו יעדים, Truist עדיין Strong Buy עם $260"
+      "technical": 7.5,
+      "total": 7.33,
+      "notes": "ביקוש לאבטחת סייבר גדל בצל המלחמה עם איראן - מחיר מעל MA20 ו-MA50 עם 11% אפסייד"
     },
     {
-      "ticker": "SUI",
-      "name": "Sui Network",
-      "price": "$0.9541",
+      "ticker": "META",
+      "name": "Meta Platforms Inc",
+      "price": "$673.23",
+      "news": 7.5,
+      "analyst": 8.0,
+      "technical": 6.5,
+      "total": 7.30,
+      "notes": "הכנסות מפרסום חזקות ומוניטיזציה של AI - יעד $837 עם 24% אפסייד"
+    },
+    {
+      "ticker": "SHOP",
+      "name": "Shopify Inc",
+      "price": "$136.49",
       "news": 6.5,
+      "analyst": 7.0,
+      "technical": 7.5,
+      "total": 7.08,
+      "notes": "פריצה טכנית מעל MA20 ו-MA50, יעד $163 עם 19% אפסייד - כלי AI לסוחרים מתרחבים"
+    },
+    {
+      "ticker": "IONQ",
+      "name": "IonQ Inc",
+      "price": "$47.99",
+      "news": 6.5,
+      "analyst": 7.0,
+      "technical": 7.0,
+      "total": 6.83,
+      "notes": "מומנטום חזק לאחרונה, יעד $67 עם 39% אפסייד - ספקולטיבי אבל תנועה טכנית חיובית"
+    },
+    {
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices",
+      "price": "$280.65",
+      "news": 6.5,
+      "analyst": 4.5,
+      "technical": 7.5,
+      "total": 6.13,
+      "notes": "טכנית חזקה בקרבת שיא 52 שבועות, אבל יעד אנליסטים $263 מתחת למחיר הנוכחי - זהירות!"
+    },
+    {
+      "ticker": "BTC",
+      "name": "Bitcoin",
+      "price": "$75,772",
+      "news": 5.5,
+      "analyst": 6.5,
+      "technical": 5.5,
+      "total": 5.83,
+      "notes": "ירידה חדה מ-ATH של $126K - מלחמת איראן לוחצת על נכסי סיכון, התאוששות חלקית בלבד"
+    },
+    {
+      "ticker": "ETH",
+      "name": "Ethereum",
+      "price": "$2,307",
+      "news": 6.0,
+      "analyst": 6.5,
+      "technical": 5.5,
+      "total": 5.97,
+      "notes": "שדרוג Pectra כקטליזטור אפשרי, אבל נמצא ב-22% מטווח 52 שבועות - חולשה כלפי ATH"
+    },
+    {
+      "ticker": "TSLA",
+      "name": "Tesla Inc",
+      "price": "$391.97",
+      "news": 6.0,
+      "analyst": 5.5,
+      "technical": 6.0,
+      "total": 5.93,
+      "notes": "יעד אנליסטים $397 - אפסייד זניח של 1.3% בלבד, מחיר קרוב ל-MA50"
+    },
+    {
+      "ticker": "SMCI",
+      "name": "Super Micro Computer",
+      "price": "$29.58",
+      "news": 5.5,
       "analyst": 6.0,
       "technical": 5.5,
-      "total": 5.98,
-      "notes": "Layer-1 עם אקוסיסטם גיימינג, מתחת ל-$1 - רמה פסיכולוגית שלילית, ספקולטיבי מאוד"
+      "total": 5.68,
+      "notes": "התאוששות מול שפל 52 שבועות עם 17% אפסייד, אבל עדיין חולשה מבנית"
+    },
+    {
+      "ticker": "MSTR",
+      "name": "Strategy Inc (MicroStrategy)",
+      "price": "$170.34",
+      "news": 5.0,
+      "analyst": 7.0,
+      "technical": 4.5,
+      "total": 5.60,
+      "notes": "פרוקסי ל-BTC בירידה - ב-18.6% מטווח 52 שבועות, למרות יעד אנליסטים $344"
+    },
+    {
+      "ticker": "SOL",
+      "name": "Solana",
+      "price": "$85.70",
+      "news": 5.5,
+      "analyst": 6.0,
+      "technical": 4.5,
+      "total": 5.33,
+      "notes": "קרוב לשפל 52 שבועות (9.2% מהטווח) - ירידה חדה מ-ATH של $253, חולשה טכנית"
+    },
+    {
+      "ticker": "XRP",
+      "name": "Ripple XRP",
+      "price": "$1.43",
+      "news": 5.5,
+      "analyst": 6.0,
+      "technical": 4.5,
+      "total": 5.33,
+      "notes": "בקרבת שפל 52 שבועות (11.8% מהטווח) - בהירות רגולטורית חיובית אבל מומנטום חסר"
+    },
+    {
+      "ticker": "RKLB",
+      "name": "Rocket Lab USA",
+      "price": "$90.44",
+      "news": 6.0,
+      "analyst": 4.0,
+      "technical": 5.0,
+      "total": 5.00,
+      "notes": "מחיר 27% מעל MA20 - מאוד מוגזם, יעד אנליסטים $82 מתחת למחיר - לא מומלץ כרגע"
     }
   ]
 }
