@@ -1,155 +1,145 @@
 {
-  "lastUpdated": "21.04.2026 17:05 IST",
+  "lastUpdated": "22.04.2026 09:00 IST",
   "stocks": [
     {
-      "ticker": "NVDA",
-      "name": "NVIDIA Corp",
-      "price": "$201.49",
-      "news": 7.5,
-      "analyst": 8.5,
+      "ticker": "AXON",
+      "name": "Axon Enterprise Inc",
+      "price": "$404.92",
+      "news": 8.0,
+      "analyst": 9.5,
       "technical": 8.0,
-      "total": 8.03,
-      "notes": "AI ותשתיות דאטה סנטר ממשיכות לצמוח - יעד אנליסטים $266 עם 32% אפסייד, קרוב לשיא 52 שבועות"
+      "total": 8.53,
+      "notes": "טכנולוגיית אכיפת החוק מובילה - יעד אנליסטים $758 (+87%), Strong Buy מ-JP Morgan ו-TD Cowen, ריבאונד טכני לאחר ירידה חדה"
     },
     {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies",
-      "price": "$148.58",
+      "ticker": "APP",
+      "name": "AppLovin Corporation",
+      "price": "$473.18",
       "news": 7.5,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.33,
-      "notes": "חוזי AI ממשלתיים מתרחבים, יעד $195 עם 31% אפסייד - AI Platform כוח המניע"
+      "analyst": 9.0,
+      "technical": 8.5,
+      "total": 8.38,
+      "notes": "Strong Buy עם יעד $694 (+47%), פלטפורמת פרסום AI מובילה, רווחיות מואצת 115% ביחס לשנה קודמת, ראפינג לפני דוחות 6 במאי"
     },
     {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings",
-      "price": "$454.96",
-      "news": 7.5,
-      "analyst": 7.0,
+      "ticker": "NVDA",
+      "name": "NVIDIA Corporation",
+      "price": "$199.88",
+      "news": 8.5,
+      "analyst": 9.0,
       "technical": 7.5,
-      "total": 7.33,
-      "notes": "ביקוש לאבטחת סייבר גדל בצל המלחמה עם איראן - מחיר מעל MA20 ו-MA50 עם 11% אפסייד"
+      "total": 8.33,
+      "notes": "Strong Buy מ-38 אנליסטים, יעד $266 (+33%), ביקוש AI ממשיך לעלות, שווי שוק $4.86T עם צמיחת הכנסות 65%, דוחות 27 במאי"
     },
     {
       "ticker": "META",
       "name": "Meta Platforms Inc",
-      "price": "$673.23",
-      "news": 7.5,
+      "price": "$668.84",
+      "news": 8.0,
+      "analyst": 8.5,
+      "technical": 8.0,
+      "total": 8.18,
+      "notes": "Strong Buy מ-38 אנליסטים, יעד $838 (+25%), UBS העלה יעד ל-$908, דוחות ב-29 אפריל - קטליסט קרוב, פרסום AI מאיץ"
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies Inc",
+      "price": "$145.97",
+      "news": 7.0,
       "analyst": 8.0,
-      "technical": 6.5,
-      "total": 7.30,
-      "notes": "הכנסות מפרסום חזקות ומוניטיזציה של AI - יעד $837 עם 24% אפסייד"
+      "technical": 8.5,
+      "total": 7.93,
+      "notes": "Buy עם יעד $194 (+33%), הכנסות $4.48B עם צמיחה 56%, Dan Ives מ-Wedbush מרייטס $230, פלטפורמת AIP ממשלתית מתרחבת"
     },
     {
-      "ticker": "SHOP",
-      "name": "Shopify Inc",
-      "price": "$136.49",
+      "ticker": "RDDT",
+      "name": "Reddit Inc",
+      "price": "$156.82",
       "news": 6.5,
-      "analyst": 7.0,
+      "analyst": 8.0,
       "technical": 7.5,
-      "total": 7.08,
-      "notes": "פריצה טכנית מעל MA20 ו-MA50, יעד $163 עם 19% אפסייד - כלי AI לסוחרים מתרחבים"
-    },
-    {
-      "ticker": "IONQ",
-      "name": "IonQ Inc",
-      "price": "$47.99",
-      "news": 6.5,
-      "analyst": 7.0,
-      "technical": 7.0,
-      "total": 6.83,
-      "notes": "מומנטום חזק לאחרונה, יעד $67 עם 39% אפסייד - ספקולטיבי אבל תנועה טכנית חיובית"
-    },
-    {
-      "ticker": "AMD",
-      "name": "Advanced Micro Devices",
-      "price": "$280.65",
-      "news": 6.5,
-      "analyst": 4.5,
-      "technical": 7.5,
-      "total": 6.13,
-      "notes": "טכנית חזקה בקרבת שיא 52 שבועות, אבל יעד אנליסטים $263 מתחת למחיר הנוכחי - זהירות!"
-    },
-    {
-      "ticker": "BTC",
-      "name": "Bitcoin",
-      "price": "$75,772",
-      "news": 5.5,
-      "analyst": 6.5,
-      "technical": 5.5,
-      "total": 5.83,
-      "notes": "ירידה חדה מ-ATH של $126K - מלחמת איראן לוחצת על נכסי סיכון, התאוששות חלקית בלבד"
-    },
-    {
-      "ticker": "ETH",
-      "name": "Ethereum",
-      "price": "$2,307",
-      "news": 6.0,
-      "analyst": 6.5,
-      "technical": 5.5,
-      "total": 5.97,
-      "notes": "שדרוג Pectra כקטליזטור אפשרי, אבל נמצא ב-22% מטווח 52 שבועות - חולשה כלפי ATH"
-    },
-    {
-      "ticker": "TSLA",
-      "name": "Tesla Inc",
-      "price": "$391.97",
-      "news": 6.0,
-      "analyst": 5.5,
-      "technical": 6.0,
-      "total": 5.93,
-      "notes": "יעד אנליסטים $397 - אפסייד זניח של 1.3% בלבד, מחיר קרוב ל-MA50"
-    },
-    {
-      "ticker": "SMCI",
-      "name": "Super Micro Computer",
-      "price": "$29.58",
-      "news": 5.5,
-      "analyst": 6.0,
-      "technical": 5.5,
-      "total": 5.68,
-      "notes": "התאוששות מול שפל 52 שבועות עם 17% אפסייד, אבל עדיין חולשה מבנית"
+      "total": 7.33,
+      "notes": "Buy עם יעד $226 (+44%), DA Davidson חדש Initiates Strong Buy $200, צמיחת פרסום 111% YoY, ירידה של 36% בחודשיים - הזדמנות כניסה"
     },
     {
       "ticker": "MSTR",
       "name": "Strategy Inc (MicroStrategy)",
-      "price": "$170.34",
-      "news": 5.0,
-      "analyst": 7.0,
-      "technical": 4.5,
-      "total": 5.60,
-      "notes": "פרוקסי ל-BTC בירידה - ב-18.6% מטווח 52 שבועות, למרות יעד אנליסטים $344"
+      "price": "$163.97",
+      "news": 7.0,
+      "analyst": 8.5,
+      "technical": 6.0,
+      "total": 7.18,
+      "notes": "Strong Buy, יעד $343 (+110%), Cantor Fitzgerald העלה יעד ל-$212 היום, פרוקסי ממונף לביטקוין, BTC ב-$77K - מתחת לשיאים"
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings Inc",
+      "price": "$449.61",
+      "news": 7.5,
+      "analyst": 7.5,
+      "technical": 6.5,
+      "total": 7.18,
+      "notes": "Buy, יעד $506 (+13%), Keybanc שדרג ל-Buy עם יעד $525 אתמול, עלייה של 3.8% היום, מנהיגה בסייבר עם צמיחת הכנסות 22%"
+    },
+    {
+      "ticker": "BTC",
+      "name": "Bitcoin",
+      "price": "$77,987",
+      "news": 7.5,
+      "analyst": 8.0,
+      "technical": 6.5,
+      "total": 7.18,
+      "notes": "ביטקוין ב-$78K - מתחת לשיא ההיסטורי, ETF flows ממשלתיים חזקים, MSTR ממשיך לצבור, תמיכה טכנית ב-$75K-$78K"
+    },
+    {
+      "ticker": "ETH",
+      "name": "Ethereum",
+      "price": "$2,395",
+      "news": 7.0,
+      "analyst": 7.5,
+      "technical": 7.0,
+      "total": 7.18,
+      "notes": "אתריום ב-$2,395, שדרוג Pectra קרוב, תשואות סטייקינג מושכות הון, רמת תמיכה $2,200-$2,400 מחזיקה"
+    },
+    {
+      "ticker": "TSM",
+      "name": "Taiwan Semiconductor Manufacturing",
+      "price": "$368.08",
+      "news": 7.5,
+      "analyst": 6.5,
+      "technical": 7.0,
+      "total": 7.00,
+      "notes": "Strong Buy, צמיחת הכנסות 31.6%, Needham העלה יעד ל-$480, דוחות חיוביים b-16 אפריל, ביקוש AI chips מלא עד הסוף"
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$85.70",
-      "news": 5.5,
-      "analyst": 6.0,
-      "technical": 4.5,
-      "total": 5.33,
-      "notes": "קרוב לשפל 52 שבועות (9.2% מהטווח) - ירידה חדה מ-ATH של $253, חולשה טכנית"
+      "price": "$88.03",
+      "news": 6.5,
+      "analyst": 7.0,
+      "technical": 6.5,
+      "total": 6.68,
+      "notes": "סולנה ב-$88, ירידה משמעותית מהשיא $260, DeFi ו-NFT volumes עולים, פוטנציאל ריבאונד, סיכון גבוה"
     },
     {
-      "ticker": "XRP",
-      "name": "Ripple XRP",
-      "price": "$1.43",
-      "news": 5.5,
-      "analyst": 6.0,
-      "technical": 4.5,
-      "total": 5.33,
-      "notes": "בקרבת שפל 52 שבועות (11.8% מהטווח) - בהירות רגולטורית חיובית אבל מומנטום חסר"
-    },
-    {
-      "ticker": "RKLB",
-      "name": "Rocket Lab USA",
-      "price": "$90.44",
+      "ticker": "ARM",
+      "name": "Arm Holdings plc",
+      "price": "$175.49",
       "news": 6.0,
+      "analyst": 5.0,
+      "technical": 6.5,
+      "total": 5.88,
+      "notes": "יעד ממוצע $178 - כמעט ללא upside, Goldman Sachs Strong Sell עם יעד $125, Morgan Stanley שדרג מטה, הורדה מהרשימה"
+    },
+    {
+      "ticker": "HIMS",
+      "name": "Hims & Hers Health Inc",
+      "price": "$29.76",
+      "news": 5.5,
       "analyst": 4.0,
-      "technical": 5.0,
-      "total": 5.00,
-      "notes": "מחיר 27% מעל MA20 - מאוד מוגזם, יעד אנליסטים $82 מתחת למחיר - לא מומלץ כרגע"
+      "technical": 5.5,
+      "total": 5.03,
+      "notes": "Hold - יעד $29.5 זהה למחיר הנוכחי, אנליסטים מורידים יעדים, 11 Hold מתוך 14 אנליסטים, ללא קטליסט ברור"
     }
   ]
 }
