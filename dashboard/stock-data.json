@@ -1,155 +1,155 @@
 {
-  "lastUpdated": "23.04.2026 17:02 IST",
+  "lastUpdated": "24.04.2026 09:00 IST",
   "stocks": [
     {
-      "ticker": "AXON",
-      "name": "Axon Enterprise Inc",
-      "price": "$381.51",
-      "news": 8.5,
+      "ticker": "MSTR",
+      "name": "Strategy Inc (MicroStrategy)",
+      "price": "$172.47",
+      "news": 8.0,
       "analyst": 9.5,
       "technical": 7.5,
-      "total": 8.60,
-      "notes": "פוטנציאל עצום - אנליסטים מעריכים 99% עלייה! טכנולוגיית AI לאכיפת חוק עם הכנסות חוזרות חזקות"
+      "total": 8.38,
+      "notes": "פרוקסי ביטקוין עם מינוף גבוה - יעד אנליסטים $344, עליה פוטנציאלית 99% - ספקולטיבי אבל חם"
     },
     {
-      "ticker": "APP",
-      "name": "AppLovin Corporation",
-      "price": "$456.00",
+      "ticker": "RDDT",
+      "name": "Reddit Inc",
+      "price": "$152.96",
       "news": 8.0,
-      "analyst": 9.0,
-      "technical": 8.0,
-      "total": 8.35,
-      "notes": "מנוע AI לפרסום מובייל עם 52% פוטנציאל עלייה - צמיחת הכנסות של 48% השנה"
+      "analyst": 8.5,
+      "technical": 7.5,
+      "total": 8.03,
+      "notes": "ירידה של 7% היום יוצרת הזדמנות קנייה - יעד $225, עלייה 47% - דיל רישוי AI מבשיל"
     },
     {
-      "ticker": "MSFT",
-      "name": "Microsoft Corporation",
-      "price": "$416.57",
+      "ticker": "PLTR",
+      "name": "Palantir Technologies",
+      "price": "$141.57",
       "news": 8.5,
-      "analyst": 9.0,
+      "analyst": 8.0,
       "technical": 7.5,
-      "total": 8.33,
-      "notes": "דוחות ב-29 לאפריל - Azure AI מאיץ, Copilot+ בום, יעד אנליסטים $583"
+      "total": 7.97,
+      "notes": "ירידה חדה 7.2% היום - הזדמנות כניסה - חוזי ממשלה AI מתרחבים, יעד $195 (+38%)"
+    },
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA Corp",
+      "price": "$199.64",
+      "news": 8.5,
+      "analyst": 8.5,
+      "technical": 7.0,
+      "total": 7.97,
+      "notes": "38 אנליסטים Strong Buy, יעד $266 (+33%) - ביקוש AI מרכזי ממשיך להאיץ"
     },
     {
       "ticker": "META",
       "name": "Meta Platforms Inc",
-      "price": "$658.95",
-      "news": 7.5,
-      "analyst": 9.0,
-      "technical": 8.0,
-      "total": 8.23,
-      "notes": "דוחות ב-29 לאפריל - Llama 4 מאיץ, תשתית AI גדולה, Strong Buy מ-38 אנליסטים"
-    },
-    {
-      "ticker": "BTC",
-      "name": "Bitcoin",
-      "price": "$77,506",
+      "price": "$659.15",
       "news": 8.5,
-      "analyst": 8.0,
-      "technical": 7.5,
-      "total": 7.98,
-      "notes": "זרימות ETF מוסדיות ממשיכות, חולשת הדולר מהווה רוח גב, מתנד מאקרו חיובי"
-    },
-    {
-      "ticker": "COIN",
-      "name": "Coinbase Global Inc",
-      "price": "$198.09",
-      "news": 7.5,
-      "analyst": 8.5,
-      "technical": 8.0,
-      "total": 8.08,
-      "notes": "נפח מסחר בקריפטו עולה, Base L2 צומח, 53% פוטנציאל לפי אנליסטים"
-    },
-    {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies Inc",
-      "price": "$145.21",
-      "news": 7.5,
-      "analyst": 8.0,
-      "technical": 8.5,
-      "total": 8.03,
-      "notes": "חוזי AI ממשלתיים מאיצים, AIP bootcamp pipeline חזק, 34% פוטנציאל עלייה"
-    },
-    {
-      "ticker": "NVDA",
-      "name": "NVIDIA Corporation",
-      "price": "$202.68",
-      "news": 8.0,
       "analyst": 8.5,
       "technical": 7.0,
-      "total": 7.83,
-      "notes": "Blackwell Ultra ביקוש חורג מהיצע, Strong Buy מ-38 אנליסטים, יעד $266"
+      "total": 7.97,
+      "notes": "Strong Buy ל-38 אנליסטים, יעד $839 (+27%) - הכנסות פרסום + מוניטיזציה של AI מתאיצה"
     },
     {
-      "ticker": "ETH",
-      "name": "Ethereum",
-      "price": "$2,319.64",
+      "ticker": "GEV",
+      "name": "GE Vernova Inc",
+      "price": "$1149.53",
+      "news": 8.0,
+      "analyst": 7.5,
+      "technical": 8.0,
+      "total": 7.82,
+      "notes": "5 אנליסטים עדכנו יעדים כלפי מעלה היום - תשתית רשת חשמל, ביקוש AI מניע צמיחה"
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon.com Inc",
+      "price": "$255.08",
+      "news": 8.0,
+      "analyst": 7.5,
+      "technical": 7.5,
+      "total": 7.67,
+      "notes": "AWS מאיץ מחדש, שיפור מרג'ין קמעונאות, Strong Buy מ-42 אנליסטים, יעד $284"
+    },
+    {
+      "ticker": "CRWD",
+      "name": "CrowdStrike Holdings",
+      "price": "$445.39",
       "news": 7.5,
       "analyst": 7.5,
       "technical": 7.5,
       "total": 7.50,
-      "notes": "אישור ETF סטייקינג כקטליזטור, TVL DeFi מתאושש, שדרוג רשת ממשמש ובא"
+      "notes": "ירידה 4.6% - כניסה טובה, אבטחת סייבר יציבה, שתי שדרוגים לאחרונה, יעד $506"
     },
     {
-      "ticker": "AVGO",
-      "name": "Broadcom Inc",
-      "price": "$425.13",
-      "news": 7.5,
-      "analyst": 7.0,
-      "technical": 8.0,
-      "total": 7.53,
-      "notes": "צ'יפים מותאמים AI (XPU) להיפרסקיילרים, Strong Buy מ-29 אנליסטים, צמיחת הכנסות 68%"
-    },
-    {
-      "ticker": "TSM",
-      "name": "Taiwan Semiconductor",
-      "price": "$384.20",
-      "news": 7.0,
-      "analyst": 7.0,
-      "technical": 7.5,
-      "total": 7.18,
-      "notes": "ביקוש אריזה מתקדמת ל-AI, Strong Buy, אך כמעט בדיוק ביעד האנליסטים"
-    },
-    {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings Inc",
-      "price": "$446.66",
+      "ticker": "TSLA",
+      "name": "Tesla Inc",
+      "price": "$373.72",
       "news": 7.5,
       "analyst": 7.0,
       "technical": 7.0,
-      "total": 7.18,
-      "notes": "שיתוף פעולה Google Cloud, אפגרייד KeyBanc ל-$525, מוביל בגוף אחד בסייבר"
+      "total": 7.17,
+      "notes": "ירידה 3.6% היום, כיסוי רגולטורי רובוטקסי מתקדם, יעד $405 - ספקולטיבי"
+    },
+    {
+      "ticker": "GOOGL",
+      "name": "Alphabet Inc Class A",
+      "price": "$338.89",
+      "news": 7.5,
+      "analyst": 6.5,
+      "technical": 7.0,
+      "total": 7.00,
+      "notes": "Strong Buy קונסנזוס אבל יעד $358 צר (+5.5%) - AI בחיפוש מרחיב מרג'ין"
+    },
+    {
+      "ticker": "BTC",
+      "name": "Bitcoin",
+      "price": "$77947.05",
+      "news": 7.5,
+      "analyst": 6.5,
+      "technical": 7.0,
+      "total": 7.00,
+      "notes": "זרימות ETF חיוביות + מחזור halving - תמיכה ב-$75K חזקה, מומנטום עולה"
+    },
+    {
+      "ticker": "ARM",
+      "name": "Arm Holdings plc",
+      "price": "$204.61",
+      "news": 8.0,
+      "analyst": 5.5,
+      "technical": 7.5,
+      "total": 6.83,
+      "notes": "after-hours +6% - תוצאות רבעוניות חזקות, אבל יעד אנליסטים מתחת לשוק (-13%)"
+    },
+    {
+      "ticker": "ETH",
+      "name": "Ethereum",
+      "price": "$2313.79",
+      "news": 7.0,
+      "analyst": 6.0,
+      "technical": 7.0,
+      "total": 6.65,
+      "notes": "שדרוג Pectra קרוב + ביקוש staking - פיגור אחרי BTC, פוטנציאל catch-up"
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$85.75",
-      "news": 7.0,
-      "analyst": 6.5,
-      "technical": 7.0,
-      "total": 6.83,
-      "notes": "נפחי DEX גבוהים, עמלות פרוטוקול חזקות, אך אנליסטים מוסדיים מוגבלים"
-    },
-    {
-      "ticker": "ANET",
-      "name": "Arista Networks Inc",
-      "price": "$176.00",
+      "price": "$85.63",
       "news": 6.5,
-      "analyst": 6.5,
+      "analyst": 6.0,
       "technical": 6.5,
-      "total": 6.50,
-      "notes": "Strong Buy אך יעד אנליסטים כמעט זהה לשווי הנוכחי - הזדמנות מוגבלת לטווח קצר"
+      "total": 6.32,
+      "notes": "פעילות DeFi + הכנסות מemecoin - תמיכה ב-$80, ביצועים חלשים יחסית לBTC"
     },
     {
-      "ticker": "NVO",
-      "name": "Novo Nordisk AS",
-      "price": "$38.50",
-      "news": 4.5,
-      "analyst": 4.0,
-      "technical": 5.0,
-      "total": 4.50,
-      "notes": "Hold קונצנזוס, הורדת דירוג Goldman ו-JP Morgan, תחרות GLP-1 מ-Amazon מגבירה לחץ"
+      "ticker": "HIMS",
+      "name": "Hims & Hers Health Inc",
+      "price": "$28.15",
+      "news": 5.5,
+      "analyst": 4.5,
+      "technical": 5.5,
+      "total": 5.15,
+      "notes": "קונסנזוס Hold, יעד $29.5 צר (+4.8%), לחץ רגולטורי על תרופות GLP-1 מורכב"
     }
   ]
 }
