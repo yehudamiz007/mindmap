@@ -1,35 +1,55 @@
 {
-  "lastUpdated": "26.04.2026 09:00 IST",
+  "lastUpdated": "26.04.2026 17:00 IST",
   "stocks": [
-    {
-      "ticker": "MELI",
-      "name": "MercadoLibre Inc",
-      "price": "$1,835.22",
-      "news": 8.0,
-      "analyst": 9.5,
-      "technical": 8.2,
-      "total": 8.58,
-      "notes": "אמזון של אמריקה הלטינית - יעד אנליסטים $2,716 (+48%), Strong Buy, צמיחת פינטק מאיצה"
-    },
     {
       "ticker": "APP",
       "name": "AppLovin Corp",
       "price": "$448.29",
       "news": 8.5,
       "analyst": 9.2,
-      "technical": 7.8,
-      "total": 8.47,
-      "notes": "מנוע פרסום AI שובר שיאים - יעד $694 (+55%), Strong Buy x18 אנליסטים, רווחי Q1 צפויים לפוצץ"
+      "technical": 8.0,
+      "total": 8.60,
+      "notes": "מנוע פרסום AI מוביל את הענף, 55% אפסייד לפי אנליסטים, הכנסות AI מאיצות"
+    },
+    {
+      "ticker": "CELH",
+      "name": "Celsius Holdings Inc",
+      "price": "$34.59",
+      "news": 7.0,
+      "analyst": 9.5,
+      "technical": 8.0,
+      "total": 8.40,
+      "notes": "87% אפסייד לפי אנליסטים, Strong Buy קונסנזוס, ירידה חדה ב-2025 יוצרת הזדמנות קנייה"
     },
     {
       "ticker": "META",
       "name": "Meta Platforms Inc",
       "price": "$675.03",
-      "news": 8.3,
-      "analyst": 8.2,
+      "news": 9.0,
+      "analyst": 8.8,
       "technical": 8.5,
-      "total": 8.35,
-      "notes": "דוחות Q1 הבאים - יעד $838 (+24%), Strong Buy x40, Llama 4 מולטימודל + פרסום AI"
+      "total": 8.77,
+      "notes": "מכונת פרסום AI, רווחי Q1 עלו על ציפיות, Llama AI מואץ, 24% אפסייד"
+    },
+    {
+      "ticker": "MSTR",
+      "name": "Strategy Inc (MicroStrategy)",
+      "price": "$171.02",
+      "news": 8.0,
+      "analyst": 9.0,
+      "technical": 5.5,
+      "total": 7.53,
+      "notes": "101% אפסייד לפי אנליסטים, פרוקסי ביטקוין, אסטרטגיית אוצר קורפורטיבי מרחיבה"
+    },
+    {
+      "ticker": "IONQ",
+      "name": "IonQ Inc",
+      "price": "$42.69",
+      "news": 7.5,
+      "analyst": 8.8,
+      "technical": 6.5,
+      "total": 7.67,
+      "notes": "56% אפסייד, Strong Buy קונסנזוס, חוזים מסחריים קוונטום מתרחבים, מומנטום ענפי"
     },
     {
       "ticker": "NVDA",
@@ -37,119 +57,99 @@
       "price": "$208.27",
       "news": 8.5,
       "analyst": 8.5,
-      "technical": 8.0,
-      "total": 8.32,
-      "notes": "Blackwell Ultra בשיא הביקוש - יעד $266 (+28%), Strong Buy x38, מאמץ AI ממשיך בלי עצירה"
-    },
-    {
-      "ticker": "ORCL",
-      "name": "Oracle Corp",
-      "price": "$173.28",
-      "news": 8.2,
-      "analyst": 8.8,
       "technical": 7.5,
-      "total": 8.15,
-      "notes": "ענן AI מתפוצץ - יעד $260 (+50%), Buy x36 אנליסטים, Wedbush חדש $225, חוזים עצומים ב-AI"
-    },
-    {
-      "ticker": "COIN",
-      "name": "Coinbase Global Inc",
-      "price": "$199.77",
-      "news": 7.5,
-      "analyst": 8.5,
-      "technical": 7.8,
-      "total": 7.97,
-      "notes": "פרוקסי שוק הקריפטו - יעד $304 (+52%), Buy, ביקוש מוסדי לאחסון קריפטו מזנק"
-    },
-    {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies Inc",
-      "price": "$143.09",
-      "news": 7.8,
-      "analyst": 7.5,
-      "technical": 8.2,
-      "total": 7.87,
-      "notes": "AIP פלטפורם בולע עסקאות הגנה - יעד $194 (+36%), Buy, Dan Ives מ-Wedbush צועק $230"
-    },
-    {
-      "ticker": "HOOD",
-      "name": "Robinhood Markets Inc",
-      "price": "$84.71",
-      "news": 7.5,
-      "analyst": 7.5,
-      "technical": 8.0,
-      "total": 7.70,
-      "notes": "בום קמעונאות + 3X נפח קריפטו - יעד $105 (+25%), Buy, מוצרי בנקאות חדשים מגיעים"
-    },
-    {
-      "ticker": "BTC",
-      "name": "Bitcoin",
-      "price": "$78,014",
-      "news": 8.0,
-      "analyst": 7.5,
-      "technical": 7.5,
-      "total": 7.67,
-      "notes": "צבירה מוסדית ממשיכה - ETF inflows שיא, מחזור halving עדיין בולי, +0.63% ב-24h"
-    },
-    {
-      "ticker": "AMZN",
-      "name": "Amazon.com Inc",
-      "price": "$263.99",
-      "news": 7.8,
-      "analyst": 6.5,
-      "technical": 8.0,
-      "total": 7.45,
-      "notes": "AWS AI מאיץ - יעד $284 (+8%), Strong Buy x42, דוחות Q1 קרובים עם זינוק ב-capex"
-    },
-    {
-      "ticker": "ETH",
-      "name": "Ethereum",
-      "price": "$2,329.39",
-      "news": 7.0,
-      "analyst": 7.0,
-      "technical": 7.2,
-      "total": 7.07,
-      "notes": "שדרוג Pectra בקרוב - פעילות L2 בשיא, תשואת סטייקינג אטרקטיבית, +0.58% ב-24h"
+      "total": 8.17,
+      "notes": "Strong Buy, 28% אפסייד, זינוק +4.3% היום, ביקוש Blackwell GB200 פורץ תקרות"
     },
     {
       "ticker": "TSM",
-      "name": "Taiwan Semiconductor",
+      "name": "Taiwan Semiconductor Mfg",
       "price": "$402.46",
+      "news": 8.5,
+      "analyst": 7.0,
+      "technical": 8.5,
+      "total": 7.98,
+      "notes": "+5.17% היום, Strong Buy קונסנזוס, ביקוש שבבי AI בשיא, CoWoS sold out"
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir Technologies",
+      "price": "$143.09",
+      "news": 8.0,
+      "analyst": 7.5,
+      "technical": 7.0,
+      "total": 7.50,
+      "notes": "36% אפסייד, Buy קונסנזוס, חוזי AI ממשלתיים מתרחבים, אפליקציית AIP מובילת ענף"
+    },
+    {
+      "ticker": "HOOD",
+      "name": "Robinhood Markets",
+      "price": "$84.71",
       "news": 7.5,
-      "analyst": 6.0,
+      "analyst": 7.2,
       "technical": 7.5,
-      "total": 7.02,
-      "notes": "2nm מתחיל בזמן - יעד $387 (מחיר מעל ממוצע), Strong Buy, ביקוש NVIDIA+Apple בשיא"
+      "total": 7.41,
+      "notes": "25% אפסייד, Buy קונסנזוס, צמיחת הכנסות קריפטו, שוקי חיזוי מניעים משתמשים"
     },
     {
       "ticker": "CRWD",
       "name": "CrowdStrike Holdings",
       "price": "$448.13",
-      "news": 7.2,
-      "analyst": 6.8,
-      "technical": 7.8,
-      "total": 7.23,
-      "notes": "פלטפורם אבטחת AI - יעד $506 (+13%), Buy, שני שדרוגים מ-Keybanc ו-Wolfe השבוע"
+      "news": 7.5,
+      "analyst": 7.0,
+      "technical": 7.0,
+      "total": 7.17,
+      "notes": "13% אפסייד, Buy קונסנזוס, הגנת סייבר מוגברת, התאוששות מלאה מאירוע 2024"
+    },
+    {
+      "ticker": "BTC",
+      "name": "Bitcoin",
+      "price": "$77,942.66",
+      "news": 8.5,
+      "analyst": 8.0,
+      "technical": 7.5,
+      "total": 7.97,
+      "notes": "זרימות ETF מוסדיות חזקות, רמת תמיכה $78K, רוח גבית מאקרו, מחצור בעלות"
     },
     {
       "ticker": "SOL",
       "name": "Solana",
-      "price": "$86.49",
-      "news": 7.0,
-      "analyst": 6.5,
-      "technical": 7.0,
-      "total": 6.85,
-      "notes": "DeFi TVL בשיא כל הזמנים - פעילות מטבע meme מניעה עמלות, עניין מוסדי גובר"
+      "price": "$86.10",
+      "news": 8.0,
+      "analyst": 7.8,
+      "technical": 7.5,
+      "total": 7.76,
+      "notes": "צמיחת TVL DeFi, עדכון Firedancer, אקוסיסטם חזק, תחרות עם Ethereum גוברת"
     },
     {
-      "ticker": "ANET",
-      "name": "Arista Networks Inc",
-      "price": "$176.91",
-      "news": 6.5,
-      "analyst": 5.5,
+      "ticker": "ETH",
+      "name": "Ethereum",
+      "price": "$2,334.56",
+      "news": 7.5,
+      "analyst": 7.5,
       "technical": 7.0,
-      "total": 6.35,
-      "notes": "רשת מרכזי נתונים AI - יעד $175 (מחיר בממוצע), Strong Buy, Ethernet מנצח InfiniBand"
+      "total": 7.35,
+      "notes": "שדרוג Pectra חי, מומנטום אישור ETF סטייקינג, אבל נותר מאחור מול BTC"
+    },
+    {
+      "ticker": "SUI",
+      "name": "Sui Network",
+      "price": "$0.94",
+      "news": 7.5,
+      "analyst": 7.0,
+      "technical": 8.0,
+      "total": 7.55,
+      "notes": "L1 מתפרץ, אקוסיסטם DeFi מתפוצץ, מומנטום טכני חזק, פוטנציאל גבוה"
+    },
+    {
+      "ticker": "ASTS",
+      "name": "AST SpaceMobile Inc",
+      "price": "$76.40",
+      "news": 6.5,
+      "analyst": 3.5,
+      "technical": 5.5,
+      "total": 5.07,
+      "notes": "Hold קונסנזוס, יעד מחיר מתחת לשוק, ירידה 3% היום, סיכון ביצוע גבוה בשיגורים"
     }
   ]
 }
