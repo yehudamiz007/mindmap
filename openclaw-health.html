@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenClaw Health Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0d1117;
+    color: #e6edf3;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 14px;
+    padding: 20px;
+    direction: rtl;
+  }
+  h1 {
+    text-align: center;
+    font-size: 1.8em;
+    margin-bottom: 6px;
+    color: #58a6ff;
+  }
+  .subtitle {
+    text-align: center;
+    color: #8b949e;
+    margin-bottom: 24px;
+    font-size: 0.9em;
+  }
+
+  /* KPI Cards */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .kpi {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 10px;
+    padding: 16px 14px;
+    text-align: center;
+  }
+  .kpi .label { color: #8b949e; font-size: 0.78em; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .kpi .value { font-size: 2em; font-weight: bold; }
+  .kpi.ok   .value { color: #3fb950; }
+  .kpi.warn .value { color: #d29922; }
+  .kpi.crit .value { color: #f85149; }
+  .kpi.info .value { color: #58a6ff; }
+
+  /* Status Badge */
+  .status-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.75em;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  .badge-ok   { background: #1a3a1f; color: #3fb950; border: 1px solid #3fb950; }
+  .badge-warn { background: #2d2000; color: #d29922; border: 1px solid #d29922; }
+  .badge-crit { background: #3d0c09; color: #f85149; border: 1px solid #f85149; }
+
+  /* Sections */
+  .section {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 20px;
+  }
+  .section h2 {
+    font-size: 1em;
+    color: #58a6ff;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #21262d;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* Timeline / Error bars */
+  .timeline { display: flex; flex-direction: column; gap: 6px; }
+  .tl-row { display: flex; align-items: center; gap: 8px; }
+  .tl-label { color: #8b949e; font-size: 0.75em; width: 90px; flex-shrink: 0; direction: ltr; }
+  .tl-bar-wrap { flex: 1; background: #21262d; border-radius: 4px; height: 16px; overflow: hidden; }
+  .tl-bar { height: 100%; border-radius: 4px; transition: width 0.4s; }
+  .tl-bar.crit  { background: linear-gradient(90deg, #f85149, #c62b27); }
+  .tl-bar.warn  { background: linear-gradient(90deg, #d29922, #b07d10); }
+  .tl-bar.low   { background: linear-gradient(90deg, #58a6ff, #1f6feb); }
+  .tl-count { color: #8b949e; font-size: 0.75em; width: 26px; text-align: left; flex-shrink: 0; direction: ltr; }
+
+  /* Issue list */
+  .issue-list { list-style: none; }
+  .issue-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #21262d;
+    font-size: 0.82em;
+    color: #c9d1d9;
+  }
+  .issue-list li:last-child { border-bottom: none; }
+  .issue-icon { font-size: 1.1em; flex-shrink: 0; margin-top: 1px; }
+  .issue-time { color: #8b949e; font-size: 0.85em; direction: ltr; white-space: nowrap; }
+  .issue-msg { flex: 1; word-break: break-word; }
+
+  /* Findings */
+  .finding {
+    display: flex;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 0.85em;
+    line-height: 1.5;
+  }
+  .finding.crit { background: #2d0e0a; border-left: 3px solid #f85149; }
+  .finding.warn { background: #1e1a00; border-left: 3px solid #d29922; }
+  .finding.ok   { background: #0d1f12; border-left: 3px solid #3fb950; }
+  .finding.info { background: #0d1b2a; border-left: 3px solid #58a6ff; }
+  .finding-icon { font-size: 1.2em; flex-shrink: 0; }
+  .finding-body strong { display: block; margin-bottom: 3px; }
+  .finding-body p { color: #8b949e; }
+
+  /* Recommendations */
+  .rec-list { list-style: none; counter-reset: rec-counter; }
+  .rec-list li {
+    counter-increment: rec-counter;
+    padding: 10px 12px 10px 40px;
+    position: relative;
+    border-bottom: 1px solid #21262d;
+    font-size: 0.85em;
+    line-height: 1.5;
+  }
+  .rec-list li::before {
+    content: counter(rec-counter);
+    position: absolute;
+    right: 12px;
+    top: 10px;
+    background: #1f6feb;
+    color: #fff;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75em; font-weight: bold;
+  }
+  .rec-list li:last-child { border-bottom: none; }
+  .rec-list li strong { color: #58a6ff; }
+
+  /* Mini table */
+  .mini-table { width: 100%; border-collapse: collapse; font-size: 0.82em; }
+  .mini-table th { color: #8b949e; text-align: right; padding: 6px 8px; border-bottom: 1px solid #30363d; font-weight: 500; }
+  .mini-table td { padding: 6px 8px; border-bottom: 1px solid #21262d; color: #c9d1d9; }
+  .mini-table tr:last-child td { border-bottom: none; }
+  .mini-table tr:hover td { background: #1c2128; }
+
+  .chart-wrap { position: relative; height: 200px; }
+
+  footer { text-align: center; color: #484f58; font-size: 0.75em; margin-top: 30px; }
+</style>
+</head>
+<body>
+
+<h1>🔍 OpenClaw Health Dashboard</h1>
+<div class="subtitle">ניתוח לוגים | 24-26 אפריל 2026 | סה"כ 2,919 אירועים</div>
+
+<!-- KPI Row -->
+<div class="kpi-row">
+  <div class="kpi ok">
+    <div class="label">סטטוס גייטוויי</div>
+    <div class="value" style="font-size:1.1em;">🟢 פועל</div>
+  </div>
+  <div class="kpi crit">
+    <div class="label">שגיאות</div>
+    <div class="value">129</div>
+  </div>
+  <div class="kpi warn">
+    <div class="label">אזהרות</div>
+    <div class="value">117</div>
+  </div>
+  <div class="kpi info">
+    <div class="label">WhatsApp ניתוקים</div>
+    <div class="value">35</div>
+  </div>
+  <div class="kpi warn">
+    <div class="label">EPERM שגיאות קובץ</div>
+    <div class="value">3</div>
+  </div>
+  <div class="kpi warn">
+    <div class="label">מודל Fallback</div>
+    <div class="value">5×</div>
+  </div>
+  <div class="kpi crit">
+    <div class="label">ג'ובים שנכשלו</div>
+    <div class="value">6+</div>
+  </div>
+  <div class="kpi ok">
+    <div class="label">ימי לוג</div>
+    <div class="value">3</div>
+  </div>
+</div>
+
+<!-- Two columns: Error Timeline + Pie -->
+<div class="two-col">
+  <div class="section">
+    <h2>📊 שגיאות לפי שעה</h2>
+    <div class="timeline">
+      <div class="tl-row"><div class="tl-label">24/04 05:xx</div><div class="tl-bar-wrap"><div class="tl-bar warn" style="width:11%"></div></div><div class="tl-count">3</div></div>
+      <div class="tl-row"><div class="tl-label">24/04 06:xx</div><div class="tl-bar-wrap"><div class="tl-bar low" style="width:4%"></div></div><div class="tl-count">1</div></div>
+      <div class="tl-row"><div class="tl-label">24/04 07:xx</div><div class="tl-bar-wrap"><div class="tl-bar crit" style="width:67%"></div></div><div class="tl-count">18</div></div>
+      <div class="tl-row"><div class="tl-label">24/04 08:xx</div><div class="tl-bar-wrap"><div class="tl-bar warn" style="width:19%"></div></div><div class="tl-count">5</div></div>
+      <div class="tl-row"><div class="tl-label">24/04 09-22</div><div class="tl-bar-wrap"><div class="tl-bar low" style="width:7%"></div></div><div class="tl-count">~2/hr</div></div>
+      <div class="tl-row"><div class="tl-label">24/04 23:xx</div><div class="tl-bar-wrap"><div class="tl-bar crit" style="width:100%"></div></div><div class="tl-count">27</div></div>
+      <div class="tl-row"><div class="tl-label">25/04 07:xx</div><div class="tl-bar-wrap"><div class="tl-bar crit" style="width:44%"></div></div><div class="tl-count">12</div></div>
+      <div class="tl-row"><div class="tl-label">25/04 23:xx</div><div class="tl-bar-wrap"><div class="tl-bar crit" style="width:44%"></div></div><div class="tl-count">12</div></div>
+      <div class="tl-row"><div class="tl-label">26/04 07:xx</div><div class="tl-bar-wrap"><div class="tl-bar crit" style="width:74%"></div></div><div class="tl-count">20</div></div>
+      <div class="tl-row"><div class="tl-label">26/04 11:xx</div><div class="tl-bar-wrap"><div class="tl-bar warn" style="width:11%"></div></div><div class="tl-count">3</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🥧 סוגי שגיאות</h2>
+    <div class="chart-wrap">
+      <canvas id="pieChart"></canvas>
+    </div>
+    <div style="margin-top:10px;">
+      <table class="mini-table">
+        <tr><th>קטגוריה</th><th>כמות</th><th>%</th></tr>
+        <tr><td>🔴 WhatsApp ניתוק/חיבור מחדש</td><td>35</td><td>27%</td></tr>
+        <tr><td>🟡 web_fetch 429/403/404</td><td>42</td><td>33%</td></tr>
+        <tr><td>🟠 ג'וב timeout/failed</td><td>6</td><td>5%</td></tr>
+        <tr><td>🔵 EPERM file error</td><td>3</td><td>2%</td></tr>
+        <tr><td>⚪ אחר / ריק</td><td>43</td><td>33%</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- WhatsApp health -->
+<div class="section">
+  <h2>📱 WhatsApp - ניתוחי התנהגות</h2>
+  <div class="timeline" style="margin-bottom:14px;">
+    <div class="tl-row" style="align-items:center;">
+      <div style="width:200px;color:#8b949e;font-size:0.8em;">24/04 05:51 — ניתוק 499</div>
+      <span class="status-badge badge-warn">WA DISCONNECT</span>
+    </div>
+    <div class="tl-row" style="align-items:center;">
+      <div style="width:200px;color:#8b949e;font-size:0.8em;">24/04 05:20 — EPERM creds.json</div>
+      <span class="status-badge badge-crit">FILE ERROR</span>
+    </div>
+    <div class="tl-row" style="align-items:center;">
+      <div style="width:200px;color:#8b949e;font-size:0.8em;">24/04 08-22 — ~כל 30 דקות</div>
+      <span class="status-badge badge-warn">RECONNECT LOOP</span>
+    </div>
+    <div class="tl-row" style="align-items:center;">
+      <div style="width:200px;color:#8b949e;font-size:0.8em;">25/04 22:01 — LinkedIn Job</div>
+      <span class="status-badge badge-crit">NO LISTENER</span>
+    </div>
+    <div class="tl-row" style="align-items:center;">
+      <div style="width:200px;color:#8b949e;font-size:0.8em;">26/04 11:39 — אחרי הפעלה מחדש</div>
+      <span class="status-badge badge-ok">RECOVERED</span>
+    </div>
+  </div>
+  <p style="color:#8b949e;font-size:0.82em;line-height:1.6;">
+    ב-24/04 נצפה לופ של reconnect כל ~30 דקות לאורך כל היום - הגייטוויי התחבר מחדש אבל WhatsApp Web שולח
+    <strong style="color:#d29922;">428 Precondition Required</strong> ו-<strong style="color:#d29922;">499 Client Closed</strong> ברציפות.
+    השגיאה <strong style="color:#f85149;">EPERM</strong> על creds.json מצביעה על בעיית הרשאות בשמירת session tokens.
+  </p>
+</div>
+
+<!-- Cron jobs table -->
+<div class="section">
+  <h2>⏰ ג'ובים - סטטוס</h2>
+  <table class="mini-table">
+    <tr>
+      <th>שם ג'וב</th>
+      <th>נכשל</th>
+      <th>סיבה</th>
+      <th>סטטוס</th>
+    </tr>
+    <tr>
+      <td>Daily Stock Scanner</td>
+      <td>3×</td>
+      <td>web_fetch 429 (Yahoo) + 403 (MarketBeat)</td>
+      <td><span class="status-badge badge-crit">FAILING</span></td>
+    </tr>
+    <tr>
+      <td>LinkedIn Daily Post</td>
+      <td>1×</td>
+      <td>No WhatsApp listener (25/04 22:01)</td>
+      <td><span class="status-badge badge-warn">PARTIAL</span></td>
+    </tr>
+    <tr>
+      <td>Cost Dashboard Update</td>
+      <td>3×</td>
+      <td>timeout / delivery fail</td>
+      <td><span class="status-badge badge-warn">TIMEOUT</span></td>
+    </tr>
+    <tr>
+      <td>Daily yehudaclaw Backup</td>
+      <td>2×</td>
+      <td>timeout 120s</td>
+      <td><span class="status-badge badge-warn">TIMEOUT</span></td>
+    </tr>
+    <tr>
+      <td>Grok Trader</td>
+      <td>0</td>
+      <td>-</td>
+      <td><span class="status-badge badge-ok">OK</span></td>
+    </tr>
+    <tr>
+      <td>Heartbeat</td>
+      <td>0</td>
+      <td>-</td>
+      <td><span class="status-badge badge-ok">OK</span></td>
+    </tr>
+  </table>
+</div>
+
+<!-- Model issues -->
+<div class="section">
+  <h2>🤖 מודל - בעיות</h2>
+  <table class="mini-table">
+    <tr><th>זמן</th><th>מודל שנדחה</th><th>מה קרה</th></tr>
+    <tr><td>24/04 07:00</td><td>azure-grok/grok-4-1-fast-reasoning-yehudaclaw</td><td>Fallback לברירת מחדל</td></tr>
+    <tr><td>24/04 23:00</td><td>azure-grok/grok-4-1-fast-reasoning-yehudaclaw</td><td>Fallback לברירת מחדל</td></tr>
+    <tr><td>25/04 07:00</td><td>azure-grok/grok-4-1-fast-reasoning-yehudaclaw</td><td>Fallback לברירת מחדל</td></tr>
+    <tr><td>25/04 23:00</td><td>azure-grok/grok-4-1-fast-reasoning-yehudaclaw</td><td>Fallback לברירת מחדל</td></tr>
+    <tr><td>26/04 07:00</td><td>azure-grok/grok-4-1-fast-reasoning-yehudaclaw</td><td>Fallback לברירת מחדל</td></tr>
+  </table>
+  <p style="color:#8b949e;font-size:0.82em;margin-top:10px;line-height:1.6;">
+    הג'וב <strong style="color:#d29922;">Daily Stock Scanner</strong> מנסה להשתמש במודל שלא מורשה בהגדרות.
+    כנראה הג'וב הוגדר עם מודל Azure Grok שאינו זמין - צריך לעדכן את הג'וב למודל תקני.
+  </p>
+</div>
+
+<!-- Key findings -->
+<div class="section">
+  <h2>🔬 ממצאים עיקריים</h2>
+
+  <div class="finding crit">
+    <div class="finding-icon">🔴</div>
+    <div class="finding-body">
+      <strong>WhatsApp session לא יציבה - reconnect loop יומי</strong>
+      <p>ב-24/04 נרשמו 35 ניתוקים לאורך כל היום, ובכל reconnect OpenClaw מנסה לשמור creds.json ומקבל EPERM. הבעיה היא כנראה אנטי-וירוס או Windows Defender שחוסם כתיבה לקובץ ה-credentials בזמן שהגייטוויי מנסה לרנם קובץ tmp.</p>
+    </div>
+  </div>
+
+  <div class="finding crit">
+    <div class="finding-icon">🔴</div>
+    <div class="finding-body">
+      <strong>Daily Stock Scanner נכשל בכל ריצה</strong>
+      <p>Yahoo Finance מחזיר 429 (rate limit) ו-MarketBeat מחזיר 403 (Cloudflare block) - הג'וב לא מצליח לאסוף נתונים. הג'וב רץ 3 פעמים ביום ותמיד נכשל.</p>
+    </div>
+  </div>
+
+  <div class="finding warn">
+    <div class="finding-icon">🟡</div>
+    <div class="finding-body">
+      <strong>Cost Dashboard Update ו-Backup עוברים timeout</strong>
+      <p>שני ג'ובים עם timeout קצר מדי (60s/120s) - נראה שהם לוקחים יותר זמן ממה שהוגדר להם.</p>
+    </div>
+  </div>
+
+  <div class="finding warn">
+    <div class="finding-icon">🟡</div>
+    <div class="finding-body">
+      <strong>מודל לא מורשה בג'וב Daily Stock Scanner</strong>
+      <p>הג'וב מוגדר עם `azure-grok/grok-4-1-fast-reasoning-yehudaclaw` שאינו ברשימת המודלים המורשים. עובד על fallback אבל יש לתקן.</p>
+    </div>
+  </div>
+
+  <div class="finding ok">
+    <div class="finding-icon">🟢</div>
+    <div class="finding-body">
+      <strong>הגייטוויי עצמו יציב - לא קרס</strong>
+      <p>ה-OpenClaw Gateway עצמו פועל ברציפות. כל הבעיות הן ברמת ה-plugins/channels (WhatsApp) ולא ברמת הליבה.</p>
+    </div>
+  </div>
+
+  <div class="finding info">
+    <div class="finding-icon">🔵</div>
+    <div class="finding-body">
+      <strong>3 EPERM שגיאות על קובץ credentials</strong>
+      <p>Windows חוסם rename של `.creds.*.tmp` → `creds.json`. זה קורה בזמן שמירת session ה-WhatsApp. עלול לגרום לאובדן session.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Recommendations -->
+<div class="section">
+  <h2>✅ המלצות לתיקון</h2>
+  <ol class="rec-list">
+    <li>
+      <strong>EPERM - WhatsApp credentials:</strong>
+      הוסף חריג באנטי-וירוס/Defender לתיקייה <code style="color:#79c0ff;background:#0d1117;padding:1px 4px;border-radius:3px;">C:\Users\YEHUDA\.openclaw\credentials\</code> כדי לאפשר כתיבה חופשית.
+    </li>
+    <li>
+      <strong>Daily Stock Scanner - מודל:</strong>
+      ערוך את הג'וב ושנה את המודל מ-<code style="color:#f85149;">azure-grok/grok-4-1-fast-reasoning-yehudaclaw</code> ל-<code style="color:#3fb950;">xai/grok-3</code>.
+    </li>
+    <li>
+      <strong>Daily Stock Scanner - web sources:</strong>
+      Yahoo Finance ו-MarketBeat חוסמים scraping. עבור ל-<strong>Grok model עם web search</strong> במקום web_fetch ישיר.
+    </li>
+    <li>
+      <strong>Cost Dashboard Update - timeout:</strong>
+      הגדל timeout מ-60s ל-180s בהגדרות הג'וב.
+    </li>
+    <li>
+      <strong>Daily Backup - timeout:</strong>
+      הגדל timeout מ-120s ל-300s.
+    </li>
+    <li>
+      <strong>WhatsApp reconnect loop:</strong>
+      בדוק אם WhatsApp Web פעיל על אותו חשבון ממכשיר אחר במקביל - זה עלול לגרום ל-session conflict עם שגיאות 428.
+    </li>
+  </ol>
+</div>
+
+<footer>
+  OpenClaw Health Dashboard · Generated 26/04/2026 · Log window: 2026-04-24 to 2026-04-26
+</footer>
+
+<script>
+// Pie chart
+const ctx = document.getElementById('pieChart').getContext('2d');
+new Chart(ctx, {
+  type: 'doughnut',
+  data: {
+    labels: ['WA ניתוקים (35)', 'web_fetch errors (42)', 'ג\'וב failures (6)', 'EPERM (3)', 'אחר (43)'],
+    datasets: [{
+      data: [35, 42, 6, 3, 43],
+      backgroundColor: ['#f85149','#d29922','#e3b341','#58a6ff','#484f58'],
+      borderColor: '#161b22',
+      borderWidth: 2,
+      hoverOffset: 8
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false
+      }
+    },
+    cutout: '62%'
+  }
+});
+</script>
+</body>
+</html>
