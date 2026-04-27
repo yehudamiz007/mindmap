@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yehuda's AI Skills Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a0a0f;
+      --bg2:       #0f0f1a;
+      --bg3:       #141428;
+      --border:    rgba(255,255,255,0.07);
+      --text:      #e2e8f0;
+      --muted:     #64748b;
+      --green:     #10b981;
+      --violet:    #8b5cf6;
+      --rose:      #f43f5e;
+      --blue:      #3b82f6;
+      --cyan:      #06b6d4;
+      --amber:     #f59e0b;
+      --card-bg:   rgba(255,255,255,0.03);
+      --card-hover:rgba(255,255,255,0.07);
+      --glass:     rgba(255,255,255,0.04);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ───── Ambient background ───── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% -10%, rgba(139,92,246,.15) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 110%, rgba(16,185,129,.10) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 30% at 50% 50%, rgba(59,130,246,.05) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ───── Hero ───── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 80px 24px 48px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(139,92,246,.12);
+      border: 1px solid rgba(139,92,246,.3);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #a78bfa;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .hero-badge::before { content: '✦'; font-size: 10px; }
+
+    h1 {
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -.03em;
+      background: linear-gradient(135deg, #e2e8f0 0%, #a78bfa 40%, #06b6d4 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+    }
+
+    .subtitle {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+
+    /* ───── Stats bar ───── */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 56px;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 36px;
+      border: 1px solid var(--border);
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      transition: background .3s;
+    }
+
+    .stat:first-child  { border-radius: 16px 0 0 16px; }
+    .stat:last-child   { border-radius: 0 16px 16px 0; }
+    .stat:not(:first-child) { border-left: none; }
+
+    .stat:hover { background: var(--card-hover); }
+
+    .stat-num {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #e2e8f0, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label { font-size: .75rem; color: var(--muted); margin-top: 4px; letter-spacing: .05em; text-transform: uppercase; }
+
+    /* ───── Search + Filter ───── */
+    .controls {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,15,.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+    }
+
+    .controls-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .search-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    #searchInput {
+      width: 100%;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px 10px 40px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: .9rem;
+      outline: none;
+      transition: border-color .2s, background .2s;
+    }
+
+    #searchInput::placeholder { color: var(--muted); }
+    #searchInput:focus { border-color: rgba(139,92,246,.5); background: rgba(139,92,246,.05); }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 14px;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: .8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .2s;
+      white-space: nowrap;
+    }
+
+    .filter-btn:hover { border-color: rgba(255,255,255,.2); color: var(--text); }
+    .filter-btn.active { color: #fff; font-weight: 600; }
+
+    .filter-btn[data-cat="all"].active    { background: rgba(139,92,246,.2); border-color: rgba(139,92,246,.5); color: #c4b5fd; }
+    .filter-btn[data-cat="finance"].active    { background: rgba(16,185,129,.15); border-color: rgba(16,185,129,.5); color: #6ee7b7; }
+    .filter-btn[data-cat="tech"].active       { background: rgba(139,92,246,.15); border-color: rgba(139,92,246,.5); color: #c4b5fd; }
+    .filter-btn[data-cat="lifestyle"].active  { background: rgba(244,63,94,.15);  border-color: rgba(244,63,94,.5);  color: #fda4af; }
+    .filter-btn[data-cat="data"].active       { background: rgba(59,130,246,.15); border-color: rgba(59,130,246,.5); color: #93c5fd; }
+    .filter-btn[data-cat="cloud"].active      { background: rgba(6,182,212,.15);  border-color: rgba(6,182,212,.5);  color: #67e8f9; }
+
+    /* ───── Grid ───── */
+    .grid-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 24px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 900px)  { .grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 560px)  { .grid { grid-template-columns: 1fr; } }
+
+    /* ───── Card ───── */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      cursor: default;
+      transition: transform .25s, background .25s, border-color .25s, box-shadow .25s;
+      animation: fadeUp .4s ease both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    .card:hover { transform: translateY(-4px); background: var(--card-hover); box-shadow: 0 20px 60px rgba(0,0,0,.4); }
+
+    /* per-category top stripe + glow */
+    .card[data-cat="finance"] { --accent: var(--green); }
+    .card[data-cat="tech"]    { --accent: var(--violet); }
+    .card[data-cat="lifestyle"]{ --accent: var(--rose); }
+    .card[data-cat="data"]    { --accent: var(--blue); }
+    .card[data-cat="cloud"]   { --accent: var(--cyan); }
+
+    .card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 16px 16px 0 0;
+      opacity: .7;
+    }
+
+    .card:hover { border-color: color-mix(in srgb, var(--accent) 30%, transparent); box-shadow: 0 20px 60px rgba(0,0,0,.4), 0 0 30px color-mix(in srgb, var(--accent) 10%, transparent); }
+
+    .card-header { display: flex; align-items: flex-start; gap: 14px; }
+
+    .card-icon {
+      font-size: 2rem;
+      line-height: 1;
+      flex-shrink: 0;
+      width: 52px;
+      height: 52px;
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-title-block { flex: 1; }
+
+    .card-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .card-cat-label {
+      font-size: .7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--accent);
+      opacity: .85;
+    }
+
+    .card-desc {
+      font-size: .85rem;
+      color: var(--muted);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .badge {
+      font-size: .7rem;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 100px;
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+      border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+      color: color-mix(in srgb, var(--accent) 80%, white);
+      white-space: nowrap;
+    }
+
+    .badge.warn {
+      background: rgba(245,158,11,.08);
+      border-color: rgba(245,158,11,.25);
+      color: #fcd34d;
+    }
+
+    /* ───── No-results ───── */
+    .empty {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 80px 24px;
+      color: var(--muted);
+    }
+
+    .empty-emoji { font-size: 3rem; margin-bottom: 16px; }
+    .empty p { font-size: 1rem; }
+
+    /* ───── Footer ───── */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 40px 24px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: .82rem;
+      margin-top: 40px;
+    }
+
+    footer span { color: #a78bfa; font-weight: 600; }
+
+    /* ───── Animations ───── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card:nth-child(1)  { animation-delay: .02s }
+    .card:nth-child(2)  { animation-delay: .04s }
+    .card:nth-child(3)  { animation-delay: .06s }
+    .card:nth-child(4)  { animation-delay: .08s }
+    .card:nth-child(5)  { animation-delay: .10s }
+    .card:nth-child(6)  { animation-delay: .12s }
+    .card:nth-child(7)  { animation-delay: .14s }
+    .card:nth-child(8)  { animation-delay: .16s }
+    .card:nth-child(9)  { animation-delay: .18s }
+    .card:nth-child(10) { animation-delay: .20s }
+    .card:nth-child(11) { animation-delay: .22s }
+    .card:nth-child(12) { animation-delay: .24s }
+    .card:nth-child(13) { animation-delay: .26s }
+    .card:nth-child(14) { animation-delay: .28s }
+    .card:nth-child(15) { animation-delay: .30s }
+    .card:nth-child(16) { animation-delay: .32s }
+    .card:nth-child(17) { animation-delay: .34s }
+
+    .card.hidden { display: none; }
+
+    /* ───── Scrollbar ───── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: rgba(139,92,246,.3); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(139,92,246,.5); }
+
+    /* ───── Count chip ───── */
+    .count-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(139,92,246,.1);
+      border: 1px solid rgba(139,92,246,.2);
+      border-radius: 100px;
+      padding: 4px 12px;
+      font-size: .75rem;
+      color: #a78bfa;
+      font-weight: 600;
+      margin-bottom: 20px;
+      transition: opacity .2s;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+<section class="hero">
+  <div class="hero-badge">OpenClaw · Skill Registry</div>
+  <h1>Yehuda's AI Skills Hub</h1>
+  <p class="subtitle">A curated collection of intelligent skills powering Yehuda's AI assistant - from trading to parenting, data architecture to espresso.</p>
+</section>
+
+<!-- ═══════════════════════════════ STATS ═══════════════════════════════ -->
+<div class="stats">
+  <div class="stat">
+    <span class="stat-num">17</span>
+    <span class="stat-label">Skills</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">5</span>
+    <span class="stat-label">Categories</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">∞</span>
+    <span class="stat-label">Always Learning</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ CONTROLS ═══════════════════════════════ -->
+<div class="controls">
+  <div class="controls-inner">
+    <div class="search-wrap">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+      </svg>
+      <input id="searchInput" type="text" placeholder="Search skills..." autocomplete="off" />
+    </div>
+    <div class="filters">
+      <button class="filter-btn active" data-cat="all">🌐 All</button>
+      <button class="filter-btn" data-cat="finance">💹 Finance</button>
+      <button class="filter-btn" data-cat="tech">🏗️ Tech</button>
+      <button class="filter-btn" data-cat="data">📊 Data</button>
+      <button class="filter-btn" data-cat="cloud">☁️ Cloud</button>
+      <button class="filter-btn" data-cat="lifestyle">🏠 Lifestyle</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ GRID ═══════════════════════════════ -->
+<div class="grid-wrap">
+  <div class="count-chip" id="countChip">✦ Showing all 17 skills</div>
+  <div class="grid" id="grid">
+
+    <!-- 1. AI Chief Architect -->
+    <div class="card" data-cat="tech" data-name="AI Chief Architect">
+      <div class="card-header">
+        <div class="card-icon">🏛️</div>
+        <div class="card-title-block">
+          <div class="card-name">AI Chief Architect</div>
+          <div class="card-cat-label">🏗️ Tech / Architecture</div>
+        </div>
+      </div>
+      <p class="card-desc">System design, architecture decisions, and tech leadership. From microservices to LLM-powered agentic systems.</p>
+      <div class="badges">
+        <span class="badge">Microservices</span>
+        <span class="badge">Cloud-Native</span>
+        <span class="badge">ADRs</span>
+        <span class="badge">LLMs & AI Arch</span>
+        <span class="badge">Mermaid Diagrams</span>
+      </div>
+    </div>
+
+    <!-- 2. Analyst Price Targets -->
+    <div class="card" data-cat="finance" data-name="Analyst Price Targets">
+      <div class="card-header">
+        <div class="card-icon">🎯</div>
+        <div class="card-title-block">
+          <div class="card-name">Analyst Price Targets</div>
+          <div class="card-cat-label">💹 Finance / Trading</div>
+        </div>
+      </div>
+      <p class="card-desc">Wall Street consensus & analyst ratings for any stock ticker. Real-time data from TipRanks & MarketBeat.</p>
+      <div class="badges">
+        <span class="badge">Price Targets</span>
+        <span class="badge">Analyst Ratings</span>
+        <span class="badge">Upside/Downside</span>
+        <span class="badge">Consensus View</span>
+        <span class="badge warn">⚠️ Educational Only</span>
+      </div>
+    </div>
+
+    <!-- 3. Azure Data Architect -->
+    <div class="card" data-cat="cloud" data-name="Azure Data Architect">
+      <div class="card-header">
+        <div class="card-icon">☁️</div>
+        <div class="card-title-block">
+          <div class="card-name">Azure Data Architect</div>
+          <div class="card-cat-label">☁️ Cloud / Azure</div>
+        </div>
+      </div>
+      <p class="card-desc">Senior data architect persona (Yehuda). Designs end-to-end Azure data platforms with visual pipeline diagrams.</p>
+      <div class="badges">
+        <span class="badge">ADF & ADLS Gen2</span>
+        <span class="badge">Synapse & Fabric</span>
+        <span class="badge">Medallion Arch</span>
+        <span class="badge">Delta Lake</span>
+        <span class="badge">Data Mesh</span>
+      </div>
+    </div>
+
+    <!-- 4. Coffee Master -->
+    <div class="card" data-cat="lifestyle" data-name="Coffee Master">
+      <div class="card-header">
+        <div class="card-icon">☕</div>
+        <div class="card-title-block">
+          <div class="card-name">Coffee Master</div>
+          <div class="card-cat-label">🏠 Lifestyle</div>
+        </div>
+      </div>
+      <p class="card-desc">La Marzocco Linea Micra specialist. Espresso recipes, milk steaming, latte art, and machine maintenance.</p>
+      <div class="badges">
+        <span class="badge">Espresso Recipes</span>
+        <span class="badge">Latte Art</span>
+        <span class="badge">Dial-In Guide</span>
+        <span class="badge">Bean Recs</span>
+      </div>
+    </div>
+
+    <!-- 5. Data Engineer -->
+    <div class="card" data-cat="data" data-name="Data Engineer">
+      <div class="card-header">
+        <div class="card-icon">⚙️</div>
+        <div class="card-title-block">
+          <div class="card-name">Data Engineer</div>
+          <div class="card-cat-label">📊 Data / Engineering</div>
+        </div>
+      </div>
+      <p class="card-desc">Modern data stack expert. Spark, dbt, Delta Lake, medallion architecture, and performance-tuned pipelines.</p>
+      <div class="badges">
+        <span class="badge">Spark / PySpark</span>
+        <span class="badge">dbt</span>
+        <span class="badge">Delta Lake</span>
+        <span class="badge">Bronze/Silver/Gold</span>
+        <span class="badge">Unity Catalog</span>
+      </div>
+    </div>
+
+    <!-- 6. Databricks -->
+    <div class="card" data-cat="data" data-name="Databricks">
+      <div class="card-header">
+        <div class="card-icon">🧱</div>
+        <div class="card-title-block">
+          <div class="card-name">Databricks</div>
+          <div class="card-cat-label">📊 Data / Lakehouse</div>
+        </div>
+      </div>
+      <p class="card-desc">Full Databricks Lakehouse platform - notebooks, Unity Catalog, DLT, MLflow, AgentBricks, and beyond.</p>
+      <div class="badges">
+        <span class="badge">Unity Catalog</span>
+        <span class="badge">Genie (AI/BI)</span>
+        <span class="badge">DLT & MLflow</span>
+        <span class="badge">AgentBricks</span>
+        <span class="badge">Databricks Apps</span>
+      </div>
+    </div>
+
+    <!-- 7. DEEBOT Controller -->
+    <div class="card" data-cat="lifestyle" data-name="DEEBOT Controller">
+      <div class="card-header">
+        <div class="card-icon">🤖</div>
+        <div class="card-title-block">
+          <div class="card-name">DEEBOT Controller</div>
+          <div class="card-cat-label">🏠 Smart Home</div>
+        </div>
+      </div>
+      <p class="card-desc">Control the DEEBOT X8 PRO OMNI robot vacuum via voice commands in Hebrew or English. Start, stop, dock, status.</p>
+      <div class="badges">
+        <span class="badge">Start / Stop</span>
+        <span class="badge">Return to Dock</span>
+        <span class="badge">Battery Status</span>
+        <span class="badge">Hebrew Commands</span>
+      </div>
+    </div>
+
+    <!-- 8. Fitness & Nutrition -->
+    <div class="card" data-cat="lifestyle" data-name="Fitness Nutrition Coach">
+      <div class="card-header">
+        <div class="card-icon">💪</div>
+        <div class="card-title-block">
+          <div class="card-name">Fitness & Nutrition Coach</div>
+          <div class="card-cat-label">🏠 Lifestyle / Health</div>
+        </div>
+      </div>
+      <p class="card-desc">Evidence-based fitness and nutrition guidance. Strength training, hypertrophy, body recomposition, and macros.</p>
+      <div class="badges">
+        <span class="badge">Strength Training</span>
+        <span class="badge">Hypertrophy</span>
+        <span class="badge">Macro Planning</span>
+        <span class="badge">Progressive Overload</span>
+        <span class="badge warn">⚠️ General Guidance</span>
+      </div>
+    </div>
+
+    <!-- 9. Grok Trader -->
+    <div class="card" data-cat="finance" data-name="Grok Trader">
+      <div class="card-header">
+        <div class="card-icon">📈</div>
+        <div class="card-title-block">
+          <div class="card-name">Grok Trader</div>
+          <div class="card-cat-label">💹 Finance / Trading</div>
+        </div>
+      </div>
+      <p class="card-desc">Autonomous eToro portfolio trader using the Grok 4 strategy. MA20 + macro catalysts, large-cap only.</p>
+      <div class="badges">
+        <span class="badge">Autonomous Trading</span>
+        <span class="badge">MA20 Strategy</span>
+        <span class="badge">eToro Integration</span>
+        <span class="badge">WhatsApp Alerts</span>
+        <span class="badge warn">⚠️ Educational Only</span>
+      </div>
+    </div>
+
+    <!-- 10. Hebrew Language -->
+    <div class="card" data-cat="lifestyle" data-name="Hebrew Language">
+      <div class="card-header">
+        <div class="card-icon">🇮🇱</div>
+        <div class="card-title-block">
+          <div class="card-name">Hebrew Language</div>
+          <div class="card-cat-label">🏠 Language / Culture</div>
+        </div>
+      </div>
+      <p class="card-desc">Modern Israeli Hebrew - reading, writing, responding. Slang, cultural context, and bilingual communication.</p>
+      <div class="badges">
+        <span class="badge">Modern Hebrew</span>
+        <span class="badge">Israeli Slang</span>
+        <span class="badge">RTL Support</span>
+        <span class="badge">Bilingual</span>
+      </div>
+    </div>
+
+    <!-- 11. Husband Support -->
+    <div class="card" data-cat="lifestyle" data-name="Husband Support">
+      <div class="card-header">
+        <div class="card-icon">💑</div>
+        <div class="card-title-block">
+          <div class="card-name">Husband Support</div>
+          <div class="card-cat-label">🏠 Relationship</div>
+        </div>
+      </div>
+      <p class="card-desc">Relationship & family skill for Yehuda & Ilana. Romantic gestures, date planning, gift ideas, and communication tips.</p>
+      <div class="badges">
+        <span class="badge">Date Planning</span>
+        <span class="badge">Gift Ideas</span>
+        <span class="badge">WhatsApp (Ilana)</span>
+        <span class="badge">Anniversary Reminders</span>
+      </div>
+    </div>
+
+    <!-- 12. Market News Sentiment -->
+    <div class="card" data-cat="finance" data-name="Market News Sentiment">
+      <div class="card-header">
+        <div class="card-icon">📰</div>
+        <div class="card-title-block">
+          <div class="card-name">Market News Sentiment</div>
+          <div class="card-cat-label">💹 Finance / Analysis</div>
+        </div>
+      </div>
+      <p class="card-desc">Real-time news sentiment analysis for stocks and crypto. Buy/sell/hold signals with multi-source scoring via Grok.</p>
+      <div class="badges">
+        <span class="badge">Sentiment Score</span>
+        <span class="badge">Buy/Sell/Hold</span>
+        <span class="badge">Multi-Source</span>
+        <span class="badge">Real-Time Search</span>
+        <span class="badge warn">⚠️ Educational Only</span>
+      </div>
+    </div>
+
+    <!-- 13. Next.js Backend -->
+    <div class="card" data-cat="tech" data-name="Next.js Backend">
+      <div class="card-header">
+        <div class="card-icon">🔧</div>
+        <div class="card-title-block">
+          <div class="card-name">Next.js Backend</div>
+          <div class="card-cat-label">🏗️ Tech / Full-Stack</div>
+        </div>
+      </div>
+      <p class="card-desc">Full-stack Next.js 14 with Supabase Postgres and NextAuth.js. API routes, Google OAuth, protected routes, RLS.</p>
+      <div class="badges">
+        <span class="badge">API Routes</span>
+        <span class="badge">Supabase / Postgres</span>
+        <span class="badge">NextAuth.js</span>
+        <span class="badge">Google OAuth</span>
+        <span class="badge">Vercel</span>
+      </div>
+    </div>
+
+    <!-- 14. Next.js Frontend -->
+    <div class="card" data-cat="tech" data-name="Next.js Frontend">
+      <div class="card-header">
+        <div class="card-icon">🎨</div>
+        <div class="card-title-block">
+          <div class="card-name">Next.js Frontend</div>
+          <div class="card-cat-label">🏗️ Tech / UI</div>
+        </div>
+      </div>
+      <p class="card-desc">React UI development with Tailwind CSS, Chart.js, Hebrew RTL support, dark mode, and App Router.</p>
+      <div class="badges">
+        <span class="badge">Tailwind CSS</span>
+        <span class="badge">Chart.js</span>
+        <span class="badge">Hebrew RTL</span>
+        <span class="badge">Dark Mode</span>
+        <span class="badge">Vercel</span>
+      </div>
+    </div>
+
+    <!-- 15. Parenting -->
+    <div class="card" data-cat="lifestyle" data-name="Parenting">
+      <div class="card-header">
+        <div class="card-icon">👨‍👩‍👧‍👦</div>
+        <div class="card-title-block">
+          <div class="card-name">Parenting</div>
+          <div class="card-cat-label">🏠 Family</div>
+        </div>
+      </div>
+      <p class="card-desc">Family parenting guidance tailored for Avior (6), Nitai (4), and baby Arbel. Activities, milestones, routines.</p>
+      <div class="badges">
+        <span class="badge">Age-Appropriate Activities</span>
+        <span class="badge">Milestones</span>
+        <span class="badge">Bedtime Routines</span>
+        <span class="badge">Sibling Dynamics</span>
+      </div>
+    </div>
+
+    <!-- 16. Secure Skill Downloader -->
+    <div class="card" data-cat="tech" data-name="Secure Skill Downloader">
+      <div class="card-header">
+        <div class="card-icon">🔒</div>
+        <div class="card-title-block">
+          <div class="card-name">Secure Skill Downloader</div>
+          <div class="card-cat-label">🏗️ Security</div>
+        </div>
+      </div>
+      <p class="card-desc">Security gatekeeper for all skill installations. Scans for malicious code, prompt injection, and credential theft.</p>
+      <div class="badges">
+        <span class="badge">Malware Scan</span>
+        <span class="badge">Prompt Injection</span>
+        <span class="badge">Credential Safety</span>
+        <span class="badge">Triple Confirm</span>
+      </div>
+    </div>
+
+    <!-- 17. Technical Analysis -->
+    <div class="card" data-cat="finance" data-name="Technical Analysis">
+      <div class="card-header">
+        <div class="card-icon">📊</div>
+        <div class="card-title-block">
+          <div class="card-name">Technical Analysis</div>
+          <div class="card-cat-label">💹 Finance / Charts</div>
+        </div>
+      </div>
+      <p class="card-desc">Advanced chart analysis using Elliott Wave, Wyckoff, ICT/Smart Money, harmonic patterns, and Volume Profile.</p>
+      <div class="badges">
+        <span class="badge">Elliott Wave</span>
+        <span class="badge">Wyckoff / ICT</span>
+        <span class="badge">Harmonic Patterns</span>
+        <span class="badge">Volume Profile</span>
+        <span class="badge warn">⚠️ Educational Only</span>
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+</div><!-- /grid-wrap -->
+
+<!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+<footer>
+  <p>Powered by <span>OpenClaw</span> · Built with ❤️ for Yehuda Mizrahi · 2026</p>
+</footer>
+
+<script>
+  const cards = Array.from(document.querySelectorAll('.card'));
+  const searchInput = document.getElementById('searchInput');
+  const filterBtns = Array.from(document.querySelectorAll('.filter-btn'));
+  const countChip = document.getElementById('countChip');
+  let activeFilter = 'all';
+
+  function updateCount(visible) {
+    const total = cards.length;
+    if (visible === total) {
+      countChip.textContent = `✦ Showing all ${total} skills`;
+    } else {
+      countChip.textContent = `✦ Showing ${visible} of ${total} skills`;
+    }
+  }
+
+  function applyFilters() {
+    const query = searchInput.value.toLowerCase().trim();
+    let visible = 0;
+
+    cards.forEach(card => {
+      const cat = card.dataset.cat;
+      const name = card.dataset.name.toLowerCase();
+      const desc = card.querySelector('.card-desc').textContent.toLowerCase();
+      const badges = Array.from(card.querySelectorAll('.badge')).map(b => b.textContent.toLowerCase()).join(' ');
+
+      const matchesCat = activeFilter === 'all' || cat === activeFilter;
+      const matchesSearch = !query || name.includes(query) || desc.includes(query) || badges.includes(query);
+
+      if (matchesCat && matchesSearch) {
+        card.classList.remove('hidden');
+        visible++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+
+    // Show/hide empty state
+    let empty = document.querySelector('.empty');
+    if (visible === 0) {
+      if (!empty) {
+        empty = document.createElement('div');
+        empty.className = 'empty';
+        empty.innerHTML = '<div class="empty-emoji">🔍</div><p>No skills match your search. Try a different keyword.</p>';
+        document.getElementById('grid').appendChild(empty);
+      }
+    } else {
+      if (empty) empty.remove();
+    }
+
+    updateCount(visible);
+  }
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.cat;
+      applyFilters();
+    });
+  });
+
+  searchInput.addEventListener('input', applyFilters);
+
+  // Initial count
+  updateCount(cards.length);
+</script>
+</body>
+</html>
