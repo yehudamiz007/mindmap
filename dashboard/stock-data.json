@@ -1,155 +1,20 @@
 {
-  "lastUpdated": "26.04.2026 17:00 IST",
+  "lastUpdated": "27.04.2026 09:00 IST",
   "stocks": [
-    {
-      "ticker": "APP",
-      "name": "AppLovin Corp",
-      "price": "$448.29",
-      "news": 8.5,
-      "analyst": 9.2,
-      "technical": 8.0,
-      "total": 8.60,
-      "notes": "מנוע פרסום AI מוביל את הענף, 55% אפסייד לפי אנליסטים, הכנסות AI מאיצות"
-    },
-    {
-      "ticker": "CELH",
-      "name": "Celsius Holdings Inc",
-      "price": "$34.59",
-      "news": 7.0,
-      "analyst": 9.5,
-      "technical": 8.0,
-      "total": 8.40,
-      "notes": "87% אפסייד לפי אנליסטים, Strong Buy קונסנזוס, ירידה חדה ב-2025 יוצרת הזדמנות קנייה"
-    },
-    {
-      "ticker": "META",
-      "name": "Meta Platforms Inc",
-      "price": "$675.03",
-      "news": 9.0,
-      "analyst": 8.8,
-      "technical": 8.5,
-      "total": 8.77,
-      "notes": "מכונת פרסום AI, רווחי Q1 עלו על ציפיות, Llama AI מואץ, 24% אפסייד"
-    },
-    {
-      "ticker": "MSTR",
-      "name": "Strategy Inc (MicroStrategy)",
-      "price": "$171.02",
-      "news": 8.0,
-      "analyst": 9.0,
-      "technical": 5.5,
-      "total": 7.53,
-      "notes": "101% אפסייד לפי אנליסטים, פרוקסי ביטקוין, אסטרטגיית אוצר קורפורטיבי מרחיבה"
-    },
-    {
-      "ticker": "IONQ",
-      "name": "IonQ Inc",
-      "price": "$42.69",
-      "news": 7.5,
-      "analyst": 8.8,
-      "technical": 6.5,
-      "total": 7.67,
-      "notes": "56% אפסייד, Strong Buy קונסנזוס, חוזים מסחריים קוונטום מתרחבים, מומנטום ענפי"
-    },
-    {
-      "ticker": "NVDA",
-      "name": "NVIDIA Corp",
-      "price": "$208.27",
-      "news": 8.5,
-      "analyst": 8.5,
-      "technical": 7.5,
-      "total": 8.17,
-      "notes": "Strong Buy, 28% אפסייד, זינוק +4.3% היום, ביקוש Blackwell GB200 פורץ תקרות"
-    },
-    {
-      "ticker": "TSM",
-      "name": "Taiwan Semiconductor Mfg",
-      "price": "$402.46",
-      "news": 8.5,
-      "analyst": 7.0,
-      "technical": 8.5,
-      "total": 7.98,
-      "notes": "+5.17% היום, Strong Buy קונסנזוס, ביקוש שבבי AI בשיא, CoWoS sold out"
-    },
-    {
-      "ticker": "PLTR",
-      "name": "Palantir Technologies",
-      "price": "$143.09",
-      "news": 8.0,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.50,
-      "notes": "36% אפסייד, Buy קונסנזוס, חוזי AI ממשלתיים מתרחבים, אפליקציית AIP מובילת ענף"
-    },
-    {
-      "ticker": "HOOD",
-      "name": "Robinhood Markets",
-      "price": "$84.71",
-      "news": 7.5,
-      "analyst": 7.2,
-      "technical": 7.5,
-      "total": 7.41,
-      "notes": "25% אפסייד, Buy קונסנזוס, צמיחת הכנסות קריפטו, שוקי חיזוי מניעים משתמשים"
-    },
-    {
-      "ticker": "CRWD",
-      "name": "CrowdStrike Holdings",
-      "price": "$448.13",
-      "news": 7.5,
-      "analyst": 7.0,
-      "technical": 7.0,
-      "total": 7.17,
-      "notes": "13% אפסייד, Buy קונסנזוס, הגנת סייבר מוגברת, התאוששות מלאה מאירוע 2024"
-    },
-    {
-      "ticker": "BTC",
-      "name": "Bitcoin",
-      "price": "$77,942.66",
-      "news": 8.5,
-      "analyst": 8.0,
-      "technical": 7.5,
-      "total": 7.97,
-      "notes": "זרימות ETF מוסדיות חזקות, רמת תמיכה $78K, רוח גבית מאקרו, מחצור בעלות"
-    },
-    {
-      "ticker": "SOL",
-      "name": "Solana",
-      "price": "$86.10",
-      "news": 8.0,
-      "analyst": 7.8,
-      "technical": 7.5,
-      "total": 7.76,
-      "notes": "צמיחת TVL DeFi, עדכון Firedancer, אקוסיסטם חזק, תחרות עם Ethereum גוברת"
-    },
-    {
-      "ticker": "ETH",
-      "name": "Ethereum",
-      "price": "$2,334.56",
-      "news": 7.5,
-      "analyst": 7.5,
-      "technical": 7.0,
-      "total": 7.35,
-      "notes": "שדרוג Pectra חי, מומנטום אישור ETF סטייקינג, אבל נותר מאחור מול BTC"
-    },
-    {
-      "ticker": "SUI",
-      "name": "Sui Network",
-      "price": "$0.94",
-      "news": 7.5,
-      "analyst": 7.0,
-      "technical": 8.0,
-      "total": 7.55,
-      "notes": "L1 מתפרץ, אקוסיסטם DeFi מתפוצץ, מומנטום טכני חזק, פוטנציאל גבוה"
-    },
-    {
-      "ticker": "ASTS",
-      "name": "AST SpaceMobile Inc",
-      "price": "$76.40",
-      "news": 6.5,
-      "analyst": 3.5,
-      "technical": 5.5,
-      "total": 5.07,
-      "notes": "Hold קונסנזוס, יעד מחיר מתחת לשוק, ירידה 3% היום, סיכון ביצוע גבוה בשיגורים"
-    }
+    {"ticker": "NVDA", "name": "NVIDIA Corp", "price": "N/A", "news": 8.5, "analyst": 9.0, "technical": 8.0, "total": 8.5, "notes": "ביקוש חזק לשבבי AI עם שדרוגי אנליסטים עדכניים"},
+    {"ticker": "SMCI", "name": "Super Micro Computer", "price": "N/A", "news": 8.5, "analyst": 8.8, "technical": 8.2, "total": 8.5, "notes": "ביקוש גואה לשרתי AI עם זכיות בחוזים חדשים"},
+    {"ticker": "BTC-USD", "name": "Bitcoin", "price": "N/A", "news": 8.5, "analyst": 8.0, "technical": 8.3, "total": 8.26, "notes": "חדשות על אימוץ מוסדי ותצורת טכנית שורית"},
+    {"ticker": "MSFT", "name": "Microsoft Corp", "price": "N/A", "news": 8.2, "analyst": 8.5, "technical": 7.7, "total": 8.13, "notes": "צמיחת ענן וחדשות חיוביות על AI"},
+    {"ticker": "AMD", "name": "Advanced Micro Devices", "price": "N/A", "news": 8.0, "analyst": 8.5, "technical": 7.5, "total": 8.0, "notes": "הכנסות צפויות לנצח קונצנזוס על צמיחת מרכזי נתונים"},
+    {"ticker": "AAPL", "name": "Apple Inc.", "price": "N/A", "news": 8.0, "analyst": 8.2, "technical": 7.8, "total": 8.0, "notes": "ציפייה לתוצאות רבעוניות חזקות ממכירות אייפון"},
+    {"ticker": "ARM", "name": "Arm Holdings", "price": "N/A", "news": 7.7, "analyst": 8.1, "technical": 7.9, "total": 7.91, "notes": "התאוששות במגזר המובייל עם מומנטום חזק"},
+    {"ticker": "LRCX", "name": "Lam Research Corp", "price": "N/A", "news": 7.8, "analyst": 8.3, "technical": 7.6, "total": 7.91, "notes": "ביקוש חזק לציוד מוליכים למחצה עם הנחיה חיובית"},
+    {"ticker": "ETH-USD", "name": "Ethereum", "price": "N/A", "news": 8.0, "analyst": 7.8, "technical": 7.9, "total": 7.9, "notes": "שדרוגי רשת קרובים ומומנטום ב-DeFi"},
+    {"ticker": "GOOGL", "name": "Alphabet Inc.", "price": "N/A", "news": 7.8, "analyst": 8.0, "technical": 7.5, "total": 7.77, "notes": "התאוששות בהכנסות מפרסום וסנטימנט חיובי על השקעות AI"},
+    {"ticker": "SOL-USD", "name": "Solana", "price": "N/A", "news": 7.9, "analyst": 7.5, "technical": 7.7, "total": 7.69, "notes": "מערכת NFT צומחת ופעילות מפתחים גואה"},
+    {"ticker": "QCOM", "name": "Qualcomm Inc.", "price": "N/A", "news": 7.6, "analyst": 7.9, "technical": 7.4, "total": 7.64, "notes": "אימוץ 5G ופוטנציאל רווחים חזק השבוע"},
+    {"ticker": "TSLA", "name": "Tesla, Inc.", "price": "N/A", "news": 7.5, "analyst": 7.8, "technical": 7.0, "total": 7.43, "notes": "חדשות על הגברת ייצור וציפיות למספרי מסירה חיוביים"},
+    {"ticker": "ADA-USD", "name": "Cardano", "price": "N/A", "news": 7.4, "analyst": 7.2, "technical": 7.0, "total": 7.19, "notes": "עדכון פרוטוקול חיובי מעודד עניין בהימור"},
+    {"ticker": "XRP-USD", "name": "Ripple", "price": "N/A", "news": 7.7, "analyst": 7.0, "technical": 6.8, "total": 7.14, "notes": "התפתחויות משפטיות חיוביות בתיק SEC מגבירות את הסנטימנט"}
   ]
 }
