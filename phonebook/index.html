@@ -382,6 +382,185 @@
     border-radius: 3px;
     padding: 0 2px;
   }
+
+  /* ---- CUSTOM CARD ACCENT ---- */
+  .card.custom-entry {
+    border-left: 4px solid var(--green);
+  }
+
+  .card-actions {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    display: flex;
+    gap: 6px;
+    z-index: 2;
+  }
+
+  .card-action-btn {
+    background: var(--bg4);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.15s, border-color 0.15s;
+    padding: 0;
+  }
+
+  .card-action-btn:hover { background: var(--border); border-color: var(--accent); }
+
+  /* ---- FAB ---- */
+  .fab {
+    position: fixed;
+    bottom: 28px;
+    left: 28px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #000;
+    font-size: 2rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 24px rgba(6,182,212,0.45);
+    transition: transform 0.15s, box-shadow 0.15s;
+    z-index: 200;
+    line-height: 1;
+  }
+
+  .fab:hover { transform: scale(1.08); box-shadow: 0 8px 32px rgba(6,182,212,0.6); }
+
+  /* ---- TAB ADD ---- */
+  .tab-add {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1.5px dashed var(--border2);
+    background: transparent;
+    color: var(--text2);
+    font-size: 1.3rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .tab-add:hover { border-color: var(--accent); color: var(--accent); background: rgba(6,182,212,0.08); }
+
+  /* ---- MODAL OVERLAY ---- */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.72);
+    z-index: 300;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 24px;
+    padding: 32px 28px;
+    width: 100%;
+    max-width: 480px;
+    max-height: 92vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 16px 64px rgba(0,0,0,0.6);
+    direction: rtl;
+  }
+
+  .modal h2 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 22px;
+    color: var(--accent3);
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: none;
+    border: none;
+    color: var(--text2);
+    font-size: 1.4rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: color 0.15s, background 0.15s;
+  }
+
+  .modal-close:hover { color: var(--text); background: var(--border); }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text2);
+    margin-bottom: 6px;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--bg4);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-family: 'Heebo', sans-serif;
+    font-size: 1.1rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    direction: rtl;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(6,182,212,0.15);
+  }
+
+  .form-group select option { background: var(--bg4); color: var(--text); }
+
+  .form-submit {
+    width: 100%;
+    padding: 14px;
+    background: var(--accent);
+    border: none;
+    border-radius: 14px;
+    color: #000;
+    font-family: 'Heebo', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.15s, transform 0.1s;
+  }
+
+  .form-submit:hover { background: var(--accent2); transform: translateY(-1px); }
 </style>
 </head>
 <body>
@@ -411,6 +590,49 @@
 <div class="main">
   <div class="count-bar" id="countBar">טוען...</div>
   <div id="container"></div>
+</div>
+
+<!-- ---- FLOATING ADD BUTTON ---- -->
+<button class="fab" id="fabAdd" title="הוסף רשומה">+</button>
+
+<!-- ---- ADD/EDIT MODAL ---- -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <h2 id="modalTitle">➕ הוסף רשומה</h2>
+    <form id="entryForm" autocomplete="off">
+      <input type="hidden" id="editId" value="" />
+      <div class="form-group">
+        <label for="fDept">יעד *</label>
+        <input type="text" id="fDept" placeholder="שם המחלקה / היעד" required />
+      </div>
+      <div class="form-group">
+        <label for="fContact">א.א</label>
+        <input type="text" id="fContact" placeholder="איש קשר" />
+      </div>
+      <div class="form-group">
+        <label for="fPhone">טלפון</label>
+        <input type="text" id="fPhone" placeholder="מספר טלפון" />
+      </div>
+      <div class="form-group">
+        <label for="fAkhmash">אחמש</label>
+        <input type="text" id="fAkhmash" placeholder="אחמש" />
+      </div>
+      <div class="form-group">
+        <label for="fMorePhone">מס' טלפון</label>
+        <input type="text" id="fMorePhone" placeholder="מספרים נוספים" />
+      </div>
+      <div class="form-group">
+        <label for="fTel">טיל</label>
+        <input type="text" id="fTel" placeholder="מספר טיל" />
+      </div>
+      <div class="form-group">
+        <label for="fCategory">קטגוריה</label>
+        <select id="fCategory"></select>
+      </div>
+      <button type="submit" class="form-submit">שמור</button>
+    </form>
+  </div>
 </div>
 
 <script>
@@ -565,8 +787,38 @@ const miscEntries = MISC.map(m => ({
   section: 'שונות'
 }));
 
-const ALL_ENTRIES = [...mainEntries, ...labEntries, ...miscEntries];
-const TOTAL = ALL_ENTRIES.length;
+// ============================================================
+// CUSTOM ENTRIES (localStorage)
+// ============================================================
+const LS_KEY = 'sheba_custom';
+const LS_CATS_KEY = 'sheba_cats';
+
+function loadCustomEntries() {
+  try { return JSON.parse(localStorage.getItem(LS_KEY) || '[]'); } catch(e) { return []; }
+}
+
+function saveCustomEntries(arr) {
+  localStorage.setItem(LS_KEY, JSON.stringify(arr));
+}
+
+function loadCustomCats() {
+  try { return JSON.parse(localStorage.getItem(LS_CATS_KEY) || '[]'); } catch(e) { return []; }
+}
+
+function saveCustomCats(arr) {
+  localStorage.setItem(LS_CATS_KEY, JSON.stringify(arr));
+}
+
+let customEntries = loadCustomEntries();
+let customCats = loadCustomCats();
+
+const BUILTIN_CATS = ['הכל','מחלקות','ילדים','פסיכיאטריה','מעבדות','שונות'];
+
+function getAllEntries() {
+  return [...mainEntries, ...labEntries, ...miscEntries, ...customEntries];
+}
+
+const TOTAL = mainEntries.length + labEntries.length + miscEntries.length;
 
 // ============================================================
 // PHONE LINK HELPER
@@ -602,6 +854,7 @@ function applyHighlight(text, term) {
 // ============================================================
 let currentCat = 'הכל';
 let currentSearch = '';
+let editingId = null;
 
 const ACCENT_BY_SECTION = {
   'מחלקות': '#06b6d4',
@@ -612,7 +865,7 @@ const ACCENT_BY_SECTION = {
 };
 
 function buildCard(entry, searchTerm) {
-  const accent = ACCENT_BY_SECTION[entry.category] || '#06b6d4';
+  const accent = entry.isCustom ? 'var(--green)' : (ACCENT_BY_SECTION[entry.category] || '#06b6d4');
   const hl = (s) => s ? applyHighlight(s, searchTerm) : '';
 
   let phonesHtml = '';
@@ -643,7 +896,13 @@ function buildCard(entry, searchTerm) {
     footerItems.push(`<span class="badge badge-section">${escHtml(entry.category)}</span>`);
   }
 
-  return `<div class="card" style="--card-accent:${accent}">
+  const actionsHtml = entry.isCustom ? `<div class="card-actions">
+    <button class="card-action-btn" title="ערוך" onclick="openEditModal('${entry.id}')">✏️</button>
+    <button class="card-action-btn" title="מחק" onclick="deleteEntry('${entry.id}')">🗑️</button>
+  </div>` : '';
+
+  return `<div class="card${entry.isCustom ? ' custom-entry' : ''}" style="--card-accent:${accent}">
+    ${actionsHtml}
     <div class="card-dept">${hl(entry.dept)}</div>
     ${entry.contact ? `<div class="card-contact"><span class="icon">👤</span>${hl(entry.contact)}</div>` : ''}
     <div class="card-phones">${phonesHtml}</div>
@@ -653,14 +912,10 @@ function buildCard(entry, searchTerm) {
 
 function getFiltered() {
   const term = currentSearch.trim().toLowerCase();
-  return ALL_ENTRIES.filter(e => {
+  return getAllEntries().filter(e => {
     // category filter
     if (currentCat !== 'הכל') {
-      if (currentCat === 'מחלקות' && e.category !== 'מחלקות') return false;
-      if (currentCat === 'ילדים' && e.category !== 'ילדים') return false;
-      if (currentCat === 'פסיכיאטריה' && e.category !== 'פסיכיאטריה') return false;
-      if (currentCat === 'מעבדות' && e.category !== 'מעבדות') return false;
-      if (currentCat === 'שונות' && e.category !== 'שונות') return false;
+      if (e.category !== currentCat) return false;
     }
     // search
     if (!term) return true;
@@ -676,7 +931,8 @@ function render() {
   const container = document.getElementById('container');
   const countBar = document.getElementById('countBar');
 
-  countBar.innerHTML = `מציג <strong>${filtered.length}</strong> מתוך <strong>${TOTAL}</strong> רשומות`;
+  const totalAll = getAllEntries().length;
+  countBar.innerHTML = `מציג <strong>${filtered.length}</strong> מתוך <strong>${totalAll}</strong> רשומות`;
 
   if (filtered.length === 0) {
     container.innerHTML = `<div class="no-results">
@@ -686,8 +942,9 @@ function render() {
     return;
   }
 
-  // Group by letter for main sections, flat for labs/misc
-  if (currentCat === 'מעבדות' || currentCat === 'שונות') {
+  // Group by letter for main sections, flat for labs/misc/custom
+  const builtinGrouped = ['הכל','מחלקות','ילדים','פסיכיאטריה'];
+  if (!builtinGrouped.includes(currentCat)) {
     container.innerHTML = `<div class="grid">${filtered.map(e => buildCard(e, term)).join('')}</div>`;
     return;
   }
@@ -703,18 +960,191 @@ function render() {
 
   let html = '';
   groupOrder.forEach(letter => {
-    if (currentCat === 'הכל' || currentCat === 'מחלקות' || currentCat === 'ילדים' || currentCat === 'פסיכיאטריה') {
-      html += `<div class="section-header">
-        <div class="section-letter">${escHtml(letter)}</div>
-        <span class="section-label">קבוצה ${escHtml(letter)}</span>
-        <div class="section-line"></div>
-      </div>`;
-    }
+    html += `<div class="section-header">
+      <div class="section-letter">${escHtml(letter)}</div>
+      <span class="section-label">קבוצה ${escHtml(letter)}</span>
+      <div class="section-line"></div>
+    </div>`;
     html += `<div class="grid">${groups[letter].map(e => buildCard(e, term)).join('')}</div>`;
   });
 
   container.innerHTML = html;
 }
+
+// ============================================================
+// TABS MANAGEMENT
+// ============================================================
+function renderTabs() {
+  const tabsEl = document.getElementById('tabs');
+  // Keep only builtin tabs (first 6) + custom cat tabs + add button
+  // Remove all children and rebuild
+  tabsEl.innerHTML = '';
+
+  const builtinCatNames = ['הכל','מחלקות','ילדים','פסיכיאטריה','מעבדות','שונות'];
+  const builtinLabels = {'ילדים':'ילדים 👶','מעבדות':'מעבדות 🔬','שונות':'שונות 🔧'};
+
+  builtinCatNames.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'tab' + (currentCat === cat ? ' active' : '');
+    btn.dataset.cat = cat;
+    btn.textContent = builtinLabels[cat] || cat;
+    tabsEl.appendChild(btn);
+  });
+
+  customCats.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'tab' + (currentCat === cat ? ' active' : '');
+    btn.dataset.cat = cat;
+    btn.textContent = cat;
+    tabsEl.appendChild(btn);
+  });
+
+  // "+" button to add category
+  const addBtn = document.createElement('button');
+  addBtn.className = 'tab-add';
+  addBtn.title = 'הוסף קטגוריה';
+  addBtn.textContent = '+';
+  addBtn.addEventListener('click', addCategoryPrompt);
+  tabsEl.appendChild(addBtn);
+}
+
+function addCategoryPrompt() {
+  const name = prompt('שם הקטגוריה החדשה:');
+  if (!name || !name.trim()) return;
+  const trimmed = name.trim();
+  if (BUILTIN_CATS.includes(trimmed) || customCats.includes(trimmed)) {
+    alert('קטגוריה זו כבר קיימת');
+    return;
+  }
+  customCats.push(trimmed);
+  saveCustomCats(customCats);
+  renderTabs();
+  populateCategoryDropdown();
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function populateCategoryDropdown(selected) {
+  const sel = document.getElementById('fCategory');
+  sel.innerHTML = '';
+  const allCats = [...BUILTIN_CATS.filter(c => c !== 'הכל'), ...customCats];
+  allCats.forEach(cat => {
+    const opt = document.createElement('option');
+    opt.value = cat;
+    opt.textContent = cat;
+    if (selected && cat === selected) opt.selected = true;
+    sel.appendChild(opt);
+  });
+  // Add "הוסף חדשה..."
+  const newOpt = document.createElement('option');
+  newOpt.value = '__new__';
+  newOpt.textContent = 'הוסף חדשה...';
+  sel.appendChild(newOpt);
+}
+
+document.getElementById('fCategory').addEventListener('change', function() {
+  if (this.value === '__new__') {
+    const name = prompt('שם הקטגוריה החדשה:');
+    if (!name || !name.trim()) {
+      this.value = 'מחלקות';
+      return;
+    }
+    const trimmed = name.trim();
+    if (!BUILTIN_CATS.includes(trimmed) && !customCats.includes(trimmed)) {
+      customCats.push(trimmed);
+      saveCustomCats(customCats);
+      renderTabs();
+    }
+    populateCategoryDropdown(trimmed);
+    this.value = trimmed;
+  }
+});
+
+function openAddModal() {
+  editingId = null;
+  document.getElementById('modalTitle').textContent = '➕ הוסף רשומה';
+  document.getElementById('editId').value = '';
+  document.getElementById('fDept').value = '';
+  document.getElementById('fContact').value = '';
+  document.getElementById('fPhone').value = '';
+  document.getElementById('fAkhmash').value = '';
+  document.getElementById('fMorePhone').value = '';
+  document.getElementById('fTel').value = '';
+  populateCategoryDropdown('מחלקות');
+  document.getElementById('modalOverlay').classList.add('open');
+  document.getElementById('fDept').focus();
+}
+
+function openEditModal(id) {
+  const entry = customEntries.find(e => String(e.id) === String(id));
+  if (!entry) return;
+  editingId = id;
+  document.getElementById('modalTitle').textContent = '✏️ ערוך רשומה';
+  document.getElementById('editId').value = id;
+  document.getElementById('fDept').value = entry.dept || '';
+  document.getElementById('fContact').value = entry.contact || '';
+  document.getElementById('fPhone').value = entry.phone || '';
+  document.getElementById('fAkhmash').value = entry.akhmash || '';
+  document.getElementById('fMorePhone').value = entry.morePhone || '';
+  document.getElementById('fTel').value = entry.tel || '';
+  populateCategoryDropdown(entry.category || 'מחלקות');
+  document.getElementById('modalOverlay').classList.add('open');
+  document.getElementById('fDept').focus();
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  editingId = null;
+}
+
+function deleteEntry(id) {
+  if (!confirm('למחוק את הרשומה?')) return;
+  customEntries = customEntries.filter(e => String(e.id) !== String(id));
+  saveCustomEntries(customEntries);
+  render();
+}
+
+document.getElementById('fabAdd').addEventListener('click', openAddModal);
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+
+document.getElementById('entryForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const dept = document.getElementById('fDept').value.trim();
+  if (!dept) return;
+  const category = document.getElementById('fCategory').value;
+  const newEntry = {
+    id: editingId || Date.now(),
+    dept,
+    contact: document.getElementById('fContact').value.trim(),
+    phone: document.getElementById('fPhone').value.trim(),
+    akhmash: document.getElementById('fAkhmash').value.trim(),
+    morePhone: document.getElementById('fMorePhone').value.trim(),
+    tel: document.getElementById('fTel').value.trim(),
+    category,
+    letter: 'מותאם',
+    section: category,
+    isCustom: true,
+  };
+
+  if (editingId) {
+    const idx = customEntries.findIndex(e => String(e.id) === String(editingId));
+    if (idx !== -1) customEntries[idx] = newEntry;
+  } else {
+    customEntries.push(newEntry);
+  }
+
+  saveCustomEntries(customEntries);
+  closeModal();
+  render();
+});
 
 // ============================================================
 // EVENT LISTENERS
@@ -736,6 +1166,8 @@ document.getElementById('tabs').addEventListener('click', (e) => {
 // ============================================================
 // INIT
 // ============================================================
+renderTabs();
+populateCategoryDropdown();
 render();
 </script>
 </body>
