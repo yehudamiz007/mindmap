@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📞 ספר טלפונים - שיבא</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #18181f;
+    --bg4: #1e1e28;
+    --border: #2a2a3a;
+    --border2: #353545;
+    --accent: #06b6d4;
+    --accent2: #0891b2;
+    --accent3: #67e8f9;
+    --text: #f0f0f8;
+    --text2: #a8a8c0;
+    --text3: #6868888;
+    --green: #10b981;
+    --purple: #8b5cf6;
+    --orange: #f59e0b;
+    --red: #ef4444;
+    --pink: #ec4899;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Heebo', sans-serif;
+    font-size: 20px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ---- HEADER ---- */
+  .header {
+    background: linear-gradient(135deg, #0a0a0f 0%, #0d1a2a 50%, #0a0a1a 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 24px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 32px rgba(6,182,212,0.08);
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .logo {
+    font-size: 2.6rem;
+    line-height: 1;
+  }
+
+  .title-block h1 {
+    font-size: 2rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--accent3), var(--accent), #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+  }
+
+  .title-block .subtitle {
+    color: var(--text2);
+    font-size: 0.95rem;
+    font-weight: 400;
+  }
+
+  /* ---- SEARCH ---- */
+  .search-wrap {
+    position: relative;
+    margin-bottom: 16px;
+  }
+
+  .search-wrap .icon {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.3rem;
+    color: var(--text2);
+    pointer-events: none;
+  }
+
+  #searchInput {
+    width: 100%;
+    padding: 16px 54px 16px 20px;
+    background: var(--bg3);
+    border: 2px solid var(--border2);
+    border-radius: 16px;
+    color: var(--text);
+    font-family: 'Heebo', sans-serif;
+    font-size: 1.2rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    direction: rtl;
+  }
+
+  #searchInput:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(6,182,212,0.15);
+  }
+
+  #searchInput::placeholder { color: var(--text2); }
+
+  /* ---- TABS ---- */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 14px;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+
+  .tab {
+    flex-shrink: 0;
+    padding: 8px 20px;
+    border-radius: 50px;
+    border: 1.5px solid var(--border2);
+    background: transparent;
+    color: var(--text2);
+    font-family: 'Heebo', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .tab:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(6,182,212,0.06);
+  }
+
+  .tab.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+    font-weight: 700;
+    box-shadow: 0 0 16px rgba(6,182,212,0.35);
+  }
+
+  /* ---- MAIN ---- */
+  .main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+  }
+
+  .count-bar {
+    color: var(--text2);
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .count-bar strong {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* ---- SECTION HEADER ---- */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 32px 0 16px;
+  }
+
+  .section-letter {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: #000;
+    flex-shrink: 0;
+    box-shadow: 0 4px 16px rgba(6,182,212,0.3);
+  }
+
+  .section-label {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to left, transparent, var(--border2));
+  }
+
+  /* ---- GRID ---- */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  @media (max-width: 700px) {
+    .grid { grid-template-columns: 1fr; }
+    .title-block h1 { font-size: 1.5rem; }
+  }
+
+  /* ---- CARD ---- */
+  .card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 22px 24px;
+    transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--card-accent, var(--accent));
+    border-radius: 0 20px 20px 0;
+  }
+
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(6,182,212,0.12);
+  }
+
+  .card-dept {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .card-contact {
+    font-size: 1rem;
+    color: var(--text2);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .card-contact .icon { font-size: 0.9rem; }
+
+  .card-phones {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .phone-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 1.05rem;
+  }
+
+  .phone-label {
+    color: var(--text2);
+    font-size: 0.85rem;
+    font-weight: 600;
+    min-width: 52px;
+    padding-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .phone-value {
+    color: var(--text);
+    flex: 1;
+    word-break: break-all;
+  }
+
+  a.phone-link {
+    color: var(--accent3);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: color 0.15s;
+  }
+
+  a.phone-link:hover {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+
+  .tel-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(6,182,212,0.12);
+    border: 1px solid rgba(6,182,212,0.25);
+    border-radius: 8px;
+    padding: 2px 10px;
+    font-size: 0.9rem;
+    color: var(--accent3);
+    font-weight: 600;
+    margin-top: 2px;
+  }
+
+  .card-footer {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 12px;
+    border-radius: 50px;
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+
+  .badge-section {
+    background: rgba(99,102,241,0.12);
+    border: 1px solid rgba(99,102,241,0.3);
+    color: #a5b4fc;
+  }
+
+  .badge-tel {
+    background: rgba(245,158,11,0.12);
+    border: 1px solid rgba(245,158,11,0.3);
+    color: #fcd34d;
+  }
+
+  /* ---- NO RESULTS ---- */
+  .no-results {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text2);
+  }
+
+  .no-results .big { font-size: 3rem; margin-bottom: 12px; }
+  .no-results p { font-size: 1.1rem; }
+
+  /* ---- SCROLLBAR ---- */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg2); }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent2); }
+
+  /* ---- HIGHLIGHT ---- */
+  mark {
+    background: rgba(6,182,212,0.3);
+    color: var(--accent3);
+    border-radius: 3px;
+    padding: 0 2px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="logo">📞</div>
+    <div class="title-block">
+      <h1>ספר טלפונים - שיבא</h1>
+      <div class="subtitle">מרכז רפואי שיבא - תל השומר</div>
+    </div>
+  </div>
+  <div class="search-wrap">
+    <span class="icon">🔍</span>
+    <input type="search" id="searchInput" placeholder="חיפוש לפי מחלקה, שם, טלפון..." autocomplete="off" />
+  </div>
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-cat="הכל">הכל</button>
+    <button class="tab" data-cat="מחלקות">מחלקות</button>
+    <button class="tab" data-cat="ילדים">ילדים 👶</button>
+    <button class="tab" data-cat="פסיכיאטריה">פסיכיאטריה</button>
+    <button class="tab" data-cat="מעבדות">מעבדות 🔬</button>
+    <button class="tab" data-cat="שונות">שונות 🔧</button>
+  </div>
+</div>
+
+<div class="main">
+  <div class="count-bar" id="countBar">טוען...</div>
+  <div id="container"></div>
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const RAW = [[null,"רשימת טלפוני מחלקות שיבא",null,null,null,null,null,null,null],[null,"אינדקס","טיל","יעד","א.א","טל","אחמש","מס' טלפון",null],[null,"א",36,"אנג'יו רנטגן","ויקה אולניצ'ר","050-4021482",66638,2673,null],[null,null,91,"אורולוגיה","זינגרמן ג'ני",66873,68283,"2413-2239",null],[null,null,"אין","מרפאה אורולוגית","מזור מזל",66143,null,2159,null],[null,null,77,"א.א.ג   ","מולכו-עיסוק סוזי","054-6203075",68226,"2442/2845",null],[null,null,45,"אורטו א'","יוקר אורית",67026,68253,"2417-2627",null],[null,null,94,"אורטו ב'","איגור בלייבר",68263,68263,2619,null],[null,null,"219","מרפאה אורטופדית","סיגלית יעקובי",66256,null,"2014",null],[null,null,24,"אונקו מחלקה","בנימינוב עדן","  054-2099702",69158,"2512 , רופא 2519",null],[null,null,"66","אונקו מכון/א.א  / אולם 1","רבקה אדגו","052-4616705","אין","אולם 1 -2373,4683",null],[null,null,"24","אונקו מכון/  / אולם 2","רבקה אדגו","052-4616705","אין","אולם 2 -2373,4683",null],[null,null,"א-56,ב-53,ג-31","אשפוז יום אונקולוגי - ","מיכל גולפור",69153,null,3112,null],[null,null,"242","מיון אונקולוגי ","בן דוד יפה",66447,66449,"עמדת אחיות 4862,4861",null],[null,null,null,"מרפאת אוטואימוני","עבו אילנה",66184,null,4914,null],[null,null,null,"מרפאת אלרגיה ","מיכל ריטה","054-393655",null,87776,null],[null,null,null,"מרפאה אנדוקרינית","גורביץ רינה",69594,null,7943,null],[null,"ג",244,"גריאטריה שיקומית א","עדינה יעקובוב","052-8901186",66545,"3532-3534 ב. פדה, רופא 3302",null],[null,null,113,"גריאטריה שיקומית ב","תומר אברהם","3415/ 054-2361676",66917,"3429-3439, ח רופא 3413",null],[null,null,"101","גריא ג' גר פינ א'","ראמי חמדאן ","052-2388807",null,"3491-3490",null],[null,null,114,"חוזרים לחיים/גריאט' שק' ופצועים/ פנימית ד'","כרם דעים"," 052-8267524",69739,"5171-5175",null],[null,null,"49","גריא דיאליזה (א,ג,ה 07:00-18:00)","רוטשטיין אדוארד",67175,null,"5052,5053",null],[null,null,195,"מכון גסטרו","סולומון אסתר","054-7809141",null,"5866, 87335",null],[null,"ה","9","התאוששות ","דרורה לוי","  2761/67206",67206,"2761-  2756",null],[null,null,206,"מרפאת הפרעות תנועה","שטראוס חנה",67595,null,"5928/5864",null],[null,null,51,"השתלות מ.עצם מחלקה","סרור ריטה",547625162,69185," 5303,5298 ח רופא",null],[null,null,51,"השתלות מח עצם אש' יום (עד 15:00)","מרודי לורה",526667183,null,"5340 מזכירות, 4762 תחנת אחיות ",null],[null,null,70,"הוספיס ב. פרידמן-טילים דרך  גריאט'","יוליה עדן",67523,67529,"5065/ 5066 אחיות ,5069 ",null],[null,null,"101","אשפוז יום המטלוגי ","אדגו רבקה",null,null,"אולם 1- אחיות 4683,2373 /אולם 2-אחיות 4682, 7586 ",null],[null,null,"60","המופיליה","בר הוד טללית","050-4781135","אחיות 7340","2411-2423, סטפני7361",null],[null,"ו","116","בית ויזל ילדים ","זוהבי סונדוס","052-6470643",68357,"3180-3022",null],[null,"ז",196,"יח' זיהומים","רגינה סלזניוב",67527,null,4941,null],[null,"ח",138,"חזה כלי דם","וסרמן-ארליך לובה",67266,68213,"2412-2725/ ח רופא כלי דם 7385",null],[null,"ט",237235,"ט.נ. נשימתי כללי (ט.נ.א)","טניה סונין","052-6611030",67235,"2796 - 2793",null],[null,null,13,"ט.נ.ב","שלום עדנה",68276,68275,"2797- 2781",null],[null,null,3," 23א' טיפול נמרץ לב","פסטרנק חן",66133,69113,2504,null],[null,null,108," 23ב' טיפול נמרץ לב","יפעת אהרון","8109/050-6409363",69133,"2642-4",null],[null,null,null,"אשפוז יום טרשת","גוטקין ויקטוריה","054-4509782 ",null,"3911 מזכירות, 3813 אחיות",null],[null,"י","35","המטו ילדים מחלקה","חלי צים",66326,"לא קבוע","2934-2937 /7446 רופא",null],[null,null,"34","המטו ילדים מכון-מרפאה","זינגר מיכל","050-9933069",null,"3020-3041/2996",null],[null,null,"18","מיון ילדים","רז דנית ","054-2425026",64283,"2888-2695-2764",null],[null,null,19,"ט. נמרץ ילדים","מיוחס נעמי","054-63488302",67317,"2492",null],[null,null,"28","כירורגיה ילדים","בבייב דיאנה","052-5835254","68373","2444-2448",null],[null,null,43,"ילדים שיקום-כירורגית","סימנה הראלה-הדר",66343,68343,"2933-2597",null],[null,null,"67","ילדים א צפון ","עאליה והייב","054-6256880",68313,"2446-7760",null],[null,null,43,"ילדים ב' דרום-מרפאות שיקום","גולדמן קיס טניה","054-6256880",68323,"2450",null],[null,null,"40","ילדים ג' -הפרעות אכילה ","יוסף גלית","052-4732727",68333,"2466-87894",null],[null,null,232,"ילדים ד' (פסיכיאטריה ילדים)","רוזוב רומן","052-8591544",69948,9600,null],[null,null,"125","ח.נתוח לב ילדים ","אלכסנדרה נתנילוב",67496,"66253 / 67209 אחהצ","8031-8026",null],[null,null,125," ילדים-התאוששות","דרורה לוי","  2761/67206",67206," 8026,8028",null],[null,null,"126","ט.נ לב ילדים ","נג'ח זייד",69313,69317,"8010- ביניים/8405/רופא 8024",null],[null,null,42,"יח' אורטופדית ילדים","רגב רונית","050-7471994",null,"7952-3",null],[null,null,null,"מרפאת אלרגיה ילדים","שטינר טל"," 054-2180687",null,"2692, 2096",null],[null,null,null,"אשפוז יום שיקום ילדים ","מילמן גיל-דוד","050-9922608",526666343,"2934, 2933",null],[null,null,null,"סדציה ילדים","שטינבוק מיכל",66323,null,"2450 ילדים ב, 2446 ילדים א",null],[null,null,"42   דרך אורטופדיה","אשפוז יום ילדים","יפעת רצאבי ",69303,null,"2897, 9106/7 משני",null],[null,"כ","6","כירורגית  מתחם א'","לשם אורית","054-2480077",68223,5774,null],[null,null,64,"כירורגיה מתחם  ב' ","דליה רובינוב",68236,668233,"2414, 2731",null],[null,null,218,"כירורגית מתחם  ג'","אריאלה עזרא",67944,68612,"9368",null],[null,null,64,"כירורגית מתחם  ג'","אילנית אברמוב","052-4000828",69251,"2415",null],[null,null,93,"כירורגיה טראומה","ערין אזברגה","050-3339102",67229,4538,null],[null,null,null,"מרפאה כירורגית","052-3603913","052-3603913",null,"3104",null],[null,null,"92","כוויות","אנה שבשביץ ","058-5411438",68244,2405,null],[null,null,244,"מחלקת כירורגיה כף יד","מינה ברילוביץ ",66269,68763,"4504, 2454",null],[null,null,null,"מרפאת כאב","פוליאקוב דניאל",68294,null,31064576,null],[null,null,null,"מרפאת כבד","צראף קרן",68783,null,7178,null],[null,"ל","69","ניתוחי לב ח.חזה (כירורג' לב פתוח)","מילר בלייזמן טלי","0506665656","69267","2418-2709",null],[null,null,null,"מרפאת שיקום הלב","עמירה נחשון",67136,null,2362,null],[null,null,null,"מרפאת קוצבים","עדי ששון",69117,null,5353,null],[null,null,null,"מרפאת אי ספיקת לב","נתליה פרלשטיין",69136,null,2613,null],[null,null,null,"מכון הלב","אדר לאה","050-8368822",null,7301,null],[null,null,null,"מרפאת מושתלי לב","חנה אלגזי פתאל",69274,"052-6669616","2361 למעלה",null],[null,null,"טיל","יעד","א.א","טל","אחמש","מס' טלפון",null],[null,null,109,"אשפוז יום אי ספיקת לב","יוליה סיביר","050-8628881",null,"5350-אחיות, מזכירות-4550",null],[null,null,null," LONGEVITY  מרכז   ","רווית שני"," 054-5970440",null,2633,null],[null,null,"25","צינטורים ","האני חאג' יחיא",67126,69458,"2666-2683-5257",null],[null,"מ","1","מלר\"ד","הינדי אנגלרד","2307 -2463  /67109",69103,"2210-3064- 2204",null],[null,null,38,"מיון השהייה","אורלי אביעוז",67105,69103,2224,null],[null,null,"1","מיון הלם","הינדי אנגלרד","2307 -2463  /67109",69103,"5263",null],[null,null,null,"MRT","מרגריטה פורטנוב","050-6842514",null,5245,null],[null,"נ","9","חדר ניתוח","טניה פישמן","2752/66253","66253 / 67209 אחה\"צ","2757-3118",null],[null,null,14,"ניתוחי יום","יהודית גירסון","054-7632232",null,2556,null],[null,null,117,"ט.נ. נוירוכירורגיה","נאוה אייזנברג-  ",67589,67589,"2180, רופא תורן 66298",null],[null,null,"007","נוירוכירורגיה מחלקה","מוזהיר שאהין","052-8542343/2440",78293,"2440, אינטר ביניים 7080",null],[null,null,"603","נוירולוגיה","מלאק בחאש "," 052-2508155",null,"2441-(2635 אחות אחראית)",null],[null,null,"15","נפרולוגיה","שמיר נורית",69179,69177,"2589-2546",null],[null,null,"57","נפרו גריאטריה (פעיל א,ג,ה )","שמיר נורית","69179",null,"5052",null],[null,"ל","17","חדר לידה","יוסף ברין משה","66416","68479","2777-2798",null],[null,"נ","143","מיון יולדות","יוסף ברין משה","66416","68479",5127,null],[null,null,"(72 שיפוץ)71","יולדות.א' (ד )-אם יילוד א","מריה ברזאני","68416",68488,"2774-2915",null],[null,null,"71/39","אם יילוד ב","זהבה שיצ-פוחיל ","66453","  67568מ' ילוד/68489","2776/ מתח' ילודים 2449",null],[null,null,39,"היחידה לטיפול ביילוד/יח' אשפוז מעבר","מירב וידאל",67396,"66399/ קבלות 68260","2452/ יח' קבלות 5927",null],[null,null,137,"שיבא בייבי/תינוקייה מלון","ברזאני מריה",68416,"66459",88450,null],[null,null,73,"מיון גניקולוגי (נשים)","נבוליובוב הילה","050-7650487",68487,"7838, 2772, רופא 2770, 7021",null],[null,null,"140","הריון בסיכון","תמר ארגמן",66419,68490,8426,null],[null,null,"37","גניקולוגיה ","מרים",66452,68453,"2773",null],[null,null,"78","גניקו אונקולוגיה","טקץ ויקי",66447,66449,", 2702",null],[null,null,"246","ח.ניתוח גניקולוגי ","ויינר נטלי",67551,"  אחה\"צ 66429"," 2768,2778",null],[null,null,46,"התאוששות גניקו","אילפניש יחזקיאס",66492,67457,2053,null],[null,null,null,"אשפוז יום נשים","שיפמן אתי","052-5070020",null,2090,null],[null,"ס",null,"סי.טי  CT/87576","ויקה אולניצ'ר","050-4021482",null,"  2345מאושפזים/ אמבולט'2382",null],[null,null,194,"סכרת","גורביץ רינה",69594,null,"9315/5470",null],[null,null,null,"מרפאת סקר מנהלים","גורדין אולנה","054-6542434",null,2741,null],[null,"ע",null,"עור ומין","סבטה רוגוליובה","054-7824857",null,"2419/2383",null],[null,null,58,"עיניים","פילוס סימה",67246,69243,"2872",null],[null,null,211,"ח. ניתוח עיניים","ג'אבר זאדן",69249,69243,2878,null],[null,null,null,"מרפאת עיניים","לוי ליאור","050-3034422",null,2854,null],[null,"פ",217,"פלסיטיקה ","פורת לוי עינב",68245,68243,2416,null],[null,null,null,"פנימית א'  ","כיאל תמים",68118,68113,"2436-2639",null],[null,null,"004","פנימית א' מוגבר","כיאל תמים",68118,68113,3976,null],[null,null,"004","פנימית ב'","ליאת ביטן","66123",68123,"2435-   פקס2638",null],[null,null,48,"פנימית ג'","מנאל מזעל","68112",68133,"2430-2422",null],[null,null,95,"פנימית ג' מוגבר","מנאל מזעל","68112",68133,"4956",null],[null,null,95,"פנימית ד'","ענאן סלימאן",68158,68143,"2438-2817-7251",null],[null,null,65,"פנימית ה' ","רוזי שוקי",66153,68153,2437,null],[null,null,"05","פנימית ו'","לירון אביזיז",66163,68163,"2454-2470",null],[null,null,"220","פנימית ו' מוגבר","לירון אביזיז",66163,68163,"2454-2470",null],[null,null,220,"פנימית ט' ","אביבי סיגל","054-5818093",63587,"7288-7304",null],[null,null,"16","פגים","אירנה צודיקוביץ ",69326,"67324","2424-2881",null],[null,null,"16","טנ.פגים","אירנה צודיקוביץ ",69326,"67324","3910-2133",null],[null,null,239,"מחלקת פסיכיאטריה א'- נשים","קולטון-גולדברג נועה","0506-850381",66565,"3318, 3313 אא",null],[null,null,103,"מחלקת פסיכיאטריה ב'-גברים","וינר זאנה",68563,68565,"3434",null],[null,null,104,"מחלקת פסיכיאטריה ג'-גברים","סמואל מרי",545990392," משה 66575","3765",null],[null,null,null,"מרפאה פסיכיאטרית","כהן סיניה",68573,null,"3349   3350",null],[null,null,null,"אשפוז יום פסיכיאטרי","באטריס ברק",68576,null,"5227   3536",null],[null,null,193,"מרפאה פנימית מטיילים משטפים","נסימוב אורה",66878,null,"3103,3105",null],[null,null,null,"מרפאת פה ולסת","אבייאב מרינה",67283,"אחיות 7495","7495,2669,חדר ניתוח והתאוששות 9198",null],[null,"ר",null,"רפואת הפה (שיניים)","אבייאב מרינה",67283,"אחיות 7495","2686",null],[null,null,115,"מכון ריאות","סומך דפנה",69173,null,2818,null],[null,"ש",148,"שבץ יחידה","קטיה פטרוש","050-2275058","8940/יח 6738","5365/9786 מחלקה/ נוירולוג תורן מיון 66179",null],[null,null,57,"שיקום א' אורטופד'","בן-דור ישראלי ענת",68533,66515,"3702, 3874, רופא 3727",null],[null,null,107,"שיקום ב נירולוגי    ","מרינה בוסלוביץ","054-7628897",66525,"3717-3713",null],[null,null,106,"שיקום נשימתי","פולינה רוזנברג","68543",68545,"5106-5314",null],[null,null,105,"שיקום נפגעי ראש, ","רייזמן אנה"," 3410/67592",66555,"3474, 3494, רופא 3883",null],[null,null,"207","מרפאת שיקום  ","ישראלה למברג ","3764/054-5757200",null,"3718, 3764 אחות",null],[null,null,null,"אשפוז יום שיקומי","רבנו מרים","052-5287242/4896",null,"4896, רופא 5935",null],[null,null,null,"שיבא ביונד-בית חולים וירטואלי","ארושס ליאת","054-4404311","054-4404311","9663, 9667",null],[null,"ת",null,"מרפאה תעסוקתית","דאר מירב","050-5794172",null,"3008  5898",null]];
+
+const LABS = [
+  {name:"מעבדת אנדוקרינית", tel_num:"52", phone:"2801"},
+  {name:"מעבדה בקטריולוגית", tel_num:"98", phone:"2305"},
+  {name:"בנק דם טבורי", tel_num:"247", phone:"5780"},
+  {name:"בנק דם טבורי והשתלות מח עצם/ נירה בלום", tel_num:"247", phone:"2389,0547424312"},
+  {name:"מעבדת גסטרו", tel_num:"124", phone:"2905"},
+  {name:"מעבדה וירולוגית", tel_num:"97", phone:"2388"},
+  {name:"מעבדת זיהומים", tel_num:"99", phone:"3500"},
+  {name:"מעבדת טוקסיקולוגית", tel_num:"22", phone:"2358"},
+  {name:"מכון ליפידים", tel_num:"79", phone:"2125"},
+  {name:"מעבדת מגה לאב (על אוטומטית)", tel_num:"11-21", phone:"2100"},
+  {name:"מעבדת סיווג רקמות", tel_num:null, phone:"2846,2829"},
+  {name:"מעבדת קרישה", tel_num:"200", phone:"2383"},
+];
+
+const MISC = [
+  {name:"מד\"א - רמלה, הרצל 133", phone:null},
+  {name:"מד\"א", phone:"03-5300400"},
+  {name:"מד\"א בקרת איכות", phone:"03-5300404"},
+  {name:"מד\"א הזמנות", phone:"03-5300436-7"},
+  {name:"מד\"א חשבונות-דינה", phone:"03-5300514"},
+  {name:"מד\"א פרזיס", phone:"03-5300405"},
+  {name:"בנק הדם - חדר טיפולים", phone:"5305375"},
+  {name:"בנק הדם - חדר התרמות", phone:"5303570"},
+  {name:"ד\"ר משגב מודי", phone:"050-9222766"},
+  {name:"ד\"ר משגב מודי מ", phone:"4532-5702"},
+  {name:"דר' מילר לירון", phone:"526666735-2178"},
+  {name:"גורביץ נטשה", phone:"0526666733-2633"},
+  {name:"וקחי קובי", phone:"050-7752772"},
+  {name:"לנדה נטלי", phone:"0505707086"},
+  {name:"פטחוב יוסי", phone:"052-6668737"},
+  {name:"נסים עדי", phone:"052-6666731"},
+  {name:"מוקד - החייאה 1", phone:"2020"},
+  {name:"מוקד - חירום 2", phone:null},
+  {name:"מוקד - ביטחון 3", phone:"106"},
+  {name:"אחות כללית", phone:"2481"},
+  {name:"בקרה-מוקד חירום", phone:"2500"},
+  {name:"ביטחון מוקד", phone:"2534, 3171"},
+  {name:"ועד עובדים", phone:"3799-3798"},
+  {name:"טלפוניה תקלות איציק", phone:"3522"},
+  {name:"טילים תקלות (ארוקום)", phone:"(03-5304554)/ 67762"},
+  {name:"רביבו שרון טכנאי (מקררים)", phone:"69836"},
+  {name:"מכבסה", phone:"3817"},
+  {name:"חלוקת מזון", phone:"3747, 2285"},
+  {name:"לבנט זא'נה-מ.משק מעבדות", phone:"67937-3078"},
+  {name:"יחידת מחשב", phone:"2208-3066"},
+  {name:"איתן צ'סטרמן מהנדס מיזוג אויר", phone:"2675"},
+  {name:"עזר מציון", phone:"2330"},
+  {name:"פרסקי אסנת / מידע ודיגיטל", phone:"054-5662708-4471"},
+  {name:"מוקד תח' פנים", phone:"2272-2276"},
+  {name:"תחבורת חוץ", phone:"3838,67887"},
+  {name:"תחבורת פנים סדרן מיון", phone:"67886"},
+  {name:"עובד (נהג)", phone:"67889"},
+  {name:"שאול (נהג)", phone:"67888"},
+  {name:"קקון יעקב ס. מ. תח' פנים", phone:"67680"},
+  {name:"מנהל תח.פנים/מאור למברסקי", phone:"054-2002331"},
+  {name:"שינוע חצר מוקד 106", phone:"3538"},
+  {name:"קליפר תומר/שינוע מרלו\"ג", phone:"67747/5"},
+];
+
+// ============================================================
+// PARSE MAIN DATA
+// ============================================================
+function parseMain() {
+  const entries = [];
+  const skipRows = new Set([0,1]);
+  // find header repeat row
+  const headerPatterns = ['יעד','אינדקס'];
+  let currentLetter = '';
+
+  RAW.forEach((row, i) => {
+    if (skipRows.has(i)) return;
+    const [, idx, tel, dept, contact, phone, akhmash, morePhone] = row;
+
+    // skip sub-header row
+    if (dept === 'יעד' || dept === 'מס\' טיל' || dept === 'מעבדות') return;
+
+    // update letter index
+    if (idx && typeof idx === 'string' && idx.length <= 2 && /^[\u05D0-\u05EA]/.test(idx.trim())) {
+      currentLetter = idx.trim();
+    }
+
+    // skip if no dept name
+    if (!dept || String(dept).trim() === '') return;
+
+    const deptClean = String(dept).trim();
+    const contactClean = contact ? String(contact).trim() : '';
+    const phoneClean = phone ? String(phone).trim() : '';
+    const akhmashClean = akhmash ? String(akhmash).trim() : '';
+    const morePhoneClean = morePhone ? String(morePhone).trim() : '';
+    const telNum = (tel !== null && tel !== undefined) ? String(tel).trim() : '';
+
+    if (!deptClean) return;
+
+    // Determine category
+    let category = 'מחלקות';
+    const deptLower = deptClean + contactClean;
+    if (deptLower.includes('ילד') || deptLower.includes('ילדים') || deptLower.includes('פגים') ||
+        deptLower.includes('יילוד') || deptLower.includes('בייבי') || deptLower.includes('ילוד')) {
+      category = 'ילדים';
+    } else if (deptLower.includes('פסיכיאטר') || deptLower.includes('פסיכ')) {
+      category = 'פסיכיאטריה';
+    }
+
+    entries.push({
+      letter: currentLetter,
+      tel: telNum,
+      dept: deptClean,
+      contact: contactClean,
+      phone: phoneClean,
+      akhmash: akhmashClean,
+      morePhone: morePhoneClean,
+      category,
+      section: 'מחלקות'
+    });
+  });
+  return entries;
+}
+
+// ============================================================
+// BUILD ALL RECORDS
+// ============================================================
+const mainEntries = parseMain();
+const labEntries = LABS.map(l => ({
+  letter: 'מעבדות',
+  tel: l.tel_num || '',
+  dept: l.name,
+  contact: '',
+  phone: l.phone || '',
+  akhmash: '',
+  morePhone: '',
+  category: 'מעבדות',
+  section: 'מעבדות'
+}));
+const miscEntries = MISC.map(m => ({
+  letter: 'שונות',
+  tel: '',
+  dept: m.name,
+  contact: '',
+  phone: m.phone || '',
+  akhmash: '',
+  morePhone: '',
+  category: 'שונות',
+  section: 'שונות'
+}));
+
+const ALL_ENTRIES = [...mainEntries, ...labEntries, ...miscEntries];
+const TOTAL = ALL_ENTRIES.length;
+
+// ============================================================
+// PHONE LINK HELPER
+// ============================================================
+function phoneLink(raw, highlight) {
+  if (!raw || String(raw).trim() === '' || String(raw).trim() === 'null') return '';
+  const str = String(raw).trim();
+  // Try to extract a single cleanable phone number
+  const cleaned = str.replace(/[\s\-]/g, '').replace(/^0/, '+972');
+  const isCallable = /^[\+0-9]/.test(str) && str.replace(/[^0-9]/g,'').length >= 4;
+
+  let display = highlight ? applyHighlight(str, highlight) : escHtml(str);
+  if (isCallable) {
+    const tel = str.replace(/[^\d\+\-\/]/g,'').split('/')[0].split(',')[0].trim();
+    return `<a class="phone-link" href="tel:${tel}">📱 ${display}</a>`;
+  }
+  return `<span class="phone-value">${display}</span>`;
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function applyHighlight(text, term) {
+  if (!term) return escHtml(text);
+  const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp(`(${escaped})`, 'gi');
+  return escHtml(text).replace(re, '<mark>$1</mark>');
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+let currentCat = 'הכל';
+let currentSearch = '';
+
+const ACCENT_BY_SECTION = {
+  'מחלקות': '#06b6d4',
+  'ילדים':   '#10b981',
+  'פסיכיאטריה': '#8b5cf6',
+  'מעבדות': '#f59e0b',
+  'שונות':   '#6b7280',
+};
+
+function buildCard(entry, searchTerm) {
+  const accent = ACCENT_BY_SECTION[entry.category] || '#06b6d4';
+  const hl = (s) => s ? applyHighlight(s, searchTerm) : '';
+
+  let phonesHtml = '';
+  if (entry.phone) {
+    phonesHtml += `<div class="phone-row">
+      <span class="phone-label">טלפון:</span>
+      <span class="phone-value">${phoneLink(entry.phone, searchTerm)}</span>
+    </div>`;
+  }
+  if (entry.akhmash && entry.akhmash !== 'אין') {
+    phonesHtml += `<div class="phone-row">
+      <span class="phone-label">אחמש:</span>
+      <span class="phone-value">${phoneLink(entry.akhmash, searchTerm)}</span>
+    </div>`;
+  }
+  if (entry.morePhone) {
+    phonesHtml += `<div class="phone-row">
+      <span class="phone-label">נוסף:</span>
+      <span class="phone-value">${hl(entry.morePhone) || escHtml(entry.morePhone)}</span>
+    </div>`;
+  }
+
+  const footerItems = [];
+  if (entry.tel) {
+    footerItems.push(`<span class="badge badge-tel">🚁 טיל: ${escHtml(entry.tel)}</span>`);
+  }
+  if (entry.category !== 'מחלקות') {
+    footerItems.push(`<span class="badge badge-section">${escHtml(entry.category)}</span>`);
+  }
+
+  return `<div class="card" style="--card-accent:${accent}">
+    <div class="card-dept">${hl(entry.dept)}</div>
+    ${entry.contact ? `<div class="card-contact"><span class="icon">👤</span>${hl(entry.contact)}</div>` : ''}
+    <div class="card-phones">${phonesHtml}</div>
+    ${footerItems.length ? `<div class="card-footer">${footerItems.join('')}</div>` : ''}
+  </div>`;
+}
+
+function getFiltered() {
+  const term = currentSearch.trim().toLowerCase();
+  return ALL_ENTRIES.filter(e => {
+    // category filter
+    if (currentCat !== 'הכל') {
+      if (currentCat === 'מחלקות' && e.category !== 'מחלקות') return false;
+      if (currentCat === 'ילדים' && e.category !== 'ילדים') return false;
+      if (currentCat === 'פסיכיאטריה' && e.category !== 'פסיכיאטריה') return false;
+      if (currentCat === 'מעבדות' && e.category !== 'מעבדות') return false;
+      if (currentCat === 'שונות' && e.category !== 'שונות') return false;
+    }
+    // search
+    if (!term) return true;
+    const searchable = [e.dept, e.contact, e.phone, e.akhmash, e.morePhone, e.tel, e.letter]
+      .filter(Boolean).join(' ').toLowerCase();
+    return searchable.includes(term);
+  });
+}
+
+function render() {
+  const filtered = getFiltered();
+  const term = currentSearch.trim();
+  const container = document.getElementById('container');
+  const countBar = document.getElementById('countBar');
+
+  countBar.innerHTML = `מציג <strong>${filtered.length}</strong> מתוך <strong>${TOTAL}</strong> רשומות`;
+
+  if (filtered.length === 0) {
+    container.innerHTML = `<div class="no-results">
+      <div class="big">🔍</div>
+      <p>לא נמצאו תוצאות עבור "${escHtml(term)}"</p>
+    </div>`;
+    return;
+  }
+
+  // Group by letter for main sections, flat for labs/misc
+  if (currentCat === 'מעבדות' || currentCat === 'שונות') {
+    container.innerHTML = `<div class="grid">${filtered.map(e => buildCard(e, term)).join('')}</div>`;
+    return;
+  }
+
+  // group by letter
+  const groups = {};
+  const groupOrder = [];
+  filtered.forEach(e => {
+    const key = e.letter || '?';
+    if (!groups[key]) { groups[key] = []; groupOrder.push(key); }
+    groups[key].push(e);
+  });
+
+  let html = '';
+  groupOrder.forEach(letter => {
+    if (currentCat === 'הכל' || currentCat === 'מחלקות' || currentCat === 'ילדים' || currentCat === 'פסיכיאטריה') {
+      html += `<div class="section-header">
+        <div class="section-letter">${escHtml(letter)}</div>
+        <span class="section-label">קבוצה ${escHtml(letter)}</span>
+        <div class="section-line"></div>
+      </div>`;
+    }
+    html += `<div class="grid">${groups[letter].map(e => buildCard(e, term)).join('')}</div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+// ============================================================
+// EVENT LISTENERS
+// ============================================================
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  currentSearch = e.target.value;
+  render();
+});
+
+document.getElementById('tabs').addEventListener('click', (e) => {
+  const tab = e.target.closest('.tab');
+  if (!tab) return;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  currentCat = tab.dataset.cat;
+  render();
+});
+
+// ============================================================
+// INIT
+// ============================================================
+render();
+</script>
+</body>
+</html>
