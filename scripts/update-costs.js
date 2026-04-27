@@ -7,11 +7,28 @@ const OUTPUT = path.join('C:\\Users\\YEHUDA\\.openclaw\\workspace\\costs.json');
 
 // Category mappings
 const CRON_JOB_CATEGORIES = {
+  // Trading
   'e1eb3b60-b369-41e4-be2e-fbf5f0844f79': { name: 'Grok Virtual Trader', category: 'Trading' },
-  'b496cdfe-7a7c-4462-b172-7d3fe8dbb758': { name: 'Daily Stock Scanner', category: 'Trading' },
-  'df402cec-2d90-4241-88a0-03e0f451cef9': { name: 'Daily AI Summary', category: 'Daily Summary' },
+  'b496cdfe-7a7c-4462-b172-7d3fe8dbb758': { name: 'Daily Stock Scanner + Grok Trader', category: 'Trading' },
+  '42b94b85-a32e-4051-ace2-50d66c354889': { name: 'Grok Trader Monday Open', category: 'Trading' },
+  // Maintenance
   'aa64c5a7-930c-454b-9fc2-db1d1a54beee': { name: 'Cost Dashboard Update', category: 'Maintenance' },
   '74a0a646-b83d-441b-bbdc-8a8613dbcdfd': { name: 'Backup MEMORY.md', category: 'Maintenance' },
+  '8e0d2072-d8aa-4c0d-bf8e-099a7d19e88b': { name: 'Hourly Hub HTML Backup', category: 'Maintenance' },
+  'a7f3c9a1-9418-4a82-a5a5-61e2adf624c3': { name: 'Daily yehudaclaw Backup', category: 'Maintenance' },
+  // Daily Summary / News
+  'df402cec-2d90-4241-88a0-03e0f451cef9': { name: 'Daily AI Summary', category: 'Daily Summary' },
+  '17ee5f68-63c1-4dfe-b54d-c8cda3b31250': { name: 'LinkedIn Daily AI Post', category: 'Daily Summary' },
+  '78275da2-d012-4b22-afaa-568a18763be3': { name: 'Daily AI News Summary', category: 'Daily Summary' },
+  // Reminders
+  '5996c738-544e-4633-9ce0-72703242fb1e': { name: 'Wedding Anniversary Reminder', category: 'Reminders' },
+  '74767929-3a2d-49c6-8317-902e71e6d339': { name: 'Nitai Birthday Reminder', category: 'Reminders' },
+  '968e059d-dc07-4651-8577-05b3f3c9fb3e': { name: 'Arbel Birthday Reminder', category: 'Reminders' },
+  'b59cde1a-e3d0-4cbc-a564-d03579e3e6b2': { name: 'Ilana Birthday Reminder', category: 'Reminders' },
+  'b208a785-8b36-40fc-b989-dd217237636b': { name: 'Avior Birthday Reminder', category: 'Reminders' },
+  '664db225-fdc5-47e8-bd29-2c4065a4f5a7': { name: 'Ilana Birthday Reminder (alt)', category: 'Reminders' },
+  // News / Iran
+  '9ec71945-81ab-4389-b61f-d3637dfbed80': { name: 'Iran Dashboard Update', category: 'News' },
 };
 
 const MAIN_SESSION_ID = '0b8a66e9-8346-4180-841b-afff6a820b4a';
