@@ -61,9 +61,27 @@
             font-family: 'David Libre', serif; color: #5a3a1a; font-size: 1.1em;
         }
         .tree-svg-container {
-            width: 100%; display: flex; justify-content: center; overflow-x: auto;
+            width: 100%; display: flex; justify-content: center; overflow: hidden;
+            position: relative; cursor: grab; user-select: none;
+            border: 1px solid #e8d5a0; border-radius: 10px; background: rgba(255,253,245,0.5);
         }
-        svg.family-tree { max-width: 100%; }
+        .tree-svg-container:active { cursor: grabbing; }
+        .tree-svg-container.panning { cursor: grabbing; }
+        svg.family-tree { max-width: 100%; touch-action: none; }
+        .zoom-controls {
+            position: absolute; bottom: 12px; left: 12px; display: flex; flex-direction: column; gap: 6px; z-index: 10;
+        }
+        .zoom-btn {
+            width: 36px; height: 36px; border-radius: 8px;
+            background: linear-gradient(135deg, #fff9e6, #f5e6c0);
+            border: 2px solid #c4a265; color: #5a3a1a;
+            font-size: 1.3em; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 6px rgba(90,58,26,0.15); font-weight: bold;
+        }
+        .zoom-btn:hover { background: #f5e6c0; transform: scale(1.05); }
+        .zoom-label {
+            font-size: 0.7em; text-align: center; color: #8a7a5a; font-family: Heebo, sans-serif;
+        }
 
         .ft-line { stroke: #c4a265; stroke-width: 2; fill: none; }
         .ft-card { fill: #fffdf5; stroke: #c4a265; stroke-width: 2; rx: 10; ry: 10; filter: url(#shadow); }
@@ -178,7 +196,13 @@
             <button onclick="showAllStories()">📖 כל הסיפורים</button>
         </div>
 
-        <div class="tree-svg-container">
+        <div class="tree-svg-container" id="container1">
+            <div class="zoom-controls">
+                <button class="zoom-btn" onclick="zoom('container1', 1.2)">+</button>
+                <span class="zoom-label" id="zoom1-label">100%</span>
+                <button class="zoom-btn" onclick="zoom('container1', 0.8)">−</button>
+                <button class="zoom-btn" onclick="resetZoom('container1')" title="איפוס">⌂</button>
+            </div>
             <svg class="family-tree" viewBox="-1000 0 2500 1300" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
@@ -650,7 +674,13 @@
             <div style="font-size: 0.9em; color: #8a7a5a; margin-top: 5px;">שורשי משפחת אבולעפיה - צאצאי יעקוב וסול</div>
         </div>
 
-        <div class="tree-svg-container">
+        <div class="tree-svg-container" id="container2">
+            <div class="zoom-controls">
+                <button class="zoom-btn" onclick="zoom('container2', 1.2)">+</button>
+                <span class="zoom-label" id="zoom2-label">100%</span>
+                <button class="zoom-btn" onclick="zoom('container2', 0.8)">−</button>
+                <button class="zoom-btn" onclick="resetZoom('container2')" title="איפוס">⌂</button>
+            </div>
             <svg id="aboulafiah-tree" class="family-tree" viewBox="0 0 2400 520" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <filter id="shadow2" x="-5%" y="-5%" width="115%" height="115%">
@@ -1593,6 +1623,108 @@
             html += card;
         });
         document.getElementById('printStoriesContent').innerHTML = html;
+    });
+    </script>
+
+    <script>
+    // ===== ZOOM & PAN for each tree container =====
+    const treeState = {};
+
+    function initTree(containerId) {
+        const container = document.getElementById(containerId);
+        if (!container || treeState[containerId]) return;
+        const svg = container.querySelector('svg');
+        const labelId = containerId === 'container1' ? 'zoom1-label' : 'zoom2-label';
+        treeState[containerId] = { scale: 1, tx: 0, ty: 0, dragging: false, startX: 0, startY: 0, svg, labelId };
+        applyTransform(containerId);
+
+        // Mouse events
+        container.addEventListener('mousedown', e => {
+            if (e.target.closest('button')) return;
+            const s = treeState[containerId];
+            s.dragging = true; s.startX = e.clientX - s.tx; s.startY = e.clientY - s.ty;
+            container.classList.add('panning');
+        });
+        window.addEventListener('mousemove', e => {
+            const s = treeState[containerId];
+            if (!s || !s.dragging) return;
+            s.tx = e.clientX - s.startX; s.ty = e.clientY - s.startY;
+            applyTransform(containerId);
+        });
+        window.addEventListener('mouseup', () => {
+            if (treeState[containerId]) treeState[containerId].dragging = false;
+            container.classList.remove('panning');
+        });
+
+        // Wheel zoom
+        container.addEventListener('wheel', e => {
+            e.preventDefault();
+            const factor = e.deltaY < 0 ? 1.1 : 0.9;
+            const s = treeState[containerId];
+            const rect = container.getBoundingClientRect();
+            const mx = e.clientX - rect.left;
+            const my = e.clientY - rect.top;
+            s.tx = mx - factor * (mx - s.tx);
+            s.ty = my - factor * (my - s.ty);
+            s.scale = Math.min(4, Math.max(0.2, s.scale * factor));
+            applyTransform(containerId);
+        }, { passive: false });
+
+        // Touch events
+        let lastDist = 0;
+        container.addEventListener('touchstart', e => {
+            const s = treeState[containerId];
+            if (e.touches.length === 1) {
+                s.dragging = true; s.startX = e.touches[0].clientX - s.tx; s.startY = e.touches[0].clientY - s.ty;
+            } else if (e.touches.length === 2) {
+                lastDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+            }
+        }, { passive: true });
+        container.addEventListener('touchmove', e => {
+            e.preventDefault();
+            const s = treeState[containerId];
+            if (e.touches.length === 1 && s.dragging) {
+                s.tx = e.touches[0].clientX - s.startX; s.ty = e.touches[0].clientY - s.startY;
+                applyTransform(containerId);
+            } else if (e.touches.length === 2) {
+                const dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+                const factor = dist / lastDist; lastDist = dist;
+                s.scale = Math.min(4, Math.max(0.2, s.scale * factor));
+                applyTransform(containerId);
+            }
+        }, { passive: false });
+        container.addEventListener('touchend', () => { if (treeState[containerId]) treeState[containerId].dragging = false; });
+    }
+
+    function applyTransform(containerId) {
+        const s = treeState[containerId];
+        s.svg.style.transform = `translate(${s.tx}px, ${s.ty}px) scale(${s.scale})`;
+        s.svg.style.transformOrigin = '0 0';
+        const label = document.getElementById(s.labelId);
+        if (label) label.textContent = Math.round(s.scale * 100) + '%';
+    }
+
+    function zoom(containerId, factor) {
+        const s = treeState[containerId];
+        const container = document.getElementById(containerId);
+        const rect = container.getBoundingClientRect();
+        const cx = rect.width / 2; const cy = rect.height / 2;
+        s.tx = cx - factor * (cx - s.tx);
+        s.ty = cy - factor * (cy - s.ty);
+        s.scale = Math.min(4, Math.max(0.2, s.scale * factor));
+        applyTransform(containerId);
+    }
+
+    function resetZoom(containerId) {
+        const s = treeState[containerId];
+        s.scale = 1; s.tx = 0; s.ty = 0;
+        applyTransform(containerId);
+    }
+
+    // Init both trees on load
+    window.addEventListener('load', () => {
+        initTree('container1');
+        initTree('container2');
     });
     </script>
 </body>
