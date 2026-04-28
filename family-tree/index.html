@@ -190,6 +190,27 @@
 
                 <!-- ===== ROW 0: GREAT-GRANDPARENTS (y=30) ===== -->
 
+                <!-- FAR LEFT: Yaakov + Sol Aboulafiah (Rivka's parents) -->
+                <text class="ft-section" x="230" y="18">משפחת אבולעפיה</text>
+                <g class="clickable" onclick="showPerson('yaakov_aboulafiah')">
+                    <rect class="ft-card-ancestor" x="100" y="30" width="130" height="70"/>
+                    <text class="ft-emoji" x="165" y="56">👨</text>
+                    <text class="ft-name" x="165" y="74">יעקוב</text>
+                    <text class="ft-detail" x="165" y="90">אבולעפיה</text>
+                </g>
+                <text class="ft-heart" x="242" y="68">💕</text>
+                <g class="clickable" onclick="showPerson('sol_aboulafiah')">
+                    <rect class="ft-card-ancestor" x="253" y="30" width="130" height="70"/>
+                    <text class="ft-emoji" x="318" y="56">👩</text>
+                    <text class="ft-name" x="318" y="74">סול</text>
+                    <text class="ft-detail" x="318" y="90">אבולעפיה</text>
+                </g>
+
+                <!-- Line from Aboulafiah grandparents down to Rivka -->
+                <line class="ft-line" x1="240" y1="100" x2="240" y2="130"/>
+                <line class="ft-line" x1="240" y1="130" x2="303" y2="130"/>
+                <line class="ft-line" x1="303" y1="130" x2="303" y2="160"/>
+
                 <!-- LEFT: Yaakov + Chaya Sara Levenberg -->
                 <text class="ft-section" x="690" y="18">משפחת לבנברג</text>
                 <g class="clickable" onclick="showPerson('yaakov')">
@@ -645,11 +666,27 @@
                 { title: '🕯️ לזכרו', text: 'סבא של יהודה, תמיר וספיר. זכרו יהיה ברוך.' }
             ]
         },
+        yaakov_aboulafiah: {
+            emoji: '👨', name: 'יעקוב אבולעפיה',
+            role: 'סבא רבא - משפחת אבולעפיה',
+            sections: [
+                { title: '👪 משפחה', text: 'נשוי לסול אבולעפיה' },
+                { title: '👶 ילדים', text: 'רבקה (בקי) - נשואה ליהודה מזרחי ז"ל' }
+            ]
+        },
+        sol_aboulafiah: {
+            emoji: '👩', name: 'סול אבולעפיה',
+            role: 'סבתא רבתא - משפחת אבולעפיה',
+            sections: [
+                { title: '👪 משפחה', text: 'נשואה ליעקוב אבולעפיה' },
+                { title: '👶 ילדים', text: 'רבקה (בקי) - נשואה ליהודה מזרחי ז"ל' }
+            ]
+        },
         rivka_mizrahi: {
             emoji: '🕯️', name: 'רבקה (בקי) מזרחי ז"ל (לבית אבולעפיה)',
             role: 'סבתא - אמו של אבי מזרחי',
             sections: [
-                { title: '👪 משפחת מוצא', text: 'משפחת אבולעפיה' },
+                { title: '👪 הורים', text: 'יעקוב וסול אבולעפיה' },
                 { title: '💕 נשואה ל', text: 'יהודה מזרחי ז"ל' },
                 { title: '👶 ילדים', text: 'אבי מזרחי' },
                 { title: '🕯️ לזכרה', text: 'סבתא של יהודה, תמיר וספיר. זכרה יהיה ברוך.' }
