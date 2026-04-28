@@ -68,6 +68,7 @@
         .ft-line { stroke: #c4a265; stroke-width: 2; fill: none; }
         .ft-card { fill: #fffdf5; stroke: #c4a265; stroke-width: 2; rx: 10; ry: 10; filter: url(#shadow); }
         .ft-card-founder { fill: #fff9e6; stroke: #a0842e; stroke-width: 3; rx: 12; ry: 12; filter: url(#shadow); }
+        .ft-card-hero { fill: #e8f4fd; stroke: #1a6fa8; stroke-width: 3; rx: 12; ry: 12; filter: url(#shadow); }
         .ft-card-ancestor { fill: #f5ede0; stroke: #8b6914; stroke-width: 2.5; rx: 12; ry: 12; filter: url(#shadow); }
         .ft-card-memorial { fill: #f0ebe3; stroke: #a09070; stroke-width: 2; rx: 10; ry: 10; filter: url(#shadow); opacity: 0.85; }
         .ft-name { font-family: 'David Libre', serif; font-size: 15px; font-weight: 700; fill: #3a2a1a; text-anchor: middle; }
@@ -417,43 +418,43 @@
                 <!-- ===== CHILDREN OF SISTERS (new layout) ===== -->
 
                 <!-- Lines from ישי+שרה couple (midpoint x=-840) down to עודד -->
-                <line class="ft-line" x1="-840" y1="410" x2="-840" y2="440"/>
-                <line class="ft-line" x1="-840" y1="440" x2="-820" y2="440"/>
-                <line class="ft-line" x1="-820" y1="440" x2="-820" y2="470"/>
+                <line class="ft-line" x1="-840" y1="410" x2="-840" y2="460"/>
+                <line class="ft-line" x1="-840" y1="460" x2="-820" y2="460"/>
+                <line class="ft-line" x1="-820" y1="460" x2="-820" y2="490"/>
 
-                <!-- עודד קמחי - child of ישי+שרה -->
+                <!-- עודד קמחי - child of ישי+שרה - y=490 same row as yehuda/tamir -->
                 <g class="clickable" onclick="showPerson('oded_kamchi')">
-                    <rect class="ft-card" x="-880" y="470" width="120" height="65" rx="10" ry="10"/>
-                    <text class="ft-emoji" x="-820" y="492">👦</text>
-                    <text class="ft-child-name" x="-820" y="509">עודד</text>
-                    <text class="ft-detail" x="-820" y="523">קמחי</text>
+                    <rect class="ft-card" x="-880" y="490" width="120" height="70" rx="10" ry="10"/>
+                    <text class="ft-emoji" x="-820" y="513">👦</text>
+                    <text class="ft-child-name" x="-820" y="530">עודד</text>
+                    <text class="ft-detail" x="-820" y="548">קמחי</text>
                 </g>
 
                 <!-- Lines from שרה+רמי couple (midpoint x=-520) down to 3 children -->
-                <line class="ft-line" x1="-520" y1="410" x2="-520" y2="440"/>
-                <line class="ft-line" x1="-585" y1="440" x2="-345" y2="440"/>
-                <line class="ft-line" x1="-585" y1="440" x2="-585" y2="470"/>
-                <line class="ft-line" x1="-465" y1="440" x2="-465" y2="470"/>
-                <line class="ft-line" x1="-345" y1="440" x2="-345" y2="470"/>
+                <line class="ft-line" x1="-520" y1="410" x2="-520" y2="460"/>
+                <line class="ft-line" x1="-585" y1="460" x2="-345" y2="460"/>
+                <line class="ft-line" x1="-585" y1="460" x2="-585" y2="490"/>
+                <line class="ft-line" x1="-465" y1="460" x2="-465" y2="490"/>
+                <line class="ft-line" x1="-345" y1="460" x2="-345" y2="490"/>
 
-                <!-- Children of שרה+רמי -->
+                <!-- Children of שרה+רמי - y=490 same row as yehuda/tamir -->
                 <g class="clickable" onclick="showPerson('amit_azouri')">
-                    <rect class="ft-card" x="-640" y="470" width="110" height="65" rx="10" ry="10"/>
-                    <text class="ft-emoji" x="-585" y="492">👧</text>
-                    <text class="ft-child-name" x="-585" y="509">עמית</text>
-                    <text class="ft-detail" x="-585" y="523">עזורי</text>
+                    <rect class="ft-card" x="-640" y="490" width="110" height="70" rx="10" ry="10"/>
+                    <text class="ft-emoji" x="-585" y="513">👧</text>
+                    <text class="ft-child-name" x="-585" y="530">עמית</text>
+                    <text class="ft-detail" x="-585" y="548">עזורי</text>
                 </g>
                 <g class="clickable" onclick="showPerson('perach_azouri')">
-                    <rect class="ft-card" x="-520" y="470" width="110" height="65" rx="10" ry="10"/>
-                    <text class="ft-emoji" x="-465" y="492">🌸</text>
-                    <text class="ft-child-name" x="-465" y="509">פרח</text>
-                    <text class="ft-detail" x="-465" y="523">עזורי</text>
+                    <rect class="ft-card" x="-520" y="490" width="110" height="70" rx="10" ry="10"/>
+                    <text class="ft-emoji" x="-465" y="513">🌸</text>
+                    <text class="ft-child-name" x="-465" y="530">פרח</text>
+                    <text class="ft-detail" x="-465" y="548">עזורי</text>
                 </g>
                 <g class="clickable" onclick="showPerson('anat_azouri')">
-                    <rect class="ft-card" x="-400" y="470" width="110" height="65" rx="10" ry="10"/>
-                    <text class="ft-emoji" x="-345" y="492">👧</text>
-                    <text class="ft-child-name" x="-345" y="509">ענת</text>
-                    <text class="ft-detail" x="-345" y="523">עזורי</text>
+                    <rect class="ft-card" x="-400" y="490" width="110" height="70" rx="10" ry="10"/>
+                    <text class="ft-emoji" x="-345" y="513">👧</text>
+                    <text class="ft-child-name" x="-345" y="530">ענת</text>
+                    <text class="ft-detail" x="-345" y="548">עזורי</text>
                 </g>
 
                 <!-- Lines from סולי+ניסים couple (midpoint x=-130) down to 2 children -->
@@ -542,10 +543,10 @@
                 <!-- ===== ROW 3: MIZRACHI CHILDREN (y=490, h=70) ===== -->
 
                 <g class="clickable" onclick="showPerson('yehuda')">
-                    <rect class="ft-card" x="40" y="490" width="115" height="70"/>
-                    <text class="ft-emoji" x="98" y="515">👨‍💻</text>
-                    <text class="ft-name" x="98" y="533">יהודה</text>
-                    <text class="ft-detail" x="98" y="547">הבכור</text>
+                    <rect class="ft-card-hero" x="40" y="490" width="115" height="70" rx="12" ry="12"/>
+                    <text class="ft-emoji" x="98" y="512">✨</text>
+                    <text class="ft-name" x="98" y="530" style="fill:#1a6fa8;font-size:15px">יהודה</text>
+                    <text class="ft-detail" x="98" y="548" style="fill:#1a6fa8">מזרחי 🏠</text>
                 </g>
                 <text class="ft-heart" x="168" y="528">💕</text>
                 <g class="clickable" onclick="showPerson('ilana')">
