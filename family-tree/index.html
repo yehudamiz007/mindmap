@@ -520,6 +520,297 @@
             </svg>
         </div>
 
+        <!-- ===== ABOULAFIAH EXTENDED FAMILY SECTION ===== -->
+        <div style="text-align:center; margin: 40px 0 20px; padding: 15px; background: linear-gradient(135deg, #fff9e6, #f5e6c0); border: 2px solid #c4a265; border-radius: 10px;">
+            <span style="font-family: 'David Libre', serif; font-size: 1.5em; color: #5a3a1a;">🌿 ענף אבולעפיה המורחב</span>
+            <div style="font-size: 0.9em; color: #8a7a5a; margin-top: 5px;">שורשי משפחת אבולעפיה - צאצאי יעקוב וסול</div>
+        </div>
+
+        <div class="tree-svg-container">
+            <svg id="aboulafiah-tree" class="family-tree" viewBox="0 0 1600 580" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <filter id="shadow2" x="-5%" y="-5%" width="115%" height="115%">
+                        <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#3a2a1a" flood-opacity="0.1"/>
+                    </filter>
+                    <filter id="glow2" x="-10%" y="-10%" width="125%" height="125%">
+                        <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#c4a265" flood-opacity="0.5"/>
+                    </filter>
+                </defs>
+
+                <!-- ===== ROW 0: Yaakov + Sol Aboulafiah (founders) ===== -->
+                <g class="clickable" onclick="showPerson('yaakov_aboulafiah')">
+                    <rect class="ft-card-ancestor" x="670" y="40" width="130" height="70" rx="12" ry="12" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="735" y="60">👨</text>
+                    <text class="ft-name" x="735" y="78">יעקוב</text>
+                    <text class="ft-detail" x="735" y="92">אבולעפיה 1908-1971</text>
+                </g>
+                <text class="ft-heart" x="812" y="78">💕</text>
+                <g class="clickable" onclick="showPerson('sol_aboulafiah')">
+                    <rect class="ft-card-ancestor" x="822" y="40" width="130" height="70" rx="12" ry="12" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="887" y="60">👩</text>
+                    <text class="ft-name" x="887" y="78">סול</text>
+                    <text class="ft-detail" x="887" y="92">לבית כהן</text>
+                </g>
+
+                <!-- Line from founders down -->
+                <line class="ft-line" x1="800" y1="110" x2="800" y2="120"/>
+                <!-- Horizontal bar spanning all 5 children -->
+                <line class="ft-line" x1="150" y1="120" x2="1450" y2="120"/>
+                <!-- Drop lines to each child center -->
+                <line class="ft-line" x1="150" y1="120" x2="150" y2="160"/>
+                <line class="ft-line" x1="420" y1="120" x2="420" y2="160"/>
+                <line class="ft-line" x1="700" y1="120" x2="700" y2="160"/>
+                <line class="ft-line" x1="980" y1="120" x2="980" y2="160"/>
+                <line class="ft-line" x1="1250" y1="120" x2="1250" y2="160"/>
+
+                <!-- ===== ROW 1: 5 children + spouses ===== -->
+
+                <!-- נסים + לאה -->
+                <g class="clickable" onclick="showPerson('nissim_ab')">
+                    <rect class="ft-card" x="90" y="160" width="115" height="70" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="148" y="180">👨</text>
+                    <text class="ft-name" x="148" y="198">נסים</text>
+                    <text class="ft-detail" x="148" y="212">אבולעפיה 1932</text>
+                </g>
+                <text class="ft-heart" x="217" y="198">💕</text>
+                <g class="clickable" onclick="showPerson('lea_chatem')">
+                    <rect class="ft-card" x="228" y="160" width="115" height="70" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="286" y="180">👩</text>
+                    <text class="ft-name" x="286" y="198">לאה</text>
+                    <text class="ft-detail" x="286" y="212">חאתם</text>
+                </g>
+
+                <!-- יוסף + שושנה -->
+                <g class="clickable" onclick="showPerson('yosef_ab')">
+                    <rect class="ft-card" x="360" y="160" width="115" height="70" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="418" y="180">👨</text>
+                    <text class="ft-name" x="418" y="198">יוסף</text>
+                    <text class="ft-detail" x="418" y="212">אבולעפיה</text>
+                </g>
+                <text class="ft-heart" x="487" y="198">💕</text>
+                <g class="clickable" onclick="showPerson('shoshana_ab')">
+                    <rect class="ft-card" x="498" y="160" width="115" height="70" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="556" y="180">👩</text>
+                    <text class="ft-name" x="556" y="198">שושנה</text>
+                    <text class="ft-detail" x="556" y="212"> </text>
+                </g>
+
+                <!-- חנולה + אהרון -->
+                <g class="clickable" onclick="showPerson('hanula_ab')">
+                    <rect class="ft-card" x="635" y="160" width="130" height="70" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="700" y="180">👩</text>
+                    <text class="ft-name" x="700" y="198">חנולה חנה</text>
+                    <text class="ft-detail" x="700" y="212">אבולעפיה</text>
+                </g>
+                <text class="ft-heart" x="777" y="198">💕</text>
+                <g class="clickable" onclick="showPerson('aharon_leon')">
+                    <rect class="ft-card" x="788" y="160" width="120" height="70" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="848" y="180">👨</text>
+                    <text class="ft-name" x="848" y="198">אהרון לאון</text>
+                    <text class="ft-detail" x="848" y="212"> </text>
+                </g>
+
+                <!-- רבקה (memorial only) -->
+                <g class="clickable" onclick="showPerson('rivka_mizrahi')">
+                    <rect class="ft-card-memorial" x="920" y="160" width="130" height="70" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="985" y="180">🕯️</text>
+                    <text class="ft-name" x="985" y="198">רבקה (בקי)</text>
+                    <text class="ft-detail" x="985" y="212">→ ראה עץ ראשי</text>
+                </g>
+
+                <!-- פאני + שלמה -->
+                <g class="clickable" onclick="showPerson('fani_ab')">
+                    <rect class="ft-card" x="1180" y="160" width="115" height="70" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="1238" y="180">👩</text>
+                    <text class="ft-name" x="1238" y="198">פאני</text>
+                    <text class="ft-detail" x="1238" y="212">אבולעפיה</text>
+                </g>
+                <text class="ft-heart" x="1307" y="198">💕</text>
+                <g class="clickable" onclick="showPerson('shlomo_adut')">
+                    <rect class="ft-card" x="1318" y="160" width="115" height="70" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="1376" y="180">👨</text>
+                    <text class="ft-name" x="1376" y="198">שלמה אדוט</text>
+                    <text class="ft-detail" x="1376" y="212"> </text>
+                </g>
+
+                <!-- ===== LINES ROW 1 -> ROW 2 ===== -->
+
+                <!-- נסים children bar: center of נסים card = 148, grandchildren centers: יעקוב=65, עובדיה=165, מיכאל=265 -->
+                <line class="ft-line" x1="148" y1="230" x2="148" y2="260"/>
+                <line class="ft-line" x1="65" y1="260" x2="265" y2="260"/>
+                <line class="ft-line" x1="65" y1="260" x2="65" y2="280"/>
+                <line class="ft-line" x1="165" y1="260" x2="165" y2="280"/>
+                <line class="ft-line" x1="265" y1="260" x2="265" y2="280"/>
+
+                <!-- יוסף children bar: center of יוסף card = 418, grandchildren centers: יעקוב=380, יצחק=470, דינה=560, ינב=650 -->
+                <line class="ft-line" x1="418" y1="230" x2="418" y2="260"/>
+                <line class="ft-line" x1="380" y1="260" x2="650" y2="260"/>
+                <line class="ft-line" x1="380" y1="260" x2="380" y2="280"/>
+                <line class="ft-line" x1="470" y1="260" x2="470" y2="280"/>
+                <line class="ft-line" x1="560" y1="260" x2="560" y2="280"/>
+                <line class="ft-line" x1="650" y1="260" x2="650" y2="280"/>
+
+                <!-- חנולה children bar: center of חנולה card = 700, grandchildren centers: אליעזר=670, סול=760, אסתר=850, יפה=940 -->
+                <line class="ft-line" x1="700" y1="230" x2="700" y2="260"/>
+                <line class="ft-line" x1="670" y1="260" x2="940" y2="260"/>
+                <line class="ft-line" x1="670" y1="260" x2="670" y2="280"/>
+                <line class="ft-line" x1="760" y1="260" x2="760" y2="280"/>
+                <line class="ft-line" x1="850" y1="260" x2="850" y2="280"/>
+                <line class="ft-line" x1="940" y1="260" x2="940" y2="280"/>
+
+                <!-- פאני children bar: center of פאני card = 1238, grandchildren centers: ויקי=1245, יפית=1345 -->
+                <line class="ft-line" x1="1238" y1="230" x2="1238" y2="260"/>
+                <line class="ft-line" x1="1245" y1="260" x2="1345" y2="260"/>
+                <line class="ft-line" x1="1245" y1="260" x2="1245" y2="280"/>
+                <line class="ft-line" x1="1345" y1="260" x2="1345" y2="280"/>
+
+                <!-- ===== ROW 2: GRANDCHILDREN (y=280, h=65) ===== -->
+
+                <!-- Under נסים -->
+                <g class="clickable" onclick="showPerson('yaakov_son_nissim')">
+                    <rect class="ft-card" x="20" y="280" width="90" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="65" y="298">👨</text>
+                    <text class="ft-child-name" x="65" y="315">יעקוב</text>
+                    <text class="ft-detail" x="65" y="333">ב.נסים</text>
+                </g>
+                <g class="clickable" onclick="showPerson('ovadya_son_nissim')">
+                    <rect class="ft-card" x="120" y="280" width="90" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="165" y="298">👨</text>
+                    <text class="ft-child-name" x="165" y="315">עובדיה</text>
+                    <text class="ft-detail" x="165" y="333">ב.נסים</text>
+                </g>
+                <g class="clickable" onclick="showPerson('michael_son_nissim')">
+                    <rect class="ft-card" x="220" y="280" width="90" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="265" y="298">👨</text>
+                    <text class="ft-child-name" x="265" y="315">מיכאל</text>
+                    <text class="ft-detail" x="265" y="333">ב.נסים</text>
+                </g>
+
+                <!-- Under יוסף -->
+                <g class="clickable" onclick="showPerson('yaakov_son_yosef')">
+                    <rect class="ft-card" x="340" y="280" width="80" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="380" y="298">👨</text>
+                    <text class="ft-child-name" x="380" y="315">יעקוב</text>
+                    <text class="ft-detail" x="380" y="333">ב.יוסף</text>
+                </g>
+                <g class="clickable" onclick="showPerson('yitzhak_son_yosef')">
+                    <rect class="ft-card" x="430" y="280" width="80" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="470" y="298">👨</text>
+                    <text class="ft-child-name" x="470" y="315">יצחק</text>
+                    <text class="ft-detail" x="470" y="333">ב.יוסף</text>
+                </g>
+                <g class="clickable" onclick="showPerson('dina_son_yosef')">
+                    <rect class="ft-card" x="520" y="280" width="80" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="560" y="298">👩</text>
+                    <text class="ft-child-name" x="560" y="315">דינה</text>
+                    <text class="ft-detail" x="560" y="333">ב.יוסף</text>
+                </g>
+                <g class="clickable" onclick="showPerson('yaniv_son_yosef')">
+                    <rect class="ft-card" x="610" y="280" width="80" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="650" y="298">👨</text>
+                    <text class="ft-child-name" x="650" y="315">ינב</text>
+                    <text class="ft-detail" x="650" y="333">ב.יוסף</text>
+                </g>
+
+                <!-- Under חנולה -->
+                <g class="clickable" onclick="showPerson('eliezer_son_hanula')">
+                    <rect class="ft-card" x="630" y="280" width="80" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="670" y="298">👨</text>
+                    <text class="ft-child-name" x="670" y="315">אליעזר</text>
+                    <text class="ft-detail" x="670" y="333">ב.חנולה</text>
+                </g>
+                <g class="clickable" onclick="showPerson('sol_dau_hanula')">
+                    <rect class="ft-card" x="720" y="280" width="80" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="760" y="298">👩</text>
+                    <text class="ft-child-name" x="760" y="315">סול</text>
+                    <text class="ft-detail" x="760" y="333">ב.חנולה</text>
+                </g>
+                <g class="clickable" onclick="showPerson('ester_dau_hanula')">
+                    <rect class="ft-card" x="810" y="280" width="80" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="850" y="298">👩</text>
+                    <text class="ft-child-name" x="850" y="315">אסתר</text>
+                    <text class="ft-detail" x="850" y="333">ב.חנולה</text>
+                </g>
+                <g class="clickable" onclick="showPerson('yafa_dau_hanula')">
+                    <rect class="ft-card" x="900" y="280" width="80" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="940" y="298">👩</text>
+                    <text class="ft-child-name" x="940" y="315">יפה</text>
+                    <text class="ft-detail" x="940" y="333">ב.חנולה</text>
+                </g>
+
+                <!-- Under פאני -->
+                <g class="clickable" onclick="showPerson('viki_adut')">
+                    <rect class="ft-card" x="1200" y="280" width="90" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="1245" y="298">👩</text>
+                    <text class="ft-child-name" x="1245" y="315">ויקי</text>
+                    <text class="ft-detail" x="1245" y="333">אדוט</text>
+                </g>
+                <g class="clickable" onclick="showPerson('yafit_adut')">
+                    <rect class="ft-card" x="1300" y="280" width="90" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="1345" y="298">👩</text>
+                    <text class="ft-child-name" x="1345" y="315">יפית</text>
+                    <text class="ft-detail" x="1345" y="333">אדוט</text>
+                </g>
+
+                <!-- ===== LINES ROW 2 -> ROW 3 (great-grandchildren, Nissim's line only) ===== -->
+
+                <!-- יעקוב בן נסים -> איתי, רועי -->
+                <line class="ft-line" x1="65" y1="345" x2="65" y2="390"/>
+                <line class="ft-line" x1="50" y1="390" x2="140" y2="390"/>
+                <line class="ft-line" x1="50" y1="390" x2="50" y2="430"/>
+                <line class="ft-line" x1="140" y1="390" x2="140" y2="430"/>
+
+                <!-- עובדיה בן נסים -> ליאת, אידו, לותם -->
+                <line class="ft-line" x1="165" y1="345" x2="165" y2="390"/>
+                <line class="ft-line" x1="235" y1="390" x2="415" y2="390"/>
+                <line class="ft-line" x1="235" y1="390" x2="235" y2="430"/>
+                <line class="ft-line" x1="325" y1="390" x2="325" y2="430"/>
+                <line class="ft-line" x1="415" y1="390" x2="415" y2="430"/>
+                <!-- connect lines from עובדיה -->
+                <line class="ft-line" x1="165" y1="390" x2="235" y2="390"/>
+
+                <!-- ===== ROW 3: GREAT-GRANDCHILDREN (y=430, h=65) ===== -->
+
+                <!-- Under יעקוב בן נסים -->
+                <g class="clickable" onclick="showPerson('itay_ab')">
+                    <rect class="ft-card" x="10" y="430" width="80" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="50" y="448">👨</text>
+                    <text class="ft-child-name" x="50" y="465">איתי</text>
+                    <text class="ft-detail" x="50" y="481">נ. 1978</text>
+                </g>
+                <g class="clickable" onclick="showPerson('roi_ab')">
+                    <rect class="ft-card" x="100" y="430" width="80" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="140" y="448">👨</text>
+                    <text class="ft-child-name" x="140" y="465">רועי</text>
+                    <text class="ft-detail" x="140" y="481">נ. 1983</text>
+                </g>
+
+                <!-- Under עובדיה בן נסים -->
+                <g class="clickable" onclick="showPerson('liat_ab')">
+                    <rect class="ft-card" x="195" y="430" width="80" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="235" y="448">👩</text>
+                    <text class="ft-child-name" x="235" y="465">ליאת</text>
+                    <text class="ft-detail" x="235" y="481">נ. 1983</text>
+                </g>
+                <g class="clickable" onclick="showPerson('ido_ab')">
+                    <rect class="ft-card" x="285" y="430" width="80" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="325" y="448">👨</text>
+                    <text class="ft-child-name" x="325" y="465">אידו</text>
+                    <text class="ft-detail" x="325" y="481">נ. 1987</text>
+                </g>
+                <g class="clickable" onclick="showPerson('lotem_ab')">
+                    <rect class="ft-card" x="375" y="430" width="80" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
+                    <text class="ft-emoji" x="415" y="448">👩</text>
+                    <text class="ft-child-name" x="415" y="465">לותם</text>
+                    <text class="ft-detail" x="415" y="481">נ. 1993</text>
+                </g>
+
+                <!-- Decorative text -->
+                <text class="ft-detail" x="800" y="565" text-anchor="middle" font-style="italic">ענף אבולעפיה - שורשים חזקים מגליפולי ועד ארץ ישראל 🌿</text>
+
+            </svg>
+        </div>
+
         <div class="stats">
             <div class="stat"><div class="number">5</div><div class="label">דורות</div></div>
             <div class="stat"><div class="number">40</div><div class="label">שנות אהבה</div></div>
@@ -810,6 +1101,211 @@
             sections: [
                 { title: '🎂 יום הולדת', text: '08.04.2025' },
                 { title: '🌟 תכונות', text: 'עיניים כחולות, יפהפייה, מתחילה לזחול (חודש 6)' }
+            ]
+        },
+
+        // ===== ענף אבולעפיה המורחב =====
+        nissim_ab: {
+            emoji: '👨', name: 'נסים אבולעפיה',
+            role: 'בנם של יעקוב וסול אבולעפיה',
+            sections: [
+                { title: '🎂 נולד', text: '1932, צ\'נקלה (קנקאלה), טורקיה' },
+                { title: '💕 נשוי ל', text: 'לאה חאתם (נ. 1936)' },
+                { title: '👶 ילדים', text: 'יעקוב (נ. 18.07.1955), עובדיה (נ. 10.07.1957), מיכאל (נ. 02.02.1964)' }
+            ]
+        },
+        lea_chatem: {
+            emoji: '👩', name: 'לאה חאתם',
+            role: 'אשת נסים אבולעפיה',
+            sections: [
+                { title: '🎂 נולדה', text: '1936' },
+                { title: '💕 נשואה ל', text: 'נסים אבולעפיה' },
+                { title: '👶 ילדים', text: 'יעקוב, עובדיה, מיכאל' }
+            ]
+        },
+        yosef_ab: {
+            emoji: '👨', name: 'יוסף אבולעפיה',
+            role: 'בנם של יעקוב וסול אבולעפיה',
+            sections: [
+                { title: '💕 נשוי ל', text: 'שושנה' },
+                { title: '👶 ילדים', text: 'יעקוב, יצחק, דינה, ינב' }
+            ]
+        },
+        shoshana_ab: {
+            emoji: '👩', name: 'שושנה אבולעפיה',
+            role: 'אשת יוסף אבולעפיה',
+            sections: [
+                { title: '💕 נשואה ל', text: 'יוסף אבולעפיה' },
+                { title: '👶 ילדים', text: 'יעקוב, יצחק, דינה, ינב' }
+            ]
+        },
+        hanula_ab: {
+            emoji: '👩', name: 'חנולה (חנה) אבולעפיה',
+            role: 'בתם של יעקוב וסול אבולעפיה',
+            sections: [
+                { title: '💕 נשואה ל', text: 'אהרון לאון' },
+                { title: '👶 ילדים', text: 'אליעזר, סול, אסתר, יפה' }
+            ]
+        },
+        aharon_leon: {
+            emoji: '👨', name: 'אהרון לאון',
+            role: 'בעלה של חנולה אבולעפיה',
+            sections: [
+                { title: '💕 נשוי ל', text: 'חנולה (חנה) אבולעפיה' },
+                { title: '👶 ילדים', text: 'אליעזר, סול, אסתר, יפה' }
+            ]
+        },
+        fani_ab: {
+            emoji: '👩', name: 'פאני אבולעפיה',
+            role: 'בתם של יעקוב וסול אבולעפיה',
+            sections: [
+                { title: '💕 נשואה ל', text: 'שלמה אדוט' },
+                { title: '👶 ילדים', text: 'ויקי, יפית' }
+            ]
+        },
+        shlomo_adut: {
+            emoji: '👨', name: 'שלמה אדוט',
+            role: 'בעלה של פאני אבולעפיה',
+            sections: [
+                { title: '💕 נשוי ל', text: 'פאני אבולעפיה' },
+                { title: '👶 ילדים', text: 'ויקי, יפית' }
+            ]
+        },
+        yaakov_son_nissim: {
+            emoji: '👨', name: 'יעקוב אבולעפיה (בן נסים)',
+            role: 'נכד יעקוב וסול אבולעפיה',
+            sections: [
+                { title: '🎂 נולד', text: '18 יולי 1955, יהוד' },
+                { title: '💕 נשוי ל', text: 'שושנה סבן' },
+                { title: '👶 ילדים', text: 'איתי (נ. 1978), רועי (נ. 1983)' }
+            ]
+        },
+        ovadya_son_nissim: {
+            emoji: '👨', name: 'עובדיה אבולעפיה (בן נסים)',
+            role: 'נכד יעקוב וסול אבולעפיה',
+            sections: [
+                { title: '🎂 נולד', text: '10 יולי 1957, יהוד' },
+                { title: '💕 נשוי ל', text: 'ורדה גרגיר' },
+                { title: '👶 ילדים', text: 'ליאת (נ. 1983), אידו (נ. 1987), לותם (נ. 1993)' }
+            ]
+        },
+        michael_son_nissim: {
+            emoji: '👨', name: 'מיכאל אבולעפיה (בן נסים)',
+            role: 'נכד יעקוב וסול אבולעפיה',
+            sections: [
+                { title: '🎂 נולד', text: '2 פברואר 1964, יהוד' },
+                { title: '💕 נשוי ל', text: 'סיגל טדמור' },
+                { title: '👶 ילדים', text: 'עומר (נ. 1995), תמיר (נ. 1997), יאל (נ. 2002)' }
+            ]
+        },
+        yaakov_son_yosef: {
+            emoji: '👨', name: 'יעקוב (בן יוסף אבולעפיה)',
+            role: 'נכד יעקוב וסול אבולעפיה',
+            sections: [
+                { title: '👪 הורים', text: 'יוסף ושושנה אבולעפיה' }
+            ]
+        },
+        yitzhak_son_yosef: {
+            emoji: '👨', name: 'יצחק (בן יוסף אבולעפיה)',
+            role: 'נכד יעקוב וסול אבולעפיה',
+            sections: [
+                { title: '👪 הורים', text: 'יוסף ושושנה אבולעפיה' }
+            ]
+        },
+        dina_son_yosef: {
+            emoji: '👩', name: 'דינה (בת יוסף אבולעפיה)',
+            role: 'נכדת יעקוב וסול אבולעפיה',
+            sections: [
+                { title: '👪 הורים', text: 'יוסף ושושנה אבולעפיה' }
+            ]
+        },
+        yaniv_son_yosef: {
+            emoji: '👨', name: 'ינב (בן יוסף אבולעפיה)',
+            role: 'נכד יעקוב וסול אבולעפיה',
+            sections: [
+                { title: '👪 הורים', text: 'יוסף ושושנה אבולעפיה' }
+            ]
+        },
+        eliezer_son_hanula: {
+            emoji: '👨', name: 'אליעזר (בן חנולה לאון)',
+            role: 'נכד יעקוב וסול אבולעפיה',
+            sections: [
+                { title: '👪 הורים', text: 'חנולה אבולעפיה ואהרון לאון' }
+            ]
+        },
+        sol_dau_hanula: {
+            emoji: '👩', name: 'סול (בת חנולה לאון)',
+            role: 'נכדת יעקוב וסול אבולעפיה',
+            sections: [
+                { title: '👪 הורים', text: 'חנולה אבולעפיה ואהרון לאון' }
+            ]
+        },
+        ester_dau_hanula: {
+            emoji: '👩', name: 'אסתר (בת חנולה לאון)',
+            role: 'נכדת יעקוב וסול אבולעפיה',
+            sections: [
+                { title: '👪 הורים', text: 'חנולה אבולעפיה ואהרון לאון' }
+            ]
+        },
+        yafa_dau_hanula: {
+            emoji: '👩', name: 'יפה (בת חנולה לאון)',
+            role: 'נכדת יעקוב וסול אבולעפיה',
+            sections: [
+                { title: '👪 הורים', text: 'חנולה אבולעפיה ואהרון לאון' }
+            ]
+        },
+        viki_adut: {
+            emoji: '👩', name: 'ויקי אדוט',
+            role: 'בת פאני אבולעפיה ושלמה אדוט',
+            sections: [
+                { title: '👪 הורים', text: 'פאני אבולעפיה ושלמה אדוט' }
+            ]
+        },
+        yafit_adut: {
+            emoji: '👩', name: 'יפית אדוט',
+            role: 'בת פאני אבולעפיה ושלמה אדוט',
+            sections: [
+                { title: '👪 הורים', text: 'פאני אבולעפיה ושלמה אדוט' }
+            ]
+        },
+        itay_ab: {
+            emoji: '👨', name: 'איתי אבולעפיה',
+            role: 'נכד נסים ולאה אבולעפיה',
+            sections: [
+                { title: '🎂 נולד', text: '1978' },
+                { title: '👪 הורים', text: 'יעקוב אבולעפיה (בן נסים) ושושנה סבן' }
+            ]
+        },
+        roi_ab: {
+            emoji: '👨', name: 'רועי אבולעפיה',
+            role: 'נכד נסים ולאה אבולעפיה',
+            sections: [
+                { title: '🎂 נולד', text: '1983' },
+                { title: '👪 הורים', text: 'יעקוב אבולעפיה (בן נסים) ושושנה סבן' }
+            ]
+        },
+        liat_ab: {
+            emoji: '👩', name: 'ליאת אבולעפיה',
+            role: 'נכדת נסים ולאה אבולעפיה',
+            sections: [
+                { title: '🎂 נולדה', text: '1983' },
+                { title: '👪 הורים', text: 'עובדיה אבולעפיה ורדה גרגיר' }
+            ]
+        },
+        ido_ab: {
+            emoji: '👨', name: 'אידו אבולעפיה',
+            role: 'נכד נסים ולאה אבולעפיה',
+            sections: [
+                { title: '🎂 נולד', text: '1987' },
+                { title: '👪 הורים', text: 'עובדיה אבולעפיה ורדה גרגיר' }
+            ]
+        },
+        lotem_ab: {
+            emoji: '👩', name: 'לותם אבולעפיה',
+            role: 'נכדת נסים ולאה אבולעפיה',
+            sections: [
+                { title: '🎂 נולדה', text: '1993' },
+                { title: '👪 הורים', text: 'עובדיה אבולעפיה ורדה גרגיר' }
             ]
         }
     };
