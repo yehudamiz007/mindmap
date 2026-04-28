@@ -454,11 +454,16 @@
                 </g>
 
                 <!-- ===== LINES TO ROW 4: Grandchildren ===== -->
+                <!-- Yehuda+Ilana to their kids -->
                 <line class="ft-line" x1="168" y1="585" x2="168" y2="610"/>
                 <line class="ft-line" x1="48" y1="610" x2="288" y2="610"/>
                 <line class="ft-line" x1="48" y1="610" x2="48" y2="640"/>
                 <line class="ft-line" x1="168" y1="610" x2="168" y2="640"/>
                 <line class="ft-line" x1="288" y1="610" x2="288" y2="640"/>
+
+                <!-- Tamir+Meital to Ella Stella -->
+                <line class="ft-line" x1="563" y1="560" x2="563" y2="610"/>
+                <line class="ft-line" x1="563" y1="610" x2="563" y2="640"/>
 
                 <!-- ===== ROW 4: GRANDCHILDREN (y=640, h=85) ===== -->
 
@@ -484,6 +489,15 @@
                     <text class="ft-child-name" x="288" y="683">ארבל</text>
                     <text class="ft-detail" x="288" y="697">08.04.2025</text>
                     <text class="ft-trait" x="288" y="712">עיניים כחולות, יפהפייה</text>
+                </g>
+
+                <!-- Ella Stella - Tamir & Meital's daughter -->
+                <g class="clickable" onclick="showPerson('ella_stella')">
+                    <rect class="ft-card" x="508" y="640" width="110" height="85"/>
+                    <text class="ft-emoji" x="563" y="665">✨</text>
+                    <text class="ft-child-name" x="563" y="683">אלה סטלה</text>
+                    <text class="ft-detail" x="563" y="697">מזרחי</text>
+                    <text class="ft-trait" x="563" y="712">בת תמיר ומיטל</text>
                 </g>
 
                 <!-- Decorative corners -->
@@ -735,18 +749,27 @@
                 { title: '🌟 תכונות', text: 'אמא מוכשרת מאוד' }
             ]
         },
+        ella_stella: {
+            emoji: '✨', name: 'אלה סטלה מזרחי',
+            role: 'בתם של תמיר ומיטל',
+            sections: [
+                { title: '👪 הורים', text: 'תמיר מזרחי ומיטל מזרחי' }
+            ]
+        },
         tamir: {
             emoji: '👨', name: 'תמיר מזרחי',
             role: 'הבן האמצעי של אבי וורדית',
             sections: [
-                { title: '💕 נשוי ל', text: 'מיטל מזרחי' }
+                { title: '💕 נשוי ל', text: 'מיטל מזרחי' },
+                { title: '👶 ילדים', text: 'אלה סטלה מזרחי' }
             ]
         },
         meital: {
             emoji: '👩', name: 'מיטל מזרחי',
             role: 'אשת תמיר',
             sections: [
-                { title: '💕 נשואה ל', text: 'תמיר מזרחי' }
+                { title: '💕 נשואה ל', text: 'תמיר מזרחי' },
+                { title: '👶 ילדים', text: 'אלה סטלה מזרחי' }
             ]
         },
         sapir: {
