@@ -178,7 +178,7 @@
         </div>
 
         <div class="tree-svg-container">
-            <svg class="family-tree" viewBox="-1000 0 2500 1250" xmlns="http://www.w3.org/2000/svg">
+            <svg class="family-tree" viewBox="-1000 0 2500 1300" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
                         <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#3a2a1a" flood-opacity="0.1"/>
@@ -320,11 +320,17 @@
 
                 <!-- ===== LINES FROM ROW 1 TO ROW 2 ===== -->
 
-                <!-- From מזרחי parents down to אבי + sisters בר -->
+                <!-- From מזרחי parents down to אבי + sisters bar (new couple layout) -->
                 <line class="ft-line" x1="222" y1="230" x2="222" y2="280"/>
-                <line class="ft-line" x1="-610" y1="280" x2="222" y2="280"/>
-                <line class="ft-line" x1="-610" y1="280" x2="-610" y2="340"/>
-                <line class="ft-line" x1="-420" y1="280" x2="-420" y2="340"/>
+                <line class="ft-line" x1="-690" y1="280" x2="222" y2="280"/>
+                <!-- שרה connector: bar drops to x=-690, then fans to two couple groups -->
+                <line class="ft-line" x1="-690" y1="280" x2="-690" y2="300"/>
+                <line class="ft-line" x1="-840" y1="300" x2="-595" y2="300"/>
+                <line class="ft-line" x1="-840" y1="300" x2="-840" y2="340"/>
+                <line class="ft-line" x1="-595" y1="300" x2="-595" y2="340"/>
+                <!-- סולי connector -->
+                <line class="ft-line" x1="-195" y1="280" x2="-195" y2="340"/>
+                <!-- אבי connector -->
                 <line class="ft-line" x1="222" y1="280" x2="222" y2="340"/>
 
                 <!-- From משה יוסף+יפה (center=775) down to daughters bar -->
@@ -349,20 +355,55 @@
 
                 <!-- ===== ROW 2: ALL GRANDCHILDREN (y=340, h=65) ===== -->
 
-                <!-- שרה מזרחי (אחות אבי - שמאל קיצוני) -->
+                <!-- ===== COUPLE GROUP 1: ישי קמחי + שרה מזרחי (parents of עודד) ===== -->
+                <!-- ישי קמחי card: x=-980, center x=-915 -->
+                <g class="clickable" onclick="showPerson('yishai_kamchi')">
+                    <rect class="ft-card" x="-980" y="340" width="130" height="70" rx="10" ry="10"/>
+                    <text class="ft-emoji" x="-915" y="365">👨</text>
+                    <text class="ft-name" x="-915" y="382">ישי קמחי</text>
+                    <text class="ft-detail" x="-915" y="397">בן זוג שרה</text>
+                </g>
+                <text class="ft-heart" x="-842" y="378">💕</text>
+                <!-- שרה מזרחי card (1st instance): x=-830, center x=-765 -->
                 <g class="clickable" onclick="showPerson('sara_mizrahi')">
-                    <rect class="ft-card" x="-680" y="340" width="140" height="70"/>
-                    <text class="ft-emoji" x="-610" y="365">👩</text>
-                    <text class="ft-name" x="-610" y="382">שרה מזרחי</text>
-                    <text class="ft-detail" x="-610" y="397">אחות אבי</text>
+                    <rect class="ft-card" x="-830" y="340" width="130" height="70" rx="10" ry="10"/>
+                    <text class="ft-emoji" x="-765" y="365">👩</text>
+                    <text class="ft-name" x="-765" y="382">שרה מזרחי</text>
+                    <text class="ft-detail" x="-765" y="397">אחות אבי</text>
                 </g>
 
-                <!-- סולי מזרחי (אחות אבי - שמאל) -->
+                <!-- ===== COUPLE GROUP 2: שרה מזרחי + רמי עזורי (parents of עמית, פרח, ענת) ===== -->
+                <!-- שרה מזרחי card (2nd instance): x=-660, center x=-595 -->
+                <g class="clickable" onclick="showPerson('sara_mizrahi')">
+                    <rect class="ft-card" x="-660" y="340" width="130" height="70" rx="10" ry="10"/>
+                    <text class="ft-emoji" x="-595" y="365">👩</text>
+                    <text class="ft-name" x="-595" y="382">שרה מזרחי</text>
+                    <text class="ft-detail" x="-595" y="397">אחות אבי</text>
+                </g>
+                <text class="ft-heart" x="-522" y="378">💕</text>
+                <!-- רמי עזורי card: x=-510, center x=-445 -->
+                <g class="clickable" onclick="showPerson('rami_azouri')">
+                    <rect class="ft-card" x="-510" y="340" width="130" height="70" rx="10" ry="10"/>
+                    <text class="ft-emoji" x="-445" y="365">👨</text>
+                    <text class="ft-name" x="-445" y="382">רמי עזורי</text>
+                    <text class="ft-detail" x="-445" y="397">בן זוג שרה</text>
+                </g>
+
+                <!-- ===== COUPLE GROUP 3: סולי מזרחי + ניסים סניור (parents of אופיר, רביד) ===== -->
+                <!-- סולי מזרחי card: x=-260, center x=-195 -->
                 <g class="clickable" onclick="showPerson('soli_mizrahi')">
-                    <rect class="ft-card" x="-490" y="340" width="140" height="70"/>
-                    <text class="ft-emoji" x="-420" y="365">👩</text>
-                    <text class="ft-name" x="-420" y="382">סולי מזרחי</text>
-                    <text class="ft-detail" x="-420" y="397">אחות אבי</text>
+                    <rect class="ft-card" x="-260" y="340" width="130" height="70" rx="10" ry="10"/>
+                    <text class="ft-emoji" x="-195" y="365">👩</text>
+                    <text class="ft-name" x="-195" y="382">סולי מזרחי</text>
+                    <text class="ft-detail" x="-195" y="397">אחות אבי</text>
+                </g>
+                <text class="ft-heart" x="-122" y="378">💕</text>
+                <!-- ניסים סניור card: x=-110, center x=-45 -->
+                <g class="clickable" onclick="showPerson('nissim_senior')">
+                    <rect class="ft-card" x="-110" y="340" width="130" height="70" rx="10" ry="10"/>
+                    <text class="ft-emoji" x="-45" y="365">👨</text>
+                    <text class="ft-name" x="-45" y="382">ניסים סניור</text>
+                    <text class="ft-detail" x="-45" y="397">בעל סולי</text>
                 </g>
 
                 <!-- אבי מזרחי (under his parents) -->
@@ -373,98 +414,66 @@
                     <text class="ft-detail" x="222" y="397">ראש המשפחה</text>
                 </g>
 
-                <!-- ===== SPOUSES & CHILDREN OF SISTERS ===== -->
+                <!-- ===== CHILDREN OF SISTERS (new layout) ===== -->
 
-                <!-- ישי קמחי - בן זוג ראשון של שרה -->
-                <g class="clickable" onclick="showPerson('yishai_kamchi')">
-                    <rect class="ft-card" x="-790" y="450" width="140" height="65"/>
-                    <text class="ft-emoji" x="-720" y="472">👨</text>
-                    <text class="ft-name" x="-720" y="489">ישי קמחי</text>
-                    <text class="ft-detail" x="-720" y="503">בן זוג שרה</text>
-                </g>
+                <!-- Lines from ישי+שרה couple (midpoint x=-840) down to עודד -->
+                <line class="ft-line" x1="-840" y1="410" x2="-840" y2="440"/>
+                <line class="ft-line" x1="-840" y1="440" x2="-820" y2="440"/>
+                <line class="ft-line" x1="-820" y1="440" x2="-820" y2="470"/>
 
-                <!-- רמי עזורי - בן זוג שני של שרה -->
-                <g class="clickable" onclick="showPerson('rami_azouri')">
-                    <rect class="ft-card" x="-640" y="450" width="140" height="65"/>
-                    <text class="ft-emoji" x="-570" y="472">👨</text>
-                    <text class="ft-name" x="-570" y="489">רמי עזורי</text>
-                    <text class="ft-detail" x="-570" y="503">בן זוג שרה</text>
-                </g>
-
-                <!-- Lines from שרה down to partners -->
-                <line class="ft-line" x1="-610" y1="410" x2="-610" y2="430"/>
-                <line class="ft-line" x1="-720" y1="430" x2="-420" y2="430"/>
-                <line class="ft-line" x1="-720" y1="430" x2="-720" y2="450"/>
-                <line class="ft-line" x1="-570" y1="430" x2="-570" y2="450"/>
-
-                <!-- Lines from ישי קמחי down to עודד -->
-                <line class="ft-line" x1="-720" y1="515" x2="-720" y2="530"/>
-                <line class="ft-line" x1="-735" y1="530" x2="-735" y2="570"/>
-
-                <!-- Lines from רמי עזורי down to children bar -->
-                <line class="ft-line" x1="-570" y1="515" x2="-570" y2="540"/>
-                <line class="ft-line" x1="-625" y1="540" x2="-385" y2="540"/>
-                <line class="ft-line" x1="-625" y1="540" x2="-625" y2="570"/>
-                <line class="ft-line" x1="-505" y1="540" x2="-505" y2="570"/>
-                <line class="ft-line" x1="-385" y1="540" x2="-385" y2="570"/>
-
-                <!-- Children of ישי קמחי + שרה: עודד -->
+                <!-- עודד קמחי - child of ישי+שרה -->
                 <g class="clickable" onclick="showPerson('oded_kamchi')">
-                    <rect class="ft-card" x="-790" y="570" width="110" height="65"/>
-                    <text class="ft-emoji" x="-735" y="592">👦</text>
-                    <text class="ft-child-name" x="-735" y="609">עודד</text>
-                    <text class="ft-detail" x="-735" y="623">קמחי</text>
+                    <rect class="ft-card" x="-880" y="470" width="120" height="65" rx="10" ry="10"/>
+                    <text class="ft-emoji" x="-820" y="492">👦</text>
+                    <text class="ft-child-name" x="-820" y="509">עודד</text>
+                    <text class="ft-detail" x="-820" y="523">קמחי</text>
                 </g>
 
-                <!-- Children of רמי עזורי + שרה -->
+                <!-- Lines from שרה+רמי couple (midpoint x=-520) down to 3 children -->
+                <line class="ft-line" x1="-520" y1="410" x2="-520" y2="440"/>
+                <line class="ft-line" x1="-585" y1="440" x2="-345" y2="440"/>
+                <line class="ft-line" x1="-585" y1="440" x2="-585" y2="470"/>
+                <line class="ft-line" x1="-465" y1="440" x2="-465" y2="470"/>
+                <line class="ft-line" x1="-345" y1="440" x2="-345" y2="470"/>
+
+                <!-- Children of שרה+רמי -->
                 <g class="clickable" onclick="showPerson('amit_azouri')">
-                    <rect class="ft-card" x="-680" y="570" width="110" height="65"/>
-                    <text class="ft-emoji" x="-625" y="592">👧</text>
-                    <text class="ft-child-name" x="-625" y="609">עמית</text>
-                    <text class="ft-detail" x="-625" y="623">עזורי</text>
+                    <rect class="ft-card" x="-640" y="470" width="110" height="65" rx="10" ry="10"/>
+                    <text class="ft-emoji" x="-585" y="492">👧</text>
+                    <text class="ft-child-name" x="-585" y="509">עמית</text>
+                    <text class="ft-detail" x="-585" y="523">עזורי</text>
                 </g>
                 <g class="clickable" onclick="showPerson('perach_azouri')">
-                    <rect class="ft-card" x="-560" y="570" width="110" height="65"/>
-                    <text class="ft-emoji" x="-505" y="592">👧</text>
-                    <text class="ft-child-name" x="-505" y="609">פרח</text>
-                    <text class="ft-detail" x="-505" y="623">עזורי</text>
+                    <rect class="ft-card" x="-520" y="470" width="110" height="65" rx="10" ry="10"/>
+                    <text class="ft-emoji" x="-465" y="492">🌸</text>
+                    <text class="ft-child-name" x="-465" y="509">פרח</text>
+                    <text class="ft-detail" x="-465" y="523">עזורי</text>
                 </g>
                 <g class="clickable" onclick="showPerson('anat_azouri')">
-                    <rect class="ft-card" x="-440" y="570" width="110" height="65"/>
-                    <text class="ft-emoji" x="-385" y="592">👧</text>
-                    <text class="ft-child-name" x="-385" y="609">ענת</text>
-                    <text class="ft-detail" x="-385" y="623">עזורי</text>
+                    <rect class="ft-card" x="-400" y="470" width="110" height="65" rx="10" ry="10"/>
+                    <text class="ft-emoji" x="-345" y="492">👧</text>
+                    <text class="ft-child-name" x="-345" y="509">ענת</text>
+                    <text class="ft-detail" x="-345" y="523">עזורי</text>
                 </g>
 
-                <!-- ניסים סניור - בעל סולי -->
-                <g class="clickable" onclick="showPerson('nissim_senior')">
-                    <rect class="ft-card" x="-490" y="450" width="140" height="65"/>
-                    <text class="ft-emoji" x="-420" y="472">👨</text>
-                    <text class="ft-name" x="-420" y="489">ניסים סניור</text>
-                    <text class="ft-detail" x="-420" y="503">בעל סולי</text>
-                </g>
+                <!-- Lines from סולי+ניסים couple (midpoint x=-130) down to 2 children -->
+                <line class="ft-line" x1="-130" y1="410" x2="-130" y2="440"/>
+                <line class="ft-line" x1="-155" y1="440" x2="-35" y2="440"/>
+                <line class="ft-line" x1="-155" y1="440" x2="-155" y2="470"/>
+                <line class="ft-line" x1="-35" y1="440" x2="-35" y2="470"/>
 
-                <!-- Lines from סולי down to ניסים -->
-                <line class="ft-line" x1="-420" y1="410" x2="-420" y2="450"/>
-
-                <!-- Lines from ניסים+סולי down to children -->
-                <line class="ft-line" x1="-420" y1="515" x2="-420" y2="540"/>
-                <line class="ft-line" x1="-255" y1="540" x2="-420" y2="540"/>
-                <line class="ft-line" x1="-255" y1="540" x2="-255" y2="570"/>
-                <line class="ft-line" x1="-135" y1="540" x2="-135" y2="570"/>
-
-                <!-- Children of ניסים + סולי -->
+                <!-- Children of סולי+ניסים -->
                 <g class="clickable" onclick="showPerson('ofer_ab')">
-                    <rect class="ft-card" x="-310" y="570" width="110" height="65"/>
-                    <text class="ft-emoji" x="-255" y="592">👧</text>
-                    <text class="ft-child-name" x="-255" y="609">אופיר</text>
-                    <text class="ft-detail" x="-255" y="623">בת סולי</text>
+                    <rect class="ft-card" x="-210" y="470" width="110" height="65" rx="10" ry="10"/>
+                    <text class="ft-emoji" x="-155" y="492">👧</text>
+                    <text class="ft-child-name" x="-155" y="509">אופיר</text>
+                    <text class="ft-detail" x="-155" y="523">בת סולי</text>
                 </g>
                 <g class="clickable" onclick="showPerson('ravid_ab')">
-                    <rect class="ft-card" x="-190" y="570" width="110" height="65"/>
-                    <text class="ft-emoji" x="-135" y="592">👧</text>
-                    <text class="ft-child-name" x="-135" y="609">רביד</text>
-                    <text class="ft-detail" x="-135" y="623">בת סולי</text>
+                    <rect class="ft-card" x="-90" y="470" width="110" height="65" rx="10" ry="10"/>
+                    <text class="ft-emoji" x="-35" y="492">👧</text>
+                    <text class="ft-child-name" x="-35" y="509">רביד</text>
+                    <text class="ft-detail" x="-35" y="523">בת סולי</text>
                 </g>
 
                 <!-- Marriage heart אבי ↔ ורדית -->
