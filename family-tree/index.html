@@ -222,17 +222,22 @@
                     <text class="ft-detail" x="1155" y="90">לבית לוינשטין</text>
                 </g>
 
-                <!-- Lines from Levenberg grandparents to children bar -->
+                <!-- Lines from Levenberg grandparents to their 3 children only -->
+                <!-- Center of Yaakov+Chaya Sara couple = midpoint between 620 and 785 = ~700 -->
                 <line class="ft-line" x1="700" y1="100" x2="700" y2="130"/>
+                <!-- Horizontal bar only spanning the 3 Levenberg children: Chana Tova(515), Moshe Yosef(690), Nirit(1040) -->
                 <line class="ft-line" x1="515" y1="130" x2="1040" y2="130"/>
                 <line class="ft-line" x1="515" y1="130" x2="515" y2="160"/>
                 <line class="ft-line" x1="690" y1="130" x2="690" y2="160"/>
                 <line class="ft-line" x1="1040" y1="130" x2="1040" y2="160"/>
 
-                <!-- Line from Lishuar grandparents to Yafa -->
-                <line class="ft-line" x1="1075" y1="100" x2="1075" y2="130"/>
-                <line class="ft-line" x1="1075" y1="130" x2="860" y2="130"/>
-                <line class="ft-line" x1="860" y1="130" x2="860" y2="160"/>
+                <!-- Line from Lishuar grandparents ONLY to Yafa (their sole child) - separate branch -->
+                <!-- Center of Uri Moshe+Dina couple = midpoint between 995 and 1155 = ~1075 -->
+                <!-- Yafa is at x=860 in row 1 -->
+                <!-- Draw line downward from Lishuar couple, then across to Yafa separately, not touching Levenberg bar -->
+                <line class="ft-line" x1="1075" y1="100" x2="1075" y2="145"/>
+                <line class="ft-line" x1="860" y1="145" x2="1075" y2="145"/>
+                <line class="ft-line" x1="860" y1="145" x2="860" y2="160"/>
 
                 <!-- ===== ROW 1: PARENTS GENERATION (y=160, h=70) ===== -->
 
@@ -510,7 +515,7 @@
             role: 'סבא רבא - משפחת לבנברג',
             sections: [
                 { title: '👪 משפחה', text: 'נשוי לחיה שרה (לבית שרגא) ז"ל' },
-                { title: '👶 ילדים', text: 'חנה טובה ז"ל (בכורה), משה יוסף (אמצעי), נורית יהודית (צעירה)' },
+                { title: '👶 ילדים', text: 'חנה טובה ז"ל (בכורה), משה יוסף (בן), נורית יהודית (הצעירה)' },
                 { title: '📝 שם המשפחה', text: 'LEWENBERG באותיות לטיניות' }
             ]
         },
@@ -519,7 +524,7 @@
             role: 'סבתא רבתא - לבית שרגא',
             sections: [
                 { title: '👪 משפחה', text: 'נשואה ליעקוב לבנברג ז"ל' },
-                { title: '👶 ילדים', text: 'חנה טובה ז"ל, משה יוסף, נורית יהודית' }
+                { title: '👶 ילדים', text: 'חנה טובה ז"ל (בכורה), משה יוסף (בן), נורית יהודית (הצעירה)' }
             ]
         },
         uri_moshe: {
@@ -527,7 +532,7 @@
             role: 'סבא רבא - משפחת לישואר',
             sections: [
                 { title: '👪 משפחה', text: 'נשוי לדינה (לבית לוינשטין)' },
-                { title: '👶 ילדים', text: 'יפה (נשואה למשה יוסף לבנברג)' }
+                { title: '👶 ילדים', text: 'יפה בלבד (נשואה למשה יוסף לבנברג)' }
             ]
         },
         dina: {
@@ -535,7 +540,7 @@
             role: 'סבתא רבתא - לבית לוינשטין',
             sections: [
                 { title: '👪 משפחה', text: 'נשואה לאורי משה לישואר' },
-                { title: '👶 ילדים', text: 'יפה (נשואה למשה יוסף לבנברג)' }
+                { title: '👶 ילדים', text: 'יפה בלבד (נשואה למשה יוסף לבנברג)' }
             ]
         },
         chana_tova: {
