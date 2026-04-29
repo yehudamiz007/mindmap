@@ -107,49 +107,25 @@ const byCategory = {};
 const bySkill = {};
 const dailyByCategory = {};
 
-function extractSkillsFromContent(data) {
-  const idx = data.indexOf('"systemPromptReport"');
-  if (idx === -1) return null;
-  const lineStart = data.lastIndexOf('\n', idx) + 1;
-  const lineEnd = data.indexOf('\n', idx);
-  const line = data.slice(lineStart, lineEnd > -1 ? lineEnd : undefined);
-  try {
-    const obj = JSON.parse(line);
-    // Use prompting.systemPromptReport.skills.entries — per-session loaded skills
-    const report =
-      obj?.data?.prompting?.systemPromptReport ||
-      obj?.data?.systemPromptReport ||
-      obj?.systemPromptReport;
-    if (report?.skills?.entries) {
-      const names = report.skills.entries.map(e => e.name).filter(Boolean);
-      if (names.length > 0) return names;
-    }
-    return null;
-  } catch {
-    return null;
-  }
-}
-
 function getSessionSkills(filePath) {
+  // Detect skills ACTUALLY ACTIVATED - SKILL.md was read during the session
   try {
-    // First try the session file itself
-    const data = fs.readFileSync(filePath, 'utf8');
-    const fromSession = extractSkillsFromContent(data);
-    if (fromSession) return fromSession;
+    let fullData = fs.readFileSync(filePath, 'utf8');
+    // Also check companion file (session + trajectory)
+    const companion = filePath.includes('.trajectory')
+      ? filePath.replace('.trajectory.jsonl', '.jsonl')
+      : filePath.replace(/\.jsonl$/, '.trajectory.jsonl');
+    try { fullData += fs.readFileSync(companion, 'utf8'); } catch {}
 
-    // Try the corresponding trajectory file
-    const trajectoryPath = filePath.replace(/\.jsonl$/, '.trajectory.jsonl');
-    try {
-      const tData = fs.readFileSync(trajectoryPath, 'utf8');
-      const fromTrajectory = extractSkillsFromContent(tData);
-      if (fromTrajectory) return fromTrajectory;
-    } catch {}
-
-    return [];
+    const matches = [...fullData.matchAll(/skills[\/\\]+([a-z0-9_-]+)[\/\\]+SKILL\.md/gi)];
+    const blacklist = new Set(['X', 'wacli', 'any1']);
+    const unique = [...new Set(matches.map(m => m[1]).filter(s => s && s.length > 2 && !blacklist.has(s)))];
+    return unique;
   } catch {
     return [];
   }
 }
+
 
 function addToCategory(cat, cost, tokens, calls) {
   if (!byCategory[cat]) byCategory[cat] = { cost: 0, tokens: 0, calls: 0 };
@@ -228,10 +204,12 @@ function processFile(filePath) {
     addToCategory(category, cost, input + output, 1);
     addToDailyCategory(date, category, cost);
 
-    // Skills
+    // Skills - divide cost equally among all skills in this session
     if (skills.length > 0) {
+      const costPerSkill = cost / skills.length;
+      const tokensPerSkill = (input + output) / skills.length;
       for (const skill of skills) {
-        addToSkill(skill, cost, input + output, 1);
+        addToSkill(skill, costPerSkill, tokensPerSkill, 1);
       }
     } else {
       addToSkill('None / General', cost, input + output, 1);
