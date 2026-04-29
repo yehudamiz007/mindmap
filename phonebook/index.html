@@ -1025,18 +1025,37 @@ async function loadFromGitHub() {
   }
 }
 
-async function saveToGitHub() {
+async function saveToGitHub(silent = false) {
   const data = buildGitHubData();
-  const content = utf8ToBase64(JSON.stringify(data, null, 2));
-
-  const body = {
-    message: 'Update phonebook data',
-    content: content,
-    branch: 'main'
-  };
-  if (ghFileSha) body.sha = ghFileSha;
+  const fileContent = utf8ToBase64(JSON.stringify(data, null, 2));
 
   try {
+    // Always fetch the latest SHA before saving to avoid conflicts
+    const shaResp = await fetch(GH_API_URL, {
+      headers: {
+        'Authorization': `token ${GH_TOKEN}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Cache-Control': 'no-cache'
+      }
+    });
+
+    let currentSha = null;
+    if (shaResp.ok) {
+      const meta = await shaResp.json();
+      currentSha = meta.sha;
+      ghFileSha = currentSha;
+    } else if (shaResp.status !== 404) {
+      showToast('❌ שגיאת שמירה');
+      return;
+    }
+
+    const body = {
+      message: 'Update phonebook data',
+      content: fileContent,
+      branch: 'main'
+    };
+    if (currentSha) body.sha = currentSha;
+
     const resp = await fetch(GH_API_URL, {
       method: 'PUT',
       headers: {
@@ -1049,16 +1068,16 @@ async function saveToGitHub() {
 
     if (resp.ok) {
       const result = await resp.json();
-      ghFileSha = result.content.sha; // update SHA for next save
-      showToast('\uD83D\uDCBE נשמר');
+      ghFileSha = result.content.sha;
+      if (!silent) showToast('💾 נשמר');
     } else {
       const errText = await resp.text();
       console.error('saveToGitHub error:', errText);
-      showToast('\u274C שגיאת שמירה');
+      showToast('❌ שגיאת שמירה: ' + resp.status);
     }
   } catch(err) {
     console.error('saveToGitHub network error:', err);
-    showToast('\u274C שגיאת שמירה');
+    showToast('❌ שגיאת רשת');
   }
 }
 
@@ -1456,23 +1475,8 @@ function deleteCategoryPrompt(cat) {
   // If currently viewing deleted cat, go back to הכל
   if (currentCat === cat) currentCat = 'הכל';
 
-  // Save all three in one call
-  const data = buildGitHubData();
-  const content = utf8ToBase64(JSON.stringify(data, null, 2));
-  const body = { message: 'Delete category: ' + cat, content, branch: 'main' };
-  if (ghFileSha) body.sha = ghFileSha;
-  fetch(GH_API_URL, {
-    method: 'PUT',
-    headers: {
-      'Authorization': `token ${GH_TOKEN}`,
-      'Accept': 'application/vnd.github.v3+json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
-  }).then(r => r.json()).then(result => {
-    if (result.content) ghFileSha = result.content.sha;
-    showToast('🗑️ קטגוריה נמחקה');
-  }).catch(() => showToast('❌ שגיאת שמירה'));
+  // Save via the robust saveToGitHub (handles SHA refresh automatically)
+  saveToGitHub(true).then(() => showToast('🗑️ קטגוריה נמחקה'));
 
   renderTabs();
   populateCategoryDropdown();
