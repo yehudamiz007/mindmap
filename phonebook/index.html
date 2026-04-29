@@ -982,14 +982,15 @@ async function loadFromGitHub() {
   const overlay = document.getElementById('loadingOverlay');
   overlay.classList.remove('hidden');
   try {
-    // Fetch SHA via API
+    // Fetch via API - gets both SHA and content (no CDN cache issues)
     const apiResp = await fetch(GH_API_URL, {
-      headers: { 'Authorization': `token ${GH_TOKEN}`, 'Accept': 'application/vnd.github.v3+json' }
+      headers: {
+        'Authorization': `token ${GH_TOKEN}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Cache-Control': 'no-cache'
+      }
     });
-    if (apiResp.ok) {
-      const meta = await apiResp.json();
-      ghFileSha = meta.sha;
-    } else if (apiResp.status === 404) {
+    if (apiResp.status === 404) {
       // File doesn't exist yet - use empty defaults
       ghFileSha = null;
       overlay.classList.add('hidden');
@@ -998,14 +999,20 @@ async function loadFromGitHub() {
       render();
       return;
     }
-
-    // Fetch raw content (no auth needed for public repo, but add cache-buster)
-    const rawResp = await fetch(GH_RAW_URL + '?t=' + Date.now());
-    if (rawResp.ok) {
-      const data = await rawResp.json();
-      customEntries = Array.isArray(data.custom_contacts) ? data.custom_contacts : [];
-      customCats = Array.isArray(data.custom_categories) ? data.custom_categories : [];
-      builtinOverrides = (data.overrides && typeof data.overrides === 'object') ? data.overrides : {};
+    if (apiResp.ok) {
+      const meta = await apiResp.json();
+      ghFileSha = meta.sha;
+      // Decode content from base64 (API always returns UTF-8 base64)
+      if (meta.content) {
+        const raw = atob(meta.content.replace(/\n/g, ''));
+        const bytes = new Uint8Array(raw.length);
+        for (let i = 0; i < raw.length; i++) bytes[i] = raw.charCodeAt(i);
+        const jsonStr = new TextDecoder('utf-8').decode(bytes);
+        const data = JSON.parse(jsonStr);
+        customEntries = Array.isArray(data.custom_contacts) ? data.custom_contacts : [];
+        customCats = Array.isArray(data.custom_categories) ? data.custom_categories : [];
+        builtinOverrides = (data.overrides && typeof data.overrides === 'object') ? data.overrides : {};
+      }
     }
   } catch(err) {
     console.error('loadFromGitHub error:', err);
