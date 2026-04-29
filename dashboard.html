@@ -62,6 +62,18 @@ function updateCosts(){
   </div>
 </div>
 
+<h2>🎯 Cost by Skill</h2>
+<div class="charts">
+  <div class="chart-box"><h3>Cost Distribution by Skill</h3><canvas id="skillDonut"></canvas></div>
+  <div class="chart-box" style="grid-column:1/-1">
+    <h3>Skill Summary</h3>
+    <table id="skillTable">
+      <thead><tr><th>Skill</th><th>Cost</th><th>Tokens</th><th>Calls</th><th>% of Total</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
 <h2>📈 Overview</h2>
 <div class="charts">
   <div class="chart-box"><h3>Daily Cost ($)</h3><canvas id="dailyCost"></canvas></div>
@@ -127,6 +139,34 @@ function load() {
         labels:dcDates,
         datasets:allCats.map(cat=>({label:cat,data:d.dailyByCategory.map(x=>x[cat]||0),backgroundColor:catColors[cat]||'#686de0'}))
       },options:opts(true)});
+    }
+
+    // === Skill Charts ===
+    if (d.bySkill && Object.keys(d.bySkill).length) {
+      const skills = Object.entries(d.bySkill).sort((a,b) => b[1].cost - a[1].cost).slice(0, 15); // top 15
+
+      if(charts.sd) charts.sd.destroy();
+      charts.sd = new Chart(document.getElementById('skillDonut'), {
+        type: 'doughnut',
+        data: {
+          labels: skills.map(s => s[0]),
+          datasets: [{ data: skills.map(s => s[1].cost), backgroundColor: colors.slice(0, skills.length) }]
+        },
+        options: { responsive: true, plugins: { legend: { labels: { color: tickColor, font: { size: 11 } } } } }
+      });
+
+      const skillTbody = document.querySelector('#skillTable tbody');
+      skillTbody.innerHTML = skills.map(([name, v], i) => {
+        const pct = d.totalCost > 0 ? (v.cost / d.totalCost * 100) : 0;
+        const col = colors[i % colors.length];
+        return `<tr>
+          <td><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${col};margin-right:6px"></span>${name}</td>
+          <td>$${v.cost.toFixed(4)}</td>
+          <td>${(v.tokens/1000).toFixed(1)}K</td>
+          <td>${v.calls}</td>
+          <td><span class="pct-bar" style="width:${Math.max(pct*3,2)}px;background:${col}"></span>${pct.toFixed(2)}%</td>
+        </tr>`;
+      }).join('');
     }
 
     // === Existing Charts ===

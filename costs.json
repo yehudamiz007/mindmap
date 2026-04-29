@@ -1,8 +1,8 @@
 {
-  "lastUpdated": "2026-04-29T06:01:05.209Z",
-  "totalCost": 485.981146,
-  "totalTokens": 928899,
-  "totalCalls": 2001,
+  "lastUpdated": "2026-04-29T08:20:40.391Z",
+  "totalCost": 487.693246,
+  "totalTokens": 915565,
+  "totalCalls": 2022,
   "totalSessions": 107,
   "daysActive": 29,
   "daily": [
@@ -549,14 +549,14 @@
     },
     {
       "date": "2026-04-28",
-      "cost": 50.770582,
-      "tokens": 172654,
-      "inputTokens": 42543,
-      "outputTokens": 130111,
-      "cacheReadTokens": 11713748,
-      "cacheWriteTokens": 12045590,
-      "calls": 294,
-      "sessions": 46,
+      "cost": 43.049872,
+      "tokens": 114203,
+      "inputTokens": 42342,
+      "outputTokens": 71861,
+      "cacheReadTokens": 2072343,
+      "cacheWriteTokens": 10991207,
+      "calls": 159,
+      "sessions": 39,
       "byModel": {
         "grok-3": {
           "cost": 0.183841,
@@ -564,36 +564,36 @@
           "calls": 2
         },
         "claude-sonnet-4-6": {
-          "cost": 50.586742,
-          "tokens": 127475,
-          "calls": 292
+          "cost": 42.866031,
+          "tokens": 69024,
+          "calls": 157
         }
       }
     },
     {
       "date": "2026-04-29",
-      "cost": 11.518697,
-      "tokens": 13293,
-      "inputTokens": 111,
-      "outputTokens": 13182,
-      "cacheReadTokens": 617148,
-      "cacheWriteTokens": 2969464,
-      "calls": 57,
-      "sessions": 15,
+      "cost": 20.951508,
+      "tokens": 58410,
+      "inputTokens": 301,
+      "outputTokens": 58109,
+      "cacheReadTokens": 10693876,
+      "cacheWriteTokens": 4498882,
+      "calls": 213,
+      "sessions": 22,
       "byModel": {
         "claude-sonnet-4-6": {
-          "cost": 11.518697,
-          "tokens": 13293,
-          "calls": 57
+          "cost": 20.951508,
+          "tokens": 58410,
+          "calls": 213
         }
       }
     }
   ],
   "byModel": {
     "claude-sonnet-4-6": {
-      "cost": 482.860296,
-      "tokens": 437247,
-      "calls": 1897
+      "cost": 484.572396,
+      "tokens": 423913,
+      "calls": 1918
     },
     "grok-3": {
       "cost": 3.120851,
@@ -603,9 +603,9 @@
   },
   "byCategory": {
     "Sub-Agents": {
-      "cost": 478.625038,
-      "tokens": 709105,
-      "calls": 1793
+      "cost": 480.257184,
+      "tokens": 695350,
+      "calls": 1811
     },
     "Trading": {
       "cost": 2.649782,
@@ -613,9 +613,9 @@
       "calls": 67
     },
     "Maintenance": {
-      "cost": 4.445865,
-      "tokens": 31011,
-      "calls": 134
+      "cost": 4.525819,
+      "tokens": 31432,
+      "calls": 137
     },
     "Other Jobs": {
       "cost": 0.164725,
@@ -626,6 +626,153 @@
       "cost": 0.095737,
       "tokens": 1051,
       "calls": 3
+    }
+  },
+  "bySkill": {
+    "ai-chief-architect": {
+      "cost": 467.82915,
+      "tokens": 450621,
+      "calls": 1342
+    },
+    "coffee-master": {
+      "cost": 467.82915,
+      "tokens": 450621,
+      "calls": 1342
+    },
+    "healthcheck": {
+      "cost": 467.82915,
+      "tokens": 450621,
+      "calls": 1342
+    },
+    "hebrew": {
+      "cost": 467.82915,
+      "tokens": 450621,
+      "calls": 1342
+    },
+    "husband": {
+      "cost": 467.82915,
+      "tokens": 450621,
+      "calls": 1342
+    },
+    "parenting": {
+      "cost": 467.82915,
+      "tokens": 450621,
+      "calls": 1342
+    },
+    "secure-skill-downloader": {
+      "cost": 467.82915,
+      "tokens": 450621,
+      "calls": 1342
+    },
+    "skill-creator": {
+      "cost": 467.82915,
+      "tokens": 450621,
+      "calls": 1342
+    },
+    "technical-analysis": {
+      "cost": 467.82915,
+      "tokens": 450621,
+      "calls": 1342
+    },
+    "weather": {
+      "cost": 467.82915,
+      "tokens": 450621,
+      "calls": 1342
+    },
+    "analyst-price-targets": {
+      "cost": 465.708785,
+      "tokens": 424250,
+      "calls": 1275
+    },
+    "fitness-nutrition": {
+      "cost": 465.708785,
+      "tokens": 424250,
+      "calls": 1275
+    },
+    "market-news-sentiment": {
+      "cost": 465.708785,
+      "tokens": 424250,
+      "calls": 1275
+    },
+    "ecovacs": {
+      "cost": 463.508136,
+      "tokens": 347388,
+      "calls": 1211
+    },
+    "agent-portfolio": {
+      "cost": 462.982833,
+      "tokens": 346478,
+      "calls": 1201
+    },
+    "data-engineer": {
+      "cost": 462.982833,
+      "tokens": 346478,
+      "calls": 1201
+    },
+    "databricks": {
+      "cost": 462.982833,
+      "tokens": 346478,
+      "calls": 1201
+    },
+    "gh-issues": {
+      "cost": 462.982833,
+      "tokens": 346478,
+      "calls": 1201
+    },
+    "github": {
+      "cost": 462.982833,
+      "tokens": 346478,
+      "calls": 1201
+    },
+    "grok-trader": {
+      "cost": 462.982833,
+      "tokens": 346478,
+      "calls": 1201
+    },
+    "nextjs-backend": {
+      "cost": 462.982833,
+      "tokens": 346478,
+      "calls": 1201
+    },
+    "nextjs-frontend": {
+      "cost": 462.982833,
+      "tokens": 346478,
+      "calls": 1201
+    },
+    "node-connect": {
+      "cost": 462.982833,
+      "tokens": 346478,
+      "calls": 1201
+    },
+    "ontology": {
+      "cost": 462.982833,
+      "tokens": 346478,
+      "calls": 1201
+    },
+    "video-frames": {
+      "cost": 462.982833,
+      "tokens": 346478,
+      "calls": 1201
+    },
+    "None / General": {
+      "cost": 19.864096,
+      "tokens": 464944,
+      "calls": 680
+    },
+    "azure-data-architect": {
+      "cost": 12.032543,
+      "tokens": 263847,
+      "calls": 259
+    },
+    "taskflow": {
+      "cost": 12.032543,
+      "tokens": 263847,
+      "calls": 259
+    },
+    "taskflow-inbox-triage": {
+      "cost": 12.032543,
+      "tokens": 263847,
+      "calls": 259
     }
   },
   "dailyByCategory": [
@@ -847,17 +994,17 @@
     },
     {
       "date": "2026-04-28",
-      "Sub-Agents": 47.736136,
+      "Sub-Agents": 40.394604,
       "Trading": 0.183841,
-      "Maintenance": 2.850606,
+      "Maintenance": 2.471426,
       "Other Jobs": 0,
       "Daily Summary": 0
     },
     {
       "date": "2026-04-29",
-      "Sub-Agents": 9.923438,
+      "Sub-Agents": 18.897116,
       "Trading": 0,
-      "Maintenance": 1.595259,
+      "Maintenance": 2.054393,
       "Other Jobs": 0,
       "Daily Summary": 0
     }

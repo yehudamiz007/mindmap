@@ -104,13 +104,65 @@ function getFileCategory(filePath) {
 const daily = {};
 const byModel = {};
 const byCategory = {};
+const bySkill = {};
 const dailyByCategory = {};
+
+function extractSkillsFromContent(data) {
+  const idx = data.indexOf('"systemPromptReport"');
+  if (idx === -1) return null;
+  const lineStart = data.lastIndexOf('\n', idx) + 1;
+  const lineEnd = data.indexOf('\n', idx);
+  const line = data.slice(lineStart, lineEnd > -1 ? lineEnd : undefined);
+  try {
+    const obj = JSON.parse(line);
+    // Use prompting.systemPromptReport.skills.entries — per-session loaded skills
+    const report =
+      obj?.data?.prompting?.systemPromptReport ||
+      obj?.data?.systemPromptReport ||
+      obj?.systemPromptReport;
+    if (report?.skills?.entries) {
+      const names = report.skills.entries.map(e => e.name).filter(Boolean);
+      if (names.length > 0) return names;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+function getSessionSkills(filePath) {
+  try {
+    // First try the session file itself
+    const data = fs.readFileSync(filePath, 'utf8');
+    const fromSession = extractSkillsFromContent(data);
+    if (fromSession) return fromSession;
+
+    // Try the corresponding trajectory file
+    const trajectoryPath = filePath.replace(/\.jsonl$/, '.trajectory.jsonl');
+    try {
+      const tData = fs.readFileSync(trajectoryPath, 'utf8');
+      const fromTrajectory = extractSkillsFromContent(tData);
+      if (fromTrajectory) return fromTrajectory;
+    } catch {}
+
+    return [];
+  } catch {
+    return [];
+  }
+}
 
 function addToCategory(cat, cost, tokens, calls) {
   if (!byCategory[cat]) byCategory[cat] = { cost: 0, tokens: 0, calls: 0 };
   byCategory[cat].cost += cost;
   byCategory[cat].tokens += tokens;
   byCategory[cat].calls += calls;
+}
+
+function addToSkill(skill, cost, tokens, calls) {
+  if (!bySkill[skill]) bySkill[skill] = { cost: 0, tokens: 0, calls: 0 };
+  bySkill[skill].cost += cost;
+  bySkill[skill].tokens += tokens;
+  bySkill[skill].calls += calls;
 }
 
 function addToDailyCategory(date, cat, cost) {
@@ -125,6 +177,7 @@ function processFile(filePath) {
   const lines = data.split('\n');
   const sessionId = path.basename(filePath);
   const category = getFileCategory(filePath);
+  const skills = getSessionSkills(filePath);
 
   for (const line of lines) {
     if (!line.trim()) continue;
@@ -174,6 +227,15 @@ function processFile(filePath) {
     // Category
     addToCategory(category, cost, input + output, 1);
     addToDailyCategory(date, category, cost);
+
+    // Skills
+    if (skills.length > 0) {
+      for (const skill of skills) {
+        addToSkill(skill, cost, input + output, 1);
+      }
+    } else {
+      addToSkill('None / General', cost, input + output, 1);
+    }
   }
 }
 
@@ -254,6 +316,15 @@ const dailyByCatArr = dates.map(date => {
   return entry;
 });
 
+const bySkillOut = {};
+for (const [skill, v] of Object.entries(bySkill)) {
+  bySkillOut[skill] = { cost: Math.round(v.cost * 1e6) / 1e6, tokens: v.tokens, calls: v.calls };
+}
+// sort by cost desc
+const sortedBySkill = Object.fromEntries(
+  Object.entries(bySkillOut).sort((a, b) => b[1].cost - a[1].cost)
+);
+
 const result = {
   lastUpdated: new Date().toISOString(),
   totalCost: Math.round(totalCost * 1e6) / 1e6,
@@ -264,9 +335,11 @@ const result = {
   daily: dailyArr,
   byModel: bmOut,
   byCategory: byCatOut,
+  bySkill: sortedBySkill,
   dailyByCategory: dailyByCatArr
 };
 
 fs.writeFileSync(OUTPUT, JSON.stringify(result, null, 2));
 console.log(`Done! Total cost: $${result.totalCost.toFixed(2)}, ${result.totalCalls} calls, ${result.daysActive} days, ${result.totalSessions} sessions`);
 console.log('Categories:', Object.entries(byCatOut).map(([k,v]) => `${k}: $${v.cost.toFixed(2)}`).join(', '));
+console.log('Skills:', Object.entries(sortedBySkill).slice(0, 10).map(([k,v]) => `${k}: $${v.cost.toFixed(4)}`).join(', '));
