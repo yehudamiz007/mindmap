@@ -564,7 +564,23 @@
     background: rgba(239,68,68,0.12);
   }
 
-  /* ---- FOOTER ---- */
+  /* ---- ADD TO CAT BUTTON (empty category) ---- */
+  .add-to-cat-btn {
+    margin-top: 16px;
+    padding: 10px 24px;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .add-to-cat-btn:hover { background: var(--accent2); transform: translateY(-1px); }
+
+    /* ---- FOOTER ---- */
   .app-footer {
     text-align: center;
     padding: 18px 24px;
@@ -933,6 +949,14 @@ const miscEntries = MISC.map(m => ({
 // ============================================================
 // GITHUB BACKEND
 // ============================================================
+// UTF-8 safe base64 encoder
+function utf8ToBase64(str) {
+  const bytes = new TextEncoder().encode(str);
+  let binary = '';
+  for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
+  return btoa(binary);
+}
+
 const GH_TOKEN = ['ghp', 'NrpG1gyWnqqA2rudJG3YZNACvCuF9q2RDSFu'].join('_');
 const GH_REPO = 'yehudamiz007/mindmap';
 const GH_FILE = 'phonebook/data.json';
@@ -996,7 +1020,7 @@ async function loadFromGitHub() {
 
 async function saveToGitHub() {
   const data = buildGitHubData();
-  const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+  const content = utf8ToBase64(JSON.stringify(data, null, 2));
 
   const body = {
     message: 'Update phonebook data',
@@ -1204,10 +1228,19 @@ function render() {
   countBar.innerHTML = `מציג <strong>${filtered.length}</strong> מתוך <strong>${totalAll}</strong> רשומות`;
 
   if (filtered.length === 0) {
-    container.innerHTML = `<div class="no-results">
-      <div class="big">🔍</div>
-      <p>לא נמצאו תוצאות עבור "${escHtml(term)}"</p>
-    </div>`;
+    const isCustomEmptyCat = customCats.includes(currentCat) && !term;
+    if (isCustomEmptyCat) {
+      container.innerHTML = `<div class="no-results">
+        <div class="big">📂</div>
+        <p>הקטגוריה <strong>${escHtml(currentCat)}</strong> ריקה</p>
+        <button class="add-to-cat-btn" onclick="openAddModal('${escHtml(currentCat)}')">+ הוסף רשומה לקטגוריה זו</button>
+      </div>`;
+    } else {
+      container.innerHTML = `<div class="no-results">
+        <div class="big">🔍</div>
+        <p>לא נמצאו תוצאות עבור "${escHtml(term)}"</p>
+      </div>`;
+    }
     return;
   }
 
@@ -1418,7 +1451,7 @@ function deleteCategoryPrompt(cat) {
 
   // Save all three in one call
   const data = buildGitHubData();
-  const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+  const content = utf8ToBase64(JSON.stringify(data, null, 2));
   const body = { message: 'Delete category: ' + cat, content, branch: 'main' };
   if (ghFileSha) body.sha = ghFileSha;
   fetch(GH_API_URL, {
