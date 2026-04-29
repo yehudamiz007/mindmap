@@ -983,11 +983,10 @@ async function loadFromGitHub() {
   overlay.classList.remove('hidden');
   try {
     // Fetch via API - gets both SHA and content (no CDN cache issues)
-    const apiResp = await fetch(GH_API_URL, {
+    const apiResp = await fetch(GH_API_URL + '?t=' + Date.now(), {
       headers: {
         'Authorization': `token ${GH_TOKEN}`,
-        'Accept': 'application/vnd.github.v3+json',
-        'Cache-Control': 'no-cache'
+        'Accept': 'application/vnd.github.v3+json'
       }
     });
     if (apiResp.status === 404) {
@@ -1031,11 +1030,10 @@ async function saveToGitHub(silent = false) {
 
   try {
     // Always fetch the latest SHA before saving to avoid conflicts
-    const shaResp = await fetch(GH_API_URL, {
+    const shaResp = await fetch(GH_API_URL + '?t=' + Date.now(), {
       headers: {
         'Authorization': `token ${GH_TOKEN}`,
-        'Accept': 'application/vnd.github.v3+json',
-        'Cache-Control': 'no-cache'
+        'Accept': 'application/vnd.github.v3+json'
       }
     });
 
