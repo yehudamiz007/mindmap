@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -533,6 +533,36 @@
   }
 
   .fab:hover { transform: scale(1.08); box-shadow: 0 8px 32px rgba(6,182,212,0.6); }
+
+  /* ---- CUSTOM TAB WRAP (tab + delete btn) ---- */
+  .tab-custom-wrap {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+  }
+  .tab-custom-wrap .tab {
+    padding-left: 26px;
+  }
+  .tab-del-btn {
+    position: absolute;
+    left: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text2);
+    font-size: 0.65rem;
+    cursor: pointer;
+    padding: 2px 3px;
+    border-radius: 50%;
+    line-height: 1;
+    transition: color 0.15s, background 0.15s;
+    z-index: 1;
+  }
+  .tab-del-btn:hover {
+    color: var(--red);
+    background: rgba(239,68,68,0.12);
+  }
 
   /* ---- FOOTER ---- */
   .app-footer {
@@ -1298,8 +1328,6 @@ document.addEventListener('click', (e) => {
 // ============================================================
 function renderTabs() {
   const tabsEl = document.getElementById('tabs');
-  // Keep only builtin tabs (first 6) + custom cat tabs + add button
-  // Remove all children and rebuild
   tabsEl.innerHTML = '';
 
   const builtinCatNames = ['הכל','מחלקות','ילדים','פסיכיאטריה','מעבדות','שונות'];
@@ -1314,11 +1342,27 @@ function renderTabs() {
   });
 
   customCats.forEach(cat => {
+    // Wrap tab + delete button together
+    const wrap = document.createElement('div');
+    wrap.className = 'tab-custom-wrap';
+
     const btn = document.createElement('button');
     btn.className = 'tab' + (currentCat === cat ? ' active' : '');
     btn.dataset.cat = cat;
     btn.textContent = cat;
-    tabsEl.appendChild(btn);
+    wrap.appendChild(btn);
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'tab-del-btn';
+    delBtn.title = 'מחק קטגוריה';
+    delBtn.textContent = '✕';
+    delBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      deleteCategoryPrompt(cat);
+    });
+    wrap.appendChild(delBtn);
+
+    tabsEl.appendChild(wrap);
   });
 
   // "+" button to add category
@@ -1340,8 +1384,59 @@ function addCategoryPrompt() {
   }
   customCats.push(trimmed);
   saveCustomCats(customCats);
+  currentCat = trimmed;
+  renderTabs();
+  populateCategoryDropdown(trimmed);
+  render();
+}
+
+function deleteCategoryPrompt(cat) {
+  const entriesInCat = getAllEntries().filter(e => e.category === cat);
+  const msg = entriesInCat.length > 0
+    ? `למחוק את הקטגוריה "${cat}"?\n${entriesInCat.length} רשומות יועברו לקטגוריית "מחלקות".`
+    : `למחוק את הקטגוריה "${cat}"?`;
+  if (!confirm(msg)) return;
+
+  // Move custom entries that belong to this cat → מחלקות
+  customEntries = customEntries.map(e => {
+    if (e.category === cat) return { ...e, category: 'מחלקות', section: 'מחלקות' };
+    return e;
+  });
+
+  // Move builtin overrides that point to this cat → remove override (reverts to original)
+  Object.keys(builtinOverrides).forEach(key => {
+    if (builtinOverrides[key].category === cat) {
+      delete builtinOverrides[key];
+    }
+  });
+
+  // Remove the category
+  customCats = customCats.filter(c => c !== cat);
+
+  // If currently viewing deleted cat, go back to הכל
+  if (currentCat === cat) currentCat = 'הכל';
+
+  // Save all three in one call
+  const data = buildGitHubData();
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+  const body = { message: 'Delete category: ' + cat, content, branch: 'main' };
+  if (ghFileSha) body.sha = ghFileSha;
+  fetch(GH_API_URL, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `token ${GH_TOKEN}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  }).then(r => r.json()).then(result => {
+    if (result.content) ghFileSha = result.content.sha;
+    showToast('🗑️ קטגוריה נמחקה');
+  }).catch(() => showToast('❌ שגיאת שמירה'));
+
   renderTabs();
   populateCategoryDropdown();
+  render();
 }
 
 // ============================================================
@@ -1383,7 +1478,7 @@ document.getElementById('fCategory').addEventListener('change', function() {
   }
 });
 
-function openAddModal() {
+function openAddModal(preselectedCat) {
   editingId = null;
   document.getElementById('modalTitle').textContent = '➕ הוסף רשומה';
   document.getElementById('editId').value = '';
@@ -1393,7 +1488,7 @@ function openAddModal() {
   document.getElementById('fAkhmash').value = '';
   document.getElementById('fMorePhone').value = '';
   document.getElementById('fTel').value = '';
-  populateCategoryDropdown('מחלקות');
+  populateCategoryDropdown(preselectedCat || 'מחלקות');
   document.getElementById('modalOverlay').classList.add('open');
   document.getElementById('fDept').focus();
 }
@@ -1427,7 +1522,11 @@ function deleteEntry(id) {
   render();
 }
 
-document.getElementById('fabAdd').addEventListener('click', openAddModal);
+document.getElementById('fabAdd').addEventListener('click', () => {
+  // Pre-select current custom category if viewing one
+  const preselect = customCats.includes(currentCat) ? currentCat : 'מחלקות';
+  openAddModal(preselect);
+});
 document.getElementById('modalClose').addEventListener('click', closeModal);
 document.getElementById('modalOverlay').addEventListener('click', (e) => {
   if (e.target === document.getElementById('modalOverlay')) closeModal();
