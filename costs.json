@@ -1,8 +1,8 @@
 {
-  "lastUpdated": "2026-04-29T08:31:48.781Z",
-  "totalCost": 490.529791,
-  "totalTokens": 927089,
-  "totalCalls": 2062,
+  "lastUpdated": "2026-04-29T10:39:12.955Z",
+  "totalCost": 496.498677,
+  "totalTokens": 936671,
+  "totalCalls": 2089,
   "totalSessions": 107,
   "daysActive": 29,
   "daily": [
@@ -549,14 +549,14 @@
     },
     {
       "date": "2026-04-28",
-      "cost": 43.049872,
-      "tokens": 114203,
-      "inputTokens": 42342,
-      "outputTokens": 71861,
-      "cacheReadTokens": 2072343,
-      "cacheWriteTokens": 10991207,
-      "calls": 159,
-      "sessions": 39,
+      "cost": 42.784046,
+      "tokens": 113335,
+      "inputTokens": 42326,
+      "outputTokens": 71009,
+      "cacheReadTokens": 2010693,
+      "cacheWriteTokens": 10928673,
+      "calls": 151,
+      "sessions": 35,
       "byModel": {
         "grok-3": {
           "cost": 0.183841,
@@ -564,36 +564,36 @@
           "calls": 2
         },
         "claude-sonnet-4-6": {
-          "cost": 42.866031,
-          "tokens": 69024,
-          "calls": 157
+          "cost": 42.600205,
+          "tokens": 68156,
+          "calls": 149
         }
       }
     },
     {
       "date": "2026-04-29",
-      "cost": 23.788053,
-      "tokens": 69934,
-      "inputTokens": 345,
-      "outputTokens": 69589,
-      "cacheReadTokens": 15828323,
-      "cacheWriteTokens": 4798583,
-      "calls": 253,
-      "sessions": 22,
+      "cost": 30.022764,
+      "tokens": 80384,
+      "inputTokens": 400,
+      "outputTokens": 79984,
+      "cacheReadTokens": 19062218,
+      "cacheWriteTokens": 6160837,
+      "calls": 288,
+      "sessions": 26,
       "byModel": {
         "claude-sonnet-4-6": {
-          "cost": 23.788053,
-          "tokens": 69934,
-          "calls": 253
+          "cost": 30.022764,
+          "tokens": 80384,
+          "calls": 288
         }
       }
     }
   ],
   "byModel": {
     "claude-sonnet-4-6": {
-      "cost": 487.408941,
-      "tokens": 435437,
-      "calls": 1958
+      "cost": 493.377826,
+      "tokens": 445019,
+      "calls": 1985
     },
     "grok-3": {
       "cost": 3.120851,
@@ -603,9 +603,9 @@
   },
   "byCategory": {
     "Sub-Agents": {
-      "cost": 483.093729,
-      "tokens": 706874,
-      "calls": 1851
+      "cost": 488.990679,
+      "tokens": 714144,
+      "calls": 1876
     },
     "Trading": {
       "cost": 2.649782,
@@ -613,9 +613,9 @@
       "calls": 67
     },
     "Maintenance": {
-      "cost": 4.525819,
-      "tokens": 31432,
-      "calls": 137
+      "cost": 4.597755,
+      "tokens": 33744,
+      "calls": 139
     },
     "Other Jobs": {
       "cost": 0.164725,
@@ -630,149 +630,19 @@
   },
   "bySkill": {
     "grok-trader": {
-      "cost": 21.747306,
-      "tokens": 152762.71077922266,
-      "calls": 1387
-    },
-    "husband": {
-      "cost": 19.649922,
-      "tokens": 35231.656933067345,
-      "calls": 1414
-    },
-    "hebrew": {
-      "cost": 19.066631,
-      "tokens": 22377.65693306731,
-      "calls": 1385
-    },
-    "ai-chief-architect": {
-      "cost": 18.970894,
-      "tokens": 21326.65693306731,
-      "calls": 1382
-    },
-    "coffee-master": {
-      "cost": 18.970894,
-      "tokens": 21326.65693306731,
-      "calls": 1382
-    },
-    "healthcheck": {
-      "cost": 18.970894,
-      "tokens": 21326.65693306731,
-      "calls": 1382
-    },
-    "parenting": {
-      "cost": 18.970894,
-      "tokens": 21326.65693306731,
-      "calls": 1382
-    },
-    "secure-skill-downloader": {
-      "cost": 18.970894,
-      "tokens": 21326.65693306731,
-      "calls": 1382
-    },
-    "skill-creator": {
-      "cost": 18.970894,
-      "tokens": 21326.65693306731,
-      "calls": 1382
-    },
-    "technical-analysis": {
-      "cost": 18.970894,
-      "tokens": 21326.65693306731,
-      "calls": 1382
-    },
-    "weather": {
-      "cost": 18.970894,
-      "tokens": 21326.65693306731,
-      "calls": 1382
-    },
-    "analyst-price-targets": {
-      "cost": 18.758858,
-      "tokens": 18689.556933067317,
-      "calls": 1315
-    },
-    "fitness-nutrition": {
-      "cost": 18.758858,
-      "tokens": 18689.556933067317,
-      "calls": 1315
-    },
-    "market-news-sentiment": {
-      "cost": 18.758858,
-      "tokens": 18689.556933067317,
-      "calls": 1315
-    },
-    "etoro": {
-      "cost": 18.592928,
-      "tokens": 13181.282207792623,
-      "calls": 1251
-    },
-    "data-engineer": {
-      "cost": 18.592928,
-      "tokens": 13181.282207792623,
-      "calls": 1251
-    },
-    "databricks": {
-      "cost": 18.592928,
-      "tokens": 13181.282207792623,
-      "calls": 1251
-    },
-    "ecovacs": {
-      "cost": 18.592928,
-      "tokens": 13181.282207792623,
-      "calls": 1251
-    },
-    "nextjs-backend": {
-      "cost": 18.592928,
-      "tokens": 13181.282207792623,
-      "calls": 1251
-    },
-    "nextjs-frontend": {
-      "cost": 18.592928,
-      "tokens": 13181.282207792623,
-      "calls": 1251
-    },
-    "ontology": {
-      "cost": 18.592928,
-      "tokens": 13181.282207792623,
-      "calls": 1251
-    },
-    "gh-issues": {
-      "cost": 18.56905,
-      "tokens": 13139.918571428985,
-      "calls": 1241
-    },
-    "github": {
-      "cost": 18.56905,
-      "tokens": 13139.918571428985,
-      "calls": 1241
-    },
-    "node-connect": {
-      "cost": 18.56905,
-      "tokens": 13139.918571428985,
-      "calls": 1241
-    },
-    "video-frames": {
-      "cost": 18.56905,
-      "tokens": 13139.918571428985,
-      "calls": 1241
+      "cost": 458.426167,
+      "tokens": 269000,
+      "calls": 1070
     },
     "None / General": {
-      "cost": 15.978516,
-      "tokens": 315661,
-      "calls": 555
+      "cost": 37.393482,
+      "tokens": 653766,
+      "calls": 1019
     },
-    "azure-data-architect": {
-      "cost": 0.554916,
-      "tokens": 9876.042207792214,
-      "calls": 309
-    },
-    "taskflow": {
-      "cost": 0.531039,
-      "tokens": 9834.678571428574,
-      "calls": 299
-    },
-    "taskflow-inbox-triage": {
-      "cost": 0.531039,
-      "tokens": 9834.678571428574,
-      "calls": 299
+    "husband": {
+      "cost": 0.679028,
+      "tokens": 13905,
+      "calls": 32
     }
   },
   "dailyByCategory": [
@@ -996,15 +866,15 @@
       "date": "2026-04-28",
       "Sub-Agents": 40.394604,
       "Trading": 0.183841,
-      "Maintenance": 2.471426,
+      "Maintenance": 2.205601,
       "Other Jobs": 0,
       "Daily Summary": 0
     },
     {
       "date": "2026-04-29",
-      "Sub-Agents": 21.733661,
+      "Sub-Agents": 27.630611,
       "Trading": 0,
-      "Maintenance": 2.054393,
+      "Maintenance": 2.392154,
       "Other Jobs": 0,
       "Daily Summary": 0
     }

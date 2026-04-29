@@ -108,19 +108,42 @@ const bySkill = {};
 const dailyByCategory = {};
 
 function getSessionSkills(filePath) {
-  // Detect skills ACTUALLY ACTIVATED - SKILL.md was read during the session
+  // Detect ONLY skills that were ACTUALLY ACTIVATED via toolCall/tool_use read of SKILL.md
+  // This gives accurate attribution - only sessions where a skill was explicitly used
   try {
-    let fullData = fs.readFileSync(filePath, 'utf8');
-    // Also check companion file (session + trajectory)
-    const companion = filePath.includes('.trajectory')
-      ? filePath.replace('.trajectory.jsonl', '.jsonl')
-      : filePath.replace(/\.jsonl$/, '.trajectory.jsonl');
-    try { fullData += fs.readFileSync(companion, 'utf8'); } catch {}
+    const data = fs.readFileSync(filePath, 'utf8');
+    if (!data.includes('SKILL.md')) return [];
 
-    const matches = [...fullData.matchAll(/skills[\/\\]+([a-z0-9_-]+)[\/\\]+SKILL\.md/gi)];
+    const lines = data.split('\n');
+    const skills = new Set();
+
+    for (const line of lines) {
+      if (!line.includes('SKILL.md') || !line.trim()) continue;
+      let obj;
+      try { obj = JSON.parse(line); } catch { continue; }
+      const msg = obj.message;
+      if (!msg || msg.role !== 'assistant') continue;
+
+      if (Array.isArray(msg.content)) {
+        for (const block of msg.content) {
+          // Format A: {type: "toolCall", name: "read", arguments: {path: "..."}}
+          if (block.type === 'toolCall' && block.name === 'read') {
+            const p = (block.arguments && block.arguments.path) ? block.arguments.path : '';
+            const m = p.match(/skills[\/\\]+([a-z0-9_-]+)[\/\\]+SKILL\.md/i);
+            if (m && m[1].length > 2) skills.add(m[1]);
+          }
+          // Format B: {type: "tool_use", name: "read", input: {path: "..."}}
+          if (block.type === 'tool_use' && block.name === 'read') {
+            const p = (block.input && block.input.path) ? block.input.path : '';
+            const m = p.match(/skills[\/\\]+([a-z0-9_-]+)[\/\\]+SKILL\.md/i);
+            if (m && m[1].length > 2) skills.add(m[1]);
+          }
+        }
+      }
+    }
+
     const blacklist = new Set(['X', 'wacli', 'any1']);
-    const unique = [...new Set(matches.map(m => m[1]).filter(s => s && s.length > 2 && !blacklist.has(s)))];
-    return unique;
+    return [...skills].filter(s => !blacklist.has(s));
   } catch {
     return [];
   }
