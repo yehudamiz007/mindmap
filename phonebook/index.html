@@ -982,28 +982,25 @@ async function loadFromGitHub() {
   const overlay = document.getElementById('loadingOverlay');
   overlay.classList.remove('hidden');
   try {
-    // Fetch via API - gets both SHA and content (no CDN cache issues)
+    // Fetch via GitHub API (authenticated, no CDN cache)
     const apiResp = await fetch(GH_API_URL + '?t=' + Date.now(), {
       headers: {
         'Authorization': `token ${GH_TOKEN}`,
         'Accept': 'application/vnd.github.v3+json'
       }
     });
+
     if (apiResp.status === 404) {
-      // File doesn't exist yet - use empty defaults
       ghFileSha = null;
-      overlay.classList.add('hidden');
-      renderTabs();
-      populateCategoryDropdown();
-      render();
-      return;
-    }
-    if (apiResp.ok) {
+    } else if (!apiResp.ok) {
+      throw new Error('API error: ' + apiResp.status);
+    } else {
       const meta = await apiResp.json();
       ghFileSha = meta.sha;
-      // Decode content from base64 (API always returns UTF-8 base64)
       if (meta.content) {
-        const raw = atob(meta.content.replace(/\n/g, ''));
+        // GitHub base64 has newlines every 60 chars - strip all whitespace before decoding
+        const b64clean = meta.content.replace(/[\s]/g, '');
+        const raw = atob(b64clean);
         const bytes = new Uint8Array(raw.length);
         for (let i = 0; i < raw.length; i++) bytes[i] = raw.charCodeAt(i);
         const jsonStr = new TextDecoder('utf-8').decode(bytes);
@@ -1015,7 +1012,10 @@ async function loadFromGitHub() {
     }
   } catch(err) {
     console.error('loadFromGitHub error:', err);
-    showToast('⚠️ שגיאה בטעינת נתונים');
+    // Don't show error toast - just load with empty state silently
+    customEntries = [];
+    customCats = [];
+    builtinOverrides = {};
   } finally {
     overlay.classList.add('hidden');
     renderTabs();
