@@ -1,1 +1,7 @@
-{"custom_contacts":[],"custom_categories":[],"overrides":{}}
+{
+  "custom_contacts": [],
+  "custom_categories": [
+    "בדיקה"
+  ],
+  "overrides": {}
+}
