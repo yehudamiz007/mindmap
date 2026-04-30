@@ -1,9 +1,9 @@
 {
-  "lastUpdated": "2026-04-30T06:01:02.782Z",
-  "totalCost": 545.53693,
-  "totalTokens": 1019594,
-  "totalCalls": 2268,
-  "totalSessions": 109,
+  "lastUpdated": "2026-04-30T18:01:26.409Z",
+  "totalCost": 536.21992,
+  "totalTokens": 963843,
+  "totalCalls": 2059,
+  "totalSessions": 99,
   "daysActive": 29,
   "daily": [
     {
@@ -549,73 +549,73 @@
     },
     {
       "date": "2026-04-29",
-      "cost": 69.721422,
-      "tokens": 213724,
-      "inputTokens": 23747,
-      "outputTokens": 189977,
-      "cacheReadTokens": 37946070,
-      "cacheWriteTokens": 14776137,
-      "calls": 487,
-      "sessions": 44,
+      "cost": 46.274259,
+      "tokens": 90588,
+      "inputTokens": 316,
+      "outputTokens": 90272,
+      "cacheReadTokens": 7840457,
+      "cacheWriteTokens": 11351225,
+      "calls": 188,
+      "sessions": 17,
       "byModel": {
         "claude-sonnet-4-6": {
-          "cost": 69.601468,
-          "tokens": 187983,
-          "calls": 485
-        },
-        "grok-3": {
-          "cost": 0.119954,
-          "tokens": 25741,
-          "calls": 2
+          "cost": 46.274259,
+          "tokens": 90588,
+          "calls": 188
         }
       }
     },
     {
       "date": "2026-04-30",
-      "cost": 11.901634,
-      "tokens": 10925,
-      "inputTokens": 108,
-      "outputTokens": 10817,
-      "cacheReadTokens": 560109,
-      "cacheWriteTokens": 3085606,
-      "calls": 54,
-      "sessions": 15,
+      "cost": 26.031788,
+      "tokens": 78310,
+      "inputTokens": 45039,
+      "outputTokens": 33271,
+      "cacheReadTokens": 2007003,
+      "cacheWriteTokens": 6577582,
+      "calls": 144,
+      "sessions": 32,
       "byModel": {
         "claude-sonnet-4-6": {
-          "cost": 11.901634,
-          "tokens": 10925,
-          "calls": 54
+          "cost": 25.602447,
+          "tokens": 28257,
+          "calls": 129
+        },
+        "grok-3": {
+          "cost": 0.429341,
+          "tokens": 50053,
+          "calls": 15
         }
       }
     }
   ],
   "byModel": {
     "claude-sonnet-4-6": {
-      "cost": 542.479966,
-      "tokens": 547380,
-      "calls": 2164
+      "cost": 532.853569,
+      "tokens": 467317,
+      "calls": 1942
     },
     "grok-3": {
-      "cost": 3.056964,
-      "tokens": 472214,
-      "calls": 104
+      "cost": 3.366351,
+      "tokens": 496526,
+      "calls": 117
     }
   },
   "byCategory": {
     "Sub-Agents": {
-      "cost": 538.358726,
-      "tokens": 823436,
-      "calls": 2059
+      "cost": 529.343458,
+      "tokens": 756082,
+      "calls": 1855
     },
     "Maintenance": {
-      "cost": 4.331847,
-      "tokens": 26813,
-      "calls": 135
+      "cost": 3.75974,
+      "tokens": 26750,
+      "calls": 118
     },
     "Trading": {
-      "cost": 2.585895,
-      "tokens": 135595,
-      "calls": 67
+      "cost": 2.85626,
+      "tokens": 147261,
+      "calls": 79
     },
     "Other Jobs": {
       "cost": 0.164725,
@@ -630,14 +630,19 @@
   },
   "bySkill": {
     "grok-trader": {
-      "cost": 491.721848,
-      "tokens": 250151,
-      "calls": 1109
+      "cost": 503.458563,
+      "tokens": 261960,
+      "calls": 1134
     },
     "None / General": {
-      "cost": 53.136054,
-      "tokens": 755538,
-      "calls": 1159
+      "cost": 31.163787,
+      "tokens": 681417,
+      "calls": 906
+    },
+    "etoro": {
+      "cost": 0.918543,
+      "tokens": 6561,
+      "calls": 19
     },
     "husband": {
       "cost": 0.679028,
@@ -864,17 +869,17 @@
     },
     {
       "date": "2026-04-29",
-      "Sub-Agents": 66.683307,
-      "Maintenance": 2.918161,
-      "Trading": 0.119954,
+      "Sub-Agents": 45.244125,
+      "Maintenance": 1.030134,
+      "Trading": 0,
       "Other Jobs": 0,
       "Daily Summary": 0
     },
     {
       "date": "2026-04-30",
-      "Sub-Agents": 10.487948,
-      "Maintenance": 1.413686,
-      "Trading": 0,
+      "Sub-Agents": 22.911862,
+      "Maintenance": 2.729606,
+      "Trading": 0.390319,
       "Other Jobs": 0,
       "Daily Summary": 0
     }
