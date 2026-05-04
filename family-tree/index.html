@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>משפחת מזרחי-לבנברג - עץ יוחסין</title>
+    <title>╫₧╫⌐╫ñ╫ù╫¬ ╫₧╫û╫¿╫ù╫Ö-╫£╫æ╫á╫æ╫¿╫Æ - ╫ó╫Ñ ╫Ö╫ò╫ù╫í╫Ö╫ƒ</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=David+Libre:wght@400;700&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -185,23 +185,95 @@
 <body>
     <div class="container">
         <div class="header">
-            <div class="ornament">✾ ✾ ✾</div>
-            <h1>שושלת מזרחי - לבנברג</h1>
-            <div class="subtitle">עץ יוחסין</div>
-            <div class="established">LEWENBERG - נוסדה בשנת 1986</div>
+            <div class="ornament">Γ£╛ Γ£╛ Γ£╛</div>
+            <h1>╫⌐╫ò╫⌐╫£╫¬ ╫₧╫û╫¿╫ù╫Ö - ╫£╫æ╫á╫æ╫¿╫Æ</h1>
+            <div class="subtitle">╫ó╫Ñ ╫Ö╫ò╫ù╫í╫Ö╫ƒ</div>
+            <div class="established">LEWENBERG - ╫á╫ò╫í╫ô╫ö ╫æ╫⌐╫á╫¬ 1986</div>
         </div>
 
         <div class="toolbar">
-            <button onclick="window.print()">🖨️ הדפס / שמור PDF</button>
-            <button onclick="showAllStories()">📖 כל הסיפורים</button>
+            <button onclick="window.print()">≡ƒû¿∩╕Å ╫ö╫ô╫ñ╫í / ╫⌐╫₧╫ò╫¿ PDF</button>
+            <button onclick="showAllStories()">≡ƒôû ╫¢╫£ ╫ö╫í╫Ö╫ñ╫ò╫¿╫Ö╫¥</button>
         </div>
 
+
+        <!-- ===== LEVENBERG GRANDPARENTS SECTION ===== -->
+        <div style="text-align:center; margin: 0 0 20px; padding: 15px 25px;
+            background: linear-gradient(135deg, #fff9e6, #f5e6c0);
+            border: 2px solid #c4a265; border-radius: 10px;">
+            <span style="font-family: 'David Libre', serif; font-size: 1.5em; color: #5a3a1a;">&#x05DE;&#x05E9;&#x05E4;&#x05D7;&#x05EA; &#x05DC;&#x05D1;&#x05E0;&#x05D1;&#x05E8;&#x05D2; - &#x05D4;&#x05D5;&#x05E8;&#x05D9; &#x05D5;&#x05E8;&#x05D3;&#x05D9;&#x05EA;</span>
+            <div style="font-size: 0.9em; color: #8a7a5a; margin-top: 5px;">&#x05D9;&#x05E2;&#x05E7;&#x05D5;&#x05D1; + &#x05D7;&#x05D9;&#x05D9;&#x05D4; &#x05E9;&#x05E8;&#x05D4; &#x05DC;&#x05D1;&#x05E0;&#x05D1;&#x05E8;&#x05D2; &#x05D6;&#x05F4;&#x05DC; &#x2014; &#x05E9;&#x05D5;&#x05E8;&#x05E9;&#x05D9; &#x05D5;&#x05E8;&#x05D3;&#x05D9;&#x05EA; &#x05DE;&#x05D6;&#x05E8;&#x05D7;&#x05D9;</div>
+        </div>
+
+        <div class="tree-svg-container" id="container-levenberg" style="margin-bottom: 30px;">
+            <div class="zoom-controls">
+                <button class="zoom-btn" onclick="zoom('container-levenberg', 1.2)">+</button>
+                <span class="zoom-label" id="zoom-lev-label">100%</span>
+                <button class="zoom-btn" onclick="zoom('container-levenberg', 0.8)">-</button>
+                <button class="zoom-btn" onclick="resetZoom('container-levenberg')" title="&#x05D0;&#x05D9;&#x05E4;&#x05D5;&#x05E1;">&#x27F3;</button>
+            </div>
+            <svg class="family-tree" viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <filter id="shadow-lev" x="-5%" y="-5%" width="115%" height="115%">
+                        <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#3a2a1a" flood-opacity="0.1"/>
+                    </filter>
+                </defs>
+
+                <!-- ROW 0: Yaakov + Chaya Sara Levenberg -->
+                <g class="clickable" onclick="showPerson('yaakov')">
+                    <rect class="ft-card-ancestor" x="310" y="30" width="130" height="70" rx="12" ry="12" filter="url(#shadow-lev)"/>
+                    <text class="ft-emoji" x="375" y="56">&#x1F468;</text>
+                    <text class="ft-name" x="375" y="74">&#x05D9;&#x05E2;&#x05E7;&#x05D5;&#x05D1; &#x05DC;&#x05D1;&#x05E0;&#x05D1;&#x05E8;&#x05D2;</text>
+                    <text class="ft-detail" x="375" y="90">&#x05D6;&#x05F4;&#x05DC;</text>
+                </g>
+                <text class="ft-heart" x="455" y="68">&#x2764;&#xFE0F;</text>
+                <g class="clickable" onclick="showPerson('chaya_sara')">
+                    <rect class="ft-card-ancestor" x="465" y="30" width="140" height="70" rx="12" ry="12" filter="url(#shadow-lev)"/>
+                    <text class="ft-emoji" x="535" y="56">&#x1F469;</text>
+                    <text class="ft-name" x="535" y="74">&#x05D7;&#x05D9;&#x05D9;&#x05D4; &#x05E9;&#x05E8;&#x05D4;</text>
+                    <text class="ft-detail" x="535" y="90">&#x05DC;&#x05D1;&#x05E0;&#x05D1;&#x05E8;&#x05D2; &#x05D6;&#x05F4;&#x05DC;</text>
+                </g>
+
+                <!-- Lines from grandparents -->
+                <line class="ft-line" x1="450" y1="100" x2="450" y2="130"/>
+                <line class="ft-line" x1="200" y1="130" x2="700" y2="130"/>
+                <line class="ft-line" x1="200" y1="130" x2="200" y2="160"/>
+                <line class="ft-line" x1="450" y1="130" x2="450" y2="160"/>
+                <line class="ft-line" x1="700" y1="130" x2="700" y2="160"/>
+
+                <!-- ROW 1: 3 children -->
+                <g class="clickable" onclick="showPerson('moshe_yosef')">
+                    <rect class="ft-card" x="135" y="160" width="130" height="70" rx="10" ry="10" filter="url(#shadow-lev)"/>
+                    <text class="ft-emoji" x="200" y="185">&#x1F468;</text>
+                    <text class="ft-name" x="200" y="203">&#x05DE;&#x05E9;&#x05D4; &#x05D9;&#x05D5;&#x05E1;&#x05E3;</text>
+                    <text class="ft-detail" x="200" y="219">&#x05DC;&#x05D1;&#x05E0;&#x05D1;&#x05E8;&#x05D2;</text>
+                </g>
+
+                <g class="clickable" onclick="showPerson('vardit_l')">
+                    <rect class="ft-card-founder" x="385" y="160" width="130" height="70" rx="12" ry="12" filter="url(#shadow-lev)"/>
+                    <text class="ft-emoji" x="450" y="185">&#x1F469;</text>
+                    <text class="ft-name" x="450" y="203">&#x05D5;&#x05E8;&#x05D3;&#x05D9;&#x05EA;</text>
+                    <text class="ft-detail" x="450" y="219">&#x05DC;&#x05D1;&#x05E0;&#x05D1;&#x05E8;&#x05D2; &#x2190; &#x05DE;&#x05D6;&#x05E8;&#x05D7;&#x05D9;</text>
+                </g>
+
+                <g class="clickable" onclick="showPerson('nirit')">
+                    <rect class="ft-card" x="635" y="160" width="130" height="70" rx="10" ry="10" filter="url(#shadow-lev)"/>
+                    <text class="ft-emoji" x="700" y="185">&#x1F469;</text>
+                    <text class="ft-name" x="700" y="203">&#x05E0;&#x05D5;&#x05E8;&#x05D9;&#x05EA;</text>
+                    <text class="ft-detail" x="700" y="219">&#x05DC;&#x05D1;&#x05E0;&#x05D1;&#x05E8;&#x05D2; (&#x05D3;&#x05D5;&#x05D3;&#x05D4;)</text>
+                </g>
+
+                <!-- Dashed arrow from Vardit down -->
+                <line class="ft-line" x1="450" y1="230" x2="450" y2="265" stroke-dasharray="6,4"/>
+                <text style="font-family:Heebo,sans-serif;font-size:11px;fill:#8a7a5a;text-anchor:middle;" x="450" y="285">&#x2193; &#x05D5;&#x05E8;&#x05D3;&#x05D9;&#x05EA; &#x05E0;&#x05D9;&#x05E9;&#x05D0;&#x05D4; &#x05DC;&#x05D0;&#x05D1;&#x05D9; &#x05DE;&#x05D6;&#x05E8;&#x05D7;&#x05D9; &#x2014; &#x05E8;&#x05D0;&#x05D4; &#x05E2;&#x05E5; &#x05DE;&#x05D6;&#x05E8;&#x05D7;&#x05D9; &#x05DE;&#x05D8;&#x05D4;</text>
+            </svg>
+        </div>
         <div class="tree-svg-container" id="container1">
             <div class="zoom-controls">
                 <button class="zoom-btn" onclick="zoom('container1', 1.2)">+</button>
                 <span class="zoom-label" id="zoom1-label">100%</span>
-                <button class="zoom-btn" onclick="zoom('container1', 0.8)">−</button>
-                <button class="zoom-btn" onclick="resetZoom('container1')" title="איפוס">⌂</button>
+                <button class="zoom-btn" onclick="zoom('container1', 0.8)">ΓêÆ</button>
+                <button class="zoom-btn" onclick="resetZoom('container1')" title="╫É╫Ö╫ñ╫ò╫í">Γîé</button>
             </div>
             <!-- Main tree SVG rendered by JS below -->
             <svg id="main-tree" class="family-tree" xmlns="http://www.w3.org/2000/svg">
@@ -218,16 +290,16 @@
 
         <!-- ===== ABOULAFIAH EXTENDED FAMILY SECTION ===== -->
         <div style="text-align:center; margin: 40px 0 20px; padding: 15px; background: linear-gradient(135deg, #fff9e6, #f5e6c0); border: 2px solid #c4a265; border-radius: 10px;">
-            <span style="font-family: 'David Libre', serif; font-size: 1.5em; color: #5a3a1a;">🌿 ענף אבולעפיה המורחב</span>
-            <div style="font-size: 0.9em; color: #8a7a5a; margin-top: 5px;">שורשי משפחת אבולעפיה - צאצאי יעקוב וסול</div>
+            <span style="font-family: 'David Libre', serif; font-size: 1.5em; color: #5a3a1a;">≡ƒî┐ ╫ó╫á╫ú ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö ╫ö╫₧╫ò╫¿╫ù╫æ</span>
+            <div style="font-size: 0.9em; color: #8a7a5a; margin-top: 5px;">╫⌐╫ò╫¿╫⌐╫Ö ╫₧╫⌐╫ñ╫ù╫¬ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö - ╫ª╫É╫ª╫É╫Ö ╫Ö╫ó╫º╫ò╫æ ╫ò╫í╫ò╫£</div>
         </div>
 
         <div class="tree-svg-container" id="container2">
             <div class="zoom-controls">
                 <button class="zoom-btn" onclick="zoom('container2', 1.2)">+</button>
                 <span class="zoom-label" id="zoom2-label">100%</span>
-                <button class="zoom-btn" onclick="zoom('container2', 0.8)">−</button>
-                <button class="zoom-btn" onclick="resetZoom('container2')" title="איפוס">⌂</button>
+                <button class="zoom-btn" onclick="zoom('container2', 0.8)">ΓêÆ</button>
+                <button class="zoom-btn" onclick="resetZoom('container2')" title="╫É╫Ö╫ñ╫ò╫í">Γîé</button>
             </div>
             <svg id="aboulafiah-tree" class="family-tree" viewBox="0 0 2400 520" xmlns="http://www.w3.org/2000/svg">
                 <defs>
@@ -239,19 +311,19 @@
                     </filter>
                 </defs>
 
-                <!-- ===== ROW 0: יעקוב + סול אבולעפיה (founders) - centered at x=1200 ===== -->
+                <!-- ===== ROW 0: ╫Ö╫ó╫º╫ò╫æ + ╫í╫ò╫£ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö (founders) - centered at x=1200 ===== -->
                 <g class="clickable" onclick="showPerson('yaakov_aboulafiah')">
                     <rect class="ft-card-ancestor" x="1070" y="30" width="140" height="75" rx="12" ry="12" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="1140" y="52">👨</text>
-                    <text class="ft-name" x="1140" y="70">יעקוב</text>
-                    <text class="ft-detail" x="1140" y="85">אבולעפיה 1908-1971</text>
+                    <text class="ft-emoji" x="1140" y="52">≡ƒæ¿</text>
+                    <text class="ft-name" x="1140" y="70">╫Ö╫ó╫º╫ò╫æ</text>
+                    <text class="ft-detail" x="1140" y="85">╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö 1908-1971</text>
                 </g>
-                <text class="ft-heart" x="1222" y="72">💕</text>
+                <text class="ft-heart" x="1222" y="72">≡ƒÆò</text>
                 <g class="clickable" onclick="showPerson('sol_aboulafiah')">
                     <rect class="ft-card-ancestor" x="1232" y="30" width="140" height="75" rx="12" ry="12" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="1302" y="52">👩</text>
-                    <text class="ft-name" x="1302" y="70">סול</text>
-                    <text class="ft-detail" x="1302" y="85">לבית כהן</text>
+                    <text class="ft-emoji" x="1302" y="52">≡ƒæ⌐</text>
+                    <text class="ft-name" x="1302" y="70">╫í╫ò╫£</text>
+                    <text class="ft-detail" x="1302" y="85">╫£╫æ╫Ö╫¬ ╫¢╫ö╫ƒ</text>
                 </g>
 
                 <!-- Line from founders down to horizontal bar -->
@@ -267,84 +339,84 @@
 
                 <!-- ===== ROW 1: 5 children + spouses (y=155, h=75) ===== -->
 
-                <!-- Group 1: נסים + לאה (center=240) -->
+                <!-- Group 1: ╫á╫í╫Ö╫¥ + ╫£╫É╫ö (center=240) -->
                 <g class="clickable" onclick="showPerson('nissim_ab')">
                     <rect class="ft-card" x="150" y="155" width="140" height="75" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="220" y="176">👨</text>
-                    <text class="ft-name" x="220" y="194">נסים</text>
-                    <text class="ft-detail" x="220" y="209">אבולעפיה 1932</text>
+                    <text class="ft-emoji" x="220" y="176">≡ƒæ¿</text>
+                    <text class="ft-name" x="220" y="194">╫á╫í╫Ö╫¥</text>
+                    <text class="ft-detail" x="220" y="209">╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö 1932</text>
                 </g>
-                <text class="ft-heart" x="302" y="196">💕</text>
+                <text class="ft-heart" x="302" y="196">≡ƒÆò</text>
                 <g class="clickable" onclick="showPerson('lea_chatem')">
                     <rect class="ft-card" x="312" y="155" width="140" height="75" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="382" y="176">👩</text>
-                    <text class="ft-name" x="382" y="194">לאה</text>
-                    <text class="ft-detail" x="382" y="209">חאתם</text>
+                    <text class="ft-emoji" x="382" y="176">≡ƒæ⌐</text>
+                    <text class="ft-name" x="382" y="194">╫£╫É╫ö</text>
+                    <text class="ft-detail" x="382" y="209">╫ù╫É╫¬╫¥</text>
                 </g>
 
-                <!-- Group 2: יוסף + שושנה (center=620) -->
+                <!-- Group 2: ╫Ö╫ò╫í╫ú + ╫⌐╫ò╫⌐╫á╫ö (center=620) -->
                 <g class="clickable" onclick="showPerson('yosef_ab')">
                     <rect class="ft-card" x="530" y="155" width="140" height="75" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="600" y="176">👨</text>
-                    <text class="ft-name" x="600" y="194">יוסף</text>
-                    <text class="ft-detail" x="600" y="209">אבולעפיה</text>
+                    <text class="ft-emoji" x="600" y="176">≡ƒæ¿</text>
+                    <text class="ft-name" x="600" y="194">╫Ö╫ò╫í╫ú</text>
+                    <text class="ft-detail" x="600" y="209">╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö</text>
                 </g>
-                <text class="ft-heart" x="682" y="196">💕</text>
+                <text class="ft-heart" x="682" y="196">≡ƒÆò</text>
                 <g class="clickable" onclick="showPerson('shoshana_ab')">
                     <rect class="ft-card" x="692" y="155" width="140" height="75" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="762" y="176">👩</text>
-                    <text class="ft-name" x="762" y="194">שושנה</text>
+                    <text class="ft-emoji" x="762" y="176">≡ƒæ⌐</text>
+                    <text class="ft-name" x="762" y="194">╫⌐╫ò╫⌐╫á╫ö</text>
                     <text class="ft-detail" x="762" y="209"> </text>
                 </g>
 
-                <!-- Group 3: חנולה + אהרון (center=1000) -->
+                <!-- Group 3: ╫ù╫á╫ò╫£╫ö + ╫É╫ö╫¿╫ò╫ƒ (center=1000) -->
                 <g class="clickable" onclick="showPerson('hanula_ab')">
                     <rect class="ft-card" x="900" y="155" width="150" height="75" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="975" y="176">👩</text>
-                    <text class="ft-name" x="975" y="194">חנולה חנה</text>
-                    <text class="ft-detail" x="975" y="209">אבולעפיה</text>
+                    <text class="ft-emoji" x="975" y="176">≡ƒæ⌐</text>
+                    <text class="ft-name" x="975" y="194">╫ù╫á╫ò╫£╫ö ╫ù╫á╫ö</text>
+                    <text class="ft-detail" x="975" y="209">╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö</text>
                 </g>
-                <text class="ft-heart" x="1062" y="196">💕</text>
+                <text class="ft-heart" x="1062" y="196">≡ƒÆò</text>
                 <g class="clickable" onclick="showPerson('aharon_leon')">
                     <rect class="ft-card" x="1072" y="155" width="140" height="75" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="1142" y="176">👨</text>
-                    <text class="ft-name" x="1142" y="194">אהרון לאון</text>
+                    <text class="ft-emoji" x="1142" y="176">≡ƒæ¿</text>
+                    <text class="ft-name" x="1142" y="194">╫É╫ö╫¿╫ò╫ƒ ╫£╫É╫ò╫ƒ</text>
                     <text class="ft-detail" x="1142" y="209"> </text>
                 </g>
 
-                <!-- Group 4: רבקה - memorial only (center=1380) -->
+                <!-- Group 4: ╫¿╫æ╫º╫ö - memorial only (center=1380) -->
                 <g class="clickable" onclick="showPerson('rivka_mizrahi')">
                     <rect class="ft-card-memorial" x="1315" y="155" width="130" height="75" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="1380" y="176">🕯️</text>
-                    <text class="ft-name" x="1380" y="194">רבקה (בקי)</text>
-                    <text class="ft-detail" x="1380" y="209">→ ראה עץ ראשי</text>
+                    <text class="ft-emoji" x="1380" y="176">≡ƒò»∩╕Å</text>
+                    <text class="ft-name" x="1380" y="194">╫¿╫æ╫º╫ö (╫æ╫º╫Ö)</text>
+                    <text class="ft-detail" x="1380" y="209">ΓåÆ ╫¿╫É╫ö ╫ó╫Ñ ╫¿╫É╫⌐╫Ö</text>
                 </g>
 
-                <!-- Group 5: פאני + שלמה (center=1760) -->
+                <!-- Group 5: ╫ñ╫É╫á╫Ö + ╫⌐╫£╫₧╫ö (center=1760) -->
                 <g class="clickable" onclick="showPerson('fani_ab')">
                     <rect class="ft-card" x="1670" y="155" width="140" height="75" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="1740" y="176">👩</text>
-                    <text class="ft-name" x="1740" y="194">פאני</text>
-                    <text class="ft-detail" x="1740" y="209">אבולעפיה</text>
+                    <text class="ft-emoji" x="1740" y="176">≡ƒæ⌐</text>
+                    <text class="ft-name" x="1740" y="194">╫ñ╫É╫á╫Ö</text>
+                    <text class="ft-detail" x="1740" y="209">╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö</text>
                 </g>
-                <text class="ft-heart" x="1822" y="196">💕</text>
+                <text class="ft-heart" x="1822" y="196">≡ƒÆò</text>
                 <g class="clickable" onclick="showPerson('shlomo_adut')">
                     <rect class="ft-card" x="1832" y="155" width="140" height="75" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="1902" y="176">👨</text>
-                    <text class="ft-name" x="1902" y="194">שלמה אדוט</text>
+                    <text class="ft-emoji" x="1902" y="176">≡ƒæ¿</text>
+                    <text class="ft-name" x="1902" y="194">╫⌐╫£╫₧╫ö ╫É╫ô╫ò╫ÿ</text>
                     <text class="ft-detail" x="1902" y="209"> </text>
                 </g>
 
                 <!-- ===== LINES ROW 1 -> ROW 2 ===== -->
 
-                <!-- נסים (center=240) -> grandchildren bar at y=270 -->
+                <!-- ╫á╫í╫Ö╫¥ (center=240) -> grandchildren bar at y=270 -->
                 <line class="ft-line" x1="240" y1="230" x2="240" y2="270"/>
                 <line class="ft-line" x1="125" y1="270" x2="355" y2="270"/>
                 <line class="ft-line" x1="125" y1="270" x2="125" y2="290"/>
                 <line class="ft-line" x1="240" y1="270" x2="240" y2="290"/>
                 <line class="ft-line" x1="355" y1="270" x2="355" y2="290"/>
 
-                <!-- יוסף (center=620) -> grandchildren bar at y=270 -->
+                <!-- ╫Ö╫ò╫í╫ú (center=620) -> grandchildren bar at y=270 -->
                 <line class="ft-line" x1="620" y1="230" x2="620" y2="270"/>
                 <line class="ft-line" x1="448" y1="270" x2="793" y2="270"/>
                 <line class="ft-line" x1="448" y1="270" x2="448" y2="290"/>
@@ -352,7 +424,7 @@
                 <line class="ft-line" x1="678" y1="270" x2="678" y2="290"/>
                 <line class="ft-line" x1="793" y1="270" x2="793" y2="290"/>
 
-                <!-- חנולה (center=1000) -> grandchildren bar at y=270 -->
+                <!-- ╫ù╫á╫ò╫£╫ö (center=1000) -> grandchildren bar at y=270 -->
                 <line class="ft-line" x1="1000" y1="230" x2="1000" y2="270"/>
                 <line class="ft-line" x1="878" y1="270" x2="1223" y2="270"/>
                 <line class="ft-line" x1="878" y1="270" x2="878" y2="290"/>
@@ -360,7 +432,7 @@
                 <line class="ft-line" x1="1108" y1="270" x2="1108" y2="290"/>
                 <line class="ft-line" x1="1223" y1="270" x2="1223" y2="290"/>
 
-                <!-- פאני (center=1760) -> grandchildren bar at y=270 -->
+                <!-- ╫ñ╫É╫á╫Ö (center=1760) -> grandchildren bar at y=270 -->
                 <line class="ft-line" x1="1760" y1="230" x2="1760" y2="270"/>
                 <line class="ft-line" x1="1703" y1="270" x2="1818" y2="270"/>
                 <line class="ft-line" x1="1703" y1="270" x2="1703" y2="290"/>
@@ -368,166 +440,166 @@
 
                 <!-- ===== ROW 2: GRANDCHILDREN (y=290, h=65) ===== -->
 
-                <!-- Under נסים: יעקוב (center=125), עובדיה (center=240), מיכאל (center=355) -->
+                <!-- Under ╫á╫í╫Ö╫¥: ╫Ö╫ó╫º╫ò╫æ (center=125), ╫ó╫ò╫æ╫ô╫Ö╫ö (center=240), ╫₧╫Ö╫¢╫É╫£ (center=355) -->
                 <g class="clickable" onclick="showPerson('yaakov_son_nissim')">
                     <rect class="ft-card" x="75" y="290" width="100" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="125" y="308">👨</text>
-                    <text class="ft-child-name" x="125" y="325">יעקוב</text>
-                    <text class="ft-detail" x="125" y="341">ב.נסים</text>
+                    <text class="ft-emoji" x="125" y="308">≡ƒæ¿</text>
+                    <text class="ft-child-name" x="125" y="325">╫Ö╫ó╫º╫ò╫æ</text>
+                    <text class="ft-detail" x="125" y="341">╫æ.╫á╫í╫Ö╫¥</text>
                 </g>
                 <g class="clickable" onclick="showPerson('ovadya_son_nissim')">
                     <rect class="ft-card" x="190" y="290" width="100" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="240" y="308">👨</text>
-                    <text class="ft-child-name" x="240" y="325">עובדיה</text>
-                    <text class="ft-detail" x="240" y="341">ב.נסים</text>
+                    <text class="ft-emoji" x="240" y="308">≡ƒæ¿</text>
+                    <text class="ft-child-name" x="240" y="325">╫ó╫ò╫æ╫ô╫Ö╫ö</text>
+                    <text class="ft-detail" x="240" y="341">╫æ.╫á╫í╫Ö╫¥</text>
                 </g>
                 <g class="clickable" onclick="showPerson('michael_son_nissim')">
                     <rect class="ft-card" x="305" y="290" width="100" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="355" y="308">👨</text>
-                    <text class="ft-child-name" x="355" y="325">מיכאל</text>
-                    <text class="ft-detail" x="355" y="341">ב.נסים</text>
+                    <text class="ft-emoji" x="355" y="308">≡ƒæ¿</text>
+                    <text class="ft-child-name" x="355" y="325">╫₧╫Ö╫¢╫É╫£</text>
+                    <text class="ft-detail" x="355" y="341">╫æ.╫á╫í╫Ö╫¥</text>
                 </g>
 
-                <!-- Under יוסף: יעקוב (center=448), יצחק (center=563), דינה (center=678), ינב (center=793) -->
+                <!-- Under ╫Ö╫ò╫í╫ú: ╫Ö╫ó╫º╫ò╫æ (center=448), ╫Ö╫ª╫ù╫º (center=563), ╫ô╫Ö╫á╫ö (center=678), ╫Ö╫á╫æ (center=793) -->
                 <g class="clickable" onclick="showPerson('yaakov_son_yosef')">
                     <rect class="ft-card" x="398" y="290" width="100" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="448" y="308">👨</text>
-                    <text class="ft-child-name" x="448" y="325">יעקוב</text>
-                    <text class="ft-detail" x="448" y="341">ב.יוסף</text>
+                    <text class="ft-emoji" x="448" y="308">≡ƒæ¿</text>
+                    <text class="ft-child-name" x="448" y="325">╫Ö╫ó╫º╫ò╫æ</text>
+                    <text class="ft-detail" x="448" y="341">╫æ.╫Ö╫ò╫í╫ú</text>
                 </g>
                 <g class="clickable" onclick="showPerson('yitzhak_son_yosef')">
                     <rect class="ft-card" x="513" y="290" width="100" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="563" y="308">👨</text>
-                    <text class="ft-child-name" x="563" y="325">יצחק</text>
-                    <text class="ft-detail" x="563" y="341">ב.יוסף</text>
+                    <text class="ft-emoji" x="563" y="308">≡ƒæ¿</text>
+                    <text class="ft-child-name" x="563" y="325">╫Ö╫ª╫ù╫º</text>
+                    <text class="ft-detail" x="563" y="341">╫æ.╫Ö╫ò╫í╫ú</text>
                 </g>
                 <g class="clickable" onclick="showPerson('dina_son_yosef')">
                     <rect class="ft-card" x="628" y="290" width="100" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="678" y="308">👩</text>
-                    <text class="ft-child-name" x="678" y="325">דינה</text>
-                    <text class="ft-detail" x="678" y="341">ב.יוסף</text>
+                    <text class="ft-emoji" x="678" y="308">≡ƒæ⌐</text>
+                    <text class="ft-child-name" x="678" y="325">╫ô╫Ö╫á╫ö</text>
+                    <text class="ft-detail" x="678" y="341">╫æ.╫Ö╫ò╫í╫ú</text>
                 </g>
                 <g class="clickable" onclick="showPerson('yaniv_son_yosef')">
                     <rect class="ft-card" x="743" y="290" width="100" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="793" y="308">👨</text>
-                    <text class="ft-child-name" x="793" y="325">ינב</text>
-                    <text class="ft-detail" x="793" y="341">ב.יוסף</text>
+                    <text class="ft-emoji" x="793" y="308">≡ƒæ¿</text>
+                    <text class="ft-child-name" x="793" y="325">╫Ö╫á╫æ</text>
+                    <text class="ft-detail" x="793" y="341">╫æ.╫Ö╫ò╫í╫ú</text>
                 </g>
 
-                <!-- Under חנולה: אליעזר (center=878), סול (center=993), אסתר (center=1108), יפה (center=1223) -->
+                <!-- Under ╫ù╫á╫ò╫£╫ö: ╫É╫£╫Ö╫ó╫û╫¿ (center=878), ╫í╫ò╫£ (center=993), ╫É╫í╫¬╫¿ (center=1108), ╫Ö╫ñ╫ö (center=1223) -->
                 <g class="clickable" onclick="showPerson('eliezer_son_hanula')">
                     <rect class="ft-card" x="828" y="290" width="100" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="878" y="308">👨</text>
-                    <text class="ft-child-name" x="878" y="325">אליעזר</text>
-                    <text class="ft-detail" x="878" y="341">ב.חנולה</text>
+                    <text class="ft-emoji" x="878" y="308">≡ƒæ¿</text>
+                    <text class="ft-child-name" x="878" y="325">╫É╫£╫Ö╫ó╫û╫¿</text>
+                    <text class="ft-detail" x="878" y="341">╫æ.╫ù╫á╫ò╫£╫ö</text>
                 </g>
                 <g class="clickable" onclick="showPerson('sol_dau_hanula')">
                     <rect class="ft-card" x="943" y="290" width="100" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="993" y="308">👩</text>
-                    <text class="ft-child-name" x="993" y="325">סול</text>
-                    <text class="ft-detail" x="993" y="341">ב.חנולה</text>
+                    <text class="ft-emoji" x="993" y="308">≡ƒæ⌐</text>
+                    <text class="ft-child-name" x="993" y="325">╫í╫ò╫£</text>
+                    <text class="ft-detail" x="993" y="341">╫æ.╫ù╫á╫ò╫£╫ö</text>
                 </g>
                 <g class="clickable" onclick="showPerson('ester_dau_hanula')">
                     <rect class="ft-card" x="1058" y="290" width="100" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="1108" y="308">👩</text>
-                    <text class="ft-child-name" x="1108" y="325">אסתר</text>
-                    <text class="ft-detail" x="1108" y="341">ב.חנולה</text>
+                    <text class="ft-emoji" x="1108" y="308">≡ƒæ⌐</text>
+                    <text class="ft-child-name" x="1108" y="325">╫É╫í╫¬╫¿</text>
+                    <text class="ft-detail" x="1108" y="341">╫æ.╫ù╫á╫ò╫£╫ö</text>
                 </g>
                 <g class="clickable" onclick="showPerson('yafa_dau_hanula')">
                     <rect class="ft-card" x="1173" y="290" width="100" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="1223" y="308">👩</text>
-                    <text class="ft-child-name" x="1223" y="325">יפה</text>
-                    <text class="ft-detail" x="1223" y="341">ב.חנולה</text>
+                    <text class="ft-emoji" x="1223" y="308">≡ƒæ⌐</text>
+                    <text class="ft-child-name" x="1223" y="325">╫Ö╫ñ╫ö</text>
+                    <text class="ft-detail" x="1223" y="341">╫æ.╫ù╫á╫ò╫£╫ö</text>
                 </g>
 
-                <!-- Under פאני: ויקי (center=1703), יפית (center=1818) -->
+                <!-- Under ╫ñ╫É╫á╫Ö: ╫ò╫Ö╫º╫Ö (center=1703), ╫Ö╫ñ╫Ö╫¬ (center=1818) -->
                 <g class="clickable" onclick="showPerson('viki_adut')">
                     <rect class="ft-card" x="1653" y="290" width="100" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="1703" y="308">👩</text>
-                    <text class="ft-child-name" x="1703" y="325">ויקי</text>
-                    <text class="ft-detail" x="1703" y="341">אדוט</text>
+                    <text class="ft-emoji" x="1703" y="308">≡ƒæ⌐</text>
+                    <text class="ft-child-name" x="1703" y="325">╫ò╫Ö╫º╫Ö</text>
+                    <text class="ft-detail" x="1703" y="341">╫É╫ô╫ò╫ÿ</text>
                 </g>
                 <g class="clickable" onclick="showPerson('yafit_adut')">
                     <rect class="ft-card" x="1768" y="290" width="100" height="65" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="1818" y="308">👩</text>
-                    <text class="ft-child-name" x="1818" y="325">יפית</text>
-                    <text class="ft-detail" x="1818" y="341">אדוט</text>
+                    <text class="ft-emoji" x="1818" y="308">≡ƒæ⌐</text>
+                    <text class="ft-child-name" x="1818" y="325">╫Ö╫ñ╫Ö╫¬</text>
+                    <text class="ft-detail" x="1818" y="341">╫É╫ô╫ò╫ÿ</text>
                 </g>
 
                 <!-- ===== LINES ROW 2 -> ROW 3 (great-grandchildren, Nissim's line only) ===== -->
 
-                <!-- יעקוב בן נסים (center=125) -> איתי (center=65), רועי (center=158) -->
+                <!-- ╫Ö╫ó╫º╫ò╫æ ╫æ╫ƒ ╫á╫í╫Ö╫¥ (center=125) -> ╫É╫Ö╫¬╫Ö (center=65), ╫¿╫ò╫ó╫Ö (center=158) -->
                 <line class="ft-line" x1="125" y1="355" x2="125" y2="385"/>
                 <line class="ft-line" x1="65" y1="385" x2="158" y2="385"/>
                 <line class="ft-line" x1="65" y1="385" x2="65" y2="410"/>
                 <line class="ft-line" x1="158" y1="385" x2="158" y2="410"/>
 
-                <!-- עובדיה בן נסים (center=240) -> ליאת (center=258), אידו (center=353), לותם (center=448) -->
+                <!-- ╫ó╫ò╫æ╫ô╫Ö╫ö ╫æ╫ƒ ╫á╫í╫Ö╫¥ (center=240) -> ╫£╫Ö╫É╫¬ (center=258), ╫É╫Ö╫ô╫ò (center=353), ╫£╫ò╫¬╫¥ (center=448) -->
                 <line class="ft-line" x1="240" y1="355" x2="240" y2="385"/>
                 <line class="ft-line" x1="258" y1="385" x2="448" y2="385"/>
                 <line class="ft-line" x1="258" y1="385" x2="258" y2="410"/>
                 <line class="ft-line" x1="353" y1="385" x2="353" y2="410"/>
                 <line class="ft-line" x1="448" y1="385" x2="448" y2="410"/>
-                <!-- connect עובדיה drop to bar -->
+                <!-- connect ╫ó╫ò╫æ╫ô╫Ö╫ö drop to bar -->
                 <line class="ft-line" x1="240" y1="385" x2="258" y2="385"/>
 
                 <!-- ===== ROW 3: GREAT-GRANDCHILDREN (y=410, h=60) ===== -->
 
-                <!-- Under יעקוב בן נסים -->
+                <!-- Under ╫Ö╫ó╫º╫ò╫æ ╫æ╫ƒ ╫á╫í╫Ö╫¥ -->
                 <g class="clickable" onclick="showPerson('itay_ab')">
                     <rect class="ft-card" x="20" y="410" width="85" height="60" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="63" y="428">👨</text>
-                    <text class="ft-child-name" x="63" y="445">איתי</text>
-                    <text class="ft-detail" x="63" y="460">נ. 1978</text>
+                    <text class="ft-emoji" x="63" y="428">≡ƒæ¿</text>
+                    <text class="ft-child-name" x="63" y="445">╫É╫Ö╫¬╫Ö</text>
+                    <text class="ft-detail" x="63" y="460">╫á. 1978</text>
                 </g>
                 <g class="clickable" onclick="showPerson('roi_ab')">
                     <rect class="ft-card" x="115" y="410" width="85" height="60" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="158" y="428">👨</text>
-                    <text class="ft-child-name" x="158" y="445">רועי</text>
-                    <text class="ft-detail" x="158" y="460">נ. 1983</text>
+                    <text class="ft-emoji" x="158" y="428">≡ƒæ¿</text>
+                    <text class="ft-child-name" x="158" y="445">╫¿╫ò╫ó╫Ö</text>
+                    <text class="ft-detail" x="158" y="460">╫á. 1983</text>
                 </g>
 
-                <!-- Under עובדיה בן נסים -->
+                <!-- Under ╫ó╫ò╫æ╫ô╫Ö╫ö ╫æ╫ƒ ╫á╫í╫Ö╫¥ -->
                 <g class="clickable" onclick="showPerson('liat_ab')">
                     <rect class="ft-card" x="215" y="410" width="85" height="60" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="258" y="428">👩</text>
-                    <text class="ft-child-name" x="258" y="445">ליאת</text>
-                    <text class="ft-detail" x="258" y="460">נ. 1983</text>
+                    <text class="ft-emoji" x="258" y="428">≡ƒæ⌐</text>
+                    <text class="ft-child-name" x="258" y="445">╫£╫Ö╫É╫¬</text>
+                    <text class="ft-detail" x="258" y="460">╫á. 1983</text>
                 </g>
                 <g class="clickable" onclick="showPerson('ido_ab')">
                     <rect class="ft-card" x="310" y="410" width="85" height="60" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="353" y="428">👨</text>
-                    <text class="ft-child-name" x="353" y="445">אידו</text>
-                    <text class="ft-detail" x="353" y="460">נ. 1987</text>
+                    <text class="ft-emoji" x="353" y="428">≡ƒæ¿</text>
+                    <text class="ft-child-name" x="353" y="445">╫É╫Ö╫ô╫ò</text>
+                    <text class="ft-detail" x="353" y="460">╫á. 1987</text>
                 </g>
                 <g class="clickable" onclick="showPerson('lotem_ab')">
                     <rect class="ft-card" x="405" y="410" width="85" height="60" rx="10" ry="10" filter="url(#shadow2)"/>
-                    <text class="ft-emoji" x="448" y="428">👩</text>
-                    <text class="ft-child-name" x="448" y="445">לותם</text>
-                    <text class="ft-detail" x="448" y="460">נ. 1993</text>
+                    <text class="ft-emoji" x="448" y="428">≡ƒæ⌐</text>
+                    <text class="ft-child-name" x="448" y="445">╫£╫ò╫¬╫¥</text>
+                    <text class="ft-detail" x="448" y="460">╫á. 1993</text>
                 </g>
 
                 <!-- Decorative text -->
-                <text class="ft-detail" x="1200" y="510" text-anchor="middle" font-style="italic">ענף אבולעפיה - שורשים חזקים מגליפולי ועד ארץ ישראל 🌿</text>
+                <text class="ft-detail" x="1200" y="510" text-anchor="middle" font-style="italic">╫ó╫á╫ú ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö - ╫⌐╫ò╫¿╫⌐╫Ö╫¥ ╫ù╫û╫º╫Ö╫¥ ╫₧╫Æ╫£╫Ö╫ñ╫ò╫£╫Ö ╫ò╫ó╫ô ╫É╫¿╫Ñ ╫Ö╫⌐╫¿╫É╫£ ≡ƒî┐</text>
 
             </svg>
         </div>
 
         <div class="stats">
-            <div class="stat"><div class="number">5</div><div class="label">דורות</div></div>
-            <div class="stat"><div class="number">40</div><div class="label">שנות אהבה</div></div>
-            <div class="stat"><div class="number">3</div><div class="label">נכדים</div></div>
-            <div class="stat"><div class="number">20+</div><div class="label">בני משפחה</div></div>
+            <div class="stat"><div class="number">5</div><div class="label">╫ô╫ò╫¿╫ò╫¬</div></div>
+            <div class="stat"><div class="number">40</div><div class="label">╫⌐╫á╫ò╫¬ ╫É╫ö╫æ╫ö</div></div>
+            <div class="stat"><div class="number">3</div><div class="label">╫á╫¢╫ô╫Ö╫¥</div></div>
+            <div class="stat"><div class="number">20+</div><div class="label">╫æ╫á╫Ö ╫₧╫⌐╫ñ╫ù╫ö</div></div>
         </div>
 
         <div class="footer">
-            <p>נבנה באהבה ❤️ לכבוד משפחת מזרחי-לבנברג</p>
-            <p style="margin-top: 5px;">© כל הזכויות שמורות לורדית מזרחי | מזרחי אימפריה 👑 2026</p>
+            <p>╫á╫æ╫á╫ö ╫æ╫É╫ö╫æ╫ö Γ¥ñ∩╕Å ╫£╫¢╫æ╫ò╫ô ╫₧╫⌐╫ñ╫ù╫¬ ╫₧╫û╫¿╫ù╫Ö-╫£╫æ╫á╫æ╫¿╫Æ</p>
+            <p style="margin-top: 5px;">┬⌐ ╫¢╫£ ╫ö╫û╫¢╫ò╫Ö╫ò╫¬ ╫⌐╫₧╫ò╫¿╫ò╫¬ ╫£╫ò╫¿╫ô╫Ö╫¬ ╫₧╫û╫¿╫ù╫Ö | ╫₧╫û╫¿╫ù╫Ö ╫É╫Ö╫₧╫ñ╫¿╫Ö╫ö ≡ƒææ 2026</p>
         </div>
 
         <!-- Print-only stories section -->
         <div class="print-stories page-break" id="printStories">
-            <h2 style="font-family:'David Libre',serif;text-align:center;color:#5a3a1a;margin:30px 0;">📖 סיפורי המשפחה</h2>
+            <h2 style="font-family:'David Libre',serif;text-align:center;color:#5a3a1a;margin:30px 0;">≡ƒôû ╫í╫Ö╫ñ╫ò╫¿╫Ö ╫ö╫₧╫⌐╫ñ╫ù╫ö</h2>
             <div id="printStoriesContent"></div>
         </div>
     </div>
@@ -535,7 +607,7 @@
     <!-- Modal -->
     <div class="modal-overlay" id="modal" onclick="closeModal(event)">
         <div class="modal" onclick="event.stopPropagation()">
-            <button class="modal-close" onclick="document.getElementById('modal').classList.remove('active')">✕</button>
+            <button class="modal-close" onclick="document.getElementById('modal').classList.remove('active')">Γ£ò</button>
             <div id="modalContent"></div>
         </div>
     </div>
@@ -543,660 +615,660 @@
     <script>
     const people = {
         yaakov: {
-            emoji: '👨', name: 'יעקוב לבנברג ז"ל',
-            role: 'סבא רבא - משפחת לבנברג',
+            emoji: '≡ƒæ¿', name: '╫Ö╫ó╫º╫ò╫æ ╫£╫æ╫á╫æ╫¿╫Æ ╫û"╫£',
+            role: '╫í╫æ╫É ╫¿╫æ╫É - ╫₧╫⌐╫ñ╫ù╫¬ ╫£╫æ╫á╫æ╫¿╫Æ',
             sections: [
-                { title: '👪 משפחה', text: 'נשוי לחיה שרה (לבית שרגא) ז"ל' },
-                { title: '👶 ילדים', text: 'חנה טובה ז"ל (בכורה), משה יוסף (בן), נורית יהודית (הצעירה)' },
-                { title: '📝 שם המשפחה', text: 'LEWENBERG באותיות לטיניות' }
+                { title: '≡ƒæ¬ ╫₧╫⌐╫ñ╫ù╫ö', text: '╫á╫⌐╫ò╫Ö ╫£╫ù╫Ö╫ö ╫⌐╫¿╫ö (╫£╫æ╫Ö╫¬ ╫⌐╫¿╫Æ╫É) ╫û"╫£' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫ù╫á╫ö ╫ÿ╫ò╫æ╫ö ╫û"╫£ (╫æ╫¢╫ò╫¿╫ö), ╫₧╫⌐╫ö ╫Ö╫ò╫í╫ú (╫æ╫ƒ), ╫á╫ò╫¿╫Ö╫¬ ╫Ö╫ö╫ò╫ô╫Ö╫¬ (╫ö╫ª╫ó╫Ö╫¿╫ö)' },
+                { title: '≡ƒô¥ ╫⌐╫¥ ╫ö╫₧╫⌐╫ñ╫ù╫ö', text: 'LEWENBERG ╫æ╫É╫ò╫¬╫Ö╫ò╫¬ ╫£╫ÿ╫Ö╫á╫Ö╫ò╫¬' }
             ]
         },
         chaya_sara: {
-            emoji: '👩', name: 'חיה שרה לבנברג ז"ל',
-            role: 'סבתא רבתא - לבית שרגא',
+            emoji: '≡ƒæ⌐', name: '╫ù╫Ö╫ö ╫⌐╫¿╫ö ╫£╫æ╫á╫æ╫¿╫Æ ╫û"╫£',
+            role: '╫í╫æ╫¬╫É ╫¿╫æ╫¬╫É - ╫£╫æ╫Ö╫¬ ╫⌐╫¿╫Æ╫É',
             sections: [
-                { title: '👪 משפחה', text: 'נשואה ליעקוב לבנברג ז"ל' },
-                { title: '👶 ילדים', text: 'חנה טובה ז"ל (בכורה), משה יוסף (בן), נורית יהודית (הצעירה)' }
+                { title: '≡ƒæ¬ ╫₧╫⌐╫ñ╫ù╫ö', text: '╫á╫⌐╫ò╫É╫ö ╫£╫Ö╫ó╫º╫ò╫æ ╫£╫æ╫á╫æ╫¿╫Æ ╫û"╫£' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫ù╫á╫ö ╫ÿ╫ò╫æ╫ö ╫û"╫£ (╫æ╫¢╫ò╫¿╫ö), ╫₧╫⌐╫ö ╫Ö╫ò╫í╫ú (╫æ╫ƒ), ╫á╫ò╫¿╫Ö╫¬ ╫Ö╫ö╫ò╫ô╫Ö╫¬ (╫ö╫ª╫ó╫Ö╫¿╫ö)' }
             ]
         },
         uri_moshe: {
-            emoji: '👨', name: 'אורי משה לישואר',
-            role: 'סבא רבא - משפחת לישואר',
+            emoji: '≡ƒæ¿', name: '╫É╫ò╫¿╫Ö ╫₧╫⌐╫ö ╫£╫Ö╫⌐╫ò╫É╫¿',
+            role: '╫í╫æ╫É ╫¿╫æ╫É - ╫₧╫⌐╫ñ╫ù╫¬ ╫£╫Ö╫⌐╫ò╫É╫¿',
             sections: [
-                { title: '👪 משפחה', text: 'נשוי לדינה (לבית לוינשטין)' },
-                { title: '👶 ילדים', text: 'יפה בלבד (נשואה למשה יוסף לבנברג)' }
+                { title: '≡ƒæ¬ ╫₧╫⌐╫ñ╫ù╫ö', text: '╫á╫⌐╫ò╫Ö ╫£╫ô╫Ö╫á╫ö (╫£╫æ╫Ö╫¬ ╫£╫ò╫Ö╫á╫⌐╫ÿ╫Ö╫ƒ)' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫Ö╫ñ╫ö ╫æ╫£╫æ╫ô (╫á╫⌐╫ò╫É╫ö ╫£╫₧╫⌐╫ö ╫Ö╫ò╫í╫ú ╫£╫æ╫á╫æ╫¿╫Æ)' }
             ]
         },
         dina: {
-            emoji: '👩', name: 'דינה לישואר',
-            role: 'סבתא רבתא - לבית לוינשטין',
+            emoji: '≡ƒæ⌐', name: '╫ô╫Ö╫á╫ö ╫£╫Ö╫⌐╫ò╫É╫¿',
+            role: '╫í╫æ╫¬╫É ╫¿╫æ╫¬╫É - ╫£╫æ╫Ö╫¬ ╫£╫ò╫Ö╫á╫⌐╫ÿ╫Ö╫ƒ',
             sections: [
-                { title: '👪 משפחה', text: 'נשואה לאורי משה לישואר' },
-                { title: '👶 ילדים', text: 'יפה בלבד (נשואה למשה יוסף לבנברג)' }
+                { title: '≡ƒæ¬ ╫₧╫⌐╫ñ╫ù╫ö', text: '╫á╫⌐╫ò╫É╫ö ╫£╫É╫ò╫¿╫Ö ╫₧╫⌐╫ö ╫£╫Ö╫⌐╫ò╫É╫¿' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫Ö╫ñ╫ö ╫æ╫£╫æ╫ô (╫á╫⌐╫ò╫É╫ö ╫£╫₧╫⌐╫ö ╫Ö╫ò╫í╫ú ╫£╫æ╫á╫æ╫¿╫Æ)' }
             ]
         },
         chana_tova: {
-            emoji: '🕯️', name: 'חנה טובה לבנברג ז"ל',
-            role: 'הבת הבכורה של יעקוב וחיה שרה',
+            emoji: '≡ƒò»∩╕Å', name: '╫ù╫á╫ö ╫ÿ╫ò╫æ╫ö ╫£╫æ╫á╫æ╫¿╫Æ ╫û"╫£',
+            role: '╫ö╫æ╫¬ ╫ö╫æ╫¢╫ò╫¿╫ö ╫⌐╫£ ╫Ö╫ó╫º╫ò╫æ ╫ò╫ù╫Ö╫ö ╫⌐╫¿╫ö',
             sections: [
-                { title: '🕯️ לזכרה', text: 'בתם הבכורה של יעקוב וחיה שרה לבנברג. נפטרה. זכרה יהיה ברוך.' }
+                { title: '≡ƒò»∩╕Å ╫£╫û╫¢╫¿╫ö', text: '╫æ╫¬╫¥ ╫ö╫æ╫¢╫ò╫¿╫ö ╫⌐╫£ ╫Ö╫ó╫º╫ò╫æ ╫ò╫ù╫Ö╫ö ╫⌐╫¿╫ö ╫£╫æ╫á╫æ╫¿╫Æ. ╫á╫ñ╫ÿ╫¿╫ö. ╫û╫¢╫¿╫ö ╫Ö╫ö╫Ö╫ö ╫æ╫¿╫ò╫Ü.' }
             ]
         },
         moshe_yosef: {
-            emoji: '👨', name: 'משה יוסף לבנברג',
-            role: 'הבן של יעקוב וחיה שרה לבנברג',
+            emoji: '≡ƒæ¿', name: '╫₧╫⌐╫ö ╫Ö╫ò╫í╫ú ╫£╫æ╫á╫æ╫¿╫Æ',
+            role: '╫ö╫æ╫ƒ ╫⌐╫£ ╫Ö╫ó╫º╫ò╫æ ╫ò╫ù╫Ö╫ö ╫⌐╫¿╫ö ╫£╫æ╫á╫æ╫¿╫Æ',
             sections: [
-                { title: '👪 הורים', text: 'יעקוב לבנברג ז"ל וחיה שרה (לבית שרגא) ז"ל' },
-                { title: '💕 נשוי ל', text: 'יפה (לבית לישואר), בת אורי משה ודינה לישואר' },
-                { title: '👧 אחיות', text: 'חנה טובה ז"ל (בכורה), נורית יהודית (צעירה)' },
-                { title: '👶 בנות', text: 'ורדית (בכורה), טובה צ\'רנה (אמצעית), תמר פנינה (צעירה)' },
-                { title: '📝 שם המשפחה', text: 'LEWENBERG באותיות לטיניות' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫Ö╫ó╫º╫ò╫æ ╫£╫æ╫á╫æ╫¿╫Æ ╫û"╫£ ╫ò╫ù╫Ö╫ö ╫⌐╫¿╫ö (╫£╫æ╫Ö╫¬ ╫⌐╫¿╫Æ╫É) ╫û"╫£' },
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫Ö ╫£', text: '╫Ö╫ñ╫ö (╫£╫æ╫Ö╫¬ ╫£╫Ö╫⌐╫ò╫É╫¿), ╫æ╫¬ ╫É╫ò╫¿╫Ö ╫₧╫⌐╫ö ╫ò╫ô╫Ö╫á╫ö ╫£╫Ö╫⌐╫ò╫É╫¿' },
+                { title: '≡ƒæº ╫É╫ù╫Ö╫ò╫¬', text: '╫ù╫á╫ö ╫ÿ╫ò╫æ╫ö ╫û"╫£ (╫æ╫¢╫ò╫¿╫ö), ╫á╫ò╫¿╫Ö╫¬ ╫Ö╫ö╫ò╫ô╫Ö╫¬ (╫ª╫ó╫Ö╫¿╫ö)' },
+                { title: '≡ƒæ╢ ╫æ╫á╫ò╫¬', text: '╫ò╫¿╫ô╫Ö╫¬ (╫æ╫¢╫ò╫¿╫ö), ╫ÿ╫ò╫æ╫ö ╫ª\'╫¿╫á╫ö (╫É╫₧╫ª╫ó╫Ö╫¬), ╫¬╫₧╫¿ ╫ñ╫á╫Ö╫á╫ö (╫ª╫ó╫Ö╫¿╫ö)' },
+                { title: '≡ƒô¥ ╫⌐╫¥ ╫ö╫₧╫⌐╫ñ╫ù╫ö', text: 'LEWENBERG ╫æ╫É╫ò╫¬╫Ö╫ò╫¬ ╫£╫ÿ╫Ö╫á╫Ö╫ò╫¬' }
             ]
         },
         yafa: {
-            emoji: '👩', name: 'יפה לבנברג',
-            role: 'לבית לישואר',
+            emoji: '≡ƒæ⌐', name: '╫Ö╫ñ╫ö ╫£╫æ╫á╫æ╫¿╫Æ',
+            role: '╫£╫æ╫Ö╫¬ ╫£╫Ö╫⌐╫ò╫É╫¿',
             sections: [
-                { title: '👪 הורים', text: 'אורי משה ודינה לישואר (לבית לוינשטין)' },
-                { title: '💕 נשואה ל', text: 'משה יוסף לבנברג' },
-                { title: '👶 בנות', text: 'ורדית (בכורה), טובה צ\'רנה (אמצעית), תמר פנינה (צעירה)' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫É╫ò╫¿╫Ö ╫₧╫⌐╫ö ╫ò╫ô╫Ö╫á╫ö ╫£╫Ö╫⌐╫ò╫É╫¿ (╫£╫æ╫Ö╫¬ ╫£╫ò╫Ö╫á╫⌐╫ÿ╫Ö╫ƒ)' },
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫É╫ö ╫£', text: '╫₧╫⌐╫ö ╫Ö╫ò╫í╫ú ╫£╫æ╫á╫æ╫¿╫Æ' },
+                { title: '≡ƒæ╢ ╫æ╫á╫ò╫¬', text: '╫ò╫¿╫ô╫Ö╫¬ (╫æ╫¢╫ò╫¿╫ö), ╫ÿ╫ò╫æ╫ö ╫ª\'╫¿╫á╫ö (╫É╫₧╫ª╫ó╫Ö╫¬), ╫¬╫₧╫¿ ╫ñ╫á╫Ö╫á╫ö (╫ª╫ó╫Ö╫¿╫ö)' }
             ]
         },
         nirit: {
-            emoji: '👩', name: 'נורית יהודית בן-דוד',
-            role: 'בת יעקוב וחיה שרה לבנברג - הצעירה',
+            emoji: '≡ƒæ⌐', name: '╫á╫ò╫¿╫Ö╫¬ ╫Ö╫ö╫ò╫ô╫Ö╫¬ ╫æ╫ƒ-╫ô╫ò╫ô',
+            role: '╫æ╫¬ ╫Ö╫ó╫º╫ò╫æ ╫ò╫ù╫Ö╫ö ╫⌐╫¿╫ö ╫£╫æ╫á╫æ╫¿╫Æ - ╫ö╫ª╫ó╫Ö╫¿╫ö',
             sections: [
-                { title: '👪 הורים', text: 'יעקוב לבנברג ז"ל וחיה שרה (לבית שרגא) ז"ל' },
-                { title: '💔 אלמנה', text: 'אשתו של ישראל צבי בן-דוד ז"ל' },
-                { title: '👶 ילדים', text: 'יצחק בן-דוד (בן), יפה בן-דוד ז"ל (בת), שלומית מאירה אלימלך (בת)' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫Ö╫ó╫º╫ò╫æ ╫£╫æ╫á╫æ╫¿╫Æ ╫û"╫£ ╫ò╫ù╫Ö╫ö ╫⌐╫¿╫ö (╫£╫æ╫Ö╫¬ ╫⌐╫¿╫Æ╫É) ╫û"╫£' },
+                { title: '≡ƒÆö ╫É╫£╫₧╫á╫ö', text: '╫É╫⌐╫¬╫ò ╫⌐╫£ ╫Ö╫⌐╫¿╫É╫£ ╫ª╫æ╫Ö ╫æ╫ƒ-╫ô╫ò╫ô ╫û"╫£' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫Ö╫ª╫ù╫º ╫æ╫ƒ-╫ô╫ò╫ô (╫æ╫ƒ), ╫Ö╫ñ╫ö ╫æ╫ƒ-╫ô╫ò╫ô ╫û"╫£ (╫æ╫¬), ╫⌐╫£╫ò╫₧╫Ö╫¬ ╫₧╫É╫Ö╫¿╫ö ╫É╫£╫Ö╫₧╫£╫Ü (╫æ╫¬)' }
             ]
         },
         yisrael_tzvi: {
-            emoji: '🕯️', name: 'ישראל צבי בן-דוד ז"ל',
-            role: 'בעלה של נורית יהודית (לבנברג)',
+            emoji: '≡ƒò»∩╕Å', name: '╫Ö╫⌐╫¿╫É╫£ ╫ª╫æ╫Ö ╫æ╫ƒ-╫ô╫ò╫ô ╫û"╫£',
+            role: '╫æ╫ó╫£╫ö ╫⌐╫£ ╫á╫ò╫¿╫Ö╫¬ ╫Ö╫ö╫ò╫ô╫Ö╫¬ (╫£╫æ╫á╫æ╫¿╫Æ)',
             sections: [
-                { title: '💕 נשוי ל', text: 'נורית יהודית (לבית לבנברג)' },
-                { title: '👶 ילדים', text: 'יצחק בן-דוד (בן), יפה בן-דוד ז"ל (בת), שלומית מאירה אלימלך (בת)' },
-                { title: '🕯️ לזכרו', text: 'זכרו יהיה ברוך' }
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫Ö ╫£', text: '╫á╫ò╫¿╫Ö╫¬ ╫Ö╫ö╫ò╫ô╫Ö╫¬ (╫£╫æ╫Ö╫¬ ╫£╫æ╫á╫æ╫¿╫Æ)' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫Ö╫ª╫ù╫º ╫æ╫ƒ-╫ô╫ò╫ô (╫æ╫ƒ), ╫Ö╫ñ╫ö ╫æ╫ƒ-╫ô╫ò╫ô ╫û"╫£ (╫æ╫¬), ╫⌐╫£╫ò╫₧╫Ö╫¬ ╫₧╫É╫Ö╫¿╫ö ╫É╫£╫Ö╫₧╫£╫Ü (╫æ╫¬)' },
+                { title: '≡ƒò»∩╕Å ╫£╫û╫¢╫¿╫ò', text: '╫û╫¢╫¿╫ò ╫Ö╫ö╫Ö╫ö ╫æ╫¿╫ò╫Ü' }
             ]
         },
         yitzchak_bd: {
-            emoji: '👨', name: 'יצחק בן-דוד',
-            role: 'בנם של ישראל צבי ז"ל ונורית יהודית',
+            emoji: '≡ƒæ¿', name: '╫Ö╫ª╫ù╫º ╫æ╫ƒ-╫ô╫ò╫ô',
+            role: '╫æ╫á╫¥ ╫⌐╫£ ╫Ö╫⌐╫¿╫É╫£ ╫ª╫æ╫Ö ╫û"╫£ ╫ò╫á╫ò╫¿╫Ö╫¬ ╫Ö╫ö╫ò╫ô╫Ö╫¬',
             sections: [
-                { title: '👪 הורים', text: 'ישראל צבי בן-דוד ז"ל ונורית יהודית (לבית לבנברג)' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫Ö╫⌐╫¿╫É╫£ ╫ª╫æ╫Ö ╫æ╫ƒ-╫ô╫ò╫ô ╫û"╫£ ╫ò╫á╫ò╫¿╫Ö╫¬ ╫Ö╫ö╫ò╫ô╫Ö╫¬ (╫£╫æ╫Ö╫¬ ╫£╫æ╫á╫æ╫¿╫Æ)' }
             ]
         },
         yafa_bd: {
-            emoji: '🕯️', name: 'יפה בן-דוד ז"ל',
-            role: 'בתם של ישראל צבי ז"ל ונורית יהודית',
+            emoji: '≡ƒò»∩╕Å', name: '╫Ö╫ñ╫ö ╫æ╫ƒ-╫ô╫ò╫ô ╫û"╫£',
+            role: '╫æ╫¬╫¥ ╫⌐╫£ ╫Ö╫⌐╫¿╫É╫£ ╫ª╫æ╫Ö ╫û"╫£ ╫ò╫á╫ò╫¿╫Ö╫¬ ╫Ö╫ö╫ò╫ô╫Ö╫¬',
             sections: [
-                { title: '👪 הורים', text: 'ישראל צבי בן-דוד ז"ל ונורית יהודית (לבית לבנברג)' },
-                { title: '🕯️ לזכרה', text: 'זכרה יהיה ברוך' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫Ö╫⌐╫¿╫É╫£ ╫ª╫æ╫Ö ╫æ╫ƒ-╫ô╫ò╫ô ╫û"╫£ ╫ò╫á╫ò╫¿╫Ö╫¬ ╫Ö╫ö╫ò╫ô╫Ö╫¬ (╫£╫æ╫Ö╫¬ ╫£╫æ╫á╫æ╫¿╫Æ)' },
+                { title: '≡ƒò»∩╕Å ╫£╫û╫¢╫¿╫ö', text: '╫û╫¢╫¿╫ö ╫Ö╫ö╫Ö╫ö ╫æ╫¿╫ò╫Ü' }
             ]
         },
         shlomit_bd: {
-            emoji: '👩', name: 'שלומית מאירה אלימלך',
-            role: 'בתם של ישראל צבי ז"ל ונורית יהודית',
+            emoji: '≡ƒæ⌐', name: '╫⌐╫£╫ò╫₧╫Ö╫¬ ╫₧╫É╫Ö╫¿╫ö ╫É╫£╫Ö╫₧╫£╫Ü',
+            role: '╫æ╫¬╫¥ ╫⌐╫£ ╫Ö╫⌐╫¿╫É╫£ ╫ª╫æ╫Ö ╫û"╫£ ╫ò╫á╫ò╫¿╫Ö╫¬ ╫Ö╫ö╫ò╫ô╫Ö╫¬',
             sections: [
-                { title: '👪 הורים', text: 'ישראל צבי בן-דוד ז"ל ונורית יהודית (לבית לבנברג)' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫Ö╫⌐╫¿╫É╫£ ╫ª╫æ╫Ö ╫æ╫ƒ-╫ô╫ò╫ô ╫û"╫£ ╫ò╫á╫ò╫¿╫Ö╫¬ ╫Ö╫ö╫ò╫ô╫Ö╫¬ (╫£╫æ╫Ö╫¬ ╫£╫æ╫á╫æ╫¿╫Æ)' }
             ]
         },
         vardit_l: {
-            emoji: '👩', name: 'ורדית',
-            role: 'הבת הבכורה של משה יוסף ויפה לבנברג',
+            emoji: '≡ƒæ⌐', name: '╫ò╫¿╫ô╫Ö╫¬',
+            role: '╫ö╫æ╫¬ ╫ö╫æ╫¢╫ò╫¿╫ö ╫⌐╫£ ╫₧╫⌐╫ö ╫Ö╫ò╫í╫ú ╫ò╫Ö╫ñ╫ö ╫£╫æ╫á╫æ╫¿╫Æ',
             sections: [
-                { title: '👪 הורים', text: 'משה יוסף ויפה לבנברג' },
-                { title: '💕 נשואה ל', text: 'אבי מזרחי - מאז 18.02.1986' },
-                { title: '👶 ילדים', text: 'יהודה (בכור), תמיר (אמצעי), ספיר (צעירה)' },
-                { title: '🎉', text: '40 שנות נישואין! 1986-2026' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫₧╫⌐╫ö ╫Ö╫ò╫í╫ú ╫ò╫Ö╫ñ╫ö ╫£╫æ╫á╫æ╫¿╫Æ' },
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫É╫ö ╫£', text: '╫É╫æ╫Ö ╫₧╫û╫¿╫ù╫Ö - ╫₧╫É╫û 18.02.1986' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫Ö╫ö╫ò╫ô╫ö (╫æ╫¢╫ò╫¿), ╫¬╫₧╫Ö╫¿ (╫É╫₧╫ª╫ó╫Ö), ╫í╫ñ╫Ö╫¿ (╫ª╫ó╫Ö╫¿╫ö)' },
+                { title: '≡ƒÄë', text: '40 ╫⌐╫á╫ò╫¬ ╫á╫Ö╫⌐╫ò╫É╫Ö╫ƒ! 1986-2026' }
             ]
         },
         tova_cherna: {
-            emoji: '👩', name: 'טובה צ\'רנה',
-            role: 'הבת האמצעית של משה יוסף ויפה לבנברג',
+            emoji: '≡ƒæ⌐', name: '╫ÿ╫ò╫æ╫ö ╫ª\'╫¿╫á╫ö',
+            role: '╫ö╫æ╫¬ ╫ö╫É╫₧╫ª╫ó╫Ö╫¬ ╫⌐╫£ ╫₧╫⌐╫ö ╫Ö╫ò╫í╫ú ╫ò╫Ö╫ñ╫ö ╫£╫æ╫á╫æ╫¿╫Æ',
             sections: [
-                { title: '👪 הורים', text: 'משה יוסף ויפה לבנברג' },
-                { title: '💕 נשואה', text: 'נשואה ב"ה, יש ילדים' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫₧╫⌐╫ö ╫Ö╫ò╫í╫ú ╫ò╫Ö╫ñ╫ö ╫£╫æ╫á╫æ╫¿╫Æ' },
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫É╫ö', text: '╫á╫⌐╫ò╫É╫ö ╫æ"╫ö, ╫Ö╫⌐ ╫Ö╫£╫ô╫Ö╫¥' }
             ]
         },
         tamar_pnina: {
-            emoji: '👩', name: 'תמר פנינה',
-            role: 'הבת הצעירה של משה יוסף ויפה לבנברג',
+            emoji: '≡ƒæ⌐', name: '╫¬╫₧╫¿ ╫ñ╫á╫Ö╫á╫ö',
+            role: '╫ö╫æ╫¬ ╫ö╫ª╫ó╫Ö╫¿╫ö ╫⌐╫£ ╫₧╫⌐╫ö ╫Ö╫ò╫í╫ú ╫ò╫Ö╫ñ╫ö ╫£╫æ╫á╫æ╫¿╫Æ',
             sections: [
-                { title: '👪 הורים', text: 'משה יוסף ויפה לבנברג' },
-                { title: '💕 נשואה', text: 'נשואה ב"ה, יש ילדים' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫₧╫⌐╫ö ╫Ö╫ò╫í╫ú ╫ò╫Ö╫ñ╫ö ╫£╫æ╫á╫æ╫¿╫Æ' },
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫É╫ö', text: '╫á╫⌐╫ò╫É╫ö ╫æ"╫ö, ╫Ö╫⌐ ╫Ö╫£╫ô╫Ö╫¥' }
             ]
         },
         yehuda_mizrahi_sr: {
-            emoji: '🕯️', name: 'יהודה מזרחי ז"ל',
-            role: 'סבא - אביו של אבי מזרחי',
+            emoji: '≡ƒò»∩╕Å', name: '╫Ö╫ö╫ò╫ô╫ö ╫₧╫û╫¿╫ù╫Ö ╫û"╫£',
+            role: '╫í╫æ╫É - ╫É╫æ╫Ö╫ò ╫⌐╫£ ╫É╫æ╫Ö ╫₧╫û╫¿╫ù╫Ö',
             sections: [
-                { title: '💕 נשוי ל', text: 'רבקה (בקי) מזרחי ז"ל' },
-                { title: '👶 ילדים', text: 'אבי מזרחי, סולי מזרחי, שרה מזרחי' },
-                { title: '🕯️ לזכרו', text: 'סבא של יהודה, תמיר וספיר. זכרו יהיה ברוך.' }
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫Ö ╫£', text: '╫¿╫æ╫º╫ö (╫æ╫º╫Ö) ╫₧╫û╫¿╫ù╫Ö ╫û"╫£' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫É╫æ╫Ö ╫₧╫û╫¿╫ù╫Ö, ╫í╫ò╫£╫Ö ╫₧╫û╫¿╫ù╫Ö, ╫⌐╫¿╫ö ╫₧╫û╫¿╫ù╫Ö' },
+                { title: '≡ƒò»∩╕Å ╫£╫û╫¢╫¿╫ò', text: '╫í╫æ╫É ╫⌐╫£ ╫Ö╫ö╫ò╫ô╫ö, ╫¬╫₧╫Ö╫¿ ╫ò╫í╫ñ╫Ö╫¿. ╫û╫¢╫¿╫ò ╫Ö╫ö╫Ö╫ö ╫æ╫¿╫ò╫Ü.' }
             ]
         },
         yaakov_aboulafiah: {
-            emoji: '👨', name: 'יעקוב אבולעפיה',
-            role: 'סבא רבא - משפחת אבולעפיה',
+            emoji: '≡ƒæ¿', name: '╫Ö╫ó╫º╫ò╫æ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
+            role: '╫í╫æ╫É ╫¿╫æ╫É - ╫₧╫⌐╫ñ╫ù╫¬ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '🌍 מוצא', text: 'גליפולי, טורקיה' },
-                { title: '📅 תאריכים', text: 'נולד: 1908 | נפטר: 1971' },
-                { title: '💕 נשוי ל', text: 'סול כהן' },
-                { title: '👶 ילדים', text: 'נסים, יוסף, חנולה חנה, רבקה (בקי), פאני' }
+                { title: '≡ƒîì ╫₧╫ò╫ª╫É', text: '╫Æ╫£╫Ö╫ñ╫ò╫£╫Ö, ╫ÿ╫ò╫¿╫º╫Ö╫ö' },
+                { title: '≡ƒôà ╫¬╫É╫¿╫Ö╫¢╫Ö╫¥', text: '╫á╫ò╫£╫ô: 1908 | ╫á╫ñ╫ÿ╫¿: 1971' },
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫Ö ╫£', text: '╫í╫ò╫£ ╫¢╫ö╫ƒ' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫á╫í╫Ö╫¥, ╫Ö╫ò╫í╫ú, ╫ù╫á╫ò╫£╫ö ╫ù╫á╫ö, ╫¿╫æ╫º╫ö (╫æ╫º╫Ö), ╫ñ╫É╫á╫Ö' }
             ]
         },
         sol_aboulafiah: {
-            emoji: '👩', name: 'סול אבולעפיה',
-            role: 'סבתא רבתא - לבית כהן',
+            emoji: '≡ƒæ⌐', name: '╫í╫ò╫£ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
+            role: '╫í╫æ╫¬╫É ╫¿╫æ╫¬╫É - ╫£╫æ╫Ö╫¬ ╫¢╫ö╫ƒ',
             sections: [
-                { title: '👪 משפחה', text: 'נשואה ליעקוב אבולעפיה' },
-                { title: '👶 ילדים', text: 'נסים, יוסף, חנולה חנה, רבקה (בקי), פאני' }
+                { title: '≡ƒæ¬ ╫₧╫⌐╫ñ╫ù╫ö', text: '╫á╫⌐╫ò╫É╫ö ╫£╫Ö╫ó╫º╫ò╫æ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫á╫í╫Ö╫¥, ╫Ö╫ò╫í╫ú, ╫ù╫á╫ò╫£╫ö ╫ù╫á╫ö, ╫¿╫æ╫º╫ö (╫æ╫º╫Ö), ╫ñ╫É╫á╫Ö' }
             ]
         },
         rivka_mizrahi: {
-            emoji: '🕯️', name: 'רבקה (בקי) מזרחי ז"ל (לבית אבולעפיה)',
-            role: 'סבתא - אמו של אבי מזרחי',
+            emoji: '≡ƒò»∩╕Å', name: '╫¿╫æ╫º╫ö (╫æ╫º╫Ö) ╫₧╫û╫¿╫ù╫Ö ╫û"╫£ (╫£╫æ╫Ö╫¬ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö)',
+            role: '╫í╫æ╫¬╫É - ╫É╫₧╫ò ╫⌐╫£ ╫É╫æ╫Ö ╫₧╫û╫¿╫ù╫Ö',
             sections: [
-                { title: '👪 הורים', text: 'יעקוב וסול אבולעפיה' },
-                { title: '💕 נשואה ל', text: 'יהודה מזרחי ז"ל' },
-                { title: '👶 ילדים', text: 'אבי מזרחי, סולי מזרחי, שרה מזרחי' },
-                { title: '🕯️ לזכרה', text: 'סבתא של יהודה, תמיר וספיר. זכרה יהיה ברוך.' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫Ö╫ó╫º╫ò╫æ ╫ò╫í╫ò╫£ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö' },
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫É╫ö ╫£', text: '╫Ö╫ö╫ò╫ô╫ö ╫₧╫û╫¿╫ù╫Ö ╫û"╫£' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫É╫æ╫Ö ╫₧╫û╫¿╫ù╫Ö, ╫í╫ò╫£╫Ö ╫₧╫û╫¿╫ù╫Ö, ╫⌐╫¿╫ö ╫₧╫û╫¿╫ù╫Ö' },
+                { title: '≡ƒò»∩╕Å ╫£╫û╫¢╫¿╫ö', text: '╫í╫æ╫¬╫É ╫⌐╫£ ╫Ö╫ö╫ò╫ô╫ö, ╫¬╫₧╫Ö╫¿ ╫ò╫í╫ñ╫Ö╫¿. ╫û╫¢╫¿╫ö ╫Ö╫ö╫Ö╫ö ╫æ╫¿╫ò╫Ü.' }
             ]
         },
         avi: {
-            emoji: '👨', name: 'אבי מזרחי',
-            role: 'ראש משפחת מזרחי',
+            emoji: '≡ƒæ¿', name: '╫É╫æ╫Ö ╫₧╫û╫¿╫ù╫Ö',
+            role: '╫¿╫É╫⌐ ╫₧╫⌐╫ñ╫ù╫¬ ╫₧╫û╫¿╫ù╫Ö',
             sections: [
-                { title: '👪 הורים', text: 'יהודה מזרחי ז"ל ורבקה (בקי) מזרחי ז"ל' },
-                { title: '👧 אחיות', text: 'סולי מזרחי, שרה מזרחי' },
-                { title: '📱 וואטסאפ', text: '+972505904074' },
-                { title: '💕 נשוי ל', text: 'ורדית (לבית לבנברג) - מאז 18.02.1986' },
-                { title: '👶 ילדים', text: 'יהודה (בכור), תמיר (אמצעי), ספיר (צעירה)' },
-                { title: '👫 נכדים', text: 'אביאור, ניתאי, ארבל' },
-                { title: '🎉', text: '40 שנות נישואין! שורשים חזקים וענפים פורחים' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫Ö╫ö╫ò╫ô╫ö ╫₧╫û╫¿╫ù╫Ö ╫û"╫£ ╫ò╫¿╫æ╫º╫ö (╫æ╫º╫Ö) ╫₧╫û╫¿╫ù╫Ö ╫û"╫£' },
+                { title: '≡ƒæº ╫É╫ù╫Ö╫ò╫¬', text: '╫í╫ò╫£╫Ö ╫₧╫û╫¿╫ù╫Ö, ╫⌐╫¿╫ö ╫₧╫û╫¿╫ù╫Ö' },
+                { title: '≡ƒô▒ ╫ò╫ò╫É╫ÿ╫í╫É╫ñ', text: '+972505904074' },
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫Ö ╫£', text: '╫ò╫¿╫ô╫Ö╫¬ (╫£╫æ╫Ö╫¬ ╫£╫æ╫á╫æ╫¿╫Æ) - ╫₧╫É╫û 18.02.1986' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫Ö╫ö╫ò╫ô╫ö (╫æ╫¢╫ò╫¿), ╫¬╫₧╫Ö╫¿ (╫É╫₧╫ª╫ó╫Ö), ╫í╫ñ╫Ö╫¿ (╫ª╫ó╫Ö╫¿╫ö)' },
+                { title: '≡ƒæ½ ╫á╫¢╫ô╫Ö╫¥', text: '╫É╫æ╫Ö╫É╫ò╫¿, ╫á╫Ö╫¬╫É╫Ö, ╫É╫¿╫æ╫£' },
+                { title: '≡ƒÄë', text: '40 ╫⌐╫á╫ò╫¬ ╫á╫Ö╫⌐╫ò╫É╫Ö╫ƒ! ╫⌐╫ò╫¿╫⌐╫Ö╫¥ ╫ù╫û╫º╫Ö╫¥ ╫ò╫ó╫á╫ñ╫Ö╫¥ ╫ñ╫ò╫¿╫ù╫Ö╫¥' }
             ]
         },
         vardit_m: {
-            emoji: '👩', name: 'ורדית מזרחי',
-            role: 'אם המשפחה - הבת הבכורה של משה יוסף ויפה לבנברג',
+            emoji: '≡ƒæ⌐', name: '╫ò╫¿╫ô╫Ö╫¬ ╫₧╫û╫¿╫ù╫Ö',
+            role: '╫É╫¥ ╫ö╫₧╫⌐╫ñ╫ù╫ö - ╫ö╫æ╫¬ ╫ö╫æ╫¢╫ò╫¿╫ö ╫⌐╫£ ╫₧╫⌐╫ö ╫Ö╫ò╫í╫ú ╫ò╫Ö╫ñ╫ö ╫£╫æ╫á╫æ╫¿╫Æ',
             sections: [
-                { title: '👪 הורים', text: 'משה יוסף ויפה לבנברג' },
-                { title: '👧 אחיות', text: 'טובה צ\'רנה (אמצעית), תמר פנינה (צעירה)' },
-                { title: '💕 נשואה ל', text: 'אבי מזרחי - מאז 18.02.1986' },
-                { title: '👶 ילדים', text: 'יהודה (בכור), תמיר (אמצעי), ספיר (צעירה)' },
-                { title: '👫 נכדים', text: 'אביאור, ניתאי, ארבל' },
-                { title: '🎉', text: '40 שנות נישואין! 1986-2026' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫₧╫⌐╫ö ╫Ö╫ò╫í╫ú ╫ò╫Ö╫ñ╫ö ╫£╫æ╫á╫æ╫¿╫Æ' },
+                { title: '≡ƒæº ╫É╫ù╫Ö╫ò╫¬', text: '╫ÿ╫ò╫æ╫ö ╫ª\'╫¿╫á╫ö (╫É╫₧╫ª╫ó╫Ö╫¬), ╫¬╫₧╫¿ ╫ñ╫á╫Ö╫á╫ö (╫ª╫ó╫Ö╫¿╫ö)' },
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫É╫ö ╫£', text: '╫É╫æ╫Ö ╫₧╫û╫¿╫ù╫Ö - ╫₧╫É╫û 18.02.1986' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫Ö╫ö╫ò╫ô╫ö (╫æ╫¢╫ò╫¿), ╫¬╫₧╫Ö╫¿ (╫É╫₧╫ª╫ó╫Ö), ╫í╫ñ╫Ö╫¿ (╫ª╫ó╫Ö╫¿╫ö)' },
+                { title: '≡ƒæ½ ╫á╫¢╫ô╫Ö╫¥', text: '╫É╫æ╫Ö╫É╫ò╫¿, ╫á╫Ö╫¬╫É╫Ö, ╫É╫¿╫æ╫£' },
+                { title: '≡ƒÄë', text: '40 ╫⌐╫á╫ò╫¬ ╫á╫Ö╫⌐╫ò╫É╫Ö╫ƒ! 1986-2026' }
             ]
         },
         yehuda: {
-            emoji: '👨‍💻', name: 'יהודה מזרחי',
-            role: 'הבן הבכור של אבי וורדית',
+            emoji: '≡ƒæ¿ΓÇì≡ƒÆ╗', name: '╫Ö╫ö╫ò╫ô╫ö ╫₧╫û╫¿╫ù╫Ö',
+            role: '╫ö╫æ╫ƒ ╫ö╫æ╫¢╫ò╫¿ ╫⌐╫£ ╫É╫æ╫Ö ╫ò╫ò╫¿╫ô╫Ö╫¬',
             sections: [
-                { title: '📱 וואטסאפ', text: '+972502446410' },
-                { title: '💕 נשוי ל', text: 'אילנה בריסקמן מזרחי - ביחד מ-23.10.2010, נישואין 14.09.2016' },
-                { title: '👶 ילדים', text: 'אביאור (19.04.2019), ניתאי (11.01.2022), ארבל (08.04.2025)' }
+                { title: '≡ƒô▒ ╫ò╫ò╫É╫ÿ╫í╫É╫ñ', text: '+972502446410' },
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫Ö ╫£', text: '╫É╫Ö╫£╫á╫ö ╫æ╫¿╫Ö╫í╫º╫₧╫ƒ ╫₧╫û╫¿╫ù╫Ö - ╫æ╫Ö╫ù╫ô ╫₧-23.10.2010, ╫á╫Ö╫⌐╫ò╫É╫Ö╫ƒ 14.09.2016' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫É╫æ╫Ö╫É╫ò╫¿ (19.04.2019), ╫á╫Ö╫¬╫É╫Ö (11.01.2022), ╫É╫¿╫æ╫£ (08.04.2025)' }
             ]
         },
         ilana: {
-            emoji: '👩', name: 'אילנה בריסקמן מזרחי',
-            role: 'אשת יהודה',
+            emoji: '≡ƒæ⌐', name: '╫É╫Ö╫£╫á╫ö ╫æ╫¿╫Ö╫í╫º╫₧╫ƒ ╫₧╫û╫¿╫ù╫Ö',
+            role: '╫É╫⌐╫¬ ╫Ö╫ö╫ò╫ô╫ö',
             sections: [
-                { title: '🎂 יום הולדת', text: '11.04.1993 - מזל טלה ♈' },
-                { title: '💕 נשואה ל', text: 'יהודה מזרחי - ביחד מ-23.10.2010, נישואין 14.09.2016' },
-                { title: '👶 ילדים', text: 'אביאור (19.04.2019), ניתאי (11.01.2022), ארבל (08.04.2025)' },
-                { title: '🌟 תכונות', text: 'אמא מוכשרת מאוד' }
+                { title: '≡ƒÄé ╫Ö╫ò╫¥ ╫ö╫ò╫£╫ô╫¬', text: '11.04.1993 - ╫₧╫û╫£ ╫ÿ╫£╫ö ΓÖê' },
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫É╫ö ╫£', text: '╫Ö╫ö╫ò╫ô╫ö ╫₧╫û╫¿╫ù╫Ö - ╫æ╫Ö╫ù╫ô ╫₧-23.10.2010, ╫á╫Ö╫⌐╫ò╫É╫Ö╫ƒ 14.09.2016' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫É╫æ╫Ö╫É╫ò╫¿ (19.04.2019), ╫á╫Ö╫¬╫É╫Ö (11.01.2022), ╫É╫¿╫æ╫£ (08.04.2025)' },
+                { title: '≡ƒîƒ ╫¬╫¢╫ò╫á╫ò╫¬', text: '╫É╫₧╫É ╫₧╫ò╫¢╫⌐╫¿╫¬ ╫₧╫É╫ò╫ô' }
             ]
         },
         ella_stella: {
-            emoji: '✨', name: 'אלה סטלה מזרחי',
-            role: 'בתם של תמיר ומיטל',
+            emoji: 'Γ£¿', name: '╫É╫£╫ö ╫í╫ÿ╫£╫ö ╫₧╫û╫¿╫ù╫Ö',
+            role: '╫æ╫¬╫¥ ╫⌐╫£ ╫¬╫₧╫Ö╫¿ ╫ò╫₧╫Ö╫ÿ╫£',
             sections: [
-                { title: '👪 הורים', text: 'תמיר מזרחי ומיטל מזרחי' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫¬╫₧╫Ö╫¿ ╫₧╫û╫¿╫ù╫Ö ╫ò╫₧╫Ö╫ÿ╫£ ╫₧╫û╫¿╫ù╫Ö' }
             ]
         },
         tamir: {
-            emoji: '👨', name: 'תמיר מזרחי',
-            role: 'הבן האמצעי של אבי וורדית',
+            emoji: '≡ƒæ¿', name: '╫¬╫₧╫Ö╫¿ ╫₧╫û╫¿╫ù╫Ö',
+            role: '╫ö╫æ╫ƒ ╫ö╫É╫₧╫ª╫ó╫Ö ╫⌐╫£ ╫É╫æ╫Ö ╫ò╫ò╫¿╫ô╫Ö╫¬',
             sections: [
-                { title: '💕 נשוי ל', text: 'מיטל מזרחי' },
-                { title: '👶 ילדים', text: 'אלה סטלה מזרחי' }
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫Ö ╫£', text: '╫₧╫Ö╫ÿ╫£ ╫₧╫û╫¿╫ù╫Ö' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫É╫£╫ö ╫í╫ÿ╫£╫ö ╫₧╫û╫¿╫ù╫Ö' }
             ]
         },
         meital: {
-            emoji: '👩', name: 'מיטל מזרחי',
-            role: 'אשת תמיר',
+            emoji: '≡ƒæ⌐', name: '╫₧╫Ö╫ÿ╫£ ╫₧╫û╫¿╫ù╫Ö',
+            role: '╫É╫⌐╫¬ ╫¬╫₧╫Ö╫¿',
             sections: [
-                { title: '💕 נשואה ל', text: 'תמיר מזרחי' },
-                { title: '👶 ילדים', text: 'אלה סטלה מזרחי' }
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫É╫ö ╫£', text: '╫¬╫₧╫Ö╫¿ ╫₧╫û╫¿╫ù╫Ö' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫É╫£╫ö ╫í╫ÿ╫£╫ö ╫₧╫û╫¿╫ù╫Ö' }
             ]
         },
         sapir: {
-            emoji: '✨', name: 'ספיר מזרחי',
-            role: 'הבת הצעירה של אבי וורדית',
+            emoji: 'Γ£¿', name: '╫í╫ñ╫Ö╫¿ ╫₧╫û╫¿╫ù╫Ö',
+            role: '╫ö╫æ╫¬ ╫ö╫ª╫ó╫Ö╫¿╫ö ╫⌐╫£ ╫É╫æ╫Ö ╫ò╫ò╫¿╫ô╫Ö╫¬',
             sections: [
-                { title: '📱 וואטסאפ', text: '+972532411212' }
+                { title: '≡ƒô▒ ╫ò╫ò╫É╫ÿ╫í╫É╫ñ', text: '+972532411212' }
             ]
         },
         avior: {
-            emoji: '🎨', name: 'אביאור',
-            role: 'בנם של יהודה ואילנה',
+            emoji: '≡ƒÄ¿', name: '╫É╫æ╫Ö╫É╫ò╫¿',
+            role: '╫æ╫á╫¥ ╫⌐╫£ ╫Ö╫ö╫ò╫ô╫ö ╫ò╫É╫Ö╫£╫á╫ö',
             sections: [
-                { title: '🎂 יום הולדת', text: '19.04.2019' },
-                { title: '🌟 תכונות', text: 'צייר מוכשר מאוד, יצירתי, חוש הומור, יוצר יצירות מחומרים' },
-                { title: '🏫', text: 'כיתה א\'' }
+                { title: '≡ƒÄé ╫Ö╫ò╫¥ ╫ö╫ò╫£╫ô╫¬', text: '19.04.2019' },
+                { title: '≡ƒîƒ ╫¬╫¢╫ò╫á╫ò╫¬', text: '╫ª╫Ö╫Ö╫¿ ╫₧╫ò╫¢╫⌐╫¿ ╫₧╫É╫ò╫ô, ╫Ö╫ª╫Ö╫¿╫¬╫Ö, ╫ù╫ò╫⌐ ╫ö╫ò╫₧╫ò╫¿, ╫Ö╫ò╫ª╫¿ ╫Ö╫ª╫Ö╫¿╫ò╫¬ ╫₧╫ù╫ò╫₧╫¿╫Ö╫¥' },
+                { title: '≡ƒÅ½', text: '╫¢╫Ö╫¬╫ö ╫É\'' }
             ]
         },
         nitai: {
-            emoji: '⚽', name: 'ניתאי',
-            role: 'בנם של יהודה ואילנה',
+            emoji: 'ΓÜ╜', name: '╫á╫Ö╫¬╫É╫Ö',
+            role: '╫æ╫á╫¥ ╫⌐╫£ ╫Ö╫ö╫ò╫ô╫ö ╫ò╫É╫Ö╫£╫á╫ö',
             sections: [
-                { title: '🎂 יום הולדת', text: '11.01.2022' },
-                { title: '🌟 תכונות', text: 'ספורטאי מצטיין לגילו, חייכן, כריזמטי' },
-                { title: '🏫', text: 'גן ילדים' }
+                { title: '≡ƒÄé ╫Ö╫ò╫¥ ╫ö╫ò╫£╫ô╫¬', text: '11.01.2022' },
+                { title: '≡ƒîƒ ╫¬╫¢╫ò╫á╫ò╫¬', text: '╫í╫ñ╫ò╫¿╫ÿ╫É╫Ö ╫₧╫ª╫ÿ╫Ö╫Ö╫ƒ ╫£╫Æ╫Ö╫£╫ò, ╫ù╫Ö╫Ö╫¢╫ƒ, ╫¢╫¿╫Ö╫û╫₧╫ÿ╫Ö' },
+                { title: '≡ƒÅ½', text: '╫Æ╫ƒ ╫Ö╫£╫ô╫Ö╫¥' }
             ]
         },
         arbel: {
-            emoji: '💙', name: 'ארבל',
-            role: 'בתם של יהודה ואילנה',
+            emoji: '≡ƒÆÖ', name: '╫É╫¿╫æ╫£',
+            role: '╫æ╫¬╫¥ ╫⌐╫£ ╫Ö╫ö╫ò╫ô╫ö ╫ò╫É╫Ö╫£╫á╫ö',
             sections: [
-                { title: '🎂 יום הולדת', text: '08.04.2025' },
-                { title: '🌟 תכונות', text: 'עיניים כחולות, יפהפייה, מתחילה לזחול (חודש 6)' }
+                { title: '≡ƒÄé ╫Ö╫ò╫¥ ╫ö╫ò╫£╫ô╫¬', text: '08.04.2025' },
+                { title: '≡ƒîƒ ╫¬╫¢╫ò╫á╫ò╫¬', text: '╫ó╫Ö╫á╫Ö╫Ö╫¥ ╫¢╫ù╫ò╫£╫ò╫¬, ╫Ö╫ñ╫ö╫ñ╫Ö╫Ö╫ö, ╫₧╫¬╫ù╫Ö╫£╫ö ╫£╫û╫ù╫ò╫£ (╫ù╫ò╫ô╫⌐ 6)' }
             ]
         },
 
-        // ===== ענף מזרחי - אחיות אבי =====
+        // ===== ╫ó╫á╫ú ╫₧╫û╫¿╫ù╫Ö - ╫É╫ù╫Ö╫ò╫¬ ╫É╫æ╫Ö =====
         soli_mizrahi: {
-            emoji: '👩', name: 'סולי מזרחי',
-            role: 'בת יהודה ורבקה מזרחי - אחות אבי',
+            emoji: '≡ƒæ⌐', name: '╫í╫ò╫£╫Ö ╫₧╫û╫¿╫ù╫Ö',
+            role: '╫æ╫¬ ╫Ö╫ö╫ò╫ô╫ö ╫ò╫¿╫æ╫º╫ö ╫₧╫û╫¿╫ù╫Ö - ╫É╫ù╫ò╫¬ ╫É╫æ╫Ö',
             sections: [
-                { title: '👪 הורים', text: 'יהודה מזרחי ז"ל ורבקה (בקי) מזרחי ז"ל' },
-                { title: '👫 אחים', text: 'אבי מזרחי, שרה מזרחי' },
-                { title: '💕 נשואה ל', text: 'ניסים סניור' },
-                { title: '👶 ילדים', text: 'אופיר, רביד' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫Ö╫ö╫ò╫ô╫ö ╫₧╫û╫¿╫ù╫Ö ╫û"╫£ ╫ò╫¿╫æ╫º╫ö (╫æ╫º╫Ö) ╫₧╫û╫¿╫ù╫Ö ╫û"╫£' },
+                { title: '≡ƒæ½ ╫É╫ù╫Ö╫¥', text: '╫É╫æ╫Ö ╫₧╫û╫¿╫ù╫Ö, ╫⌐╫¿╫ö ╫₧╫û╫¿╫ù╫Ö' },
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫É╫ö ╫£', text: '╫á╫Ö╫í╫Ö╫¥ ╫í╫á╫Ö╫ò╫¿' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫É╫ò╫ñ╫Ö╫¿, ╫¿╫æ╫Ö╫ô' }
             ]
         },
         sara_mizrahi: {
-            emoji: '👩', name: 'שרה מזרחי',
-            role: 'בת יהודה ורבקה מזרחי - אחות אבי',
+            emoji: '≡ƒæ⌐', name: '╫⌐╫¿╫ö ╫₧╫û╫¿╫ù╫Ö',
+            role: '╫æ╫¬ ╫Ö╫ö╫ò╫ô╫ö ╫ò╫¿╫æ╫º╫ö ╫₧╫û╫¿╫ù╫Ö - ╫É╫ù╫ò╫¬ ╫É╫æ╫Ö',
             sections: [
-                { title: '👪 הורים', text: 'יהודה מזרחי ז"ל ורבקה (בקי) מזרחי ז"ל' },
-                { title: '👫 אחים', text: 'אבי מזרחי, סולי מזרחי' },
-                { title: '💕 בני זוג', text: 'ישי קמחי (עודד), רמי עזורי (עמית, פרח, ענת)' },
-                { title: '👶 ילדים', text: 'עמית עזורי (נשואה לאלכס בלוזרוב), פרח עזורי (נשואה ליואל ברקוביץ\'), ענת עזורי (נשואה לאלי אטיאס), עודד קמחי' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫Ö╫ö╫ò╫ô╫ö ╫₧╫û╫¿╫ù╫Ö ╫û"╫£ ╫ò╫¿╫æ╫º╫ö (╫æ╫º╫Ö) ╫₧╫û╫¿╫ù╫Ö ╫û"╫£' },
+                { title: '≡ƒæ½ ╫É╫ù╫Ö╫¥', text: '╫É╫æ╫Ö ╫₧╫û╫¿╫ù╫Ö, ╫í╫ò╫£╫Ö ╫₧╫û╫¿╫ù╫Ö' },
+                { title: '≡ƒÆò ╫æ╫á╫Ö ╫û╫ò╫Æ', text: '╫Ö╫⌐╫Ö ╫º╫₧╫ù╫Ö (╫ó╫ò╫ô╫ô), ╫¿╫₧╫Ö ╫ó╫û╫ò╫¿╫Ö (╫ó╫₧╫Ö╫¬, ╫ñ╫¿╫ù, ╫ó╫á╫¬)' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫ó╫₧╫Ö╫¬ ╫ó╫û╫ò╫¿╫Ö (╫á╫⌐╫ò╫É╫ö ╫£╫É╫£╫¢╫í ╫æ╫£╫ò╫û╫¿╫ò╫æ), ╫ñ╫¿╫ù ╫ó╫û╫ò╫¿╫Ö (╫á╫⌐╫ò╫É╫ö ╫£╫Ö╫ò╫É╫£ ╫æ╫¿╫º╫ò╫æ╫Ö╫Ñ\'), ╫ó╫á╫¬ ╫ó╫û╫ò╫¿╫Ö (╫á╫⌐╫ò╫É╫ö ╫£╫É╫£╫Ö ╫É╫ÿ╫Ö╫É╫í), ╫ó╫ò╫ô╫ô ╫º╫₧╫ù╫Ö' }
             ]
         },
         nissim_senior: {
-            emoji: '👨', name: 'ניסים סניור',
-            role: 'בעלה של סולי מזרחי',
+            emoji: '≡ƒæ¿', name: '╫á╫Ö╫í╫Ö╫¥ ╫í╫á╫Ö╫ò╫¿',
+            role: '╫æ╫ó╫£╫ö ╫⌐╫£ ╫í╫ò╫£╫Ö ╫₧╫û╫¿╫ù╫Ö',
             sections: [
-                { title: '💕 נשוי ל', text: 'סולי מזרחי' },
-                { title: '👶 ילדים', text: 'אופיר, רביד' }
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫Ö ╫£', text: '╫í╫ò╫£╫Ö ╫₧╫û╫¿╫ù╫Ö' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫É╫ò╫ñ╫Ö╫¿, ╫¿╫æ╫Ö╫ô' }
             ]
         },
         rami_azouri: {
-            emoji: '👨', name: 'רמי עזורי',
-            role: 'בן זוגה של שרה מזרחי',
+            emoji: '≡ƒæ¿', name: '╫¿╫₧╫Ö ╫ó╫û╫ò╫¿╫Ö',
+            role: '╫æ╫ƒ ╫û╫ò╫Æ╫ö ╫⌐╫£ ╫⌐╫¿╫ö ╫₧╫û╫¿╫ù╫Ö',
             sections: [
-                { title: '💕 עם', text: 'שרה מזרחי' },
-                { title: '👶 ילדים', text: 'עמית, פרח, ענת' }
+                { title: '≡ƒÆò ╫ó╫¥', text: '╫⌐╫¿╫ö ╫₧╫û╫¿╫ù╫Ö' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫ó╫₧╫Ö╫¬, ╫ñ╫¿╫ù, ╫ó╫á╫¬' }
             ]
         },
         yishai_kamchi: {
-            emoji: '👨', name: 'ישי קמחי',
-            role: 'בן זוגה של שרה מזרחי',
+            emoji: '≡ƒæ¿', name: '╫Ö╫⌐╫Ö ╫º╫₧╫ù╫Ö',
+            role: '╫æ╫ƒ ╫û╫ò╫Æ╫ö ╫⌐╫£ ╫⌐╫¿╫ö ╫₧╫û╫¿╫ù╫Ö',
             sections: [
-                { title: '💕 עם', text: 'שרה מזרחי' },
-                { title: '👶 ילדים', text: 'עודד קמחי' }
+                { title: '≡ƒÆò ╫ó╫¥', text: '╫⌐╫¿╫ö ╫₧╫û╫¿╫ù╫Ö' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫ó╫ò╫ô╫ô ╫º╫₧╫ù╫Ö' }
             ]
         },
         ofer_ab: {
-            emoji: '👧', name: 'אופיר',
-            role: 'בת סולי מזרחי וניסים סניור - נכדת יהודה ורבקה',
+            emoji: '≡ƒæº', name: '╫É╫ò╫ñ╫Ö╫¿',
+            role: '╫æ╫¬ ╫í╫ò╫£╫Ö ╫₧╫û╫¿╫ù╫Ö ╫ò╫á╫Ö╫í╫Ö╫¥ ╫í╫á╫Ö╫ò╫¿ - ╫á╫¢╫ô╫¬ ╫Ö╫ö╫ò╫ô╫ö ╫ò╫¿╫æ╫º╫ö',
             sections: [
-                { title: '👪 הורים', text: 'סולי מזרחי וניסים סניור' },
-                { title: '🌳 שייכת ל', text: 'נכדת יהודה ורבקה מזרחי ז"ל' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫í╫ò╫£╫Ö ╫₧╫û╫¿╫ù╫Ö ╫ò╫á╫Ö╫í╫Ö╫¥ ╫í╫á╫Ö╫ò╫¿' },
+                { title: '≡ƒî│ ╫⌐╫Ö╫Ö╫¢╫¬ ╫£', text: '╫á╫¢╫ô╫¬ ╫Ö╫ö╫ò╫ô╫ö ╫ò╫¿╫æ╫º╫ö ╫₧╫û╫¿╫ù╫Ö ╫û"╫£' }
             ]
         },
         ravid_ab: {
-            emoji: '👧', name: 'רביד',
-            role: 'בת סולי מזרחי וניסים סניור - נכדת יהודה ורבקה',
+            emoji: '≡ƒæº', name: '╫¿╫æ╫Ö╫ô',
+            role: '╫æ╫¬ ╫í╫ò╫£╫Ö ╫₧╫û╫¿╫ù╫Ö ╫ò╫á╫Ö╫í╫Ö╫¥ ╫í╫á╫Ö╫ò╫¿ - ╫á╫¢╫ô╫¬ ╫Ö╫ö╫ò╫ô╫ö ╫ò╫¿╫æ╫º╫ö',
             sections: [
-                { title: '👪 הורים', text: 'סולי מזרחי וניסים סניור' },
-                { title: '🌳 שייכת ל', text: 'נכדת יהודה ורבקה מזרחי ז"ל' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫í╫ò╫£╫Ö ╫₧╫û╫¿╫ù╫Ö ╫ò╫á╫Ö╫í╫Ö╫¥ ╫í╫á╫Ö╫ò╫¿' },
+                { title: '≡ƒî│ ╫⌐╫Ö╫Ö╫¢╫¬ ╫£', text: '╫á╫¢╫ô╫¬ ╫Ö╫ö╫ò╫ô╫ö ╫ò╫¿╫æ╫º╫ö ╫₧╫û╫¿╫ù╫Ö ╫û"╫£' }
             ]
         },
         amit_azouri: {
-            emoji: '👧', name: 'עמית עזורי',
-            role: 'בת שרה מזרחי ורמי עזורי - נכדת יהודה ורבקה',
+            emoji: '≡ƒæº', name: '╫ó╫₧╫Ö╫¬ ╫ó╫û╫ò╫¿╫Ö',
+            role: '╫æ╫¬ ╫⌐╫¿╫ö ╫₧╫û╫¿╫ù╫Ö ╫ò╫¿╫₧╫Ö ╫ó╫û╫ò╫¿╫Ö - ╫á╫¢╫ô╫¬ ╫Ö╫ö╫ò╫ô╫ö ╫ò╫¿╫æ╫º╫ö',
             sections: [
-                { title: '👪 הורים', text: 'שרה מזרחי ורמי עזורי' },
-                { title: '💕 נשואה ל', text: 'אלכס בלוזרוב' },
-                { title: '👶 ילדים', text: 'יולי בקי, כפיר יהודה, אריאה' },
-                { title: '🌳 שייכת ל', text: 'נכדת יהודה ורבקה מזרחי ז"ל' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫⌐╫¿╫ö ╫₧╫û╫¿╫ù╫Ö ╫ò╫¿╫₧╫Ö ╫ó╫û╫ò╫¿╫Ö' },
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫É╫ö ╫£', text: '╫É╫£╫¢╫í ╫æ╫£╫ò╫û╫¿╫ò╫æ' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫Ö╫ò╫£╫Ö ╫æ╫º╫Ö, ╫¢╫ñ╫Ö╫¿ ╫Ö╫ö╫ò╫ô╫ö, ╫É╫¿╫Ö╫É╫ö' },
+                { title: '≡ƒî│ ╫⌐╫Ö╫Ö╫¢╫¬ ╫£', text: '╫á╫¢╫ô╫¬ ╫Ö╫ö╫ò╫ô╫ö ╫ò╫¿╫æ╫º╫ö ╫₧╫û╫¿╫ù╫Ö ╫û"╫£' }
             ]
         },
         perach_azouri: {
-            emoji: '🌸', name: 'פרח עזורי',
-            role: 'בת שרה מזרחי ורמי עזורי - נכדת יהודה ורבקה',
+            emoji: '≡ƒî╕', name: '╫ñ╫¿╫ù ╫ó╫û╫ò╫¿╫Ö',
+            role: '╫æ╫¬ ╫⌐╫¿╫ö ╫₧╫û╫¿╫ù╫Ö ╫ò╫¿╫₧╫Ö ╫ó╫û╫ò╫¿╫Ö - ╫á╫¢╫ô╫¬ ╫Ö╫ö╫ò╫ô╫ö ╫ò╫¿╫æ╫º╫ö',
             sections: [
-                { title: '👪 הורים', text: 'שרה מזרחי ורמי עזורי' },
-                { title: '💕 נשואה ל', text: 'יואל ברקוביץ\'' },
-                { title: '👶 ילדים', text: 'טוהר, גאיה, נועה' },
-                { title: '🌳 שייכת ל', text: 'נכדת יהודה ורבקה מזרחי ז"ל' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫⌐╫¿╫ö ╫₧╫û╫¿╫ù╫Ö ╫ò╫¿╫₧╫Ö ╫ó╫û╫ò╫¿╫Ö' },
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫É╫ö ╫£', text: '╫Ö╫ò╫É╫£ ╫æ╫¿╫º╫ò╫æ╫Ö╫Ñ\'' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫ÿ╫ò╫ö╫¿, ╫Æ╫É╫Ö╫ö, ╫á╫ò╫ó╫ö' },
+                { title: '≡ƒî│ ╫⌐╫Ö╫Ö╫¢╫¬ ╫£', text: '╫á╫¢╫ô╫¬ ╫Ö╫ö╫ò╫ô╫ö ╫ò╫¿╫æ╫º╫ö ╫₧╫û╫¿╫ù╫Ö ╫û"╫£' }
             ]
         },
         anat_azouri: {
-            emoji: '👧', name: 'ענת עזורי',
-            role: 'בת שרה מזרחי ורמי עזורי - נכדת יהודה ורבקה',
+            emoji: '≡ƒæº', name: '╫ó╫á╫¬ ╫ó╫û╫ò╫¿╫Ö',
+            role: '╫æ╫¬ ╫⌐╫¿╫ö ╫₧╫û╫¿╫ù╫Ö ╫ò╫¿╫₧╫Ö ╫ó╫û╫ò╫¿╫Ö - ╫á╫¢╫ô╫¬ ╫Ö╫ö╫ò╫ô╫ö ╫ò╫¿╫æ╫º╫ö',
             sections: [
-                { title: '👪 הורים', text: 'שרה מזרחי ורמי עזורי' },
-                { title: '💕 נשואה ל', text: 'אלי אטיאס' },
-                { title: '👶 ילדים', text: 'רוני, משה, רותם' },
-                { title: '🌳 שייכת ל', text: 'נכדת יהודה ורבקה מזרחי ז"ל' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫⌐╫¿╫ö ╫₧╫û╫¿╫ù╫Ö ╫ò╫¿╫₧╫Ö ╫ó╫û╫ò╫¿╫Ö' },
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫É╫ö ╫£', text: '╫É╫£╫Ö ╫É╫ÿ╫Ö╫É╫í' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫¿╫ò╫á╫Ö, ╫₧╫⌐╫ö, ╫¿╫ò╫¬╫¥' },
+                { title: '≡ƒî│ ╫⌐╫Ö╫Ö╫¢╫¬ ╫£', text: '╫á╫¢╫ô╫¬ ╫Ö╫ö╫ò╫ô╫ö ╫ò╫¿╫æ╫º╫ö ╫₧╫û╫¿╫ù╫Ö ╫û"╫£' }
             ]
         },
         oded_kamchi: {
-            emoji: '👦', name: 'עודד קמחי',
-            role: 'בן שרה מזרחי וישי קמחי - נכד יהודה ורבקה',
+            emoji: '≡ƒæª', name: '╫ó╫ò╫ô╫ô ╫º╫₧╫ù╫Ö',
+            role: '╫æ╫ƒ ╫⌐╫¿╫ö ╫₧╫û╫¿╫ù╫Ö ╫ò╫Ö╫⌐╫Ö ╫º╫₧╫ù╫Ö - ╫á╫¢╫ô ╫Ö╫ö╫ò╫ô╫ö ╫ò╫¿╫æ╫º╫ö',
             sections: [
-                { title: '👪 הורים', text: 'שרה מזרחי וישי קמחי' },
-                { title: '🌳 שייך ל', text: 'נכד יהודה ורבקה מזרחי ז"ל' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫⌐╫¿╫ö ╫₧╫û╫¿╫ù╫Ö ╫ò╫Ö╫⌐╫Ö ╫º╫₧╫ù╫Ö' },
+                { title: '≡ƒî│ ╫⌐╫Ö╫Ö╫Ü ╫£', text: '╫á╫¢╫ô ╫Ö╫ö╫ò╫ô╫ö ╫ò╫¿╫æ╫º╫ö ╫₧╫û╫¿╫ù╫Ö ╫û"╫£' }
             ]
         },
 
-        // ===== דור 4: בני זוג וילדים של עמית, פרח, ענת =====
+        // ===== ╫ô╫ò╫¿ 4: ╫æ╫á╫Ö ╫û╫ò╫Æ ╫ò╫Ö╫£╫ô╫Ö╫¥ ╫⌐╫£ ╫ó╫₧╫Ö╫¬, ╫ñ╫¿╫ù, ╫ó╫á╫¬ =====
         eli_atias: {
-            emoji: '👨', name: 'אלי אטיאס',
-            role: 'בעלה של ענת עזורי',
+            emoji: '≡ƒæ¿', name: '╫É╫£╫Ö ╫É╫ÿ╫Ö╫É╫í',
+            role: '╫æ╫ó╫£╫ö ╫⌐╫£ ╫ó╫á╫¬ ╫ó╫û╫ò╫¿╫Ö',
             sections: [
-                { title: '💕 נשוי ל', text: 'ענת עזורי' },
-                { title: '👶 ילדים', text: 'רוני, משה, רותם' }
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫Ö ╫£', text: '╫ó╫á╫¬ ╫ó╫û╫ò╫¿╫Ö' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫¿╫ò╫á╫Ö, ╫₧╫⌐╫ö, ╫¿╫ò╫¬╫¥' }
             ]
         },
         roni_atias: {
-            emoji: '👦', name: 'רוני',
-            role: 'בן ענת עזורי ואלי אטיאס',
+            emoji: '≡ƒæª', name: '╫¿╫ò╫á╫Ö',
+            role: '╫æ╫ƒ ╫ó╫á╫¬ ╫ó╫û╫ò╫¿╫Ö ╫ò╫É╫£╫Ö ╫É╫ÿ╫Ö╫É╫í',
             sections: [
-                { title: '👪 הורים', text: 'ענת עזורי ואלי אטיאס' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫ó╫á╫¬ ╫ó╫û╫ò╫¿╫Ö ╫ò╫É╫£╫Ö ╫É╫ÿ╫Ö╫É╫í' }
             ]
         },
         moshe_atias: {
-            emoji: '👦', name: 'משה',
-            role: 'בן ענת עזורי ואלי אטיאס',
+            emoji: '≡ƒæª', name: '╫₧╫⌐╫ö',
+            role: '╫æ╫ƒ ╫ó╫á╫¬ ╫ó╫û╫ò╫¿╫Ö ╫ò╫É╫£╫Ö ╫É╫ÿ╫Ö╫É╫í',
             sections: [
-                { title: '👪 הורים', text: 'ענת עזורי ואלי אטיאס' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫ó╫á╫¬ ╫ó╫û╫ò╫¿╫Ö ╫ò╫É╫£╫Ö ╫É╫ÿ╫Ö╫É╫í' }
             ]
         },
         rotem_atias: {
-            emoji: '👧', name: 'רותם',
-            role: 'בת ענת עזורי ואלי אטיאס',
+            emoji: '≡ƒæº', name: '╫¿╫ò╫¬╫¥',
+            role: '╫æ╫¬ ╫ó╫á╫¬ ╫ó╫û╫ò╫¿╫Ö ╫ò╫É╫£╫Ö ╫É╫ÿ╫Ö╫É╫í',
             sections: [
-                { title: '👪 הורים', text: 'ענת עזורי ואלי אטיאס' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫ó╫á╫¬ ╫ó╫û╫ò╫¿╫Ö ╫ò╫É╫£╫Ö ╫É╫ÿ╫Ö╫É╫í' }
             ]
         },
         yoel_berkowitz: {
-            emoji: '👨', name: 'יואל ברקוביץ\'',
-            role: 'בעלה של פרח עזורי',
+            emoji: '≡ƒæ¿', name: '╫Ö╫ò╫É╫£ ╫æ╫¿╫º╫ò╫æ╫Ö╫Ñ\'',
+            role: '╫æ╫ó╫£╫ö ╫⌐╫£ ╫ñ╫¿╫ù ╫ó╫û╫ò╫¿╫Ö',
             sections: [
-                { title: '💕 נשוי ל', text: 'פרח עזורי' },
-                { title: '👶 ילדים', text: 'טוהר, גאיה, נועה' }
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫Ö ╫£', text: '╫ñ╫¿╫ù ╫ó╫û╫ò╫¿╫Ö' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫ÿ╫ò╫ö╫¿, ╫Æ╫É╫Ö╫ö, ╫á╫ò╫ó╫ö' }
             ]
         },
         tohar_berkowitz: {
-            emoji: '👦', name: 'טוהר',
-            role: 'בן פרח עזורי ויואל ברקוביץ\'',
+            emoji: '≡ƒæª', name: '╫ÿ╫ò╫ö╫¿',
+            role: '╫æ╫ƒ ╫ñ╫¿╫ù ╫ó╫û╫ò╫¿╫Ö ╫ò╫Ö╫ò╫É╫£ ╫æ╫¿╫º╫ò╫æ╫Ö╫Ñ\'',
             sections: [
-                { title: '👪 הורים', text: 'פרח עזורי ויואל ברקוביץ\'' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫ñ╫¿╫ù ╫ó╫û╫ò╫¿╫Ö ╫ò╫Ö╫ò╫É╫£ ╫æ╫¿╫º╫ò╫æ╫Ö╫Ñ\'' }
             ]
         },
         gaya_berkowitz: {
-            emoji: '👧', name: 'גאיה',
-            role: 'בת פרח עזורי ויואל ברקוביץ\'',
+            emoji: '≡ƒæº', name: '╫Æ╫É╫Ö╫ö',
+            role: '╫æ╫¬ ╫ñ╫¿╫ù ╫ó╫û╫ò╫¿╫Ö ╫ò╫Ö╫ò╫É╫£ ╫æ╫¿╫º╫ò╫æ╫Ö╫Ñ\'',
             sections: [
-                { title: '👪 הורים', text: 'פרח עזורי ויואל ברקוביץ\'' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫ñ╫¿╫ù ╫ó╫û╫ò╫¿╫Ö ╫ò╫Ö╫ò╫É╫£ ╫æ╫¿╫º╫ò╫æ╫Ö╫Ñ\'' }
             ]
         },
         noa_berkowitz: {
-            emoji: '👧', name: 'נועה',
-            role: 'בת פרח עזורי ויואל ברקוביץ\'',
+            emoji: '≡ƒæº', name: '╫á╫ò╫ó╫ö',
+            role: '╫æ╫¬ ╫ñ╫¿╫ù ╫ó╫û╫ò╫¿╫Ö ╫ò╫Ö╫ò╫É╫£ ╫æ╫¿╫º╫ò╫æ╫Ö╫Ñ\'',
             sections: [
-                { title: '👪 הורים', text: 'פרח עזורי ויואל ברקוביץ\'' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫ñ╫¿╫ù ╫ó╫û╫ò╫¿╫Ö ╫ò╫Ö╫ò╫É╫£ ╫æ╫¿╫º╫ò╫æ╫Ö╫Ñ\'' }
             ]
         },
         alex_bluzrov: {
-            emoji: '👨', name: 'אלכס בלוזרוב',
-            role: 'בעלה של עמית עזורי',
+            emoji: '≡ƒæ¿', name: '╫É╫£╫¢╫í ╫æ╫£╫ò╫û╫¿╫ò╫æ',
+            role: '╫æ╫ó╫£╫ö ╫⌐╫£ ╫ó╫₧╫Ö╫¬ ╫ó╫û╫ò╫¿╫Ö',
             sections: [
-                { title: '💕 נשוי ל', text: 'עמית עזורי' },
-                { title: '👶 ילדים', text: 'יולי בקי, כפיר יהודה, אריאה' }
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫Ö ╫£', text: '╫ó╫₧╫Ö╫¬ ╫ó╫û╫ò╫¿╫Ö' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫Ö╫ò╫£╫Ö ╫æ╫º╫Ö, ╫¢╫ñ╫Ö╫¿ ╫Ö╫ö╫ò╫ô╫ö, ╫É╫¿╫Ö╫É╫ö' }
             ]
         },
         yuli_bluzrov: {
-            emoji: '👧', name: 'יולי בקי',
-            role: 'בת עמית עזורי ואלכס בלוזרוב',
+            emoji: '≡ƒæº', name: '╫Ö╫ò╫£╫Ö ╫æ╫º╫Ö',
+            role: '╫æ╫¬ ╫ó╫₧╫Ö╫¬ ╫ó╫û╫ò╫¿╫Ö ╫ò╫É╫£╫¢╫í ╫æ╫£╫ò╫û╫¿╫ò╫æ',
             sections: [
-                { title: '👪 הורים', text: 'עמית עזורי ואלכס בלוזרוב' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫ó╫₧╫Ö╫¬ ╫ó╫û╫ò╫¿╫Ö ╫ò╫É╫£╫¢╫í ╫æ╫£╫ò╫û╫¿╫ò╫æ' }
             ]
         },
         kfir_bluzrov: {
-            emoji: '👦', name: 'כפיר יהודה',
-            role: 'בן עמית עזורי ואלכס בלוזרוב',
+            emoji: '≡ƒæª', name: '╫¢╫ñ╫Ö╫¿ ╫Ö╫ö╫ò╫ô╫ö',
+            role: '╫æ╫ƒ ╫ó╫₧╫Ö╫¬ ╫ó╫û╫ò╫¿╫Ö ╫ò╫É╫£╫¢╫í ╫æ╫£╫ò╫û╫¿╫ò╫æ',
             sections: [
-                { title: '👪 הורים', text: 'עמית עזורי ואלכס בלוזרוב' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫ó╫₧╫Ö╫¬ ╫ó╫û╫ò╫¿╫Ö ╫ò╫É╫£╫¢╫í ╫æ╫£╫ò╫û╫¿╫ò╫æ' }
             ]
         },
         arieh_bluzrov: {
-            emoji: '👦', name: 'אריאה',
-            role: 'בן עמית עזורי ואלכס בלוזרוב',
+            emoji: '≡ƒæª', name: '╫É╫¿╫Ö╫É╫ö',
+            role: '╫æ╫ƒ ╫ó╫₧╫Ö╫¬ ╫ó╫û╫ò╫¿╫Ö ╫ò╫É╫£╫¢╫í ╫æ╫£╫ò╫û╫¿╫ò╫æ',
             sections: [
-                { title: '👪 הורים', text: 'עמית עזורי ואלכס בלוזרוב' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫ó╫₧╫Ö╫¬ ╫ó╫û╫ò╫¿╫Ö ╫ò╫É╫£╫¢╫í ╫æ╫£╫ò╫û╫¿╫ò╫æ' }
             ]
         },
 
-        // ===== ענף אבולעפיה המורחב =====
+        // ===== ╫ó╫á╫ú ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö ╫ö╫₧╫ò╫¿╫ù╫æ =====
         nissim_ab: {
-            emoji: '👨', name: 'נסים אבולעפיה',
-            role: 'בנם של יעקוב וסול אבולעפיה',
+            emoji: '≡ƒæ¿', name: '╫á╫í╫Ö╫¥ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
+            role: '╫æ╫á╫¥ ╫⌐╫£ ╫Ö╫ó╫º╫ò╫æ ╫ò╫í╫ò╫£ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '🎂 נולד', text: '1932, צ\'נקלה (קנקאלה), טורקיה' },
-                { title: '💕 נשוי ל', text: 'לאה חאתם (נ. 1936)' },
-                { title: '👶 ילדים', text: 'יעקוב (נ. 18.07.1955), עובדיה (נ. 10.07.1957), מיכאל (נ. 02.02.1964)' }
+                { title: '≡ƒÄé ╫á╫ò╫£╫ô', text: '1932, ╫ª\'╫á╫º╫£╫ö (╫º╫á╫º╫É╫£╫ö), ╫ÿ╫ò╫¿╫º╫Ö╫ö' },
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫Ö ╫£', text: '╫£╫É╫ö ╫ù╫É╫¬╫¥ (╫á. 1936)' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫Ö╫ó╫º╫ò╫æ (╫á. 18.07.1955), ╫ó╫ò╫æ╫ô╫Ö╫ö (╫á. 10.07.1957), ╫₧╫Ö╫¢╫É╫£ (╫á. 02.02.1964)' }
             ]
         },
         lea_chatem: {
-            emoji: '👩', name: 'לאה חאתם',
-            role: 'אשת נסים אבולעפיה',
+            emoji: '≡ƒæ⌐', name: '╫£╫É╫ö ╫ù╫É╫¬╫¥',
+            role: '╫É╫⌐╫¬ ╫á╫í╫Ö╫¥ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '🎂 נולדה', text: '1936' },
-                { title: '💕 נשואה ל', text: 'נסים אבולעפיה' },
-                { title: '👶 ילדים', text: 'יעקוב, עובדיה, מיכאל' }
+                { title: '≡ƒÄé ╫á╫ò╫£╫ô╫ö', text: '1936' },
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫É╫ö ╫£', text: '╫á╫í╫Ö╫¥ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫Ö╫ó╫º╫ò╫æ, ╫ó╫ò╫æ╫ô╫Ö╫ö, ╫₧╫Ö╫¢╫É╫£' }
             ]
         },
         yosef_ab: {
-            emoji: '👨', name: 'יוסף אבולעפיה',
-            role: 'בנם של יעקוב וסול אבולעפיה',
+            emoji: '≡ƒæ¿', name: '╫Ö╫ò╫í╫ú ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
+            role: '╫æ╫á╫¥ ╫⌐╫£ ╫Ö╫ó╫º╫ò╫æ ╫ò╫í╫ò╫£ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '💕 נשוי ל', text: 'שושנה' },
-                { title: '👶 ילדים', text: 'יעקוב, יצחק, דינה, ינב' }
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫Ö ╫£', text: '╫⌐╫ò╫⌐╫á╫ö' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫Ö╫ó╫º╫ò╫æ, ╫Ö╫ª╫ù╫º, ╫ô╫Ö╫á╫ö, ╫Ö╫á╫æ' }
             ]
         },
         shoshana_ab: {
-            emoji: '👩', name: 'שושנה אבולעפיה',
-            role: 'אשת יוסף אבולעפיה',
+            emoji: '≡ƒæ⌐', name: '╫⌐╫ò╫⌐╫á╫ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
+            role: '╫É╫⌐╫¬ ╫Ö╫ò╫í╫ú ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '💕 נשואה ל', text: 'יוסף אבולעפיה' },
-                { title: '👶 ילדים', text: 'יעקוב, יצחק, דינה, ינב' }
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫É╫ö ╫£', text: '╫Ö╫ò╫í╫ú ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫Ö╫ó╫º╫ò╫æ, ╫Ö╫ª╫ù╫º, ╫ô╫Ö╫á╫ö, ╫Ö╫á╫æ' }
             ]
         },
         hanula_ab: {
-            emoji: '👩', name: 'חנולה (חנה) אבולעפיה',
-            role: 'בתם של יעקוב וסול אבולעפיה',
+            emoji: '≡ƒæ⌐', name: '╫ù╫á╫ò╫£╫ö (╫ù╫á╫ö) ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
+            role: '╫æ╫¬╫¥ ╫⌐╫£ ╫Ö╫ó╫º╫ò╫æ ╫ò╫í╫ò╫£ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '💕 נשואה ל', text: 'אהרון לאון' },
-                { title: '👶 ילדים', text: 'אליעזר, סול, אסתר, יפה' }
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫É╫ö ╫£', text: '╫É╫ö╫¿╫ò╫ƒ ╫£╫É╫ò╫ƒ' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫É╫£╫Ö╫ó╫û╫¿, ╫í╫ò╫£, ╫É╫í╫¬╫¿, ╫Ö╫ñ╫ö' }
             ]
         },
         aharon_leon: {
-            emoji: '👨', name: 'אהרון לאון',
-            role: 'בעלה של חנולה אבולעפיה',
+            emoji: '≡ƒæ¿', name: '╫É╫ö╫¿╫ò╫ƒ ╫£╫É╫ò╫ƒ',
+            role: '╫æ╫ó╫£╫ö ╫⌐╫£ ╫ù╫á╫ò╫£╫ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '💕 נשוי ל', text: 'חנולה (חנה) אבולעפיה' },
-                { title: '👶 ילדים', text: 'אליעזר, סול, אסתר, יפה' }
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫Ö ╫£', text: '╫ù╫á╫ò╫£╫ö (╫ù╫á╫ö) ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫É╫£╫Ö╫ó╫û╫¿, ╫í╫ò╫£, ╫É╫í╫¬╫¿, ╫Ö╫ñ╫ö' }
             ]
         },
         fani_ab: {
-            emoji: '👩', name: 'פאני אבולעפיה',
-            role: 'בתם של יעקוב וסול אבולעפיה',
+            emoji: '≡ƒæ⌐', name: '╫ñ╫É╫á╫Ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
+            role: '╫æ╫¬╫¥ ╫⌐╫£ ╫Ö╫ó╫º╫ò╫æ ╫ò╫í╫ò╫£ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '💕 נשואה ל', text: 'שלמה אדוט' },
-                { title: '👶 ילדים', text: 'ויקי, יפית' }
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫É╫ö ╫£', text: '╫⌐╫£╫₧╫ö ╫É╫ô╫ò╫ÿ' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫ò╫Ö╫º╫Ö, ╫Ö╫ñ╫Ö╫¬' }
             ]
         },
         shlomo_adut: {
-            emoji: '👨', name: 'שלמה אדוט',
-            role: 'בעלה של פאני אבולעפיה',
+            emoji: '≡ƒæ¿', name: '╫⌐╫£╫₧╫ö ╫É╫ô╫ò╫ÿ',
+            role: '╫æ╫ó╫£╫ö ╫⌐╫£ ╫ñ╫É╫á╫Ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '💕 נשוי ל', text: 'פאני אבולעפיה' },
-                { title: '👶 ילדים', text: 'ויקי, יפית' }
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫Ö ╫£', text: '╫ñ╫É╫á╫Ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫ò╫Ö╫º╫Ö, ╫Ö╫ñ╫Ö╫¬' }
             ]
         },
         yaakov_son_nissim: {
-            emoji: '👨', name: 'יעקוב אבולעפיה (בן נסים)',
-            role: 'נכד יעקוב וסול אבולעפיה',
+            emoji: '≡ƒæ¿', name: '╫Ö╫ó╫º╫ò╫æ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö (╫æ╫ƒ ╫á╫í╫Ö╫¥)',
+            role: '╫á╫¢╫ô ╫Ö╫ó╫º╫ò╫æ ╫ò╫í╫ò╫£ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '🎂 נולד', text: '18 יולי 1955, יהוד' },
-                { title: '💕 נשוי ל', text: 'שושנה סבן' },
-                { title: '👶 ילדים', text: 'איתי (נ. 1978), רועי (נ. 1983)' }
+                { title: '≡ƒÄé ╫á╫ò╫£╫ô', text: '18 ╫Ö╫ò╫£╫Ö 1955, ╫Ö╫ö╫ò╫ô' },
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫Ö ╫£', text: '╫⌐╫ò╫⌐╫á╫ö ╫í╫æ╫ƒ' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫É╫Ö╫¬╫Ö (╫á. 1978), ╫¿╫ò╫ó╫Ö (╫á. 1983)' }
             ]
         },
         ovadya_son_nissim: {
-            emoji: '👨', name: 'עובדיה אבולעפיה (בן נסים)',
-            role: 'נכד יעקוב וסול אבולעפיה',
+            emoji: '≡ƒæ¿', name: '╫ó╫ò╫æ╫ô╫Ö╫ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö (╫æ╫ƒ ╫á╫í╫Ö╫¥)',
+            role: '╫á╫¢╫ô ╫Ö╫ó╫º╫ò╫æ ╫ò╫í╫ò╫£ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '🎂 נולד', text: '10 יולי 1957, יהוד' },
-                { title: '💕 נשוי ל', text: 'ורדה גרגיר' },
-                { title: '👶 ילדים', text: 'ליאת (נ. 1983), אידו (נ. 1987), לותם (נ. 1993)' }
+                { title: '≡ƒÄé ╫á╫ò╫£╫ô', text: '10 ╫Ö╫ò╫£╫Ö 1957, ╫Ö╫ö╫ò╫ô' },
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫Ö ╫£', text: '╫ò╫¿╫ô╫ö ╫Æ╫¿╫Æ╫Ö╫¿' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫£╫Ö╫É╫¬ (╫á. 1983), ╫É╫Ö╫ô╫ò (╫á. 1987), ╫£╫ò╫¬╫¥ (╫á. 1993)' }
             ]
         },
         michael_son_nissim: {
-            emoji: '👨', name: 'מיכאל אבולעפיה (בן נסים)',
-            role: 'נכד יעקוב וסול אבולעפיה',
+            emoji: '≡ƒæ¿', name: '╫₧╫Ö╫¢╫É╫£ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö (╫æ╫ƒ ╫á╫í╫Ö╫¥)',
+            role: '╫á╫¢╫ô ╫Ö╫ó╫º╫ò╫æ ╫ò╫í╫ò╫£ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '🎂 נולד', text: '2 פברואר 1964, יהוד' },
-                { title: '💕 נשוי ל', text: 'סיגל טדמור' },
-                { title: '👶 ילדים', text: 'עומר (נ. 1995), תמיר (נ. 1997), יאל (נ. 2002)' }
+                { title: '≡ƒÄé ╫á╫ò╫£╫ô', text: '2 ╫ñ╫æ╫¿╫ò╫É╫¿ 1964, ╫Ö╫ö╫ò╫ô' },
+                { title: '≡ƒÆò ╫á╫⌐╫ò╫Ö ╫£', text: '╫í╫Ö╫Æ╫£ ╫ÿ╫ô╫₧╫ò╫¿' },
+                { title: '≡ƒæ╢ ╫Ö╫£╫ô╫Ö╫¥', text: '╫ó╫ò╫₧╫¿ (╫á. 1995), ╫¬╫₧╫Ö╫¿ (╫á. 1997), ╫Ö╫É╫£ (╫á. 2002)' }
             ]
         },
         yaakov_son_yosef: {
-            emoji: '👨', name: 'יעקוב (בן יוסף אבולעפיה)',
-            role: 'נכד יעקוב וסול אבולעפיה',
+            emoji: '≡ƒæ¿', name: '╫Ö╫ó╫º╫ò╫æ (╫æ╫ƒ ╫Ö╫ò╫í╫ú ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö)',
+            role: '╫á╫¢╫ô ╫Ö╫ó╫º╫ò╫æ ╫ò╫í╫ò╫£ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '👪 הורים', text: 'יוסף ושושנה אבולעפיה' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫Ö╫ò╫í╫ú ╫ò╫⌐╫ò╫⌐╫á╫ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö' }
             ]
         },
         yitzhak_son_yosef: {
-            emoji: '👨', name: 'יצחק (בן יוסף אבולעפיה)',
-            role: 'נכד יעקוב וסול אבולעפיה',
+            emoji: '≡ƒæ¿', name: '╫Ö╫ª╫ù╫º (╫æ╫ƒ ╫Ö╫ò╫í╫ú ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö)',
+            role: '╫á╫¢╫ô ╫Ö╫ó╫º╫ò╫æ ╫ò╫í╫ò╫£ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '👪 הורים', text: 'יוסף ושושנה אבולעפיה' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫Ö╫ò╫í╫ú ╫ò╫⌐╫ò╫⌐╫á╫ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö' }
             ]
         },
         dina_son_yosef: {
-            emoji: '👩', name: 'דינה (בת יוסף אבולעפיה)',
-            role: 'נכדת יעקוב וסול אבולעפיה',
+            emoji: '≡ƒæ⌐', name: '╫ô╫Ö╫á╫ö (╫æ╫¬ ╫Ö╫ò╫í╫ú ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö)',
+            role: '╫á╫¢╫ô╫¬ ╫Ö╫ó╫º╫ò╫æ ╫ò╫í╫ò╫£ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '👪 הורים', text: 'יוסף ושושנה אבולעפיה' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫Ö╫ò╫í╫ú ╫ò╫⌐╫ò╫⌐╫á╫ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö' }
             ]
         },
         yaniv_son_yosef: {
-            emoji: '👨', name: 'ינב (בן יוסף אבולעפיה)',
-            role: 'נכד יעקוב וסול אבולעפיה',
+            emoji: '≡ƒæ¿', name: '╫Ö╫á╫æ (╫æ╫ƒ ╫Ö╫ò╫í╫ú ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö)',
+            role: '╫á╫¢╫ô ╫Ö╫ó╫º╫ò╫æ ╫ò╫í╫ò╫£ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '👪 הורים', text: 'יוסף ושושנה אבולעפיה' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫Ö╫ò╫í╫ú ╫ò╫⌐╫ò╫⌐╫á╫ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö' }
             ]
         },
         eliezer_son_hanula: {
-            emoji: '👨', name: 'אליעזר (בן חנולה לאון)',
-            role: 'נכד יעקוב וסול אבולעפיה',
+            emoji: '≡ƒæ¿', name: '╫É╫£╫Ö╫ó╫û╫¿ (╫æ╫ƒ ╫ù╫á╫ò╫£╫ö ╫£╫É╫ò╫ƒ)',
+            role: '╫á╫¢╫ô ╫Ö╫ó╫º╫ò╫æ ╫ò╫í╫ò╫£ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '👪 הורים', text: 'חנולה אבולעפיה ואהרון לאון' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫ù╫á╫ò╫£╫ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö ╫ò╫É╫ö╫¿╫ò╫ƒ ╫£╫É╫ò╫ƒ' }
             ]
         },
         sol_dau_hanula: {
-            emoji: '👩', name: 'סול (בת חנולה לאון)',
-            role: 'נכדת יעקוב וסול אבולעפיה',
+            emoji: '≡ƒæ⌐', name: '╫í╫ò╫£ (╫æ╫¬ ╫ù╫á╫ò╫£╫ö ╫£╫É╫ò╫ƒ)',
+            role: '╫á╫¢╫ô╫¬ ╫Ö╫ó╫º╫ò╫æ ╫ò╫í╫ò╫£ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '👪 הורים', text: 'חנולה אבולעפיה ואהרון לאון' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫ù╫á╫ò╫£╫ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö ╫ò╫É╫ö╫¿╫ò╫ƒ ╫£╫É╫ò╫ƒ' }
             ]
         },
         ester_dau_hanula: {
-            emoji: '👩', name: 'אסתר (בת חנולה לאון)',
-            role: 'נכדת יעקוב וסול אבולעפיה',
+            emoji: '≡ƒæ⌐', name: '╫É╫í╫¬╫¿ (╫æ╫¬ ╫ù╫á╫ò╫£╫ö ╫£╫É╫ò╫ƒ)',
+            role: '╫á╫¢╫ô╫¬ ╫Ö╫ó╫º╫ò╫æ ╫ò╫í╫ò╫£ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '👪 הורים', text: 'חנולה אבולעפיה ואהרון לאון' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫ù╫á╫ò╫£╫ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö ╫ò╫É╫ö╫¿╫ò╫ƒ ╫£╫É╫ò╫ƒ' }
             ]
         },
         yafa_dau_hanula: {
-            emoji: '👩', name: 'יפה (בת חנולה לאון)',
-            role: 'נכדת יעקוב וסול אבולעפיה',
+            emoji: '≡ƒæ⌐', name: '╫Ö╫ñ╫ö (╫æ╫¬ ╫ù╫á╫ò╫£╫ö ╫£╫É╫ò╫ƒ)',
+            role: '╫á╫¢╫ô╫¬ ╫Ö╫ó╫º╫ò╫æ ╫ò╫í╫ò╫£ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '👪 הורים', text: 'חנולה אבולעפיה ואהרון לאון' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫ù╫á╫ò╫£╫ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö ╫ò╫É╫ö╫¿╫ò╫ƒ ╫£╫É╫ò╫ƒ' }
             ]
         },
         viki_adut: {
-            emoji: '👩', name: 'ויקי אדוט',
-            role: 'בת פאני אבולעפיה ושלמה אדוט',
+            emoji: '≡ƒæ⌐', name: '╫ò╫Ö╫º╫Ö ╫É╫ô╫ò╫ÿ',
+            role: '╫æ╫¬ ╫ñ╫É╫á╫Ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö ╫ò╫⌐╫£╫₧╫ö ╫É╫ô╫ò╫ÿ',
             sections: [
-                { title: '👪 הורים', text: 'פאני אבולעפיה ושלמה אדוט' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫ñ╫É╫á╫Ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö ╫ò╫⌐╫£╫₧╫ö ╫É╫ô╫ò╫ÿ' }
             ]
         },
         yafit_adut: {
-            emoji: '👩', name: 'יפית אדוט',
-            role: 'בת פאני אבולעפיה ושלמה אדוט',
+            emoji: '≡ƒæ⌐', name: '╫Ö╫ñ╫Ö╫¬ ╫É╫ô╫ò╫ÿ',
+            role: '╫æ╫¬ ╫ñ╫É╫á╫Ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö ╫ò╫⌐╫£╫₧╫ö ╫É╫ô╫ò╫ÿ',
             sections: [
-                { title: '👪 הורים', text: 'פאני אבולעפיה ושלמה אדוט' }
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫ñ╫É╫á╫Ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö ╫ò╫⌐╫£╫₧╫ö ╫É╫ô╫ò╫ÿ' }
             ]
         },
         itay_ab: {
-            emoji: '👨', name: 'איתי אבולעפיה',
-            role: 'נכד נסים ולאה אבולעפיה',
+            emoji: '≡ƒæ¿', name: '╫É╫Ö╫¬╫Ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
+            role: '╫á╫¢╫ô ╫á╫í╫Ö╫¥ ╫ò╫£╫É╫ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '🎂 נולד', text: '1978' },
-                { title: '👪 הורים', text: 'יעקוב אבולעפיה (בן נסים) ושושנה סבן' }
+                { title: '≡ƒÄé ╫á╫ò╫£╫ô', text: '1978' },
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫Ö╫ó╫º╫ò╫æ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö (╫æ╫ƒ ╫á╫í╫Ö╫¥) ╫ò╫⌐╫ò╫⌐╫á╫ö ╫í╫æ╫ƒ' }
             ]
         },
         roi_ab: {
-            emoji: '👨', name: 'רועי אבולעפיה',
-            role: 'נכד נסים ולאה אבולעפיה',
+            emoji: '≡ƒæ¿', name: '╫¿╫ò╫ó╫Ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
+            role: '╫á╫¢╫ô ╫á╫í╫Ö╫¥ ╫ò╫£╫É╫ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '🎂 נולד', text: '1983' },
-                { title: '👪 הורים', text: 'יעקוב אבולעפיה (בן נסים) ושושנה סבן' }
+                { title: '≡ƒÄé ╫á╫ò╫£╫ô', text: '1983' },
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫Ö╫ó╫º╫ò╫æ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö (╫æ╫ƒ ╫á╫í╫Ö╫¥) ╫ò╫⌐╫ò╫⌐╫á╫ö ╫í╫æ╫ƒ' }
             ]
         },
         liat_ab: {
-            emoji: '👩', name: 'ליאת אבולעפיה',
-            role: 'נכדת נסים ולאה אבולעפיה',
+            emoji: '≡ƒæ⌐', name: '╫£╫Ö╫É╫¬ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
+            role: '╫á╫¢╫ô╫¬ ╫á╫í╫Ö╫¥ ╫ò╫£╫É╫ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '🎂 נולדה', text: '1983' },
-                { title: '👪 הורים', text: 'עובדיה אבולעפיה ורדה גרגיר' }
+                { title: '≡ƒÄé ╫á╫ò╫£╫ô╫ö', text: '1983' },
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫ó╫ò╫æ╫ô╫Ö╫ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö ╫ò╫¿╫ô╫ö ╫Æ╫¿╫Æ╫Ö╫¿' }
             ]
         },
         ido_ab: {
-            emoji: '👨', name: 'אידו אבולעפיה',
-            role: 'נכד נסים ולאה אבולעפיה',
+            emoji: '≡ƒæ¿', name: '╫É╫Ö╫ô╫ò ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
+            role: '╫á╫¢╫ô ╫á╫í╫Ö╫¥ ╫ò╫£╫É╫ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '🎂 נולד', text: '1987' },
-                { title: '👪 הורים', text: 'עובדיה אבולעפיה ורדה גרגיר' }
+                { title: '≡ƒÄé ╫á╫ò╫£╫ô', text: '1987' },
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫ó╫ò╫æ╫ô╫Ö╫ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö ╫ò╫¿╫ô╫ö ╫Æ╫¿╫Æ╫Ö╫¿' }
             ]
         },
         lotem_ab: {
-            emoji: '👩', name: 'לותם אבולעפיה',
-            role: 'נכדת נסים ולאה אבולעפיה',
+            emoji: '≡ƒæ⌐', name: '╫£╫ò╫¬╫¥ ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
+            role: '╫á╫¢╫ô╫¬ ╫á╫í╫Ö╫¥ ╫ò╫£╫É╫ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö',
             sections: [
-                { title: '🎂 נולדה', text: '1993' },
-                { title: '👪 הורים', text: 'עובדיה אבולעפיה ורדה גרגיר' }
+                { title: '≡ƒÄé ╫á╫ò╫£╫ô╫ö', text: '1993' },
+                { title: '≡ƒæ¬ ╫ö╫ò╫¿╫Ö╫¥', text: '╫ó╫ò╫æ╫ô╫Ö╫ö ╫É╫æ╫ò╫£╫ó╫ñ╫Ö╫ö ╫ò╫¿╫ô╫ö ╫Æ╫¿╫Æ╫Ö╫¿' }
             ]
         }
     };
@@ -1239,7 +1311,7 @@
                 html += `<div class="modal-text"><p>${s.text}</p></div>`;
             });
         });
-        document.getElementById('modalContent').innerHTML = `<h2 style="text-align:center;font-family:'David Libre',serif;color:#5a3a1a">📖 סיפורי המשפחה</h2>` + html;
+        document.getElementById('modalContent').innerHTML = `<h2 style="text-align:center;font-family:'David Libre',serif;color:#5a3a1a">≡ƒôû ╫í╫Ö╫ñ╫ò╫¿╫Ö ╫ö╫₧╫⌐╫ñ╫ù╫ö</h2>` + html;
         document.getElementById('modal').classList.add('active');
     }
 
@@ -1279,247 +1351,247 @@
      *   - Five generations (rows), each at a fixed Y.
      *   - Bottom-up: leaf nodes get slots first; parents center over children.
      *   - A "slot allocator" tracks the next available X per row.
-     *   - Couples sit side-by-side: [p1][♥][p2], total width = W*2 + HEART_GAP.
+     *   - Couples sit side-by-side: [p1][ΓÖÑ][p2], total width = W*2 + HEART_GAP.
      *   - Children are centered under their parents' midpoint.
      *
      * Card metrics
      */
     const W  = 120;   // card width
     const H  = 70;    // card height (adults)
-    const HC = 85;    // card height (grandchildren – has extra trait line)
+    const HC = 85;    // card height (grandchildren ΓÇô has extra trait line)
     const GAP     = 20;   // min gap between adjacent cards
-    const HEART_W = 28;   // width reserved for ❤️ between couple
+    const HEART_W = 28;   // width reserved for Γ¥ñ∩╕Å between couple
     const ROW_Y   = [50, 200, 350, 500, 660];  // y-top of each generation row
 
     /*
-     * TREE_DATA  ── couples listed left-to-right within each generation.
+     * TREE_DATA  ΓöÇΓöÇ couples listed left-to-right within each generation.
      *
      * Fields per couple entry:
-     *   id        – unique string
-     *   p1,p2     – person keys (p2 optional for singles)
-     *   gen       – generation index (0-4)
-     *   children  – array of child couple/single ids (the id of the group they head)
-     *   style1/2  – CSS class suffix for the card rect (default 'ft-card')
-     *   emoji1/2  – override emoji (falls back to people[key].emoji)
-     *   label1/2  – first name line inside card
-     *   detail1/2 – second line inside card
-     *   extra1/2  – third line inside card (optional)
+     *   id        ΓÇô unique string
+     *   p1,p2     ΓÇô person keys (p2 optional for singles)
+     *   gen       ΓÇô generation index (0-4)
+     *   children  ΓÇô array of child couple/single ids (the id of the group they head)
+     *   style1/2  ΓÇô CSS class suffix for the card rect (default 'ft-card')
+     *   emoji1/2  ΓÇô override emoji (falls back to people[key].emoji)
+     *   label1/2  ΓÇô first name line inside card
+     *   detail1/2 ΓÇô second line inside card
+     *   extra1/2  ΓÇô third line inside card (optional)
      *
      * For gen-4 leaf nodes (grandchildren) we use a slightly taller card (HC).
      */
     const TREE_DATA = {
-        // ── Generation 0 ──────────────────────────────────────────────────────
+        // ΓöÇΓöÇ Generation 0 ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
         root: {
             id: 'root', gen: 0,
             p1: 'yehuda_mizrahi_sr', p2: 'rivka_mizrahi',
             style1: 'ft-card-memorial', style2: 'ft-card-memorial',
-            emoji1: '🕯️', label1: 'יהודה מזרחי', detail1: 'ז"ל',
-            emoji2: '🕯️', label2: 'רבקה (בקי)', detail2: 'מזרחי ז"ל',
+            emoji1: '≡ƒò»∩╕Å', label1: '╫Ö╫ö╫ò╫ô╫ö ╫₧╫û╫¿╫ù╫Ö', detail1: '╫û"╫£',
+            emoji2: '≡ƒò»∩╕Å', label2: '╫¿╫æ╫º╫ö (╫æ╫º╫Ö)', detail2: '╫₧╫û╫¿╫ù╫Ö ╫û"╫£',
             children: ['sara_group1', 'sara_group2', 'soli_group', 'avi_vardit']
         },
 
-        // ── Generation 1: children of root ────────────────────────────────────
-        // שרה appears twice (two relationships) – we use a "virtual" split node
+        // ΓöÇΓöÇ Generation 1: children of root ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+        // ╫⌐╫¿╫ö appears twice (two relationships) ΓÇô we use a "virtual" split node
         sara_group1: {
             id: 'sara_group1', gen: 1,
             p1: 'yishai_kamchi', p2: 'sara_mizrahi',
             style1: 'ft-card', style2: 'ft-card',
-            emoji1: '👨', label1: 'ישי קמחי', detail1: 'בן זוג שרה',
-            emoji2: '👩', label2: 'שרה מזרחי', detail2: 'אחות אבי',
+            emoji1: '≡ƒæ¿', label1: '╫Ö╫⌐╫Ö ╫º╫₧╫ù╫Ö', detail1: '╫æ╫ƒ ╫û╫ò╫Æ ╫⌐╫¿╫ö',
+            emoji2: '≡ƒæ⌐', label2: '╫⌐╫¿╫ö ╫₧╫û╫¿╫ù╫Ö', detail2: '╫É╫ù╫ò╫¬ ╫É╫æ╫Ö',
             children: ['oded_single']
         },
         sara_group2: {
             id: 'sara_group2', gen: 1,
             p1: 'sara_mizrahi', p2: 'rami_azouri',
             style1: 'ft-card', style2: 'ft-card',
-            emoji1: '👩', label1: 'שרה מזרחי', detail1: 'אחות אבי',
-            emoji2: '👨', label2: 'רמי עזורי', detail2: 'בן זוג שרה',
+            emoji1: '≡ƒæ⌐', label1: '╫⌐╫¿╫ö ╫₧╫û╫¿╫ù╫Ö', detail1: '╫É╫ù╫ò╫¬ ╫É╫æ╫Ö',
+            emoji2: '≡ƒæ¿', label2: '╫¿╫₧╫Ö ╫ó╫û╫ò╫¿╫Ö', detail2: '╫æ╫ƒ ╫û╫ò╫Æ ╫⌐╫¿╫ö',
             children: ['amit_alex', 'perach_yoel', 'anat_eli']
         },
         soli_group: {
             id: 'soli_group', gen: 1,
             p1: 'soli_mizrahi', p2: 'nissim_senior',
             style1: 'ft-card', style2: 'ft-card',
-            emoji1: '👩', label1: 'סולי מזרחי', detail1: 'אחות אבי',
-            emoji2: '👨', label2: 'ניסים סניור', detail2: 'בעל סולי',
+            emoji1: '≡ƒæ⌐', label1: '╫í╫ò╫£╫Ö ╫₧╫û╫¿╫ù╫Ö', detail1: '╫É╫ù╫ò╫¬ ╫É╫æ╫Ö',
+            emoji2: '≡ƒæ¿', label2: '╫á╫Ö╫í╫Ö╫¥ ╫í╫á╫Ö╫ò╫¿', detail2: '╫æ╫ó╫£ ╫í╫ò╫£╫Ö',
             children: ['ofer_single', 'ravid_single']
         },
         avi_vardit: {
             id: 'avi_vardit', gen: 1,
             p1: 'avi', p2: 'vardit_m',
             style1: 'ft-card-founder', style2: 'ft-card-founder',
-            emoji1: '👨', label1: 'אבי מזרחי', detail1: 'ראש המשפחה',
-            emoji2: '👩', label2: 'ורדית מזרחי', detail2: 'הבכורה',
+            emoji1: '≡ƒæ¿', label1: '╫É╫æ╫Ö ╫₧╫û╫¿╫ù╫Ö', detail1: '╫¿╫É╫⌐ ╫ö╫₧╫⌐╫ñ╫ù╫ö',
+            emoji2: '≡ƒæ⌐', label2: '╫ò╫¿╫ô╫Ö╫¬ ╫₧╫û╫¿╫ù╫Ö', detail2: '╫ö╫æ╫¢╫ò╫¿╫ö',
             children: ['yehuda_ilana', 'tamir_meital', 'sapir_single']
         },
 
-        // ── Generation 2: grandchildren couples ───────────────────────────────
+        // ΓöÇΓöÇ Generation 2: grandchildren couples ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
         oded_single: {
             id: 'oded_single', gen: 2,
             p1: 'oded_kamchi', p2: null,
             style1: 'ft-card',
-            emoji1: '👦', label1: 'עודד', detail1: 'קמחי',
+            emoji1: '≡ƒæª', label1: '╫ó╫ò╫ô╫ô', detail1: '╫º╫₧╫ù╫Ö',
             children: []
         },
         amit_alex: {
             id: 'amit_alex', gen: 2,
             p1: 'amit_azouri', p2: 'alex_bluzrov',
             style1: 'ft-card', style2: 'ft-card',
-            emoji1: '👧', label1: 'עמית', detail1: 'עזורי',
-            emoji2: '👨', label2: 'אלכס', detail2: 'בלוזרוב',
+            emoji1: '≡ƒæº', label1: '╫ó╫₧╫Ö╫¬', detail1: '╫ó╫û╫ò╫¿╫Ö',
+            emoji2: '≡ƒæ¿', label2: '╫É╫£╫¢╫í', detail2: '╫æ╫£╫ò╫û╫¿╫ò╫æ',
             children: ['yuli_leaf', 'kfir_leaf', 'arieh_leaf']
         },
         perach_yoel: {
             id: 'perach_yoel', gen: 2,
             p1: 'perach_azouri', p2: 'yoel_berkowitz',
             style1: 'ft-card', style2: 'ft-card',
-            emoji1: '🌸', label1: 'פרח', detail1: 'עזורי',
-            emoji2: '👨', label2: 'יואל', detail2: "ברקוביץ'",
+            emoji1: '≡ƒî╕', label1: '╫ñ╫¿╫ù', detail1: '╫ó╫û╫ò╫¿╫Ö',
+            emoji2: '≡ƒæ¿', label2: '╫Ö╫ò╫É╫£', detail2: "╫æ╫¿╫º╫ò╫æ╫Ö╫Ñ'",
             children: ['tohar_leaf', 'gaya_leaf', 'noa_leaf']
         },
         anat_eli: {
             id: 'anat_eli', gen: 2,
             p1: 'anat_azouri', p2: 'eli_atias',
             style1: 'ft-card', style2: 'ft-card',
-            emoji1: '👧', label1: 'ענת', detail1: 'עזורי',
-            emoji2: '👨', label2: 'אלי', detail2: 'אטיאס',
+            emoji1: '≡ƒæº', label1: '╫ó╫á╫¬', detail1: '╫ó╫û╫ò╫¿╫Ö',
+            emoji2: '≡ƒæ¿', label2: '╫É╫£╫Ö', detail2: '╫É╫ÿ╫Ö╫É╫í',
             children: ['roni_leaf', 'moshe_leaf', 'rotem_leaf']
         },
         ofer_single: {
             id: 'ofer_single', gen: 2,
             p1: 'ofer_ab', p2: null,
             style1: 'ft-card',
-            emoji1: '👧', label1: 'אופיר', detail1: 'בת סולי',
+            emoji1: '≡ƒæº', label1: '╫É╫ò╫ñ╫Ö╫¿', detail1: '╫æ╫¬ ╫í╫ò╫£╫Ö',
             children: []
         },
         ravid_single: {
             id: 'ravid_single', gen: 2,
             p1: 'ravid_ab', p2: null,
             style1: 'ft-card',
-            emoji1: '👧', label1: 'רביד', detail1: 'בת סולי',
+            emoji1: '≡ƒæº', label1: '╫¿╫æ╫Ö╫ô', detail1: '╫æ╫¬ ╫í╫ò╫£╫Ö',
             children: []
         },
         yehuda_ilana: {
             id: 'yehuda_ilana', gen: 2,
             p1: 'yehuda', p2: 'ilana',
             style1: 'ft-card-hero', style2: 'ft-card',
-            emoji1: '✨', label1: 'יהודה', detail1: 'מזרחי 🏠',
-            emoji2: '👩', label2: 'אילנה', detail2: 'בריסקמן מזרחי',
+            emoji1: 'Γ£¿', label1: '╫Ö╫ö╫ò╫ô╫ö', detail1: '╫₧╫û╫¿╫ù╫Ö ≡ƒÅá',
+            emoji2: '≡ƒæ⌐', label2: '╫É╫Ö╫£╫á╫ö', detail2: '╫æ╫¿╫Ö╫í╫º╫₧╫ƒ ╫₧╫û╫¿╫ù╫Ö',
             children: ['avior_leaf', 'nitai_leaf', 'arbel_leaf']
         },
         tamir_meital: {
             id: 'tamir_meital', gen: 2,
             p1: 'tamir', p2: 'meital',
             style1: 'ft-card', style2: 'ft-card',
-            emoji1: '👨', label1: 'תמיר', detail1: 'האמצעי',
-            emoji2: '👩', label2: 'מיטל', detail2: 'מזרחי',
+            emoji1: '≡ƒæ¿', label1: '╫¬╫₧╫Ö╫¿', detail1: '╫ö╫É╫₧╫ª╫ó╫Ö',
+            emoji2: '≡ƒæ⌐', label2: '╫₧╫Ö╫ÿ╫£', detail2: '╫₧╫û╫¿╫ù╫Ö',
             children: ['ella_leaf']
         },
         sapir_single: {
             id: 'sapir_single', gen: 2,
             p1: 'sapir', p2: null,
             style1: 'ft-card',
-            emoji1: '✨', label1: 'ספיר', detail1: 'הצעירה',
+            emoji1: 'Γ£¿', label1: '╫í╫ñ╫Ö╫¿', detail1: '╫ö╫ª╫ó╫Ö╫¿╫ö',
             children: []
         },
 
-        // ── Generation 3: great-grandchildren (leaves) ────────────────────────
+        // ΓöÇΓöÇ Generation 3: great-grandchildren (leaves) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
         yuli_leaf: {
             id: 'yuli_leaf', gen: 3, leaf: true,
             p1: 'yuli_bluzrov', p2: null,
             style1: 'ft-card',
-            emoji1: '👧', label1: 'יולי בקי', detail1: 'בלוזרוב',
+            emoji1: '≡ƒæº', label1: '╫Ö╫ò╫£╫Ö ╫æ╫º╫Ö', detail1: '╫æ╫£╫ò╫û╫¿╫ò╫æ',
             children: []
         },
         kfir_leaf: {
             id: 'kfir_leaf', gen: 3, leaf: true,
             p1: 'kfir_bluzrov', p2: null,
             style1: 'ft-card',
-            emoji1: '👦', label1: 'כפיר יהודה', detail1: 'בלוזרוב',
+            emoji1: '≡ƒæª', label1: '╫¢╫ñ╫Ö╫¿ ╫Ö╫ö╫ò╫ô╫ö', detail1: '╫æ╫£╫ò╫û╫¿╫ò╫æ',
             children: []
         },
         arieh_leaf: {
             id: 'arieh_leaf', gen: 3, leaf: true,
             p1: 'arieh_bluzrov', p2: null,
             style1: 'ft-card',
-            emoji1: '👦', label1: 'אריאה', detail1: 'בלוזרוב',
+            emoji1: '≡ƒæª', label1: '╫É╫¿╫Ö╫É╫ö', detail1: '╫æ╫£╫ò╫û╫¿╫ò╫æ',
             children: []
         },
         tohar_leaf: {
             id: 'tohar_leaf', gen: 3, leaf: true,
             p1: 'tohar_berkowitz', p2: null,
             style1: 'ft-card',
-            emoji1: '👦', label1: 'טוהר', detail1: "ברקוביץ'",
+            emoji1: '≡ƒæª', label1: '╫ÿ╫ò╫ö╫¿', detail1: "╫æ╫¿╫º╫ò╫æ╫Ö╫Ñ'",
             children: []
         },
         gaya_leaf: {
             id: 'gaya_leaf', gen: 3, leaf: true,
             p1: 'gaya_berkowitz', p2: null,
             style1: 'ft-card',
-            emoji1: '👧', label1: 'גאיה', detail1: "ברקוביץ'",
+            emoji1: '≡ƒæº', label1: '╫Æ╫É╫Ö╫ö', detail1: "╫æ╫¿╫º╫ò╫æ╫Ö╫Ñ'",
             children: []
         },
         noa_leaf: {
             id: 'noa_leaf', gen: 3, leaf: true,
             p1: 'noa_berkowitz', p2: null,
             style1: 'ft-card',
-            emoji1: '👧', label1: 'נועה', detail1: "ברקוביץ'",
+            emoji1: '≡ƒæº', label1: '╫á╫ò╫ó╫ö', detail1: "╫æ╫¿╫º╫ò╫æ╫Ö╫Ñ'",
             children: []
         },
         roni_leaf: {
             id: 'roni_leaf', gen: 3, leaf: true,
             p1: 'roni_atias', p2: null,
             style1: 'ft-card',
-            emoji1: '👦', label1: 'רוני', detail1: 'אטיאס',
+            emoji1: '≡ƒæª', label1: '╫¿╫ò╫á╫Ö', detail1: '╫É╫ÿ╫Ö╫É╫í',
             children: []
         },
         moshe_leaf: {
             id: 'moshe_leaf', gen: 3, leaf: true,
             p1: 'moshe_atias', p2: null,
             style1: 'ft-card',
-            emoji1: '👦', label1: 'משה', detail1: 'אטיאס',
+            emoji1: '≡ƒæª', label1: '╫₧╫⌐╫ö', detail1: '╫É╫ÿ╫Ö╫É╫í',
             children: []
         },
         rotem_leaf: {
             id: 'rotem_leaf', gen: 3, leaf: true,
             p1: 'rotem_atias', p2: null,
             style1: 'ft-card',
-            emoji1: '👧', label1: 'רותם', detail1: 'אטיאס',
+            emoji1: '≡ƒæº', label1: '╫¿╫ò╫¬╫¥', detail1: '╫É╫ÿ╫Ö╫É╫í',
             children: []
         },
         avior_leaf: {
             id: 'avior_leaf', gen: 3, leaf: true,
             p1: 'avior', p2: null,
             style1: 'ft-card',
-            emoji1: '🎨', label1: 'אביאור', detail1: '19.04.2019', extra1: 'צייר מוכשר',
+            emoji1: '≡ƒÄ¿', label1: '╫É╫æ╫Ö╫É╫ò╫¿', detail1: '19.04.2019', extra1: '╫ª╫Ö╫Ö╫¿ ╫₧╫ò╫¢╫⌐╫¿',
             children: []
         },
         nitai_leaf: {
             id: 'nitai_leaf', gen: 3, leaf: true,
             p1: 'nitai', p2: null,
             style1: 'ft-card',
-            emoji1: '⚽', label1: 'ניתאי', detail1: '11.01.2022', extra1: 'ספורטאי',
+            emoji1: 'ΓÜ╜', label1: '╫á╫Ö╫¬╫É╫Ö', detail1: '11.01.2022', extra1: '╫í╫ñ╫ò╫¿╫ÿ╫É╫Ö',
             children: []
         },
         arbel_leaf: {
             id: 'arbel_leaf', gen: 3, leaf: true,
             p1: 'arbel', p2: null,
             style1: 'ft-card',
-            emoji1: '💙', label1: 'ארבל', detail1: '08.04.2025', extra1: 'עיניים כחולות',
+            emoji1: '≡ƒÆÖ', label1: '╫É╫¿╫æ╫£', detail1: '08.04.2025', extra1: '╫ó╫Ö╫á╫Ö╫Ö╫¥ ╫¢╫ù╫ò╫£╫ò╫¬',
             children: []
         },
         ella_leaf: {
             id: 'ella_leaf', gen: 3, leaf: true,
             p1: 'ella_stella', p2: null,
             style1: 'ft-card',
-            emoji1: '✨', label1: 'אלה סטלה', detail1: 'מזרחי', extra1: 'בת תמיר ומיטל',
+            emoji1: 'Γ£¿', label1: '╫É╫£╫ö ╫í╫ÿ╫£╫ö', detail1: '╫₧╫û╫¿╫ù╫Ö', extra1: '╫æ╫¬ ╫¬╫₧╫Ö╫¿ ╫ò╫₧╫Ö╫ÿ╫£',
             children: []
         }
     };
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
     // Layout engine
-    // ──────────────────────────────────────────────────────────────────────────
+    // ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
     /** Width of a group's footprint on its row (couple = 2 cards + heart, single = 1 card) */
     function groupWidth(grp) {
@@ -1603,9 +1675,9 @@
         return pos;
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
     // SVG builder helpers
-    // ──────────────────────────────────────────────────────────────────────────
+    // ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
     function svgEl(tag, attrs, content) {
         const ns = 'http://www.w3.org/2000/svg';
@@ -1645,9 +1717,9 @@
         svg.appendChild(svgEl('line', { class: 'ft-line', x1, y1, x2, y2 }));
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
     // Main render function
-    // ──────────────────────────────────────────────────────────────────────────
+    // ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
     function renderMainTree() {
         const svg = document.getElementById('main-tree');
@@ -1683,7 +1755,7 @@
 
                 makeCard(svg, x1, y, W, h, grp.style1 || 'ft-card',
                     grp.emoji1, grp.label1, grp.detail1, grp.extra1 || null, grp.p1);
-                svg.appendChild(svgEl('text', { class: 'ft-heart', x: heartX, y: heartY }, '💕'));
+                svg.appendChild(svgEl('text', { class: 'ft-heart', x: heartX, y: heartY }, '≡ƒÆò'));
                 makeCard(svg, x2, y, W, h, grp.style2 || 'ft-card',
                     grp.emoji2, grp.label2, grp.detail2, grp.extra2 || null, grp.p2);
             } else {
@@ -1747,7 +1819,7 @@
             x: footX, y: footY,
             'text-anchor': 'middle',
             'font-style': 'italic'
-        }, 'משפחת מזרחי-לבנברג - שורשים חזקים וענפים פורחים 🌳');
+        }, '╫₧╫⌐╫ñ╫ù╫¬ ╫₧╫û╫¿╫ù╫Ö-╫£╫æ╫á╫æ╫¿╫Æ - ╫⌐╫ò╫¿╫⌐╫Ö╫¥ ╫ù╫û╫º╫Ö╫¥ ╫ò╫ó╫á╫ñ╫Ö╫¥ ╫ñ╫ò╫¿╫ù╫Ö╫¥ ≡ƒî│');
         svg.appendChild(footEl);
     }
 
