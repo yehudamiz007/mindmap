@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -196,78 +196,6 @@
             <button onclick="showAllStories()">≡ƒôû ╫¢╫£ ╫ö╫í╫Ö╫ñ╫ò╫¿╫Ö╫¥</button>
         </div>
 
-
-        <!-- ===== LEVENBERG GRANDPARENTS SECTION ===== -->
-        <div style="text-align:center; margin: 0 0 20px; padding: 15px 25px;
-            background: linear-gradient(135deg, #fff9e6, #f5e6c0);
-            border: 2px solid #c4a265; border-radius: 10px;">
-            <span style="font-family: 'David Libre', serif; font-size: 1.5em; color: #5a3a1a;">&#x05DE;&#x05E9;&#x05E4;&#x05D7;&#x05EA; &#x05DC;&#x05D1;&#x05E0;&#x05D1;&#x05E8;&#x05D2; - &#x05D4;&#x05D5;&#x05E8;&#x05D9; &#x05D5;&#x05E8;&#x05D3;&#x05D9;&#x05EA;</span>
-            <div style="font-size: 0.9em; color: #8a7a5a; margin-top: 5px;">&#x05D9;&#x05E2;&#x05E7;&#x05D5;&#x05D1; + &#x05D7;&#x05D9;&#x05D9;&#x05D4; &#x05E9;&#x05E8;&#x05D4; &#x05DC;&#x05D1;&#x05E0;&#x05D1;&#x05E8;&#x05D2; &#x05D6;&#x05F4;&#x05DC; &#x2014; &#x05E9;&#x05D5;&#x05E8;&#x05E9;&#x05D9; &#x05D5;&#x05E8;&#x05D3;&#x05D9;&#x05EA; &#x05DE;&#x05D6;&#x05E8;&#x05D7;&#x05D9;</div>
-        </div>
-
-        <div class="tree-svg-container" id="container-levenberg" style="margin-bottom: 30px;">
-            <div class="zoom-controls">
-                <button class="zoom-btn" onclick="zoom('container-levenberg', 1.2)">+</button>
-                <span class="zoom-label" id="zoom-lev-label">100%</span>
-                <button class="zoom-btn" onclick="zoom('container-levenberg', 0.8)">-</button>
-                <button class="zoom-btn" onclick="resetZoom('container-levenberg')" title="&#x05D0;&#x05D9;&#x05E4;&#x05D5;&#x05E1;">&#x27F3;</button>
-            </div>
-            <svg class="family-tree" viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <filter id="shadow-lev" x="-5%" y="-5%" width="115%" height="115%">
-                        <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#3a2a1a" flood-opacity="0.1"/>
-                    </filter>
-                </defs>
-
-                <!-- ROW 0: Yaakov + Chaya Sara Levenberg -->
-                <g class="clickable" onclick="showPerson('yaakov')">
-                    <rect class="ft-card-ancestor" x="310" y="30" width="130" height="70" rx="12" ry="12" filter="url(#shadow-lev)"/>
-                    <text class="ft-emoji" x="375" y="56">&#x1F468;</text>
-                    <text class="ft-name" x="375" y="74">&#x05D9;&#x05E2;&#x05E7;&#x05D5;&#x05D1; &#x05DC;&#x05D1;&#x05E0;&#x05D1;&#x05E8;&#x05D2;</text>
-                    <text class="ft-detail" x="375" y="90">&#x05D6;&#x05F4;&#x05DC;</text>
-                </g>
-                <text class="ft-heart" x="455" y="68">&#x2764;&#xFE0F;</text>
-                <g class="clickable" onclick="showPerson('chaya_sara')">
-                    <rect class="ft-card-ancestor" x="465" y="30" width="140" height="70" rx="12" ry="12" filter="url(#shadow-lev)"/>
-                    <text class="ft-emoji" x="535" y="56">&#x1F469;</text>
-                    <text class="ft-name" x="535" y="74">&#x05D7;&#x05D9;&#x05D9;&#x05D4; &#x05E9;&#x05E8;&#x05D4;</text>
-                    <text class="ft-detail" x="535" y="90">&#x05DC;&#x05D1;&#x05E0;&#x05D1;&#x05E8;&#x05D2; &#x05D6;&#x05F4;&#x05DC;</text>
-                </g>
-
-                <!-- Lines from grandparents -->
-                <line class="ft-line" x1="450" y1="100" x2="450" y2="130"/>
-                <line class="ft-line" x1="200" y1="130" x2="700" y2="130"/>
-                <line class="ft-line" x1="200" y1="130" x2="200" y2="160"/>
-                <line class="ft-line" x1="450" y1="130" x2="450" y2="160"/>
-                <line class="ft-line" x1="700" y1="130" x2="700" y2="160"/>
-
-                <!-- ROW 1: 3 children -->
-                <g class="clickable" onclick="showPerson('moshe_yosef')">
-                    <rect class="ft-card" x="135" y="160" width="130" height="70" rx="10" ry="10" filter="url(#shadow-lev)"/>
-                    <text class="ft-emoji" x="200" y="185">&#x1F468;</text>
-                    <text class="ft-name" x="200" y="203">&#x05DE;&#x05E9;&#x05D4; &#x05D9;&#x05D5;&#x05E1;&#x05E3;</text>
-                    <text class="ft-detail" x="200" y="219">&#x05DC;&#x05D1;&#x05E0;&#x05D1;&#x05E8;&#x05D2;</text>
-                </g>
-
-                <g class="clickable" onclick="showPerson('vardit_l')">
-                    <rect class="ft-card-founder" x="385" y="160" width="130" height="70" rx="12" ry="12" filter="url(#shadow-lev)"/>
-                    <text class="ft-emoji" x="450" y="185">&#x1F469;</text>
-                    <text class="ft-name" x="450" y="203">&#x05D5;&#x05E8;&#x05D3;&#x05D9;&#x05EA;</text>
-                    <text class="ft-detail" x="450" y="219">&#x05DC;&#x05D1;&#x05E0;&#x05D1;&#x05E8;&#x05D2; &#x2190; &#x05DE;&#x05D6;&#x05E8;&#x05D7;&#x05D9;</text>
-                </g>
-
-                <g class="clickable" onclick="showPerson('nirit')">
-                    <rect class="ft-card" x="635" y="160" width="130" height="70" rx="10" ry="10" filter="url(#shadow-lev)"/>
-                    <text class="ft-emoji" x="700" y="185">&#x1F469;</text>
-                    <text class="ft-name" x="700" y="203">&#x05E0;&#x05D5;&#x05E8;&#x05D9;&#x05EA;</text>
-                    <text class="ft-detail" x="700" y="219">&#x05DC;&#x05D1;&#x05E0;&#x05D1;&#x05E8;&#x05D2; (&#x05D3;&#x05D5;&#x05D3;&#x05D4;)</text>
-                </g>
-
-                <!-- Dashed arrow from Vardit down -->
-                <line class="ft-line" x1="450" y1="230" x2="450" y2="265" stroke-dasharray="6,4"/>
-                <text style="font-family:Heebo,sans-serif;font-size:11px;fill:#8a7a5a;text-anchor:middle;" x="450" y="285">&#x2193; &#x05D5;&#x05E8;&#x05D3;&#x05D9;&#x05EA; &#x05E0;&#x05D9;&#x05E9;&#x05D0;&#x05D4; &#x05DC;&#x05D0;&#x05D1;&#x05D9; &#x05DE;&#x05D6;&#x05E8;&#x05D7;&#x05D9; &#x2014; &#x05E8;&#x05D0;&#x05D4; &#x05E2;&#x05E5; &#x05DE;&#x05D6;&#x05E8;&#x05D7;&#x05D9; &#x05DE;&#x05D8;&#x05D4;</text>
-            </svg>
-        </div>
         <div class="tree-svg-container" id="container1">
             <div class="zoom-controls">
                 <button class="zoom-btn" onclick="zoom('container1', 1.2)">+</button>
