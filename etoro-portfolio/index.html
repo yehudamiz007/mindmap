@@ -129,7 +129,21 @@
       text-transform: uppercase;
       letter-spacing: 0.5px;
       border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
     }
+
+    .positions-table th:hover { color: var(--text); }
+
+    .sort-icon {
+      display: inline-block;
+      margin-right: 4px;
+      opacity: 0.4;
+      font-size: 0.7rem;
+    }
+
+    .sort-icon.active { opacity: 1; color: var(--accent); }
 
     .positions-table td {
       padding: 14px;
@@ -468,6 +482,21 @@ async function fetchPortfolio() {
   return data.clientPortfolio;
 }
 
+// ── SORT STATE ───────────────────────────────────────────────────────────────
+let sortCol = null;   // 'symbol' | 'amount' | 'pnl' | 'pnlpct' | 'weight' | 'date'
+let sortDir = 1;      // 1 = asc, -1 = desc
+let lastPortfolio = null;
+
+function toggleSort(col) {
+  if (sortCol === col) {
+    sortDir *= -1;
+  } else {
+    sortCol = col;
+    sortDir = col === 'pnl' || col === 'pnlpct' ? -1 : 1; // default desc for pnl
+  }
+  if (lastPortfolio) renderPositions(lastPortfolio);
+}
+
 // ── RENDER ────────────────────────────────────────────────────────────────────
 function renderSummary(portfolio) {
   const positions = portfolio.positions || [];
@@ -502,6 +531,11 @@ function renderSummary(portfolio) {
   `;
 }
 
+function sortIcon(col) {
+  if (sortCol !== col) return '<span class="sort-icon">⇅</span>';
+  return `<span class="sort-icon active">${sortDir === 1 ? '↑' : '↓'}</span>`;
+}
+
 function renderPositions(portfolio) {
   const positions = portfolio.positions || [];
   if (positions.length === 0) {
@@ -511,30 +545,48 @@ function renderPositions(portfolio) {
 
   const totalExposure = positions.reduce((s, p) => s + p.unrealizedPnL.exposureInAccountCurrency, 0);
 
-  const rows = positions.map(p => {
-    const symbol  = INSTRUMENTS[p.instrumentID] || `#${p.instrumentID}`;
-    const pnl     = p.unrealizedPnL.pnL;
-    const exposure = p.unrealizedPnL.exposureInAccountCurrency;
-    const margin  = p.amount;
-    const pnlPct  = margin > 0 ? (pnl / margin) * 100 : 0;
-    const weight  = totalExposure > 0 ? (exposure / totalExposure) * 100 : 0;
-    const openDate = new Date(p.openDateTime).toLocaleDateString('he-IL');
+  // Enrich positions with computed fields
+  const enriched = positions.map(p => ({
+    ...p,
+    symbol:  INSTRUMENTS[p.instrumentID] || `#${p.instrumentID}`,
+    pnl:     p.unrealizedPnL.pnL,
+    exposure: p.unrealizedPnL.exposureInAccountCurrency,
+    pnlPct:  p.amount > 0 ? (p.unrealizedPnL.pnL / p.amount) * 100 : 0,
+    weight:  totalExposure > 0 ? (p.unrealizedPnL.exposureInAccountCurrency / totalExposure) * 100 : 0,
+    openTs:  new Date(p.openDateTime).getTime(),
+  }));
 
-    const barColor = pnl >= 0 ? 'var(--green)' : 'var(--red)';
-    const barWidth = Math.min(Math.abs(pnlPct) * 4, 80);
+  // Sort
+  if (sortCol) {
+    enriched.sort((a, b) => {
+      let va, vb;
+      if (sortCol === 'symbol')  { va = a.symbol;  vb = b.symbol;  return sortDir * va.localeCompare(vb); }
+      if (sortCol === 'amount')  { va = a.amount;  vb = b.amount; }
+      if (sortCol === 'pnl')     { va = a.pnl;     vb = b.pnl; }
+      if (sortCol === 'pnlpct')  { va = a.pnlPct;  vb = b.pnlPct; }
+      if (sortCol === 'weight')  { va = a.weight;  vb = b.weight; }
+      if (sortCol === 'date')    { va = a.openTs;  vb = b.openTs; }
+      return sortDir * (va - vb);
+    });
+  }
+
+  const rows = enriched.map(p => {
+    const openDate = new Date(p.openDateTime).toLocaleDateString('he-IL');
+    const barColor = p.pnl >= 0 ? 'var(--green)' : 'var(--red)';
+    const barWidth = Math.min(Math.abs(p.pnlPct) * 4, 80);
 
     return `
       <tr>
-        <td><span class="ticker-badge">${symbol}</span></td>
-        <td>${fmtUSD(margin)}</td>
+        <td><span class="ticker-badge">${p.symbol}</span></td>
+        <td>${fmtUSD(p.amount)}</td>
         <td>
           <div class="pnl-bar-wrap">
-            <span class="${pnlClass(pnl)}" style="font-weight:600;">${fmt(pnl, 2)}$</span>
+            <span class="${pnlClass(p.pnl)}" style="font-weight:600;">${fmt(p.pnl, 2)}$</span>
             <div class="pnl-bar" style="width:${barWidth}px; background:${barColor};"></div>
           </div>
-          <small class="${pnlClass(pnlPct)}">${fmt(pnlPct, 2)}%</small>
+          <small class="${pnlClass(p.pnlPct)}">${fmt(p.pnlPct, 2)}%</small>
         </td>
-        <td style="color: var(--muted); font-size: 0.82rem;">${weight.toFixed(1)}%</td>
+        <td style="color: var(--muted); font-size: 0.82rem;">${p.weight.toFixed(1)}%</td>
         <td style="color: var(--muted); font-size: 0.82rem;">${openDate}</td>
       </tr>
     `;
@@ -544,11 +596,11 @@ function renderPositions(portfolio) {
     <table class="positions-table">
       <thead>
         <tr>
-          <th>מניה</th>
-          <th>השקעה</th>
-          <th>רווח/הפסד</th>
-          <th>משקל</th>
-          <th>תאריך פתיחה</th>
+          <th onclick="toggleSort('symbol')">${sortIcon('symbol')} מניה</th>
+          <th onclick="toggleSort('amount')">${sortIcon('amount')} השקעה</th>
+          <th onclick="toggleSort('pnl')">${sortIcon('pnl')} רווח/הפסד</th>
+          <th onclick="toggleSort('weight')">${sortIcon('weight')} משקל</th>
+          <th onclick="toggleSort('date')">${sortIcon('date')} תאריך פתיחה</th>
         </tr>
       </thead>
       <tbody>${rows}</tbody>
@@ -590,6 +642,7 @@ async function loadAll() {
 
   try {
     const portfolio = await fetchPortfolio();
+    lastPortfolio = portfolio;
     renderSummary(portfolio);
     renderPositions(portfolio);
   } catch (err) {
