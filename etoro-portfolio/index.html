@@ -502,10 +502,15 @@ function renderSummary(portfolio) {
   const positions = portfolio.positions || [];
   const credit    = portfolio.credit || 0;
 
-  const totalInvested = positions.reduce((s, p) => s + p.amount, 0);
+  // totalAmount = sum of original invested per position
+  const totalAmount   = positions.reduce((s, p) => s + p.amount, 0);
+  // totalExposure = current market value of all positions
+  const totalExposure = positions.reduce((s, p) => s + p.unrealizedPnL.exposureInAccountCurrency, 0);
   const totalPnL      = positions.reduce((s, p) => s + p.unrealizedPnL.pnL, 0);
-  const equity        = credit + totalInvested + totalPnL;
-  const pnlPct        = totalInvested > 0 ? (totalPnL / totalInvested) * 100 : 0;
+  // equity = credit (free cash) + current exposure
+  const equity        = credit + totalExposure;
+  // pnl% relative to original invested
+  const pnlPct        = totalAmount > 0 ? (totalPnL / totalAmount) * 100 : 0;
 
   document.getElementById('summaryGrid').innerHTML = `
     <div class="summary-card">
@@ -513,20 +518,28 @@ function renderSummary(portfolio) {
       <div class="value neutral">${positions.length}</div>
     </div>
     <div class="summary-card">
-      <div class="label">סה"כ מושקע</div>
-      <div class="value neutral">${fmtUSD(totalInvested)}</div>
+      <div class="label">סה"כ מושקע (עלות)</div>
+      <div class="value neutral">${fmtUSD(totalAmount)}</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">שווי שוק נוכחי</div>
+      <div class="value neutral">${fmtUSD(totalExposure)}</div>
     </div>
     <div class="summary-card">
       <div class="label">רווח/הפסד לא ממומש</div>
       <div class="value ${pnlClass(totalPnL)}">${fmt(totalPnL, 2)}$</div>
     </div>
     <div class="summary-card">
-      <div class="label">תשואה</div>
+      <div class="label">תשואה כוללת</div>
       <div class="value ${pnlClass(pnlPct)}">${fmt(pnlPct, 2)}%</div>
     </div>
     <div class="summary-card">
       <div class="label">מזומן זמין</div>
       <div class="value ${credit > 0 ? 'positive' : 'negative'}">${fmtUSD(credit)}</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">שווי תיק כולל</div>
+      <div class="value neutral">${fmtUSD(equity)}</div>
     </div>
   `;
 }
