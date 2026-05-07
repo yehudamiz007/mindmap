@@ -509,11 +509,21 @@ function renderSummary(portfolio) {
   // totalAmount = sum of original invested per position
   const totalAmount   = positions.reduce((s, p) => s + p.amount, 0);
   // totalExposure = current market value of all positions
-  // Filter to agent portfolio only
-  const agentPos      = positions.filter(p => new Date(p.openDateTime) >= AGENT_START_DATE);
-  const totalExposure = agentPos.reduce((s, p) => s + p.unrealizedPnL.exposureInAccountCurrency, 0);
-  const totalPnL      = agentPos.reduce((s, p) => s + p.unrealizedPnL.pnL, 0);
-  const totalInvested2 = agentPos.reduce((s, p) => s + p.amount, 0);
+  // Filter + merge by symbol (same as renderPositions)
+  const agentPos = positions.filter(p => new Date(p.openDateTime) >= AGENT_START_DATE);
+  const symMap   = {};
+  agentPos.forEach(p => {
+    const sym = INSTRUMENTS[p.instrumentID] || `#${p.instrumentID}`;
+    if (!symMap[sym]) symMap[sym] = { amount: 0, pnl: 0, exposure: 0 };
+    symMap[sym].amount   += p.amount;
+    symMap[sym].pnl      += p.unrealizedPnL.pnL;
+    symMap[sym].exposure += p.unrealizedPnL.exposureInAccountCurrency;
+  });
+  const symList       = Object.values(symMap);
+  const totalExposure = symList.reduce((s, p) => s + p.exposure, 0);
+  const totalPnL      = symList.reduce((s, p) => s + p.pnl, 0);
+  const totalInvested2 = symList.reduce((s, p) => s + p.amount, 0);
+  const numSymbols    = symList.length;
   // equity = credit (free cash) + current exposure
   const equity        = credit + totalExposure;
   // pnl% relative to original invested
@@ -521,8 +531,8 @@ function renderSummary(portfolio) {
 
   document.getElementById('summaryGrid').innerHTML = `
     <div class="summary-card">
-      <div class="label">פוזיציות פתוחות</div>
-      <div class="value neutral">${agentPos.length}</div>
+      <div class="label">מניות פתוחות</div>
+      <div class="value neutral">${numSymbols}</div>
     </div>
     <div class="summary-card">
       <div class="label">סה"כ מושקע (עלות)</div>
@@ -568,15 +578,43 @@ function renderPositions(portfolio) {
   // Filter: only agent portfolio positions (opened on/after 15 Apr 2026)
   const agentPositions = positions.filter(p => new Date(p.openDateTime) >= AGENT_START_DATE);
 
+  // Merge positions by symbol (eToro shows them consolidated)
+  const merged = {};
+  agentPositions.forEach(p => {
+    const sym = INSTRUMENTS[p.instrumentID] || `#${p.instrumentID}`;
+    if (!merged[sym]) {
+      merged[sym] = {
+        ...p,
+        symbol: sym,
+        totalAmount: 0,
+        totalPnL: 0,
+        totalExposure: 0,
+        totalUnits: 0,
+        count: 0,
+        earliestOpen: p.openDateTime,
+      };
+    }
+    merged[sym].totalAmount   += p.amount;
+    merged[sym].totalPnL      += p.unrealizedPnL.pnL;
+    merged[sym].totalExposure += p.unrealizedPnL.exposureInAccountCurrency;
+    merged[sym].totalUnits    += p.units;
+    merged[sym].count         += 1;
+    if (new Date(p.openDateTime) < new Date(merged[sym].earliestOpen)) {
+      merged[sym].earliestOpen = p.openDateTime;
+    }
+  });
+
+  const mergedList = Object.values(merged);
+
   // Enrich positions with computed fields
-  const enriched = agentPositions.map(p => ({
+  const totalMergedExposure = mergedList.reduce((s, p) => s + p.totalExposure, 0);
+  const enriched = mergedList.map(p => ({
     ...p,
-    symbol:  INSTRUMENTS[p.instrumentID] || `#${p.instrumentID}`,
-    pnl:     p.unrealizedPnL.pnL,
-    exposure: p.unrealizedPnL.exposureInAccountCurrency,
-    pnlPct:  p.amount > 0 ? (p.unrealizedPnL.pnL / p.amount) * 100 : 0,
-    weight:  totalExposure > 0 ? (p.unrealizedPnL.exposureInAccountCurrency / totalExposure) * 100 : 0,
-    openTs:  new Date(p.openDateTime).getTime(),
+    pnl:     p.totalPnL,
+    exposure: p.totalExposure,
+    pnlPct:  p.totalAmount > 0 ? (p.totalPnL / p.totalAmount) * 100 : 0,
+    weight:  totalMergedExposure > 0 ? (p.totalExposure / totalMergedExposure) * 100 : 0,
+    openTs:  new Date(p.earliestOpen).getTime(),
   }));
 
   // Sort
@@ -598,10 +636,11 @@ function renderPositions(portfolio) {
     const barColor = p.pnl >= 0 ? 'var(--green)' : 'var(--red)';
     const barWidth = Math.min(Math.abs(p.pnlPct) * 4, 80);
 
+    const countBadge = p.count > 1 ? `<span style="font-size:0.7rem;color:var(--muted);margin-right:4px">(${p.count})</span>` : '';
     return `
       <tr>
-        <td><span class="ticker-badge">${p.symbol}</span></td>
-        <td>${fmtUSD(p.amount)}</td>
+        <td><span class="ticker-badge">${p.symbol}</span>${countBadge}</td>
+        <td>${fmtUSD(p.totalAmount)}</td>
         <td>
           <div class="pnl-bar-wrap">
             <span class="${pnlClass(p.pnl)}" style="font-weight:600;">${fmt(p.pnl, 2)}$</span>
