@@ -363,6 +363,17 @@ const INSTRUMENTS = {
 // Agent portfolio start date (15/04/2026)
 const AGENT_START_DATE = new Date('2026-04-15T00:00:00Z');
 
+// Agent portfolio exact units from eToro (updated from screenshot 07/05/2026)
+// These are the REAL agent portfolio positions - API returns full account, not agent only
+const AGENT_UNITS = {
+  'NVDA':  14.43827,
+  'GOOG':  1.96377,
+  'GOOGL': 1.59951,
+  'AMD':   0.76966,
+  'AAPL':  1.0209,
+  'AVGO':  0.66397,
+};
+
 // ── BUILT-IN HISTORY (from grok-trader logs) ─────────────────────────────────
 const HISTORY = [
   {
@@ -509,25 +520,25 @@ function renderSummary(portfolio) {
   // totalAmount = sum of original invested per position
   const totalAmount   = positions.reduce((s, p) => s + p.amount, 0);
   // totalExposure = current market value of all positions
-  // Filter + merge by symbol (same as renderPositions)
-  const agentPos = positions.filter(p => new Date(p.openDateTime) >= AGENT_START_DATE);
-  const symMap   = {};
-  agentPos.forEach(p => {
+  // Build summary from AGENT_UNITS + live prices
+  const priceMap2 = {};
+  positions.forEach(p => {
     const sym = INSTRUMENTS[p.instrumentID] || `#${p.instrumentID}`;
-    if (!symMap[sym]) symMap[sym] = { amount: 0, pnl: 0, exposure: 0 };
-    symMap[sym].amount   += p.amount;
-    symMap[sym].pnl      += p.unrealizedPnL.pnL;
-    symMap[sym].exposure += p.unrealizedPnL.exposureInAccountCurrency;
+    if (!priceMap2[sym]) priceMap2[sym] = p.unrealizedPnL.closeRate;
   });
-  const symList       = Object.values(symMap);
-  const totalExposure = symList.reduce((s, p) => s + p.exposure, 0);
-  const totalPnL      = symList.reduce((s, p) => s + p.pnl, 0);
-  const totalInvested2 = symList.reduce((s, p) => s + p.amount, 0);
-  const numSymbols    = symList.length;
-  // equity = credit (free cash) + current exposure
-  const equity        = credit + totalExposure;
-  // pnl% relative to original invested
-  const pnlPct        = totalInvested2 > 0 ? (totalPnL / totalInvested2) * 100 : 0;
+  const avgOpenRates2 = { NVDA: 207.60371, GOOG: 380.10, GOOGL: 342.62816, AMD: 347.71, AAPL: 267.46, AVGO: 419.19 };
+  let totalInvested2 = 0, totalExposure = 0, totalPnL = 0;
+  Object.entries(AGENT_UNITS).forEach(([sym, units]) => {
+    const invested = units * (avgOpenRates2[sym] || 0);
+    const current  = units * (priceMap2[sym] || 0);
+    totalInvested2 += invested;
+    totalExposure  += current;
+    totalPnL       += current - invested;
+  });
+  const numSymbols = Object.keys(AGENT_UNITS).length;
+  // equity = credit + current exposure
+  const equity  = credit + totalExposure;
+  const pnlPct  = totalInvested2 > 0 ? (totalPnL / totalInvested2) * 100 : 0;
 
   document.getElementById('summaryGrid').innerHTML = `
     <div class="summary-card">
@@ -575,36 +586,43 @@ function renderPositions(portfolio) {
 
   const totalExposure = positions.reduce((s, p) => s + p.unrealizedPnL.exposureInAccountCurrency, 0);
 
-  // Filter: only agent portfolio positions (opened on/after 15 Apr 2026)
-  const agentPositions = positions.filter(p => new Date(p.openDateTime) >= AGENT_START_DATE);
+  // Build agent portfolio: for each symbol in AGENT_UNITS,
+  // find positions from API that match, pick current price, compute values
+  const priceMap = {}; // sym -> closeRate
+  const openDateMap = {}; // sym -> earliest openDateTime
+  const avgOpenMap = {}; // sym -> weighted avg open rate
 
-  // Merge positions by symbol (eToro shows them consolidated)
-  const merged = {};
-  agentPositions.forEach(p => {
+  positions.forEach(p => {
     const sym = INSTRUMENTS[p.instrumentID] || `#${p.instrumentID}`;
-    if (!merged[sym]) {
-      merged[sym] = {
-        ...p,
-        symbol: sym,
-        totalAmount: 0,
-        totalPnL: 0,
-        totalExposure: 0,
-        totalUnits: 0,
-        count: 0,
-        earliestOpen: p.openDateTime,
-      };
+    if (!priceMap[sym]) {
+      priceMap[sym] = p.unrealizedPnL.closeRate;
+      openDateMap[sym] = p.openDateTime;
     }
-    merged[sym].totalAmount   += p.amount;
-    merged[sym].totalPnL      += p.unrealizedPnL.pnL;
-    merged[sym].totalExposure += p.unrealizedPnL.exposureInAccountCurrency;
-    merged[sym].totalUnits    += p.units;
-    merged[sym].count         += 1;
-    if (new Date(p.openDateTime) < new Date(merged[sym].earliestOpen)) {
-      merged[sym].earliestOpen = p.openDateTime;
+    if (new Date(p.openDateTime) < new Date(openDateMap[sym])) {
+      openDateMap[sym] = p.openDateTime;
     }
   });
 
-  const mergedList = Object.values(merged);
+  // Build merged list from AGENT_UNITS using live prices
+  const mergedList = Object.entries(AGENT_UNITS).map(([sym, agentUnits]) => {
+    const closeRate = priceMap[sym] || 0;
+    // Find avg open from eToro screenshot data
+    const avgOpenRates = { NVDA: 207.60371, GOOG: 380.10, GOOGL: 342.62816, AMD: 347.71, AAPL: 267.46, AVGO: 419.19 };
+    const avgOpen = avgOpenRates[sym] || 0;
+    const totalAmount = agentUnits * avgOpen;   // invested = units * avg open
+    const currentValue = agentUnits * closeRate; // current value
+    const totalPnL = currentValue - totalAmount;
+    return {
+      symbol: sym,
+      totalAmount,
+      totalPnL,
+      totalExposure: currentValue,
+      totalUnits: agentUnits,
+      count: 1,
+      earliestOpen: openDateMap[sym] || '2026-04-15T09:53:00Z',
+      instrumentID: Object.entries(INSTRUMENTS).find(([,v]) => v === sym)?.[0],
+    };
+  });
 
   // Enrich positions with computed fields
   const totalMergedExposure = mergedList.reduce((s, p) => s + p.totalExposure, 0);
