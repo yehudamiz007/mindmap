@@ -3,7 +3,7 @@
 ## Auth Headers (every request)
 ```
 x-api-key: sdgdskldFPLGfjHn1421dgnlxdGTbngdflg6290bRjslfihsjhSDsdgGHH25hjf
-x-user-key: <agent-portfolio token>
+x-user-key: eyJjaSI6IjYwY2FiYjBiLTU1OTctNDQ4NS04ZjYzLTdlOWUwNTZlMGJiOCIsImVhbiI6IlVucmVnaXN0ZXJlZEFwcGxpY2F0aW9uIiwiZWsiOiJZNWI3dTY4alZjcHRkbVQuUFVDWGouTjJKaGpJcWtrUlg3WXV3MmNWNU1lSTZhelNIZ2lRNHkxd2xYZ1BtVkY0b2VmLjltUllXLUU2Qkd3Q09nMzNENi1kN0toOWMxd2M5QllGdWRtRC4zMF8ifQ__
 x-request-id: <new UUID per request>
 ```
 
@@ -14,6 +14,20 @@ x-request-id: <new UUID per request>
 GET https://public-api.etoro.com/api/v1/trading/info/real/pnl
 ```
 Returns `clientPortfolio` with `credit`, `positions[]`, `ordersForOpen[]`, `orders[]`.
+⚠️ Returns FULL account (not agent portfolio only). Agent portfolio positions are a subset.
+
+### List Trading History (closed positions)
+```
+GET https://public-api.etoro.com/api/v1/trading/info/trade/history?minDate=YYYY-MM-DD&page=1&pageSize=50
+```
+Returns array of closed trades: `netProfit`, `closeRate`, `closeTimestamp`, `positionId`, `instrumentId`, `openRate`, `openTimestamp`, `investment`, `units`.
+
+### Get Agent Portfolios
+```
+GET https://public-api.etoro.com/api/v1/agent-portfolios
+```
+Returns list of agent portfolios with `agentPortfolioId`, `agentPortfolioName`, `agentPortfolioVirtualBalance`, `mirrorId`.
+⚠️ Must use MAIN account x-user-key (not agent key) to see agent portfolio list.
 
 ### Search Instrument ID
 ```
@@ -43,17 +57,20 @@ Get positionId from PnL endpoint.
 ### Partial Close
 Same endpoint, set `"UnitsToDeduct": <units>` instead of null.
 
-## Portfolio Calculations
+## Portfolio Calculations (Official eToro Formulas)
 
-**Available Cash** = `credit` - Σ(ordersForOpen[i].amount where mirrorID=0) - Σ(orders[i].amount)
+**Available Cash** = `credit` − Σ(`ordersForOpen[i].amount` where `mirrorID=0`) − Σ(`orders[i].amount`)
 
-**Total Invested** = Σ(positions[i].amount) + Σ(ordersForOpen[i].amount where mirrorID=0) + Σ(orders[i].amount)
+**Total Invested** = Σ(`positions[i].amount`) + Σ(`mirrors[i].positions[j].amount`) + Σ(`ordersForOpen[i].amount` where `mirrorID=0`) + Σ(`orders[i].amount`)
 
-**Unrealized PnL** = Σ(positions[i].unrealizedPnL.pnL)
+**Unrealized PnL** = Σ(`positions[i].unrealizedPnL.pnL`) + Σ(`mirrors[i].closedPositionsNetProfit`)
 
 **Equity** = Available Cash + Total Invested + Unrealized PnL
 
-**Position Weight %** = (position.unrealizedPnL.exposureInAccountCurrency / Equity) * 100
+**Position Weight %** = (`position.unrealizedPnL.exposureInAccountCurrency` / Equity) × 100
+
+⚠️ `mirrorID = 0` = manual position. `mirrorID ≠ 0` = mirrored (copy) position.
+⚠️ Only manual positions from `ordersForOpen` count toward Available Cash.
 
 ## Trade Execution Flow
 
