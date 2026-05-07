@@ -3,121 +3,410 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>eToro Portfolio Dashboard</title>
+  <title>eToro Agent Portfolio</title>
   <style>
     :root {
-      --bg: #0f1117; --card: #1a1d27; --card2: #22263a; --border: #2e3250;
-      --green: #22c55e; --red: #ef4444; --blue: #3b82f6; --purple: #a855f7;
-      --text: #e2e8f0; --muted: #64748b; --accent: #6366f1;
+      --bg:      #0f1117;
+      --card:    #1a1d27;
+      --card2:   #22263a;
+      --border:  #2e3250;
+      --green:   #22c55e;
+      --red:     #ef4444;
+      --blue:    #3b82f6;
+      --purple:  #a855f7;
+      --text:    #e2e8f0;
+      --muted:   #64748b;
+      --accent:  #6366f1;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; padding: 24px 16px; }
 
-    .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
-    .header h1 { font-size: 1.6rem; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .header .subtitle { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    .refresh-btn { background: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: opacity 0.2s; }
-    .refresh-btn:hover { opacity: 0.85; }
-    .refresh-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+      padding: 24px 16px 48px;
+    }
 
-    .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-bottom: 28px; }
-    .summary-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 16px; }
-    .summary-card .label { font-size: 0.75rem; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .summary-card .value { font-size: 1.4rem; font-weight: 700; }
+    /* ── Header ───────────────────────────────────────── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .header-left { display: flex; align-items: center; gap: 14px; }
+    .logo {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--purple));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 900; color: #fff;
+      letter-spacing: -1px;
+    }
+    .header h1 { font-size: 1.45rem; font-weight: 700; }
+    .header h1 span { color: var(--accent); }
+    .header-right { display: flex; align-items: center; gap: 10px; }
+    .updated-label { font-size: 0.75rem; color: var(--muted); }
+    #lastUpdated { color: var(--text); font-size: 0.75rem; }
 
-    .positive { color: var(--green); } .negative { color: var(--red); } .neutral { color: var(--blue); }
-
-    .section-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-    .section-title span.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); display: inline-block; }
-
-    table { width: 100%; border-collapse: collapse; margin-bottom: 36px; font-size: 0.9rem; }
-    th { text-align: right; padding: 10px 14px; color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); cursor: pointer; user-select: none; white-space: nowrap; }
-    th:hover { color: var(--text); }
-    td { padding: 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-    tr:last-child td { border-bottom: none; }
-    tbody tr { background: var(--card); transition: background 0.15s; }
-    tbody tr:hover { background: var(--card2); }
-
-    .ticker-badge { display: inline-block; background: var(--card2); border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; font-weight: 700; font-size: 0.85rem; }
-    .sort-icon { display: inline-block; margin-right: 4px; opacity: 0.4; font-size: 0.7rem; }
-    .sort-icon.active { opacity: 1; color: var(--accent); }
-
-    .pnl-bar-wrap { display: flex; align-items: center; gap: 8px; }
-    .pnl-bar { height: 6px; border-radius: 4px; min-width: 4px; }
-
-    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: inline-block; box-shadow: 0 0 6px var(--green); animation: pulse 2s infinite; }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-
-    .history-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 36px; }
-    .history-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; display: flex; align-items: flex-start; gap: 14px; }
-    .history-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
-    .icon-open { background: rgba(34,197,94,0.15); } .icon-close { background: rgba(239,68,68,0.15); } .icon-hold { background: rgba(59,130,246,0.15); }
-    .history-body { flex: 1; }
-    .history-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 4px; }
-    .history-title { font-weight: 600; font-size: 0.95rem; }
-    .history-date { font-size: 0.78rem; color: var(--muted); }
-    .history-reason { font-size: 0.82rem; color: var(--muted); margin-top: 4px; line-height: 1.5; }
-    .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 600; margin-left: 6px; }
-    .tag-open { background: rgba(34,197,94,0.2); color: var(--green); }
-    .tag-close { background: rgba(239,68,68,0.2); color: var(--red); }
-    .tag-hold { background: rgba(59,130,246,0.2); color: var(--blue); }
-
-    .error-box { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 10px; padding: 16px; color: var(--red); font-size: 0.9rem; margin-bottom: 20px; }
-    .loading { text-align: center; padding: 40px; color: var(--muted); }
-    .spinner { display: inline-block; width: 24px; height: 24px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 10px; }
+    .btn-refresh {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 18px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex; align-items: center; gap: 6px;
+      transition: opacity .18s;
+    }
+    .btn-refresh:hover { opacity: .85; }
+    .btn-refresh:active { opacity: .7; }
+    .spin { display: inline-block; }
+    .spinning { animation: spin .7s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .last-updated { font-size: 0.78rem; color: var(--muted); text-align: center; margin-top: 32px; }
-    .no-data { color: var(--muted); font-size: 0.9rem; padding: 16px 0; }
+
+    /* ── Summary cards ────────────────────────────────── */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .summary-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 20px;
+    }
+    .summary-card .label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 8px;
+    }
+    .summary-card .value {
+      font-size: 1.55rem;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+    .summary-card .sub {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .c-green { color: var(--green); }
+    .c-red   { color: var(--red); }
+    .c-blue  { color: var(--blue); }
+    .c-purple{ color: var(--purple); }
+    .c-accent{ color: var(--accent); }
+
+    /* ── Section titles ───────────────────────────────── */
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title .pill {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      font-size: 0.72rem;
+      padding: 2px 10px;
+      color: var(--muted);
+    }
+
+    /* ── Positions table ──────────────────────────────── */
+    .table-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow-x: auto;
+      margin-bottom: 32px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 680px;
+    }
+    thead th {
+      background: var(--card2);
+      padding: 12px 16px;
+      text-align: right;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+      transition: color .15s;
+    }
+    thead th:hover { color: var(--text); }
+    thead th.sorted { color: var(--accent); }
+    thead th .sort-arrow { margin-right: 4px; opacity: .6; font-size: .7rem; }
+
+    tbody tr {
+      border-top: 1px solid var(--border);
+      transition: background .12s;
+    }
+    tbody tr:hover { background: var(--card2); }
+    tbody td {
+      padding: 14px 16px;
+      font-size: 0.88rem;
+      vertical-align: middle;
+    }
+
+    .ticker-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent), var(--purple));
+      color: #fff;
+      border-radius: 7px;
+      padding: 3px 9px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+    .pos-count {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+    .muted-val {
+      color: var(--muted);
+      font-size: 0.83rem;
+    }
+    .pl-bar-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .pl-values {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .pl-pct {
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .pl-bar-bg {
+      height: 4px;
+      border-radius: 2px;
+      background: var(--border);
+      width: 70px;
+      overflow: hidden;
+    }
+    .pl-bar-fill {
+      height: 4px;
+      border-radius: 2px;
+      min-width: 2px;
+    }
+    .weight-cell { text-align: center; }
+    .weight-badge {
+      display: inline-block;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 0.8rem;
+      color: var(--blue);
+    }
+    .price-cell {
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    /* ── Trade history ────────────────────────────────── */
+    #historySection { margin-top: 4px; }
+    .history-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px;
+    }
+    .trade-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 18px;
+      transition: border-color .18s;
+    }
+    .trade-card:hover { border-color: var(--accent); }
+    .trade-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .trade-ticker {
+      display: inline-block;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 4px 10px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: .04em;
+    }
+    .trade-date {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    .trade-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 7px;
+    }
+    .trade-row .tl { font-size: 0.75rem; color: var(--muted); }
+    .trade-row .tv { font-size: 0.85rem; font-weight: 500; }
+    .price-arrow {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin: 0 4px;
+    }
+    .pl-trade {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .history-loading, .history-error, .history-empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+    .history-error { color: var(--red); }
+
+    /* ── Loading overlay for prices ───────────────────── */
+    .loading-prices {
+      text-align: center;
+      padding: 20px;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    /* ── Responsive ───────────────────────────────────── */
+    @media (max-width: 520px) {
+      .header h1 { font-size: 1.1rem; }
+      .summary-card .value { font-size: 1.2rem; }
+      .btn-refresh { padding: 7px 12px; font-size: 0.78rem; }
+    }
   </style>
 </head>
 <body>
 
+<!-- ── HEADER ─────────────────────────────────────────── -->
 <div class="header">
-  <div>
-    <h1>📊 eToro Portfolio</h1>
-    <div class="subtitle">YEHUDACLAW-TMFOK - Live Dashboard</div>
+  <div class="header-left">
+    <div class="logo">eT</div>
+    <div>
+      <h1>eToro <span>Agent Portfolio</span></h1>
+      <div style="font-size:.75rem;color:var(--muted);margin-top:2px;">דשבורד פוזיציות חכם</div>
+    </div>
   </div>
-  <button class="refresh-btn" id="refreshBtn" onclick="loadAll()">🔄 רענן</button>
+  <div class="header-right">
+    <span class="updated-label">עודכן:</span>
+    <span id="lastUpdated">—</span>
+    <button class="btn-refresh" onclick="refresh()">
+      <span class="spin" id="refreshIcon">↻</span>
+      רענן
+    </button>
+  </div>
 </div>
 
+<!-- ── SUMMARY CARDS ──────────────────────────────────── -->
 <div class="summary-grid" id="summaryGrid">
-  <div class="loading"><div class="spinner"></div><br>טוען...</div>
+  <div class="summary-card">
+    <div class="label">פוזיציות פתוחות</div>
+    <div class="value c-accent" id="sumPositions">—</div>
+  </div>
+  <div class="summary-card">
+    <div class="label">סה"כ מושקע</div>
+    <div class="value c-blue" id="sumInvested">—</div>
+  </div>
+  <div class="summary-card">
+    <div class="label">שווי נוכחי</div>
+    <div class="value" id="sumValue">—</div>
+  </div>
+  <div class="summary-card">
+    <div class="label">רווח/הפסד</div>
+    <div class="value" id="sumPL">—</div>
+    <div class="sub" id="sumPLSub"></div>
+  </div>
+  <div class="summary-card">
+    <div class="label">תשואה</div>
+    <div class="value" id="sumReturn">—</div>
+  </div>
 </div>
 
+<!-- ── POSITIONS TABLE ────────────────────────────────── -->
 <div class="section-title">
-  <span class="dot"></span>
-  <span class="status-dot"></span>
-  פוזיציות פתוחות
+  📊 פוזיציות פתוחות
+  <span class="pill" id="posCount">טוען...</span>
 </div>
-<div id="positionsSection">
-  <div class="loading"><div class="spinner"></div><br>טוען פוזיציות...</div>
+<div class="table-wrap">
+  <table id="posTable">
+    <thead>
+      <tr>
+        <th data-col="sym"      class="sorted">מניה <span class="sort-arrow" id="arr-sym">↓</span></th>
+        <th data-col="units"              >יחידות <span class="sort-arrow" id="arr-units"></span></th>
+        <th data-col="avgOpen"            >פתיחה ממוצעת <span class="sort-arrow" id="arr-avgOpen"></span></th>
+        <th data-col="invested"           >השקעה ($) <span class="sort-arrow" id="arr-invested"></span></th>
+        <th data-col="pl"                 >רווח/הפסד <span class="sort-arrow" id="arr-pl"></span></th>
+        <th data-col="weight" class="weight-cell">משקל <span class="sort-arrow" id="arr-weight"></span></th>
+        <th data-col="price"              >מחיר נוכחי <span class="sort-arrow" id="arr-price"></span></th>
+      </tr>
+    </thead>
+    <tbody id="posBody">
+      <tr><td colspan="7" class="loading-prices">טוען מחירים...</td></tr>
+    </tbody>
+  </table>
 </div>
 
-<div class="section-title" style="margin-top: 36px;">
-  <span class="dot" style="background: var(--purple);"></span>
-  היסטוריית פעולות
+<!-- ── TRADE HISTORY ──────────────────────────────────── -->
+<div id="historySection">
+  <div class="section-title">
+    📜 היסטוריית עסקאות
+    <span class="pill" id="histCount">טוען...</span>
+  </div>
+  <div id="historyContainer">
+    <div class="history-loading">טוען היסטוריית עסקאות...</div>
+  </div>
 </div>
-<div id="historySection"></div>
-
-<div class="last-updated" id="lastUpdated"></div>
 
 <script>
-// ── AGENT PORTFOLIO (source of truth from eToro, last updated 07/05/2026) ────
-// units × avgOpen = Invested column in eToro
-// Source of truth: eToro screenshot 07/05/2026 15:01
-// invested = units × avgOpen (verified against eToro)
+/* ══════════════════════════════════════════════════════════
+   DATA
+══════════════════════════════════════════════════════════ */
 const POSITIONS = [
-  { sym: 'NVDA',  units: 14.43827, avgOpen: 207.60371, openCount: 6, etoroInvested: 2997.44 },
-  { sym: 'GOOG',  units: 1.96377,  avgOpen: 380.10,    openCount: 1, etoroInvested: 746.43  },
-  { sym: 'GOOGL', units: 1.59951,  avgOpen: 342.62816, openCount: 3, etoroInvested: 548.04  },
-  { sym: 'AMD',   units: 0.76966,  avgOpen: 347.71,    openCount: 1, etoroInvested: 267.62  },
-  { sym: 'AAPL',  units: 1.0209,   avgOpen: 267.46,    openCount: 1, etoroInvested: 273.05  },
-  { sym: 'AVGO',  units: 0.66397,  avgOpen: 419.19,    openCount: 1, etoroInvested: 278.33  },
+  { sym: 'NVDA',  units: 14.43827, avgOpen: 207.60371, openCount: 6 },
+  { sym: 'GOOG',  units: 1.96377,  avgOpen: 380.10,    openCount: 1 },
+  { sym: 'GOOGL', units: 1.59951,  avgOpen: 342.62816, openCount: 3 },
+  { sym: 'AMD',   units: 0.76966,  avgOpen: 347.71,    openCount: 1 },
+  { sym: 'AAPL',  units: 1.0209,   avgOpen: 267.46,    openCount: 1 },
+  { sym: 'AVGO',  units: 0.66397,  avgOpen: 419.19,    openCount: 1 },
 ];
 
-// eToro verified P/L snapshot (07/05/2026 16:51) - used as fallback if Yahoo price unavailable
-// Total P/L: +$190 (+1.54%) | Invested: $5,110.91
 const ETORO_SNAPSHOT = {
   NVDA:  { price: 208.43 },
   GOOG:  { price: 393.54 },
@@ -127,210 +416,334 @@ const ETORO_SNAPSHOT = {
   AVGO:  { price: 417.08 },
 };
 
-// ── HISTORY (from grok-trader logs) ──────────────────────────────────────────
-const HISTORY = [
-  { date: '16.04.2026', action: 'hold', title: 'HOLD - כל הפוזיציות', reason: 'לא ניתן לגשת לנתוני MA20 ו-news. ברירת מחדל - החזקה.' },
-  { date: '21.04.2026', action: 'hold', title: 'HOLD - כל הפוזיציות', reason: 'META +1.56%, AMZN +1.57%, NVDA +2.70%, MSFT +6.31%, AAPL +4.69%, GOOGL +2.02%. כולן מעל MA20.' },
-  { date: '22.04.2026', action: 'hold', title: 'HOLD - כל הפוזיציות', reason: 'MSFT +8.47% בולטת. כל הפוזיציות מיושרות עם אסטרטגיית Grok 4.' },
-  { date: '23.04.2026', action: 'hold', title: 'HOLD - כל הפוזיציות', reason: 'Equity ~$2,079. אין מזומן פנוי. כל הפוזיציות מעל MA20.' },
-  { date: '24.04.2026', action: 'close', title: '❌ סגר META', reason: 'ביצועים נמוכים ביחס ל-MA20 ואי-ודאות בהכנסות פרסום.' },
-  { date: '24.04.2026', action: 'open', title: '✅ פתח TSLA (19%)', reason: 'טרנד שורי חזק ו-catalysts חיוביים במספרי משלוחים.' },
-  { date: '27.04.2026', action: 'hold', title: 'HOLD - ניסיון נכשל (API error)', reason: 'כוונה לסגור AMD ולפתוח AAPL. נכשל עקב שגיאות API (400 Bad Request).' },
-  { date: '27.04.2026', action: 'open', title: '✅ פתח NVDA ($800)', reason: 'ציון 9.0, ביקוש שבבי AI, מעל MA20.' },
-  { date: '28.04.2026', action: 'open', title: '✅ פתח NVDA ($2,000)', reason: 'מומנטום יוצא דופן, ביקוש שבבי AI.' },
-  { date: '29.04.2026', action: 'open', title: '✅ פתח AAPL ($2,000) + MSFT ($2,000)', reason: 'שניהם עברו כל הקריטריונים. מזומן זמין: $6,700.' },
-  { date: '30.04.2026', action: 'close', title: '❌ סגר CRWD', reason: 'הפוזיציה החלשה ביותר, ציון 7.4, PnL שלילי.' },
-  { date: '30.04.2026', action: 'open', title: '✅ פתח TSLA ($500)', reason: 'ציון 8.3, מעל MA20, רומורים על דגם חדש.' },
-  { date: '01.05.2026', action: 'open', title: '✅ פתח AAPL ($750) + TSLA ($750)', reason: 'מזומן זמין $1,500, שניהם עברו כל הקריטריונים.' },
-  { date: '05.05.2026', action: 'close', title: '❌ ניסיון סגירת NVDA', reason: 'תיק מושקע יתר. NVDA הוגדר כחלש ביותר. לא בטוח שבוצע בפועל.' },
-  { date: '06.05.2026', action: 'close', title: '❌ ניסיון סגירת AVGO (שגיאת API)', reason: 'ציון 7.9. שגיאה: Route not found. תועד כ-simulated.' },
-];
+const INSTRUMENTS = {
+  1001:'AAPL', 1002:'GOOG', 1003:'META',  1004:'MSFT',
+  1005:'AMZN', 1137:'NVDA', 1365:'ARM',   1832:'AMD',
+  4236:'AVGO', 5506:'CRWD', 6434:'GOOGL', 7991:'PLTR',
+};
 
-// ── HELPERS ───────────────────────────────────────────────────────────────────
-function fmt(n, d = 2) { return (n >= 0 ? '+' : '') + n.toFixed(d); }
-function fmtUSD(n) { return '$' + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
-function pnlClass(n) { return n > 0 ? 'positive' : n < 0 ? 'negative' : 'neutral'; }
+const API_KEY  = 'sdgdskldFPLGfjHn1421dgnlxdGTbngdflg6290bRjslfihsjhSDsdgGHH25hjf';
+const USER_KEY = 'eyJjaSI6IjYwY2FiYjBiLTU1OTctNDQ4NS04ZjYzLTdlOWUwNTZlMGJiOCIsImVhbiI6IlVucmVnaXN0ZXJlZEFwcGxpY2F0aW9uIiwiZWsiOiJZNWI3dTY4alZjcHRkbVQuUFVDWGouTjJKaGpJcWtrUlg3WXV3MmNWNU1lSTZhelNIZ2lRNHkxd2xYZ1BtVkY0b2VmLjltUllXLUU2Qkd3Q09nMzNENi1kN0toOWMxd2M5QllGdWRtRC4zMF8ifQ__';
 
-// ── SORT STATE ────────────────────────────────────────────────────────────────
-let sortCol = null, sortDir = 1, lastPrices = null;
+/* ══════════════════════════════════════════════════════════
+   STATE
+══════════════════════════════════════════════════════════ */
+let prices    = {};   // { SYM: number }
+let sortCol   = 'sym';
+let sortAsc   = true;
 
-function toggleSort(col) {
-  sortDir = (sortCol === col) ? sortDir * -1 : (col === 'pnl' || col === 'pnlpct' ? -1 : 1);
-  sortCol = col;
-  if (lastPrices) renderPositions(lastPrices);
+/* ══════════════════════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════════════════════ */
+const fmt$ = (v, dec=2) =>
+  (v < 0 ? '-$' : '$') + Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+
+const fmtPct = v => (v >= 0 ? '+' : '') + v.toFixed(2) + '%';
+
+function colorClass(v) { return v >= 0 ? 'c-green' : 'c-red'; }
+
+function setLoading(on) {
+  const ico = document.getElementById('refreshIcon');
+  ico.classList.toggle('spinning', on);
 }
 
-function sortIcon(col) {
-  if (sortCol !== col) return '<span class="sort-icon">⇅</span>';
-  return `<span class="sort-icon active">${sortDir === 1 ? '↑' : '↓'}</span>`;
+function updateTimestamp() {
+  const now = new Date();
+  document.getElementById('lastUpdated').textContent =
+    now.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 }
 
-// ── PRICE FETCH (Yahoo Finance) ───────────────────────────────────────────────
-async function fetchPrice(sym) {
-  const res = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1d&range=1d`);
-  if (!res.ok) throw new Error(`Yahoo ${sym} ${res.status}`);
-  const data = await res.json();
-  return data.chart.result[0].meta.regularMarketPrice;
+/* ══════════════════════════════════════════════════════════
+   PRICE FETCHING (Yahoo Finance + snapshot fallback)
+══════════════════════════════════════════════════════════ */
+async function fetchYahooPrice(sym) {
+  try {
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1d&range=1d`;
+    const resp = await fetch(url, { signal: AbortSignal.timeout(6000) });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    const livePrice = data?.chart?.result?.[0]?.meta?.regularMarketPrice;
+    if (!livePrice || isNaN(livePrice)) throw new Error('no price');
+
+    // Sanity-check: if differs >10% from snapshot, use snapshot
+    const snap = ETORO_SNAPSHOT[sym]?.price;
+    if (snap && Math.abs((livePrice - snap) / snap) > 0.10) {
+      console.warn(`[${sym}] Yahoo price ${livePrice} differs >10% from snapshot ${snap}. Using snapshot.`);
+      return snap;
+    }
+    return livePrice;
+  } catch (e) {
+    console.warn(`[${sym}] Yahoo fetch failed: ${e.message}. Using snapshot.`);
+    return ETORO_SNAPSHOT[sym]?.price ?? null;
+  }
 }
 
 async function fetchAllPrices() {
-  const syms = [...new Set(POSITIONS.map(p => p.sym))];
-  const prices = {};
-  await Promise.all(syms.map(async sym => {
-    try {
-      const yahooPrice = await fetchPrice(sym);
-      // Sanity check: if Yahoo price is wildly off vs eToro snapshot (>10%), use snapshot
-      const snap = ETORO_SNAPSHOT[sym];
-      if (snap && Math.abs(yahooPrice - snap.price) / snap.price > 0.10) {
-        console.warn(`${sym}: Yahoo ${yahooPrice} vs eToro ${snap.price} - using eToro snapshot`);
-        prices[sym] = snap.price;
-      } else {
-        prices[sym] = yahooPrice;
-      }
-    } catch(e) {
-      console.warn('price fetch failed', sym, e);
-      // Fallback to eToro snapshot price
-      prices[sym] = ETORO_SNAPSHOT[sym]?.price || null;
+  const results = await Promise.allSettled(
+    POSITIONS.map(p => fetchYahooPrice(p.sym).then(price => ({ sym: p.sym, price })))
+  );
+  const map = {};
+  results.forEach(r => {
+    if (r.status === 'fulfilled' && r.value.price != null) {
+      map[r.value.sym] = r.value.price;
     }
-  }));
-  return prices;
-}
-
-// ── RENDER SUMMARY ────────────────────────────────────────────────────────────
-function renderSummary(prices) {
-  let totalInvested = 0, totalValue = 0;
-  POSITIONS.forEach(p => {
-    if (prices[p.sym] == null) return;
-    totalInvested += p.units * p.avgOpen;
-    totalValue    += p.units * prices[p.sym];
   });
-  const totalPnL = totalValue - totalInvested;
-  const pnlPct   = totalInvested > 0 ? (totalPnL / totalInvested) * 100 : 0;
-
-  document.getElementById('summaryGrid').innerHTML = `
-    <div class="summary-card"><div class="label">מניות פתוחות</div><div class="value neutral">${POSITIONS.length}</div></div>
-    <div class="summary-card"><div class="label">סה"כ מושקע</div><div class="value neutral">${fmtUSD(totalInvested)}</div></div>
-    <div class="summary-card"><div class="label">שווי נוכחי</div><div class="value neutral">${fmtUSD(totalValue)}</div></div>
-    <div class="summary-card"><div class="label">רווח/הפסד</div><div class="value ${pnlClass(totalPnL)}">${fmt(totalPnL, 2)}$</div></div>
-    <div class="summary-card"><div class="label">תשואה</div><div class="value ${pnlClass(pnlPct)}">${fmt(pnlPct, 2)}%</div></div>
-  `;
+  // Fill any missing with snapshot
+  POSITIONS.forEach(p => {
+    if (!map[p.sym] && ETORO_SNAPSHOT[p.sym]) {
+      map[p.sym] = ETORO_SNAPSHOT[p.sym].price;
+    }
+  });
+  return map;
 }
 
-// ── RENDER POSITIONS ──────────────────────────────────────────────────────────
-function renderPositions(prices) {
-  // Enrich
-  let totalValue = 0;
-  const enriched = POSITIONS.map(p => {
-    const price    = prices[p.sym] || 0;
+/* ══════════════════════════════════════════════════════════
+   ETORO HISTORY API
+══════════════════════════════════════════════════════════ */
+async function fetchHistory() {
+  try {
+    const url = 'https://public-api.etoro.com/api/v1/trading/info/trade/history?minDate=2026-04-15&pageSize=100';
+    const resp = await fetch(url, {
+      headers: {
+        'x-api-key':    API_KEY,
+        'x-user-key':   USER_KEY,
+        'x-request-id': crypto.randomUUID(),
+      },
+      signal: AbortSignal.timeout(10000),
+    });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    // Support various response shapes
+    const trades = data?.trades ?? data?.data ?? data?.items ?? (Array.isArray(data) ? data : []);
+    return { ok: true, trades };
+  } catch (e) {
+    console.error('eToro history fetch failed:', e.message);
+    return { ok: false, error: e.message };
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   COMPUTED ROWS
+══════════════════════════════════════════════════════════ */
+function buildRows(priceMap) {
+  return POSITIONS.map(p => {
+    const price    = priceMap[p.sym] ?? p.avgOpen;
     const invested = p.units * p.avgOpen;
     const value    = p.units * price;
-    const pnl      = value - invested;
-    const pnlPct   = invested > 0 ? (pnl / invested) * 100 : 0;
-    totalValue += value;
-    return { ...p, price, invested, value, pnl, pnlPct };
+    const pl       = value - invested;
+    const plPct    = (pl / invested) * 100;
+    return { ...p, price, invested, value, pl, plPct };
+  });
+}
+
+/* ══════════════════════════════════════════════════════════
+   RENDER: SUMMARY
+══════════════════════════════════════════════════════════ */
+function renderSummary(rows) {
+  const totalInvested = rows.reduce((s, r) => s + r.invested, 0);
+  const totalValue    = rows.reduce((s, r) => s + r.value,    0);
+  const totalPL       = totalValue - totalInvested;
+  const totalRet      = (totalPL / totalInvested) * 100;
+
+  document.getElementById('sumPositions').textContent = rows.length;
+  document.getElementById('sumInvested').textContent  = fmt$(totalInvested, 0);
+
+  const valEl = document.getElementById('sumValue');
+  valEl.textContent  = fmt$(totalValue, 0);
+  valEl.className    = 'value ' + colorClass(totalValue - totalInvested);
+
+  const plEl = document.getElementById('sumPL');
+  plEl.textContent = fmt$(totalPL);
+  plEl.className   = 'value ' + colorClass(totalPL);
+  document.getElementById('sumPLSub').textContent = fmtPct(totalRet);
+
+  const retEl = document.getElementById('sumReturn');
+  retEl.textContent = fmtPct(totalRet);
+  retEl.className   = 'value ' + colorClass(totalRet);
+}
+
+/* ══════════════════════════════════════════════════════════
+   RENDER: POSITIONS TABLE
+══════════════════════════════════════════════════════════ */
+function sortRows(rows) {
+  const col = sortCol;
+  return [...rows].sort((a, b) => {
+    let av = a[col], bv = b[col];
+    if (typeof av === 'string') av = av.toLowerCase(), bv = bv.toLowerCase();
+    if (av < bv) return sortAsc ? -1 : 1;
+    if (av > bv) return sortAsc ?  1 : -1;
+    return 0;
+  });
+}
+
+function renderTable(rows) {
+  const totalInvested = rows.reduce((s, r) => s + r.invested, 0);
+  const sorted = sortRows(rows);
+
+  // Update sort arrows
+  ['sym','units','avgOpen','invested','pl','weight','price'].forEach(c => {
+    const el = document.getElementById('arr-' + c);
+    if (!el) return;
+    el.textContent = c === sortCol ? (sortAsc ? '↓' : '↑') : '';
   });
 
-  // Sort
-  if (sortCol) {
-    enriched.sort((a, b) => {
-      if (sortCol === 'sym')     return sortDir * a.sym.localeCompare(b.sym);
-      if (sortCol === 'invested') return sortDir * (a.invested - b.invested);
-      if (sortCol === 'pnl')     return sortDir * (a.pnl - b.pnl);
-      if (sortCol === 'pnlpct')  return sortDir * (a.pnlPct - b.pnlPct);
-      if (sortCol === 'weight')  return sortDir * (a.value - b.value);
-      if (sortCol === 'price')   return sortDir * (a.price - b.price);
-      return 0;
-    });
-  }
+  const maxAbsPL = Math.max(...rows.map(r => Math.abs(r.pl)), 1);
 
-  const rows = enriched.map(p => {
-    const weight   = totalValue > 0 ? (p.value / totalValue) * 100 : 0;
-    const barColor = p.pnl >= 0 ? 'var(--green)' : 'var(--red)';
-    const barWidth = Math.min(Math.abs(p.pnlPct) * 4, 80);
-    const priceStr = p.price ? `$${p.price.toFixed(2)}` : '-';
-    return `
-      <tr>
-        <td>
-          <span class="ticker-badge">${p.sym}</span>
-          ${p.openCount > 1 ? `<span style="font-size:0.7rem;color:var(--muted);margin-right:6px;">${p.openCount} פוזיציות</span>` : '<span style="font-size:0.7rem;color:var(--muted);margin-right:6px;">1 פוזיציה</span>'}
-        </td>
-        <td style="color:var(--muted);font-size:0.82rem;">${p.units.toFixed(5)}</td>
-        <td style="color:var(--muted);font-size:0.82rem;">$${p.avgOpen.toFixed(3)}</td>
-        <td>${fmtUSD(p.invested)}</td>
-        <td>
-          <div class="pnl-bar-wrap">
-            <span class="${pnlClass(p.pnl)}" style="font-weight:600;">${fmt(p.pnl, 2)}$</span>
-            <div class="pnl-bar" style="width:${barWidth}px;background:${barColor};"></div>
+  document.getElementById('posCount').textContent = rows.length + ' מניות';
+
+  const tbody = document.getElementById('posBody');
+  tbody.innerHTML = sorted.map(r => {
+    const weight  = (r.invested / totalInvested) * 100;
+    const barPct  = Math.min(Math.abs(r.pl) / maxAbsPL * 100, 100);
+    const barColor= r.pl >= 0 ? 'var(--green)' : 'var(--red)';
+
+    return `<tr>
+      <td>
+        <span class="ticker-badge">${r.sym}</span>
+        <div class="pos-count">${r.openCount} פוזיציות</div>
+      </td>
+      <td class="muted-val">${r.units.toFixed(5)}</td>
+      <td class="muted-val">${fmt$(r.avgOpen)}</td>
+      <td><strong>${fmt$(r.invested)}</strong></td>
+      <td>
+        <div class="pl-bar-wrap">
+          <div class="pl-values">
+            <span class="${colorClass(r.pl)}" style="font-weight:600">${fmt$(r.pl)}</span>
+            <span class="pl-pct ${colorClass(r.pl)}">${fmtPct(r.plPct)}</span>
           </div>
-          <small class="${pnlClass(p.pnlPct)}">${fmt(p.pnlPct, 2)}%</small>
-        </td>
-        <td style="color:var(--muted);font-size:0.82rem;">${weight.toFixed(1)}%</td>
-        <td style="color:var(--muted);font-size:0.82rem;">${priceStr}</td>
-      </tr>`;
-  }).join('');
-
-  document.getElementById('positionsSection').innerHTML = `
-    <table>
-      <thead><tr>
-        <th onclick="toggleSort('sym')">${sortIcon('sym')} מניה</th>
-        <th onclick="toggleSort('units')">יחידות</th>
-        <th onclick="toggleSort('avgopen')">Avg Open</th>
-        <th onclick="toggleSort('invested')">${sortIcon('invested')} Invested</th>
-        <th onclick="toggleSort('pnl')">${sortIcon('pnl')} P/L</th>
-        <th onclick="toggleSort('weight')">${sortIcon('weight')} משקל</th>
-        <th onclick="toggleSort('price')">${sortIcon('price')} מחיר נוכחי</th>
-      </tr></thead>
-      <tbody>${rows}</tbody>
-    </table>`;
-}
-
-// ── RENDER HISTORY ────────────────────────────────────────────────────────────
-function renderHistory() {
-  const items = [...HISTORY].reverse().map(h => {
-    let iconClass = 'icon-hold', iconEmoji = '📊', tagClass = 'tag-hold', tagText = 'HOLD';
-    if (h.action === 'open')  { iconClass = 'icon-open';  iconEmoji = '✅'; tagClass = 'tag-open';  tagText = 'פתיחה'; }
-    if (h.action === 'close') { iconClass = 'icon-close'; iconEmoji = '❌'; tagClass = 'tag-close'; tagText = 'סגירה'; }
-    return `
-      <div class="history-item">
-        <div class="history-icon ${iconClass}">${iconEmoji}</div>
-        <div class="history-body">
-          <div class="history-header">
-            <span class="history-title">${h.title}<span class="tag ${tagClass}">${tagText}</span></span>
-            <span class="history-date">${h.date}</span>
+          <div class="pl-bar-bg">
+            <div class="pl-bar-fill" style="width:${barPct}%;background:${barColor}"></div>
           </div>
-          <div class="history-reason">${h.reason}</div>
         </div>
-      </div>`;
+      </td>
+      <td class="weight-cell"><span class="weight-badge">${weight.toFixed(1)}%</span></td>
+      <td class="price-cell">${fmt$(r.price)}</td>
+    </tr>`;
   }).join('');
-  document.getElementById('historySection').innerHTML = `<div class="history-list">${items}</div>`;
 }
 
-// ── MAIN ──────────────────────────────────────────────────────────────────────
-async function loadAll() {
-  const btn = document.getElementById('refreshBtn');
-  btn.disabled = true; btn.textContent = '⏳ טוען...';
+/* ══════════════════════════════════════════════════════════
+   RENDER: TRADE HISTORY
+══════════════════════════════════════════════════════════ */
+function renderHistory(result) {
+  const container = document.getElementById('historyContainer');
+  const countEl   = document.getElementById('histCount');
 
-  document.getElementById('summaryGrid').innerHTML = '<div class="loading"><div class="spinner"></div><br>טוען מחירים...</div>';
-  document.getElementById('positionsSection').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
-
-  try {
-    const prices = await fetchAllPrices();
-    lastPrices = prices;
-    renderSummary(prices);
-    renderPositions(prices);
-  } catch(err) {
-    document.getElementById('summaryGrid').innerHTML = `<div class="error-box">⚠️ שגיאה בטעינת מחירים: ${err.message}</div>`;
-    document.getElementById('positionsSection').innerHTML = '';
+  if (!result.ok) {
+    container.innerHTML = `<div class="history-error">
+      ❌ שגיאה בטעינת היסטוריית עסקאות<br>
+      <span style="font-size:.78rem;color:var(--muted);margin-top:6px;display:block">${result.error}</span>
+    </div>`;
+    countEl.textContent = 'שגיאה';
+    return;
   }
 
-  renderHistory();
-  const now = new Date().toLocaleString('he-IL', { timeZone: 'Asia/Jerusalem' });
-  document.getElementById('lastUpdated').textContent = `עודכן: ${now} | מחירים: Yahoo Finance`;
+  const trades = result.trades;
 
-  btn.disabled = false; btn.textContent = '🔄 רענן';
+  if (!trades || trades.length === 0) {
+    container.innerHTML = `<div class="history-empty">אין עסקאות סגורות בטווח התאריכים שנבחר</div>`;
+    countEl.textContent = '0 עסקאות';
+    return;
+  }
+
+  // Sort by closeTimestamp desc
+  const sorted = [...trades].sort((a, b) => {
+    const ta = new Date(a.closeTimestamp ?? a.closeDate ?? a.closedAt ?? 0).getTime();
+    const tb = new Date(b.closeTimestamp ?? b.closeDate ?? b.closedAt ?? 0).getTime();
+    return tb - ta;
+  });
+
+  countEl.textContent = sorted.length + ' עסקאות';
+
+  container.innerHTML = `<div class="history-grid">${sorted.map(t => {
+    const instrId  = t.instrumentId ?? t.instrument_id;
+    const sym      = INSTRUMENTS[instrId] ?? (t.ticker ?? t.symbol ?? instrId ?? '?');
+    const closedAt = t.closeTimestamp ?? t.closeDate ?? t.closedAt ?? '';
+    const dateStr  = closedAt ? new Date(closedAt).toLocaleDateString('he-IL', {
+      day: '2-digit', month: '2-digit', year: '2-digit',
+      hour: '2-digit', minute: '2-digit'
+    }) : '—';
+    const invested = t.amount ?? t.invested ?? t.openAmount ?? 0;
+    const openPrice  = t.openRate  ?? t.open_price  ?? t.openPrice  ?? 0;
+    const closePrice = t.closeRate ?? t.close_price ?? t.closePrice ?? 0;
+    const pl    = t.netProfit ?? t.profit ?? t.pl ?? t.pnl ?? (closePrice && openPrice && invested
+      ? (closePrice - openPrice) / openPrice * invested : 0);
+    const plPct = invested ? (pl / invested) * 100 : 0;
+    const plClass = pl >= 0 ? 'c-green' : 'c-red';
+
+    return `<div class="trade-card">
+      <div class="trade-card-header">
+        <span class="trade-ticker">${sym}</span>
+        <span class="trade-date">${dateStr}</span>
+      </div>
+      <div class="trade-row">
+        <span class="tl">השקעה</span>
+        <span class="tv">${fmt$(invested)}</span>
+      </div>
+      <div class="trade-row">
+        <span class="tl">פתיחה → סגירה</span>
+        <span class="tv">
+          ${fmt$(openPrice)}
+          <span class="price-arrow">→</span>
+          ${fmt$(closePrice)}
+        </span>
+      </div>
+      <div class="pl-trade">
+        <span style="font-size:.78rem;color:var(--muted)">רווח/הפסד</span>
+        <span class="${plClass}">
+          ${fmt$(pl)} &nbsp;<span style="font-size:.8rem">${fmtPct(plPct)}</span>
+        </span>
+      </div>
+    </div>`;
+  }).join('')}</div>`;
 }
 
-loadAll();
+/* ══════════════════════════════════════════════════════════
+   SORT HEADER CLICK
+══════════════════════════════════════════════════════════ */
+document.getElementById('posTable').addEventListener('click', e => {
+  const th = e.target.closest('th[data-col]');
+  if (!th) return;
+  const col = th.dataset.col;
+  if (sortCol === col) sortAsc = !sortAsc;
+  else { sortCol = col; sortAsc = true; }
+
+  // Update header active classes
+  document.querySelectorAll('#posTable thead th').forEach(t => t.classList.remove('sorted'));
+  th.classList.add('sorted');
+
+  // Re-render table with current price data
+  const rows = buildRows(prices);
+  renderTable(rows);
+});
+
+/* ══════════════════════════════════════════════════════════
+   MAIN REFRESH
+══════════════════════════════════════════════════════════ */
+async function refresh() {
+  setLoading(true);
+
+  // Fetch prices and history in parallel
+  const [priceMap, histResult] = await Promise.all([
+    fetchAllPrices(),
+    fetchHistory(),
+  ]);
+
+  prices = priceMap;
+  const rows = buildRows(prices);
+
+  renderSummary(rows);
+  renderTable(rows);
+  renderHistory(histResult);
+  updateTimestamp();
+
+  setLoading(false);
+}
+
+/* ══════════════════════════════════════════════════════════
+   BOOT
+══════════════════════════════════════════════════════════ */
+refresh();
 </script>
 </body>
 </html>
