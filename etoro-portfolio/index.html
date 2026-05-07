@@ -106,12 +106,12 @@
 // ── AGENT PORTFOLIO (source of truth from eToro, last updated 07/05/2026) ────
 // units × avgOpen = Invested column in eToro
 const POSITIONS = [
-  { sym: 'NVDA',  units: 14.43827, avgOpen: 207.60371 },
-  { sym: 'GOOG',  units: 1.96377,  avgOpen: 380.10 },
-  { sym: 'GOOGL', units: 1.59951,  avgOpen: 342.62816 },
-  { sym: 'AMD',   units: 0.76966,  avgOpen: 347.71 },
-  { sym: 'AAPL',  units: 1.0209,   avgOpen: 267.46 },
-  { sym: 'AVGO',  units: 0.66397,  avgOpen: 419.19 },
+  { sym: 'NVDA',  units: 14.43827, avgOpen: 207.60371, openCount: 5 },
+  { sym: 'GOOG',  units: 1.96377,  avgOpen: 380.10,    openCount: 1 },
+  { sym: 'GOOGL', units: 1.59951,  avgOpen: 342.62816, openCount: 2 },
+  { sym: 'AMD',   units: 0.76966,  avgOpen: 347.71,    openCount: 1 },
+  { sym: 'AAPL',  units: 1.0209,   avgOpen: 267.46,    openCount: 2 },
+  { sym: 'AVGO',  units: 0.66397,  avgOpen: 419.19,    openCount: 1 },
 ];
 
 // ── HISTORY (from grok-trader logs) ──────────────────────────────────────────
@@ -224,7 +224,10 @@ function renderPositions(prices) {
     const priceStr = p.price ? `$${p.price.toFixed(2)}` : '-';
     return `
       <tr>
-        <td><span class="ticker-badge">${p.sym}</span></td>
+        <td>
+          <span class="ticker-badge">${p.sym}</span>
+          ${p.openCount > 1 ? `<span style="font-size:0.7rem;color:var(--muted);margin-right:6px;">${p.openCount} פוזיציות</span>` : '<span style="font-size:0.7rem;color:var(--muted);margin-right:6px;">1 פוזיציה</span>'}
+        </td>
         <td style="color:var(--muted);font-size:0.82rem;">${p.units.toFixed(5)}</td>
         <td style="color:var(--muted);font-size:0.82rem;">$${p.avgOpen.toFixed(3)}</td>
         <td>${fmtUSD(p.invested)}</td>
