@@ -356,8 +356,12 @@ const USER_KEY = 'eyJjaSI6IjYwY2FiYjBiLTU1OTctNDQ4NS04ZjYzLTdlOWUwNTZlMGJiOCIsIm
 const INSTRUMENTS = {
   1001: 'AAPL', 1002: 'TSLA', 1003: 'META', 1004: 'MSFT',
   1005: 'AMZN', 1137: 'NVDA', 1365: 'ARM',  1832: 'AMD',
-  4236: 'AVGO', 5506: 'CRWD', 6434: 'GOOGL', 7991: 'PLTR'
+  4236: 'AVGO', 5506: 'CRWD', 6434: 'GOOGL', 7991: 'PLTR',
+  8758: 'GOOG', 14255: 'GOOG.EUR', 15572: 'GOOG'
 };
+
+// Agent portfolio start date (15/04/2026)
+const AGENT_START_DATE = new Date('2026-04-15T00:00:00Z');
 
 // ── BUILT-IN HISTORY (from grok-trader logs) ─────────────────────────────────
 const HISTORY = [
@@ -505,21 +509,24 @@ function renderSummary(portfolio) {
   // totalAmount = sum of original invested per position
   const totalAmount   = positions.reduce((s, p) => s + p.amount, 0);
   // totalExposure = current market value of all positions
-  const totalExposure = positions.reduce((s, p) => s + p.unrealizedPnL.exposureInAccountCurrency, 0);
-  const totalPnL      = positions.reduce((s, p) => s + p.unrealizedPnL.pnL, 0);
+  // Filter to agent portfolio only
+  const agentPos      = positions.filter(p => new Date(p.openDateTime) >= AGENT_START_DATE);
+  const totalExposure = agentPos.reduce((s, p) => s + p.unrealizedPnL.exposureInAccountCurrency, 0);
+  const totalPnL      = agentPos.reduce((s, p) => s + p.unrealizedPnL.pnL, 0);
+  const totalInvested2 = agentPos.reduce((s, p) => s + p.amount, 0);
   // equity = credit (free cash) + current exposure
   const equity        = credit + totalExposure;
   // pnl% relative to original invested
-  const pnlPct        = totalAmount > 0 ? (totalPnL / totalAmount) * 100 : 0;
+  const pnlPct        = totalInvested2 > 0 ? (totalPnL / totalInvested2) * 100 : 0;
 
   document.getElementById('summaryGrid').innerHTML = `
     <div class="summary-card">
       <div class="label">פוזיציות פתוחות</div>
-      <div class="value neutral">${positions.length}</div>
+      <div class="value neutral">${agentPos.length}</div>
     </div>
     <div class="summary-card">
       <div class="label">סה"כ מושקע (עלות)</div>
-      <div class="value neutral">${fmtUSD(totalAmount)}</div>
+      <div class="value neutral">${fmtUSD(totalInvested2)}</div>
     </div>
     <div class="summary-card">
       <div class="label">שווי שוק נוכחי</div>
@@ -558,8 +565,11 @@ function renderPositions(portfolio) {
 
   const totalExposure = positions.reduce((s, p) => s + p.unrealizedPnL.exposureInAccountCurrency, 0);
 
+  // Filter: only agent portfolio positions (opened on/after 15 Apr 2026)
+  const agentPositions = positions.filter(p => new Date(p.openDateTime) >= AGENT_START_DATE);
+
   // Enrich positions with computed fields
-  const enriched = positions.map(p => ({
+  const enriched = agentPositions.map(p => ({
     ...p,
     symbol:  INSTRUMENTS[p.instrumentID] || `#${p.instrumentID}`,
     pnl:     p.unrealizedPnL.pnL,
