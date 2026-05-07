@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>eToro Portfolio Dashboard</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --card: #1a1d27;
+      --card2: #22263a;
+      --border: #2e3250;
+      --green: #22c55e;
+      --red: #ef4444;
+      --yellow: #f59e0b;
+      --blue: #3b82f6;
+      --purple: #a855f7;
+      --text: #e2e8f0;
+      --muted: #64748b;
+      --accent: #6366f1;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      padding: 24px 16px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header .subtitle {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .refresh-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+    .refresh-btn:hover { opacity: 0.85; }
+    .refresh-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .summary-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 16px;
+    }
+
+    .summary-card .label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .summary-card .value {
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .positive { color: var(--green); }
+    .negative { color: var(--red); }
+    .neutral  { color: var(--blue); }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title span.dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: inline-block;
+    }
+
+    .positions-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 36px;
+      font-size: 0.9rem;
+    }
+
+    .positions-table th {
+      text-align: right;
+      padding: 10px 14px;
+      color: var(--muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .positions-table td {
+      padding: 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    .positions-table tr:last-child td { border-bottom: none; }
+
+    .positions-table tbody tr {
+      background: var(--card);
+      transition: background 0.15s;
+    }
+    .positions-table tbody tr:hover { background: var(--card2); }
+
+    .ticker-badge {
+      display: inline-block;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+    }
+
+    .pnl-bar-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pnl-bar {
+      height: 6px;
+      border-radius: 4px;
+      min-width: 4px;
+      max-width: 80px;
+    }
+
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      display: inline-block;
+      box-shadow: 0 0 6px var(--green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* History */
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+
+    .history-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .history-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .icon-open  { background: rgba(34,197,94,0.15); }
+    .icon-close { background: rgba(239,68,68,0.15); }
+    .icon-hold  { background: rgba(59,130,246,0.15); }
+
+    .history-body { flex: 1; }
+
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .history-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .history-date {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .history-reason {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      margin-left: 6px;
+    }
+
+    .tag-open  { background: rgba(34,197,94,0.2);  color: var(--green); }
+    .tag-close { background: rgba(239,68,68,0.2);  color: var(--red); }
+    .tag-hold  { background: rgba(59,130,246,0.2); color: var(--blue); }
+
+    .error-box {
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 10px;
+      padding: 16px;
+      color: var(--red);
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--muted);
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 24px; height: 24px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 10px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .last-updated {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 32px;
+    }
+
+    .no-data { color: var(--muted); font-size: 0.9rem; padding: 16px 0; }
+
+    @media (max-width: 600px) {
+      .positions-table th:nth-child(4),
+      .positions-table td:nth-child(4) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>📊 eToro Portfolio</h1>
+    <div class="subtitle">Agent Portfolio - Live Dashboard</div>
+  </div>
+  <button class="refresh-btn" id="refreshBtn" onclick="loadAll()">🔄 רענן</button>
+</div>
+
+<!-- Summary Cards -->
+<div class="summary-grid" id="summaryGrid">
+  <div class="loading"><div class="spinner"></div><br>טוען...</div>
+</div>
+
+<!-- Open Positions -->
+<div class="section-title">
+  <span class="dot"></span>
+  <span class="status-dot"></span>
+  פוזיציות פתוחות
+</div>
+<div id="positionsSection">
+  <div class="loading"><div class="spinner"></div><br>טוען פוזיציות...</div>
+</div>
+
+<!-- Trade History -->
+<div class="section-title" style="margin-top: 36px;">
+  <span class="dot" style="background: var(--purple);"></span>
+  היסטוריית פעולות
+</div>
+<div id="historySection">
+  <div class="loading"><div class="spinner"></div><br>טוען היסטוריה...</div>
+</div>
+
+<div class="last-updated" id="lastUpdated"></div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────────────────
+const API_KEY  = 'sdgdskldFPLGfjHn1421dgnlxdGTbngdflg6290bRjslfihsjhSDsdgGHH25hjf';
+const USER_KEY = 'eyJjaSI6IjYwY2FiYjBiLTU1OTctNDQ4NS04ZjYzLTdlOWUwNTZlMGJiOCIsImVhbiI6IlVucmVnaXN0ZXJlZEFwcGxpY2F0aW9uIiwiZWsiOiJZNWI3dTY4alZjcHRkbVQuUFVDWGouTjJKaGpJcWtrUlg3WXV3MmNWNU1lSTZhelNIZ2lRNHkxd2xYZ1BtVkY0b2VmLjltUllXLUU2Qkd3Q09nMzNENi1kN0toOWMxd2M5QllGdWRtRC4zMF8ifQ__';
+
+const INSTRUMENTS = {
+  1001: 'AAPL', 1002: 'TSLA', 1003: 'META', 1004: 'MSFT',
+  1005: 'AMZN', 1137: 'NVDA', 1365: 'ARM',  1832: 'AMD',
+  4236: 'AVGO', 5506: 'CRWD', 6434: 'GOOGL', 7991: 'PLTR'
+};
+
+// ── BUILT-IN HISTORY (from grok-trader logs) ─────────────────────────────────
+const HISTORY = [
+  {
+    date: '16.04.2026', action: 'hold',
+    title: 'HOLD - כל הפוזיציות',
+    reason: 'לא ניתן לגשת לנתוני MA20 ו-news בזמן אמת. ברירת מחדל - החזקה.'
+  },
+  {
+    date: '21.04.2026', action: 'hold',
+    title: 'HOLD - כל הפוזיציות',
+    reason: 'META +1.56%, AMZN +1.57%, NVDA +2.70%, MSFT +6.31%, AAPL +4.69%, GOOGL +2.02%. כולן מעל MA20.'
+  },
+  {
+    date: '22.04.2026', action: 'hold',
+    title: 'HOLD - כל הפוזיציות',
+    reason: 'MSFT +8.47% בולטת. כל הפוזיציות מיושרות עם אסטרטגיית Grok 4.'
+  },
+  {
+    date: '23.04.2026', action: 'hold',
+    title: 'HOLD - כל הפוזיציות',
+    reason: 'Equity ~$2,079. אין מזומן פנוי. כל הפוזיציות מעל MA20.'
+  },
+  {
+    date: '24.04.2026', action: 'close',
+    title: '❌ סגר META',
+    reason: 'ביצועים נמוכים ביחס ל-MA20 ואי-ודאות בהכנסות פרסום.'
+  },
+  {
+    date: '24.04.2026', action: 'open',
+    title: '✅ פתח TSLA (19%)',
+    reason: 'טרנד שורי חזק ו-catalysts חיוביים במספרי משלוחים וטכנולוגיה אוטונומית.'
+  },
+  {
+    date: '27.04.2026', action: 'hold',
+    title: 'HOLD - ניסיון נכשל (API error)',
+    reason: 'כוונה לסגור AMD (ציון 4) ולפתוח AAPL (ציון 9). נכשל עקב שגיאות API (400 Bad Request).'
+  },
+  {
+    date: '27.04.2026', action: 'open',
+    title: '✅ פתח NVDA ($800)',
+    reason: 'ציון 9.0, ביקוש שבבי AI, מעל MA20. נפתח בהצלחה.'
+  },
+  {
+    date: '28.04.2026', action: 'open',
+    title: '✅ פתח NVDA ($2,000)',
+    reason: 'מומנטום יוצא דופן, ביקוש שבבי AI. מזומן זמין: $3,000.'
+  },
+  {
+    date: '29.04.2026', action: 'open',
+    title: '✅ פתח AAPL ($2,000) + MSFT ($2,000)',
+    reason: 'שניהם עברו כל הקריטריונים. מזומן זמין היה $6,700.'
+  },
+  {
+    date: '30.04.2026', action: 'close',
+    title: '❌ סגר CRWD',
+    reason: 'הפוזיציה החלשה ביותר, ציון 7.4, PnL שלילי, ללא catalyst חזק.'
+  },
+  {
+    date: '30.04.2026', action: 'open',
+    title: '✅ פתח TSLA ($500)',
+    reason: 'ציון 8.3, מעל MA20, catalyst חזק עם רומורים על דגם חדש.'
+  },
+  {
+    date: '01.05.2026', action: 'open',
+    title: '✅ פתח AAPL ($750) + TSLA ($750)',
+    reason: 'מזומן זמין $1,500, שניהם עברו כל הקריטריונים.'
+  },
+  {
+    date: '05.05.2026', action: 'close',
+    title: '❌ ניסיון סגירת NVDA (3417157666)',
+    reason: 'תיק מושקע יתר על המידה (cash שלילי). NVDA הוגדר כחלשה ביותר עם הפסד לא ממומש.'
+  },
+  {
+    date: '05.05.2026', action: 'open',
+    title: '🔲 תוכנן: פתיחת AMZN (~$400)',
+    reason: 'ציון 8.1, מעל MA20, catalysts חזקים. לא בטוח שבוצע בפועל.'
+  },
+  {
+    date: '06.05.2026', action: 'close',
+    title: '❌ ניסיון סגירת AVGO (שגיאת API)',
+    reason: 'ציון 7.9, הפוזיציה החלשה. שגיאה: Route not found. תועד כ-simulated.'
+  },
+  {
+    date: '06.05.2026', action: 'open',
+    title: '🔲 תוכנן: פתיחת MSFT (~$102)',
+    reason: 'ציון 8.2, מעל MA20. לא בטוח שבוצע בפועל עקב שגיאת API.'
+  },
+];
+
+// ── HELPERS ──────────────────────────────────────────────────────────────────
+function fmt(n, decimals = 2) {
+  return (n >= 0 ? '+' : '') + n.toFixed(decimals);
+}
+
+function fmtUSD(n) {
+  return '$' + Math.abs(n).toFixed(2);
+}
+
+function pnlClass(n) {
+  return n > 0 ? 'positive' : n < 0 ? 'negative' : 'neutral';
+}
+
+function newUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = Math.random() * 16 | 0;
+    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+  });
+}
+
+// ── API ───────────────────────────────────────────────────────────────────────
+async function fetchPortfolio() {
+  const res = await fetch('https://public-api.etoro.com/api/v1/trading/info/real/pnl', {
+    headers: {
+      'x-api-key': API_KEY,
+      'x-user-key': USER_KEY,
+      'x-request-id': newUUID()
+    }
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
+  return data.clientPortfolio;
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function renderSummary(portfolio) {
+  const positions = portfolio.positions || [];
+  const credit    = portfolio.credit || 0;
+
+  const totalInvested = positions.reduce((s, p) => s + p.amount, 0);
+  const totalPnL      = positions.reduce((s, p) => s + p.unrealizedPnL.pnL, 0);
+  const equity        = credit + totalInvested + totalPnL;
+  const pnlPct        = totalInvested > 0 ? (totalPnL / totalInvested) * 100 : 0;
+
+  document.getElementById('summaryGrid').innerHTML = `
+    <div class="summary-card">
+      <div class="label">פוזיציות פתוחות</div>
+      <div class="value neutral">${positions.length}</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">סה"כ מושקע</div>
+      <div class="value neutral">${fmtUSD(totalInvested)}</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">רווח/הפסד לא ממומש</div>
+      <div class="value ${pnlClass(totalPnL)}">${fmt(totalPnL, 2)}$</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">תשואה</div>
+      <div class="value ${pnlClass(pnlPct)}">${fmt(pnlPct, 2)}%</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">מזומן זמין</div>
+      <div class="value ${credit > 0 ? 'positive' : 'negative'}">${fmtUSD(credit)}</div>
+    </div>
+  `;
+}
+
+function renderPositions(portfolio) {
+  const positions = portfolio.positions || [];
+  if (positions.length === 0) {
+    document.getElementById('positionsSection').innerHTML = '<p class="no-data">אין פוזיציות פתוחות כרגע.</p>';
+    return;
+  }
+
+  const totalExposure = positions.reduce((s, p) => s + p.unrealizedPnL.exposureInAccountCurrency, 0);
+
+  const rows = positions.map(p => {
+    const symbol  = INSTRUMENTS[p.instrumentID] || `#${p.instrumentID}`;
+    const pnl     = p.unrealizedPnL.pnL;
+    const exposure = p.unrealizedPnL.exposureInAccountCurrency;
+    const margin  = p.amount;
+    const pnlPct  = margin > 0 ? (pnl / margin) * 100 : 0;
+    const weight  = totalExposure > 0 ? (exposure / totalExposure) * 100 : 0;
+    const openDate = new Date(p.openDateTime).toLocaleDateString('he-IL');
+
+    const barColor = pnl >= 0 ? 'var(--green)' : 'var(--red)';
+    const barWidth = Math.min(Math.abs(pnlPct) * 4, 80);
+
+    return `
+      <tr>
+        <td><span class="ticker-badge">${symbol}</span></td>
+        <td>${fmtUSD(margin)}</td>
+        <td>
+          <div class="pnl-bar-wrap">
+            <span class="${pnlClass(pnl)}" style="font-weight:600;">${fmt(pnl, 2)}$</span>
+            <div class="pnl-bar" style="width:${barWidth}px; background:${barColor};"></div>
+          </div>
+          <small class="${pnlClass(pnlPct)}">${fmt(pnlPct, 2)}%</small>
+        </td>
+        <td style="color: var(--muted); font-size: 0.82rem;">${weight.toFixed(1)}%</td>
+        <td style="color: var(--muted); font-size: 0.82rem;">${openDate}</td>
+      </tr>
+    `;
+  }).join('');
+
+  document.getElementById('positionsSection').innerHTML = `
+    <table class="positions-table">
+      <thead>
+        <tr>
+          <th>מניה</th>
+          <th>השקעה</th>
+          <th>רווח/הפסד</th>
+          <th>משקל</th>
+          <th>תאריך פתיחה</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+}
+
+function renderHistory() {
+  const items = [...HISTORY].reverse().map(h => {
+    let iconClass = 'icon-hold', iconEmoji = '📊', tagClass = 'tag-hold', tagText = 'HOLD';
+    if (h.action === 'open')  { iconClass = 'icon-open';  iconEmoji = '✅'; tagClass = 'tag-open';  tagText = 'פתיחה'; }
+    if (h.action === 'close') { iconClass = 'icon-close'; iconEmoji = '❌'; tagClass = 'tag-close'; tagText = 'סגירה'; }
+
+    return `
+      <div class="history-item">
+        <div class="history-icon ${iconClass}">${iconEmoji}</div>
+        <div class="history-body">
+          <div class="history-header">
+            <span class="history-title">
+              ${h.title}
+              <span class="tag ${tagClass}">${tagText}</span>
+            </span>
+            <span class="history-date">${h.date}</span>
+          </div>
+          <div class="history-reason">${h.reason}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('historySection').innerHTML = `<div class="history-list">${items}</div>`;
+}
+
+// ── MAIN ──────────────────────────────────────────────────────────────────────
+async function loadAll() {
+  const btn = document.getElementById('refreshBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ טוען...';
+
+  try {
+    const portfolio = await fetchPortfolio();
+    renderSummary(portfolio);
+    renderPositions(portfolio);
+  } catch (err) {
+    const errHtml = `<div class="error-box">⚠️ שגיאה בטעינת נתונים מ-eToro API: ${err.message}<br><small>בדוק את חיבור האינטרנט או שה-API key תקף.</small></div>`;
+    document.getElementById('summaryGrid').innerHTML = errHtml;
+    document.getElementById('positionsSection').innerHTML = '';
+  }
+
+  renderHistory();
+
+  const now = new Date().toLocaleString('he-IL', { timeZone: 'Asia/Jerusalem' });
+  document.getElementById('lastUpdated').textContent = `עודכן לאחרונה: ${now}`;
+
+  btn.disabled = false;
+  btn.textContent = '🔄 רענן';
+}
+
+loadAll();
+</script>
+</body>
+</html>
