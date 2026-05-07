@@ -105,14 +105,26 @@
 <script>
 // ── AGENT PORTFOLIO (source of truth from eToro, last updated 07/05/2026) ────
 // units × avgOpen = Invested column in eToro
+// Source of truth: eToro screenshot 07/05/2026 15:01
+// invested = units × avgOpen (verified against eToro)
 const POSITIONS = [
-  { sym: 'NVDA',  units: 14.43827, avgOpen: 207.60371, openCount: 6 },
-  { sym: 'GOOG',  units: 1.96377,  avgOpen: 380.10,    openCount: 1 },
-  { sym: 'GOOGL', units: 1.59951,  avgOpen: 342.62816, openCount: 3 },
-  { sym: 'AMD',   units: 0.76966,  avgOpen: 347.71,    openCount: 1 },
-  { sym: 'AAPL',  units: 1.0209,   avgOpen: 267.46,    openCount: 2 },
-  { sym: 'AVGO',  units: 0.66397,  avgOpen: 419.19,    openCount: 1 },
+  { sym: 'NVDA',  units: 14.43827, avgOpen: 207.60371, openCount: 6, etoroInvested: 2997.44 },
+  { sym: 'GOOG',  units: 1.96377,  avgOpen: 380.10,    openCount: 1, etoroInvested: 746.43  },
+  { sym: 'GOOGL', units: 1.59951,  avgOpen: 342.62816, openCount: 3, etoroInvested: 548.04  },
+  { sym: 'AMD',   units: 0.76966,  avgOpen: 347.71,    openCount: 1, etoroInvested: 267.62  },
+  { sym: 'AAPL',  units: 1.0209,   avgOpen: 267.46,    openCount: 1, etoroInvested: 273.05  },
+  { sym: 'AVGO',  units: 0.66397,  avgOpen: 419.19,    openCount: 1, etoroInvested: 278.33  },
 ];
+
+// eToro verified P/L snapshot (07/05/2026 15:01) - used as fallback if Yahoo price unavailable
+const ETORO_SNAPSHOT = {
+  NVDA:  { pnl: 4.71,  pnlPct: 0.16, netValue: 3002.15, price: 207.93 },
+  GOOG:  { pnl: 37.21, pnlPct: 4.99, netValue: 783.64,  price: 399.05 },
+  GOOGL: { pnl: 95.00, pnlPct: 17.33,netValue: 643.04,  price: 402.02 },
+  AMD:   { pnl: 51.41, pnlPct: 19.21,netValue: 319.03,  price: 414.50 },
+  AAPL:  { pnl: 21.31, pnlPct: 7.80, netValue: 294.36,  price: 288.33 },
+  AVGO:  { pnl: 2.74,  pnlPct: 0.98, netValue: 281.07,  price: 423.31 },
+};
 
 // ── HISTORY (from grok-trader logs) ──────────────────────────────────────────
 const HISTORY = [
@@ -164,8 +176,21 @@ async function fetchAllPrices() {
   const syms = [...new Set(POSITIONS.map(p => p.sym))];
   const prices = {};
   await Promise.all(syms.map(async sym => {
-    try { prices[sym] = await fetchPrice(sym); }
-    catch(e) { console.warn('price fetch failed', sym, e); prices[sym] = null; }
+    try {
+      const yahooPrice = await fetchPrice(sym);
+      // Sanity check: if Yahoo price is wildly off vs eToro snapshot (>10%), use snapshot
+      const snap = ETORO_SNAPSHOT[sym];
+      if (snap && Math.abs(yahooPrice - snap.price) / snap.price > 0.10) {
+        console.warn(`${sym}: Yahoo ${yahooPrice} vs eToro ${snap.price} - using eToro snapshot`);
+        prices[sym] = snap.price;
+      } else {
+        prices[sym] = yahooPrice;
+      }
+    } catch(e) {
+      console.warn('price fetch failed', sym, e);
+      // Fallback to eToro snapshot price
+      prices[sym] = ETORO_SNAPSHOT[sym]?.price || null;
+    }
   }));
   return prices;
 }
