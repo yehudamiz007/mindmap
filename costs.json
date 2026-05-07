@@ -1,10 +1,10 @@
 {
-  "lastUpdated": "2026-05-06T18:01:22.554Z",
-  "totalCost": 69.565808,
-  "totalTokens": 938382,
-  "totalCalls": 1262,
+  "lastUpdated": "2026-05-07T06:01:22.887Z",
+  "totalCost": 81.459651,
+  "totalTokens": 934164,
+  "totalCalls": 1281,
   "totalSessions": 106,
-  "daysActive": 23,
+  "daysActive": 24,
   "daily": [
     {
       "date": "2026-04-04",
@@ -426,37 +426,37 @@
     },
     {
       "date": "2026-05-05",
-      "cost": 11.60139,
-      "tokens": 10726,
-      "inputTokens": 208,
-      "outputTokens": 10518,
-      "cacheReadTokens": 416533,
-      "cacheWriteTokens": 3018143,
-      "calls": 86,
-      "sessions": 14,
+      "cost": 10.431252,
+      "tokens": 528,
+      "inputTokens": 144,
+      "outputTokens": 384,
+      "cacheReadTokens": 0,
+      "cacheWriteTokens": 2780016,
+      "calls": 48,
+      "sessions": 1,
       "byModel": {
         "claude-sonnet-4-6": {
-          "cost": 11.60139,
-          "tokens": 10726,
-          "calls": 86
+          "cost": 10.431252,
+          "tokens": 528,
+          "calls": 48
         }
       }
     },
     {
       "date": "2026-05-06",
-      "cost": 21.86516,
-      "tokens": 108924,
-      "inputTokens": 43638,
-      "outputTokens": 65286,
-      "cacheReadTokens": 7886554,
-      "cacheWriteTokens": 4896074,
-      "calls": 236,
-      "sessions": 42,
+      "cost": 27.519084,
+      "tokens": 108233,
+      "inputTokens": 43660,
+      "outputTokens": 64573,
+      "cacheReadTokens": 7626873,
+      "cacheWriteTokens": 6427396,
+      "calls": 238,
+      "sessions": 41,
       "byModel": {
         "claude-sonnet-4-6": {
-          "cost": 21.638336,
-          "tokens": 62427,
-          "calls": 229
+          "cost": 27.29226,
+          "tokens": 61736,
+          "calls": 231
         },
         "grok-3": {
           "cost": 0.226824,
@@ -464,13 +464,31 @@
           "calls": 7
         }
       }
+    },
+    {
+      "date": "2026-05-07",
+      "cost": 7.410057,
+      "tokens": 6671,
+      "inputTokens": 109,
+      "outputTokens": 6562,
+      "cacheReadTokens": 584599,
+      "cacheWriteTokens": 1902912,
+      "calls": 55,
+      "sessions": 15,
+      "byModel": {
+        "claude-sonnet-4-6": {
+          "cost": 7.410057,
+          "tokens": 6671,
+          "calls": 55
+        }
+      }
     }
   ],
   "byModel": {
     "claude-sonnet-4-6": {
-      "cost": 66.557624,
-      "tokens": 471515,
-      "calls": 1160
+      "cost": 78.451466,
+      "tokens": 467297,
+      "calls": 1179
     },
     "grok-3": {
       "cost": 3.008185,
@@ -480,14 +498,14 @@
   },
   "byCategory": {
     "Maintenance": {
-      "cost": 4.581824,
-      "tokens": 30600,
-      "calls": 151
+      "cost": 4.420311,
+      "tokens": 26118,
+      "calls": 146
     },
     "Sub-Agents": {
-      "cost": 63.363238,
-      "tokens": 731912,
-      "calls": 1064
+      "cost": 75.418594,
+      "tokens": 732176,
+      "calls": 1088
     },
     "Trading": {
       "cost": 1.360285,
@@ -507,14 +525,14 @@
   },
   "bySkill": {
     "grok-trader": {
-      "cost": 37.472511,
-      "tokens": 241867,
-      "calls": 324
+      "cost": 49.527867,
+      "tokens": 242131,
+      "calls": 348
     },
     "None / General": {
-      "cost": 31.630165,
-      "tokens": 692832,
-      "calls": 924
+      "cost": 31.468652,
+      "tokens": 688350,
+      "calls": 919
     },
     "skill-creator": {
       "cost": 0.463132,
@@ -693,7 +711,7 @@
     },
     {
       "date": "2026-05-05",
-      "Maintenance": 1.170138,
+      "Maintenance": 0,
       "Sub-Agents": 10.431252,
       "Trading": 0,
       "Other Jobs": 0,
@@ -701,9 +719,17 @@
     },
     {
       "date": "2026-05-06",
-      "Maintenance": 3.255458,
-      "Sub-Agents": 18.382877,
+      "Maintenance": 2.932623,
+      "Sub-Agents": 24.359636,
       "Trading": 0.226824,
+      "Other Jobs": 0,
+      "Daily Summary": 0
+    },
+    {
+      "date": "2026-05-07",
+      "Maintenance": 1.33146,
+      "Sub-Agents": 6.078597,
+      "Trading": 0,
       "Other Jobs": 0,
       "Daily Summary": 0
     }
