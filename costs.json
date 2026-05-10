@@ -1,10 +1,10 @@
 {
-  "lastUpdated": "2026-05-09T18:01:23.289Z",
-  "totalCost": 148.399628,
-  "totalTokens": 935292,
-  "totalCalls": 1409,
+  "lastUpdated": "2026-05-10T06:01:24.270Z",
+  "totalCost": 163.182352,
+  "totalTokens": 935187,
+  "totalCalls": 1429,
   "totalSessions": 107,
-  "daysActive": 26,
+  "daysActive": 27,
   "daily": [
     {
       "date": "2026-04-04",
@@ -480,19 +480,19 @@
     },
     {
       "date": "2026-05-08",
-      "cost": 29.251843,
-      "tokens": 46560,
-      "inputTokens": 29759,
-      "outputTokens": 16801,
-      "cacheReadTokens": 1056818,
-      "cacheWriteTokens": 7619708,
-      "calls": 115,
-      "sessions": 16,
+      "cost": 28.194839,
+      "tokens": 40694,
+      "inputTokens": 29698,
+      "outputTokens": 10996,
+      "cacheReadTokens": 710806,
+      "cacheWriteTokens": 7388790,
+      "calls": 80,
+      "sessions": 3,
       "byModel": {
         "claude-sonnet-4-6": {
-          "cost": 29.086191,
-          "tokens": 14092,
-          "calls": 110
+          "cost": 28.029187,
+          "tokens": 8226,
+          "calls": 75
         },
         "grok-3": {
           "cost": 0.165652,
@@ -503,28 +503,46 @@
     },
     {
       "date": "2026-05-09",
-      "cost": 24.466742,
-      "tokens": 18172,
-      "inputTokens": 292,
-      "outputTokens": 17880,
-      "cacheReadTokens": 1146450,
-      "cacheWriteTokens": 6360995,
-      "calls": 140,
-      "sessions": 40,
+      "cost": 31.47251,
+      "tokens": 15031,
+      "inputTokens": 316,
+      "outputTokens": 14715,
+      "cacheReadTokens": 918282,
+      "cacheWriteTokens": 8260094,
+      "calls": 144,
+      "sessions": 39,
       "byModel": {
         "claude-sonnet-4-6": {
-          "cost": 24.466742,
-          "tokens": 18172,
-          "calls": 140
+          "cost": 31.47251,
+          "tokens": 15031,
+          "calls": 144
+        }
+      }
+    },
+    {
+      "date": "2026-05-10",
+      "cost": 8.83396,
+      "tokens": 8902,
+      "inputTokens": 105,
+      "outputTokens": 8797,
+      "cacheReadTokens": 478472,
+      "cacheWriteTokens": 2282173,
+      "calls": 51,
+      "sessions": 15,
+      "byModel": {
+        "claude-sonnet-4-6": {
+          "cost": 8.83396,
+          "tokens": 8902,
+          "calls": 51
         }
       }
     }
   ],
   "byModel": {
     "claude-sonnet-4-6": {
-      "cost": 145.452616,
-      "tokens": 482454,
-      "calls": 1309
+      "cost": 160.23534,
+      "tokens": 482349,
+      "calls": 1329
     },
     "grok-3": {
       "cost": 2.947013,
@@ -534,14 +552,14 @@
   },
   "byCategory": {
     "Maintenance": {
-      "cost": 4.348613,
-      "tokens": 26169,
-      "calls": 142
+      "cost": 4.297539,
+      "tokens": 25800,
+      "calls": 138
     },
     "Sub-Agents": {
-      "cost": 142.491441,
-      "tokens": 747282,
-      "calls": 1222
+      "cost": 157.325239,
+      "tokens": 747546,
+      "calls": 1246
     },
     "Trading": {
       "cost": 1.299112,
@@ -561,14 +579,14 @@
   },
   "bySkill": {
     "grok-trader": {
-      "cost": 116.085359,
-      "tokens": 247795.5,
-      "calls": 494
+      "cost": 130.919158,
+      "tokens": 248059.5,
+      "calls": 518
     },
     "None / General": {
-      "cost": 31.556541,
-      "tokens": 683788,
-      "calls": 915
+      "cost": 31.505466,
+      "tokens": 683419,
+      "calls": 911
     },
     "technical-analysis": {
       "cost": 0.757728,
@@ -771,7 +789,7 @@
     },
     {
       "date": "2026-05-08",
-      "Maintenance": 1.057004,
+      "Maintenance": 0,
       "Sub-Agents": 28.029187,
       "Trading": 0.165652,
       "Other Jobs": 0,
@@ -779,8 +797,16 @@
     },
     {
       "date": "2026-05-09",
-      "Maintenance": 3.135382,
-      "Sub-Agents": 21.331361,
+      "Maintenance": 2.840243,
+      "Sub-Agents": 28.632267,
+      "Trading": 0,
+      "Other Jobs": 0,
+      "Daily Summary": 0
+    },
+    {
+      "date": "2026-05-10",
+      "Maintenance": 1.301068,
+      "Sub-Agents": 7.532892,
       "Trading": 0,
       "Other Jobs": 0,
       "Daily Summary": 0
