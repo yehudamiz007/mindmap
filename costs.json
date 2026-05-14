@@ -1,10 +1,10 @@
 {
-  "lastUpdated": "2026-05-13T18:01:22.972Z",
-  "totalCost": 246.621732,
-  "totalTokens": 962092,
-  "totalCalls": 1528,
-  "totalSessions": 107,
-  "daysActive": 30,
+  "lastUpdated": "2026-05-14T06:01:23.792Z",
+  "totalCost": 262.414782,
+  "totalTokens": 960113,
+  "totalCalls": 1552,
+  "totalSessions": 108,
+  "daysActive": 31,
   "daily": [
     {
       "date": "2026-04-04",
@@ -557,37 +557,37 @@
     },
     {
       "date": "2026-05-12",
-      "cost": 32.375079,
-      "tokens": 3482,
-      "inputTokens": 197,
-      "outputTokens": 3285,
-      "cacheReadTokens": 257159,
-      "cacheWriteTokens": 8599484,
-      "calls": 77,
-      "sessions": 13,
+      "cost": 31.468775,
+      "tokens": 528,
+      "inputTokens": 144,
+      "outputTokens": 384,
+      "cacheReadTokens": 0,
+      "cacheWriteTokens": 8390022,
+      "calls": 48,
+      "sessions": 1,
       "byModel": {
         "claude-sonnet-4-6": {
-          "cost": 32.375079,
-          "tokens": 3482,
-          "calls": 77
+          "cost": 31.468775,
+          "tokens": 528,
+          "calls": 48
         }
       }
     },
     {
       "date": "2026-05-13",
-      "cost": 26.918529,
-      "tokens": 53163,
-      "inputTokens": 32515,
-      "outputTokens": 20648,
-      "cacheReadTokens": 988876,
-      "cacheWriteTokens": 6990559,
-      "calls": 135,
-      "sessions": 41,
+      "cost": 34.478087,
+      "tokens": 50233,
+      "inputTokens": 32540,
+      "outputTokens": 17693,
+      "cacheReadTokens": 796930,
+      "cacheWriteTokens": 9033597,
+      "calls": 140,
+      "sessions": 40,
       "byModel": {
         "claude-sonnet-4-6": {
-          "cost": 26.769616,
-          "tokens": 17452,
-          "calls": 133
+          "cost": 34.329175,
+          "tokens": 14522,
+          "calls": 138
         },
         "grok-3": {
           "cost": 0.148913,
@@ -595,13 +595,31 @@
           "calls": 2
         }
       }
+    },
+    {
+      "date": "2026-05-14",
+      "cost": 9.139796,
+      "tokens": 3905,
+      "inputTokens": 102,
+      "outputTokens": 3803,
+      "cacheReadTokens": 404953,
+      "cacheWriteTokens": 2389589,
+      "calls": 48,
+      "sessions": 15,
+      "byModel": {
+        "claude-sonnet-4-6": {
+          "cost": 9.139796,
+          "tokens": 3905,
+          "calls": 48
+        }
+      }
     }
   ],
   "byModel": {
     "claude-sonnet-4-6": {
-      "cost": 243.525807,
-      "tokens": 473543,
-      "calls": 1426
+      "cost": 259.318857,
+      "tokens": 471564,
+      "calls": 1450
     },
     "grok-3": {
       "cost": 3.095925,
@@ -611,14 +629,14 @@
   },
   "byCategory": {
     "Maintenance": {
-      "cost": 4.17899,
-      "tokens": 22537,
+      "cost": 4.156488,
+      "tokens": 20294,
       "calls": 129
     },
     "Sub-Agents": {
-      "cost": 240.734256,
-      "tokens": 742003,
-      "calls": 1352
+      "cost": 256.549808,
+      "tokens": 742267,
+      "calls": 1376
     },
     "Trading": {
       "cost": 1.448025,
@@ -638,13 +656,13 @@
   },
   "bySkill": {
     "grok-trader": {
-      "cost": 215.129451,
-      "tokens": 281837,
-      "calls": 623
+      "cost": 230.945003,
+      "tokens": 282101,
+      "calls": 647
     },
     "None / General": {
-      "cost": 31.492281,
-      "tokens": 680255,
+      "cost": 31.469779,
+      "tokens": 678012,
       "calls": 905
     }
   },
@@ -875,7 +893,7 @@
     },
     {
       "date": "2026-05-12",
-      "Maintenance": 0.906304,
+      "Maintenance": 0,
       "Sub-Agents": 31.468775,
       "Trading": 0,
       "Other Jobs": 0,
@@ -883,9 +901,17 @@
     },
     {
       "date": "2026-05-13",
-      "Maintenance": 3.116458,
-      "Sub-Agents": 23.653158,
+      "Maintenance": 2.844136,
+      "Sub-Agents": 31.485038,
       "Trading": 0.148913,
+      "Other Jobs": 0,
+      "Daily Summary": 0
+    },
+    {
+      "date": "2026-05-14",
+      "Maintenance": 1.156124,
+      "Sub-Agents": 7.983672,
+      "Trading": 0,
       "Other Jobs": 0,
       "Daily Summary": 0
     }
