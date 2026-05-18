@@ -1,9 +1,9 @@
 {
-  "lastUpdated": "2026-05-18T06:01:19.150Z",
-  "totalCost": 363.268149,
-  "totalTokens": 1017003,
-  "totalCalls": 1650,
-  "totalSessions": 63,
+  "lastUpdated": "2026-05-18T18:01:19.612Z",
+  "totalCost": 362.97929,
+  "totalTokens": 1013679,
+  "totalCalls": 1642,
+  "totalSessions": 60,
   "daysActive": 34,
   "daily": [
     {
@@ -652,28 +652,28 @@
     },
     {
       "date": "2026-05-17",
-      "cost": 12.545009,
-      "tokens": 12162,
-      "inputTokens": 149,
-      "outputTokens": 12013,
-      "cacheReadTokens": 1661982,
-      "cacheWriteTokens": 3164206,
-      "calls": 91,
-      "sessions": 9,
+      "cost": 12.25615,
+      "tokens": 8838,
+      "inputTokens": 135,
+      "outputTokens": 8703,
+      "cacheReadTokens": 1576220,
+      "cacheWriteTokens": 3107289,
+      "calls": 83,
+      "sessions": 6,
       "byModel": {
         "claude-sonnet-4-6": {
-          "cost": 12.545009,
-          "tokens": 12162,
-          "calls": 91
+          "cost": 12.25615,
+          "tokens": 8838,
+          "calls": 83
         }
       }
     }
   ],
   "byModel": {
     "claude-sonnet-4-6": {
-      "cost": 359.993461,
-      "tokens": 467951,
-      "calls": 1544
+      "cost": 359.704602,
+      "tokens": 464627,
+      "calls": 1536
     },
     "grok-3": {
       "cost": 3.274688,
@@ -693,9 +693,9 @@
       "calls": 44
     },
     "Maintenance": {
-      "cost": 1.10518,
-      "tokens": 7830,
-      "calls": 30
+      "cost": 0.816321,
+      "tokens": 4506,
+      "calls": 22
     },
     "Other Jobs": {
       "cost": 0.164725,
@@ -715,9 +715,9 @@
       "calls": 792
     },
     "None / General": {
-      "cost": 29.455648,
-      "tokens": 768357,
-      "calls": 858
+      "cost": 29.166789,
+      "tokens": 765033,
+      "calls": 850
     }
   },
   "dailyByCategory": [
@@ -989,7 +989,7 @@
       "date": "2026-05-17",
       "Sub-Agents": 11.596056,
       "Trading": 0,
-      "Maintenance": 0.948953,
+      "Maintenance": 0.660093,
       "Other Jobs": 0,
       "Daily Summary": 0
     }
